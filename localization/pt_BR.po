@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 18:17+0200\n"
+"POT-Creation-Date: 2009-11-04 19:49+0200\n"
 "PO-Revision-Date: 2009-07-14 10:39-0200\n"
 "Last-Translator: Georger Rommel Ferreira de Araújo <georger_br@yahoo.com."
 "br>\n"
@@ -1356,7 +1356,8 @@ msgid "This action will mark the selected email messages as deleted."
 msgstr "Esta ação marcará as mensagens de email selecionadas como excluídas."
 
 #: localization/eventum.c
-msgid "Viewing Emails (%1 emails found)"
+#, fuzzy
+msgid "Viewing Emails (%1 email found)"
 msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
 msgstr[0] "Visualizando Emails (%1 emails encontrados)"
 msgstr[1] "Visualizando Emails (%1 emails encontrados, %2 - %3 exibidos)"

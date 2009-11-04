@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 18:17+0200\n"
+"POT-Creation-Date: 2009-11-04 19:49+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -1405,7 +1405,8 @@ msgid "This action will mark the selected email messages as deleted."
 msgstr "Это действие отметит выбранные эл. письма как удаленные."
 
 #: localization/eventum.c
-msgid "Viewing Emails (%1 emails found)"
+#, fuzzy
+msgid "Viewing Emails (%1 email found)"
 msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
 msgstr[0] "Просмотр эл.почты ( %1 эл.письмо найдено)"
 msgstr[1] "Просмотр эл.почты (%1 эл.писем найдено, %2 - %3 отображено)"

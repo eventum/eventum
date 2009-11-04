@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-11-04 18:17+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-04 19:49+0200\n"
 "PO-Revision-Date: 2009-11-04 17:09+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -18,8 +18,7 @@ msgstr ""
 "X-Launchpad-Export-Date: 2009-11-04 17:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Issue"
 msgstr "Issue"
 
@@ -27,22 +26,7 @@ msgstr "Issue"
 msgid "Add Phone Entry"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "An error occurred while trying to run your query"
 msgstr ""
 
@@ -50,15 +34,7 @@ msgstr ""
 msgid "Thank you, the phone entry was added successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Continue"
 msgstr "Jätka"
 
@@ -66,7 +42,6 @@ msgstr "Jätka"
 msgid "Please select a valid date for when the phone call took place."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid ""
 "Please enter integers (or floating point numbers) on the time spent field."
@@ -96,11 +71,11 @@ msgstr "Põhjus"
 msgid "Call From"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "last name"
 msgstr "perekonnanimi"
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "first name"
 msgstr "eesnimi"
 
@@ -108,10 +83,7 @@ msgstr "eesnimi"
 msgid "Call To"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Type"
 msgstr "Tüüp"
 
@@ -143,33 +115,19 @@ msgstr "Mobiil"
 msgid "Temp Number"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Other"
 msgstr "Muu"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.display_column.php:192
 msgid "Time Spent"
 msgstr "Kulutatud aeg"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "in minutes"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Description"
 msgstr "Kirjeldus"
 
@@ -205,38 +163,18 @@ msgstr ""
 msgid "Record Time Worked"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:227
+#: localization/eventum.c lib/eventum/class.display_column.php:227
 #: lib/eventum/class.notification.php:642
 #: lib/eventum/class.notification.php:643
 msgid "Summary"
 msgstr "Kokkuvõte"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:728
-#: lib/eventum/class.notification.php:618
+#: localization/eventum.c lib/eventum/class.display_column.php:203
+#: lib/eventum/class.filter.php:728 lib/eventum/class.notification.php:618
 #: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1094
 msgid "Category"
 msgstr "Kategooria"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Please choose a category"
 msgstr ""
@@ -249,12 +187,11 @@ msgstr ""
 msgid "Work ended"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Add Time Entry"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Advanced Search"
 msgstr "Laiendatud otsing"
 
@@ -262,77 +199,48 @@ msgstr "Laiendatud otsing"
 msgid "Please enter the title for this saved search."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please choose which entries need to be removed."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "This action will permanently delete the selected entries."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.filter.php:718
+#: localization/eventum.c lib/eventum/class.filter.php:718
 msgid "Keyword(s)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "All Text (emails, notes, etc)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:723
+#: localization/eventum.c lib/eventum/class.display_column.php:189
+#: lib/eventum/class.filter.php:723
 msgid "Assigned"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "any"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.display_column.php:174
 #: lib/eventum/class.filter.php:713 lib/eventum/class.notification.php:626
 #: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1095
 msgid "Priority"
 msgstr "Prioriteet"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:733
-#: lib/eventum/class.notification.php:630
+#: localization/eventum.c lib/eventum/class.display_column.php:215
+#: lib/eventum/class.filter.php:733 lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631
 msgid "Status"
 msgstr "Staatus"
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.display_column.php:180
 #: lib/eventum/class.filter.php:795
 msgid "Reporter"
@@ -342,14 +250,12 @@ msgstr ""
 msgid "Any"
 msgstr "Ükskõik milline"
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
-#: lib/eventum/class.notification.php:622
+#: localization/eventum.c lib/eventum/class.display_column.php:206
+#: lib/eventum/class.filter.php:738 lib/eventum/class.notification.php:622
 #: lib/eventum/class.notification.php:623
 msgid "Release"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.filter.php:779
 msgid "Hide Closed Issues"
 msgstr ""
@@ -358,7 +264,6 @@ msgstr ""
 msgid "Rows Per Page"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "ALL"
 msgstr "KÕIK"
@@ -367,13 +272,7 @@ msgstr "KÕIK"
 msgid "Sort By"
 msgstr "Sorteerimine"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:177
+#: localization/eventum.c lib/eventum/class.display_column.php:177
 msgid "Issue ID"
 msgstr ""
 
@@ -381,7 +280,6 @@ msgstr ""
 msgid "Last Action Date"
 msgstr "Viimase toimingu kuupäev"
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.filter.php:775
 msgid "Sort Order"
 msgstr "Sortimisjärjestus"
@@ -410,55 +308,38 @@ msgstr ""
 msgid "Show date fields to search by"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Created"
 msgstr "Loodud"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Greater Than"
 msgstr "suurem kui"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Less Than"
 msgstr "väiksem kui"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Between"
 msgstr "vahemikus"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "In Past"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.reminder_condition.php:222
 msgid "hours"
 msgstr "tundi"
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Last Updated"
 msgstr "Viimati uuendatud"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Is Null"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "End date"
 msgstr "Lõppkuupäev"
@@ -471,11 +352,11 @@ msgstr ""
 msgid "First Response By Staff"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Last Response by Staff"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Status Closed"
 msgstr ""
 
@@ -499,25 +380,6 @@ msgstr ""
 msgid "Run Search"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Reset"
 msgstr ""
@@ -534,7 +396,7 @@ msgstr ""
 msgid "Save Search"
 msgstr "Salvesta otsing"
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Saved Searches"
 msgstr ""
 
@@ -550,44 +412,11 @@ msgstr ""
 msgid "RSS feed for this custom search"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "All"
 msgstr "Kõik"
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Remove Selected"
 msgstr "Eemalda valitud"
 
@@ -596,8 +425,7 @@ msgid "No custom searches could be found."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"An error occurred while trying to associate the selected email message"
+msgid "An error occurred while trying to associate the selected email message"
 msgstr ""
 
 #: localization/eventum.c
@@ -621,7 +449,6 @@ msgid ""
 "Please make sure you have selected the correct email messages to associate."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Close Window"
 msgstr ""
@@ -712,15 +539,11 @@ msgstr ""
 msgid "Remove?"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Sender"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Subject"
 msgstr ""
 
@@ -740,35 +563,23 @@ msgstr ""
 msgid "Attached Files"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Back to Top"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Files"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Owner"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Date"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "download file"
 msgstr ""
 
@@ -776,8 +587,6 @@ msgstr ""
 msgid "delete file"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "delete"
 msgstr ""
@@ -790,17 +599,15 @@ msgstr ""
 msgid "No attachments could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Upload File"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Authorized Repliers"
 msgstr ""
 
@@ -818,8 +625,6 @@ msgstr ""
 msgid "Thank you, the authorized replier was inserted successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Email"
 msgstr ""
@@ -836,13 +641,7 @@ msgstr ""
 msgid "Please select at least one of the authorized repliers."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "This action will remove the selected entries."
 msgstr ""
 
@@ -850,12 +649,6 @@ msgstr ""
 msgid "No authorized repliers could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Close"
 msgstr ""
@@ -864,11 +657,7 @@ msgstr ""
 msgid "Bulk Update Tool"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.project.php:1096
+#: localization/eventum.c lib/eventum/class.project.php:1096
 msgid "Assignment"
 msgstr ""
 
@@ -880,15 +669,15 @@ msgstr ""
 msgid "Set Close Message"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Send Notification To"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Internal Users"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Will save as a note"
 msgstr ""
 
@@ -908,8 +697,6 @@ msgstr ""
 msgid "SCM Integration - Checkins"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "User"
 msgstr ""
@@ -967,11 +754,6 @@ msgstr ""
 msgid "Error: The issue #%1 could not be found"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Go Back"
 msgstr ""
@@ -984,7 +766,7 @@ msgstr ""
 msgid "Thank you, the issue was closed successfully"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
@@ -992,17 +774,14 @@ msgstr ""
 msgid "Please choose from one of the options below"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Open the Issue Details Page"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Open the Issue Listing Page"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Open the Emails Listing Page"
 msgstr ""
@@ -1021,8 +800,7 @@ msgid ""
 "incidents. Press 'OK' to confirm or 'Cancel' to revise."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Close Issue"
 msgstr ""
 
@@ -1030,8 +808,7 @@ msgstr ""
 msgid "Please choose a status"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.notification.php:634
+#: localization/eventum.c lib/eventum/class.notification.php:634
 #: lib/eventum/class.notification.php:635
 msgid "Resolution"
 msgstr ""
@@ -1040,31 +817,11 @@ msgstr ""
 msgid "Send Notification About Issue Being Closed?"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.filter.php:679
 #: lib/eventum/class.misc.php:689
 msgid "Yes"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.misc.php:691
 msgid "No"
 msgstr ""
@@ -1085,7 +842,6 @@ msgstr ""
 msgid "Time Category"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Back"
 msgstr ""
@@ -1098,10 +854,7 @@ msgstr ""
 msgid "Account Creation"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Error"
 msgstr ""
 
@@ -1133,8 +886,6 @@ msgid ""
 "should receive an email with your new password shortly."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Back to Login Form"
 msgstr ""
@@ -1173,7 +924,7 @@ msgstr ""
 msgid "Convert to Draft and Save For Later Editing"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "ALERT:"
 msgstr ""
 
@@ -1188,8 +939,7 @@ msgid "Convert to Email and Send Now"
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"Email will be re-sent from original sender, including any attachments."
+msgid "Email will be re-sent from original sender, including any attachments."
 msgstr ""
 
 #: localization/eventum.c
@@ -1200,20 +950,18 @@ msgstr ""
 msgid "Current filters:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "None"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.display_column.php:224
+#: localization/eventum.c lib/eventum/class.display_column.php:224
 msgid "Custom Fields"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "No custom fields could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Update"
 msgstr ""
@@ -1234,7 +982,6 @@ msgstr ""
 msgid "Expired Customer"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Contact"
 msgstr ""
@@ -1247,9 +994,6 @@ msgstr ""
 msgid "Contract #"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.customer_stats_report.php:669
 #: lib/eventum/class.display_column.php:212
 msgid "Support Level"
@@ -1259,7 +1003,7 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Customer Details"
 msgstr ""
 
@@ -1267,17 +1011,14 @@ msgstr ""
 msgid "Contact Person"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Contact Email"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Phone Number"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Timezone"
 msgstr ""
@@ -1294,17 +1035,6 @@ msgstr ""
 msgid "Time Until First Response Deadline"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
 msgid "Customer"
@@ -1322,7 +1052,6 @@ msgstr ""
 msgid "Notes About Customer"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Add"
 msgstr ""
@@ -1331,14 +1060,10 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.reminder_condition.php:216
+#: localization/eventum.c lib/eventum/class.reminder_condition.php:216
 msgid "Field"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Value"
 msgstr ""
@@ -1347,11 +1072,6 @@ msgstr ""
 msgid "Customer Lookup Tool"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Email Address"
 msgstr ""
@@ -1364,7 +1084,6 @@ msgstr ""
 msgid "Lookup"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Cancel"
 msgstr ""
@@ -1437,7 +1156,7 @@ msgstr ""
 msgid "(only technical contacts listed on your contract)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Sorry, an error happened while trying to run your query."
 msgstr ""
 
@@ -1447,7 +1166,7 @@ msgid ""
 "from one of the options below:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "Otherwise, you will be automatically redirected to the Issue Details Page in "
 "5 seconds."
@@ -1457,7 +1176,7 @@ msgstr ""
 msgid "Please enter the ID of the duplicated issue."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Mark Issue as Duplicate"
 msgstr ""
 
@@ -1473,17 +1192,10 @@ msgstr ""
 msgid "Comments:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Required fields"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Please choose an option"
 msgstr ""
@@ -1492,28 +1204,18 @@ msgstr ""
 msgid "Drafts"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "From"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "To"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Last Updated Date"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "view email details"
 msgstr ""
@@ -1522,7 +1224,7 @@ msgstr ""
 msgid "No email drafts could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Create Draft"
 msgstr ""
 
@@ -1546,12 +1248,11 @@ msgstr ""
 msgid "Email Account:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Search"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Clear"
 msgstr ""
 
@@ -1563,13 +1264,11 @@ msgstr ""
 msgid "Arrival Date:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:109
+#: localization/eventum.c lib/eventum/class.help.php:109
 msgid "Associate Emails"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Sorry, but this feature has been disabled by the administrator."
 msgstr ""
 
@@ -1594,32 +1293,32 @@ msgid "This action will mark the selected email messages as deleted."
 msgstr ""
 
 #: localization/eventum.c
-msgid "Viewing Emails (%1 emails found)"
+msgid "Viewing Emails (%1 email found)"
 msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by sender"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by customer"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by date"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by recipient"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by status"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by subject"
 msgstr ""
 
@@ -1627,11 +1326,7 @@ msgstr ""
 msgid "associated"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "view issue details"
 msgstr ""
 
@@ -1643,7 +1338,7 @@ msgstr ""
 msgid "Empty Subject Header"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "No emails could be found."
 msgstr ""
 
@@ -1659,11 +1354,11 @@ msgstr ""
 msgid "Associate"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Rows per Page:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Set"
 msgstr ""
 
@@ -1683,7 +1378,7 @@ msgstr ""
 msgid "List Removed Emails"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "error condition detected"
 msgstr ""
 
@@ -1715,18 +1410,6 @@ msgstr ""
 msgid "Article Entries"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Title"
 msgstr ""
@@ -1761,8 +1444,7 @@ msgstr ""
 msgid "visible to all"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.project.php:1101
+#: localization/eventum.c lib/eventum/class.project.php:1101
 msgid "Private"
 msgstr ""
 
@@ -1798,7 +1480,7 @@ msgstr ""
 msgid "Request a Password"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Error: An error occurred while trying to run your query."
 msgstr ""
 
@@ -1823,7 +1505,7 @@ msgstr ""
 msgid "Error: No user account was found matching the entered email address."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Email Address:"
 msgstr ""
 
@@ -1835,8 +1517,7 @@ msgstr ""
 msgid "Eventum Issues search"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:105
+#: localization/eventum.c lib/eventum/class.help.php:105
 msgid "Advanced Search / Creating Custom Queries"
 msgstr ""
 
@@ -1853,9 +1534,7 @@ msgid ""
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:137
+#: localization/eventum.c lib/eventum/class.help.php:137
 msgid "Edit Columns to Display"
 msgstr ""
 
@@ -1880,9 +1559,7 @@ msgid ""
 "'Release' column will be hidden."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:141
+#: localization/eventum.c lib/eventum/class.help.php:141
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
@@ -1908,8 +1585,7 @@ msgid ""
 "coming from the database."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:125
+#: localization/eventum.c lib/eventum/class.help.php:125
 msgid "Email Blocking"
 msgstr ""
 
@@ -1922,10 +1598,7 @@ msgid ""
 "later date."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:133
+#: localization/eventum.c lib/eventum/class.help.php:133
 msgid "Edit Fields to Display"
 msgstr ""
 
@@ -1946,8 +1619,7 @@ msgstr ""
 msgid "Available Related Topics"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:129
+#: localization/eventum.c lib/eventum/class.help.php:129
 msgid "Link Filters"
 msgstr ""
 
@@ -1972,8 +1644,7 @@ msgstr ""
 msgid "Replacement: \"%1\""
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:101
+#: localization/eventum.c lib/eventum/class.help.php:101
 msgid "Listing / Searching for Issues"
 msgstr ""
 
@@ -2002,22 +1673,19 @@ msgid ""
 "parts of the application:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Reporting New Issues"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.help.php:113
 msgid "Account Preferences"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:121
+#: localization/eventum.c lib/eventum/class.help.php:121
 msgid "Viewing Issues"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:117
+#: localization/eventum.c lib/eventum/class.help.php:117
 msgid "Email Notifications"
 msgstr ""
 
@@ -2025,28 +1693,23 @@ msgstr ""
 msgid "Configuration Parameters"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:89
+#: localization/eventum.c lib/eventum/class.help.php:89
 msgid "SCM Integration"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:93
+#: localization/eventum.c lib/eventum/class.help.php:93
 msgid "Usage Examples"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:97
+#: localization/eventum.c lib/eventum/class.help.php:97
 msgid "Installation Instructions"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:145
+#: localization/eventum.c lib/eventum/class.help.php:145
 msgid "Segregate Reporters"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.help.php:149
+#: localization/eventum.c lib/eventum/class.help.php:149
 msgid "User Permission Levels"
 msgstr ""
 
@@ -2061,7 +1724,7 @@ msgstr ""
 msgid "Issue details are updated"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Issues are Closed"
 msgstr ""
 
@@ -2126,8 +1789,6 @@ msgid ""
 "to existing issues."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Developer"
 msgstr ""
@@ -2139,7 +1800,7 @@ msgid ""
 "staff users who do not handle issues themselves."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manager"
 msgstr ""
 
@@ -2216,7 +1877,6 @@ msgid ""
 "'Feature Request', 'Bug' or 'Support Inquiry'."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid ""
 "Note: The values in this field can be changed by going in the administration "
@@ -2365,9 +2025,9 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as "
-"/home/username/repository for instance. Also make sure to put the "
-"appropriate path to your PHP binary."
+"Replace %1 by the appropriate absolute path in your CVS server, such as /"
+"home/username/repository for instance. Also make sure to put the appropriate "
+"path to your PHP binary."
 msgstr ""
 
 #: localization/eventum.c
@@ -2402,8 +2062,8 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
-"13)\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
+"\" form.php"
 msgstr ""
 
 #: localization/eventum.c
@@ -2471,12 +2131,10 @@ msgid ""
 "clickin on the 'History of Changes' link."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Attachments"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Impact Analysis"
 msgstr ""
@@ -2485,7 +2143,6 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c lib/eventum/class.customer_stats_report.php:735
 msgid "Time Tracking"
 msgstr ""
@@ -2510,7 +2167,7 @@ msgstr ""
 msgid "Triggered Action"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "No reminders could be found."
 msgstr ""
 
@@ -2532,8 +2189,7 @@ msgstr ""
 msgid "Total Estimated Dev. Time"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "in hours"
 msgstr ""
 
@@ -2553,14 +2209,12 @@ msgstr ""
 msgid "Requirement"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.notification.php:638
+#: localization/eventum.c lib/eventum/class.notification.php:638
 #: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1098
 msgid "Estimated Dev. Time"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "update entry"
 msgstr ""
 
@@ -2580,12 +2234,11 @@ msgstr ""
 msgid "Assignee:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Clear Selections"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Current Selections:"
 msgstr ""
 
@@ -2657,12 +2310,11 @@ msgstr ""
 msgid "bulk update tool"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "sort by summary"
 msgstr ""
 
@@ -2678,24 +2330,19 @@ msgstr ""
 msgid "Export to Excel"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "No issues could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Go"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Password"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Login"
 msgstr ""
 
@@ -2769,7 +2416,7 @@ msgid ""
 "URL:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "paste or start typing here"
 msgstr ""
 
@@ -2817,7 +2464,6 @@ msgstr ""
 msgid "Assigned Issues"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Emails"
 msgstr ""
@@ -2850,7 +2496,7 @@ msgstr ""
 msgid "(All Issues)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Customer Account Managers"
 msgstr ""
 
@@ -2871,8 +2517,7 @@ msgstr ""
 msgid "Thank you, the account manager was updated successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Project:"
 msgstr ""
 
@@ -2884,7 +2529,7 @@ msgstr ""
 msgid "Account Manager:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Type:"
 msgstr ""
 
@@ -2920,17 +2565,6 @@ msgstr ""
 msgid "Account Manager"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "update this entry"
 msgstr ""
@@ -2939,17 +2573,7 @@ msgstr ""
 msgid "No account managers could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Delete"
 msgstr ""
 
@@ -2985,7 +2609,7 @@ msgstr ""
 msgid "Anonymous Reporting of New Issues"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Current Project:"
 msgstr ""
 
@@ -3001,25 +2625,11 @@ msgstr ""
 msgid "Anonymous Reporting:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Enabled"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Disabled"
 msgstr ""
 
@@ -3027,7 +2637,7 @@ msgstr ""
 msgid "Show Custom Fields ?"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Reporter:"
 msgstr ""
 
@@ -3035,30 +2645,27 @@ msgstr ""
 msgid "Please choose an user"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Default Category:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Default Priority:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Please choose a priority"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Assignment:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Update Setup"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title of this category"
 msgstr ""
 
@@ -3066,51 +2673,47 @@ msgstr ""
 msgid "Manage Categories"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Current Project"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "An error occurred while trying to add the new category."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this new category."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Thank you, the category was added successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "An error occurred while trying to update the category information."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this category."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Thank you, the category was updated successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Update Category"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Create Category"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Existing Categories:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please select at least one of the categories."
 msgstr ""
 
@@ -3118,18 +2721,17 @@ msgstr ""
 msgid "No categories could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "This page can only be accessed in relation to a project. Please go to the "
 "project page and choose"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "to access this page."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Projects"
 msgstr ""
 
@@ -3149,7 +2751,6 @@ msgstr ""
 msgid "Column Name"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Minimum Role"
 msgstr ""
@@ -3158,7 +2759,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Save"
 msgstr ""
 
@@ -3200,15 +2801,15 @@ msgstr ""
 msgid "Please enter the updated value."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please select an option from the list."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "enter a new option above"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Custom Fields"
 msgstr ""
 
@@ -3221,8 +2822,7 @@ msgid "Thank you, the custom field was added successfully."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"An error occurred while trying to update the custom field information."
+msgid "An error occurred while trying to update the custom field information."
 msgstr ""
 
 #: localization/eventum.c
@@ -3237,10 +2837,7 @@ msgstr ""
 msgid "it will show up by the side of the field"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Assigned Projects"
 msgstr ""
 
@@ -3252,7 +2849,6 @@ msgstr ""
 msgid "Report Form"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Required Field"
 msgstr ""
@@ -3273,23 +2869,23 @@ msgstr ""
 msgid "Field Type"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Text Input"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Textarea"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Combo Box"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Multiple Combo Box"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Integer"
 msgstr ""
 
@@ -3321,7 +2917,7 @@ msgstr ""
 msgid "Choose Custom Field Backend"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please select a backend"
 msgstr ""
 
@@ -3329,15 +2925,11 @@ msgstr ""
 msgid "Edit Option"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Remove"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Rank"
 msgstr ""
 
@@ -3365,7 +2957,6 @@ msgstr ""
 msgid "Min. Role"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Options"
 msgstr ""
@@ -3382,7 +2973,7 @@ msgstr ""
 msgid "Please choose the customer for this new note."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Customer Quick Notes"
 msgstr ""
 
@@ -3410,13 +3001,7 @@ msgstr ""
 msgid "Thank you, the note was deleted successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Project"
 msgstr ""
 
@@ -3424,9 +3009,7 @@ msgstr ""
 msgid "Please choose a customer"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Note"
 msgstr ""
 
@@ -3471,8 +3054,7 @@ msgid "Thank you, the customization was added successfully."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"An error occurred while trying to update the customization information."
+msgid "An error occurred while trying to update the customization information."
 msgstr ""
 
 #: localization/eventum.c
@@ -3483,8 +3065,6 @@ msgstr ""
 msgid "Thank you, the customization was updated successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Status:"
 msgstr ""
@@ -3539,7 +3119,7 @@ msgstr ""
 msgid "Please enter the hostname for this email account."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the port number for this email account."
 msgstr ""
 
@@ -3559,7 +3139,7 @@ msgstr ""
 msgid "Please enter the password for this email account."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Email Accounts"
 msgstr ""
 
@@ -3579,7 +3159,7 @@ msgstr ""
 msgid "Thank you, the account was updated successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Associated Project:"
 msgstr ""
 
@@ -3631,12 +3211,10 @@ msgstr ""
 msgid "POP3, with TLS (self-signed)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Hostname:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Port:"
 msgstr ""
@@ -3653,13 +3231,10 @@ msgstr ""
 msgid "(default folder is INBOX)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Username:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Password:"
 msgstr ""
@@ -3691,7 +3266,7 @@ msgstr ""
 msgid "Update Account"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Create Account"
 msgstr ""
 
@@ -3723,7 +3298,6 @@ msgstr ""
 msgid "Mailbox"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Auto-Creation of Issues"
 msgstr ""
@@ -3740,7 +3314,7 @@ msgstr ""
 msgid "New Alias"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please choose which emails need to be restored."
 msgstr ""
 
@@ -3754,7 +3328,7 @@ msgid ""
 "your email account."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Email Alias"
 msgstr ""
 
@@ -3770,7 +3344,7 @@ msgstr ""
 msgid "Please enter the title of this email response."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Canned Email Responses"
 msgstr ""
 
@@ -3803,10 +3377,6 @@ msgstr ""
 msgid "Projects:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Title:"
 msgstr ""
@@ -3831,8 +3401,6 @@ msgstr ""
 msgid "Please select at least one of the email responses."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Projects"
 msgstr ""
@@ -3861,7 +3429,7 @@ msgstr ""
 msgid "Please enter the title of this FAQ entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Internal FAQ"
 msgstr ""
 
@@ -3869,11 +3437,11 @@ msgstr ""
 msgid "An error occurred while trying to add the FAQ entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this FAQ entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the message for this FAQ entry."
 msgstr ""
 
@@ -3897,12 +3465,11 @@ msgstr ""
 msgid "Levels:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Rank:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Message:"
 msgstr ""
 
@@ -3950,30 +3517,29 @@ msgstr ""
 msgid "Set Display Preferences"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "Please enter the sender address that will be used for all outgoing "
 "notification emails."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the SMTP server hostname."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the SMTP server port number."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-msgid ""
-"Please indicate whether the SMTP server requires authentication or not."
+#: localization/eventum.c
+msgid "Please indicate whether the SMTP server requires authentication or not."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the SMTP server username."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the SMTP server password."
 msgstr ""
 
@@ -3995,8 +3561,7 @@ msgid ""
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"Please enter the email address prefix for the email routing interface."
+msgid "Please enter the email address prefix for the email routing interface."
 msgstr ""
 
 #: localization/eventum.c
@@ -4027,11 +3592,10 @@ msgid ""
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"Please choose whether the daily tips feature should be enabled or not."
+msgid "Please choose whether the daily tips feature should be enabled or not."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "General Setup"
 msgstr ""
 
@@ -4079,7 +3643,7 @@ msgstr ""
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Requires Authentication?"
 msgstr ""
 
@@ -4095,7 +3659,6 @@ msgstr ""
 msgid "Open Account Signup:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Assigned Projects:"
 msgstr ""
@@ -4118,7 +3681,7 @@ msgstr ""
 msgid "Email Recipient Type Flag:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Recipient Type Flag:"
 msgstr ""
 
@@ -4127,11 +3690,11 @@ msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Before Sender Name"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "After Sender Name"
 msgstr ""
 
@@ -4143,13 +3706,10 @@ msgstr ""
 msgid "Email Address Prefix:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "(e.g. %1)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Address Hostname:"
 msgstr ""
@@ -4243,7 +3803,7 @@ msgstr ""
 msgid "Emails are Associated"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Files are Attached"
 msgstr ""
 
@@ -4255,7 +3815,7 @@ msgstr ""
 msgid "Email Addresses To Send Information To:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "(separate multiple addresses with commas)"
 msgstr ""
 
@@ -4291,11 +3851,11 @@ msgstr ""
 msgid "WARNING: This action will remove the selected groups permanently."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please click OK to confirm."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Groups"
 msgstr ""
 
@@ -4319,7 +3879,7 @@ msgstr ""
 msgid "Name:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Description:"
 msgstr ""
 
@@ -4331,7 +3891,7 @@ msgstr ""
 msgid "Manager:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "-- Select One --"
 msgstr ""
 
@@ -4396,11 +3956,10 @@ msgid "Please select at least one link filter."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"WARNING: This action will remove the selected link filters permanently."
+msgid "WARNING: This action will remove the selected link filters permanently."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Link Filters"
 msgstr ""
 
@@ -4428,11 +3987,11 @@ msgstr ""
 msgid "Thank you, the link filter was deleted successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Pattern"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Replacement"
 msgstr ""
 
@@ -4456,7 +4015,7 @@ msgstr ""
 msgid "No link filters could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
@@ -4470,19 +4029,19 @@ msgstr ""
 msgid "Areas"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Round Robin Assignments"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage News"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Issue Reminders"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Statuses"
 msgstr ""
 
@@ -4506,15 +4065,15 @@ msgstr ""
 msgid "Anonymous Reporting Options"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Users"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Time Tracking Categories"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Manage Issue Resolutions"
 msgstr ""
 
@@ -4530,11 +4089,11 @@ msgstr ""
 msgid "An error occurred while trying to add the news entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this news entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the message for this news entry."
 msgstr ""
 
@@ -4550,16 +4109,15 @@ msgstr ""
 msgid "Thank you, the news entry was updated successfully."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Active"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Inactive"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Message"
 msgstr ""
 
@@ -4727,7 +4285,7 @@ msgstr ""
 msgid "No Workflow Management"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Project Lead"
 msgstr ""
 
@@ -4789,8 +4347,7 @@ msgid ""
 "attachments,netc), so please click OK to confirm."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Actions"
 msgstr ""
 
@@ -4894,12 +4451,11 @@ msgstr ""
 msgid "Manage Reminder Actions"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "view reminder details"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.reminder_action.php:754
+#: localization/eventum.c lib/eventum/class.reminder_action.php:754
 msgid "Reminder"
 msgstr ""
 
@@ -4975,7 +4531,7 @@ msgstr ""
 msgid "Please select at least one of the actions."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Details"
 msgstr ""
 
@@ -4983,7 +4539,7 @@ msgstr ""
 msgid "No actions could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Operator"
 msgstr ""
 
@@ -4995,7 +4551,6 @@ msgstr ""
 msgid "view reminder action details"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Action"
 msgstr ""
@@ -5100,7 +4655,7 @@ msgstr ""
 msgid "An error occurred while trying to update the reminder information."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this reminder."
 msgstr ""
 
@@ -5122,13 +4677,11 @@ msgid ""
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"Please choose the customers that will be associated with this reminder."
+msgid "Please choose the customers that will be associated with this reminder."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"Please enter the issue IDs that will be associated with this reminder."
+msgid "Please enter the issue IDs that will be associated with this reminder."
 msgstr ""
 
 #: localization/eventum.c
@@ -5140,19 +4693,19 @@ msgstr ""
 msgid "Reminder Type"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "By Support Level"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "By Customer"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "By Issue ID"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "All Issues"
 msgstr ""
 
@@ -5186,9 +4739,7 @@ msgstr ""
 msgid "Please select at least one of the reminders."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "ID"
 msgstr ""
 
@@ -5253,11 +4804,11 @@ msgstr ""
 msgid "An error occurred while trying to add the round robin entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the title for this round robin entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter the message for this round robin entry."
 msgstr ""
 
@@ -5282,14 +4833,11 @@ msgstr ""
 msgid "Blackout Time Range:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Start"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "End"
 msgstr ""
 
@@ -5385,7 +4933,7 @@ msgstr ""
 msgid "(this color will be used in the issue listing page)"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Update Status"
 msgstr ""
 
@@ -5467,7 +5015,7 @@ msgstr ""
 msgid "Please enter the email of this user."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter a password of at least 6 characters."
 msgstr ""
 
@@ -5499,14 +5047,11 @@ msgstr ""
 msgid "leave empty to keep the current password"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Full Name"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Group:"
 msgstr ""
 
@@ -5547,8 +5092,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c htdocs/list.php:90
+#: localization/eventum.c htdocs/list.php:90
 #: lib/eventum/class.display_column.php:186 lib/eventum/class.project.php:1099
 msgid "Group"
 msgstr ""
@@ -5693,7 +5237,6 @@ msgstr ""
 msgid "Clock In"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "keywords"
 msgstr ""
@@ -5734,7 +5277,6 @@ msgid ""
 "issues."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Initial Description"
 msgstr ""
@@ -5747,8 +5289,7 @@ msgstr ""
 msgid "Create New Issue"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: lib/eventum/class.project.php:1097
+#: localization/eventum.c lib/eventum/class.project.php:1097
 msgid "Scheduled Release"
 msgstr ""
 
@@ -5768,7 +5309,6 @@ msgstr ""
 msgid "Keep form open to report another issue"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Submit"
 msgstr ""
@@ -5791,13 +5331,11 @@ msgstr ""
 msgid "Internal Notes"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Reply"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Posted Date"
 msgstr ""
 
@@ -5805,7 +5343,7 @@ msgstr ""
 msgid "reply to this note"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "view note details"
 msgstr ""
 
@@ -5817,7 +5355,7 @@ msgstr ""
 msgid "No internal notes could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Post Internal Note"
 msgstr ""
 
@@ -5891,7 +5429,7 @@ msgstr ""
 msgid "No subscribers could be found."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "This is an automated message sent at your request from %1."
 msgstr ""
 
@@ -5899,8 +5437,7 @@ msgstr ""
 msgid "Your full account information is available below."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "This is an automated message sent at your request from %1"
 msgstr ""
 
@@ -5908,24 +5445,17 @@ msgstr ""
 msgid "An issue was assigned to you by %1"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Reported By"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "Please Note: If you do not wish to receive any future email notifications "
 "from %1, please change your account preferences by visiting the URL below"
@@ -6048,7 +5578,7 @@ msgstr ""
 msgid "Your user account has been updated in %1"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Your account information as it now exists appears below."
 msgstr ""
 
@@ -6070,18 +5600,18 @@ msgid ""
 "the new account, please do so by visiting the URL below:\n"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Database Error"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "There seems to be a problem connecting to the database server specified in "
 "your configuration file. Please contact your local system administrator for "
 "further assistance."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid ""
 "There seems to be a problem finding the required database tables in the "
 "database server specified in your configuration file. Please contact your "
@@ -6093,8 +5623,7 @@ msgid "Sorry, you do not have permission to access this page."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"This action will permanently delete the specified phone support entry."
+msgid "This action will permanently delete the specified phone support entry."
 msgstr ""
 
 #: localization/eventum.c
@@ -6209,7 +5738,7 @@ msgstr ""
 msgid "You do not have permission to remove this phone support entry."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Thank you, the phone support entry was removed successfully."
 msgstr ""
 
@@ -6263,7 +5792,7 @@ msgstr ""
 msgid "Please choose the project that this new issue will apply to"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Report New Issue"
 msgstr ""
 
@@ -6295,7 +5824,7 @@ msgstr ""
 msgid "Post New Internal Note"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "From:"
 msgstr ""
 
@@ -6303,7 +5832,6 @@ msgstr ""
 msgid "Recipients:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Notification List"
 msgstr ""
@@ -6316,7 +5844,7 @@ msgstr ""
 msgid "Add Extra Recipients To Notification List?"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "New Status for Issue"
 msgstr ""
 
@@ -6324,11 +5852,11 @@ msgstr ""
 msgid "Time Spent:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Add Email Signature"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Please enter your full name."
 msgstr ""
 
@@ -6345,8 +5873,7 @@ msgstr ""
 msgid "User Details"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "An error occurred while trying to run your query."
 msgstr ""
 
@@ -6490,7 +6017,7 @@ msgstr ""
 msgid "Please choose the incident types to redeem for this issue."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Total"
 msgstr ""
 
@@ -6516,19 +6043,19 @@ msgstr ""
 msgid "Reminder Alert"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "URL"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Alert Reason"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Triggered Reminder"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Alert Query"
 msgstr ""
 
@@ -6595,9 +6122,7 @@ msgstr ""
 msgid "Assignee"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Generate"
 msgstr ""
 
@@ -6628,7 +6153,6 @@ msgstr ""
 msgid "Customer Stats Report"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Date Range"
 msgstr ""
@@ -6645,7 +6169,7 @@ msgstr ""
 msgid "mon"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "day"
 msgstr ""
 
@@ -6669,7 +6193,7 @@ msgstr ""
 msgid "Customers"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Issues"
 msgstr ""
 
@@ -6693,24 +6217,18 @@ msgstr ""
 msgid "Issues in CSC"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Tot"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Avg"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Med"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Max"
 msgstr ""
@@ -6723,7 +6241,7 @@ msgstr ""
 msgid "Time To Close"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Min"
 msgstr ""
 
@@ -6785,19 +6303,19 @@ msgstr ""
 msgid "Number of Days"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Days and Hours Since"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Last Update"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Last Outgoing Msg"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Recent Activity"
 msgstr ""
 
@@ -6821,12 +6339,10 @@ msgstr ""
 msgid "Activity in Past"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Ascending"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Descending"
 msgstr ""
@@ -6855,7 +6371,6 @@ msgstr ""
 msgid "Recent Emails"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "sent to notification list"
 msgstr ""
@@ -6876,7 +6391,7 @@ msgstr ""
 msgid "Recent Time Entries"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Date of Work"
 msgstr ""
 
@@ -6896,7 +6411,7 @@ msgstr ""
 msgid "No Reminder Entries Found"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Stalled Issues Report"
 msgstr ""
 
@@ -6928,7 +6443,7 @@ msgstr ""
 msgid "Open Issues By Reporter"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Weekly Report"
 msgstr ""
 
@@ -6964,11 +6479,10 @@ msgstr ""
 msgid "Report Type:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Weekly"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Week"
 msgstr ""
@@ -7065,7 +6579,7 @@ msgstr ""
 msgid "Login Time Spent"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Total Time Spent"
 msgstr ""
 
@@ -7087,15 +6601,15 @@ msgstr ""
 msgid "Day"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "week"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Month"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "month"
 msgstr ""
 
@@ -7123,7 +6637,7 @@ msgstr ""
 msgid "Email Workload by Time of day"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
 
@@ -7138,7 +6652,7 @@ msgid ""
 "etc."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Time Period"
 msgstr ""
 
@@ -7188,11 +6702,11 @@ msgstr ""
 msgid "Assigned:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Category:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Priority:"
 msgstr ""
 
@@ -7303,7 +6817,6 @@ msgid ""
 "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Send Email"
 msgstr ""
@@ -7326,7 +6839,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Cc"
 msgstr ""
 
@@ -7595,12 +7108,11 @@ msgstr ""
 msgid "Mail Queue Log"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Recipients"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Received"
 msgstr ""
 
@@ -7621,8 +7133,7 @@ msgid "Thank you, your current selected project was changed successfully."
 msgstr ""
 
 #: localization/eventum.c
-msgid ""
-"This action will permanently delete the specified time tracking entry."
+msgid "This action will permanently delete the specified time tracking entry."
 msgstr ""
 
 #: localization/eventum.c
@@ -7645,10 +7156,10 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-"You can create as many custom queries as you want through the <a "
-"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
-"ability to save and modify custom queries and load them quickly from the "
-"Issue Listing screen."
+"You can create as many custom queries as you want through the <a class=\"link"
+"\" href=\"%1\">Advanced Search</a> interface. There is also the ability to "
+"save and modify custom queries and load them quickly from the Issue Listing "
+"screen."
 msgstr ""
 
 #: localization/eventum.c
@@ -7733,19 +7244,19 @@ msgstr ""
 msgid "Update Issue Overview"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "edit the authorized repliers list for this issue"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Edit Authorized Replier List"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Edit Notification List"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "History of Changes"
 msgstr ""
 
@@ -7753,7 +7264,6 @@ msgstr ""
 msgid "Notification List:"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "Staff"
 msgstr ""
@@ -7848,19 +7358,19 @@ msgstr ""
 msgid "View Email Details"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Associated with Issue"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Previous Message"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Next Message"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "display in fixed width font"
 msgstr ""
 
@@ -7962,7 +7472,6 @@ msgstr ""
 msgid "Associated Issues"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
 msgid "issue"
 msgstr ""
@@ -8057,11 +7566,11 @@ msgstr ""
 msgid "View Note Details"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Previous Note"
 msgstr ""
 
-#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Next Note"
 msgstr ""
 
@@ -8355,15 +7864,15 @@ msgstr ""
 #: lib/eventum/class.monitor.php:113
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
-"%3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:116
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
-"%3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:121
@@ -8391,8 +7900,7 @@ msgid ""
 msgstr ""
 
 #: lib/eventum/class.monitor.php:174
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
+msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:272
