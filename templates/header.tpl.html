@@ -3,11 +3,6 @@
 <title>{if $extra_title != ""}{$extra_title|escape:"html"} - {/if}{$app_setup.tool_caption|default:$application_title|escape:"html"}</title>
 <link rel="icon" href="{$rel_url}favicon.ico" />
 <link rel="stylesheet" href="{$rel_url}css/style.css" type="text/css">
-<script type="text/javascript" src="{$rel_url}js/browserSniffer.js"></script>
-<script type="text/javascript" src="{$rel_url}js/jquery/jquery.js"></script>
-<script type="text/javascript" src="{$rel_url}js/jquery/form.js"></script>
-<script type="text/javascript" src="{$rel_url}js/jquery/blockui.js"></script>
-<script type="text/javascript" src="{$rel_url}js/jquery/ui.datepicker.js"></script>
 <link rel="stylesheet" href="{$rel_url}js/jquery/ui.datepicker.css">
 <link rel="search" type="application/opensearchdescription+xml" href="{$rel_url}opensearch.php" title="{t}Eventum Issues search{/t}" />
 <script type="text/javascript">
@@ -21,6 +16,11 @@ var user_prefs = {ldelim}
 </script>
 <script type="text/javascript" src="{$rel_url}js/global.js"></script>
 <script type="text/javascript" src="{$rel_url}js/validation.js"></script>
+<script type="text/javascript" src="{$rel_url}js/browserSniffer.js"></script>
+<script type="text/javascript" src="{$rel_url}js/jquery/jquery.js"></script>
+<script type="text/javascript" src="{$rel_url}js/jquery/form.js"></script>
+<script type="text/javascript" src="{$rel_url}js/jquery/blockui.js"></script>
+<script type="text/javascript" src="{$rel_url}js/jquery/ui.datepicker.js"></script>
 {if $refresh_rate}
 <meta http-equiv="Refresh" content="{$refresh_rate};URL={$rel_url}{$refresh_page}">
 {/if}
