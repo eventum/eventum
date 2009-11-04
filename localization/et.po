@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 19:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:41+0200\n"
 "PO-Revision-Date: 2009-11-04 17:09+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -6593,7 +6593,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-" Warning: Some type and interval options, combined with large <br />date "
+"Warning: Some type and interval options, combined with large <br />date "
 "ranges can produce extremely large graphs."
 msgstr ""
 
