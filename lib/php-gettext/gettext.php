@@ -102,10 +102,9 @@ class gettext_reader {
     // Caching can be turned off
     $this->enable_cache = $enable_cache;
 
-    // $MAGIC1 = (int)0x950412de; //bug in PHP 5
-    $MAGIC1 = (int) - 1794895138;
-    // $MAGIC2 = (int)0xde120495; //bug
-    $MAGIC2 = (int) - 569244523;
+    // enabled again, see http://lists.mysql.com/eventum-devel/814
+    $MAGIC1 = (int)0x950412de;
+    $MAGIC2 = (int)0xde120495;
 
     $this->STREAM = $Reader;
     $magic = $this->readint();
