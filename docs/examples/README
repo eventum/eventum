@@ -1,0 +1,4 @@
+Example classes for extending Eeventum Workflow, Customer backend, adding Custom fields.
+
+You should put copy of these example classes into lib/eventum/<subdir>/<classname>.php
+
