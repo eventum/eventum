@@ -38,6 +38,7 @@ Eventum Issue Tracking System
 - Misc files for Custom fields (Bryan Alsdorf)
 - Allow disabling saving routed drafts/notes/emails if APP_ROUTED_MAILS_SAVEDIR constant undefied (Elan Ruusamäe)
 - Add OpenSearch description to search issues by ID (Elan Ruusamäe)
+- SCM commit hook reports back status that SCM server reports back (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
