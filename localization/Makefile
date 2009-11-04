@@ -2,7 +2,6 @@
 # (c) 2007 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
-SVN_URL     := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 POOTLE_URL  := https://www.unixlan.com.ar/eventum
 ALL_LINGUAS := de en es fi fr it nl pl ru sv pt_BR
 DOMAIN      := eventum
@@ -27,7 +26,7 @@ install: all
 	done
 
 tools-check:
-	@TOOLS='svn find sort xargs tsmarty2c xgettext sed mv rm'; \
+	@TOOLS='bzr find sort xargs tsmarty2c xgettext sed mv rm'; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
@@ -37,15 +36,15 @@ tools-check:
 pot: tools-check
 	@set -x -e; \
 	umask 002; \
-	rm -rf export; \
-	svn export $(SVN_URL) export; \
-	cd export; \
-		find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > misc/localization/eventum.c; \
-		(echo misc/localization/eventum.c; find -name '*.php' | LC_ALL=C sort) | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=misc/localization/eventum.pot; \
-		sed -i -e 's,misc/localization/eventum.c:[0-9]\+,misc/localization/eventum.c,g' misc/localization/eventum.pot; \
-		mv misc/localization/eventum.pot ..; \
+	rm -rf workdir; \
+	bzr export workdir; \
+	cd workdir; \
+		find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > localization/eventum.c; \
+		(echo localization/eventum.c; find -name '*.php' | LC_ALL=C sort) | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=localization/eventum.pot; \
+		sed -i -e 's,localization/eventum.c:[0-9]\+,localization/eventum.c,g' localization/eventum.pot; \
+		mv localization/eventum.pot ..; \
 	cd -; \
-	rm -rf export
+	rm -rf workdir
 
 update-po:
 	@set -x -e; \
