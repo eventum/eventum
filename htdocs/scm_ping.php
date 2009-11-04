@@ -54,6 +54,11 @@ foreach ($_GET['issue'] as $issue_id) {
         $files[] = $file;
     }
 
+    // workflow needs to know project_id to find out which workflow class to use.
     $prj_id = Issue::getProjectID($issue_id);
+    if (empty($prj_id)) {
+        echo "issue #$issue_id not found\n";
+        continue;
+    }
     Workflow::handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
 }
