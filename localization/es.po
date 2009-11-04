@@ -2362,11 +2362,11 @@ msgstr ""
 #, fuzzy
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
-"and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it "
+"and available in %eventum_path%/scm/eventum-cvs-hook) and it "
 "will notify Eventum that these changes are to be associated with issue #13."
 msgstr ""
 "Este comando va a ser analizado por el script de integración CVS (provisto "
-"para usted y disponible en %eventum_path%/scm/process_cvs_commits.php) y le "
+"para usted y disponible en %eventum_path%/scm/eventum-cvs-hook.php) y le "
 "informará a Eventum que estos cambios van a estar asociados con el caso #13."
 
 #: localization/eventum.c

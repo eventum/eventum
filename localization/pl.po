@@ -2168,7 +2168,7 @@ msgstr "Możesz też użyć guzika 'błąd' by określić ID zgłoszenia."
 #: localization/eventum.c
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
-"and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it "
+"and available in %eventum_path%/scm/eventum-cvs-hook) and it "
 "will notify Eventum that these changes are to be associated with issue #13."
 msgstr ""
 

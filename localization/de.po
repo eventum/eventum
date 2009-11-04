@@ -2335,7 +2335,7 @@ msgid ""
 "appropriate permissions to the script."
 msgstr ""
 "Der letzte Schritt dieses Installation Prozesses ist, sich am CVS "
-"Serveranzumelden und das Script process_cvs_commits.php in das CVSROOT "
+"Serveranzumelden und das Script eventum-cvs-hook in das CVSROOT "
 "Verzeichniszu kopieren. Stellen Sie sicher, dass Sie die entsprechenden "
 "Berechtigungenfür dieses Script vergeben haben."
 
@@ -2384,11 +2384,11 @@ msgstr ""
 #, fuzzy
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
-"and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it "
+"and available in %eventum_path%/scm/eventum-cvs-hook) and it "
 "will notify Eventum that these changes are to be associated with issue #13."
 msgstr ""
 "Dieses Kommando wird vom CVS Integrations-Skript (das Skript liegt bereit \n"
-"unter %eventum_path%/scm/process_cvs_commits.php) verarbeitet und teilt "
+"unter %eventum_path%/scm/eventum-cvs-hook.php) verarbeitet und teilt "
 "Eventum mit, Änderungen dem Vorgang #13 zuzuordnen."
 
 #: localization/eventum.c
