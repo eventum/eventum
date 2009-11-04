@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -711,6 +711,7 @@ msgid "Remove?"
 msgstr ""
 
 #: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Sender"
 msgstr ""
 
@@ -2688,6 +2689,8 @@ msgstr ""
 #: localization/eventum.c localization/eventum.c
 #: localization/eventum.c localization/eventum.c
 #: localization/eventum.c localization/eventum.c
+#: localization/eventum.c localization/eventum.c
+#: localization/eventum.c localization/eventum.c
 msgid "Password"
 msgstr ""
 
@@ -3628,12 +3631,12 @@ msgstr ""
 
 #: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
-msgid "Hostname:"
+msgid "Hostname"
 msgstr ""
 
 #: localization/eventum.c localization/eventum.c
-#: localization/eventum.c
-msgid "Port:"
+#: localization/eventum.c localization/eventum.c
+msgid "Port"
 msgstr ""
 
 #: localization/eventum.c
@@ -3641,7 +3644,7 @@ msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+msgid "IMAP Folder"
 msgstr ""
 
 #: localization/eventum.c
@@ -3650,17 +3653,12 @@ msgstr ""
 
 #: localization/eventum.c localization/eventum.c
 #: localization/eventum.c localization/eventum.c
-msgid "Username:"
-msgstr ""
-
-#: localization/eventum.c localization/eventum.c
-#: localization/eventum.c localization/eventum.c
 #: localization/eventum.c
-msgid "Password:"
+msgid "Username"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Advanced Options:"
+msgid "Advanced Options"
 msgstr ""
 
 #: localization/eventum.c
@@ -3703,18 +3701,6 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Associated Project"
-msgstr ""
-
-#: localization/eventum.c
-msgid "Hostname"
-msgstr ""
-
-#: localization/eventum.c
-msgid "Port"
-msgstr ""
-
-#: localization/eventum.c
-msgid "Username"
 msgstr ""
 
 #: localization/eventum.c
@@ -4072,6 +4058,10 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
+msgstr ""
+
+#: localization/eventum.c
+msgid "Hostname:"
 msgstr ""
 
 #: localization/eventum.c localization/eventum.c
@@ -4970,6 +4960,7 @@ msgid "Please select at least one of the actions."
 msgstr ""
 
 #: localization/eventum.c localization/eventum.c
+#: localization/eventum.c
 msgid "Details"
 msgstr ""
 
@@ -7379,10 +7370,6 @@ msgid "An Error Was Found"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Details:"
-msgstr ""
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7429,7 +7416,7 @@ msgid "Eventum Installation"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Server Hostname:"
+msgid "Server Hostname"
 msgstr ""
 
 #: localization/eventum.c
@@ -7437,19 +7424,19 @@ msgid "SSL Server"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+msgid "Eventum Relative URL"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+msgid "MySQL Server Hostname"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+msgid "MySQL Database"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+msgid "MySQL Table Prefix"
 msgstr ""
 
 #: localization/eventum.c
@@ -7457,7 +7444,7 @@ msgid "Drop Tables If They Already Exist"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Username:"
+msgid "MySQL Username"
 msgstr ""
 
 #: localization/eventum.c
@@ -7494,8 +7481,8 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: localization/eventum.c
@@ -7537,6 +7524,10 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Full Name:"
+msgstr ""
+
+#: localization/eventum.c
+msgid "Password:"
 msgstr ""
 
 #: localization/eventum.c

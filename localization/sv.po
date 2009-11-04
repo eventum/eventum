@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -3511,11 +3511,13 @@ msgid "POP3, with TLS (self-signed)"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Hostname:"
+#, fuzzy
+msgid "Hostname"
 msgstr "Värdnamn:"
 
 #: localization/eventum.c
-msgid "Port:"
+#, fuzzy
+msgid "Port"
 msgstr "Port:"
 
 #: localization/eventum.c
@@ -3523,7 +3525,7 @@ msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+msgid "IMAP Folder"
 msgstr ""
 
 #: localization/eventum.c
@@ -3531,16 +3533,14 @@ msgid "(default folder is INBOX)"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Username:"
+#, fuzzy
+msgid "Username"
 msgstr "Användarnamn:"
 
 #: localization/eventum.c
-msgid "Password:"
-msgstr "Lösenord:"
-
-#: localization/eventum.c
-msgid "Advanced Options:"
-msgstr ""
+#, fuzzy
+msgid "Advanced Options"
+msgstr "Åtgärder"
 
 #: localization/eventum.c
 msgid "Only Download Unread Messages"
@@ -3587,21 +3587,6 @@ msgstr "Vänligen välj minst en av prenumeranterna."
 #, fuzzy
 msgid "Associated Project"
 msgstr "Associerade"
-
-#: localization/eventum.c
-#, fuzzy
-msgid "Hostname"
-msgstr "Värdnamn:"
-
-#: localization/eventum.c
-#, fuzzy
-msgid "Port"
-msgstr "Port:"
-
-#: localization/eventum.c
-#, fuzzy
-msgid "Username"
-msgstr "Användarnamn:"
 
 #: localization/eventum.c
 msgid "Mailbox"
@@ -4015,6 +4000,10 @@ msgstr "Skicka e-post"
 #: localization/eventum.c
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+
+#: localization/eventum.c
+msgid "Hostname:"
+msgstr "Värdnamn:"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -7693,10 +7682,6 @@ msgid "An Error Was Found"
 msgstr "Ett fel upptäcktes"
 
 #: localization/eventum.c
-msgid "Details:"
-msgstr "Detaljer:"
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7758,7 +7743,8 @@ msgid "Eventum Installation"
 msgstr "Eventum Installation"
 
 #: localization/eventum.c
-msgid "Server Hostname:"
+#, fuzzy
+msgid "Server Hostname"
 msgstr "Värdnamn för server:"
 
 #: localization/eventum.c
@@ -7766,19 +7752,23 @@ msgid "SSL Server"
 msgstr "SSL-server"
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+#, fuzzy
+msgid "Eventum Relative URL"
 msgstr "Eventums relativa URL:"
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+#, fuzzy
+msgid "MySQL Server Hostname"
 msgstr "Värdnman för MySQL-server :"
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+#, fuzzy
+msgid "MySQL Database"
 msgstr "MySQL databas:"
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+#, fuzzy
+msgid "MySQL Table Prefix"
 msgstr "MySQL Tabellprefix:"
 
 #: localization/eventum.c
@@ -7786,7 +7776,8 @@ msgid "Drop Tables If They Already Exist"
 msgstr "Radera tabeller om de redan finns"
 
 #: localization/eventum.c
-msgid "MySQL Username:"
+#, fuzzy
+msgid "MySQL Username"
 msgstr "MySQL Användarnamn:"
 
 #: localization/eventum.c
@@ -7829,8 +7820,8 @@ msgstr "SMTP Konfiguration"
 #: localization/eventum.c
 #, fuzzy
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 "<b>Notera:</b> Konfiguration av SMTP (utgående e-post) krävs för att e-"
 "postmeddelanden skall kunna skickas när man skapar nya användare/projekt."
@@ -7879,6 +7870,10 @@ msgstr ""
 #: localization/eventum.c
 msgid "Full Name:"
 msgstr "Fullständigt namn:"
+
+#: localization/eventum.c
+msgid "Password:"
+msgstr "Lösenord:"
 
 #: localization/eventum.c
 msgid "Spell Check"
@@ -8995,6 +8990,15 @@ msgstr ""
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Username:"
+#~ msgstr "Användarnamn:"
+
+#~ msgid "Details:"
+#~ msgstr "Detaljer:"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Sidan tog %1 sekunder att generera"

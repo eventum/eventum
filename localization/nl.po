@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: 2008-05-06 15:48+0100\n"
 "Last-Translator: Alex Krappen <sam.krappen@zeeland.nl>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -3583,12 +3583,12 @@ msgid "POP3, with TLS (self-signed)"
 msgstr "POP3 met TLS (zelf ondertekend)"
 
 #: localization/eventum.c
-msgid "Hostname:"
+msgid "Hostname"
 msgstr "Hostnaam"
 
 #: localization/eventum.c
-msgid "Port:"
-msgstr "Poort:"
+msgid "Port"
+msgstr "Poort"
 
 #: localization/eventum.c
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
@@ -3596,7 +3596,8 @@ msgstr ""
 "Tip: Standaardpoorten zijn 110 voor POP3-servers en 143 voor IMAP-servers."
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+#, fuzzy
+msgid "IMAP Folder"
 msgstr "IMAP-map:"
 
 #: localization/eventum.c
@@ -3604,15 +3605,12 @@ msgid "(default folder is INBOX)"
 msgstr "Standaardmap is INBOX"
 
 #: localization/eventum.c
-msgid "Username:"
-msgstr "Gebruikersnaam:"
+msgid "Username"
+msgstr "Gebruikersnaam"
 
 #: localization/eventum.c
-msgid "Password:"
-msgstr "Wachtwoord:"
-
-#: localization/eventum.c
-msgid "Advanced Options:"
+#, fuzzy
+msgid "Advanced Options"
 msgstr "Geavanceerde opties:"
 
 #: localization/eventum.c
@@ -3661,18 +3659,6 @@ msgstr "Selecteer minstens één account."
 #: localization/eventum.c
 msgid "Associated Project"
 msgstr "Gekoppeld project"
-
-#: localization/eventum.c
-msgid "Hostname"
-msgstr "Hostnaam"
-
-#: localization/eventum.c
-msgid "Port"
-msgstr "Poort"
-
-#: localization/eventum.c
-msgid "Username"
-msgstr "Gebruikersnaam"
 
 #: localization/eventum.c
 msgid "Mailbox"
@@ -4064,6 +4050,10 @@ msgstr "Afzender email"
 #: localization/eventum.c
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+
+#: localization/eventum.c
+msgid "Hostname:"
+msgstr "Hostnaam"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -7481,11 +7471,6 @@ msgid "An Error Was Found"
 msgstr ""
 
 #: localization/eventum.c
-#, fuzzy
-msgid "Details:"
-msgstr "Gegevens"
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7532,27 +7517,28 @@ msgid "Eventum Installation"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Server Hostname:"
-msgstr ""
+#, fuzzy
+msgid "Server Hostname"
+msgstr "Hostnaam"
 
 #: localization/eventum.c
 msgid "SSL Server"
 msgstr ""
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+msgid "Eventum Relative URL"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+msgid "MySQL Server Hostname"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+msgid "MySQL Database"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+msgid "MySQL Table Prefix"
 msgstr ""
 
 #: localization/eventum.c
@@ -7560,8 +7546,9 @@ msgid "Drop Tables If They Already Exist"
 msgstr ""
 
 #: localization/eventum.c
-msgid "MySQL Username:"
-msgstr ""
+#, fuzzy
+msgid "MySQL Username"
+msgstr "Gebruikersnaam"
 
 #: localization/eventum.c
 msgid ""
@@ -7597,8 +7584,8 @@ msgstr ""
 
 #: localization/eventum.c
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: localization/eventum.c
@@ -7647,6 +7634,10 @@ msgstr ""
 #: localization/eventum.c
 msgid "Full Name:"
 msgstr "Naam:"
+
+#: localization/eventum.c
+msgid "Password:"
+msgstr "Wachtwoord:"
 
 #: localization/eventum.c
 msgid "Spell Check"
@@ -8752,6 +8743,16 @@ msgstr "Tijdregistratie ingevoerd door %1$s"
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Tijdregistratie op afstand ingevoerd door %1$s"
+
+#~ msgid "Port:"
+#~ msgstr "Poort:"
+
+#~ msgid "Username:"
+#~ msgstr "Gebruikersnaam:"
+
+#, fuzzy
+#~ msgid "Details:"
+#~ msgstr "Gegevens"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Pagina gegenereerd in %1 seconden"

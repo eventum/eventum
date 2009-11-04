@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: 2007-02-26 22:19+0100\n"
 "Last-Translator: Ralf Kühnbaum-Grashorn <ralf@x-systeme.de>\n"
 "Language-Team: German\n"
@@ -3630,11 +3630,11 @@ msgid "POP3, with TLS (self-signed)"
 msgstr "POP3, mit TLS (selbst signiert)"
 
 #: localization/eventum.c
-msgid "Hostname:"
+msgid "Hostname"
 msgstr "Hostname:"
 
 #: localization/eventum.c
-msgid "Port:"
+msgid "Port"
 msgstr "Port:"
 
 #: localization/eventum.c
@@ -3642,7 +3642,8 @@ msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Tipp: Standard Port für POP3: 110 und IMAP: 143)"
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+#, fuzzy
+msgid "IMAP Folder"
 msgstr "IMAP-Ordner:"
 
 #: localization/eventum.c
@@ -3650,15 +3651,12 @@ msgid "(default folder is INBOX)"
 msgstr "(der Standard-Ordner ist INBOX)"
 
 #: localization/eventum.c
-msgid "Username:"
+msgid "Username"
 msgstr "Benutzername:"
 
 #: localization/eventum.c
-msgid "Password:"
-msgstr "Passwort:"
-
-#: localization/eventum.c
-msgid "Advanced Options:"
+#, fuzzy
+msgid "Advanced Options"
 msgstr "Erweiterte Optionen:"
 
 #: localization/eventum.c
@@ -3707,18 +3705,6 @@ msgstr "Bitte wählen Sie mindestens ein Konto aus"
 #: localization/eventum.c
 msgid "Associated Project"
 msgstr "Zugewiesenes Projekt"
-
-#: localization/eventum.c
-msgid "Hostname"
-msgstr "Hostname:"
-
-#: localization/eventum.c
-msgid "Port"
-msgstr "Port:"
-
-#: localization/eventum.c
-msgid "Username"
-msgstr "Benutzername:"
 
 #: localization/eventum.c
 msgid "Mailbox"
@@ -4114,6 +4100,10 @@ msgstr "e-Mail senden"
 #: localization/eventum.c
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+
+#: localization/eventum.c
+msgid "Hostname:"
+msgstr "Hostname:"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -7601,10 +7591,6 @@ msgid "An Error Was Found"
 msgstr "Es ist ein Fehler aufgetreten"
 
 #: localization/eventum.c
-msgid "Details:"
-msgstr "Details:"
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7664,7 +7650,8 @@ msgid "Eventum Installation"
 msgstr "Eventum Installation"
 
 #: localization/eventum.c
-msgid "Server Hostname:"
+#, fuzzy
+msgid "Server Hostname"
 msgstr "Server Hostname:"
 
 #: localization/eventum.c
@@ -7672,19 +7659,23 @@ msgid "SSL Server"
 msgstr "SSL Server"
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+#, fuzzy
+msgid "Eventum Relative URL"
 msgstr "Relative Eventum URL:"
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+#, fuzzy
+msgid "MySQL Server Hostname"
 msgstr "MySQL Server Hostname:"
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+#, fuzzy
+msgid "MySQL Database"
 msgstr "MySQL Datenbank:"
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+#, fuzzy
+msgid "MySQL Table Prefix"
 msgstr "MySQL Tabellen Präfix:"
 
 #: localization/eventum.c
@@ -7692,7 +7683,8 @@ msgid "Drop Tables If They Already Exist"
 msgstr "Tabellen löschen, wenn diese bereits existieren"
 
 #: localization/eventum.c
-msgid "MySQL Username:"
+#, fuzzy
+msgid "MySQL Username"
 msgstr "MySQL Benutzername:"
 
 #: localization/eventum.c
@@ -7731,8 +7723,8 @@ msgstr "SMTP Konfiguration"
 #: localization/eventum.c
 #, fuzzy
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 "<b>Hinweis:</b> Die SMTP (ausgehende e-Mail) Konfiguration wird benötigt, "
 "umsicherzustellen, dass e-Mails richtig versendet werden, wenn ein "
@@ -7784,6 +7776,10 @@ msgstr ""
 #: localization/eventum.c
 msgid "Full Name:"
 msgstr "Voller Name:"
+
+#: localization/eventum.c
+msgid "Password:"
+msgstr "Passwort:"
 
 #: localization/eventum.c
 msgid "Spell Check"
@@ -8886,6 +8882,15 @@ msgstr "Zeitüberwachungseintrag durch %1$s"
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Zeitüberwachungseintrag entfernt (remote) eingetragen durch %1$s"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Username:"
+#~ msgstr "Benutzername:"
+
+#~ msgid "Details:"
+#~ msgstr "Details:"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Seite in %1 Sekunden erstellt"

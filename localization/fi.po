@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -3636,19 +3636,20 @@ msgid "POP3, with TLS (self-signed)"
 msgstr "POP3 TLS:llä (oma allekirjoitus)"
 
 #: localization/eventum.c
-msgid "Hostname:"
-msgstr "Koneen nimi:"
+msgid "Hostname"
+msgstr "Koneen nimi"
 
 #: localization/eventum.c
-msgid "Port:"
-msgstr "Portti:"
+msgid "Port"
+msgstr "Portti"
 
 #: localization/eventum.c
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Vinkki: Oletusportit ovat 110 POP3:lle ja 143 IMAP:lle)"
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+#, fuzzy
+msgid "IMAP Folder"
 msgstr "IMAP-kansio:"
 
 #: localization/eventum.c
@@ -3656,15 +3657,12 @@ msgid "(default folder is INBOX)"
 msgstr "(oletuskansio on INBOX)"
 
 #: localization/eventum.c
-msgid "Username:"
-msgstr "Käyttäjänimi:"
+msgid "Username"
+msgstr "Käyttäjänimi"
 
 #: localization/eventum.c
-msgid "Password:"
-msgstr "Salasana:"
-
-#: localization/eventum.c
-msgid "Advanced Options:"
+#, fuzzy
+msgid "Advanced Options"
 msgstr "Kehittyneet valinnat:"
 
 #: localization/eventum.c
@@ -3713,18 +3711,6 @@ msgstr "Valitse vähintään yksi tileistä."
 #: localization/eventum.c
 msgid "Associated Project"
 msgstr "Liitetty projekti"
-
-#: localization/eventum.c
-msgid "Hostname"
-msgstr "Koneen nimi"
-
-#: localization/eventum.c
-msgid "Port"
-msgstr "Portti"
-
-#: localization/eventum.c
-msgid "Username"
-msgstr "Käyttäjänimi"
 
 #: localization/eventum.c
 msgid "Mailbox"
@@ -4106,6 +4092,10 @@ msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
 "(Tämän TÄYTYY sisältää oikea sähköpostiosoite, esim. \"eventum@example.com\" "
 "tai \"Eventum <eventum@example.comi>\")"
+
+#: localization/eventum.c
+msgid "Hostname:"
+msgstr "Koneen nimi:"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -7533,10 +7523,6 @@ msgid "An Error Was Found"
 msgstr "Virhe löytyi"
 
 #: localization/eventum.c
-msgid "Details:"
-msgstr "Yksityiskohdat:"
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7600,7 +7586,8 @@ msgid "Eventum Installation"
 msgstr "Eventum asennus"
 
 #: localization/eventum.c
-msgid "Server Hostname:"
+#, fuzzy
+msgid "Server Hostname"
 msgstr "Palvelimen nimi:"
 
 #: localization/eventum.c
@@ -7608,19 +7595,23 @@ msgid "SSL Server"
 msgstr "SSL-palvelin"
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+#, fuzzy
+msgid "Eventum Relative URL"
 msgstr "Eventum suhteellinen URL:"
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+#, fuzzy
+msgid "MySQL Server Hostname"
 msgstr "MySQL palvelimen nimi:"
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+#, fuzzy
+msgid "MySQL Database"
 msgstr "MySQL tietokanta"
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+#, fuzzy
+msgid "MySQL Table Prefix"
 msgstr "MySQL taulun etuliite:"
 
 #: localization/eventum.c
@@ -7628,7 +7619,8 @@ msgid "Drop Tables If They Already Exist"
 msgstr "Poista taulut jos ne ovat jo olemassa"
 
 #: localization/eventum.c
-msgid "MySQL Username:"
+#, fuzzy
+msgid "MySQL Username"
 msgstr "MySQL käyttäjänimi:"
 
 #: localization/eventum.c
@@ -7670,8 +7662,8 @@ msgstr "SMTP-asetukset"
 #: localization/eventum.c
 #, fuzzy
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 "<b>Huomio:</b> SMTP-asetuksia (uloslähtevä posti) tarvitaan, jotta "
 "varmistutaan järjestelmän lähettämien sähköpostiviestien (uudet käyttäjät/"
@@ -7721,6 +7713,10 @@ msgstr ""
 #: localization/eventum.c
 msgid "Full Name:"
 msgstr "Koko nimi:"
+
+#: localization/eventum.c
+msgid "Password:"
+msgstr "Salasana:"
 
 #: localization/eventum.c
 msgid "Spell Check"
@@ -8850,6 +8846,15 @@ msgstr "Ajanseurantamerkinnän lisääjä %1$s"
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Etänä lisätty ajanseurantamerkintä lisääjänä %1$s"
+
+#~ msgid "Port:"
+#~ msgstr "Portti:"
+
+#~ msgid "Username:"
+#~ msgstr "Käyttäjänimi:"
+
+#~ msgid "Details:"
+#~ msgstr "Yksityiskohdat:"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Sivu muodostettiin %1 sekunnissa"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:49+0200\n"
+"POT-Creation-Date: 2009-11-04 20:53+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -3704,19 +3704,20 @@ msgid "POP3, with TLS (self-signed)"
 msgstr "POP3, с TLS (self-signed)"
 
 #: localization/eventum.c
-msgid "Hostname:"
-msgstr "Имя хоста:"
+msgid "Hostname"
+msgstr "Имя хоста"
 
 #: localization/eventum.c
-msgid "Port:"
-msgstr "Порт:"
+msgid "Port"
+msgstr "Порт"
 
 #: localization/eventum.c
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Подсказка: по умолчанию порт 110 для серверов POP3 и 143 для IMAP)"
 
 #: localization/eventum.c
-msgid "IMAP Folder:"
+#, fuzzy
+msgid "IMAP Folder"
 msgstr "Директория IMAP:"
 
 #: localization/eventum.c
@@ -3724,15 +3725,12 @@ msgid "(default folder is INBOX)"
 msgstr "(директория по умолчанию INBOX)"
 
 #: localization/eventum.c
-msgid "Username:"
-msgstr "Имя пользователя:"
+msgid "Username"
+msgstr "Имя пользователя"
 
 #: localization/eventum.c
-msgid "Password:"
-msgstr "Пароль:"
-
-#: localization/eventum.c
-msgid "Advanced Options:"
+#, fuzzy
+msgid "Advanced Options"
 msgstr "Дополнительные настройки:"
 
 #: localization/eventum.c
@@ -3781,18 +3779,6 @@ msgstr "Пожалуйста, выберите по крайней мере од
 #: localization/eventum.c
 msgid "Associated Project"
 msgstr "Связанный проект"
-
-#: localization/eventum.c
-msgid "Hostname"
-msgstr "Имя хоста"
-
-#: localization/eventum.c
-msgid "Port"
-msgstr "Порт"
-
-#: localization/eventum.c
-msgid "Username"
-msgstr "Имя пользователя"
 
 #: localization/eventum.c
 msgid "Mailbox"
@@ -4192,6 +4178,10 @@ msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
 "(НЕОБХОДИМО указать действующий адрес эл.почты, например. \"eventum@example."
 "com\" или \"Eventum <eventum@example.com>\")"
+
+#: localization/eventum.c
+msgid "Hostname:"
+msgstr "Имя хоста:"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -7679,10 +7669,6 @@ msgid "An Error Was Found"
 msgstr "Возникла ошибка"
 
 #: localization/eventum.c
-msgid "Details:"
-msgstr "Детали:"
-
-#: localization/eventum.c
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
@@ -7747,7 +7733,8 @@ msgid "Eventum Installation"
 msgstr "Установка системы Eventum"
 
 #: localization/eventum.c
-msgid "Server Hostname:"
+#, fuzzy
+msgid "Server Hostname"
 msgstr "Имя хоста сервера:"
 
 #: localization/eventum.c
@@ -7755,19 +7742,23 @@ msgid "SSL Server"
 msgstr "Сервер SSL"
 
 #: localization/eventum.c
-msgid "Eventum Relative URL:"
+#, fuzzy
+msgid "Eventum Relative URL"
 msgstr "Относительный URL системы Eventum:"
 
 #: localization/eventum.c
-msgid "MySQL Server Hostname:"
+#, fuzzy
+msgid "MySQL Server Hostname"
 msgstr "Имя хоста сервера MySQL:"
 
 #: localization/eventum.c
-msgid "MySQL Database:"
+#, fuzzy
+msgid "MySQL Database"
 msgstr "База данных MySQL:"
 
 #: localization/eventum.c
-msgid "MySQL Table Prefix:"
+#, fuzzy
+msgid "MySQL Table Prefix"
 msgstr "Префикс таблиц MySQL:"
 
 #: localization/eventum.c
@@ -7775,7 +7766,8 @@ msgid "Drop Tables If They Already Exist"
 msgstr "Удалить таблицы, если они уже существуют"
 
 #: localization/eventum.c
-msgid "MySQL Username:"
+#, fuzzy
+msgid "MySQL Username"
 msgstr "Имя пользователя MySQL:"
 
 #: localization/eventum.c
@@ -7820,8 +7812,8 @@ msgstr "Конфигурация SMTP"
 #: localization/eventum.c
 #, fuzzy
 msgid ""
-"The SMTP (outgoing mail) configuration is needed to make sure emails are "
-"properly sent when creating new users/projects."
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
 msgstr ""
 "<b>Примечание:</b> Конфигурация SMTP (исходящая почта) необходима для "
 "обеспечения отправки эл.писем при создании новых пользователей/проектов."
@@ -7870,6 +7862,10 @@ msgstr ""
 #: localization/eventum.c
 msgid "Full Name:"
 msgstr "Полное имя:"
+
+#: localization/eventum.c
+msgid "Password:"
+msgstr "Пароль:"
 
 #: localization/eventum.c
 msgid "Spell Check"
@@ -9006,6 +9002,15 @@ msgstr "Запись учета времени добавлена пользов
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Запись учета времени добавлена удаленно пользователем %1$s"
+
+#~ msgid "Port:"
+#~ msgstr "Порт:"
+
+#~ msgid "Username:"
+#~ msgstr "Имя пользователя:"
+
+#~ msgid "Details:"
+#~ msgstr "Детали:"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Страница сгенерирована за %1 секунд"
