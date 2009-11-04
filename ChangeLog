@@ -37,6 +37,7 @@ Eventum Issue Tracking System
 - Filter for links issue history popup (Elan Ruusamäe)
 - Misc files for Custom fields (Bryan Alsdorf)
 - Allow disabling saving routed drafts/notes/emails if APP_ROUTED_MAILS_SAVEDIR constant undefied (Elan Ruusamäe)
+- Add OpenSearch description to search issues by ID (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
