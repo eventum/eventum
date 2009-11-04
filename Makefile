@@ -11,6 +11,9 @@ all:
 
 install: install-eventum install-cli install-irc install-scm install-libs
 
+dist:
+	./release.sh
+
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)
