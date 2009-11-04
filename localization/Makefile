@@ -1,9 +1,9 @@
 # Makefile for Eventum po files.
-# (c) 2007 Elan Ruusamäe <glen@delfi.ee>
+# (c) 2007-2009 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
 POOTLE_URL  := https://www.unixlan.com.ar/eventum
-ALL_LINGUAS := de en es fi fr it nl pl ru sv pt_BR
+ALL_LINGUAS := de en et es fi fr it nl pl ru sv pt_BR
 DOMAIN      := eventum
 POFILES     := $(patsubst %,%.po,$(ALL_LINGUAS))
 

@@ -65,6 +65,7 @@ class Language
     private static $avail_langs = array(
         'pl_PL' =>  'Polish',
 #       'en_US' =>  'English',
+        'et_EE' =>  'Estonian',
         'ru_RU' =>  'Russian',
         'de_DE' =>  'German',
 #       'fr_FR' =>  'French',
