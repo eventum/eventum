@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:41+0200\n"
+"POT-Creation-Date: 2009-11-04 20:49+0200\n"
 "PO-Revision-Date: 2009-07-16 11:36-0200\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
@@ -3632,13 +3632,17 @@ msgstr "Descargar sólo Mensajes No-leídos"
 msgid "Leave Copy of Messages On Server"
 msgstr "Dejar Copia de los Mensajes en el Servidor"
 
+#: localization/eventum.c
+msgid "Use account for non-subject based email/note/draft routing."
+msgstr ""
+
 # NO ES "Cuenta basada" sino "Ruteo Basado"... - GP
 # Corrección "ruteo" por "enrutamiento" - NH
 #: localization/eventum.c
+#, fuzzy
 msgid ""
-"Use account for non-subject based email/note/draft routing.\n"
-"                    <b> Note: </b>If you check this, you cannot leave a copy "
-"of messages on the server.</a>"
+"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+"server."
 msgstr ""
 "Usar cuenta para el enrutamiento de email/nota/borrador no basado en el "
 "asunto.\n"

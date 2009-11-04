@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:41+0200\n"
+"POT-Creation-Date: 2009-11-04 20:49+0200\n"
 "PO-Revision-Date: 2008-01-28 12:32+0100\n"
 "Last-Translator: Franco Alberganti <streamlake@tiscali.it>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -3750,10 +3750,14 @@ msgid "Leave Copy of Messages On Server"
 msgstr "Mantieni copia dei messaggi sul server"
 
 #: localization/eventum.c
+msgid "Use account for non-subject based email/note/draft routing."
+msgstr ""
+
+#: localization/eventum.c
+#, fuzzy
 msgid ""
-"Use account for non-subject based email/note/draft routing.\n"
-"                    <b> Note: </b>If you check this, you cannot leave a copy "
-"of messages on the server.</a>"
+"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+"server."
 msgstr ""
 "Utilizza account per routin email/note/bozze non basate su oggetto.\n"
 "                    <b> Nota: </b>Selezionando questa opzione, non è "

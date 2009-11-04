@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:41+0200\n"
+"POT-Creation-Date: 2009-11-04 20:49+0200\n"
 "PO-Revision-Date: 2007-02-26 22:19+0100\n"
 "Last-Translator: Ralf Kühnbaum-Grashorn <ralf@x-systeme.de>\n"
 "Language-Team: German\n"
@@ -3670,10 +3670,14 @@ msgid "Leave Copy of Messages On Server"
 msgstr "Kopie der Nachrichten auf dem Server belassen"
 
 #: localization/eventum.c
+msgid "Use account for non-subject based email/note/draft routing."
+msgstr ""
+
+#: localization/eventum.c
+#, fuzzy
 msgid ""
-"Use account for non-subject based email/note/draft routing.\n"
-"                    <b> Note: </b>If you check this, you cannot leave a copy "
-"of messages on the server.</a>"
+"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+"server."
 msgstr ""
 "Kontoverwendung für e-Mail, Hinweise und Entwurfs Routing (kein "
 "BetreffRouting)\n"
