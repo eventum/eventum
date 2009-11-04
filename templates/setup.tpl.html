@@ -125,7 +125,7 @@ function disableAuthFields(f, bool)
         <tr>
           <td colspan="2" class="default">
             <br />
-            <b>{t}Details:{/t} {$result}</b>
+            <b>{t}Details{/t}: {$result}</b>
             <br /><br />
           </td>
         </tr>
@@ -189,7 +189,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <b>{t}Server Hostname:{/t} *</b>
+            <b>{t}Server Hostname{/t}: *</b>
           </td>
           <td>
             {assign var="tabindex" value="1"}
@@ -200,7 +200,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <b>{t}Eventum Relative URL:{/t} *</b>
+            <b>{t}Eventum Relative URL{/t}: *</b>
           </td>
           <td>
             <input type="text" name="relative_url" value="{$smarty.post.rel_url|default:$rel_url}" class="default" size="30" tabindex="{$tabindex}">
@@ -209,7 +209,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <nobr>&nbsp;<b>{t}MySQL Server Hostname:{/t} *</b></nobr>
+            <nobr>&nbsp;<b>{t}MySQL Server Hostname{/t}: *</b></nobr>
           </td>
           <td>
             <input type="text" name="db_hostname" class="default" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname}">
@@ -218,7 +218,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <b>{t}MySQL Database:{/t} *</b>
+            <b>{t}MySQL Database{/t}: *</b>
           </td>
           <td>
             <input type="text" name="db_name" class="default" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name}">
@@ -228,7 +228,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <b>{t}MySQL Table Prefix:{/t}</b>
+            <b>{t}MySQL Table Prefix{/t}:</b>
           </td>
           <td>
             <input type="text" name="db_table_prefix" value="{$smarty.post.db_table_prefix|default:'eventum_'}" class="default" size="30" tabindex="{$tabindex}">
@@ -241,7 +241,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="180" class="default" align="right">
-            <b>{t}MySQL Username:{/t} *</b>
+            <b>{t}MySQL Username{/t}: *</b>
           </td>
           <td>
             <input type="text" name="db_username" class="default" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_username}">
@@ -282,7 +282,7 @@ function disableAuthFields(f, bool)
                           </tr>
                           <tr>
                             <td class="default" align="right">
-                              <nobr>&nbsp;<b>{t}Username:{/t} *</b>&nbsp;</nobr>
+                              <nobr>&nbsp;<b>{t}Username{/t}: *</b>&nbsp;</nobr>
                             </td>
                             <td>
                               <nobr><input type="text" class="default" name="eventum_user" size="20" value="{$smarty.post.eventum_user}" tabindex="{$tabindex}">&nbsp;</nobr>
@@ -291,7 +291,7 @@ function disableAuthFields(f, bool)
                           </tr>
                           <tr>
                             <td class="default" align="right">
-                              <nobr>&nbsp;<b>{t}Password:{/t}</b>&nbsp;</nobr>
+                              <nobr>&nbsp;<b>{t}Password{/t}:</b>&nbsp;</nobr>
                             </td>
                             <td>
                               <nobr><input type="password" class="default" name="eventum_password" size="20" value="{$smarty.post.eventum_password}" tabindex="{$tabindex}">&nbsp;</nobr>
@@ -324,14 +324,14 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td colspan="2" class="small_default" align="center">
-            <b>Note:</b> {t}The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
+            {t}<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
             &nbsp;
             <hr size="1" noshade color="#000000">
           </td>
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>Sender: *</b>
+            <b>{t}Sender{/t}: *</b>
           </td>
           <td width="80%">
             <input type="text" class="default" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}" tabindex="{$tabindex}">
@@ -341,7 +341,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>{t}Hostname:{/t} *</b>
+            <b>{t}Hostname{/t}: *</b>
           </td>
           <td width="80%">
             <input type="text" class="default" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|escape:"html"}" tabindex="{$tabindex}">
@@ -350,7 +350,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>{t}Port:{/t} *</b>
+            <b>{t}Port{/t}: *</b>
           </td>
           <td width="80%">
             <input type="text" class="default" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port}" tabindex="{$tabindex}">
@@ -370,7 +370,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>{t}Username:{/t}&nbsp;</b>
+            <b>{t}Username{/t}:&nbsp;</b>
           </td>
           <td width="80%">
             <input type="text" class="default" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|escape:"html"}" tabindex="{$tabindex}">
@@ -379,7 +379,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>{t}Password:{/t}&nbsp;</b>
+            <b>{t}Password{/t}:&nbsp;</b>
           </td>
           <td width="80%">
             <input type="password" class="default" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}" tabindex="{$tabindex}">
