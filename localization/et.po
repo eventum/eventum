@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-04 20:53+0200\n"
-"PO-Revision-Date: 2009-11-04 17:09+0000\n"
+"POT-Creation-Date: 2009-11-05 16:43+0200\n"
+"PO-Revision-Date: 2009-11-04 20:27+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-11-04 17:24+0000\n"
+"X-Launchpad-Export-Date: 2009-11-05 14:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: localization/eventum.c
@@ -451,7 +451,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Close Window"
-msgstr ""
+msgstr "Sulge aken"
 
 #: localization/eventum.c
 msgid ""
@@ -481,7 +481,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "as"
-msgstr ""
+msgstr "kui"
 
 #: localization/eventum.c
 msgid "an"
@@ -541,11 +541,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Sender"
-msgstr ""
+msgstr "Saatja"
 
 #: localization/eventum.c
 msgid "Subject"
-msgstr ""
+msgstr "Teema"
 
 #: localization/eventum.c
 msgid "Notify Sender?"
@@ -569,15 +569,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Files"
-msgstr ""
+msgstr "Failid"
 
 #: localization/eventum.c
 msgid "Owner"
-msgstr ""
+msgstr "Omanik"
 
 #: localization/eventum.c
 msgid "Date"
-msgstr ""
+msgstr "Kuupäev"
 
 #: localization/eventum.c
 msgid "download file"
@@ -589,7 +589,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "delete"
-msgstr ""
+msgstr "kustuta"
 
 #: localization/eventum.c
 msgid "delete attachment"
@@ -601,11 +601,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Upload File"
-msgstr ""
+msgstr "Laadi fail üles"
 
 #: localization/eventum.c
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Palun sisesta kehtiv e-posti aadress."
 
 #: localization/eventum.c
 msgid "Authorized Repliers"
@@ -627,7 +627,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Email"
-msgstr ""
+msgstr "E-post"
 
 #: localization/eventum.c
 msgid "Add Authorized Replier"
@@ -651,7 +651,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Close"
-msgstr ""
+msgstr "Sulge"
 
 #: localization/eventum.c
 msgid "Bulk Update Tool"
@@ -691,7 +691,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Bulk Update"
-msgstr ""
+msgstr "Hulkmuudatus"
 
 #: localization/eventum.c
 msgid "SCM Integration - Checkins"
@@ -699,7 +699,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "User"
-msgstr ""
+msgstr "Kasutaja"
 
 #: localization/eventum.c
 msgid "Module / Directory"
@@ -707,7 +707,7 @@ msgstr ""
 
 #: localization/eventum.c lib/eventum/class.project.php:1100
 msgid "File"
-msgstr ""
+msgstr "Fail"
 
 #: localization/eventum.c
 msgid "Commit Message"
@@ -756,7 +756,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Go Back"
-msgstr ""
+msgstr "Tagasi"
 
 #: localization/eventum.c
 msgid "Sorry, an error happened while trying to run your query"
@@ -811,7 +811,7 @@ msgstr ""
 #: localization/eventum.c lib/eventum/class.notification.php:634
 #: lib/eventum/class.notification.php:635
 msgid "Resolution"
-msgstr ""
+msgstr "Lahendus"
 
 #: localization/eventum.c
 msgid "Send Notification About Issue Being Closed?"
@@ -820,11 +820,11 @@ msgstr ""
 #: localization/eventum.c lib/eventum/class.filter.php:679
 #: lib/eventum/class.misc.php:689
 msgid "Yes"
-msgstr ""
+msgstr "Jah"
 
 #: localization/eventum.c lib/eventum/class.misc.php:691
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: localization/eventum.c
 msgid "Will save as email"
@@ -844,7 +844,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Back"
-msgstr ""
+msgstr "Tagasi"
 
 #: localization/eventum.c
 msgid "Password Confirmation"
@@ -952,7 +952,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "None"
-msgstr ""
+msgstr "Puudub"
 
 #: localization/eventum.c lib/eventum/class.display_column.php:224
 msgid "Custom Fields"
@@ -964,7 +964,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Update"
-msgstr ""
+msgstr "Uuenda"
 
 #: localization/eventum.c
 msgid "Thank you, the custom field values were updated successfully."
@@ -984,11 +984,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: localization/eventum.c
 msgid "Company Name"
-msgstr ""
+msgstr "Asutuse nimi"
 
 #: localization/eventum.c
 msgid "Contract #"
@@ -1001,7 +1001,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Expired"
-msgstr ""
+msgstr "Aegunud"
 
 #: localization/eventum.c
 msgid "Customer Details"
@@ -1038,7 +1038,7 @@ msgstr ""
 #: localization/eventum.c lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
 msgid "Customer"
-msgstr ""
+msgstr "Klient"
 
 #: localization/eventum.c
 msgid "Support Expiration Date"
@@ -1054,19 +1054,19 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Add"
-msgstr ""
+msgstr "Lisa"
 
 #: localization/eventum.c
 msgid "Edit"
-msgstr ""
+msgstr "Muuda"
 
 #: localization/eventum.c lib/eventum/class.reminder_condition.php:216
 msgid "Field"
-msgstr ""
+msgstr "Väli"
 
 #: localization/eventum.c
 msgid "Value"
-msgstr ""
+msgstr "Väärtus"
 
 #: localization/eventum.c
 msgid "Customer Lookup Tool"
@@ -1074,7 +1074,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Email Address"
-msgstr ""
+msgstr "E-posti aadress"
 
 #: localization/eventum.c
 msgid "Customer ID"
@@ -1082,15 +1082,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Lookup"
-msgstr ""
+msgstr "Päring"
 
 #: localization/eventum.c
 msgid "Cancel"
-msgstr ""
+msgstr "Loobu"
 
 #: localization/eventum.c
 msgid "Results"
-msgstr ""
+msgstr "Tulemused"
 
 #: localization/eventum.c
 msgid "Support Type"
@@ -1098,7 +1098,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Expiration Date"
-msgstr ""
+msgstr "Aegumiskuupäev"
 
 #: localization/eventum.c
 msgid "select this contact"
@@ -1138,11 +1138,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Last Name"
-msgstr ""
+msgstr "Perekonnanimi"
 
 #: localization/eventum.c
 msgid "First Name"
-msgstr ""
+msgstr "Eesnimi"
 
 #: localization/eventum.c
 msgid "Additional Contact Emails"
@@ -1190,7 +1190,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Comments:"
-msgstr ""
+msgstr "Kommentaarid:"
 
 #: localization/eventum.c
 msgid "Required fields"
@@ -1202,15 +1202,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Drafts"
-msgstr ""
+msgstr "Mustandid"
 
 #: localization/eventum.c
 msgid "From"
-msgstr ""
+msgstr "Saatja"
 
 #: localization/eventum.c
 msgid "To"
-msgstr ""
+msgstr "Saaja"
 
 #: localization/eventum.c
 msgid "Last Updated Date"
@@ -1238,11 +1238,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Sender:"
-msgstr ""
+msgstr "Saatja:"
 
 #: localization/eventum.c
 msgid "To:"
-msgstr ""
+msgstr "Saaja:"
 
 #: localization/eventum.c
 msgid "Email Account:"
@@ -1250,11 +1250,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Search"
-msgstr ""
+msgstr "Otsing"
 
 #: localization/eventum.c
 msgid "Clear"
-msgstr ""
+msgstr "Puhasta"
 
 #: localization/eventum.c
 msgid "Filter by Arrival Date:"
@@ -1332,7 +1332,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "pending"
-msgstr ""
+msgstr "ootel"
 
 #: localization/eventum.c
 msgid "Empty Subject Header"
@@ -1360,7 +1360,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Set"
-msgstr ""
+msgstr "Määra"
 
 #: localization/eventum.c
 msgid "Hide Associated Emails"
@@ -1404,7 +1404,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Last updated"
-msgstr ""
+msgstr "Viimati uuendatud."
 
 #: localization/eventum.c
 msgid "Article Entries"
@@ -1412,7 +1412,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Title"
-msgstr ""
+msgstr "Pealkiri"
 
 #: localization/eventum.c
 msgid "read faq entry"
@@ -1438,7 +1438,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Public"
-msgstr ""
+msgstr "Avalik"
 
 #: localization/eventum.c
 msgid "visible to all"
@@ -1446,7 +1446,7 @@ msgstr ""
 
 #: localization/eventum.c lib/eventum/class.project.php:1101
 msgid "Private"
-msgstr ""
+msgstr "Privaatne"
 
 #: localization/eventum.c
 msgid "standard user and above only"
@@ -1454,7 +1454,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Filenames"
-msgstr ""
+msgstr "Failinimed"
 
 #: localization/eventum.c
 msgid "Note: The current maximum allowed upload file size is"
@@ -1679,7 +1679,7 @@ msgstr ""
 
 #: localization/eventum.c lib/eventum/class.help.php:113
 msgid "Account Preferences"
-msgstr ""
+msgstr "Konto valikud"
 
 #: localization/eventum.c lib/eventum/class.help.php:121
 msgid "Viewing Issues"
@@ -1755,7 +1755,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Viewer"
-msgstr ""
+msgstr "Vaataja"
 
 #: localization/eventum.c
 msgid ""
@@ -1791,7 +1791,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Developer"
-msgstr ""
+msgstr "Arendaja"
 
 #: localization/eventum.c
 msgid ""
@@ -1802,7 +1802,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Manager"
-msgstr ""
+msgstr "Haldur"
 
 #: localization/eventum.c
 msgid ""
@@ -1815,7 +1815,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Administrator"
-msgstr ""
+msgstr "Administraator"
 
 #: localization/eventum.c
 msgid ""
@@ -2133,7 +2133,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Attachments"
-msgstr ""
+msgstr "Manused"
 
 #: localization/eventum.c
 msgid "Impact Analysis"
@@ -2141,7 +2141,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Notes"
-msgstr ""
+msgstr "Märkused"
 
 #: localization/eventum.c lib/eventum/class.customer_stats_report.php:735
 msgid "Time Tracking"
@@ -2203,7 +2203,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Handler"
-msgstr ""
+msgstr "Käsitleja"
 
 #: localization/eventum.c
 msgid "Requirement"
@@ -2236,7 +2236,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Clear Selections"
-msgstr ""
+msgstr "Puhasta valikud"
 
 #: localization/eventum.c
 msgid "Current Selections:"
@@ -2272,7 +2272,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Search Results"
-msgstr ""
+msgstr "Otsingu tulemused"
 
 #: localization/eventum.c
 msgid "issues found"
@@ -2336,15 +2336,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Go"
-msgstr ""
+msgstr "Mine"
 
 #: localization/eventum.c
 msgid "Password"
-msgstr ""
+msgstr "Salasõna"
 
 #: localization/eventum.c
 msgid "Login"
-msgstr ""
+msgstr "Logi sisse"
 
 #: localization/eventum.c
 msgid "Please provide your email address."
@@ -2430,7 +2430,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Recipient"
-msgstr ""
+msgstr "Saaja"
 
 #: localization/eventum.c
 msgid "Queued Date"
@@ -2466,7 +2466,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Emails"
-msgstr ""
+msgstr "E-postid"
 
 #: localization/eventum.c
 msgid "Associated"
@@ -2474,11 +2474,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Pending"
-msgstr ""
+msgstr "Ootel"
 
 #: localization/eventum.c
 msgid "Removed"
-msgstr ""
+msgstr "Eemaldatud"
 
 #: localization/eventum.c
 msgid "Did you Know?"
@@ -2531,7 +2531,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Type:"
-msgstr ""
+msgstr "Tüüp:"
 
 #: localization/eventum.c
 msgid "Primary Technical Account Manager"
@@ -2575,7 +2575,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Delete"
-msgstr ""
+msgstr "Kustuta"
 
 #: localization/eventum.c
 msgid ""
@@ -2627,11 +2627,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Enabled"
-msgstr ""
+msgstr "Lubatud"
 
 #: localization/eventum.c
 msgid "Disabled"
-msgstr ""
+msgstr "Keelatud"
 
 #: localization/eventum.c
 msgid "Show Custom Fields ?"
@@ -2651,7 +2651,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Default Priority:"
-msgstr ""
+msgstr "Vaikimisi tähtsus:"
 
 #: localization/eventum.c
 msgid "Please choose a priority"
@@ -2671,7 +2671,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Manage Categories"
-msgstr ""
+msgstr "Kategooriate haldamine"
 
 #: localization/eventum.c
 msgid "Current Project"
@@ -2749,7 +2749,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Column Name"
-msgstr ""
+msgstr "Veeru nimi"
 
 #: localization/eventum.c
 msgid "Minimum Role"
@@ -2757,11 +2757,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Order"
-msgstr ""
+msgstr "Järjestus"
 
 #: localization/eventum.c
 msgid "Save"
-msgstr ""
+msgstr "Salvesta"
 
 #: localization/eventum.c
 msgid "Please enter the title of this custom field."
@@ -2831,7 +2831,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Short Description"
-msgstr ""
+msgstr "Lühikirjeldus"
 
 #: localization/eventum.c
 msgid "it will show up by the side of the field"
@@ -2859,7 +2859,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Close Form"
-msgstr ""
+msgstr "Vormi sulgemine"
 
 #: localization/eventum.c
 msgid "Display on List Issues Page"
@@ -2867,11 +2867,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Field Type"
-msgstr ""
+msgstr "Välja tüüp"
 
 #: localization/eventum.c
 msgid "Text Input"
-msgstr ""
+msgstr "Tekstisisend"
 
 #: localization/eventum.c
 msgid "Textarea"
@@ -2879,7 +2879,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Combo Box"
-msgstr ""
+msgstr "Valikukast"
 
 #: localization/eventum.c
 msgid "Multiple Combo Box"
@@ -2887,11 +2887,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Integer"
-msgstr ""
+msgstr "Täisarv"
 
 #: localization/eventum.c
 msgid "Warning"
-msgstr ""
+msgstr "Hoiatus"
 
 #: localization/eventum.c
 msgid "Changing field types can result in loss of data."
@@ -2927,11 +2927,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Remove"
-msgstr ""
+msgstr "Eemalda"
 
 #: localization/eventum.c
 msgid "Rank"
-msgstr ""
+msgstr "Järk"
 
 #: localization/eventum.c
 msgid "Update Custom Field"
@@ -2959,7 +2959,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Options"
-msgstr ""
+msgstr "Seaded"
 
 #: localization/eventum.c
 msgid "move field down"
@@ -3003,7 +3003,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: localization/eventum.c
 msgid "Please choose a customer"
@@ -3011,7 +3011,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Note"
-msgstr ""
+msgstr "Märkus"
 
 #: localization/eventum.c
 msgid "Update Note"
@@ -3067,7 +3067,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Status:"
-msgstr ""
+msgstr "Seisund:"
 
 #: localization/eventum.c
 msgid "Date Field:"
@@ -3075,7 +3075,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Label:"
-msgstr ""
+msgstr "Pealdis:"
 
 #: localization/eventum.c
 msgid "Update Customization"
@@ -3095,11 +3095,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Label"
-msgstr ""
+msgstr "Pealdis"
 
 #: localization/eventum.c
 msgid "Date Field"
-msgstr ""
+msgstr "Kuupäevaväli"
 
 #: localization/eventum.c
 msgid "No customizations could be found."
@@ -3165,11 +3165,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: localization/eventum.c
 msgid "IMAP over SSL"
-msgstr ""
+msgstr "IMAP üle SSLi"
 
 #: localization/eventum.c
 msgid "IMAP over SSL (self-signed)"
@@ -3177,11 +3177,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "IMAP, no TLS"
-msgstr ""
+msgstr "IMAP, ilma TLSita"
 
 #: localization/eventum.c
 msgid "IMAP, with TLS"
-msgstr ""
+msgstr "IMAP, TLSiga"
 
 #: localization/eventum.c
 msgid "IMAP, with TLS (self-signed)"
@@ -3189,7 +3189,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "POP3"
-msgstr ""
+msgstr "POP3"
 
 #: localization/eventum.c
 msgid "POP3 over SSL"
@@ -3213,11 +3213,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Hostname"
-msgstr ""
+msgstr "Masinanimi"
 
 #: localization/eventum.c
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: localization/eventum.c
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
@@ -3233,7 +3233,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Username"
-msgstr ""
+msgstr "Kasutajanimi"
 
 #: localization/eventum.c
 msgid "Advanced Options"
@@ -3259,7 +3259,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Test Settings"
-msgstr ""
+msgstr "Testi sätteid"
 
 #: localization/eventum.c
 msgid "Update Account"
@@ -3283,7 +3283,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Mailbox"
-msgstr ""
+msgstr "Postkast"
 
 #: localization/eventum.c
 msgid "Auto-Creation of Issues"
@@ -3299,7 +3299,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "New Alias"
-msgstr ""
+msgstr "Uus alias"
 
 #: localization/eventum.c
 msgid "Please choose which emails need to be restored."
@@ -3325,7 +3325,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Delete Alias"
-msgstr ""
+msgstr "Kustuta alias"
 
 #: localization/eventum.c
 msgid "Please enter the title of this email response."
@@ -3366,7 +3366,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Title:"
-msgstr ""
+msgstr "Pealkiri:"
 
 #: localization/eventum.c
 msgid "Response Body:"
@@ -3390,7 +3390,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Projects"
-msgstr ""
+msgstr "Projektid"
 
 #: localization/eventum.c
 msgid "No canned email responses could be found."
@@ -3450,7 +3450,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Levels:"
-msgstr ""
+msgstr "Tasemed:"
 
 #: localization/eventum.c
 msgid "Rank:"
@@ -3458,7 +3458,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Message:"
-msgstr ""
+msgstr "Teade:"
 
 #: localization/eventum.c
 msgid "Update FAQ Entry"
@@ -3584,7 +3584,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "General Setup"
-msgstr ""
+msgstr "Üldseadistused"
 
 #: localization/eventum.c
 msgid ""
@@ -3632,7 +3632,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Hostname:"
-msgstr ""
+msgstr "Masina nimi:"
 
 #: localization/eventum.c
 msgid "Requires Authentication?"
@@ -3848,7 +3848,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Manage Groups"
-msgstr ""
+msgstr "Gruppide haldamine"
 
 #: localization/eventum.c
 msgid "An error occurred while trying to add the new group."
@@ -3868,11 +3868,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Name:"
-msgstr ""
+msgstr "Nimi:"
 
 #: localization/eventum.c
 msgid "Description:"
-msgstr ""
+msgstr "Kirjeldus:"
 
 #: localization/eventum.c
 msgid "Users:"
@@ -3892,7 +3892,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Create Group"
-msgstr ""
+msgstr "Loo grupp"
 
 #: localization/eventum.c
 msgid "Existing Groups"
@@ -3900,7 +3900,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: localization/eventum.c
 msgid "No groups could be found."
@@ -3984,7 +3984,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Replacement"
-msgstr ""
+msgstr "Asendus"
 
 #: localization/eventum.c
 msgid "Minimum User Role"
@@ -4014,7 +4014,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Configuration"
-msgstr ""
+msgstr "Seadistused"
 
 #: localization/eventum.c
 msgid "Areas"
@@ -4058,7 +4058,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Manage Users"
-msgstr ""
+msgstr "Kasutajate haldamine"
 
 #: localization/eventum.c
 msgid "Manage Time Tracking Categories"
@@ -4102,15 +4102,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Active"
-msgstr ""
+msgstr "Aktiivne"
 
 #: localization/eventum.c
 msgid "Inactive"
-msgstr ""
+msgstr "Mitteaktiivne"
 
 #: localization/eventum.c
 msgid "Message"
-msgstr ""
+msgstr "Teade"
 
 #: localization/eventum.c
 msgid "Update News Entry"
@@ -4258,7 +4258,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Archived"
-msgstr ""
+msgstr "Arhiveeritud"
 
 #: localization/eventum.c
 msgid "Customer Integration Backend"
@@ -4278,15 +4278,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Project Lead"
-msgstr ""
+msgstr "Projekti juht"
 
 #: localization/eventum.c
 msgid "Users"
-msgstr ""
+msgstr "Kasutajad"
 
 #: localization/eventum.c
 msgid "Statuses"
-msgstr ""
+msgstr "Olekud"
 
 #: localization/eventum.c
 msgid "Initial Status for New Issues"
@@ -4314,7 +4314,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Create Project"
-msgstr ""
+msgstr "Projekti loomine"
 
 #: localization/eventum.c
 msgid "Existing Projects"
@@ -4340,7 +4340,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Actions"
-msgstr ""
+msgstr "Toimingud"
 
 #: localization/eventum.c
 msgid "Edit Releases"
@@ -4348,7 +4348,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Edit Categories"
-msgstr ""
+msgstr "Muuda kategooriaid"
 
 #: localization/eventum.c
 msgid "Edit Priorities"
@@ -4436,7 +4436,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Action Type"
-msgstr ""
+msgstr "Toimingu tüüp"
 
 #: localization/eventum.c
 msgid "Manage Reminder Actions"
@@ -4448,7 +4448,7 @@ msgstr ""
 
 #: localization/eventum.c lib/eventum/class.reminder_action.php:754
 msgid "Reminder"
-msgstr ""
+msgstr "Meeldetuletus"
 
 #: localization/eventum.c
 msgid "An error occurred while trying to add the new action."
@@ -4476,7 +4476,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Action Type:"
-msgstr ""
+msgstr "Toimingu tüüp:"
 
 #: localization/eventum.c
 msgid "Email List:"
@@ -4508,7 +4508,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Add Action"
-msgstr ""
+msgstr "Lisa toiming"
 
 #: localization/eventum.c
 msgid "Existing Actions:"
@@ -4524,7 +4524,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Details"
-msgstr ""
+msgstr "Üksikasjad"
 
 #: localization/eventum.c
 msgid "No actions could be found."
@@ -4532,7 +4532,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Operator"
-msgstr ""
+msgstr "Operaator"
 
 #: localization/eventum.c
 msgid "Manage Reminder Conditions"
@@ -4544,7 +4544,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Action"
-msgstr ""
+msgstr "Toiming"
 
 #: localization/eventum.c
 msgid "An error occurred while trying to add the new condition."
@@ -4576,11 +4576,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Operator:"
-msgstr ""
+msgstr "Operaator:"
 
 #: localization/eventum.c
 msgid "Value:"
-msgstr ""
+msgstr "Väärtus:"
 
 #: localization/eventum.c
 msgid "Please choose a field"
@@ -4588,7 +4588,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "or"
-msgstr ""
+msgstr "või"
 
 #: localization/eventum.c
 msgid "(in hours please)"
@@ -4600,7 +4600,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Add Condition"
-msgstr ""
+msgstr "Tingimuse lisamine"
 
 #: localization/eventum.c
 msgid "Existing Conditions:"
@@ -4826,11 +4826,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Start"
-msgstr ""
+msgstr "Algus"
 
 #: localization/eventum.c
 msgid "End"
-msgstr ""
+msgstr "Lõpp"
 
 #: localization/eventum.c
 msgid "Update Round Robin Entry"
@@ -4918,7 +4918,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Color:"
-msgstr ""
+msgstr "Värvus:"
 
 #: localization/eventum.c
 msgid "(this color will be used in the issue listing page)"
@@ -4948,11 +4948,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Abbreviation"
-msgstr ""
+msgstr "Lühend"
 
 #: localization/eventum.c
 msgid "Color"
-msgstr ""
+msgstr "Värvus"
 
 #: localization/eventum.c
 msgid "No statuses could be found."
@@ -5040,11 +5040,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Full Name"
-msgstr ""
+msgstr "Täisnimi"
 
 #: localization/eventum.c
 msgid "Group:"
-msgstr ""
+msgstr "Grupp:"
 
 #: localization/eventum.c
 msgid "Assigned Projects and Roles"
@@ -5081,12 +5081,12 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Role"
-msgstr ""
+msgstr "Roll"
 
 #: localization/eventum.c htdocs/list.php:90
 #: lib/eventum/class.display_column.php:186 lib/eventum/class.project.php:1099
 msgid "Group"
-msgstr ""
+msgstr "Grupp"
 
 #: localization/eventum.c
 msgid "send email to"
@@ -5114,7 +5114,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Logout"
-msgstr ""
+msgstr "Logi välja"
 
 #: localization/eventum.c
 msgid "manage the application settings, users, projects, etc"
@@ -5122,7 +5122,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Administration"
-msgstr ""
+msgstr "Haldamine"
 
 #: localization/eventum.c
 msgid "create a new issue"
@@ -5162,7 +5162,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Stats"
-msgstr ""
+msgstr "Statistika"
 
 #: localization/eventum.c
 msgid "reporting system"
@@ -5170,7 +5170,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Reports"
-msgstr ""
+msgstr "Aruanded"
 
 #: localization/eventum.c
 msgid "internal faq"
@@ -5186,7 +5186,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Help"
-msgstr ""
+msgstr "Abiinfo"
 
 #: localization/eventum.c
 msgid "Please enter a valid issue ID."
@@ -5194,7 +5194,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Switch"
-msgstr ""
+msgstr "Lülita"
 
 #: localization/eventum.c
 msgid "CLOCKED IN"
@@ -5206,7 +5206,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Register"
-msgstr ""
+msgstr "Registreeri"
 
 #: localization/eventum.c
 msgid "modify your account details and preferences"
@@ -5214,7 +5214,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Preferences"
-msgstr ""
+msgstr "Seadistused"
 
 #: localization/eventum.c
 msgid "change your account clocked-in status"
@@ -5230,7 +5230,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "keywords"
-msgstr ""
+msgstr "võtmesõnad"
 
 #: localization/eventum.c
 msgid "There was an error creating your issue."
@@ -5290,7 +5290,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Add Files"
-msgstr ""
+msgstr "Lisa faile"
 
 #: localization/eventum.c
 msgid "Note: The current maximum allowed upload file size is %1"
@@ -5302,7 +5302,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Submit"
-msgstr ""
+msgstr "Saada päring"
 
 #: localization/eventum.c
 msgid "Important Notices"
@@ -5320,11 +5320,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Internal Notes"
-msgstr ""
+msgstr "Sisemised märkmed"
 
 #: localization/eventum.c
 msgid "Reply"
-msgstr ""
+msgstr "Vasta"
 
 #: localization/eventum.c
 msgid "Posted Date"
@@ -5516,7 +5516,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Submitted"
-msgstr ""
+msgstr "Saadetud"
 
 #: localization/eventum.c
 msgid "A new issue was just created in the system."
@@ -5619,7 +5619,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Phone Calls"
-msgstr ""
+msgstr "Telefonikõned"
 
 #: localization/eventum.c
 msgid "Recorded Date"
@@ -5793,7 +5793,7 @@ msgstr ""
 
 #: localization/eventum.c lib/eventum/class.pager.php:124
 msgid "Next"
-msgstr ""
+msgstr "Edasi"
 
 #: localization/eventum.c
 msgid "Attach Files"
@@ -5817,11 +5817,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "From:"
-msgstr ""
+msgstr "Alates:"
 
 #: localization/eventum.c
 msgid "Recipients:"
-msgstr ""
+msgstr "Saajad:"
 
 #: localization/eventum.c
 msgid "Notification List"
@@ -5862,7 +5862,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "User Details"
-msgstr ""
+msgstr "Kasutaja info"
 
 #: localization/eventum.c
 msgid "An error occurred while trying to run your query."
@@ -5890,15 +5890,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Change Password"
-msgstr ""
+msgstr "Muuda parooli"
 
 #: localization/eventum.c
 msgid "New Password"
-msgstr ""
+msgstr "Uus parool"
 
 #: localization/eventum.c
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Kinnita uus parool"
 
 #: localization/eventum.c
 msgid "Update Password"
@@ -5910,19 +5910,19 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Available Languages"
-msgstr ""
+msgstr "Saadaolevad keeled"
 
 #: localization/eventum.c
 msgid "Week starts on:"
-msgstr ""
+msgstr "Nädal algab:"
 
 #: localization/eventum.c
 msgid "Sunday"
-msgstr ""
+msgstr "Pühapäeval"
 
 #: localization/eventum.c
 msgid "Monday"
-msgstr ""
+msgstr "Esmaspäeval"
 
 #: localization/eventum.c
 msgid "Automatically close confirmation popup windows?"
@@ -5950,7 +5950,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Edit Signature"
-msgstr ""
+msgstr "Allkirja redigeerimine"
 
 #: localization/eventum.c
 msgid "Upload New Signature"
@@ -6010,11 +6010,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Total"
-msgstr ""
+msgstr "Kokku"
 
 #: localization/eventum.c
 msgid "Left"
-msgstr ""
+msgstr "Vasak"
 
 #: localization/eventum.c
 msgid "Redeem Incidents"
@@ -6036,7 +6036,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "URL"
-msgstr ""
+msgstr "Aadress"
 
 #: localization/eventum.c
 msgid "Alert Reason"
@@ -6115,7 +6115,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Generate"
-msgstr ""
+msgstr "Genereeri"
 
 #: localization/eventum.c
 #, c-format
@@ -6146,7 +6146,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Date Range"
-msgstr ""
+msgstr "Ajavahemik"
 
 #: localization/eventum.c
 msgid "Sections to Display"
@@ -6154,15 +6154,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "year"
-msgstr ""
+msgstr "aasta"
 
 #: localization/eventum.c
 msgid "mon"
-msgstr ""
+msgstr "kuu"
 
 #: localization/eventum.c
 msgid "day"
-msgstr ""
+msgstr "päev"
 
 #: localization/eventum.c
 msgid "Clear Date"
@@ -6182,7 +6182,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Customers"
-msgstr ""
+msgstr "Kliendid"
 
 #: localization/eventum.c
 msgid "Issues"
@@ -6214,7 +6214,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Avg"
-msgstr ""
+msgstr "Keskm"
 
 #: localization/eventum.c
 msgid "Med"
@@ -6288,11 +6288,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "days"
-msgstr ""
+msgstr "päev(a)"
 
 #: localization/eventum.c
 msgid "Number of Days"
-msgstr ""
+msgstr "Päevade arv"
 
 #: localization/eventum.c
 msgid "Days and Hours Since"
@@ -6300,7 +6300,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Last Update"
-msgstr ""
+msgstr "Viimane uuendus"
 
 #: localization/eventum.c
 msgid "Last Outgoing Msg"
@@ -6308,7 +6308,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Recent Activity"
-msgstr ""
+msgstr "Viimased tegevused"
 
 #: localization/eventum.c
 msgid "Recent Activity Report"
@@ -6316,11 +6316,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Report Type"
-msgstr ""
+msgstr "Aruande tüüp"
 
 #: localization/eventum.c
 msgid "Recent"
-msgstr ""
+msgstr "Hiljutine"
 
 #: localization/eventum.c
 msgid "Activity Type"
@@ -6344,7 +6344,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Line"
-msgstr ""
+msgstr "Joon"
 
 #: localization/eventum.c
 msgid "No Phone Calls Found"
@@ -6412,7 +6412,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Developers"
-msgstr ""
+msgstr "Arendajad"
 
 #: localization/eventum.c
 msgid "Last Response"
@@ -6472,15 +6472,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Weekly"
-msgstr ""
+msgstr "Iganädalane"
 
 #: localization/eventum.c
 msgid "Week"
-msgstr ""
+msgstr "Nädal"
 
 #: localization/eventum.c
 msgid "End:"
-msgstr ""
+msgstr "Lõpp:"
 
 #: localization/eventum.c
 msgid "Separate Closed Issues"
@@ -6508,7 +6508,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Report"
-msgstr ""
+msgstr "Aruanne"
 
 #: localization/eventum.c
 msgid "issues worked on"
@@ -6580,7 +6580,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Interval"
-msgstr ""
+msgstr "Intervall"
 
 #: localization/eventum.c
 msgid ""
@@ -6590,23 +6590,23 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Day"
-msgstr ""
+msgstr "Päev"
 
 #: localization/eventum.c
 msgid "week"
-msgstr ""
+msgstr "nädal"
 
 #: localization/eventum.c
 msgid "Month"
-msgstr ""
+msgstr "Kuu"
 
 #: localization/eventum.c
 msgid "month"
-msgstr ""
+msgstr "kuu"
 
 #: localization/eventum.c
 msgid "Day of Week"
-msgstr ""
+msgstr "Nädalapäev"
 
 #: localization/eventum.c
 msgid "dow"
@@ -6645,7 +6645,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Time Period"
-msgstr ""
+msgstr "Periood"
 
 #: localization/eventum.c
 msgid "(GMT)"
@@ -6695,11 +6695,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Category:"
-msgstr ""
+msgstr "Kategooria:"
 
 #: localization/eventum.c
 msgid "Priority:"
-msgstr ""
+msgstr "Prioriteet:"
 
 #: localization/eventum.c
 msgid "Please choose the project."
@@ -6723,7 +6723,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "WARNING"
-msgstr ""
+msgstr "HOIATUS"
 
 #: localization/eventum.c
 msgid "The following user is already assigned to this issue"
@@ -6810,7 +6810,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Send Email"
-msgstr ""
+msgstr "Saada e-kiri"
 
 #: localization/eventum.c
 msgid ""
@@ -6828,11 +6828,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Members"
-msgstr ""
+msgstr "Liikmed"
 
 #: localization/eventum.c
 msgid "Cc"
-msgstr ""
+msgstr "Koopia"
 
 #: localization/eventum.c
 msgid "Add Unknown Recipients to Issue Notification List"
@@ -6848,7 +6848,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Check Spelling"
-msgstr ""
+msgstr "Kontrolli õigekirja"
 
 #: localization/eventum.c
 msgid "Save Draft Changes"
@@ -6856,7 +6856,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Save as Draft"
-msgstr ""
+msgstr "Salvesta mustand"
 
 #: localization/eventum.c
 msgid ""
@@ -6923,7 +6923,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "page"
-msgstr ""
+msgstr "lehekülg"
 
 #: localization/eventum.c
 msgid ""
@@ -6955,7 +6955,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "MySQL Database"
-msgstr ""
+msgstr "MySQL-i andmebaas"
 
 #: localization/eventum.c
 msgid "MySQL Table Prefix"
@@ -7017,7 +7017,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Required Fields"
-msgstr ""
+msgstr "Kohustuslikud väljad"
 
 #: localization/eventum.c
 msgid "Please enter your email address."
@@ -7025,7 +7025,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Please enter your password."
-msgstr ""
+msgstr "Palun sisesta parool."
 
 #: localization/eventum.c
 msgid "Account Signup"
@@ -7046,15 +7046,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Full Name:"
-msgstr ""
+msgstr "Täisnimi:"
 
 #: localization/eventum.c
 msgid "Password:"
-msgstr ""
+msgstr "Salasõna:"
 
 #: localization/eventum.c
 msgid "Spell Check"
-msgstr ""
+msgstr "Õigekirja kontroll"
 
 #: localization/eventum.c
 msgid "No spelling mistakes could be found."
@@ -7066,7 +7066,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Suggestions:"
-msgstr ""
+msgstr "Soovitused:"
 
 #: localization/eventum.c
 msgid "Choose a misspelled word"
@@ -7101,11 +7101,11 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Recipients"
-msgstr ""
+msgstr "Saajad"
 
 #: localization/eventum.c
 msgid "Received"
-msgstr ""
+msgstr "Vastu võetud"
 
 #: localization/eventum.c
 msgid "reply to this email"
@@ -7257,7 +7257,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Staff"
-msgstr ""
+msgstr "Meeskond"
 
 #: localization/eventum.c
 msgid "Submitted Date:"
@@ -7305,15 +7305,15 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Other:"
-msgstr ""
+msgstr "Muud:"
 
 #: localization/eventum.c
 msgid "Summary:"
-msgstr ""
+msgstr "Kokkuvõte:"
 
 #: localization/eventum.c
 msgid "Private:"
-msgstr ""
+msgstr "Salajane:"
 
 #: localization/eventum.c
 msgid "Trigger Reminders:"
@@ -7321,7 +7321,7 @@ msgstr ""
 
 #: localization/eventum.c
 msgid "Cancel Update"
-msgstr ""
+msgstr "Katkesta uuendamine"
 
 #: localization/eventum.c
 msgid "Error: The issue #%1 could not be found."
