@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-04 20:53+0200\n"
-"PO-Revision-Date: 2009-07-16 11:36-0200\n"
+"PO-Revision-Date: 2009-11-04 20:24+0000\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2009-11-05 13:40+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.2.0\n"
 
 #: localization/eventum.c
 msgid "Issue"
@@ -1377,7 +1378,6 @@ msgid "This action will mark the selected email messages as deleted."
 msgstr "Esta acción marcará los mensajes de email seleccionados como borrados."
 
 #: localization/eventum.c
-#, fuzzy
 msgid "Viewing Emails (%1 email found)"
 msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
 msgstr[0] "Viendo Correos (%1 correos encontrados)"
@@ -2360,15 +2360,14 @@ msgstr ""
 "que sea más cómodo para usted."
 
 #: localization/eventum.c
-#, fuzzy
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
 "and available in %1) and it will notify Eventum that these changes are to be "
 "associated with issue #13."
 msgstr ""
 "Este comando va a ser analizado por el script de integración CVS (provisto "
-"para usted y disponible en %eventum_path%/scm/eventum-cvs-hook.php) y le "
-"informará a Eventum que estos cambios van a estar asociados con el caso #13."
+"para usted y disponible en %1) y le informará a Eventum que estos cambios "
+"van a estar asociados con el caso #13."
 
 #: localization/eventum.c
 msgid "Segregate Reporter"
@@ -3605,9 +3604,8 @@ msgstr ""
 "servidores IMAP)"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "IMAP Folder"
-msgstr "Carpeta IMAP:"
+msgstr "Carpeta IMAP"
 
 #: localization/eventum.c
 msgid "(default folder is INBOX)"
@@ -3618,9 +3616,8 @@ msgid "Username"
 msgstr "Usuario"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Opciones Avanzadas:"
+msgstr "Opciones Avanzadas"
 
 #: localization/eventum.c
 msgid "Only Download Unread Messages"
@@ -3634,18 +3631,13 @@ msgstr "Dejar Copia de los Mensajes en el Servidor"
 msgid "Use account for non-subject based email/note/draft routing."
 msgstr ""
 
-# NO ES "Cuenta basada" sino "Ruteo Basado"... - GP
-# Corrección "ruteo" por "enrutamiento" - NH
 #: localization/eventum.c
-#, fuzzy
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
 msgstr ""
-"Usar cuenta para el enrutamiento de email/nota/borrador no basado en el "
-"asunto.\n"
-"                    <b> Nota: </b>Si selecciona esto, no puede dejar una "
-"copia de los mensajes en el servidor.</a>"
+"<b>Nota:</b>Si selecciona esto, no puede dejar una copia de los mensajes en "
+"el servidor."
 
 # settings: settings, configuración, ajustes, valores
 #: localization/eventum.c
@@ -7260,13 +7252,12 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #: localization/eventum.c
-#, fuzzy
 msgid ""
 "Warning: Some type and interval options, combined with large <br />date "
 "ranges can produce extremely large graphs."
 msgstr ""
-" Advertencia: Algunas opciones de tipo e intervalos, combinadas con rangos "
-"de fechas <br />extensos pueden producir gráficos extremadamente grandes."
+"Advertencia: Algunas opciones de tipo e intervalos, combinadas con rangos de "
+"fechas <br />extensos pueden producir gráficos extremadamente grandes."
 
 #: localization/eventum.c
 msgid "Day"
@@ -7680,42 +7671,36 @@ msgid "Eventum Installation"
 msgstr "Instalación de Eventum"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "Server Hostname"
-msgstr "Nombre de Host del Servidor:"
+msgstr "Nombre de Host del Servidor"
 
 #: localization/eventum.c
 msgid "SSL Server"
 msgstr "Servidor SSL"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "Eventum Relative URL"
-msgstr "URL Relativa de Eventum:"
+msgstr "URL Relativa de Eventum"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "MySQL Server Hostname"
-msgstr "Nombre de Host del Servidor MySQL:"
+msgstr "Nombre de Host del Servidor MySQL"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "MySQL Database"
-msgstr "Base de Datos MySQL:"
+msgstr "Base de datos MySQL"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "MySQL Table Prefix"
-msgstr "Prefijo Tabla MySQL:"
+msgstr "Prefijo Tabla MySQL"
 
 #: localization/eventum.c
 msgid "Drop Tables If They Already Exist"
 msgstr "Eliminar Tablas Existentes"
 
 #: localization/eventum.c
-#, fuzzy
 msgid "MySQL Username"
-msgstr "Usuario MySQL:"
+msgstr "Usuario MySQL"
 
 #: localization/eventum.c
 msgid ""
@@ -7754,14 +7739,13 @@ msgid "SMTP Configuration"
 msgstr "Configuración SMTP"
 
 #: localization/eventum.c
-#, fuzzy
 msgid ""
 "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
 "emails are properly sent when creating new users/projects."
 msgstr ""
-"La configuración SMTP (correo saliente) es necesaria para asegurarse de que "
-"los mensajes de correo electrónico se envíen correctamente cuando se creen "
-"nuevos usuarios/proyectos."
+"<b>Nota:</b> La configuración SMTP (correo saliente) es necesaria para "
+"asegurarse de que los mensajes de correo electrónico se envíen correctamente "
+"cuando se creen nuevos usuarios/proyectos."
 
 #: localization/eventum.c
 msgid "must be a valid email address"
@@ -9174,22 +9158,6 @@ msgstr "Registro de tiempo capturado remotamente por %1$s"
 #~ "por base de datos, este proceso manual es necesario para asociar un "
 #~ "estado\n"
 #~ "a un campo de fecha procedente de la base de datos."
-
-#, fuzzy
-#~ msgid ""
-#~ "This page allows you to dynamically control which fields are displayed\n"
-#~ "to users of a certain minimum role.\n"
-#~ "For example, you could use this page so that only users of the role "
-#~ "\"<i>standard user</i>\"\n"
-#~ "(and higher ranking roles) are able to set the category or\n"
-#~ "release fields when reporting a new issue."
-#~ msgstr ""
-#~ "Esta página le permitirá controlar dinámicamente qué campos mostrar \n"
-#~ "a los usuarios de un determinado rol mínimo.\n"
-#~ "Por ejemplo, usted podrá usar esta página en donde sólo los usuarios \n"
-#~ "del rol \"<i>standard user</i>\" (y mayores) podrán configurar la "
-#~ "categoría\n"
-#~ "o liberar los campos cuando se reporte un nuevo caso."
 
 #~ msgid ""
 #~ "This field is used to determine who should be assigned to this new \n"
