@@ -32,15 +32,18 @@
 //
 // @(#) $Id: process_svn_commits.php 3797 2009-01-12 20:14:39Z balsdorf $
 
-// See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
+// See http://forge.mysql.com/wiki/Eventum:Subversion_integration about SVN integration.
 
 // URL to your Eventum installation.
 // https is supported transparently by PHP 5 if you have openssl module enabled.
-$eventum_url = 'http://rabbit.impleo.net/';
+$eventum_url = 'http://eventum.example.com/';
 
 //
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
 //
+// save name of this script
+$PROGRAM = basename(array_shift($argv));
+
 if (isset($eventum_url)) {
     $data = parse_url($eventum_url);
 } else {
@@ -61,11 +64,12 @@ if (!isset($svnlook)) {
 }
 
 if (!is_executable($svnlook)) {
-    die('svnlook is not executable, edit $svnlook');
+    fwrite(STDERR, "$PROGRAM: svnlook is not executable, edit \$svnlook\n");
+    exit(1);
 }
 
 if ($argc < 3) {
-    printf("Missing arguments, got %d, expected 2\n", $argc - 1);
+    fwrite(STDERR, "$PROGRAM: Missing arguments, got ".($argc - 1).", expected 2\n");
     exit(1);
 }
 
@@ -99,19 +103,17 @@ foreach ($files as $file_info) {
 }
 
 // parse the commit message and get all issue numbers we can find
-$pattern = "/(?:issue|bug) ?:? ?#?(\d+)/i";
-preg_match_all($pattern, $commit_msg, $matches);
+preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
 
 if (count($matches[1]) > 0) {
     // need to encode all of the url arguments
     $commit_msg = rawurlencode($commit_msg);
-    $scm_module = rawurlencode($scm_module);
+    $cvs_module = rawurlencode($cvs_module);
     $username = rawurlencode($username);
 
     // build the GET url to use
-    $ping_url = $data['path']. "scm_ping.php?module=$scm_module&username=$username&commit_msg=$commit_msg";
+    $ping_url = $eventum_url. "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
     foreach ($matches[1] as $issue_id) {
-        echo 'Matched Issue #', $issue_id, "\n";
         $ping_url .= "&issue[]=$issue_id";
     }
 
@@ -121,23 +123,70 @@ if (count($matches[1]) > 0) {
         $ping_url .= "&new_versions[$i]=" . rawurlencode($modified_files[$i]['new_revision']);
     }
 
-    $address = $data['host'];
-    if ($data['scheme'] == 'https') {
-        $address = "ssl://$address";
+    $res = wget($ping_url, true);
+    if (!$res) {
+        fwrite(STDERR, "Error: Couldn't read response from $ping_url\n");
+        exit(1);
     }
-    $fp = fsockopen($address, $data['port'], $errno, $errstr, 30);
-    if (!$fp) {
-        die("Error: Could not ping the Eventum SCM handler script.\n");
+
+    list($headers, $data) = $res;
+    // status line is first header in response
+    $status = array_shift($headers);
+    list($proto, $status, $msg) = explode(' ', trim($status), 3);
+    if ($status != '200') {
+        fwrite(STDERR, "Error: Could not ping the Eventum SCM handler script: HTTP status code: $status $msg\n");
+        exit(1);
+    }
+
+    // prefix response with our name
+    foreach (explode("\n", trim($data)) as $line) {
+        echo "$PROGRAM: $line\n";
+    }
+}
+
+/**
+  * Fetch $url, return response and optionaly unparsed headers array.
+  *
+  * @author Elan Ruusamäe <glen@delfi.ee>
+  * @param  string  $url
+  * @param  boolean $headers = false
+  * @return mixed
+  */
+function wget($url, $headers = false) {
+	// see if we can fopen
+	$flag = ini_get('allow_url_fopen');
+	if (!$flag) {
+		fwrite(STDERR, "ERROR: allow_url_fopen is disabled\n");
+        return false;
+	}
+
+	// see if https is supported
+	$scheme = parse_url($url, PHP_URL_SCHEME);
+	if (!in_array($scheme, stream_get_wrappers())) {
+		fwrite(STDERR, "ERROR: $scheme:// scheme not supported. Load openssl php extension?\n");
+        return false;
+	}
+
+	ini_set('track_errors', 'On');
+	$fp = fopen($url, 'r');
+	if (!$fp) {
+		fwrite(STDERR, "ERROR: $php_errormsg\n");
+        return false;
+	}
+
+    if ($headers) {
+        $meta = stream_get_meta_data($fp);
+    }
+
+	$data = '';
+	while (!feof($fp)) {
+		$data .= fread($fp, 4096);
+	}
+	fclose($fp);
+
+    if ($headers) {
+        return array($meta['wrapper_data'], $data);
     } else {
-        $msg = "GET $ping_url HTTP/1.1\r\n";
-        $msg .= "Host: {$data['host']}\r\n";
-        $msg .= "Connection: Close\r\n\r\n";
-        fwrite($fp, $msg);
-        $buf = fgets($fp, 4096);
-        list($proto, $status, $msg) = explode(' ', trim($buf), 3);
-        if ($status != '200') {
-            echo "Error: Could not ping the Eventum SCM handler script: HTTP status code: $status $msg\n";
-        }
-        fclose($fp);
+        return $data;
     }
 }
