@@ -55,12 +55,12 @@ $_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
 // check if this user did already confirm his account
 if (Auth::isPendingUser($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');
-    Auth::redirect("index.php?err=9", $is_popup);
+    Auth::redirect("index.php?err=9");
 }
 // check if this user is really an active one
 if (!Auth::isActiveUser($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'inactive user');
-    Auth::redirect("index.php?err=7", $is_popup);
+    Auth::redirect("index.php?err=7");
 }
 
 Auth::saveLoginAttempt($_POST["email"], 'success');
