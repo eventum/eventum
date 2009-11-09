@@ -31,7 +31,13 @@
           </select>
           <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" class="default" value="{$options.cst_custom_field[$field.fld_id].value}" disabled>
           {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple'}
-          <select name="custom_field[{$field.fld_id}][]" class="default" multiple size="3" disabled>
+          <select name="custom_field[{$field.fld_id}][]" class="default" multiple
+            {if $field.field_options|@count > 10}
+              size="10"
+            {else}
+              size="{$field.field_options|@count}"
+            {/if}
+            disabled>
             {html_options options=$field.field_options selected=$options.cst_custom_field[$field.fld_id]}
           </select>
           {elseif $field.fld_type == 'date'}
