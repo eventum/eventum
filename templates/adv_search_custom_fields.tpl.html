@@ -14,10 +14,10 @@
 	  {if $smarty.foreach.custom_fields.iteration % 2 == 1}
 	  <tr>
 	  {/if}
-		<td nowrap width="15%" class="default" height="30">
+		<td nowrap width="15%" class="default" height="30" align="right" valign="top">
 		  {$field.fld_title}:&nbsp;
 		</td>
-		<td width="35%" align="left">
+		<td width="35%" align="left" valign="top">
 		  {if $field.fld_type == 'text' OR $field.fld_type == 'textarea'}
 		  <input type="text" name="custom_field[{$field.fld_id}]" class="default" value="{$options.cst_custom_field[$field.fld_id]}" disabled>
 		  {elseif $field.fld_type == 'integer'}
