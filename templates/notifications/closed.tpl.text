@@ -4,7 +4,6 @@
 {t escape=no name=$data.closer_name reason=$data.reason}This issue was just closed by %1 with the message:
 
 %2.{/t}
-{$data.reason}
 {else}
 {t escape=no name=$data.closer_name}This issue was just closed by %1.{/t}
 {/if}
