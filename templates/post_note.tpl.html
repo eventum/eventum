@@ -116,11 +116,17 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="140" class="default_white" bgcolor="{$internal_color}">
+          <td width="140" class="default_white" bgcolor="{$internal_color}" valign="top">
             <b>{t}Extra Note Recipients:{/t}</b>
           </td>
           <td bgcolor="{$light_color}">
-            <select class="default" size="4" multiple name="note_cc[]" onChange="javascript:showSelections('post_note_form', 'note_cc[]');">
+            <select class="default"
+              {if $users|@count > 10}
+                size="10"
+              {else}
+                size="{$users|@count}"
+              {/if}
+              multiple name="note_cc[]" onChange="javascript:showSelections('post_note_form', 'note_cc[]');">
               {html_options options=$users}
             </select><input class="button" type="button" value="{t}Clear Selections{/t}" onClick="javascript:clearExtraRecipients();"><br />
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="note_cc[]" callbacks="new Array('showSelections(\'post_note_form\', \'note_cc[]\')')"}
