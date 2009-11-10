@@ -574,21 +574,22 @@ class User
      * @param   array $exclude_role The list of roles to ignore
      * @return  array The list of roles
      */
-    function getRoles($exclude_role = FALSE)
+    function getRoles($exclude_role = null)
     {
-        if ($exclude_role == false) {
+        if (empty($exclude_role)) {
             return self::getLocalizedRoles();
-        } else {
-            $roles = self::getLocalizedRoles();
-            if (!is_array($exclude_role)) {
-                $exclude_role = array($exclude_role);
-            }
-            foreach ($exclude_role as $role_title) {
-                unset($roles[self::getRoleID($role_title)]);
-            }
-
-            return $roles;
         }
+
+        $roles = self::getLocalizedRoles();
+        if (!is_array($exclude_role)) {
+            $exclude_role = array($exclude_role);
+        }
+
+        foreach ($exclude_role as $role_title) {
+            unset($roles[self::getRoleID($role_title)]);
+        }
+
+        return $roles;
     }
 
 
@@ -602,7 +603,8 @@ class User
     function getRole($role_id)
     {
         $roles = self::getLocalizedRoles();
-        return $roles[$role_id];
+        // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
+        return isset($roles[$role_id]) ? $roles[$role_id] : null;
     }
 
 

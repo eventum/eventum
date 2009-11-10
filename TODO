@@ -23,5 +23,8 @@ UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id 
 * Default issue priority is defined in bizarre locations
  - for auto created issues from email, it's a property of email account
  - for issues created from web interface, it is hardcoded to '3'
+  -> default value should be property of project
 
--> default value should be property of project
+* class.user.php :: getRole : notes:
+       // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
+       return isset($roles[$role_id]) ? $roles[$role_id] : null;
