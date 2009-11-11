@@ -39,6 +39,7 @@ Eventum Issue Tracking System
 - Allow disabling saving routed drafts/notes/emails if APP_ROUTED_MAILS_SAVEDIR constant undefied (Elan Ruusamäe)
 - Add OpenSearch description to search issues by ID (Elan Ruusamäe)
 - SCM commit hook reports back status that SCM server reports back (Elan Ruusamäe)
+- Merge extra _GET and _POST params in searchbar.php?custom_id=N do be able to dynamically enchance saved custom search (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
