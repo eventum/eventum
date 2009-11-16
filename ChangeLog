@@ -36,11 +36,12 @@ Eventum Issue Tracking System
 - Added ability to update expected resolution date and custom fields on list issues page (Raul Raat)
 - Filter for links issue history popup (Elan Ruusamäe)
 - Misc files for Custom fields (Bryan Alsdorf)
-- Allow disabling saving routed drafts/notes/emails if APP_ROUTED_MAILS_SAVEDIR constant undefied (Elan Ruusamäe)
+- Allow disabling saving routed drafts/notes/emails if APP_ROUTED_MAILS_SAVEDIR constant undefined (Elan Ruusamäe)
 - Add OpenSearch description to search issues by ID (Elan Ruusamäe)
 - SCM commit hook reports back status that SCM server reports back (Elan Ruusamäe)
 - Merge extra _GET and _POST params in searchbar.php?custom_id=N do be able to dynamically enchance saved custom search (Elan Ruusamäe)
 - Prevent users with a role less than manager from logging into archived projects (Bryan Alsdorf)
+- Make popup windows unique to issue, so creating two post note popups won't overwrite former ones (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
