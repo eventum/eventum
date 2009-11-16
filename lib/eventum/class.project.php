@@ -608,22 +608,24 @@ class Project
      * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $force_refresh If the cache should not be used.
-     * @param   boolean $include_role if the user role should be included.
+     * @param   boolean $include_extra If extra data should be included.
      * @return  array The list of projects
      */
-    function getAssocList($usr_id, $force_refresh = false, $include_role = false)
+    function getAssocList($usr_id, $force_refresh = false, $include_extra = false)
     {
         static $returns;
 
-        if ((!empty($returns[$usr_id][$include_role])) && ($force_refresh != true)) {
-            return $returns[$usr_id][$include_role];
+        if ((!empty($returns[$usr_id][$include_extra])) && ($force_refresh != true)) {
+            return $returns[$usr_id][$include_extra];
         }
 
         $stmt = "SELECT
                     prj_id,
                     prj_title";
-        if ($include_role) {
-            $stmt .= ",\npru_role";
+        if ($include_extra) {
+            $stmt .= ",
+                    pru_role,
+                    prj_status as status";
         }
         $stmt .= "
                  FROM
@@ -631,10 +633,14 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     prj_id=pru_prj_id AND
-                    pru_usr_id=" .  Misc::escapeInteger($usr_id) . "
+                    pru_usr_id=" .  Misc::escapeInteger($usr_id) . " AND
+                    (
+                        prj_status != 'archived' OR
+                        pru_role >= " . User::getRoleID('Manager') . "
+                    )
                  ORDER BY
                     prj_title";
-        if ($include_role) {
+        if ($include_extra) {
             $res = DB_Helper::getInstance()->getAssoc($stmt, true, array(), DB_FETCHMODE_ASSOC);
         } else {
             $res = DB_Helper::getInstance()->getAssoc($stmt);
@@ -643,12 +649,12 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            if ($include_role) {
+            if ($include_extra) {
                 foreach ($res as $prj_id => $data) {
                     $res[$prj_id]['role'] = User::getRole($data['pru_role']);
                 }
             }
-            $returns[$usr_id][$include_role] = $res;
+            $returns[$usr_id][$include_extra] = $res;
             return $res;
         }
     }

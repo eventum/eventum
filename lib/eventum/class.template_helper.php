@@ -135,7 +135,7 @@ class Template_Helper
     /**
      * Processes the template and assigns common variables automatically.
      *
-     * @access	private
+     * @access    private
      */
     function processTemplate()
     {
@@ -168,7 +168,15 @@ class Template_Helper
                 }
             }
             $info = User::getNameEmail($usr_id);
-            $this->assign("active_projects", Project::getAssocList($usr_id));
+            $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
+            $active_projects = array();
+            foreach ($raw_projects as $prj_id => $prj_info) {
+                if ($prj_info['status'] == 'archived') {
+                    $prj_info['prj_title'] .= ' (archived)';
+                }
+                $active_projects[$prj_id] = $prj_info['prj_title'];
+            }
+            $this->assign("active_projects", $active_projects);
             $this->assign("current_full_name", $info["usr_full_name"]);
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
