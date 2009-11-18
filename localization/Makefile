@@ -35,7 +35,7 @@ tools-check:
 # generate .pot file from Eventum svn trunk
 pot: tools-check
 	@set -x -e; \
-	export tsmarty2c=`pwd`/../tsmarty2c; \
+	export tsmarty2c=`pwd`/tsmarty2c; \
 	umask 002; \
 	rm -rf workdir; \
 	bzr export workdir; \
