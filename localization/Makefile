@@ -26,7 +26,7 @@ install: all
 	done
 
 tools-check:
-	@TOOLS='bzr find sort xargs tsmarty2c xgettext sed mv rm'; \
+	@TOOLS='bzr find sort xargs xgettext sed mv rm'; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
@@ -35,14 +35,17 @@ tools-check:
 # generate .pot file from Eventum svn trunk
 pot: tools-check
 	@set -x -e; \
+	export tsmarty2c=`pwd`/../tsmarty2c; \
 	umask 002; \
 	rm -rf workdir; \
 	bzr export workdir; \
 	cd workdir; \
-		find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > localization/eventum.c; \
-		(echo localization/eventum.c; find -name '*.php' | LC_ALL=C sort) | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=localization/eventum.pot; \
-		sed -i -e 's,localization/eventum.c:[0-9]\+,localization/eventum.c,g' localization/eventum.pot; \
-		mv localization/eventum.pot ..; \
+		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $$tsmarty2c -o ts.pot; \
+		find -name '*.php' | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=code.pot; \
+		msgcat -o merged.pot code.pot ts.pot; \
+		sed -ne '1,/^$$/p' code.pot > header.pot; \
+		msgcat -s -o eventum.pot --use-first header.pot merged.pot; \
+		mv eventum.pot ..; \
 	cd -; \
 	rm -rf workdir
 

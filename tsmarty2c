@@ -19,8 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  * ------------------------------------------------------------------------- *
  *
- * This command line script rips gettext strings from smarty file, 
- * and prints them to stdout in C format, that can later be used with the 
+ * This command line script rips gettext strings from smarty file,
+ * and prints them to stdout in C format, that can later be used with the
  * standard gettext tools.
  *
  * Usage:
@@ -47,19 +47,51 @@ $cmd = preg_quote('t');
 // extensions of smarty files, used when going through a directory
 $extensions = array('tpl');
 
+# we msgcat found strings from each file.
+# need header for each temporary .pot file to be merged.
+# https://help.launchpad.net/Translations/YourProject/PartialPOExport
+define('MSGID_HEADER', 'msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+');
+
 // "fix" string - strip slashes, escape and convert new lines to \n
-function fs($str)
-{
+function fs($str) {
 	$str = stripslashes($str);
 	$str = str_replace('"', '\"', $str);
 	$str = str_replace("\n", '\n', $str);
 	return $str;
 }
 
+function msgmerge($outfile, $data) {
+	// skip empty
+	if (empty($data)) {
+		return;
+	}
+
+	// write new data to tmp file
+	$tmp = tempnam(TMPDIR, 'tsmarty2c');
+	file_put_contents($tmp, $data);
+
+	// temp file for result cat
+	$tmp2 = tempnam(TMPDIR, 'tsmarty2c');
+	passthru('msgcat -o '.escapeshellarg($tmp2).' '.escapeshellarg($outfile).' '.escapeshellarg($tmp), $rc);
+	unlink($tmp);
+
+	if ($rc) {
+		fwrite(STDERR, "msgcat failed with $rc\n");
+		exit($rc);
+	}
+
+	// rename if output was produced
+	if (file_exists($tmp2)) {
+		rename($tmp2, $outfile);
+	}
+}
+
 // rips gettext strings from $file and prints them in C format
-function do_file($file)
-{
-	$content = @file_get_contents($file);
+function do_file($outfile, $file) {
+	$content = file_get_contents($file);
 
 	if (empty($content)) {
 		return;
@@ -68,28 +100,46 @@ function do_file($file)
 	global $ldq, $rdq, $cmd;
 
 	preg_match_all(
-			"/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/",
-			$content,
-			$matches
+		"/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/",
+		$content,
+		$matches
 	);
-	
-	for ($i=0; $i < count($matches[0]); $i++) {
-		// TODO: add line number
-		echo "/* $file */\n"; // credit: Mike van Lammeren 2005-02-14
-		
-		if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
-			echo 'ngettext("'.fs($matches[3][$i]).'","'.fs($match[1]).'",x);'."\n";
-		} else {
-			echo 'gettext("'.fs($matches[3][$i]).'");'."\n";
-		}
 
+	$msgids = array();
+	$msgids_plural = array();
+	for ($i = 0; $i < count($matches[0]); $i++) {
+		if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
+			$msgid = $matches[3][$i];
+			$msgid_plural[$msgid] = $match[1];
+		} else {
+			$msgid = $matches[3][$i];
+		}
+		$msgids[$msgid][] = $file;
+	}
+
+	ob_start();
+	echo MSGID_HEADER;
+	foreach ($msgids as $msgid => $files) {
+		echo "#: ", join(' ', $files), "\n";
+		if (isset($msgids_plural[$msgid])) {
+			echo 'msgid "'.fs($msgid).'"', "\n";
+			echo 'msgid_plural "'.fs($msgids_plural[$msgid]).'"', "\n";
+			echo 'msgstr[0] ""', "\n";
+			echo 'msgstr[1] ""', "\n";
+		} else {
+			echo 'msgid "'.fs($msgid).'"', "\n";
+			echo 'msgstr ""', "\n";
+		}
 		echo "\n";
 	}
+
+	$out = ob_get_contents();
+	ob_end_clean();
+	msgmerge($outfile, $out);
 }
 
 // go through a directory
-function do_dir($dir)
-{
+function do_dir($outfile, $dir) {
 	$d = dir($dir);
 
 	while (false !== ($entry = $d->read())) {
@@ -100,12 +150,12 @@ function do_dir($dir)
 		$entry = $dir.'/'.$entry;
 
 		if (is_dir($entry)) { // if a directory, go through it
-			do_dir($entry);
+			do_dir($outfile, $entry);
 		} else { // if file, parse only if extension is matched
 			$pi = pathinfo($entry);
-			
+
 			if (isset($pi['extension']) && in_array($pi['extension'], $GLOBALS['extensions'])) {
-				do_file($entry);
+				do_file($outfile, $entry);
 			}
 		}
 	}
@@ -113,12 +163,43 @@ function do_dir($dir)
 	$d->close();
 }
 
-for ($ac=1; $ac < $_SERVER['argc']; $ac++) {
-	if (is_dir($_SERVER['argv'][$ac])) { // go through directory
-		do_dir($_SERVER['argv'][$ac]);
-	} else { // do file
-		do_file($_SERVER['argv'][$ac]);
+if ('cli' != php_sapi_name()) {
+	fwrite(STDERR, "ERROR: This program is for command line mode only.\n");
+	exit(1);
+}
+
+define('PROGRAM', basename(array_shift($argv)));
+define('TMPDIR', sys_get_temp_dir());
+$opt = getopt('o:');
+$outfile = isset($opt['o']) ? $opt['o'] : tempnam(TMPDIR, 'tsmarty2c');
+
+// remove -o FILENAME from $argv.
+if (isset($opt['o'])) {
+	foreach ($argv as $i => $v) {
+		if ($v != '-o') {
+			continue;
+		}
+
+		unset($argv[$i]);
+		unset($argv[$i + 1]);
+		break;
 	}
 }
 
-?>
+// initialize output
+file_put_contents($outfile, MSGID_HEADER);
+
+// process dirs/files
+foreach ($argv as $arg) {
+	if (is_dir($arg)) {
+		do_dir($outfile, $arg);
+	} else {
+		do_file($outfile, $arg);
+	}
+}
+
+// output and cleanup
+if (!isset($opt['o'])) {
+	echo file_get_contents($outfile);
+	unlink($outfile);
+}
