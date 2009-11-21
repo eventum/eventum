@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2007-11-10 03:02+0200\n"
-"Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
+"PO-Revision-Date: 2009-11-18 16:00+0000\n"
+"Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2009-11-21 04:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -34,7 +35,7 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid " Error: Please provide your email address."
-msgstr "Fel: var vänlig ange din e-postadress."
+msgstr " Fel: var vänlig ange din e-postadress."
 
 #: htdocs/view.php:74
 #, php-format
@@ -42,19 +43,17 @@ msgid "#%1$s - %2$s"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:195
-#, fuzzy
 msgid "% Complete"
-msgstr "Procent färdigt"
+msgstr ""
 
 #: templates/manage/field_display.tpl.html
-#, fuzzy
 msgid "%1 Field"
-msgstr "Fil"
+msgstr ""
 
 #: lib/eventum/class.filter.php:673
-#, fuzzy, php-format
+#, php-format
 msgid "%1$s Group"
-msgstr "Grupp"
+msgstr ""
 
 #: lib/eventum/class.filter.php:602
 #, php-format
@@ -73,9 +72,8 @@ msgid ""
 msgstr ""
 
 #: templates/main.tpl.html
-#, fuzzy
 msgid "(All Issues)"
-msgstr "Lista ärenden"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -86,9 +84,8 @@ msgid "(GMT)"
 msgstr ""
 
 #: templates/main.tpl.html
-#, fuzzy
 msgid "(Open Issues)"
-msgstr "Nytt Ärende"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -129,9 +126,8 @@ msgid "(hold ctrl to select multiple options)"
 msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "(in hours please)"
-msgstr "i timmar"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -162,32 +158,23 @@ msgid "-- Select One --"
 msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
-"E-post kommer <b>INTE</b> skickas till notifieringslistan om detta väljs. "
-"Detta är användbart som ett sätt att koppla e-postmeddelande till ett ärende."
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
-"E-post kommer att skickas till hela notificationslistan, inkluderat "
-"eventuella kunder, om detta väljs."
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"<b>NOTERING:</b> E-postmeddelande kommer sparas som notering och endast "
-"skickas till personal."
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
@@ -196,38 +183,30 @@ msgid ""
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid ""
 "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
 "emails are properly sent when creating new users/projects."
 msgstr ""
-"<b>Notera:</b> Konfiguration av SMTP (utgående e-post) krävs för att e-"
-"postmeddelanden skall kunna skickas när man skapar nya användare/projekt."
 
 #: templates/notifications/new.tpl.text
-#, fuzzy
 msgid "A new issue was just created and assigned to you."
-msgstr "lista alla ärenden tilldelade dig"
+msgstr ""
 
 #: templates/notifications/new_issue.tpl.text
-#, fuzzy
 msgid "A new issue was just created in the system."
-msgstr "lista ärenden lagrade i systemet"
+msgstr ""
 
 #: templates/notifications/new_user.tpl.text
-#, fuzzy
 msgid "A new user was just created for you in the system."
-msgstr "lista ärenden lagrade i systemet"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
 msgstr ""
 
 #: lib/eventum/class.mail_helper.php:464
-#, fuzzy
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
-"Är du säker på att du vill lägga till adressen till notifieringslistan?"
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
@@ -263,14 +242,12 @@ msgid "Account Creation"
 msgstr "Skapa konto"
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Account Manager"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Account Manager:"
-msgstr "Skapa konto"
+msgstr ""
 
 #: lib/eventum/class.help.php:113 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
@@ -284,19 +261,16 @@ msgstr "Skaffa konto"
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
-#, fuzzy
 msgid "Action"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Action Type"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Action Type:"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -312,9 +286,8 @@ msgstr ""
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Active"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -347,18 +320,16 @@ msgid "Add / Edit Releases"
 msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Add Action"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
 msgstr "Lägg till behörig besvarare"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Add Condition"
-msgstr "Lägg till prenumerant"
+msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -369,9 +340,8 @@ msgid "Add Extra Recipients To Notification List?"
 msgstr "Lägg till extra mottagare till notifieringslistan?"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Add Files"
-msgstr "Lägg till nya filer"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -394,9 +364,8 @@ msgid "Add Phone Entry"
 msgstr "Lägg till telefonsamtal"
 
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Add Primary Contact to Notification List? *"
-msgstr "Lägg till extra mottagare till notifieringslistan?"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
@@ -415,28 +384,24 @@ msgid "Add sender to authorized repliers list?"
 msgstr "Lägga till avsändare till listan över behöriga besvarare?"
 
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Additional Contact Emails"
-msgstr "Bifogad e-post"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Address Hostname:"
-msgstr "Värdnamn för server:"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
 msgstr "Administration"
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid "Administrator"
-msgstr "Administration"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -453,9 +418,8 @@ msgid "After Sender Name"
 msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:191
-#, fuzzy
 msgid "Aggregate"
-msgstr "Skapad"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
@@ -472,9 +436,8 @@ msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
-#, fuzzy
 msgid "Alert Reason"
-msgstr "Anledning"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -503,9 +466,8 @@ msgid "All"
 msgstr "Alla"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "All Issues"
-msgstr "Lista ärenden"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -518,9 +480,8 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Allow Un-Assigned Issues?"
-msgstr "Tilldelade ärenden"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -565,118 +526,97 @@ msgid "An Error Was Found"
 msgstr "Ett fel upptäcktes"
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new account manager."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new account."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new action."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new category."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new condition."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new custom field."
-msgstr "Ett fel uppstod vid försök att ladda upp fil."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new customization."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new email response."
-msgstr "Ett fel uppstod vid försök att associera det valda e-postmeddelandet"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new group."
-msgstr "Ett fel uppstod när din fråga ställdes."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new link filter."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new note."
-msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new priority."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new project."
-msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new release."
-msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new reminder."
-msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new status."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new time tracking category."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new user."
-msgstr "Ett fel uppstod när din fråga ställdes."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the news entry."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the round robin entry."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/associate.tpl.html
-msgid "An error occurred while trying to associate the selected email message"
+msgid ""
+"An error occurred while trying to associate the selected email message"
 msgstr "Ett fel uppstod vid försök att associera det valda e-postmeddelandet"
 
 #: templates/convert_note.tpl.html
@@ -684,14 +624,12 @@ msgid "An error occurred while trying to convert the selected note."
 msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to delete the link filter."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to delete the note."
-msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
@@ -715,146 +653,122 @@ msgid "An error occurred while trying to run your query."
 msgstr "Ett fel uppstod när din fråga ställdes."
 
 #: templates/manage/column_display.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to save columns to display."
-msgstr "Ett fel uppstod när din fråga ställdes."
+msgstr ""
 
 #: templates/manage/field_display.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update field display settings."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the FAQ entry information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the account information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the account manager information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the action information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the category information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the condition information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
-msgid "An error occurred while trying to update the custom field information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgid ""
+"An error occurred while trying to update the custom field information."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
-msgid "An error occurred while trying to update the customization information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgid ""
+"An error occurred while trying to update the customization information."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the email response information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the group information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the issue resolution information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the link filter."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the news entry information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the note."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "An error occurred while trying to update the notification entry."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the priority information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the project information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the release information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the reminder information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the round robin entry information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the status information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the user information."
-msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
+msgstr ""
 
 #: templates/clock_status.tpl.html
-#, fuzzy
 msgid ""
 "An error was found while trying to change your account clocked-in status."
-msgstr "ändra instämpling för ditt konto"
+msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -866,9 +780,8 @@ msgid ""
 msgstr ""
 
 #: templates/notifications/assigned.tpl.text
-#, fuzzy
 msgid "An issue was assigned to you by %1"
-msgstr "lista alla ärenden tilldelade dig"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Anonymous Form"
@@ -879,14 +792,12 @@ msgid "Anonymous Reporting"
 msgstr ""
 
 #: templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Anonymous Reporting Options"
-msgstr "Supportalternativ"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Anonymous Reporting of New Issues"
-msgstr "Rapportera nytt ärende"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
@@ -897,9 +808,8 @@ msgid "Any"
 msgstr "Alla"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Archived"
-msgstr "Mottagen"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -924,23 +834,20 @@ msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Ascending"
-msgstr "stigande"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
 msgstr "Tilldela ärende till mig själv"
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Assignable Users"
-msgstr "Tilldelade ärenden"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Assignable Users:"
-msgstr "Tilldelade ärenden"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:723
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
@@ -957,9 +864,8 @@ msgstr "Tilldelade ärenden"
 #: templates/notifications/new_user.tpl.text
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
-#, fuzzy
 msgid "Assigned Projects"
-msgstr "Tilldelade ärenden"
+msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Assigned Projects and Roles"
@@ -967,33 +873,28 @@ msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Assigned Projects:"
-msgstr "Tilldelad:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Assigned Role:"
-msgstr "Tilldelad:"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Assigned Support"
-msgstr "Tilldelad"
+msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
 msgstr "Tilldelad:"
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Assignee"
-msgstr "Tilldelad"
+msgstr ""
 
 #: templates/include/issue_fields/assignee.tpl.html
-#, fuzzy
 msgid "Assignee:"
-msgstr "Tilldelad"
+msgstr ""
 
 #: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -1004,15 +905,13 @@ msgid "Assignment"
 msgstr "Tilldelning"
 
 #: lib/eventum/class.help.php:69 templates/help/report_assignment.tpl.html
-#, fuzzy
 msgid "Assignment Field"
-msgstr "Tilldelning"
+msgstr ""
 
 #: lib/eventum/class.notification.php:609
 #: lib/eventum/class.notification.php:610
-#, fuzzy
 msgid "Assignment List"
-msgstr "Tilldelning"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -1025,9 +924,8 @@ msgid "Associate"
 msgstr "Associera"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Associate Email Message to Issue #%1"
-msgstr "Associera e-postmeddelande till ärende #%1"
+msgstr ""
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -1052,15 +950,13 @@ msgid "Associated Issues:"
 msgstr "Associerade ärenden:"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Associated Project"
-msgstr "Associerade"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Associated Project:"
-msgstr "Associerade ärenden:"
+msgstr ""
 
 #: templates/view_email.tpl.html templates/view_note.tpl.html
 msgid "Associated with Issue"
@@ -1092,9 +988,8 @@ msgid "Attachments"
 msgstr "Bilagor"
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Attachments:"
-msgstr "Bilagor"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
@@ -1110,19 +1005,16 @@ msgstr "Behörig att skicka e-post"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Auto-Creation of Issues"
-msgstr "Skapa ärende"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
-#, fuzzy
 msgid "Automated Issue"
-msgstr "Associerat ärende"
+msgstr ""
 
 #: templates/reminders/email_alert.tpl.text
-#, fuzzy
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr "Associerat ärende"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
@@ -1133,9 +1025,8 @@ msgid "Automatically append email signature when composing web based emails"
 msgstr "Lägg till signatur när ett e-postmeddelande skapas"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Automatically close confirmation popup windows?"
-msgstr "Stäng popupfönster automatiskt ?"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
@@ -1184,9 +1075,8 @@ msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
 #: lib/eventum/class.notification.php:956
-#, fuzzy
 msgid "BLOCKED"
-msgstr "STÄMPLAD"
+msgstr ""
 
 #: templates/close.tpl.html
 #: templates/customer/example/customer_expired.tpl.html
@@ -1260,29 +1150,24 @@ msgid "Bulk Update Tool"
 msgstr "Massuppdateringsverktyg"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "By Customer"
-msgstr "Kund"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "By Issue ID"
-msgstr "Ärende ID"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "By Support Level"
-msgstr "Supportnivå"
+msgstr ""
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "CLOCKED IN"
-msgstr "STÄMPLAD"
+msgstr ""
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "CLOCKED OUT"
-msgstr "STÄMPLAD"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call From"
@@ -1310,9 +1195,8 @@ msgid "Canned Responses"
 msgstr "Standardsvar"
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Categories and Statuses"
-msgstr "Ändra Status till"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:728
 #: lib/eventum/class.notification.php:618
@@ -1328,9 +1212,8 @@ msgid "Category"
 msgstr "Kategori"
 
 #: lib/eventum/class.help.php:61 templates/help/report_category.tpl.html
-#, fuzzy
 msgid "Category Field"
-msgstr "Kategori"
+msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
@@ -1353,18 +1236,16 @@ msgid "Change Status To"
 msgstr "Ändra Status till"
 
 #: templates/notifications/updated.tpl.text
-#, fuzzy
 msgid "Changed Fields"
-msgstr "Obligatoriska fält"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Check Permissions"
-msgstr "Skapa användare och behörighet"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
@@ -1375,9 +1256,8 @@ msgid "Checkout Page:"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Choose Custom Field Backend"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Choose a misspelled word"
@@ -1392,18 +1272,16 @@ msgid "Clear"
 msgstr "Rensa"
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Clear Date"
-msgstr "Postat datum"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
 msgstr "Ta bort kopiemarkering"
 
 #: templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid "Clear Filters"
-msgstr "Rensa filter"
+msgstr ""
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/post_note.tpl.html templates/update_form.tpl.html
@@ -1415,14 +1293,12 @@ msgid "Click to expand."
 msgstr "Expandera."
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Clock In"
-msgstr "Klocka"
+msgstr ""
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Clock Out"
-msgstr "Klocka"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1433,9 +1309,8 @@ msgid "Close"
 msgstr "Stäng"
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Close Form"
-msgstr "Stäng"
+msgstr ""
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
@@ -1448,23 +1323,20 @@ msgid "Close Window"
 msgstr "Stäng fönster"
 
 #: lib/eventum/class.notification.php:816
-#, fuzzy
 msgid "Closed"
-msgstr "Stäng"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
 msgstr ""
 
 #: lib/eventum/class.filter.php:762
-#, fuzzy
 msgid "Closed Date"
-msgstr "Postat datum"
+msgstr ""
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Closed Message"
-msgstr "Stäng Ärende"
+msgstr ""
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
@@ -1475,18 +1347,16 @@ msgid "Collapse expanded cell"
 msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Color"
-msgstr "Klocka"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Color:"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html
-#, fuzzy
 msgid "Column Name"
-msgstr "Fullständigt namn"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
@@ -1509,14 +1379,12 @@ msgid "Complete Details"
 msgstr "Fullständiga detaljer"
 
 #: templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Configuration"
-msgstr "SMTP Konfiguration"
+msgstr ""
 
 #: templates/help/main.tpl.html
-#, fuzzy
 msgid "Configuration Parameters"
-msgstr "SMTP Konfiguration"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
@@ -1529,9 +1397,8 @@ msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Contact Email"
-msgstr "Konvertera notering till e-postmeddelande"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Contact Person"
@@ -1576,39 +1443,32 @@ msgid "Convert to Email and Send Now"
 msgstr "Konvertera till e-post och skicka nu"
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
-"Fe: Cookies verkar inte vara aktiverad i din webläsare. Vänligen aktivera "
-"cookie och försök igen."
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Count"
-msgstr "Fortsätt"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/signup.tpl.html
 msgid "Create Account"
 msgstr "Skapa konto"
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Create Account Manager"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Create Category"
-msgstr "Kategori"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Create Custom Field"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
@@ -1619,19 +1479,16 @@ msgid "Create Draft"
 msgstr "Skapa Utkast"
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Create Email Response"
-msgstr "Standardsvar"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Create FAQ Entry"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Create Group"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
@@ -1642,58 +1499,48 @@ msgid "Create Link Filter"
 msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Create New Issue"
-msgstr "Skapa ärende"
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Create News Entry"
-msgstr "uppdatering notering"
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Create Note"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Create Priority"
-msgstr "Prioritet"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Create Project"
-msgstr "Välj projekt"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Create Release"
-msgstr "Skapa ärende"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Create Reminder"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Create Resolution"
-msgstr "Lösning"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Create Round Robin Entry"
 msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Create Status"
-msgstr "Skapa Utkast"
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Create User"
-msgstr "Skapa ärende"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Create User and Permissions"
@@ -1706,27 +1553,23 @@ msgid "Created"
 msgstr "Skapad"
 
 #: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
-#, fuzzy
 msgid "Created Date"
-msgstr "Skapa Utkast"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Creating New Reminder"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
-#, fuzzy
 msgid "Current Project"
-msgstr "Välj projekt"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Current Project:"
-msgstr "Nuvarande val:"
+msgstr ""
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/update_form.tpl.html
@@ -1743,9 +1586,8 @@ msgid "Custom Fields"
 msgstr "Anpassade fält"
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Custom Fields Report"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: lib/eventum/class.custom_field.php:314
 #, php-format
@@ -1775,31 +1617,26 @@ msgid "Customer Contract"
 msgstr "kund kontrakt"
 
 #: lib/eventum/class.customer_stats_report.php:731
-#, fuzzy
 msgid "Customer Counts"
-msgstr "kund kontrakt"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Customer Details"
-msgstr "Användardealjer"
+msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "Customer ID"
-msgstr "Kund"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
-msgstr "KundID (t.ex \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Customer Integration Backend"
-msgstr "SCM Integration - Inchekningar"
+msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Customer Lookup Tool"
@@ -1810,36 +1647,30 @@ msgid "Customer Phone Number"
 msgstr "Kunds telefonnummer"
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Customer Profile Stats"
-msgstr "kund kontrakt"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Customer Stats Report"
-msgstr "kund kontrakt"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Customer:"
-msgstr "Kund"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Customers"
-msgstr "Kund"
+msgstr ""
 
 #: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Customize Issue Listing Screen"
-msgstr "Öppna listvyn för ärenden"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Daily Tips:"
-msgstr "Detaljer:"
+msgstr ""
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1854,9 +1685,8 @@ msgid "Date"
 msgstr "Datum"
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Date Field"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field:"
@@ -1869,9 +1699,8 @@ msgid "Date Range"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Date Triggered"
-msgstr "Triggad Händelse"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Date issue was opened - Date issue was closed for all closed issues."
@@ -1886,23 +1715,20 @@ msgid "Date of Work"
 msgstr "Datum för nedlagd tid"
 
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid "Day"
-msgstr "alla"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
 msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid "Day of Week"
-msgstr "Datum för nedlagd tid"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:707
-#, fuzzy
 msgid "Days"
-msgstr "som"
+msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1910,26 +1736,22 @@ msgid "Days and Hours Since"
 msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
-#, fuzzy
 msgid "Dear"
-msgstr "Rensa"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Default Category:"
-msgstr "Tidskategori:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Default Options for Notifications:"
-msgstr "skickat till notifieringslistan"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Default Priority:"
-msgstr "Prioritet:"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1947,20 +1769,17 @@ msgstr "Prioritet:"
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Delete"
-msgstr "radera"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Delete Alias"
-msgstr "radera"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Descending"
-msgstr "fallande"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -1975,9 +1794,8 @@ msgid "Description"
 msgstr "Beskrivning"
 
 #: lib/eventum/class.help.php:81 templates/help/report_description.tpl.html
-#, fuzzy
 msgid "Description Field"
-msgstr "Beskrivning"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Description is currently collapsed"
@@ -1989,9 +1807,8 @@ msgstr "Beskrivning:"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
-#, fuzzy
 msgid "Details"
-msgstr "Detaljer:"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -2009,9 +1826,8 @@ msgid "Did you Know?"
 msgstr "Visste du att?"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Diff Page:"
-msgstr "Detaljvy"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -2043,9 +1859,8 @@ msgid "Do you want to continue?"
 msgstr ""
 
 #: templates/view_email.tpl.html
-#, fuzzy
 msgid "Download Raw Email"
-msgstr "Ladda upp fil"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Draft Address Prefix:"
@@ -2088,7 +1903,8 @@ msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:174
-msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
+msgid ""
+"ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:272
@@ -2108,22 +1924,21 @@ msgid ""
 msgstr ""
 
 #: lib/eventum/class.monitor.php:107
-#, fuzzy
 msgid "ERROR: File could not be found (path"
-msgstr "FEL: Ärendet hittades inte."
+msgstr ""
 
 #: lib/eventum/class.monitor.php:116
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
-"3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
+"%3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:113
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
-"3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
+"%3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:121
@@ -2163,9 +1978,8 @@ msgid "Edit Authorized Replier List"
 msgstr "Redigera listan med behöriga besvarare"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Edit Categories"
-msgstr "Tidskategori:"
+msgstr ""
 
 #: lib/eventum/class.help.php:137 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
@@ -2188,23 +2002,20 @@ msgid "Edit Notification List"
 msgstr "Redigera notifieringslistan"
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Edit Option"
-msgstr "Supportalternativ"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
 msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Edit Priorities"
-msgstr "Prioritet"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Edit Releases"
-msgstr "Version"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
@@ -2241,9 +2052,8 @@ msgid "Email Address"
 msgstr "E-postadress"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Email Address Prefix:"
-msgstr "E-postadress:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Address to Send Saved Messages:"
@@ -2262,9 +2072,8 @@ msgid "Email Addresses To Send Information To:"
 msgstr ""
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
-#, fuzzy
 msgid "Email Alias"
-msgstr "Epostmeddelanden"
+msgstr ""
 
 #: lib/eventum/class.help.php:125 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
@@ -2272,9 +2081,8 @@ msgid "Email Blocking"
 msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:733
-#, fuzzy
 msgid "Email Counts"
-msgstr "E-postkonto:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Draft Interface:"
@@ -2285,20 +2093,17 @@ msgid "Email Error Logging System:"
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Email Integration Feature:"
-msgstr "E-postsignatur"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Email List:"
-msgstr "Epostmeddelanden"
+msgstr ""
 
 #: lib/eventum/class.help.php:117 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
-#, fuzzy
 msgid "Email Notifications"
-msgstr "Redigera notifieringslistan"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Recipient Type Flag:"
@@ -2309,32 +2114,28 @@ msgid "Email Reminder System Status Information:"
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Email Routing Interface:"
-msgstr "E-postsignatur"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Email Signature"
 msgstr "E-postsignatur"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Email Spell Checker:"
-msgstr "Kontrollera stavning"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Email Time Spent"
-msgstr "Total nedlagd tid"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Email Workload by Time of day"
 msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:52
-#, fuzzy
 msgid "Email by Time Period"
-msgstr "Total nedlagd tid"
+msgstr ""
 
 #: templates/reports/tree.tpl.html
 msgid "Email by time period"
@@ -2351,9 +2152,9 @@ msgid "Email message draft updated by %1$s"
 msgstr ""
 
 #: lib/eventum/class.draft.php:117
-#, fuzzy, php-format
+#, php-format
 msgid "Email message saved as a draft by %1$s"
-msgstr "Tack så mycket, e-postmeddelandet har sparats som utkast."
+msgstr ""
 
 #: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:789
 #, php-format
@@ -2361,27 +2162,24 @@ msgid "Email routed from %1$s"
 msgstr ""
 
 #: templates/convert_note.tpl.html
-msgid "Email will be re-sent from original sender, including any attachments."
+msgid ""
+"Email will be re-sent from original sender, including any attachments."
 msgstr ""
 "E-post kommer skickad om från originalavsändare med eventuella bilagor."
 
 #: templates/convert_note.tpl.html
-#, fuzzy
 msgid ""
 "Email will be re-sent from your name, NOT original sender's, and without any "
 "attachments."
 msgstr ""
-"<b>OBS:</b> E-post kommer återsändas från ditt namn, INTE orginalavsändare, "
-"och utan bilagor. "
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
 msgstr "Epostmeddelanden"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Emails are Associated"
-msgstr "Associerade"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Emails are Received or Sent"
@@ -2392,9 +2190,8 @@ msgid "Emails are associated to existing issues"
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Emails by Customers"
-msgstr "sortera efter kund"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Staff"
@@ -2442,9 +2239,8 @@ msgid "Entered By"
 msgstr "Skapat av"
 
 #: templates/adv_search_custom_fields.tpl.html
-#, fuzzy
 msgid "Equals"
-msgstr "Epostmeddelanden"
+msgstr ""
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
@@ -2461,20 +2257,17 @@ msgstr ""
 
 #: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
 #: lib/eventum/class.routing.php:382
-#, fuzzy
 msgid "Error: Please configure the email address domain."
-msgstr "Fel: Vänligen ange din e-postadress."
+msgstr ""
 
 #: lib/eventum/class.routing.php:61 lib/eventum/class.routing.php:263
 #: lib/eventum/class.routing.php:379
-#, fuzzy
 msgid "Error: Please configure the email address prefix."
-msgstr "Fel: Vänligen ange din e-postadress."
+msgstr ""
 
 #: lib/eventum/class.routing.php:110
-#, fuzzy
 msgid "Error: Please provide the email account ID."
-msgstr "Fel: Vänligen ange din e-postadress."
+msgstr ""
 
 #: lib/eventum/class.routing.php:70
 msgid ""
@@ -2509,14 +2302,12 @@ msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Error: The issue #%1 could not be found"
-msgstr "FEL: Ärendet hittades inte."
+msgstr ""
 
 #: templates/view.tpl.html
-#, fuzzy
 msgid "Error: The issue #%1 could not be found."
-msgstr "FEL: Ärendet hittades inte."
+msgstr ""
 
 #: templates/update.tpl.html
 msgid "Error: The issue could not be found."
@@ -2540,14 +2331,10 @@ msgid "Error: You are not allowed to view the requested FAQ entry."
 msgstr "Fel: Du har inte tillåtelse att se den begärda FAQ-inlägget."
 
 #: templates/forgot_password.tpl.html
-#, fuzzy
 msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
-"Fel: din användare är just nu satt till inaktiv. Var vänlig \n"
-" kontakta din lokala systemadministratör \n"
-" för mer information."
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2566,9 +2353,8 @@ msgid "Error: you are already authorized to send emails in this issue."
 msgstr "Fel: du har redan behörighet att skicka e-postmeddelanden i ärendet."
 
 #: lib/eventum/class.display_column.php:199
-#, fuzzy
 msgid "Est Dev Time"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: lib/eventum/class.notification.php:638
 #: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1104
@@ -2578,39 +2364,33 @@ msgid "Estimated Dev. Time"
 msgstr "Beräknad utv. tid"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Estimated Dev. Time (only numbers)"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Estimated Dev. Time:"
 msgstr "Uppskattad utvecklingstid:"
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Estimated Development Time"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: lib/eventum/class.help.php:85
 #: templates/help/report_estimated_dev_time.tpl.html
-#, fuzzy
 msgid "Estimated Development Time Field"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
-#, fuzzy
 msgid "Estimated Development Time by Category"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
-#, fuzzy
 msgid "Estimated time (Hours)"
-msgstr "Beräknad utv. tid"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Eventum Emails"
-msgstr "Skicka e-post"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Eventum Installation"
@@ -2621,9 +2401,8 @@ msgid "Eventum Issues search"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Eventum Relative URL"
-msgstr "Eventums relativa URL:"
+msgstr ""
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
@@ -2634,9 +2413,8 @@ msgid "Example customer API front page"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Existing Accounts:"
-msgstr "E-postkonto:"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Existing Actions:"
@@ -2647,9 +2425,8 @@ msgid "Existing Authorized Repliers for this Issue"
 msgstr "Behöriga besvarare för det här ärendet"
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Existing Canned Email Responses:"
-msgstr "Använd standardsvar"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
@@ -2661,9 +2438,8 @@ msgid "Existing Conditions:"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Existing Custom Fields"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "Existing Customer Account Managers:"
@@ -2686,23 +2462,20 @@ msgid "Existing Internal FAQ Entries:"
 msgstr ""
 
 #: templates/emails.tpl.html
-#, fuzzy
 msgid "Existing Issue"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Existing Issue Reminders"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Existing Link Filters"
 msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Existing News Entries"
-msgstr "Artikelinlägg"
+msgstr ""
 
 #: templates/manage/phone_categories.tpl.html
 msgid "Existing Phone Support Categories"
@@ -2721,9 +2494,8 @@ msgid "Existing Releases:"
 msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Existing Resolutions:"
-msgstr "Lösning:"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Existing Round Robin Entries:"
@@ -2760,18 +2532,16 @@ msgid "Expected Resolution Date:"
 msgstr "Förväntat lösningsdatum:"
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "Expiration Date"
-msgstr "Exportera data:"
+msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Expired"
 msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
-#, fuzzy
 msgid "Expired Customer"
-msgstr "Kund"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "Export Data:"
@@ -2788,27 +2558,24 @@ msgstr "Extra noteringsmottagare:"
 #: lib/eventum/class.reminder_condition.php:216
 #: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Field"
-msgstr "Fil"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Options"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Field Type"
-msgstr "Samtalstyp"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Field to Graph"
 msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Field:"
-msgstr "Fil"
+msgstr ""
 
 #: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
 msgid "File"
@@ -2829,27 +2596,24 @@ msgid "Files are Attached"
 msgstr "Filer är bifogade"
 
 #: templates/help/notifications.tpl.html
-#, fuzzy
 msgid "Files are attached to existing issues"
-msgstr "Filer är bifogade"
+msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Filter by Arrival Date:"
 msgstr "Filtrera efter Ankomstdatum:"
 
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "First Name"
-msgstr "förnamn"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
 msgstr "Första svar från personal"
 
 #: lib/eventum/class.filter.php:757
-#, fuzzy
 msgid "First Response Date"
-msgstr "Första svar från personal"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "First Response by Staff"
@@ -2929,9 +2693,8 @@ msgid "Go Back"
 msgstr "Tillbaka"
 
 #: templates/main.tpl.html
-#, fuzzy
 msgid "Graphical Stats"
-msgstr "Grafisk statistik (Alla ärenden)"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
@@ -2939,14 +2702,13 @@ msgid "Greater Than"
 msgstr "Större än"
 
 #: templates/adv_search_custom_fields.tpl.html
-#, fuzzy
 msgid "Greater or Equal"
-msgstr "Större än"
+msgstr ""
 
 #: lib/eventum/class.filter.php:608
-#, fuzzy, php-format
+#, php-format
 msgid "Greater than %1$s"
-msgstr "Större än"
+msgstr ""
 
 #: htdocs/list.php:90 lib/eventum/class.display_column.php:186
 #: lib/eventum/class.project.php:1105 templates/manage/users.tpl.html
@@ -2956,9 +2718,8 @@ msgid "Group"
 msgstr "Grupp"
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Group By"
-msgstr "Grupp"
+msgstr ""
 
 #: templates/manage/users.tpl.html templates/update_form.tpl.html
 msgid "Group:"
@@ -3031,23 +2792,20 @@ msgid "Home"
 msgstr "Hem"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Host Alias:"
-msgstr "Värdnamn:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
-#, fuzzy
 msgid "Hostname"
-msgstr "Värdnamn:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Hostname:"
 msgstr "Värdnamn:"
 
 #: lib/eventum/class.customer_stats_report.php:716
-#, fuzzy
 msgid "Hours"
-msgstr "timmar"
+msgstr ""
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
@@ -3095,9 +2853,8 @@ msgid "IMAP, with TLS (self-signed)"
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "IRC Notifications:"
-msgstr "I notifieringslista"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -3147,9 +2904,9 @@ msgid "Impact Analysis"
 msgstr "Påverkansananlys"
 
 #: lib/eventum/class.impact_analysis.php:200
-#, fuzzy, php-format
+#, php-format
 msgid "Impact analysis removed by %1$s"
-msgstr "Påverkansananlys"
+msgstr ""
 
 #: lib/eventum/class.impact_analysis.php:166
 #, php-format
@@ -3169,25 +2926,19 @@ msgid "In Past"
 msgstr "Tidigare"
 
 #: lib/eventum/class.filter.php:629
-#, fuzzy, php-format
+#, php-format
 msgid "In Past %1$s hours"
-msgstr "Senaste %1 timmarna"
+msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
-"Fel: för att %1 ska fungera ordentligt, måste du kontrollera att du har "
-"cookies aktiverat."
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "In order to check if your permissions are setup correctly visit the"
 msgstr ""
-"För att kontrollera att dina rättigheter har skapats korrekt, besök <a class="
-"\"link\" href=\"check_permissions.php\">Kontrollera Rättigheter</a>."
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -3201,9 +2952,8 @@ msgid "Inactive"
 msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Incident Types to Redeem"
-msgstr "Ärendetyper att återskapa:"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Include expired contracts"
@@ -3228,20 +2978,17 @@ msgid "Initial Impact Analysis"
 msgstr "Initial påverkansanalys"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Initial Status for New Issues"
-msgstr "Ny status för ärendet"
+msgstr ""
 
 #: lib/eventum/class.help.php:97 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid "Installation Instructions"
-msgstr "Sökväg för installation:"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Integer"
-msgstr "Intern FAQ"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
@@ -3260,9 +3007,8 @@ msgid "Internal Users"
 msgstr "Interna användare"
 
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid "Interval"
-msgstr "Intern FAQ"
+msgstr ""
 
 #: lib/eventum/class.filter.php:632
 msgid "Is NULL"
@@ -3273,19 +3019,19 @@ msgid "Is Null"
 msgstr "Är Null"
 
 #: lib/eventum/class.filter.php:636
-#, fuzzy, php-format
+#, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
-msgstr "Är mellan %1-%2-%3 och %4-%5-%6"
+msgstr ""
 
 #: lib/eventum/class.filter.php:640
-#, fuzzy, php-format
+#, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr "Är större än %1-%2-%3"
+msgstr ""
 
 #: lib/eventum/class.filter.php:643
-#, fuzzy, php-format
+#, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr "Är mindre än %1-%2-%3"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3294,29 +3040,25 @@ msgid "Issue"
 msgstr "Ärende"
 
 #: templates/notifications/updated.tpl.text
-#, fuzzy
 msgid "Issue #"
-msgstr "Ärende"
+msgstr ""
 
 #: htdocs/view.php:58
-#, fuzzy, php-format
+#, php-format
 msgid "Issue #%1$s Details"
-msgstr "Användardealjer"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Issue Count"
-msgstr "ärenden hittade"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:732
-#, fuzzy
 msgid "Issue Counts"
-msgstr "Ärendet är stängt"
+msgstr ""
 
 #: templates/notifications/new_issue.tpl.text
-#, fuzzy
 msgid "Issue Details"
-msgstr "Användardealjer"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
@@ -3336,9 +3078,8 @@ msgid "Issue Overview"
 msgstr "Ärendeöversikt"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Issue Priorities"
-msgstr "Ärenden per prioritet"
+msgstr ""
 
 #: templates/help/notifications.tpl.html
 msgid "Issue details are updated"
@@ -3349,34 +3090,28 @@ msgid "Issue is Closed"
 msgstr "Ärendet är stängt"
 
 #: templates/reports/customer_stats.tpl.html templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Issues"
-msgstr "Ärende"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Issues Closed"
-msgstr "Ärendet är stängt"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Issues Created Between"
-msgstr "Ärenden per kategori"
+msgstr ""
 
 #: templates/help/notifications.tpl.html templates/manage/general.tpl.html
-#, fuzzy
 msgid "Issues are Closed"
-msgstr "Ärendet är stängt"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Issues are Updated"
-msgstr "Ärenden per kategori"
+msgstr ""
 
 #: htdocs/stats_chart.php:75
-#, fuzzy
 msgid "Issues by Assignment"
-msgstr "Mina tilldelade"
+msgstr ""
 
 #: htdocs/stats_chart.php:78 templates/main.tpl.html
 msgid "Issues by Category"
@@ -3395,14 +3130,12 @@ msgid "Issues by Status"
 msgstr "Ärenden per status"
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Issues by User"
-msgstr "Ärenden per release"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Issues in CSC"
-msgstr "Ärendet är stängt"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Issues with only status changed"
@@ -3452,25 +3185,21 @@ msgid "Last Action Date"
 msgstr "Senaste uppdateringsdatum"
 
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Last Name"
-msgstr "efternamn"
+msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Last Outgoing Msg"
-msgstr "Utgående"
+msgstr ""
 
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Last Response"
-msgstr "Senaste svar från personal"
+msgstr ""
 
 #: lib/eventum/class.filter.php:752
-#, fuzzy
 msgid "Last Response Date"
-msgstr "Senaste svar från personal"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Last Response by Staff"
@@ -3478,9 +3207,8 @@ msgstr "Senaste svar från personal"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Last Update"
-msgstr "Senast uppdaterad"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
@@ -3513,24 +3241,22 @@ msgid "Less or Equal"
 msgstr ""
 
 #: lib/eventum/class.filter.php:611
-#, fuzzy, php-format
+#, php-format
 msgid "Less than %1$s"
-msgstr "Mindre än"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Line"
-msgstr "Logga in"
+msgstr ""
 
 #: lib/eventum/class.help.php:129 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
-#, fuzzy
 msgid "Link Filters"
-msgstr "i minuter"
+msgstr ""
 
 #: templates/help/link_filters.tpl.html
 msgid ""
@@ -3551,14 +3277,12 @@ msgstr "Lista Borttagna E-postmeddelanden"
 
 #: lib/eventum/class.help.php:101 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
-#, fuzzy
 msgid "Listing / Searching for Issues"
-msgstr "Prenuumeranter för ärendet."
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Log Page:"
-msgstr "Detaljvy"
+msgstr ""
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
@@ -3566,41 +3290,36 @@ msgid "Login"
 msgstr "Logga in"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Login Time Spent"
-msgstr "Nedlagd tid"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Logout"
 msgstr "Logga ut"
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "Lookup"
-msgstr "Logga ut"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
-#, fuzzy
 msgid "Lookup Customer"
-msgstr "Kund"
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
 msgstr "Logg för e-postkö"
 
 #: templates/mail_queue.tpl.html
-#, fuzzy
 msgid "Mail Queue for Issue #%1"
-msgstr "Logg för e-postkö"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Mailbox"
 msgstr ""
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Manage Canned Email Responses"
-msgstr "Standardsvar"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 msgid "Manage Categories"
@@ -3611,9 +3330,8 @@ msgid "Manage Columns to Display"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Manage Custom Fields"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
@@ -3624,23 +3342,20 @@ msgid "Manage Customer Quick Notes"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Manage Email Accounts"
-msgstr "E-postkonto:"
+msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Groups"
 msgstr ""
 
 #: templates/manage/faq.tpl.html templates/manage/manage.tpl.html
-#, fuzzy
 msgid "Manage Internal FAQ"
-msgstr "Intern FAQ"
+msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Manage Issue Reminders"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/resolution.tpl.html
 msgid "Manage Issue Resolutions"
@@ -3665,14 +3380,12 @@ msgstr ""
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Manage Projects"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Manage Releases"
-msgstr "Version"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Manage Reminder Actions"
@@ -3683,32 +3396,28 @@ msgid "Manage Reminder Conditions"
 msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Manage Round Robin Assignments"
-msgstr "Ändra tilldelning:"
+msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Manage Statuses"
-msgstr "Ändra Status till"
+msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/time_tracking.tpl.html
 msgid "Manage Time Tracking Categories"
 msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/users.tpl.html
-#, fuzzy
 msgid "Manage Users"
-msgstr "Interna användare"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
 msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Manager:"
-msgstr "Interna användare"
+msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3723,9 +3432,8 @@ msgid "Max"
 msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
-#, fuzzy
 msgid "Maximum First Response Time"
-msgstr "Första svar från personal"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
@@ -3740,9 +3448,8 @@ msgid "Message"
 msgstr "Meddelande"
 
 #: templates/manage/faq.tpl.html templates/view_note.tpl.html
-#, fuzzy
 msgid "Message:"
-msgstr "Meddelande"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Min"
@@ -3775,9 +3482,8 @@ msgid "Module / Directory"
 msgstr "Module / Katalog"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Monday"
-msgstr "alla"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -3803,28 +3509,24 @@ msgid "My Assignments"
 msgstr "Mina tilldelade"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Database"
-msgstr "MySQL databas:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
 msgstr "MySQL Lösenord:"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Server Hostname"
-msgstr "Värdnman för MySQL-server :"
+msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Table Prefix"
-msgstr "MySQL Tabellprefix:"
+msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Username"
-msgstr "MySQL Användarnamn:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3842,42 +3544,34 @@ msgstr ""
 "postknappen som finns längst ned på sidan."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "NOTE: You may report issues without the need to login by using the following "
 "URL:"
 msgstr ""
-"NOTERA: Du kan rapportera ärenden utan att vara inloggad genom att använda "
-"den här URL:en"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Name"
-msgstr "Fullständigt namn"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Name:"
-msgstr "Fullständigt namn"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "New Alias"
-msgstr "Värdnamn:"
+msgstr ""
 
 #: templates/notifications/files.tpl.text
-#, fuzzy
 msgid "New Attachment"
-msgstr "Bilagor"
+msgstr ""
 
 #: lib/eventum/class.notification.php:1106 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "New Issues Assigned"
-msgstr "Inget ärende associerat"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "New Password"
@@ -3913,9 +3607,8 @@ msgid "Next Message"
 msgstr "Nästa meddelande"
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Next Note"
-msgstr "Nästa ärende"
+msgstr ""
 
 #: lib/eventum/class.misc.php:691 templates/close.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
@@ -3931,62 +3624,52 @@ msgid "No"
 msgstr "Nej"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "No Customer Integration"
-msgstr "kund kontrakt"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "No Drafts Found"
-msgstr "Ett fel upptäcktes"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "No Emails Found"
-msgstr "Inga e-postmeddelanden hittades."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "No FAQ entries could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Notes Found"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "No Phone Calls Found"
-msgstr "Telefonsamtal"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "No Reminder Entries Found"
-msgstr "Inga påminnelser hittades."
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "No Time Entries Found"
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "No Workflow Management"
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "No account managers could be found."
-msgstr "Inga förändringar hittades."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "No actions could be found."
-msgstr "Hittade inga inchekningar."
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "No aliases could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "No associated emails could be found."
@@ -4001,14 +3684,12 @@ msgid "No authorized repliers could be found."
 msgstr "Inga behöriga besvarare kunde hittas."
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "No canned email responses could be found."
-msgstr "Inga associerade e-postmeddelanden kunde hittas."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
-#, fuzzy
 msgid "No categories could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/history.tpl.html
 msgid "No changes could be found."
@@ -4019,36 +3700,32 @@ msgid "No checkins could be found."
 msgstr "Hittade inga inchekningar."
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "No conditions could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/custom_fields.tpl.html templates/manage/custom_fields.tpl.html
 msgid "No custom fields could be found."
 msgstr "Inga anpassade fält hittades."
 
 #: htdocs/reports/custom_fields.php:55
-#, fuzzy
 msgid "No custom fields for this project"
-msgstr "Inga anpassade fält hittades."
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "No custom searches could be found."
 msgstr "Inga anpassade sökningar kunde hittas"
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "No customizations could be found."
-msgstr "Inga anpassade fält hittades."
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "No data found"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "No email accounts could be found."
-msgstr "Inga e-postutkast kunde hittas."
+msgstr ""
 
 #: templates/email_drafts.tpl.html
 msgid "No email drafts could be found."
@@ -4063,14 +3740,13 @@ msgid "No entries could be found."
 msgstr "Inga noteringar hittades."
 
 #: lib/eventum/class.reminder_action.php:595
-#, fuzzy, php-format
+#, php-format
 msgid "No group associated with issue %1$s"
-msgstr "Associerat med ärende"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "No groups could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/notes.tpl.html
 msgid "No internal notes could be found."
@@ -4081,67 +3757,56 @@ msgid "No issues associated"
 msgstr "Inget ärende associerat"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "No issues closed this time period"
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "No issues could be found."
 msgstr "Inga ärenden kunde hittas."
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "No issues touched this time period"
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "No issues with only status changed this time period"
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "No link filters could be found."
-msgstr "Inga påminnelser hittades."
+msgstr ""
 
 #: templates/mail_queue.tpl.html
-#, fuzzy
 msgid "No mail queue could be found."
-msgstr "Inga e-postmeddelanden hittades."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "No news entries could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "No notes could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "No phone calls recorded yet."
 msgstr "Inga telefonsamtal sparande."
 
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "No phone support categories could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "No priorities could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "No projects could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "No releases could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/history.tpl.html templates/manage/reminders.tpl.html
 msgid "No reminders could be found."
@@ -4152,46 +3817,40 @@ msgid "No resolution date given"
 msgstr "Inget lösningsdatum angivet"
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "No resolutions could be found."
-msgstr "Inga påminnelser hittades."
+msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "No results could be found"
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "No round robin entries could be found."
-msgstr "Inga noteringar hittades."
+msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "No spelling mistakes could be found."
 msgstr "Inga felstavningar hittade."
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "No statuses could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "No subscribers could be found."
 msgstr "Ing prenumeranter kunde hittas."
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "No time tracking categories could be found."
-msgstr "Inga tidsnoteringar kunde hittas."
+msgstr ""
 
 #: templates/time_tracking.tpl.html
 msgid "No time tracking entries could be found."
 msgstr "Inga tidsnoteringar kunde hittas."
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "No users could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr ""
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
@@ -4200,18 +3859,16 @@ msgstr "Inga"
 #: templates/manage/customer_notes.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
-#, fuzzy
 msgid "Note"
-msgstr "Notering:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Note Address Prefix:"
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Note Recipient Type Flag:"
-msgstr "Extra noteringsmottagare:"
+msgstr ""
 
 #: lib/eventum/class.routing.php:340
 #, php-format
@@ -4219,27 +3876,20 @@ msgid "Note routed from %1$s"
 msgstr ""
 
 #: templates/forgot_password.tpl.html
-#, fuzzy
 msgid ""
 "Note: Please enter your email address below and a new random password will "
 "be created and assigned to your account. For security purposes a "
 "confirmation message will be sent to your email address and after confirming "
 "it the new password will be then activated and sent to you."
 msgstr ""
-"<b>Notera:</b>Var vänlig ange din e-postadress nedan, ett nytt slumpmässigt "
-"lösenord kommer att skapas och tilldelas till ditt konto. Av säkerhetsskäl "
-"kommer ett bekräftelsemeddelande skickas till din e-postadress och efter "
-"bekräftelse kommer det nya lösenordet bli aktiverat och skickas till dig."
 
 #: templates/file_upload.tpl.html
-#, fuzzy
 msgid "Note: The current maximum allowed upload file size is"
-msgstr "Notera: den nuvarande tillåtna maxstorleken för uppladdade filer är"
+msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Note: The current maximum allowed upload file size is %1"
-msgstr "Notera: den nuvarande tillåtna maxstorleken för uppladdade filer är"
+msgstr ""
 
 #: templates/help/report_category.tpl.html
 #: templates/help/report_priority.tpl.html
@@ -4252,14 +3902,12 @@ msgid ""
 msgstr ""
 
 #: templates/help/view_note.tpl.html
-#, fuzzy
 msgid "Notes"
-msgstr "Notering:"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
-#, fuzzy
 msgid "Notes About Customer"
-msgstr "sortera efter kund"
+msgstr ""
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
@@ -4337,19 +3985,16 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Open Account Signup:"
-msgstr "Skaffa konto"
+msgstr ""
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Open Issues By Assignee"
-msgstr "Öppna listvyn för ärenden"
+msgstr ""
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Open Issues By Reporter"
-msgstr "Ärenden per release"
+msgstr ""
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 #: templates/new.tpl.html
@@ -4376,18 +4021,16 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Options"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html
-#, fuzzy
 msgid "Order"
-msgstr "Sorteringsordning:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
@@ -4395,9 +4038,8 @@ msgid "Other"
 msgstr "Annat"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Other Emails"
-msgstr "Bifogad e-post"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Other:"
@@ -4416,9 +4058,8 @@ msgid "Outgoing"
 msgstr "Utgående"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Outgoing Email Sender Address"
-msgstr "E-postadress"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Outgoing Email Sender Name"
@@ -4542,9 +4183,8 @@ msgid "Phone Support entry submitted by %1$s"
 msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Phone Time Spent"
-msgstr "Nedlagd tid"
+msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid ""
@@ -4565,65 +4205,52 @@ msgid ""
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate projects for this custom field."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate projects for this group."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate projects for this news entry."
-msgstr "Vänligen välj kategori för tidsnoteringen."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate projects for this status."
-msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate projects for this user."
-msgstr "Vänligen välj ny status för ärendet."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please assign the appropriate support levels for this FAQ entry."
 msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate users for this group."
-msgstr "Vänligen ange rubrik för ärendet."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please assign the appropriate users for this round robin entry."
 msgstr ""
-"Vänligen ange det alternativa användarnamnet för den här installationen av "
-"Eventum."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Please assign the manager of this group."
-msgstr "Vänligen ange meddelandetext för noteringen."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please assign the statuses for this project."
-msgstr "Vänligen välj ny status för ärendet."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please assign the users for this project."
-msgstr "Vänligen ange rubrik för ärendet."
+msgstr ""
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "Please choose"
-msgstr "Vänligen välj en status"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4632,29 +4259,25 @@ msgid "Please choose a category"
 msgstr "Ange en kategori"
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Please choose a customer"
-msgstr "Ange en kategori"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please choose a field"
-msgstr "Vänligen välj ett projekt"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
-#, fuzzy
 msgid "Please choose a priority"
-msgstr "Vänligen välj ett projekt"
+msgstr ""
 
 #: templates/post.tpl.html
 msgid "Please choose a project"
 msgstr "Vänligen välj ett projekt"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please choose a project that will be associated with this reminder."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Please choose a status"
@@ -4671,144 +4294,119 @@ msgid "Please choose an option"
 msgstr "Vänligen välj ett alternativ"
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Please choose an user"
-msgstr "Vänligen välj en status"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid ""
 "Please choose at least one person to assign the new issues created remotely."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Please choose from one of the options below"
 msgstr ""
-"Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
-"alternativ:"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Please choose from one of the options below:"
 msgstr ""
-"Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
-"alternativ:"
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "Please choose new values for the selected issues"
-msgstr "var vänlig välj nya värden för det valda ärendet"
+msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
-msgstr "Vänligen välj en av följande åtgärder för valt e-postmeddelande"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
 msgstr "Ange kategori för det nya telefonsamtalet."
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Please choose the customer for this new note."
-msgstr "Ange kategori för det nya telefonsamtalet."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
-msgid "Please choose the customers that will be associated with this reminder."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgid ""
+"Please choose the customers that will be associated with this reminder."
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Please choose the default category for remote invocations."
-msgstr "Vänligen välj kategori för tidsnoteringen."
+msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Please choose the default category."
-msgstr "Ange en kategori"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Please choose the default priority for remote invocations."
-msgstr "Vänligen välj ärendetyper som skall återskapas för ärendet."
+msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Please choose the default priority."
-msgstr "Vänligen välj projektet."
+msgstr ""
 
 #: templates/redeem_incident.tpl.html
 msgid "Please choose the incident types to redeem for this issue."
 msgstr "Vänligen välj ärendetyper som skall återskapas för ärendet."
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid ""
 "Please choose the initial status from one of the assigned statuses of this "
 "project."
-msgstr "Vänligen välj ny status för ärendet."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid ""
 "Please choose the priorities that will be associated with this reminder."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please choose the project for this FAQ entry."
-msgstr "Vänligen välj projektet."
+msgstr ""
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid "Please choose the project that this new issue will apply to"
-msgstr "Vänligen välj det projekt som ärendet skall tillhöra."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Please choose the project that you wish to customize."
-msgstr "Vänligen välj det projekt som ärendet skall tillhöra."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please choose the project to be associated with this email account."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgstr ""
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
 msgstr "Vänligen välj projektet."
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Please choose the reporter for remote invocations."
-msgstr "Vänligen välj projektet."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid ""
 "Please choose the support levels that will be associated with this reminder."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "Please choose the time tracking category for this new entry."
 msgstr "Vänligen välj kategori för tidsnoteringen."
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
-msgstr "Vänligen kontrollera om SMTP-severn kräver autentisering eller inte."
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
@@ -4817,17 +4415,14 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
-msgid "Please choose whether the daily tips feature should be enabled or not."
+msgid ""
+"Please choose whether the daily tips feature should be enabled or not."
 msgstr ""
-"Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
-"Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid ""
@@ -4842,15 +4437,13 @@ msgid ""
 msgstr ""
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid ""
 "Please choose whether to show custom fields for remote invocations or not."
-msgstr "Vänligen kontrollera om SMTP-severn kräver autentisering eller inte."
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Please choose which aliases need to be removed."
-msgstr "Vänligen välj vilka poster som skall tas bort."
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be associated."
@@ -4909,31 +4502,26 @@ msgid ""
 msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid ""
 "Please enter a comma separated list of valid mail address aliases for this "
 "project"
-msgstr "Ange en giltig avsändaradress"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please enter a number for the rank of this FAQ entry."
-msgstr "Vänligen ange information för den nya tidsnoteringen."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please enter a password of at least 6 characters."
-msgstr "Vänligen ange ditt nya lösenord med minst 6 tecken."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Please enter a pattern."
-msgstr "Vänligen ange ditt lösenord."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Please enter a replacement value."
-msgstr "Vänligen ange ett giltigt ärende ID."
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Please enter a valid email address for the sender address."
@@ -4950,19 +4538,16 @@ msgid "Please enter a valid issue ID."
 msgstr "Vänligen ange ett giltigt ärende ID."
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please enter a valid outgoing sender address for this project."
-msgstr "Ange en giltig avsändaradress"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter a valid port number for this email account."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/emails.tpl.html
-#, fuzzy
 msgid "Please enter an issue to associate these emails with."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/close.tpl.html
@@ -4971,14 +4556,12 @@ msgid ""
 msgstr "Ange heltal (eller decimaltal) i \"Tillbringad tid\" fältet."
 
 #: templates/duplicate.tpl.html
-#, fuzzy
 msgid "Please enter the ID of the duplicated issue."
-msgstr "Var vänlig välj det dubblerade ärendet."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter the IMAP folder for this email account."
-msgstr "Vänligen skriv in text för e-postmeddelandet."
+msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
@@ -4997,9 +4580,8 @@ msgid "Please enter the SMTP server username."
 msgstr "Vänligen ange användarnamn för SMTP-servern."
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the abbreviation of this status."
-msgstr "Vänligen ange mottagare för e-postmeddelandet."
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Please enter the alternate username for this installation of Eventum."
@@ -5013,15 +4595,12 @@ msgstr ""
 "Var vänlig ange analys för förändringar som behövs för det här ärendet."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
-"Vänligen ange den relativa adressen för den här installationen av Eventum."
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the color of this status."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Please enter the database hostname for this installation of Eventum."
@@ -5046,16 +4625,13 @@ msgid "Please enter the description for this new phone support entry."
 msgstr "Ange beskrivning för det här telefonsamtalet."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
-"Vänligen ange den relativa adressen för den här installationen av Eventum."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "Please enter the email address hostname for the email routing interface."
-msgstr "Ange en giltig avsändaradress"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -5064,23 +4640,21 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
-msgid "Please enter the email address prefix for the email routing interface."
-msgstr "Ange en giltig avsändaradress"
+msgid ""
+"Please enter the email address prefix for the email routing interface."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please enter the email of this user."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the estimated development time for this task."
 msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften."
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please enter the full name of this user."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
@@ -5089,24 +4663,21 @@ msgstr ""
 "Vänligen ange värdnamn för servern för den här installationen av Eventum."
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter the hostname for this email account."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/requirement.tpl.html
 msgid "Please enter the impact analysis for this new requirement."
 msgstr "Vänligen ange förändringsanalysen för det nya kravet."
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
-msgid "Please enter the issue IDs that will be associated with this reminder."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgid ""
+"Please enter the issue IDs that will be associated with this reminder."
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
-"Vänligen ange den relativa adressen för den här installationen av Eventum."
 
 #: templates/send.tpl.html
 msgid "Please enter the message body of this email."
@@ -5117,67 +4688,56 @@ msgid "Please enter the message body of this note."
 msgstr "Vänligen ange meddelandetext för noteringen."
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please enter the message for this FAQ entry."
-msgstr "Vänligen ange meddelandetext för noteringen."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Please enter the message for this news entry."
-msgstr "Vänligen ange meddelandetext för noteringen."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please enter the message for this round robin entry."
-msgstr "Vänligen ange meddelandetext för noteringen."
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Please enter the name of this group."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the new requirement for this issue."
 msgstr "Var vänlig ange nytt krav för det här ärendet."
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please enter the new value for the combo box."
-msgstr "Vänligen ange noteringtext i fältet nedanför."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Please enter the note text on the input box below."
 msgstr "Vänligen ange noteringtext i fältet nedanför."
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter the password for this email account."
-msgstr "Vänligen skriv in text för e-postmeddelandet."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter the port number for this email account."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the rank for this reminder."
-msgstr "Vänligen ange rubrik för ärendet."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please enter the rank of this FAQ entry."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Please enter the rank of this priority"
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the rank of this status."
-msgstr "Vänligen ange mottagare för e-postmeddelandet."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Please enter the recipient of this email."
@@ -5207,215 +4767,175 @@ msgid "Please enter the summary for this new time tracking entry."
 msgstr "Vänligen ange information för den nya tidsnoteringen."
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please enter the title for this FAQ entry."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this action."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Please enter the title for this category."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this condition."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Please enter the title for this customization."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this email response."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title for this issue resolution."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new action."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new category."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new condition."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new customization."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new email response."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new issue resolution."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new priority."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new project."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new release."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new reminder."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new status."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new time tracking category."
-msgstr "Vänligen ange information för den nya tidsnoteringen."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Please enter the title for this news entry."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Please enter the title for this priority."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please enter the title for this project."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title for this release."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the title for this reminder."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please enter the title for this round robin entry."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Please enter the title for this saved search."
 msgstr "Vänligen ange en titel för den sparade sökningen."
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this status."
-msgstr "Vänligen ange en titel för den sparade sökningen."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title for this time tracking category."
-msgstr "Vänligen ange information för den nya tidsnoteringen."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please enter the title of this FAQ entry."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Please enter the title of this category"
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please enter the title of this custom field."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Please enter the title of this email response."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Please enter the title of this news entry."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Please enter the title of this note."
 msgstr "Vänligen ange rubrik för noteringen."
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Please enter the title of this priority"
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please enter the title of this project."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title of this release."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title of this resolution."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title of this status."
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title of this time tracking category"
-msgstr "Vänligen ange rubrik för noteringen."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please enter the updated value."
-msgstr "Var vänlig välj det dubblerade ärendet."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please enter the username for this email account."
-msgstr "Vänligen ange ämne för e-postmeddelandet"
+msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Please enter your account email address."
@@ -5438,7 +4958,8 @@ msgid "Please enter your password."
 msgstr "Vänligen ange ditt lösenord."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
-msgid "Please indicate whether the SMTP server requires authentication or not."
+msgid ""
+"Please indicate whether the SMTP server requires authentication or not."
 msgstr "Vänligen kontrollera om SMTP-severn kräver autentisering eller inte."
 
 #: templates/associate.tpl.html
@@ -5455,14 +4976,12 @@ msgid ""
 msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid "Please provide your email address."
-msgstr "Fel: Vänligen ange din e-postadress."
+msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid "Please provide your password."
-msgstr "Fel: Vänligen ange ditt lösenord."
+msgstr ""
 
 #: templates/help/main.tpl.html
 msgid ""
@@ -5471,27 +4990,20 @@ msgid ""
 msgstr ""
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid ""
 "Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
-"Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information om "
-"ärenden i karantän."
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid ""
 "Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined "
 "issues."
 msgstr ""
-"Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information om "
-"ärenden i karantän."
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please select a backend"
-msgstr "Var vänlig välj ett ärende"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please select a valid date for when the phone call took place."
@@ -5506,34 +5018,28 @@ msgid "Please select an assignment for this issue"
 msgstr "Vänligen välj en tilldelning för ärendet"
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please select an option from the list."
-msgstr "Vänligen välj en tilldelning för ärendet"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Please select at least one link filter."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Please select at least one of the FAQ entries."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Please select at least one of the account managers."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Please select at least one of the accounts."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please select at least one of the actions."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Please select at least one of the authorized repliers."
@@ -5541,93 +5047,76 @@ msgstr "Vänligen, välj minst en av de behöriga besvararna."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Please select at least one of the categories."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please select at least one of the conditions."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Please select at least one of the custom fields."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Please select at least one of the customizations."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Please select at least one of the email responses."
-msgstr "Vänligen, välj minst en av de behöriga besvararna."
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Please select at least one of the groups."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Please select at least one of the news entries."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Please select at least one of the notes."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Please select at least one of the priorities."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please select at least one of the projects."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please select at least one of the releases."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please select at least one of the reminders."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please select at least one of the resolutions."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please select at least one of the round robin entries."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please select at least one of the statuses."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Please select at least one of the subscribers."
 msgstr "Vänligen välj minst en av prenumeranterna."
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please select at least one of the time tracking categories."
-msgstr "Vänligen, välj minst en av de behöriga besvararna."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please select at least one of the users."
-msgstr "Vänligen välj minst en av prenumeranterna."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select projects this link filter should be active for."
@@ -5645,9 +5134,8 @@ msgid ""
 msgstr ""
 
 #: templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid "Please select the custom filter to search against."
-msgstr "Vänligen ange ny status för ärendet."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid ""
@@ -5675,9 +5163,8 @@ msgstr "Vänligen välj endast decimaltal för beräknad utvecklingstid."
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Port"
-msgstr "Port:"
+msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5692,9 +5179,8 @@ msgid "Posted Date"
 msgstr "Postat datum"
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Posted Date:"
-msgstr "Postat datum"
+msgstr ""
 
 #: lib/eventum/class.support.php:483
 msgid "Postmaster notify: see transcript for details"
@@ -5705,9 +5191,8 @@ msgid "Preferences"
 msgstr "Inställningar"
 
 #: lib/eventum/class.pager.php:123
-#, fuzzy
 msgid "Previous"
-msgstr "Föregående ärende"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
@@ -5718,9 +5203,8 @@ msgid "Previous Message"
 msgstr "Föregående meddelande"
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Previous Note"
-msgstr "Föregående ärende"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "Primary Technical Account Manager"
@@ -5741,9 +5225,8 @@ msgid "Priority"
 msgstr "Prioritet"
 
 #: lib/eventum/class.help.php:65 templates/help/report_priority.tpl.html
-#, fuzzy
 msgid "Priority Field"
-msgstr "Prioritet"
+msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Priority:"
@@ -5775,14 +5258,12 @@ msgid "Project"
 msgstr "Projekt"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Project Lead"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Project automatically switched to '%1' from '%2'."
-msgstr "Notering: Projektet har automatiskt bytt från '%1' till '%2'."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Project mail aliases"
@@ -5791,21 +5272,18 @@ msgstr ""
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customize_listing.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Project:"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Projects"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Projects:"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Public"
@@ -5816,14 +5294,12 @@ msgid "Quarantine expires in %1"
 msgstr "Karantänen upphör om %1"
 
 #: templates/customer/example/quarantine.tpl.html
-#, fuzzy
 msgid "Quarantine explanation goes here..."
-msgstr "Karantänen upphör om %1"
+msgstr ""
 
 #: templates/mail_queue.tpl.html
-#, fuzzy
 msgid "Queued Date"
-msgstr "Sparat datum"
+msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Quick Search"
@@ -5841,9 +5317,8 @@ msgstr "RSS för den här anpassade sökningen"
 #: templates/manage/priorities.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Rank"
-msgstr "ett"
+msgstr ""
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
 #: templates/manage/statuses.tpl.html
@@ -5871,33 +5346,28 @@ msgid "Reason"
 msgstr "Anledning"
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Reason for closing issue"
-msgstr "Anledning till att ärendet stängs:"
+msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Reason to close"
-msgstr "Anledning till att ärendet stängs:"
+msgstr ""
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Receive emails when all issues are created?"
-msgstr "Mottag e-postmeddelanden när alla ärenden skapas ?"
+msgstr ""
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Receive emails when new issues are assigned to you?"
-msgstr "Mottag e-postmeddelande när nya ärenden tilldelas dig ?"
+msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
 msgstr "Mottagen"
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent"
-msgstr "Återställ"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html templates/reports/tree.tpl.html
 msgid "Recent Activity"
@@ -5908,49 +5378,41 @@ msgid "Recent Activity Report"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Drafts"
-msgstr "Skapa Utkast"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Emails"
-msgstr "Återskapa e-postmeddelanden"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Notes"
-msgstr "Interna noteringat"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Phone Calls"
-msgstr "Spara Telefonsamtal"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Reminder Actions"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Time Entries"
-msgstr "Artikelinlägg"
+msgstr ""
 
 #: templates/mail_queue.tpl.html
-#, fuzzy
 msgid "Recipient"
-msgstr "Mottagare:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Recipient Type Flag:"
-msgstr "Mottagare:"
+msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Recipients"
-msgstr "Mottagare:"
+msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Recipients:"
@@ -6007,9 +5469,8 @@ msgid "Refresh Rate for Issue Listing Page"
 msgstr "Uppdateringsfrekvens för listvyn över ärenden"
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Register"
-msgstr "Rapportör"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
 #: lib/eventum/class.notification.php:622
@@ -6023,20 +5484,16 @@ msgid "Remember Selection"
 msgstr "Kom ihåg val"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid ""
 "Remember to protect your '%1' directory (like changing its permissions) to "
 "prevent anyone else from changing your existing Eventum configuration."
 msgstr ""
-"Kom ihåg att skydda din installationskataölog (genom att ändra rättigheter) "
-"för att förhindra att någon annan ändrar inställningarna."
 
 #: lib/eventum/class.reminder_action.php:754
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Reminder"
-msgstr "Avsändare"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Reminder Alert"
@@ -6047,9 +5504,8 @@ msgid "Reminder Not Triggered"
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Reminder Type"
-msgstr "Återskapade ärendetyper"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Remote Invocation"
@@ -6057,9 +5513,8 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Remove"
-msgstr "Ta bort?"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Remove Quarantine"
@@ -6089,25 +5544,22 @@ msgstr "Borttagna e-postmeddelanden"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as /"
-"home/username/repository for instance. Also make sure to put the appropriate "
-"path to your PHP binary."
+"Replace %1 by the appropriate absolute path in your CVS server, such as "
+"/home/username/repository for instance. Also make sure to put the "
+"appropriate path to your PHP binary."
 msgstr ""
 
 #: templates/self_assign.tpl.html
-#, fuzzy
 msgid "Replace current assignee with Myself."
-msgstr "Ersätt nuvarande tilldelad med mig själv."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Replacement"
-msgstr "Krav"
+msgstr ""
 
 #: templates/help/link_filters.tpl.html
-#, fuzzy
 msgid "Replacement: \"%1\""
-msgstr "Krav"
+msgstr ""
 
 #: templates/notes.tpl.html templates/support_emails.tpl.html
 #: templates/view_email.tpl.html templates/view_form.tpl.html
@@ -6116,42 +5568,36 @@ msgid "Reply"
 msgstr "Svara"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Report"
-msgstr "Rapporter"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Report Form"
-msgstr "Rapportör"
+msgstr ""
 
 #: templates/post.tpl.html
 msgid "Report New Issue"
 msgstr "Rapportera nytt ärende"
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Report Type"
-msgstr "Rapportör"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Report Type:"
-msgstr "Rapportör:"
+msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Report a New Issue"
-msgstr "Rapportera nytt ärende"
+msgstr ""
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
-#, fuzzy
 msgid "Reported By"
-msgstr "Rapportör"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:795
 #: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
@@ -6164,14 +5610,12 @@ msgid "Reporter:"
 msgstr "Rapportör:"
 
 #: lib/eventum/class.help.php:57
-#, fuzzy
 msgid "Reporting Issues"
-msgstr "raportsystem"
+msgstr ""
 
 #: templates/help/main.tpl.html templates/help/report.tpl.html
-#, fuzzy
 msgid "Reporting New Issues"
-msgstr "Rapportera nytt ärende"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Reports"
@@ -6182,9 +5626,8 @@ msgid "Request a Password"
 msgstr "Begär lösenord"
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Required Field"
-msgstr "Obligatoriska fält"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Required Fields"
@@ -6248,28 +5691,24 @@ msgid "Restore Emails"
 msgstr "Återskapa e-postmeddelanden"
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "Results"
-msgstr "Sökresultat"
+msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Return to Issue #%1 Details Page"
-msgstr "Öppna detaljvyn för ärendet"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Review SQL Query"
 msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Role"
-msgstr "Mobil"
+msgstr ""
 
 #: lib/eventum/class.filter.php:767 templates/adv_search.tpl.html
-#, fuzzy
 msgid "Rows Per Page"
-msgstr "Rader per sida:"
+msgstr ""
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Rows per Page:"
@@ -6280,9 +5719,8 @@ msgid "Run Search"
 msgstr "Utför sökning"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "SCM <br />Integration:"
-msgstr "SCM Integration - Inchekningar"
+msgstr ""
 
 #: lib/eventum/class.scm.php:217
 msgid "SCM Checkins associated by SCM user '"
@@ -6295,9 +5733,8 @@ msgstr ""
 
 #: lib/eventum/class.help.php:89 templates/help/main.tpl.html
 #: templates/help/scm_integration.tpl.html
-#, fuzzy
 msgid "SCM Integration"
-msgstr "SCM Integration - Inchekningar"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "SCM Integration - Checkins"
@@ -6337,23 +5774,20 @@ msgid "Save Message"
 msgstr "Spara meddelande"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as Reference Email"
-msgstr "Spara meddelandet som referensbrev"
+msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as an Internal Note"
-msgstr "Spara meddelande som en intern notering"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
 msgstr "Spara telefonsamtal"
 
 #: templates/adv_search.tpl.html
-#, fuzzy
 msgid "Save Search"
-msgstr "Sparade sökningar"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
@@ -6373,9 +5807,8 @@ msgid "Scheduled Release"
 msgstr "Planerad release"
 
 #: lib/eventum/class.help.php:73 templates/help/report_release.tpl.html
-#, fuzzy
 msgid "Scheduled Release Field"
-msgstr "Planerad release"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Scheduled Release:"
@@ -6387,9 +5820,8 @@ msgid "Search"
 msgstr "Sök"
 
 #: templates/opensearch.tpl.xml
-#, fuzzy
 msgid "Search Eventum Issues"
-msgstr "Sökresultat"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "Search Results"
@@ -6400,18 +5832,16 @@ msgid "Search Title"
 msgstr "Söktitel"
 
 #: lib/eventum/class.filter.php:791
-#, fuzzy
 msgid "Search Type"
-msgstr "Söktitel"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Sections to Display"
 msgstr ""
 
 #: templates/help/segregate_reporter.tpl.html
-#, fuzzy
 msgid "Segregate Reporter"
-msgstr "Rapportör"
+msgstr ""
 
 #: lib/eventum/class.help.php:145 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
@@ -6423,9 +5853,8 @@ msgid "Select Project"
 msgstr "Välj projekt"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Select closed status to close issue"
-msgstr "Vänligen ange ny status för ärendet."
+msgstr ""
 
 #: templates/send.tpl.html templates/support_emails.tpl.html
 msgid "Send Email"
@@ -6440,9 +5869,8 @@ msgid "Send Notification About Issue Being Closed?"
 msgstr "Skicka notifiering om att ärendet stängts?"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
-#, fuzzy
 msgid "Send Notification To"
-msgstr "Skicka notifiering till:"
+msgstr ""
 
 #: templates/attached_emails.tpl.html templates/emails.tpl.html
 #: templates/setup.tpl.html
@@ -6450,57 +5878,48 @@ msgid "Sender"
 msgstr "Avsändare"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Sender Email"
-msgstr "Skicka e-post"
+msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Sender:"
 msgstr "Avsändare:"
 
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Separate Closed Issues"
-msgstr "Göm stängda ärenden"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Separate Only Status Changes"
-msgstr "Spara utkastets ändringar"
+msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Server Hostname"
-msgstr "Värdnamn för server:"
+msgstr ""
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
 msgstr "Fastställ"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Set Close Message"
-msgstr "Spara meddelande"
+msgstr ""
 
 #: templates/manage/field_display.tpl.html
-#, fuzzy
 msgid "Set Display Preferences"
-msgstr "Inställningar"
+msgstr ""
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Set Message"
-msgstr "Spara meddelande"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Set available options"
-msgstr "lista tillgängliga e-postmeddelanden"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Short Description"
-msgstr "Beskrivning"
+msgstr ""
 
 #: templates/resize_textarea.tpl.html
 msgid "Shorten the field"
@@ -6511,33 +5930,28 @@ msgid "Show All Drafts"
 msgstr "Visa Alla Utkast"
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Show Custom Fields ?"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Show Customers"
-msgstr "Kund"
+msgstr ""
 
 #: templates/adv_search.tpl.html
-#, fuzzy
 msgid "Show Issues in Which I Am"
-msgstr "Visa ärenden för vilka jag är:"
+msgstr ""
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Show Issues with no Response Between"
 msgstr ""
 
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Show Priority"
-msgstr "Prioritet"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Show Status"
-msgstr "Status"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
@@ -6589,33 +6003,24 @@ msgid ""
 msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Sorry, an error happened while trying to run your query"
-msgstr "Tyvärr, ett fel uppstod vid försök att ställa din fråga."
+msgstr ""
 
 #: templates/duplicate.tpl.html templates/update_form.tpl.html
 msgid "Sorry, an error happened while trying to run your query."
 msgstr "Tyvärr, ett fel uppstod vid försök att ställa din fråga."
 
 #: templates/send.tpl.html
-#, fuzzy
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
-"E-postmeddelandet kunde inte läggas till i kön. Det kan bero på dina SMTP "
-"inställningar.\n"
-" Kontakta systemadministratören för ytterligare information."
 
 #: templates/send.tpl.html
-#, fuzzy
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
-"E-posten kunde inte skickas. Det kan bero på problem med din SMTP "
-"konfiguration.\n"
-"Vänligen kontakta systemadministratören för ytterligare info."
 
 #: templates/post.tpl.html
 msgid ""
@@ -6625,7 +6030,8 @@ msgstr "Det finns för tillfället inget projekt som tillåter anonym postning."
 
 #: templates/emails.tpl.html templates/signup.tpl.html
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr "Tyvärr, den här funktionen har blivit av-aktiverad av administratören."
+msgstr ""
+"Tyvärr, den här funktionen har blivit av-aktiverad av administratören."
 
 #: templates/emails.tpl.html
 msgid "Sorry, but you do not have access to this page."
@@ -6642,14 +6048,12 @@ msgid "Sorry, you do not have permission to access this page."
 msgstr "Du har inte behörighet till sidan."
 
 #: templates/mail_queue.tpl.html
-#, fuzzy
 msgid "Sorry, you do not have permission to view this page"
-msgstr "Du har inte behörighet till sidan."
+msgstr ""
 
 #: templates/update.tpl.html
-#, fuzzy
 msgid "Sorry, you do not have the required privileges to update this issue."
-msgstr "Du har inte behörighet att se ärendet."
+msgstr ""
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
@@ -6662,9 +6066,8 @@ msgstr "Sortera efter"
 #: lib/eventum/class.filter.php:775 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Sort Order"
-msgstr "Sorteringsordning:"
+msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -6679,9 +6082,8 @@ msgid "Staff:"
 msgstr "Personal:"
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Stalled Issues"
-msgstr "Associerat ärende"
+msgstr ""
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Stalled Issues Report"
@@ -6696,9 +6098,8 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid "Start"
-msgstr "Statistik"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Start Installation"
@@ -6746,9 +6147,8 @@ msgid "Status:"
 msgstr "Status:"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Statuses"
-msgstr "Status"
+msgstr ""
 
 #: templates/attached_emails.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/mail_queue.tpl.html
@@ -6772,9 +6172,8 @@ msgid "Submit"
 msgstr "Skicka"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
-#, fuzzy
 msgid "Submitted"
-msgstr "Skicka"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Submitted Date"
@@ -6812,23 +6211,20 @@ msgid "Summary"
 msgstr "Sammanfattning"
 
 #: lib/eventum/class.help.php:77 templates/help/report_summary.tpl.html
-#, fuzzy
 msgid "Summary Field"
-msgstr "Sammanfattning"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
 msgstr "Rubrik:"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Sunday"
-msgstr "alla"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
-#, fuzzy
 msgid "Support Expiration Date"
-msgstr "Supportalternativ"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:669
 #: lib/eventum/class.display_column.php:212
@@ -6841,18 +6237,16 @@ msgid "Support Level"
 msgstr "Supportnivå"
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Support Levels"
-msgstr "Supportnivå"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Support Options"
 msgstr "Supportalternativ"
 
 #: templates/customer/example/customer_lookup.tpl.html
-#, fuzzy
 msgid "Support Type"
-msgstr "Supportnivå"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6874,23 +6268,20 @@ msgid "Temp Number"
 msgstr "Tillfälligt nummer"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Tentative Date"
-msgstr "Skapa databas"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Tentative Date:"
-msgstr "Updaterat datum:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Text Input"
-msgstr "Nästa ärende"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
@@ -6910,59 +6301,49 @@ msgid ""
 "instructions available in this message to confirm your password creation "
 "request."
 msgstr ""
-"Tack, ett bekräftelsemeddelande har just blivit skickat till dig. Var "
-"vänlig \n"
+"Tack, ett bekräftelsemeddelande har just blivit skickat till dig. Var vänlig "
+"\n"
 " följ instruktionerna i meddelandet och bekräfta begäran om lösenord."
 
 #: templates/manage/column_display.tpl.html
-#, fuzzy
 msgid "Thank you, columns to display was saved successfully."
-msgstr "Tack så mycket, det anpassade filtret har sparats."
+msgstr ""
 
 #: templates/manage/field_display.tpl.html
-#, fuzzy
 msgid "Thank you, field display settings were updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Thank you, issue #%1 was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Thank you, the FAQ entry was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Thank you, the FAQ entry was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Thank you, the account manager was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Thank you, the account manager was updated successfully."
-msgstr "Tack så mycket, förändringsanalys har uppdaterats."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Thank you, the account was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Thank you, the action was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Thank you, the action was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6980,25 +6361,21 @@ msgstr "Tack så mycket, behöriga besvarare har lagts till."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Thank you, the category was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
-#, fuzzy
 msgid "Thank you, the category was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Thank you, the condition was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Thank you, the condition was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the current issue is no longer marked as a duplicate."
@@ -7009,52 +6386,44 @@ msgid "Thank you, the custom field values were updated successfully."
 msgstr "Tack så mycket, det anpassade fältets värde har updaterats."
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Thank you, the custom field was added successfully."
-msgstr "Tack så mycket, det anpassade filtret har sparats."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Thank you, the custom field was updated successfully."
-msgstr "Tack så mycket, det anpassade fältets värde har updaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the custom filter was saved successfully."
 msgstr "Tack så mycket, det anpassade filtret har sparats."
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Thank you, the customization was added successfully."
-msgstr "Tack så mycket, det anpassade filtret har sparats."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Thank you, the customization was updated successfully."
-msgstr "Tack så mycket, notifierinsposten har uppdaterats."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Thank you, the email account was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Thank you, the email aliases were removed successfully"
-msgstr "Tack så mycket, e-postmeddelandet har markerats som borttaget."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Thank you, the email message was saved as a draft successfully."
 msgstr "Tack så mycket, e-postmeddelandet har sparats som utkast."
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Thank you, the email response was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Thank you, the email response was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was queued to be sent successfully."
@@ -7077,14 +6446,12 @@ msgid "Thank you, the file was removed successfully."
 msgstr "Tack så mycket, filen har tagits bort."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Thank you, the group was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Thank you, the group was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the impact analysis was set successfully."
@@ -7095,9 +6462,8 @@ msgid "Thank you, the impact analysis was updated successfully."
 msgstr "Tack så mycket, förändringsanalys har uppdaterats."
 
 #: templates/manage/anonymous.tpl.html
-#, fuzzy
 msgid "Thank you, the information was updated successfully."
-msgstr "Tack så mycket, notifierinsposten har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the inital impact analysis was set successfully."
@@ -7108,28 +6474,22 @@ msgid "Thank you, the internal note was posted successfully."
 msgstr "Tack så mycket, den interna noteringen har sparats."
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Thank you, the issue resolution was added successfully."
-msgstr "Tack så mycket, de nya kraven har lagts till."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Thank you, the issue resolution was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Thank you, the issue was closed successfully"
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/duplicate.tpl.html
-#, fuzzy
 msgid ""
 "Thank you, the issue was marked as a duplicate successfully. Please choose "
 "from one of the options below:"
 msgstr ""
-"Tack, ärendet har markerats som dublett. Var vänlig \n"
-"              välj ett av alternativen nedan: "
 
 #: templates/redeem_incident.tpl.html
 msgid "Thank you, the issue was successfully marked."
@@ -7144,24 +6504,20 @@ msgid "Thank you, the issue was updated successfully."
 msgstr "Tack så mycket, ärendet har uppdaterats."
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Thank you, the link filter was added successfully."
-msgstr "Tack så mycket, det anpassade filtret har sparats."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Thank you, the link filter was deleted successfully."
-msgstr "Tack så mycket, filen har tagits bort."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Thank you, the link filter was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Thank you, the new issue was created successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/post.tpl.html
 msgid ""
@@ -7172,13 +6528,10 @@ msgstr ""
 "<font color=\"red\">%1</font>"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid ""
 "Thank you, the new issue was created successfully. Please choose from one of "
 "the options below"
 msgstr ""
-"Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
-"alternativ:"
 
 #: templates/popup.tpl.html
 msgid ""
@@ -7192,37 +6545,32 @@ msgid "Thank you, the new requirement was added successfully."
 msgstr "Tack så mycket, de nya kraven har lagts till."
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Thank you, the news entry was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Thank you, the news entry was updated successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Thank you, the note was added successfully."
-msgstr "Tack så mycket, noteringen har tagis bort."
+msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Thank you, the note was converted successfully."
 msgstr "Tack så mycket, noteringen konverterades."
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Thank you, the note was deleted successfully."
-msgstr "Tack så mycket, noteringen konverterades."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
 msgstr "Tack så mycket, noteringen har tagis bort."
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Thank you, the note was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Thank you, the notification entry was updated successfully."
@@ -7237,69 +6585,59 @@ msgid "Thank you, the phone support entry was removed successfully."
 msgstr "Tack så mycket, telefonsupportposten har tagits bort."
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Thank you, the priority was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Thank you, the priority was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Thank you, the project was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Thank you, the project was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Thank you, the release was added successfully."
-msgstr "Tack så mycket, de nya kraven har lagts till."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Thank you, the release was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Thank you, the reminder was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Thank you, the reminder was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Thank you, the round robin entry was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Thank you, the round robin entry was updated successfully."
-msgstr "Tack så mycket, notifierinsposten har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the selected checkin information entries were removed "
 "successfully."
-msgstr "Tack så mycket, de valda checkin informationsposterna har tagits bort."
+msgstr ""
+"Tack så mycket, de valda checkin informationsposterna har tagits bort."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "Tack så mycket, de valda anpassade filtren har tagits bor."
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Thank you, the selected email message was associated successfully."
-msgstr "Tack så mycket, det valda e-postmeddelandet har associerats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
@@ -7310,29 +6648,24 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Tack så mycket, de valda kraven har tagits bort."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Thank you, the setup information was saved successfully."
-msgstr "Tack så mycket, det anpassade filtret har sparats."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Thank you, the status was added successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Thank you, the status was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Thank you, the time tracking category was added successfully."
-msgstr "Tack så mycket, tidsnoteringen har sparats."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Thank you, the time tracking category was updated successfully."
-msgstr "Tack så mycket, tidsnoteringen har sparats."
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "Thank you, the time tracking entry was added successfully."
@@ -7347,14 +6680,12 @@ msgid "Thank you, the uploaded file was associated with the issue below."
 msgstr "Tack, den uppladdade filen har associerats med ärendet nedan."
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Thank you, the user was added successfully."
-msgstr "Tack, telefonsamtalet är tillagt."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Thank you, the user was updated successfully."
-msgstr "Tack så mycket, ärendet har uppdaterats."
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, this issue was removed from quarantine."
@@ -7374,9 +6705,8 @@ msgid "Thank you, you are now logged out of %1"
 msgstr "Tack, du är nu utloggad från %1"
 
 #: templates/clock_status.tpl.html
-#, fuzzy
 msgid "Thank you, your account clocked-in status was changed successfully."
-msgstr "Tack så mycket, projektet har ändrats."
+msgstr ""
 
 #: templates/signup.tpl.html
 msgid ""
@@ -7389,17 +6719,14 @@ msgstr ""
 "ditt konto."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
 msgstr ""
-"Tack så mycket, ditt konto är nu aktiverat och kan användas. Använd "
-"formuläret nedanför för att logga in."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
-msgstr "Tack så mycket, ditt konto har uppdaterats. "
+msgstr "Tack så mycket, ditt konto har uppdaterats."
 
 #: templates/switch.tpl.html
 msgid "Thank you, your current selected project was changed successfully."
@@ -7423,7 +6750,7 @@ msgid ""
 "should receive an email with your new password shortly."
 msgstr ""
 "Tck så mycket, din begäran om ett nytt lösenord har genomförts. Inom kort "
-"kommer du få ett e-postmeddelande med ditt nya lösenord. "
+"kommer du få ett e-postmeddelande med ditt nya lösenord."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7484,11 +6811,9 @@ msgid ""
 msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "The email address / password combination could not be found in the system."
 msgstr ""
-"Fel. Den e-postadress / lösenordskombination kunde inte hittas i systemet."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
@@ -7517,9 +6842,8 @@ msgid ""
 msgstr ""
 
 #: templates/self_assign.tpl.html
-#, fuzzy
 msgid "The following user is already assigned to this issue"
-msgstr "Följande användare finns redan som tilldelade för ärendet"
+msgstr ""
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7547,9 +6871,8 @@ msgid ""
 msgstr ""
 
 #: templates/notifications/updated.tpl.text
-#, fuzzy
 msgid "The issue was updated by %1"
-msgstr "lista alla ärenden tilldelade dig"
+msgstr ""
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7571,33 +6894,22 @@ msgid "The original message headers follow"
 msgstr ""
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account email address could not be confirmed. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
-"Det tillhandahållna utvärderingskontots e-postadress kunde inte \n"
-"bekräftas. Vänligen kontakta supporten för ytterligare info. "
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account email address could not be found. Please contact "
 "the local Technical Support staff for further assistance."
 msgstr ""
-"Det tillhandahållna utvärderingskontots e-postadress kunde inte \n"
-"bekräftas. Vänligen kontakta supporten för ytterligare info. "
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account encrypted hash could not be authenticated. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
-"Det tillhandahållna utvärderingskontots krypterade\n"
-"           hash kunde inte \n"
-"autoriseras. Vänligen \n"
-"           kontakta support för ytterligare info."
 
 #: templates/help/list.tpl.html
 msgid ""
@@ -7624,8 +6936,8 @@ msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
 msgstr ""
-"Den uppladdade filen är redan bifogad till det nuvarande ärendet. Var "
-"vänlig \n"
+"Den uppladdade filen är redan bifogad till det nuvarande ärendet. Var vänlig "
+"\n"
 " byt namn på filen och försök igen."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
@@ -7647,9 +6959,8 @@ msgstr ""
 "databasservern. Kontakta systemadministratören för ytterligar information."
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "There was an error creating your issue."
-msgstr "Det uppstod ett fel när ärendet markerades som återskapat"
+msgstr ""
 
 #: templates/redeem_incident.tpl.html
 msgid "There was an error marking this issue as redeemed"
@@ -7664,9 +6975,8 @@ msgid "This Issue is Currently Quarantined"
 msgstr "Ärendet ligger i karantän"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "This action will change the status of the selected users."
-msgstr "Den här åtgärden kommer ta bort vald post."
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "This action will mark the selected email messages as deleted."
@@ -7692,37 +7002,34 @@ msgid "This action will permanently delete the specified note."
 msgstr "Åtgärden kommer ta bort noteringen."
 
 #: templates/phone_support.tpl.html
-msgid "This action will permanently delete the specified phone support entry."
+msgid ""
+"This action will permanently delete the specified phone support entry."
 msgstr "Den här åtgärden kommer ta bort telefonsupportposten."
 
 #: templates/time_tracking.tpl.html
-msgid "This action will permanently delete the specified time tracking entry."
+msgid ""
+"This action will permanently delete the specified time tracking entry."
 msgstr "Åtgärden kommer ta bort den valda tidsnoteringen."
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected FAQ entries."
-msgstr "Den här åtgärden kommer ta bort valda poster."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected custom fields."
-msgstr "Det här åtgärden kommer ta bort den valda filen."
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected entries."
-msgstr "Den här åtgärden kommer ta bort valda poster."
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected news entries."
-msgstr "Den här åtgärden kommer ta bort valda poster."
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected round robin entries."
-msgstr "Den här åtgärden kommer ta bort valda poster."
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid ""
@@ -7731,9 +7038,8 @@ msgid ""
 msgstr "Åtgärden kommer ta bort associeringen till valda poster för ärendet."
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "This action will remove the selected account managers."
-msgstr "Den här åtgärden kommer ta bort vald post."
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/manage/categories.tpl.html
 #: templates/manage/customize_listing.tpl.html
@@ -7892,17 +7198,15 @@ msgstr ""
 "tilldelade användare kan se ärendet."
 
 #: templates/notifications/closed.tpl.text
-#, fuzzy
 msgid ""
 "This issue was just closed by %1 with the message:\n"
 "\n"
 "%2."
-msgstr "lista ärenden lagrade i systemet"
+msgstr ""
 
 #: templates/notifications/closed.tpl.text
-#, fuzzy
 msgid "This issue was just closed by %1."
-msgstr "lista alla ärenden tilldelade dig"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "This message already belongs to that account"
@@ -7976,20 +7280,14 @@ msgid ""
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid ""
 "This value is used only for these installation procedures, and is not saved "
 "if you provide a separate user below."
 msgstr ""
-"<b>Notera:</b> Användaren kräver behörighet för att skapa och tabort "
-"tabeller i databasen.<br />Värdet används endast för det "
-"installationsförfarandeoch sparas inte om du angivit en annan användare "
-"nedanför. "
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Time Category"
-msgstr "Tidskategori:"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Time Period"
@@ -8010,18 +7308,16 @@ msgid "Time Spent:"
 msgstr "Nedlagd tid:"
 
 #: lib/eventum/class.customer_stats_report.php:734
-#, fuzzy
 msgid "Time Statistics"
-msgstr "Prestandatest, statistik"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Time To Close"
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Time To First Response"
-msgstr "Första svar från personal"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:735
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
@@ -8038,14 +7334,13 @@ msgid "Time entry inserted from phone call."
 msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Time tracking category"
-msgstr "Tidsnotering"
+msgstr ""
 
 #: lib/eventum/class.time_tracking.php:398
-#, fuzzy, php-format
+#, php-format
 msgid "Time tracking entry removed by %1$s"
-msgstr "Inga tidsnoteringar kunde hittas."
+msgstr ""
 
 #: lib/eventum/class.time_tracking.php:448
 #, php-format
@@ -8131,9 +7426,8 @@ msgid "Tool Caption:"
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Tot"
-msgstr "Till"
+msgstr ""
 
 #: templates/redeem_incident.tpl.html
 #: templates/reports/customer_stats.tpl.html
@@ -8145,19 +7439,16 @@ msgid "Total Estimated Dev. Time"
 msgstr "Total Beräknad utv. tid"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Total Issues"
-msgstr "Lista ärenden"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Total Notes"
-msgstr "Interna noteringat"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Total Phone Calls"
-msgstr "Telefonsamtal"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html templates/time_tracking.tpl.html
 msgid "Total Time Spent"
@@ -8177,9 +7468,8 @@ msgstr "Triggad Händelse"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
-#, fuzzy
 msgid "Triggered Reminder"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -8194,9 +7484,8 @@ msgstr "Typ"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Type:"
-msgstr "Typ"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -8217,41 +7506,34 @@ msgid "Update"
 msgstr "Updatera"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Update Account"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Update Account Manager"
-msgstr "Skapa konto"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Update Action"
-msgstr "Uppdatera prenumerationer"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Update Category"
-msgstr "Updaterat datum:"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Update Condition"
-msgstr "Uppdatera prenumerationer"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Update Custom Field"
-msgstr "Anpassade fält"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-#, fuzzy
 msgid "Update Customization"
-msgstr "Uppdatera prenumerationer"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Update Date:"
@@ -8262,37 +7544,33 @@ msgid "Update Email Address"
 msgstr "Uppdatera e-postadress"
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Update Email Response"
-msgstr "Uppdatera e-postadress"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Update FAQ Entry"
-msgstr "uppdatering notering"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Update Full Name"
 msgstr "Updatera fullständigt namn"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Update Group"
-msgstr "Uppdatera ärende"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Update Issue"
 msgstr "Uppdatera ärende"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Update Issue #%1"
-msgstr "Uppdatera ärende"
+msgstr ""
 
 #: htdocs/update.php:67
-#, fuzzy, php-format
+#, php-format
 msgid "Update Issue #%1$s"
-msgstr "Uppdatera ärende"
+msgstr ""
 
 #: templates/custom_fields_form.tpl.html
 msgid "Update Issue Details"
@@ -8303,53 +7581,44 @@ msgid "Update Issue Overview"
 msgstr "Uppdatera ärendeöversikt"
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
 msgid "Update Link Filter"
-msgstr "Updaterat datum:"
+msgstr ""
 
 #: templates/manage/news.tpl.html
-#, fuzzy
 msgid "Update News Entry"
-msgstr "uppdatering notering"
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "Update Note"
-msgstr "Updaterat datum:"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Update Password"
 msgstr "Updatera lösenord"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Update Preferences"
-msgstr "Inställningar"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
-#, fuzzy
 msgid "Update Priority"
-msgstr "Prioritet"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Update Project"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Update Release"
-msgstr "Updatera värden"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Update Reminder"
-msgstr "uppdatering notering"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Update Resolution"
-msgstr "Lösning"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Update Round Robin Entry"
@@ -8357,47 +7626,40 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#, fuzzy
 msgid "Update Setup"
-msgstr "Uppdatera ärende"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html templates/manage/users.tpl.html
-#, fuzzy
 msgid "Update Status"
-msgstr "Updatera värden"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Update Subscription"
 msgstr "Uppdatera prenumerationer"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Update User"
-msgstr "Uppdatera ärende"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Update Value"
-msgstr "Updatera värden"
+msgstr ""
 
 #: templates/custom_fields_form.tpl.html
 msgid "Update Values"
 msgstr "Updatera värden"
 
 #: lib/eventum/class.notification.php:686
-#, fuzzy
 msgid "Updated"
-msgstr "Updatera"
+msgstr ""
 
 #: lib/eventum/class.filter.php:747
-#, fuzzy
 msgid "Updated Date"
-msgstr "Updaterat datum:"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Updating Reminder"
-msgstr "Skapa påminnelse:"
+msgstr ""
 
 #: templates/attachments.tpl.html templates/file_upload.tpl.html
 msgid "Upload File"
@@ -8439,9 +7701,8 @@ msgstr "Användardealjer"
 
 #: lib/eventum/class.help.php:149 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid "User Permission Levels"
-msgstr "Skapa användare och behörighet"
+msgstr ""
 
 #: lib/eventum/class.notification.php:1371
 msgid "User account information updated"
@@ -8453,14 +7714,12 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Username"
-msgstr "Användarnamn:"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Users"
-msgstr "Användare"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid ""
@@ -8471,9 +7730,8 @@ msgstr ""
 "att läggas tll i listan över behöriga besvarare."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Users:"
-msgstr "Användare"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Using CSC"
@@ -8493,29 +7751,25 @@ msgid "View Email Details"
 msgstr "Visa detaljer för e-post"
 
 #: templates/view_headers.tpl.html
-#, fuzzy
 msgid "View Email Raw Headers"
-msgstr "Visa e-posten oformaterad"
+msgstr ""
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "View Note Details"
-msgstr "Visa detaljer för e-post"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Viewer"
 msgstr ""
 
 #: templates/emails.tpl.html
-#, fuzzy
 msgid "Viewing Emails (%1 email found)"
-msgstr " Visa E-post (%1 e-postmeddelanden hittades)"
+msgstr ""
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
-#, fuzzy
 msgid "Viewing Issues"
-msgstr "Nytt Ärende"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "WARNING"
@@ -8552,25 +7806,18 @@ msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid ""
 "WARNING: If you want to use the email integration features to download "
 "messages saved on a IMAP/POP3 server, you will need to enable the IMAP "
 "extension in your PHP.INI configuration file. See the PHP manual for more "
 "details."
 msgstr ""
-"VARNING: Om du vill använda e-postintegrationen för att ladda ned "
-"meddelanden sparade på en IMAP/POP3-serveer, så måste du aktivera IMAP-"
-"tilläget i php.ini."
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid ""
 "WARNING: This action will permanently remove the selected email aliases from "
 "your email account."
 msgstr ""
-"VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
-"postkonto."
 
 #: templates/removed_emails.tpl.html
 msgid ""
@@ -8581,19 +7828,17 @@ msgstr ""
 "postkonto."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "WARNING: This action will remove the selected groups permanently."
-msgstr "Den här åtgärden kommer ta bort vald post."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-#, fuzzy
-msgid "WARNING: This action will remove the selected link filters permanently."
-msgstr "Den här åtgärden kommer ta bort vald post."
+msgid ""
+"WARNING: This action will remove the selected link filters permanently."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "WARNING: This action will remove the selected projects permanently."
-msgstr "Den här åtgärden kommer ta bort vald post."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid ""
@@ -8645,9 +7890,8 @@ msgid "Warn Users Whether They Can Send Emails to Issue:"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-#, fuzzy
 msgid "Warning"
-msgstr "Varning!"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid ""
@@ -8657,7 +7901,7 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Warning: If you continue, you will change the "
-msgstr "Varning: om du fortsätter, kommer du att ändra"
+msgstr "Varning: om du fortsätter, kommer du att ändra "
 
 #: templates/reports/workload_date_range.tpl.html
 msgid ""
@@ -8688,9 +7932,8 @@ msgstr ""
 "kontrollera att du valt korrekta e-postmeddelanden att associera."
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Warning: your issue is currently quarantined."
-msgstr "Ärendet ligger i karantän"
+msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -8712,9 +7955,8 @@ msgid "Weekly"
 msgstr ""
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Weekly Report"
-msgstr "Rapporter"
+msgstr ""
 
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
@@ -8786,10 +8028,10 @@ msgstr "Du har inte tillåtelse att använda det valda projektet."
 
 #: templates/tips/custom_queries.tpl.html
 msgid ""
-"You can create as many custom queries as you want through the <a class=\"link"
-"\" href=\"%1\">Advanced Search</a> interface. There is also the ability to "
-"save and modify custom queries and load them quickly from the Issue Listing "
-"screen."
+"You can create as many custom queries as you want through the <a "
+"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
+"ability to save and modify custom queries and load them quickly from the "
+"Issue Listing screen."
 msgstr ""
 
 #: templates/tips/canned_responses.tpl.html
@@ -8847,11 +8089,10 @@ msgid "You do not have the permission to remove this file."
 msgstr "Du har inte behörighet att ta bort filen."
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid ""
 "You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so "
 "wish."
-msgstr "Du får <a class=\"link\" href=\"%1\">%2</a> om du så vill."
+msgstr ""
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -8874,9 +8115,8 @@ msgid ""
 msgstr ""
 
 #: lib/eventum/class.notification.php:1574
-#, fuzzy
 msgid "Your User Account Details"
-msgstr "Användardealjer"
+msgstr ""
 
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
@@ -8900,25 +8140,17 @@ msgid "Your user account password has been updated in %1"
 msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Your user status is currently set as inactive. Please contact your local "
 "system administrator for further information."
 msgstr ""
-"Fel: din användare är just nu satt till inaktiv. Var vänlig \n"
-" kontakta din lokala systemadministratör \n"
-" för mer information."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Your user status is currently set as pending. This means that you still need "
 "to confirm your account creation request. Please contact your local system "
 "administrator for further information."
 msgstr ""
-"Fel: Din användarstatus är väntande. Detta betyder att du\n"
-"måste bekräfta att ditt konto skapas. Vänligen kontakta \n"
-"systemadministratören för ytterligare information."
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -8928,14 +8160,13 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
-"\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
+"13)\" form.php"
 msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:57
-#, fuzzy
 msgid "actions"
-msgstr "Åtgärder"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "advanced search"
@@ -8983,9 +8214,8 @@ msgid "create a new issue"
 msgstr "Skapa ett nytt ärende"
 
 #: templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid "create advanced searches"
-msgstr "avancerad sökning"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "current filters"
@@ -8993,14 +8223,12 @@ msgstr "nuvarande filter"
 
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid "day"
-msgstr "alla"
+msgstr ""
 
 #: templates/reports/open_issues.tpl.html
-#, fuzzy
 msgid "days"
-msgstr "som"
+msgstr ""
 
 #: templates/attachments.tpl.html templates/notes.tpl.html
 #: templates/phone_support.tpl.html templates/time_tracking.tpl.html
@@ -9008,14 +8236,12 @@ msgid "delete"
 msgstr "radera"
 
 #: templates/attachments.tpl.html
-#, fuzzy
 msgid "delete attachment"
-msgstr "Bilagor"
+msgstr ""
 
 #: templates/attachments.tpl.html
-#, fuzzy
 msgid "delete file"
-msgstr "radera"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "descending"
@@ -9039,27 +8265,24 @@ msgstr ""
 
 #: templates/attachments.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "download file"
-msgstr "Ladda upp fil"
+msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
 msgstr "redigera listan med behöriga besvarareför ärendet"
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "edit the notification list for this issue"
-msgstr "redigera listan med behöriga besvarareför ärendet"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "edit this custom search"
 msgstr "redigera denna anpassade sökning"
 
 #: htdocs/reports/workload_time_period_graph.php:53
-#, fuzzy
 msgid "emails"
-msgstr "Epostmeddelanden"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "enter a new option above"
@@ -9070,9 +8293,8 @@ msgid "error condition detected"
 msgstr "felaktighet upptäckt"
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "first"
-msgstr "förnamn"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
@@ -9154,41 +8376,36 @@ msgid "is neither a known staff member or customer technical contact."
 msgstr "är varken en personals eller kunds tekniska kontakt."
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "issue"
-msgstr "Ärende"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "issues found"
 msgstr "ärenden hittade"
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "issues worked on"
-msgstr "ärenden hittade"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "it will show up by the side of the field"
 msgstr ""
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "keywords"
-msgstr "Nyckelord"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "last name"
 msgstr "efternamn"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "leave empty to keep the current password"
-msgstr "Vänligen ange lösenord för SMTP-servern."
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "list all email aliases"
-msgstr "lista tillgängliga e-postmeddelanden"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "list all issues assigned to you"
@@ -9211,9 +8428,8 @@ msgid "logout from"
 msgstr "logga ut från"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "manage alias"
-msgstr "Version"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "manage the application settings, users, projects, etc"
@@ -9277,9 +8493,8 @@ msgid "or"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "page"
-msgstr "Updatera"
+msgstr ""
 
 #: templates/lookup_field.tpl.html
 msgid "paste or start typing here"
@@ -9298,9 +8513,8 @@ msgid "quick search"
 msgstr "Snabbsökning"
 
 #: templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid "quick search bar"
-msgstr "Snabbsökning"
+msgstr ""
 
 #: templates/faq.tpl.html
 msgid "read faq entry"
@@ -9335,9 +8549,8 @@ msgid "select this contact"
 msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "send email to"
-msgstr "Skicka e-post"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
@@ -9442,25 +8655,21 @@ msgid "view issue details"
 msgstr "visa ärendedetaljer"
 
 #: templates/notes.tpl.html
-#, fuzzy
 msgid "view note details"
-msgstr "Visa detaljer för e-post"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "view reminder action details"
-msgstr "visa e-postdetaljer"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "view reminder details"
-msgstr "visa e-postdetaljer"
+msgstr ""
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "view the full history of changes on this issue"
-msgstr "se historik över skickad e-post"
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "view the history of sent emails"
@@ -9475,9 +8684,8 @@ msgid "week"
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "year"
-msgstr "Rensa"
+msgstr ""
 
 #~ msgid "Port:"
 #~ msgstr "Port:"
@@ -9527,34 +8735,6 @@ msgstr "Rensa"
 #~ msgid "lookup issues by their summaries"
 #~ msgstr "sök upp ärenden efter deras sammanfattningar"
 
-#, fuzzy
-#~ msgid ""
-#~ "WARNING: This action will remove the selected groups permanently.nPlease "
-#~ "click OK to confirm."
-#~ msgstr ""
-#~ "VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
-#~ "postkonto."
-
-#, fuzzy
-#~ msgid "Name: *"
-#~ msgstr "Notering:"
-
-#, fuzzy
-#~ msgid "Assigned Projects: *"
-#~ msgstr "Tilldelade ärenden"
-
-#, fuzzy
-#~ msgid "Users: *"
-#~ msgstr "Användare"
-
-#, fuzzy
-#~ msgid "Auto-Creation of Issues:"
-#~ msgstr "Skapa ärende"
-
-#, fuzzy
-#~ msgid "Note:"
-#~ msgstr "Notering:"
-
 #~ msgid "IN"
 #~ msgstr "IN"
 
@@ -9567,15 +8747,6 @@ msgstr "Rensa"
 #~ msgid "In"
 #~ msgstr "In"
 
-#, fuzzy
-#~ msgid ""
-#~ "Warning: your issue is currently quarantined.\n"
-#~ "                Please see the <a href=\"faq.php\">FAQ</a> for "
-#~ "information regarding quarantined issues."
-#~ msgstr ""
-#~ "Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information "
-#~ "om ärenden i karantän."
-
 #~ msgid "yes"
 #~ msgstr "ja"
 
@@ -9583,15 +8754,11 @@ msgstr "Rensa"
 #~ msgstr "nej"
 
 #~ msgid "Note: "
-#~ msgstr "Notering:"
-
-#, fuzzy
-#~ msgid "Reported"
-#~ msgstr "Rapportör"
+#~ msgstr "Notering: "
 
 #~ msgid ""
-#~ "Thank you, the issue was closed successfully. Please choose from one of "
-#~ "the options below:"
+#~ "Thank you, the issue was closed successfully. Please choose from one of the "
+#~ "options below:"
 #~ msgstr ""
 #~ "Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
 #~ "alternativ:"
@@ -9623,8 +8790,8 @@ msgstr "Rensa"
 #~ msgid ""
 #~ "Please enter the full path in the server of this installation of Eventum."
 #~ msgstr ""
-#~ "Vänligen ange den fullständiga sökvägen i servern för den här "
-#~ "installationen av Eventum."
+#~ "Vänligen ange den fullständiga sökvägen i servern för den här installationen "
+#~ "av Eventum."
 
 #~ msgid ""
 #~ "You are running PHP version %1.\n"
@@ -9633,12 +8800,11 @@ msgstr "Rensa"
 #~ "properly."
 #~ msgstr ""
 #~ "Du använder PHP-versonen %1.\n"
-#~ "Även om mycket tid och kraft har lagts på att få Eventum at fungera med "
-#~ "PHP 5 eller senare så har det inte testats fullt ut och det kan hända att "
-#~ "det inte fungerar."
+#~ "Även om mycket tid och kraft har lagts på att få Eventum at fungera med PHP "
+#~ "5 eller senare så har det inte testats fullt ut och det kan hända att det "
+#~ "inte fungerar."
 
-#~ msgid ""
-#~ "Please report any problems you find to eventum-users@lists.mysql.com."
+#~ msgid "Please report any problems you find to eventum-users@lists.mysql.com."
 #~ msgstr ""
 #~ "Vänligen rappportera eventuella fel i installationen till eventum-"
 #~ "users@lists.mysql.com."

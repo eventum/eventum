@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2008-05-06 15:48+0100\n"
-"Last-Translator: Alex Krappen <sam.krappen@zeeland.nl>\n"
+"PO-Revision-Date: 2009-11-18 16:03+0000\n"
+"Last-Translator: Alex Krappen <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Translate Toolkit 1.1.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2009-11-21 04:46+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -37,7 +38,7 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid " Error: Please provide your email address."
-msgstr "Fout: Geef een geldig emailadres."
+msgstr " Fout: Geef een geldig emailadres."
 
 #: htdocs/view.php:74
 #, php-format
@@ -68,13 +69,10 @@ msgid "%1$s or less"
 msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
-"Categorieën voor 'Notitiegesprek' , 'Emailgesprek' en 'Telefoongepsrek' \n"
-"        zijn verplicht in Eventum en kunnen niet verwijderd worden."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -168,44 +166,29 @@ msgid "-- Select One --"
 msgstr "-- Selecteer --"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
-"<b>Let op:</b> Bericht wordt <b>niet</b> verzonden aan de notificatielijst "
-"wanneer deze optie wordt gekozen. Dit is bedoeld om eerder verzonden "
-"berichten opnieuw te koppelen."
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
-"<b>Let op:</b> Bericht wordt verzonden aan de notificatielijst, inclusief "
-"relaties, als deze optie wordt gekozen"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"<b>Let op:</b> Het bericht wordt opgeslagen als een notitie en alleen "
-"verzonden naar stafmedewerkers."
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
 msgstr ""
-"Account gebruiken voor routering van niet op onderwerp gebaseerde \n"
-"emails/drafts/notities.\n"
-"<b>Let op:</b> Als u deze optie aanvinkt dan kunt u geen kopieën van "
-"brichten'n op de server achterlaten."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -425,9 +408,8 @@ msgid "Administrator"
 msgstr "Systeembeheerder"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Advanced Options"
-msgstr "Geavanceerde opties:"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -513,31 +495,19 @@ msgid "Allow Un-Assigned Issues?"
 msgstr "Niet-toegekende meldingen toestaan?"
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
-"Gemachtigd om meldingen in het project die aan\n"
-"deze gebruiker gekoppeld zijn te bekijken;\n"
-"gemachtigd om nieuwe meldingen te doen en\n"
-"berichten te versturen op bestaande meldingen."
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
-"Gemachtigd om meldingen in het project die aan\n"
-"deze gebruiker gekoppeld zijn te bekijken;\n"
-"gemachtigd om nieuwe meldingen te doen,\n"
-"berichten te versturen en notitities te maken\n"
-"op bestaande meldingen."
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues, update existing issues, and to send emails and notes "
@@ -545,24 +515,12 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
-"Gemachtigd om meldingen in het project die aan\n"
-"deze gebruiker gekoppeld zijn te bekijken;\n"
-"gemachtigd om nieuwe meldingen te doen en\n"
-"te wijzigen, berichten te versturen en notitities\n"
-"te maken op bestaande meldingen. Gebruikers\n"
-"van dit niveau zijn ook gemachtigd om instellingen\n"
-"op projectniveau aan te passen."
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
-"Gemachtigd om meldingen in het project die aan\n"
-"deze gebruiker gekoppeld zijn te bekijken; niet\n"
-"gemachtigd om nieuwe meldingen te doen of\n"
-"bestaande meldingen te wijzigen."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
@@ -588,7 +546,8 @@ msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr "Er is een fout opgetreden bij het toevoegen van een relatiebeheerder."
+msgstr ""
+"Er is een fout opgetreden bij het toevoegen van een relatiebeheerder."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
@@ -607,7 +566,8 @@ msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr "Er is een fout opgetreden bij het toevoegen van de nieuwe voorwaarde."
+msgstr ""
+"Er is een fout opgetreden bij het toevoegen van de nieuwe voorwaarde."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
@@ -641,11 +601,13 @@ msgstr "Er is een fout opgetreden bij het toevoegen van een linkfilter."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr "Er is een fout opgetreden tijdens het toevoegen van de nieuwe notitie."
+msgstr ""
+"Er is een fout opgetreden tijdens het toevoegen van de nieuwe notitie."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr "Er is een fout opgetreden bij het toevoegen van een nieuwe prioriteit."
+msgstr ""
+"Er is een fout opgetreden bij het toevoegen van een nieuwe prioriteit."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
@@ -657,7 +619,8 @@ msgstr "Er is een fout opgetreden bij het toevoegen van een fase."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr "Er is een fout opgetreden bij het toevoegen van de nieuwe herinnering"
+msgstr ""
+"Er is een fout opgetreden bij het toevoegen van de nieuwe herinnering"
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
@@ -671,7 +634,8 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
-msgstr "Er is een fout opgetreden bij het toevoegen van deze nieuwe gebruiker."
+msgstr ""
+"Er is een fout opgetreden bij het toevoegen van deze nieuwe gebruiker."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
@@ -683,7 +647,8 @@ msgstr ""
 "Er is een fout opgetreden bij het toevoegen van deze beurtelingse taak."
 
 #: templates/associate.tpl.html
-msgid "An error occurred while trying to associate the selected email message"
+msgid ""
+"An error occurred while trying to associate the selected email message"
 msgstr ""
 "Er is een fout opgetreden bij het koppelen van het geselecteerde bericht"
 
@@ -760,12 +725,14 @@ msgid "An error occurred while trying to update the condition information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de voorwaarde."
 
 #: templates/manage/custom_fields.tpl.html
-msgid "An error occurred while trying to update the custom field information."
+msgid ""
+"An error occurred while trying to update the custom field information."
 msgstr ""
 "Er is een fout opgetreden tijdens het bijwerken van het gedefinieerde veld."
 
 #: templates/manage/customize_listing.tpl.html
-msgid "An error occurred while trying to update the customization information."
+msgid ""
+"An error occurred while trying to update the customization information."
 msgstr ""
 "Er is een fout opgetreden bij het bijwerken van de \n"
 "aanpassingsinformatie."
@@ -853,7 +820,6 @@ msgid ""
 msgstr "Er is een fout opgetreden tijdens het gebruiken van de prikklok."
 
 #: templates/help/scm_integration_usage.tpl.html
-#, fuzzy
 msgid ""
 "An integration script will need to be installed in your CVS root repository "
 "in order to send a message to Eventum whenever changes are committed to the "
@@ -861,12 +827,6 @@ msgid ""
 "to the appropriate files will be associated with existing issue mentioned in "
 "your commit message."
 msgstr ""
-"Er moet een integratiescript in uw CVSROOT-module geïnstalleerd zijn om \n"
-"een bericht naar Eventum te kunnen sturen wanneer er veranderingen\n"
-" in het CVS gemeld zijn. Het bericht wordt dan verwerkt in Eventum \n"
-"en de veranderingen in de corresponderende bestanden \n"
-"zullen bijgevoegd worden in de bestaande melding die in uw\n"
-"toegekende bericht genoemd is."
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
@@ -981,9 +941,8 @@ msgid "Assignee"
 msgstr "Behandelaar"
 
 #: templates/include/issue_fields/assignee.tpl.html
-#, fuzzy
 msgid "Assignee:"
-msgstr "Behandelaar"
+msgstr ""
 
 #: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -1013,9 +972,8 @@ msgid "Associate"
 msgstr "Koppelen"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Associate Email Message to Issue #%1"
-msgstr "Bericht gekoppeld aan melding %1"
+msgstr ""
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -1103,9 +1061,8 @@ msgid "Automated Issue"
 msgstr "Automatische melding"
 
 #: templates/reminders/email_alert.tpl.text
-#, fuzzy
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr "Herinnering voor automatische melding %1."
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
@@ -1116,9 +1073,8 @@ msgid "Automatically append email signature when composing web based emails"
 msgstr "Handtekening automatisch toevoegen aan web-based emails."
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Automatically close confirmation popup windows?"
-msgstr "Bevestigings-popup automatisch sluiten?"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
@@ -1133,9 +1089,8 @@ msgid "Available Languages"
 msgstr "Beschikbare talen"
 
 #: templates/help/index.tpl.html
-#, fuzzy
 msgid "Available Related Topics"
-msgstr "Gerelateerde onderwerpen:"
+msgstr ""
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1428,14 +1383,12 @@ msgid "Closed Date"
 msgstr "Afgesloten op"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Closed Message"
-msgstr "Melding sluiten"
+msgstr ""
 
 #: templates/expandable_cell/buttons.tpl.html
-#, fuzzy
 msgid "Collapse all expanded cells"
-msgstr "Kolom inklappen"
+msgstr ""
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse expanded cell"
@@ -1523,7 +1476,7 @@ msgstr "Doorgaan"
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Contract #"
-msgstr "Contract "
+msgstr "Contract"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
@@ -1538,13 +1491,10 @@ msgid "Convert to Email and Send Now"
 msgstr "Omzetten naar bericht en verzenden"
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
-"Fout: Cookies zijn uitgeschakeld in uw browser. \n"
-"Schakel deze optie in en probeer het opnieuw."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
@@ -1708,7 +1658,7 @@ msgstr "Gedefinieerd veld op (%1$s door %2$s bijgewerkt"
 #: templates/reports/workload_time_period.tpl.html
 #: templates/view_form.tpl.html
 msgid "Customer"
-msgstr "Relatie "
+msgstr "Relatie"
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
@@ -1812,7 +1762,7 @@ msgstr "Datum telefoongesprek"
 
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
-msgstr "Datum werkzaamheden "
+msgstr "Datum werkzaamheden"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
@@ -1873,9 +1823,8 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Delete Alias"
-msgstr "Verwijderen"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1924,7 +1873,7 @@ msgstr "Medewerkers"
 
 #: templates/main.tpl.html
 msgid "Did you Know?"
-msgstr "Wist u dat "
+msgstr "Wist u dat"
 
 #: templates/manage/general.tpl.html
 msgid "Diff Page:"
@@ -1962,9 +1911,8 @@ msgid "Do you want to continue?"
 msgstr "Doorgaan?"
 
 #: templates/view_email.tpl.html
-#, fuzzy
 msgid "Download Raw Email"
-msgstr "bestand downloaden"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Draft Address Prefix:"
@@ -2007,7 +1955,8 @@ msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr "Fout: Bijna geen schijfruimte meer beschikbaar (percentage vrij"
 
 #: lib/eventum/class.monitor.php:174
-msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
+msgid ""
+"ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 "Fout: Kon niet verbinden met de mysql-database. Gedetailleerde foutmelding:"
 
@@ -2026,8 +1975,8 @@ msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
-"Fout: Map en machtiging komen niet overeen. Pad: %1$s; huidige machtiging: %2"
-"$s; juiste machtiging: %3$s)"
+"Fout: Map en machtiging komen niet overeen. Pad: %1$s; huidige machtiging: "
+"%2$s; juiste machtiging: %3$s)"
 
 #: lib/eventum/class.monitor.php:107
 msgid "ERROR: File could not be found (path"
@@ -2036,17 +1985,17 @@ msgstr "Fout: Bestand niet gevonden (pad"
 #: lib/eventum/class.monitor.php:116
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
-"3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
+"%3$s)"
 msgstr ""
-"Fout: Bestand en groep passen niet bij elkaar (pad: %1$s; huidige groep: %2"
-"$s; Juiste groep: %3$s)"
+"Fout: Bestand en groep passen niet bij elkaar (pad: %1$s; huidige groep: "
+"%2$s; Juiste groep: %3$s)"
 
 #: lib/eventum/class.monitor.php:113
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
-"3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
+"%3$s)"
 msgstr ""
 "Fout: Bestand en eigenaar passen niet bij elkaar (pad: %1$s; huidige "
 "eigenaar: %2$s; Juiste eigenaar: %3$s)"
@@ -2071,22 +2020,16 @@ msgid "ERROR: Free disk space left is getting very low (percentage left"
 msgstr "Fout: Schijfruimte raakt bijna op (percentage vrij"
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
-"Fout: Het systeem heeft niet de juiste machtigingen om het \n"
-"                     configuratiebestand in de Setup-map aan te maken."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
-"Fout: Het systeem heeft niet de juiste machtigingen om het \n"
-"                 het configuratiebestand in de Setup-map bij te werken."
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Edit"
@@ -2191,9 +2134,8 @@ msgid "Email Addresses To Send Information To:"
 msgstr "Emailadressen waar de informatie naartoe gestuurd moet worden"
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
-#, fuzzy
 msgid "Email Alias"
-msgstr "Berichtenlijst:"
+msgstr ""
 
 #: lib/eventum/class.help.php:125 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
@@ -2282,19 +2224,17 @@ msgid "Email routed from %1$s"
 msgstr "Bericht afkomstig van %1$s"
 
 #: templates/convert_note.tpl.html
-msgid "Email will be re-sent from original sender, including any attachments."
+msgid ""
+"Email will be re-sent from original sender, including any attachments."
 msgstr ""
 "Berichten zullen opnieuw worden verzonden namens de originele afzender, "
 "inclusief bijlagen."
 
 #: templates/convert_note.tpl.html
-#, fuzzy
 msgid ""
 "Email will be re-sent from your name, NOT original sender's, and without any "
 "attachments."
 msgstr ""
-"<b>Let op:</b> Berichten worden verzonden uit uw naam, NIET uit naam van de "
-"originele afzender. Eventuele bijlagen worden niet meegestuurd."
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
@@ -2371,7 +2311,8 @@ msgstr "Fout"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Error: An error occurred while trying to run your query."
-msgstr "Fout: Er is een fout opgetreden bij het uitvoeren van de zoekopdracht."
+msgstr ""
+"Fout: Er is een fout opgetreden bij het uitvoeren van de zoekopdracht."
 
 #: templates/forgot_password.tpl.html
 msgid "Error: No user account was found matching the entered email address."
@@ -2460,13 +2401,10 @@ msgid "Error: You are not allowed to view the requested FAQ entry."
 msgstr "Fout: U bent niet gemachtigd deze veelgestelde vraag te bekijken."
 
 #: templates/forgot_password.tpl.html
-#, fuzzy
 msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
-"Fout: Uw gebruiker staat als non-actief in het systeem. Neem\n"
-"contact op met de systeembeheerder."
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2883,7 +2821,7 @@ msgstr ""
 "Als dit geen echt verzoek van u is of u heeft niet langer interesse in een "
 "account, dan kunt u deze email als niet verzonden beschouwen. Binnen een "
 "week wordt dit bericht gewist. Wilt u daarentegen uw aanvraag bevestigen "
-"bezoek dan het onderstaande webadres: \n"
+"bezoek dan het onderstaande webadres:\n"
 
 #: templates/notifications/password_confirmation.tpl.text
 msgid ""
@@ -2983,9 +2921,8 @@ msgid "IMAP"
 msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "IMAP Folder"
-msgstr "IMAP-map:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -3088,42 +3025,34 @@ msgid "In Past"
 msgstr "In de afgelopen"
 
 #: lib/eventum/class.filter.php:629
-#, fuzzy, php-format
+#, php-format
 msgid "In Past %1$s hours"
-msgstr "In de afgelopen %1 uur"
+msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
-"Fout: Om te zorgen dat %1 naar behoren werkt moet u Cookies \n"
-"inschakelen in uw browser. Log opnieuw in en accepteer alle cookies ervan."
 
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
 msgstr ""
 
 #: templates/help/support_emails.tpl.html
-#, fuzzy
 msgid ""
 "In order to do that, however, the administrator of the system needs to "
 "configure email accounts to make the software download the email messages "
 "from the appropriate POP3/IMAP server."
 msgstr ""
-"Om dat te kunnen moet de systeembeheerder echter eerst \n"
-"emailaccounts aanmaken om ervoor te zorgen dat de software \n"
-"de emails downloadt van de van toepassing zijnde POP3/IMAP-server."
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
 msgstr "Inactief"
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Incident Types to Redeem"
-msgstr "Te behandelen incidenten:"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Include expired contracts"
@@ -3196,14 +3125,14 @@ msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
 #: lib/eventum/class.filter.php:640
-#, fuzzy, php-format
+#, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr "Na %1-%2-%3"
+msgstr ""
 
 #: lib/eventum/class.filter.php:643
-#, fuzzy, php-format
+#, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr "Voor %1-%2-%3"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3590,9 +3519,8 @@ msgid "Manager"
 msgstr "Projectmanager"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Manager:"
-msgstr "Projectmanager"
+msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3665,15 +3593,11 @@ msgid "Month"
 msgstr "Maand"
 
 #: templates/help/adv_search.tpl.html
-#, fuzzy
 msgid ""
 "Most of the time users will want to run common used queries against the "
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
-"Over het algemeen zullen gebruikers veelal dezelfde zoekopdrachten\n"
-"gebruiken. Hiervoor is deze functie uitermate geschikt. Maak eigen zoek\n"
-"opdrachten en voer deze met een simpele handeling uit vanuit het overzicht."
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
@@ -3704,9 +3628,8 @@ msgid "MySQL Table Prefix"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Username"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3723,25 +3646,22 @@ msgstr ""
 "dan de EMAIL-gerelateerde knoppen onderaan het scherm."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "NOTE: You may report issues without the need to login by using the following "
 "URL:"
-msgstr "U bent geen gebruiker maar wilt enkel een melding doen"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Name"
 msgstr "Naam"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Name:"
-msgstr "Naam"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "New Alias"
-msgstr "Host Alias:"
+msgstr ""
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
@@ -3850,9 +3770,8 @@ msgid "No actions could be found."
 msgstr "Geen acties gevonden."
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "No aliases could be found."
-msgstr "Geen fasen gevonden."
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "No associated emails could be found."
@@ -4072,9 +3991,8 @@ msgstr ""
 "verzonden per email."
 
 #: templates/file_upload.tpl.html
-#, fuzzy
 msgid "Note: The current maximum allowed upload file size is"
-msgstr "B: De maximaal toegestane bestandesgrootte is"
+msgstr ""
 
 #: templates/new.tpl.html
 msgid "Note: The current maximum allowed upload file size is %1"
@@ -4083,18 +4001,12 @@ msgstr "Let op: bestand(en) mogen niet groter zijn dan %1"
 #: templates/help/report_category.tpl.html
 #: templates/help/report_priority.tpl.html
 #: templates/help/report_release.tpl.html
-#, fuzzy
 msgid ""
 "Note: The values in this field can be changed by going in the administration "
 "section of this application and editing the appropriate atributes of a "
 "project. If you do not have the needed permissions to do so, please contact "
 "your local Eventum administrator."
 msgstr ""
-"Let op: De waarden in dit veld kunnen aagepast worden door naar \n"
-"'Beheer' te gaan en de van toepassing zijnde instellingen van een \n"
-"project te bewerken. Als u niet de benodigde bevoegdheden heeft \n"
-"om dat te doen neem dan contact op met uw plaatselijke Eventum-\n"
-"beheerder."
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
@@ -4158,19 +4070,12 @@ msgid "Office"
 msgstr "Kantoor"
 
 #: templates/help/support_emails.tpl.html
-#, fuzzy
 msgid ""
 "One of the optimal uses of this feature is to create a separate 'issues' or "
 "'support' POP3/IMAP account and ask your customers or end-users to send "
 "support questions, issues or suggestions to that mailbox. Eventum will then "
 "download the emails and provide them to the users of the system."
 msgstr ""
-"Eén van de beste gebruiksmogelijkheden van deze functie is\n"
-" het aanmaken van aparte 'Meldingen'- of  \n"
-"'Support POP3/IMAP'-accounts en uw klanten en eindgebruikers \n"
-"te vragen support-vragen, meildingen of suggestie naar die mailbox te\n"
-" sturen. Eventum downloadt ze dan en stelt ze ter beschikking\n"
-" aan de gebruikers van het systeem."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
@@ -4459,9 +4364,8 @@ msgid "Please assign the users for this project."
 msgstr "Voeg gebruikers toe aan het project."
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "Please choose"
-msgstr "Selecteer een gebruiker"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4524,18 +4428,14 @@ msgid "Please choose from one of the options below:"
 msgstr "Selecteer een van onderstaande opties:"
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "Please choose new values for the selected issues"
-msgstr "Selecteer nieuwe waarden voor de geselecteerde meldingen"
+msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
-"Selecteer een van onderstaande acties met betrekking tot het geselecteerde "
-"bericht"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
@@ -4546,7 +4446,8 @@ msgid "Please choose the customer for this new note."
 msgstr "Kies de relatie bij deze nieuwe notitie."
 
 #: templates/manage/reminders.tpl.html
-msgid "Please choose the customers that will be associated with this reminder."
+msgid ""
+"Please choose the customers that will be associated with this reminder."
 msgstr "Kies de relaties die bij deze herinnering gevoegd gaan worden."
 
 #: templates/manage/anonymous.tpl.html
@@ -4586,9 +4487,8 @@ msgid "Please choose the project for this FAQ entry."
 msgstr "Kies het project voor deze veelgestelde vraag."
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid "Please choose the project that this new issue will apply to"
-msgstr "Selecteer een project waarbinnen u de melding wilt opgeven."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please choose the project that you wish to customize."
@@ -4598,7 +4498,7 @@ msgstr "Kies het project dat u wilt aanpassen."
 msgid "Please choose the project to be associated with this email account."
 msgstr ""
 "Selecteer het project dat aan deze emailaccount gekoppeld moet\n"
-"worden. "
+"worden."
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
@@ -4627,7 +4527,8 @@ msgstr "Kies het type emailserver bij deze emailaccount."
 #: templates/manage/general.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
-msgstr "Geef aan of de SCM-integratiefunctie ingeschakeld moet worden of niet."
+msgstr ""
+"Geef aan of de SCM-integratiefunctie ingeschakeld moet worden of niet."
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
@@ -4638,7 +4539,8 @@ msgstr ""
 "moet zijn of niet voor dit project."
 
 #: templates/manage/general.tpl.html
-msgid "Please choose whether the daily tips feature should be enabled or not."
+msgid ""
+"Please choose whether the daily tips feature should be enabled or not."
 msgstr "Kies of de functie Dagelijkse Tips ingeschakeld moet worden of niet"
 
 #: templates/manage/general.tpl.html
@@ -4670,9 +4572,8 @@ msgstr ""
 "moeten worden of niet."
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Please choose which aliases need to be removed."
-msgstr "Selecteer welke items dienen te worden verwijderd."
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be associated."
@@ -4680,7 +4581,8 @@ msgstr "Selecteer de berichten die dienen te worden gekoppeld."
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be marked as deleted."
-msgstr "Seleceer de berichten die als verwijderd dienen te worden gemarkeerd."
+msgstr ""
+"Seleceer de berichten die als verwijderd dienen te worden gemarkeerd."
 
 #: templates/removed_emails.tpl.html
 msgid "Please choose which emails need to be permanently removed."
@@ -4693,7 +4595,8 @@ msgstr "Selecteer de emails die hersteld moeten worden."
 #: templates/support_emails.tpl.html
 msgid ""
 "Please choose which entries need to be disassociated with the current issue."
-msgstr "Selecteer de invoer die van de huidige melding ontkoppeld moet worden."
+msgstr ""
+"Selecteer de invoer die van de huidige melding ontkoppeld moet worden."
 
 #: templates/adv_search.tpl.html templates/attached_emails.tpl.html
 #: templates/checkins.tpl.html templates/impact_analysis.tpl.html
@@ -4718,23 +4621,16 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
-"Neem contact op met uw systeembeheerder\n"
-"                  om schrijfbevoegdheden voor de gegeven bestand aan te "
-"vragen."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
 msgstr ""
-"Neem contact op met uw systeembeheerder\n"
-"                  om schrijfbevoegdheden voor het gegeven pad aan te vragen."
 
 #: templates/manage/projects.tpl.html
 msgid ""
@@ -4824,7 +4720,8 @@ msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the analysis for the changes required by this issue."
-msgstr "Geef een analyse voor de wijzigingen die nodig zijn voor deze melding."
+msgstr ""
+"Geef een analyse voor de wijzigingen die nodig zijn voor deze melding."
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
@@ -4876,7 +4773,8 @@ msgstr ""
 "moeten worden."
 
 #: templates/manage/general.tpl.html
-msgid "Please enter the email address prefix for the email routing interface."
+msgid ""
+"Please enter the email address prefix for the email routing interface."
 msgstr ""
 "Voer het voorvoegsel van het emailadres in voor de email  routing interface."
 
@@ -4906,14 +4804,14 @@ msgid "Please enter the impact analysis for this new requirement."
 msgstr "Voer de impactanalyse in voor deze nieuwe eis."
 
 #: templates/manage/reminders.tpl.html
-msgid "Please enter the issue IDs that will be associated with this reminder."
-msgstr "Kies de meldingnummer(s) die bij deze herinnering gevoegd gaan worden."
+msgid ""
+"Please enter the issue IDs that will be associated with this reminder."
+msgstr ""
+"Kies de meldingnummer(s) die bij deze herinnering gevoegd gaan worden."
 
 #: templates/manage/general.tpl.html
-#, fuzzy
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
-"Voer het webadres in van de verschillenpagina van uw SCM-integratieprogramma."
 
 #: templates/send.tpl.html
 msgid "Please enter the message body of this email."
@@ -5193,7 +5091,8 @@ msgid "Please enter your password."
 msgstr "Voer uw wachtwoord in."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
-msgid "Please indicate whether the SMTP server requires authentication or not."
+msgid ""
+"Please indicate whether the SMTP server requires authentication or not."
 msgstr "Geef aan of de SMTP-server authenticatie vereist of niet."
 
 #: templates/associate.tpl.html
@@ -5202,52 +5101,37 @@ msgid ""
 msgstr "Selecteer het juiste bericht om te koppelen"
 
 #: templates/help/column_display.tpl.html
-#, fuzzy
 msgid ""
 "Please note that some columns may be hidden even if you specify they should "
 "be shown. For example, if no releases are defined in the system the "
 "'Release' column will be hidden."
 msgstr ""
-"Het tonen van kolommen is ook afhankelijk van systeeminstellingen. Zo zal b."
-"v. de 'Fase' kolom niet zichtbaar zijn\n"
-"wanneer er geen fases zijn gedefinieerd (door de beheerder) voor het project."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid "Please provide your email address."
-msgstr "Fout: Geef een geldig e-mail adres."
+msgstr ""
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid "Please provide your password."
-msgstr "Fout: Geef een geldig wachtwoord."
+msgstr ""
 
 #: templates/help/main.tpl.html
-#, fuzzy
 msgid ""
 "Please refer to the following help sections for more information on specific "
 "parts of the application:"
 msgstr ""
-"Klik op de volgende Help-pagina's voor meer informatie over \n"
-"specifieke delen van het programma. "
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid ""
 "Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
-"Kijk bij de  <a class=\"link\" href=\"faq.php\">Veelgestelde vragen</a> voor "
-"informatie over meldingen en quarantaine."
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid ""
 "Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined "
 "issues."
 msgstr ""
-"Kijk bij de  <a class=\"link\" href=\"faq.php\">Veelgestelde vragen</a> voor "
-"informatie over meldingen en quarantaine."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select a backend"
@@ -5370,7 +5254,8 @@ msgstr "Selecteer minstens één gebruiker."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select projects this link filter should be active for."
-msgstr "Voer een project in waarvoor deze linkfilter geactiveerd moet worden."
+msgstr ""
+"Voer een project in waarvoor deze linkfilter geactiveerd moet worden."
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -5518,9 +5403,8 @@ msgid "Project Lead"
 msgstr "Projectmanager"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Project automatically switched to '%1' from '%2'."
-msgstr "Notitie: Het project is automatisch veranderd van '%2' naar '%1'."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Project mail aliases"
@@ -5602,23 +5486,20 @@ msgid "Reason"
 msgstr "Reden"
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Reason for closing issue"
-msgstr "Reden voor het sluiten van de melding:"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Reason to close"
 msgstr "Reden van afsluiten"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Receive emails when all issues are created?"
-msgstr "Wilt u van elke nieuwe melding een email ontvangen?"
+msgstr ""
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Receive emails when new issues are assigned to you?"
-msgstr "Wilt u een email ontavangen als een melding aan u is toegekend?"
+msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
@@ -5707,8 +5588,8 @@ msgid ""
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
 "Geeft het aantal emails aan dat per melding door relaties in Eventum "
-"verzonden is. Emails naar een algemene support mailbox zitten hier<b> niet </"
-"b>bij."
+"verzonden is. Emails naar een algemene support mailbox zitten hier<b> niet "
+"</b>bij."
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -5716,8 +5597,8 @@ msgid ""
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
 "Geeft het aantal emails aan dat per melding door medewerkers in Eventum "
-"verzonden is. Emails naar een algemene support mailbox zitten hier<b> niet </"
-"b>bij."
+"verzonden is. Emails naar een algemene support mailbox zitten hier<b> niet "
+"</b>bij."
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -5734,9 +5615,8 @@ msgid "Refresh Rate for Issue Listing Page"
 msgstr "Verversingssnelheid meldingenoverzicht."
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Register"
-msgstr "Afkomstig van"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
 #: lib/eventum/class.notification.php:622
@@ -5809,20 +5689,15 @@ msgid "Removed Emails"
 msgstr "Verwijderde emails."
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as /"
-"home/username/repository for instance. Also make sure to put the appropriate "
-"path to your PHP binary."
+"Replace %1 by the appropriate absolute path in your CVS server, such as "
+"/home/username/repository for instance. Also make sure to put the "
+"appropriate path to your PHP binary."
 msgstr ""
-"Vervang %repository path% bij het van toepassing zijnde volledige pad in \n"
-"uw CVS-server, zoals bijvoorbeeld /home/username/repository. Zorg er\n"
-"ook voor om het juist pad naar uw Perl binary erin te zetten."
 
 #: templates/self_assign.tpl.html
-#, fuzzy
 msgid "Replace current assignee with Myself."
-msgstr "Behandelaar vervangen door mij."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Replacement"
@@ -5901,9 +5776,8 @@ msgid "Required Field"
 msgstr "Verplicht veld"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Required Fields"
-msgstr "Verplicht veld"
+msgstr ""
 
 #: templates/duplicate.tpl.html templates/new.tpl.html templates/post.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
@@ -6046,14 +5920,12 @@ msgid "Save Message"
 msgstr "Bericht opslaan"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as Reference Email"
-msgstr "Bericht opslaan als referentie"
+msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as an Internal Note"
-msgstr "Bericht opslaan als interne notitie"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
@@ -6094,9 +5966,8 @@ msgid "Search"
 msgstr "Zoek"
 
 #: templates/opensearch.tpl.xml
-#, fuzzy
 msgid "Search Eventum Issues"
-msgstr "Zoekresultaat"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "Search Results"
@@ -6128,9 +5999,8 @@ msgid "Select Project"
 msgstr "Selecteer een project"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Select closed status to close issue"
-msgstr "Selecteer de nieuwe staturs van deze melding."
+msgstr ""
 
 #: templates/send.tpl.html templates/support_emails.tpl.html
 msgid "Send Email"
@@ -6145,9 +6015,8 @@ msgid "Send Notification About Issue Being Closed?"
 msgstr "Notificatie versturen over het sluiten van de melding?"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
-#, fuzzy
 msgid "Send Notification To"
-msgstr "Notificatie zenden aan:"
+msgstr ""
 
 #: templates/attached_emails.tpl.html templates/emails.tpl.html
 #: templates/setup.tpl.html
@@ -6171,27 +6040,24 @@ msgid "Separate Only Status Changes"
 msgstr "Veranderd van status"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Server Hostname"
-msgstr "Hostnaam"
+msgstr ""
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
 msgstr "Instellen"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Set Close Message"
-msgstr "Bericht opslaan"
+msgstr ""
 
 #: templates/manage/field_display.tpl.html
 msgid "Set Display Preferences"
 msgstr "Weergavevoorkeuren instellen"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Set Message"
-msgstr "Bericht opslaan"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Set available options"
@@ -6218,9 +6084,8 @@ msgid "Show Customers"
 msgstr "Relaties weergeven"
 
 #: templates/adv_search.tpl.html
-#, fuzzy
 msgid "Show Issues in Which I Am"
-msgstr "Toon meldingen waarvoor ik:"
+msgstr ""
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Show Issues with no Response Between"
@@ -6259,15 +6124,11 @@ msgid "Signup for an Account"
 msgstr "Maak mij gebruiker!"
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "Similar in every way to the above permission level, but this extra level "
 "allows you to segregate users who will deal with issues, and overall normal "
 "staff users who do not handle issues themselves."
 msgstr ""
-"Machtigingen gelijk aan die van de standaard gebruiker\n"
-"met het verschil dat de Projectmedewerker kan worden\n"
-"toegewezen aan meldingen."
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -6281,17 +6142,11 @@ msgid "Skip Weekends"
 msgstr "Weekends overslaan"
 
 #: templates/help/scm_integration_usage.tpl.html
-#, fuzzy
 msgid ""
 "So to examplify its use, whenever the users are ready to commit the changes "
 "to the CVS repository, they will add a special string to specify which issue "
 "this is related to. The following would be a good example of its use:"
 msgstr ""
-"Om een voorbeeld te geven van het gebruik: Als de gebruikers klaar\n"
-" zijn om veranderingen aan te melden in het CVS-repository voegen ze\n"
-" een speciale tekenreeks in om de specificeren bij welke meidling die/n "
-"veranderingen horen. Het volgende zou een goed voorbeeld zijn van het "
-"gebruik van dit script."
 
 #: templates/close.tpl.html
 msgid "Sorry, an error happened while trying to run your query"
@@ -6343,9 +6198,8 @@ msgid "Sorry, you do not have permission to view this page"
 msgstr "U bent niet gemachtigd deze pagina te bekijken"
 
 #: templates/update.tpl.html
-#, fuzzy
 msgid "Sorry, you do not have the required privileges to update this issue."
-msgstr "U heeft niet de juiste machtigingen om deze melding te bekijken."
+msgstr ""
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
@@ -6545,15 +6399,11 @@ msgid "Switch"
 msgstr "Wisselen"
 
 #: templates/help/notifications.tpl.html
-#, fuzzy
 msgid ""
 "System users may subscribe to the actions above for specific issues when "
 "they report new issues or by visiting the issue details screen and "
 "subscribing manually by using the 'Edit Notification List' link."
 msgstr ""
-"Gebruikers kunnen zich aanmelden voor bovenstaande acties voor individuele\n"
-"meldingen door zich in het meldingscherm aan te melden door de functie\n"
-"'Notificatielijst aanpassen' te gebruiken."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6702,9 +6552,8 @@ msgid "Thank you, the email account was added successfully."
 msgstr "De emailaccount is toegevoegd."
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid "Thank you, the email aliases were removed successfully"
-msgstr "De emails zijn als 'Verwijderd' gemarkeerd."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Thank you, the email message was saved as a draft successfully."
@@ -6779,13 +6628,10 @@ msgid "Thank you, the issue was closed successfully"
 msgstr "Melding gesloten"
 
 #: templates/duplicate.tpl.html
-#, fuzzy
 msgid ""
 "Thank you, the issue was marked as a duplicate successfully. Please choose "
 "from one of the options below:"
 msgstr ""
-"De melding is aangemerkt als duplicaat. Kies een van\n"
-"onderstaande opties:"
 
 #: templates/redeem_incident.tpl.html
 msgid "Thank you, the issue was successfully marked."
@@ -6930,9 +6776,8 @@ msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "De eigen filters zijn verwijderd."
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Thank you, the selected email message was associated successfully."
-msgstr "Het geselecteerde bericht is gekoppeld"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
@@ -7013,13 +6858,10 @@ msgstr ""
 "instructies om uw aanvraag te bevestigen en uw account te activeren."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
 msgstr ""
-"Gebruiker geactiveerd. Gebruik onderstaand\n"
-"formulier om aan te melden."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
@@ -7050,59 +6892,41 @@ msgstr ""
 "nieuw wachtwoord is verzonden."
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
 "The %1 script, which is available in the %2 sub-directory in your Eventum "
 "installation directory, will need to be installed in your CVSROOT CVS module "
 "by following the procedure below:"
 msgstr ""
-"Het process_commits.pl script, dat beschikbaar is in de misc-submap\n"
-"en uw Eventum-installatiemap moet volgende de volgende procedure\n"
-"in uw CVSROOT CVS-module geïnstalleerd zijn:"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The CVS module name"
 msgstr ""
 
 #: templates/help/view.tpl.html
-#, fuzzy
 msgid ""
 "The Issue Details page will also show '<< Previous Issue' and 'Next Issue "
 ">>' links that are related to the previous and next issues for the current "
 "active filter, if appropriate."
 msgstr ""
-"Het meldingengegevensscherm laat ook 'Vorige melding- en\n"
-" 'Volgende melding'-links zien die slaan op de vorige en volgende\n"
-"meldingen voor het huidige actieve filter."
 
 #: templates/help/list.tpl.html
-#, fuzzy
 msgid ""
 "The Issue Listing page uses a grid layout to simplify the manual search for "
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
 msgstr ""
-"Het meldingenoverzicht gebruikt een tabel-layout om het zoeken\n"
-"naar een melding of een project te vereenvoudigen. U kunt op bijna\n"
-"elke kolom in dit tabelformulier sorteren, en gebruikers met voldoende\n"
-"bevoegdheden kunnen geselecteerde meldingen ook aan anderen \n"
-"toewijzen."
 
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
 msgstr "De gekoppelde tijdregistratie is ook verwijderd."
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
 "The command above will checkout and create the CVSROOT directory that you "
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
 msgstr ""
-"Het commando hierboven controleert en maakt de CVSROOT-map waar\n"
-" u mee gaat werken. Open daarna het <b>loginfo</b>-bestand en\n"
-"voeg de volgende regel toe:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -7113,47 +6937,33 @@ msgstr ""
 "getoond worden"
 
 #: templates/help/preferences.tpl.html
-#, fuzzy
 msgid ""
 "The default options for email notifications are used to pre-select the "
 "notification related fields when you report a new issue, or subscribe "
 "manually for changes in the issue details page."
 msgstr ""
-"De standaardinstellingen voor notificatie worden\n"
-"gebruikt om te bepalen hoe en wanneer gebruikers\n"
-"notificaties ontvangen."
 
 #: templates/help/report_description.tpl.html
-#, fuzzy
 msgid ""
 "The description field should be used to describe the new issue. Good "
 "practices dictate that this field should have a description of what "
 "happened, steps to reproduce the problem/issue and what you expected to "
 "happen instead."
 msgstr ""
-"Het omschrijvingenveld moet worden gebruikt om de nieuwe melding\n"
-"te omschrijven. Volgens goed gebruik bevat dit veld een omschrijving \n"
-"van het probleem, de stappen om het probleem te reproduceren en \n"
-"dat wat de melder verwachtte dat er zou gebeuren."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "The email address / password combination could not be found in the system."
 msgstr ""
-"Fout: De combinatie e-mail adres / wachtwoord kon niet worden gevonden."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
 msgstr "Toegekende bestandsnaam"
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
 "The first thing to do is to checkout the %1 module from your CVS repository:"
 msgstr ""
-"Het eerste wat u moet doen is het controleren van de CVSROOT-module\n"
-"uit uw CVS-repository."
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid ""
@@ -7169,72 +6979,50 @@ msgid ""
 msgstr "De volgende adressen konden niet worden gekoppeld aan gebruikers:"
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "The following is a brief overview of the available user permission levels in "
 "Eventum:"
 msgstr ""
-"Onderstaand is een kort overzicht van de mogelijke gebruikersniveau's\n"
-"aanwezig in het systeem:"
 
 #: templates/self_assign.tpl.html
-#, fuzzy
 msgid "The following user is already assigned to this issue"
-msgstr "Onderstaande gebruiker is al toegewezen als behandelaar"
+msgstr ""
 
 #: templates/help/view.tpl.html
-#, fuzzy
 msgid ""
 "The full history of changes related to the current issue is available by "
 "clickin on the 'History of Changes' link."
 msgstr ""
-"De volledige geschiedenis van veranderingen van een melding\n"
-"is beschikbaar onder de 'Geschiedenis'-link."
 
 #: templates/notification.tpl.html
 msgid "The given email address"
 msgstr "Het opgegeven e-mail adres"
 
 #: templates/help/scm_integration.tpl.html
-#, fuzzy
 msgid ""
 "The integration is implemented in such a way that it will be forward "
 "compatible with pretty much any SCM system, such as CVS. When entering the "
 "required information for the checkout page and diff page input fields, use "
 "the following placeholders:"
 msgstr ""
-"De integratie wordt zo uitgevoerd dat die voorwaarts compatibel is\n"
-"met bijna elk SCM-systeem, zoals bijvoorbeeld CVS. Als u de benodigde\n"
-" informatie invoert voor de foutopsporingspagina en\n"
-" de verschillenpagina-invoervelden gebruik dan de volgende placeholders:"
 
 #: templates/help/view.tpl.html
-#, fuzzy
 msgid ""
 "The issue details screen can be accessed quickly by using the 'Go' input "
 "field in the top of your browser window. Just enter the issue number and it "
 "will take you to the appropriate screen."
 msgstr ""
-"U kunt snel naar het meldingengegevensscherm gaan door het 'Ok'-\n"
-"invoerveld bovenaan uw navigatiescherm te gebruiken. Voer het\n"
-"nummer van de melding in en u komt direct in het goede scherm\n"
-"terecht."
 
 #: templates/notifications/updated.tpl.text
 msgid "The issue was updated by %1"
 msgstr ""
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
 "The last step of this installation process is to login into the CVS server "
 "and copy the %1 script into the %2 directory. Make sure you give the "
 "appropriate permissions to the script."
 msgstr ""
-"De laatste stap in het installatieproces is het inloggen in de CVS-server\n"
-" en het kopiëren van het eventum-cvs-hook script naar\n"
-" de CVSROOT-map. Zorg ervoor dat u het script \n"
-"de juiste machtigingen geeft."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
@@ -7249,45 +7037,29 @@ msgid "The original message headers follow"
 msgstr ""
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account email address could not be confirmed. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
-"Het bij de tijdelijke gebruiker behorende e-mail adres kon niet\n"
-"worden bevestigd. Neem contact op met de technische staf\n"
-"voor assistentie."
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account email address could not be found. Please contact "
 "the local Technical Support staff for further assistance."
 msgstr ""
-"Het bij de tijdelijke gebruiker behorende e-mail adres kon niet\n"
-"worden bevestigd. Neem contact op met de technische staf\n"
-"voor assistentie."
 
 #: templates/confirm.tpl.html
-#, fuzzy
 msgid ""
 "The provided trial account encrypted hash could not be authenticated. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
-"Voor de tijdelijke gebruiker kon de wachtwoord versleuteling\n"
-"niet worden geverifieerd. Neem contact op met een systeem\n"
-"beheerder voor assistentie."
 
 #: templates/help/list.tpl.html
-#, fuzzy
 msgid ""
 "The quick search table in the top of the screen helps the users find the "
 "issues they want quickly. More advanced searches may be created using the "
 "Advanced Search tool."
 msgstr ""
-"De Snelzoektabel bovenaan het scherm helpt gebruikers snel de \n"
-"meldingen te vinden die ze zoeken. Uitgebreide zoekopdrachten\n"
-"kunt u maken met de 'Uitgebreid zoeken'-functie."
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
@@ -7375,16 +7147,19 @@ msgid "This action will permanently delete the specified note."
 msgstr "Door deze actie wordt de notitie definitief verwijderd."
 
 #: templates/phone_support.tpl.html
-msgid "This action will permanently delete the specified phone support entry."
+msgid ""
+"This action will permanently delete the specified phone support entry."
 msgstr "Deze actie verwijdert het betrokken telefoongesprek voorgoed."
 
 #: templates/time_tracking.tpl.html
-msgid "This action will permanently delete the specified time tracking entry."
+msgid ""
+"This action will permanently delete the specified time tracking entry."
 msgstr "Deze actie verwijdert de geselecteerde tijdregistratie voorgoed."
 
 #: templates/manage/faq.tpl.html
 msgid "This action will permanently remove the selected FAQ entries."
-msgstr "Deze actie verwijdert de geselecteerde veelgestelde vragen definitief."
+msgstr ""
+"Deze actie verwijdert de geselecteerde veelgestelde vragen definitief."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "This action will permanently remove the selected custom fields."
@@ -7407,7 +7182,8 @@ msgstr "Deze actie verwijdert de geselecteere beurtelingse taken voorgoed."
 msgid ""
 "This action will remove the association of the selected entries to the "
 "current issue."
-msgstr "Deze actie verwijdert de geselecteerde invoer van de huidige melding."
+msgstr ""
+"Deze actie verwijdert de geselecteerde invoer van de huidige melding."
 
 #: templates/manage/account_managers.tpl.html
 msgid "This action will remove the selected account managers."
@@ -7443,16 +7219,11 @@ msgid ""
 msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
-#, fuzzy
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
 "and available in %1) and it will notify Eventum that these changes are to be "
 "associated with issue #13."
 msgstr ""
-"Dit commando wordt geparsed door het CVS integratiescript (aan u verstrekt \n"
-"en beschikbaar in %eventum_path%/scm/eventum-cvs-hook.php)\n"
-" en het zal Eventum op de hoogte brengen van veranderingen die beijgevoegd/n "
-"zijn bij melding nummer 13."
 
 #: templates/close.tpl.html
 msgid ""
@@ -7464,28 +7235,19 @@ msgstr ""
 "wijzigen."
 
 #: templates/help/notifications.tpl.html
-#, fuzzy
 msgid ""
 "This feature allows system users to subscribe to email notifications when "
 "changes are done to specific issues. The current actions that trigger email "
 "notifications are:"
 msgstr ""
-"Deze functie geeft gebruikers de mogelijkheid zich aan te melden\n"
-"voor notificatie wanneer een melding wijzigt. De huidige acties die\n"
-"notificatie op gang brengen zijn:"
 
 #: templates/help/scm_integration.tpl.html
-#, fuzzy
 msgid ""
 "This feature allows your software development teams to integrate your Source "
 "Control Management system with your Issue Tracking System."
 msgstr ""
-"Deze functie stelt de softwareontwikkelteams in staat om uw\n"
-"Source Control Management-systeem te integreren in uw\n"
-"meldingenvolgsysteem."
 
 #: templates/help/report_estimated_dev_time.tpl.html
-#, fuzzy
 msgid ""
 "This field can also be used as a way to check the estimation abilities of "
 "project managers against the impact analysis given by the developers "
@@ -7494,39 +7256,21 @@ msgid ""
 "the developers, and this way get more experience estimating the required "
 "time for new projects."
 msgstr ""
-"Dit veld kan ook gebruikt worden om een manier om de\n"
-"schattingsvaardigheden van projectmanagers te vergelijken met de\n"
-" impactalalyse van de medewerkers. De waarde die de projectmanager\n"
-" invoert wordt vergeleken met de ontwikkeltijd die door de ontwikkelaars\n"
-" gegeven is en zodoende kan er voor toekomstige projecten een\n"
-" nauwkeuriger urenschatting gemaakt worden."
 
 #: templates/help/report_summary.tpl.html
-#, fuzzy
 msgid ""
 "This field is used as a simple and descriptive title to this new issue. As a "
 "suggestion, it should be descriptive and short enough to be used by other "
 "users to remember quickly what the issue was all about."
 msgstr ""
-"Dit veld wordt gebruikt voor een eenvoudige en goed\n"
-"omschrijvende titel voor de nieuwe melding. \n"
-"Tip: Maak de titel omschrijvend maar houd die kort genoeg om \n"
-"de andere gebruikers zich snel te laten herinneren waar \n"
-"de melding over ging."
 
 #: templates/help/report_estimated_dev_time.tpl.html
-#, fuzzy
 msgid ""
 "This field is used by the reporters of new issues to estimate the total "
 "development time for the issue. It is especially important as a metrics tool "
 "to get a simple estimate of how much time each issue will take from "
 "discovery, going through implementation and testing up until release time."
 msgstr ""
-"Dit veld wordt door de melders van een nieuw probleem gebruikt om\n"
-"de oplostijd voor het probleem te schatten. In het bijzonder is het\n"
-"belangrijk als een meetinstrument om makkelijk te schatten hoeveel\n"
-"tijd een melding kost van de ontdekking via ontwikkelen en testen\n"
-"tot online zetten."
 
 #: templates/help/report_category.tpl.html
 msgid ""
@@ -7535,17 +7279,12 @@ msgid ""
 msgstr ""
 
 #: templates/help/report_release.tpl.html
-#, fuzzy
 msgid ""
 "This field is used to determine what the deadline should be for when this "
 "new issue should be completed and resolved. If you don't know what the "
 "deadline should be for this new issue, leave the field as 'un-scheduled', "
 "and a project manager will set it appropriately."
 msgstr ""
-"Dit veld wordt gebruikt om de uiterste datum in ter zetten waarop \n"
-"de nieuwe melding opgelost moet zijn. Als u niet weet wat de \n"
-"deadline voor een melding is laat deze optie dan zoals die is en \n"
-"de projectmanger stelt die dan in."
 
 #: templates/help/report_assignment.tpl.html
 msgid ""
@@ -7554,17 +7293,12 @@ msgid ""
 msgstr ""
 
 #: templates/help/report_priority.tpl.html
-#, fuzzy
 msgid ""
 "This field is used to prioritize issues, as to make project management a "
 "little easier. If you are not sure, or don't know what the appropriate "
 "priority should be for new issues, choose 'not prioritized' as the option "
 "and leave the issue to be prioritized by a project manager."
 msgstr ""
-"Dit veld wordt gebruikt om prioriteiten toe te kennen aan meldingen \n"
-"zodat het beheer makkelijker wordt. Als u niet zeker weet wat de \n"
-"prioriteit van een nieuwe melding is kies dan  'Niet geprioriteerd'\n"
-"en laat de prioritering van de melding aan de projectmanager over."
 
 #: templates/reminders/sms_alert.tpl.text
 msgid ""
@@ -7576,7 +7310,6 @@ msgstr ""
 "actie op gang gebracht, onmiddellijke actie van uw kant kant nodig zijn."
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "This is a special permission level reserved for the Customer Integration "
 "API, which allows you to integrate Eventum with your CRM database. When this "
@@ -7584,13 +7317,6 @@ msgid ""
 "their own customer. Allowed to create new issues, update and send emails to "
 "existing issues."
 msgstr ""
-"Dit is een speciaal gebruikersniveau dat gereserveerd is voor\n"
-"integratie met relatiebeheer (CRM) waarmee dit systeem\n"
-"kan worden gekoppeld aan een bestaande CRM database.\n"
-"Als deze functie wordt geactiveerd kan een gebruiker van dit\n"
-"niveau alleen meldingen benaderen die zijn gekoppeld aan de\n"
-"bijbehorende relatie. Gemachtigd om meldingen te doen, te wijzigen en\n"
-"berichten te versturen over bestaande meldingen."
 
 #: templates/notifications/files.tpl.text
 msgid "This is an automated message sent at your request from"
@@ -7631,17 +7357,15 @@ msgstr ""
 "toegewezen gebruikers kunnen deze bekijken."
 
 #: templates/notifications/closed.tpl.text
-#, fuzzy
 msgid ""
 "This issue was just closed by %1 with the message:\n"
 "\n"
 "%2."
-msgstr "De melding is zojuist gesloten door"
+msgstr ""
 
 #: templates/notifications/closed.tpl.text
-#, fuzzy
 msgid "This issue was just closed by %1."
-msgstr "De melding is zojuist gesloten door"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "This message already belongs to that account"
@@ -7657,14 +7381,10 @@ msgstr ""
 "systeeminstellingen)."
 
 #: templates/help/adv_search.tpl.html
-#, fuzzy
 msgid ""
 "This page allows you to create and modify saved custom searches, which will "
 "save searches that can be executed from the Issue Listing screen."
 msgstr ""
-"Deze pagina maakt het mogelijk eigen zoekopdrachten op te slaan en aan te "
-"passen\n"
-"die vervolgens vanuit het overzicht kunnen worden uitgevoerd."
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -7695,37 +7415,25 @@ msgid ""
 msgstr ""
 
 #: templates/help/preferences.tpl.html
-#, fuzzy
 msgid ""
 "This screen allows users to change their appropriate full name, account "
 "password and email address. This address will be used by the system to send "
 "email notifications whenever details about issues you are subscribed to "
 "changes."
 msgstr ""
-"In dit scherm kunnen gebruikers hun instellingen zoals naam\n"
-"wachtwoord, e-mail adres en taalinstellingen wijzigen. Het \n"
-"opgegeven e-mail adres zal worden gebruikt door het systeem\n"
-"om notificaties te versturen."
 
 #: templates/help/support_emails.tpl.html
-#, fuzzy
 msgid ""
 "This screen allows users with the appropriate permissions to associate "
 "emails with existing issues, or create new issues and associate emails with "
 "them."
 msgstr ""
-"Dit scherm stelt gebruikers met de juiste machtigingen in staat om emails\n"
-" te koppelen aan bestaande meldingen of meldingen te maken\n"
-" en de emails eraan te koppelen."
 
 #: templates/help/permission_levels.tpl.html
-#, fuzzy
 msgid ""
 "This type of user has full access to Eventum, including the low level "
 "configuration parameters available through the administration interface."
 msgstr ""
-"Gebruikers van dit niveau hebben alle rechten op het systeem\n"
-"inclusief instellingen op systeemniveau."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7740,9 +7448,8 @@ msgid ""
 msgstr ""
 
 #: templates/close.tpl.html
-#, fuzzy
 msgid "Time Category"
-msgstr "Tijdregistratiecategorie:"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Time Period"
@@ -7843,7 +7550,6 @@ msgid "To"
 msgstr "Geadresseerde(n)"
 
 #: templates/help/email_blocking.tpl.html
-#, fuzzy
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
 "that are assigned to the issue are allowed to email through Eventum. If an "
@@ -7851,24 +7557,12 @@ msgid ""
 "and stored for later use. This note can be converted into an email at a "
 "later date."
 msgstr ""
-"Om te voorkomen dat ongepaste emails de adressen op de notificatielijst "
-"bereiken\n"
-"kunnen alleen gebruikers die aan een melding gekoppeld zijn met Eventum "
-"emailen.\n"
-"Als een niet-geautoriseerde gebruiker een email stuurt naar \n"
-"<i>issue-XXXX@example.com</i> wordt die email automatisch omgezet in een \n"
-"boodschap en opgeslagen voor later gebruik. Deze boodschap kan later weer in "
-"een \n"
-"email omgezet worden."
 
 #: templates/help/report.tpl.html
-#, fuzzy
 msgid ""
 "To report new issues, click in the 'Create Issue' link in the top of your "
 "browser window."
 msgstr ""
-"Om nieuwe meldingen in te voeren dient de 'invoeren' optie boven\n"
-"in het scherm te worden gebruikt."
 
 #: templates/notifications/new_user.tpl.text
 msgid "To start using the system, please load the URL below"
@@ -8200,9 +7894,8 @@ msgstr ""
 "te beantwoorden."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Users:"
-msgstr "Gebruikers"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Using CSC"
@@ -8234,9 +7927,8 @@ msgid "Viewer"
 msgstr "Raadplegen"
 
 #: templates/emails.tpl.html
-#, fuzzy
 msgid "Viewing Emails (%1 email found)"
-msgstr "Berichten (%1 berichten gevonden)"
+msgstr ""
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
@@ -8288,13 +7980,10 @@ msgid ""
 msgstr ""
 
 #: templates/manage/email_alias.tpl.html
-#, fuzzy
 msgid ""
 "WARNING: This action will permanently remove the selected email aliases from "
 "your email account."
 msgstr ""
-"Waarschuwing: Deze actie verwijdert de geselecteerde berichten definitief "
-"van uw emailaccount."
 
 #: templates/removed_emails.tpl.html
 msgid ""
@@ -8305,18 +7994,19 @@ msgstr ""
 "van uw emailaccount."
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "WARNING: This action will remove the selected groups permanently."
-msgstr "Waarschuwing: Met deze actie worden de projecten permanent verwijderd."
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-msgid "WARNING: This action will remove the selected link filters permanently."
+msgid ""
+"WARNING: This action will remove the selected link filters permanently."
 msgstr ""
 "WAARSCHUWING: Deze actie verwijdert de geselecteerde linkfilters voorgoed."
 
 #: templates/manage/projects.tpl.html
 msgid "WARNING: This action will remove the selected projects permanently."
-msgstr "Waarschuwing: Met deze actie worden de projecten permanent verwijderd."
+msgstr ""
+"Waarschuwing: Met deze actie worden de projecten permanent verwijderd."
 
 #: templates/send.tpl.html
 msgid ""
@@ -8368,7 +8058,8 @@ msgstr "Project(en) verwijderd"
 
 #: templates/manage/general.tpl.html
 msgid "Warn Users Whether They Can Send Emails to Issue:"
-msgstr "Gebruikers mededelen of ze emails voor deze melding kunnen versturen:"
+msgstr ""
+"Gebruikers mededelen of ze emails voor deze melding kunnen versturen:"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Warning"
@@ -8384,16 +8075,13 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Warning: If you continue, you will change the "
-msgstr "Waarschuwing: Wijzigingen worden aangebracht aan de"
+msgstr "Waarschuwing: Wijzigingen worden aangebracht aan de "
 
 #: templates/reports/workload_date_range.tpl.html
-#, fuzzy
 msgid ""
 "Warning: Some type and interval options, combined with large <br />date "
 "ranges can produce extremely large graphs."
 msgstr ""
-"Waarschuwing: type- en intervalopties gecombineerd met grote<br/>\n"
-"periodes kunnen resulteren in extreem grote grafieken."
 
 #: templates/send.tpl.html
 msgid ""
@@ -8462,13 +8150,10 @@ msgid "Will save as email"
 msgstr ""
 
 #: templates/help/scm_integration.tpl.html
-#, fuzzy
 msgid ""
 "With that information in mind, the appropriate value to be entered in the "
 "'Checkout page' input field is:"
 msgstr ""
-"Met deze informatie in het achterhoofd is de passende waarde om in het\n"
-"Foutenopspiringspagina-veld in te voeren:"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work ended"
@@ -8521,18 +8206,12 @@ msgid "You are not allowed to use the selected project."
 msgstr "U heeft geen toestemming het geselecteerd project te gebruiken."
 
 #: templates/tips/custom_queries.tpl.html
-#, fuzzy
 msgid ""
-"You can create as many custom queries as you want through the <a class=\"link"
-"\" href=\"%1\">Advanced Search</a> interface. There is also the ability to "
-"save and modify custom queries and load them quickly from the Issue Listing "
-"screen."
+"You can create as many custom queries as you want through the <a "
+"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
+"ability to save and modify custom queries and load them quickly from the "
+"Issue Listing screen."
 msgstr ""
-"U kunt zoveel aangepaste zoekopdrachten maken als u wilt met het\n"
-"<a class=\"link\" href=\"adv_search.php\">Geavanceerd zoeken</a>-menu.\n"
-"Daar staat ook de functie om aangepaste zoekopdrachten te bewerken en op te "
-"slaan\n"
-"zodat u ze snel kunt laden vanaf het meldingenoverzicht."
 
 #: templates/tips/canned_responses.tpl.html
 msgid ""
@@ -8542,21 +8221,12 @@ msgid ""
 msgstr ""
 
 #: templates/help/column_display.tpl.html
-#, fuzzy
 msgid ""
 "You can set the minimum role required to view a column. For example, if you "
 "set the mimimum role for 'Category' to be 'Manager' anyone with a role lower "
 "then 'Manager' will not be able to see that column. To hide a column from "
 "all users, select 'Never Display'."
 msgstr ""
-"De minimaal vereiste rol om een kolom te bekijken kan worden ingesteld. B."
-"v.: Wanneer de minimaal vereiste rol voor\n"
-"'Categorie' wordt ingesteld vanaf de rol 'Manager' zullen gebruikers met "
-"lagere rollen niet meer kunnen zien in welke \n"
-"categorie een melding zich bevindt. Om een kolom voor alle gebruikers "
-"onzichtbaar te maken, b.v. wanneer deze \n"
-"niet relevant is voor de manier waarop u het systeem gebruikt, dient te "
-"worden gekozen voor 'Niet tonen'."
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid ""
@@ -8607,35 +8277,24 @@ msgid ""
 msgstr ""
 
 #: templates/help/preferences.tpl.html
-#, fuzzy
 msgid ""
 "You may also set the appropriate timezone where you live in this screen, and "
 "all of the software will adjust the dates displayed in the system "
 "accordingly."
 msgstr ""
-"De tijdzone kan ook worden ingesteld (Vooral van toepassing\n"
-"voor internationaal samenwerkende teams). Het systeem zal alle tijden\n"
-"en datums dan weergeven in de gekozen tijdzone."
 
 #: templates/help/scm_integration_installation.tpl.html
-#, fuzzy
 msgid ""
 "You may also turn the parsing of commit messages for just a single CVS "
 "module by substituting the 'ALL' in the line above to the appropriate CVS "
 "module name, as in:"
 msgstr ""
-"U kunt ook het samenvoegen van te toegekende berichten voor één enkele CVS "
-"herroepen door 'Alle' in de regel hierboven te vervangen door de van "
-"toepassing zijnde CVS-mudulenaam, bijvoorbeeld in:"
 
 #: templates/help/scm_integration_usage.tpl.html
-#, fuzzy
 msgid ""
 "You may also use 'bug' to specify the issue ID - whichever you are more "
 "comfortable with."
 msgstr ""
-"U kunt ook 'Foutmelding' gebruiken om de ID van de melding\n"
-" te specificeren, doe maar wat u het gemakkelijkst vindt."
 
 #: lib/eventum/class.notification.php:1574
 msgid "Your User Account Details"
@@ -8663,25 +8322,17 @@ msgid "Your user account password has been updated in %1"
 msgstr "Uw wachtwoord is bijgewerkt naar %1."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Your user status is currently set as inactive. Please contact your local "
 "system administrator for further information."
 msgstr ""
-"Fout: Uw gebruiker staat als non-actief in het systeem. Neem\n"
-"contact op met de systeembeheerder."
 
 #: templates/login_form.tpl.html
-#, fuzzy
 msgid ""
 "Your user status is currently set as pending. This means that you still need "
 "to confirm your account creation request. Please contact your local system "
 "administrator for further information."
 msgstr ""
-"Fout: Uw gebruikersstatus is nu 'Nog niet gekoppeld'.\n"
-"Dit betekent dat u uw aanvraag voor een account nog \n"
-"moet bevestigen. Neem contact p met uw\n"
-"systeembeheerder voor meer informatie."
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -8691,11 +8342,11 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
-"\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
+"13)\" form.php"
 msgstr ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
-"\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
+"13)\" form.php"
 
 #: htdocs/reports/workload_time_period_graph.php:57
 msgid "actions"
@@ -8826,9 +8477,8 @@ msgid "error condition detected"
 msgstr "Er is een foutconditie gedetecteerd"
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "first"
-msgstr "Voornaam"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
@@ -8912,9 +8562,8 @@ msgstr ""
 "relatie."
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "issue"
-msgstr "Meldingen"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "issues found"
@@ -8941,9 +8590,8 @@ msgid "leave empty to keep the current password"
 msgstr "Laat dit veld leeg als u uw huidige wachtwoord wilt behouden."
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "list all email aliases"
-msgstr "beschikbare berichten weergeven"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "list all issues assigned to you"
@@ -8963,12 +8611,11 @@ msgstr "Meldingen in het systeem weergeven"
 
 #: templates/navigation.tpl.html
 msgid "logout from"
-msgstr "Afmelden "
+msgstr "Afmelden"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "manage alias"
-msgstr "Fases beheren"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "manage the application settings, users, projects, etc"
@@ -9196,9 +8843,8 @@ msgid "view issue details"
 msgstr "gegevens melding bekijken"
 
 #: templates/notes.tpl.html
-#, fuzzy
 msgid "view note details"
-msgstr "Gegevens notitie bekijken"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder action details"
@@ -9230,17 +8876,13 @@ msgid "year"
 msgstr "jaar"
 
 #~ msgid " with the message"
-#~ msgstr "met het bericht"
+#~ msgstr " met het bericht"
 
 #~ msgid "Port:"
 #~ msgstr "Poort:"
 
 #~ msgid "Username:"
 #~ msgstr "Gebruikersnaam:"
-
-#, fuzzy
-#~ msgid "Details:"
-#~ msgstr "Gegevens"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Pagina gegenereerd in %1 seconden"
@@ -9268,8 +8910,8 @@ msgstr "jaar"
 #~ "project page and choose\n"
 #~ "\"Edit Fields to Display\" to access this page."
 #~ msgstr ""
-#~ "Deze pagina kan alleen worden geopend wanneer een project is "
-#~ "geselecteerd. Ga naar de projectpagina\n"
+#~ "Deze pagina kan alleen worden geopend wanneer een project is geselecteerd. "
+#~ "Ga naar de projectpagina\n"
 #~ "en kies voor \"Wijzig weer te geven velden\" om deze pagina te kunnen "
 #~ "gebruiken."
 
@@ -9318,12 +8960,12 @@ msgstr "jaar"
 
 #~ msgid ""
 #~ "Warning: your issue is currently quarantined.\n"
-#~ "                Please see the <a href=\"faq.php\">FAQ</a> for "
-#~ "information regarding quarantined issues."
+#~ "                Please see the <a href=\"faq.php\">FAQ</a> for information "
+#~ "regarding quarantined issues."
 #~ msgstr ""
 #~ "Waarschuwing: de melding is in quarantaine geplaatst.\n"
-#~ "Bekijk de <a href=\"faq.php\">veelgestelde vragen</a> voor informatie "
-#~ "over meldingen in quarantaine."
+#~ "Bekijk de <a href=\"faq.php\">veelgestelde vragen</a> voor informatie over "
+#~ "meldingen in quarantaine."
 
 #~ msgid "yes"
 #~ msgstr "ja"
@@ -9334,33 +8976,33 @@ msgstr "jaar"
 #~ msgid ""
 #~ "Refers to the number of issues in eventum for the given support level or "
 #~ "customer.\n"
-#~ "    Average and median counts do not include customers who have never "
-#~ "opened an issue."
+#~ "    Average and median counts do not include customers who have never opened "
+#~ "an issue."
 #~ msgstr ""
-#~ "Slaat op het aantal meldingen in Eventum voor het gegeven support level "
-#~ "of de gegeven relatie.\n"
-#~ "Bij gemiddelde- en mediaanberekeningen worden de relaties die nog nooit "
-#~ "een melding geopend hebben niet meegeteld."
+#~ "Slaat op het aantal meldingen in Eventum voor het gegeven support level of "
+#~ "de gegeven relatie.\n"
+#~ "Bij gemiddelde- en mediaanberekeningen worden de relaties die nog nooit een "
+#~ "melding geopend hebben niet meegeteld."
 
 #~ msgid ""
 #~ "Based on all issues recorded in Eventum since start to present.\n"
-#~ "        Actions are any event that shows up in the history of an issue, "
-#~ "such as a user or a developer updating an issue, uploading a file, "
-#~ "sending an email, etc."
+#~ "        Actions are any event that shows up in the history of an issue, such "
+#~ "as a user or a developer updating an issue, uploading a file, sending an "
+#~ "email, etc."
 #~ msgstr ""
 #~ "Gebaseerd op alle melddingen in het systeem sinds de installatie.\n"
-#~ "Onder acties worden verstaan alle handelingen die in de geschiedenis van "
-#~ "een melding kunnen voorkomen zoals het wijzigen van een melding, een "
-#~ "bestand uploaden, een bericht versturen etc."
+#~ "Onder acties worden verstaan alle handelingen die in de geschiedenis van een "
+#~ "melding kunnen voorkomen zoals het wijzigen van een melding, een bestand "
+#~ "uploaden, een bericht versturen etc."
 
 #~ msgid ""
-#~ "Sorry, but the email could not be queued. This might be related to "
-#~ "problems with your SMTP account settings.\n"
+#~ "Sorry, but the email could not be queued. This might be related to problems "
+#~ "with your SMTP account settings.\n"
 #~ "  Please contact the administrator of this application for further "
 #~ "assistance."
 #~ msgstr ""
-#~ "De email is niet klaargezet voor verzending. Dit zou te maken kunnen "
-#~ "hebben met de instellingen van uw SMTP-account. Neem contact op met uw "
+#~ "De email is niet klaargezet voor verzending. Dit zou te maken kunnen hebben "
+#~ "met de instellingen van uw SMTP-account. Neem contact op met uw "
 #~ "systeembeheerder voor meer informatie."
 
 #~ msgid ""
@@ -9375,28 +9017,26 @@ msgstr "jaar"
 #~ "informatie."
 
 #~ msgid ""
-#~ "You can create canned email responses and use them when sending emails "
-#~ "from the\n"
+#~ "You can create canned email responses and use them when sending emails from "
+#~ "the\n"
 #~ "system. That is an useful feature when dealing with lots of issues that "
 #~ "relate\n"
 #~ "to the same problem.\n"
 #~ "<br /><br />\n"
-#~ "If no canned email responses are available through the Email window, "
-#~ "please\n"
-#~ "contact an user with the appropriate permissions (administrator or "
-#~ "manager) to\n"
+#~ "If no canned email responses are available through the Email window, please\n"
+#~ "contact an user with the appropriate permissions (administrator or manager) "
+#~ "to\n"
 #~ "add some for you."
 #~ msgstr ""
 #~ "U kunt een standaardantwoord laten instellen als de antwoordtekst op "
 #~ "meldingen\n"
-#~ "regelmatig hetzelfde is. Dit is een handige functie voor het opstellen "
-#~ "van b.v.\n"
+#~ "regelmatig hetzelfde is. Dit is een handige functie voor het opstellen van "
+#~ "b.v.\n"
 #~ "formele antwoorden.\n"
 #~ "<br /><br />\n"
 #~ "Indien er geen standaard antwoorden beschikbaar zijn, neem dan contact op "
 #~ "met een\n"
-#~ "gebruiker die beschikt over de rechten om standaardantwoorden op te "
-#~ "stellen."
+#~ "gebruiker die beschikt over de rechten om standaardantwoorden op te stellen."
 
 #~ msgid ""
 #~ "The specified note does not exist. <br />\n"
@@ -9413,58 +9053,6 @@ msgstr "jaar"
 
 #~ msgid "Resolution:"
 #~ msgstr "Oplossing:"
-
-#, fuzzy
-#~ msgid ""
-#~ "This page allows you to dynamically configure the values displayed in "
-#~ "the\n"
-#~ "\"Status Change Date\" column in the issue listing screen, for a "
-#~ "particular\n"
-#~ "project.\n"
-#~ "<br /><br />\n"
-#~ "This column is useful to display the amount of time since the last "
-#~ "change\n"
-#~ "in status for each issue. For example, if issue #1234 is set to status\n"
-#~ "'Closed', you could configure Eventum to display the difference\n"
-#~ "in time between \"now\" and the date value stored in the closed date\n"
-#~ "field.\n"
-#~ "<br /><br />\n"
-#~ "Since the list of statuses available per project is dynamic and\n"
-#~ "database driven, this manual process is needed to associate a status\n"
-#~ "to a date field coming from the database."
-#~ msgstr ""
-#~ "Via deze pagina kunt u instellen welke waarden worden weergegeven\n"
-#~ "in de \"Status gewijzigd\"-kolom in het overzicht voor het actieve "
-#~ "project.\n"
-#~ "<br /><br />\n"
-#~ "Deze kolom is bedoeld om de tijd die is verstreken sinds de meest "
-#~ "recente\n"
-#~ "statuswijziging weer te geven per melding. Het systeem kan bijvoorbeeld\n"
-#~ "het verschil tussen vandaag en de datum waarop een melding is gesloten\n"
-#~ "weergeven.\n"
-#~ "<br /><br />\n"
-#~ "Omdat de lijst met meldingen dynamisch is dient deze status handmatig\n"
-#~ "te worden ingesteld om de koppeling met een veld uit de database op te\n"
-#~ "zetten."
-
-#, fuzzy
-#~ msgid ""
-#~ "This page allows you to dynamically control which fields are displayed\n"
-#~ "to users of a certain minimum role.\n"
-#~ "For example, you could use this page so that only users of the role "
-#~ "\"<i>standard user</i>\"\n"
-#~ "(and higher ranking roles) are able to set the category or\n"
-#~ "release fields when reporting a new issue."
-#~ msgstr ""
-#~ "Deze pagina stelt u in staat om op een dynamische manier te bepalen welke "
-#~ "velden \n"
-#~ "worden getoond aan gebruikers met bepaalde minimale bevoegdheden. Zo kunt "
-#~ "u \n"
-#~ "deze pagina bijvoorbeeld gebruiken om te zorgen dat alleen gebruikers "
-#~ "met \n"
-#~ "\"<i>standaard gebruiker</i>\"-bevoegdheden de categorie of fases in te "
-#~ "stellen bij \n"
-#~ "aanmaken van een nieuwe melding."
 
 #~ msgid ""
 #~ "This field is used to determine who should be assigned to this new \n"
@@ -9499,7 +9087,7 @@ msgstr "jaar"
 #~ "beheerder."
 
 #~ msgid "Note: "
-#~ msgstr "Notitie:"
+#~ msgstr "Notitie: "
 
 #~ msgid "Please choose the duplicated issue."
 #~ msgstr "Kies een duplicaat."
@@ -9520,18 +9108,17 @@ msgstr "jaar"
 #~ msgstr "Tussen %1-%2-%3 en %4-%5-%6"
 
 #~ msgid ""
-#~ "Link filters are used to replace text such as 'Bug #42' with an "
-#~ "automatic\n"
-#~ "link to some external resource. It uses regular expressions to replace "
-#~ "the text.\n"
-#~ "Specify the search pattern in the pattern field without delimiters. "
-#~ "Specify the entire\n"
-#~ "string you would like to use as a replacement with $x to insert the "
-#~ "matched text. For example:\n"
+#~ "Link filters are used to replace text such as 'Bug #42' with an automatic\n"
+#~ "link to some external resource. It uses regular expressions to replace the "
+#~ "text.\n"
+#~ "Specify the search pattern in the pattern field without delimiters. Specify "
+#~ "the entire\n"
+#~ "string you would like to use as a replacement with $x to insert the matched "
+#~ "text. For example:\n"
 #~ "<br /><br />\n"
 #~ "Pattern: \"bug #(d+)\"<br />\n"
-#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/"
-#~ "a&gt;\""
+#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug "
+#~ "#$1&lt;/a&gt;\""
 #~ msgstr ""
 #~ "Linkfilters worden gebruikt om teskt als 'Fout #42' te vervangen door een "
 #~ "link \n"
@@ -9543,17 +9130,17 @@ msgstr "jaar"
 #~ "Bijvoorbeeld: \n"
 #~ "<br /><br />\n"
 #~ "Pattern: \"fout #(d+)\"<br />\n"
-#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/"
-#~ "a&gt;\""
+#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug "
+#~ "#$1&lt;/a&gt;\""
 
 #~ msgid ""
-#~ "As an example, using the <a href=\"http://www.horde.org/chora/\" class="
-#~ "\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from "
-#~ "the Horde project you\n"
+#~ "As an example, using the <a href=\"http://www.horde.org/chora/\" "
+#~ "class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] "
+#~ "from the Horde project you\n"
 #~ "would usually have the following URL as the diff page:"
 #~ msgstr ""
-#~ "Als u bijvoorbeeld de <a href=\"http://www.horde.org/chora/\" class=\"link"
-#~ "\" target=\"_chora\">Chora CVS viewer</a> \n"
+#~ "Als u bijvoorbeeld de <a href=\"http://www.horde.org/chora/\" class=\"link\" "
+#~ "target=\"_chora\">Chora CVS viewer</a> \n"
 #~ "gebruikt [sterk aanbevolen] van het Horde-project, dan heeft u normaal "
 #~ "gesproken\n"
 #~ "het volgende webadres als verschillenpagina hebben:"
@@ -9562,8 +9149,8 @@ msgstr "jaar"
 #~ "(This MUST contain a real email address, e.g. \"eventum@example.com\" or "
 #~ "\"Eventum <eventum@example.com>\")"
 #~ msgstr ""
-#~ "(Dit MOET een echt emailadres zijn, bijvoorbeeld  \"eventum@example.com\" "
-#~ "or \"Eventum <eventum@example.com>\")"
+#~ "(Dit MOET een echt emailadres zijn, bijvoorbeeld  \"eventum@example.com\" or "
+#~ "\"Eventum <eventum@example.com>\")"
 
 #~ msgid "(e.g. <b>issue_</b>51@example.com)"
 #~ msgstr "(Bijvoorbeeld <b>melding_</b>51@voorbeeld.com)"
@@ -9584,11 +9171,12 @@ msgstr "jaar"
 #~ msgstr "(bijvoorbeeld concept_51@<b>voorbeeld.com</b>)"
 
 #~ msgid ""
-#~ "(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
-#~ "sourceforge.net/\">aspell</a> installed in your server)"
+#~ "(requires <a target=\"_aspell\" class=\"link\" "
+#~ "href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)"
 #~ msgstr ""
-#~ "(Hiervoor moet  <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
-#~ "sourceforge.net/\">aspell</a> op uw server geïnstalleerd zijn.)"
+#~ "(Hiervoor moet  <a target=\"_aspell\" class=\"link\" "
+#~ "href=\"http://aspell.sourceforge.net/\">aspell</a> op uw server "
+#~ "geïnstalleerd zijn.)"
 
 #~ msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
 #~ msgstr "U kunt <a class=\"link\" href=\"%1\">%2</a>  als u dat wilt."
@@ -9602,8 +9190,7 @@ msgstr "jaar"
 #~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
 #~ "'Search' box<br />\n"
 #~ "<br />\n"
-#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' "
-#~ "box"
+#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 #~ msgstr ""
 #~ "U kunt snel schakelen naar de 'Zoeken' of 'OK'-vakken door \n"
 #~ "het gebruik van sneltoetsen. \n"
@@ -9619,8 +9206,8 @@ msgstr "jaar"
 #~ "Error: The sender of this email is not allowed in the project associated "
 #~ "with issue #"
 #~ msgstr ""
-#~ "Fout: De afzender van dit bericht heeft geen rechten op de "
-#~ "projectomgeving van melding"
+#~ "Fout: De afzender van dit bericht heeft geen rechten op de projectomgeving "
+#~ "van melding"
 
 #~ msgid "and"
 #~ msgstr "en"
