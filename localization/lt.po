@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-20 08:01+0000\n"
+"PO-Revision-Date: 2009-11-23 21:42+0000\n"
 "Last-Translator: Rasa Urbanavičiūtė <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:47+0000\n"
+"X-Launchpad-Export-Date: 2009-11-24 04:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -57,12 +57,12 @@ msgstr ""
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s ar didesnis"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s ar mažesnis"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -72,7 +72,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Visos problemos)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -84,7 +84,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Atviros problemos)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -106,11 +106,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(numatytas katalogas - INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr ""
+msgstr "(pvz. %1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
@@ -154,7 +154,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Pasirinkite vieną --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -201,7 +201,7 @@ msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
-msgstr ""
+msgstr "PRIDĖTA"
 
 #: lib/eventum/class.mail_helper.php:464
 msgid "ADVISORY: Your reply will be sent to the notification list."
@@ -238,11 +238,11 @@ msgstr ""
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Sąskaitos sukūrimas"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr ""
+msgstr "Sąskaitos tvarkytojas"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
@@ -261,11 +261,11 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr ""
+msgstr "Veiksmas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Veiksmo tipas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
@@ -286,33 +286,33 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "Aktyvus"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr ""
+msgstr "Veiksmo tipas"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr ""
+msgstr "Veiksmų praeitis"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr ""
+msgstr "Pridėti"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr ""
+msgstr "Pridėti / keisti kategorijas"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr ""
+msgstr "Pridėti / keisti Phone Support Categories"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr ""
+msgstr "Pridėti / keisti prioritetus"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
@@ -332,7 +332,7 @@ msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr ""
+msgstr "Pridėti elektroninio pašto parašą"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr ""
+msgstr "Pridėti bylas"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -348,11 +348,11 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr ""
+msgstr "Pridėti naujas bylas"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr ""
+msgstr "Pridėti naują reikalavimą"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
@@ -392,20 +392,20 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr ""
+msgstr "Administravimas"
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr ""
+msgstr "Administratorius"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Sudėtingesnės parinktys"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr ""
+msgstr "Išplėstinė paieška"
 
 #: lib/eventum/class.help.php:105 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
@@ -414,7 +414,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr ""
+msgstr "Po siuntėjo vardo"
 
 #: lib/eventum/class.customer_stats_report.php:191
 msgid "Aggregate"
@@ -462,11 +462,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr ""
+msgstr "Visi"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "Visos problemos"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -8592,12 +8592,12 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "visible to all"
-msgstr ""
+msgstr "matoma visiems"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "week"
-msgstr ""
+msgstr "savaitė"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
-msgstr ""
+msgstr "metai"

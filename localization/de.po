@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-18 16:03+0000\n"
-"Last-Translator: Ralf Kühnbaum-Grashorn <Unknown>\n"
+"PO-Revision-Date: 2009-11-23 08:53+0000\n"
+"Last-Translator: Keruskerfuerst <armin_mohring@web.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:46+0000\n"
+"X-Launchpad-Export-Date: 2009-11-24 04:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -37,7 +37,7 @@ msgstr " Fehler: Bitte geben Sie Ihre e-Mail Adresse an."
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -45,22 +45,22 @@ msgstr "% komplett"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 Feld"
 
 #: lib/eventum/class.filter.php:673
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "%1$s Gruppe"
 
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s oder größer"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s oder kleiner"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -87,7 +87,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
+msgstr "(Dies muß eine gültige Emailadresse beinhalten, z.B. '%1' oder '%2'"
 
 #: templates/manage/general.tpl.html
 msgid ""
