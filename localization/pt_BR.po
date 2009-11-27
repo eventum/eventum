@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-21 22:01+0000\n"
-"Last-Translator: André Gondim <andregondim@ubuntu.com>\n"
+"PO-Revision-Date: 2009-11-26 12:30+0000\n"
+"Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2009-11-22 04:49+0000\n"
+"X-Launchpad-Export-Date: 2009-11-27 04:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
 
@@ -179,30 +179,42 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
+"<b>NOTA:</b> O email <b>NÃO</b> será enviado para a lista de notificação se "
+"esta opção for escolhida. Isto é útil como uma forma de \"descarregar\" um "
+"conjunto de emails em um chamado existente."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
+"<b>NOTA:</b> O email será distribuído para todos os endereços da lista de "
+"notificação, incluindo todos os clientes, se esta opção for selecionada."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
+"<b>NOTA:</b> O email será salvo como uma nota e distribuído apenas para "
+"usuários da equipe."
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
 msgstr ""
+"<b>Nota:</b> Se você marcar esta opção, não poderá deixar uma cópia das "
+"mensagens no servidor."
 
 #: templates/setup.tpl.html
 msgid ""
 "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
 "emails are properly sent when creating new users/projects."
 msgstr ""
+"<b>Nota:</b> A configuração SMTP (email sainte) é necessária para garantir "
+"que os emails sejam enviados de forma adequada ao criar novos "
+"usários/projetos."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -421,7 +433,7 @@ msgstr "Administrador"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Opções Avançadas"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -982,7 +994,7 @@ msgstr "Associar"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Associar Mensagem de Email ao Chamado #%1"
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -2497,11 +2509,11 @@ msgstr "Instalação do Eventum"
 
 #: templates/header.tpl.html
 msgid "Eventum Issues search"
-msgstr ""
+msgstr "Busca de chamados do Eventum"
 
 #: templates/setup.tpl.html
 msgid "Eventum Relative URL"
-msgstr ""
+msgstr "URL Relativa do Eventum"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
@@ -2953,7 +2965,7 @@ msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "Pasta IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -3666,7 +3678,7 @@ msgstr "Meus Chamados"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr ""
+msgstr "Base de Dados MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
@@ -3674,15 +3686,15 @@ msgstr "Senha do MySQL:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "Hostname do Servidor MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
-msgstr ""
+msgstr "Prefixo de Tabela MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "Usuário do MySQL"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -4443,7 +4455,7 @@ msgstr ""
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Por favor escolha"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4514,6 +4526,8 @@ msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
+"Por favor escolha uma das ações seguintes para ser executada na mensagem de "
+"email selecionada"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
@@ -5836,7 +5850,7 @@ msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Replace current assignee with Myself."
-msgstr ""
+msgstr "Designar a mim no lugar do designado atual."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Replacement"
@@ -6060,11 +6074,11 @@ msgstr "Gravar Mensagem"
 
 #: templates/associate.tpl.html
 msgid "Save Message as Reference Email"
-msgstr ""
+msgstr "Salvar Mensagem Como Email de Referência"
 
 #: templates/associate.tpl.html
 msgid "Save Message as an Internal Note"
-msgstr ""
+msgstr "Salvar Mensagem Como Nota Interna"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
@@ -6106,7 +6120,7 @@ msgstr "Buscar"
 
 #: templates/opensearch.tpl.xml
 msgid "Search Eventum Issues"
-msgstr ""
+msgstr "Buscar Chamados do Eventum"
 
 #: templates/list.tpl.html
 msgid "Search Results"
@@ -6180,7 +6194,7 @@ msgstr "Separar Somente Mudanças de Status"
 
 #: templates/setup.tpl.html
 msgid "Server Hostname"
-msgstr ""
+msgstr "Hostname do Servidor"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
@@ -6954,7 +6968,7 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid "Thank you, the selected email message was associated successfully."
-msgstr ""
+msgstr "Obrigado, a mensagem de email selecionada foi associada com sucesso."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
@@ -7197,7 +7211,7 @@ msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "The following user is already assigned to this issue"
-msgstr ""
+msgstr "O usuário que segue já está designado para atender o chamado"
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7461,6 +7475,9 @@ msgid ""
 "and available in %1) and it will notify Eventum that these changes are to be "
 "associated with issue #13."
 msgstr ""
+"Esse comando será interpretado pelo script de integração com o CVS "
+"(disponível em %1) e notificará o Eventum que as modificações desse commit "
+"devem ser associadas ao chamado número 13."
 
 #: templates/close.tpl.html
 msgid ""
@@ -7636,10 +7653,13 @@ msgid ""
 "\n"
 "%2."
 msgstr ""
+"Este chamado acaba de ser fechado por %1 com a seguinte mensagem:\n"
+"\n"
+"%2."
 
 #: templates/notifications/closed.tpl.text
 msgid "This issue was just closed by %1."
-msgstr ""
+msgstr "Este chamado acaba de ser fechado por %1."
 
 #: templates/view_email.tpl.html
 msgid "This message already belongs to that account"
@@ -8153,6 +8173,8 @@ msgstr "Usar Um Usuário Separado do MySQL para Uso Normal do Eventum"
 #: templates/manage/email_accounts.tpl.html
 msgid "Use account for non-subject based email/note/draft routing."
 msgstr ""
+"Usar a conta para roteamento de emails/notas/rascunhos não baseado no "
+"assunto."
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "Use the following shortcuts"
@@ -8232,7 +8254,7 @@ msgstr "Visualizador"
 
 #: templates/emails.tpl.html
 msgid "Viewing Emails (%1 email found)"
-msgstr ""
+msgstr "Visualizando Emails (%1 emails encontrados)"
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
@@ -8389,6 +8411,8 @@ msgid ""
 "Warning: Some type and interval options, combined with large <br />date "
 "ranges can produce extremely large graphs."
 msgstr ""
+"Aviso: Algumas opções de tipo e passo, combinadas com grandes <br /> "
+"períodos de amostragem podem produzir gráficos extremamentes grandes."
 
 #: templates/send.tpl.html
 msgid ""
@@ -8815,7 +8839,7 @@ msgstr "condição de erro detectada"
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "first"
-msgstr ""
+msgstr "primeiro"
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
