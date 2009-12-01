@@ -42,6 +42,7 @@ Eventum Issue Tracking System
 - Merge extra _GET and _POST params in searchbar.php?custom_id=N do be able to dynamically enchance saved custom search (Elan Ruusamäe)
 - Prevent users with a role less than manager from logging into archived projects (Bryan Alsdorf)
 - Make popup windows unique to issue, so creating two post note popups won't overwrite former ones (Elan Ruusamäe)
+- Updated php-gettext up to 1.0.8 (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

@@ -21,8 +21,8 @@
 */
 
 
-// Simple class to wrap file streams, string streams, etc.
-// seek is essential, and it should be byte stream
+  // Simple class to wrap file streams, string streams, etc.
+  // seek is essential, and it should be byte stream
 class StreamReader {
   // should return a string [FIXME: perhaps return array of bytes?]
   function read($bytes) {
@@ -43,7 +43,7 @@ class StreamReader {
   function length() {
     return false;
   }
-}
+};
 
 class StringReader {
   var $_pos;
@@ -78,7 +78,7 @@ class StringReader {
     return strlen($this->_str);
   }
 
-}
+};
 
 
 class FileReader {
@@ -93,8 +93,8 @@ class FileReader {
       $this->_pos = 0;
       $this->_fd = fopen($filename,'rb');
       if (!$this->_fd) {
-	$this->error = 3; // Cannot read file, probably permissions
-	return false;
+        $this->error = 3; // Cannot read file, probably permissions
+        return false;
       }
     } else {
       $this->error = 2; // File doesn't exist
@@ -105,7 +105,7 @@ class FileReader {
   function read($bytes) {
     if ($bytes) {
       fseek($this->_fd, $this->_pos);
-$data = '';
+
       // PHP 5.1.1 does not read more than 8192 bytes in one fread()
       // the discussions at PHP Bugs suggest it's the intended behaviour
       while ($bytes > 0) {
@@ -137,7 +137,7 @@ $data = '';
     fclose($this->_fd);
   }
 
-}
+};
 
 // Preloads entire file in memory first, then creates a StringReader
 // over it (it assumes knowledge of StringReader internals)
@@ -149,8 +149,8 @@ class CachedFileReader extends StringReader {
       $fd = fopen($filename,'rb');
 
       if (!$fd) {
-	$this->error = 3; // Cannot read file, probably permissions
-	return false;
+        $this->error = 3; // Cannot read file, probably permissions
+        return false;
       }
       $this->_str = fread($fd, $length);
       fclose($fd);
@@ -160,7 +160,7 @@ class CachedFileReader extends StringReader {
       return false;
     }
   }
-}
+};
 
 
 ?>

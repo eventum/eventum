@@ -70,6 +70,10 @@ class gettext_reader {
       }
     }
 
+  function read($bytes) {
+    return $this->STREAM->read($bytes);
+  }
+
   /**
    * Reads an array of Integers from the Stream
    *
@@ -102,16 +106,15 @@ class gettext_reader {
     // Caching can be turned off
     $this->enable_cache = $enable_cache;
 
-    // enabled again, see http://lists.mysql.com/eventum-devel/814
-    $MAGIC1 = (int)0x950412de;
-    $MAGIC2 = (int)0xde120495;
+    $MAGIC1 = "\x95\x04\x12\xde";
+    $MAGIC2 = "\xde\x12\x04\x95";
 
     $this->STREAM = $Reader;
-    $magic = $this->readint();
+    $magic = $this->read(4);
     if ($magic == $MAGIC1) {
-      $this->BYTEORDER = 0;
-    } elseif ($magic == $MAGIC2) {
       $this->BYTEORDER = 1;
+    } elseif ($magic == $MAGIC2) {
+      $this->BYTEORDER = 0;
     } else {
       $this->error = 1; // not MO file
       return false;
@@ -129,7 +132,7 @@ class gettext_reader {
    * Loads the translation tables from the MO file into the cache
    * If caching is enabled, also loads all strings into a cache
    * to speed up translation lookups
-   *
+   * 
    * @access private
    */
   function load_tables() {
