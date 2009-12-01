@@ -1,6 +1,6 @@
 <?php
 /*
-   Copyright (c) 2003, 2005 Danilo Segan <danilo@kvota.net>.
+   Copyright (c) 2003, 2005, 2006, 2009 Danilo Segan <danilo@kvota.net>.
 
    This file is part of PHP-gettext.
 
@@ -108,6 +108,7 @@ class FileReader {
 
       // PHP 5.1.1 does not read more than 8192 bytes in one fread()
       // the discussions at PHP Bugs suggest it's the intended behaviour
+      $data = '';
       while ($bytes > 0) {
         $chunk  = fread($this->_fd, $bytes);
         $data  .= $chunk;
