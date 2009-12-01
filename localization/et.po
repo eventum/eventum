@@ -613,8 +613,7 @@ msgid "An error occurred while trying to add the round robin entry."
 msgstr ""
 
 #: templates/associate.tpl.html
-msgid ""
-"An error occurred while trying to associate the selected email message"
+msgid "An error occurred while trying to associate the selected email message"
 msgstr ""
 
 #: templates/convert_note.tpl.html
@@ -685,13 +684,11 @@ msgid "An error occurred while trying to update the condition information."
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-msgid ""
-"An error occurred while trying to update the custom field information."
+msgid "An error occurred while trying to update the custom field information."
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
-msgid ""
-"An error occurred while trying to update the customization information."
+msgid "An error occurred while trying to update the customization information."
 msgstr ""
 
 #: templates/manage/email_responses.tpl.html
@@ -1900,8 +1897,7 @@ msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:174
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
+msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:272
@@ -1927,15 +1923,15 @@ msgstr ""
 #: lib/eventum/class.monitor.php:116
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
-"%3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:113
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
-"%3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:121
@@ -2159,8 +2155,7 @@ msgid "Email routed from %1$s"
 msgstr ""
 
 #: templates/convert_note.tpl.html
-msgid ""
-"Email will be re-sent from original sender, including any attachments."
+msgid "Email will be re-sent from original sender, including any attachments."
 msgstr ""
 
 #: templates/convert_note.tpl.html
@@ -4316,8 +4311,7 @@ msgid "Please choose the customer for this new note."
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
-msgid ""
-"Please choose the customers that will be associated with this reminder."
+msgid "Please choose the customers that will be associated with this reminder."
 msgstr ""
 
 #: templates/manage/anonymous.tpl.html
@@ -4402,8 +4396,7 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-msgid ""
-"Please choose whether the daily tips feature should be enabled or not."
+msgid "Please choose whether the daily tips feature should be enabled or not."
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -4621,8 +4614,7 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html
-msgid ""
-"Please enter the email address prefix for the email routing interface."
+msgid "Please enter the email address prefix for the email routing interface."
 msgstr ""
 
 #: templates/manage/users.tpl.html
@@ -4651,8 +4643,7 @@ msgid "Please enter the impact analysis for this new requirement."
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
-msgid ""
-"Please enter the issue IDs that will be associated with this reminder."
+msgid "Please enter the issue IDs that will be associated with this reminder."
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -4937,8 +4928,7 @@ msgid "Please enter your password."
 msgstr "Palun sisesta parool."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
-msgid ""
-"Please indicate whether the SMTP server requires authentication or not."
+msgid "Please indicate whether the SMTP server requires authentication or not."
 msgstr ""
 
 #: templates/associate.tpl.html
@@ -5518,9 +5508,9 @@ msgstr ""
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as "
-"/home/username/repository for instance. Also make sure to put the "
-"appropriate path to your PHP binary."
+"Replace %1 by the appropriate absolute path in your CVS server, such as /"
+"home/username/repository for instance. Also make sure to put the appropriate "
+"path to your PHP binary."
 msgstr ""
 
 #: templates/self_assign.tpl.html
@@ -6949,13 +6939,11 @@ msgid "This action will permanently delete the specified note."
 msgstr ""
 
 #: templates/phone_support.tpl.html
-msgid ""
-"This action will permanently delete the specified phone support entry."
+msgid "This action will permanently delete the specified phone support entry."
 msgstr ""
 
 #: templates/time_tracking.tpl.html
-msgid ""
-"This action will permanently delete the specified time tracking entry."
+msgid "This action will permanently delete the specified time tracking entry."
 msgstr ""
 
 #: templates/manage/faq.tpl.html
@@ -7761,8 +7749,7 @@ msgid "WARNING: This action will remove the selected groups permanently."
 msgstr ""
 
 #: templates/manage/link_filters.tpl.html
-msgid ""
-"WARNING: This action will remove the selected link filters permanently."
+msgid "WARNING: This action will remove the selected link filters permanently."
 msgstr ""
 
 #: templates/manage/projects.tpl.html
@@ -7942,10 +7929,10 @@ msgstr ""
 
 #: templates/tips/custom_queries.tpl.html
 msgid ""
-"You can create as many custom queries as you want through the <a "
-"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
-"ability to save and modify custom queries and load them quickly from the "
-"Issue Listing screen."
+"You can create as many custom queries as you want through the <a class=\"link"
+"\" href=\"%1\">Advanced Search</a> interface. There is also the ability to "
+"save and modify custom queries and load them quickly from the Issue Listing "
+"screen."
 msgstr ""
 
 #: templates/tips/canned_responses.tpl.html
@@ -8074,8 +8061,8 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
-"13)\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
+"\" form.php"
 msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:57
