@@ -63,18 +63,20 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
-        'pl_PL' =>  'Polish',
-#       'en_US' =>  'English',
-        'et_EE' =>  'Estonian',
-        'ru_RU' =>  'Russian',
-        'de_DE' =>  'German',
-#       'fr_FR' =>  'French',
-        'it_IT' =>  'Italian',
-        'fi_FI' =>  'Finnish',
-        'es_ES' =>  'Spanish',
-#       'nl_NL' =>  'Dutch',
-        'sv_SE' =>  'Swedish',
-        'pt_BR' =>  'Brazilian Portuguese',
+        'de_DE' => 'German',
+#        'en_US' => 'English',
+        'es_ES' => 'Spanish',
+        'et_EE' => 'Estonian',
+        'fi_FI' => 'Finnish',
+#        'fr_FR' => 'French',
+        'it_IT' => 'Italian',
+        'lt_LT' => 'Lithuanian',
+        'lv_LV' => 'Latvian',
+#        'nl_NL' => 'Dutch',
+        'pl_PL' => 'Polish',
+        'pt_BR' => 'Brazilian Portuguese',
+        'ru_RU' => 'Russian',
+        'sv_SE' => 'Swedish',
     );
 
     /**
