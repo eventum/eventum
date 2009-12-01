@@ -3,7 +3,7 @@
 
 localedir   := /usr/share/locale
 POOTLE_URL  := https://www.unixlan.com.ar/eventum
-ALL_LINGUAS := de en et es fi fr it nl pl ru sv pt_BR
+ALL_LINGUAS := de en et es fi fr it lt lv nl pl ru sv pt_BR
 DOMAIN      := eventum
 POFILES     := $(patsubst %,%.po,$(ALL_LINGUAS))
 

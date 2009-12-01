@@ -1,4 +1,4 @@
-# Estonian translation for eventum
+# Latvian translation for eventum
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the eventum package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -6,16 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-18 16:04+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
-"Language-Team: Estonian <et@li.org>\n"
+"PO-Revision-Date: 2009-11-20 11:45+0000\n"
+"Last-Translator: Jānis <Unknown>\n"
+"Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:46+0000\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2009-11-21 04:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -33,16 +33,16 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid " Error: Please provide your email address."
-msgstr ""
+msgstr " Lūdzu, norādiet savu e-pasta adresi!"
 
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% valmis"
+msgstr "% izpildīti"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Visi uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -79,11 +79,11 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr ""
+msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Aktuālie uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr ""
+msgstr "(piem., %1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
@@ -141,7 +141,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
-msgstr ""
+msgstr "(vairākas adreses atdaliet ar komatu)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
@@ -149,11 +149,11 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "(trīs burtu saīsinājums)"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Izvēlieties --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -213,7 +213,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr "KÕIK"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
@@ -225,15 +225,15 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "Un / Vai"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr "Lühend"
+msgstr "Saīsinājums"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Saīsinājums:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
@@ -250,7 +250,7 @@ msgstr ""
 #: lib/eventum/class.help.php:113 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr "Konto valikud"
+msgstr "Lietotāja izvēles"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
@@ -260,20 +260,20 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr "Toiming"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Toimingu tüüp"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr "Toimingu tüüp:"
+msgstr ""
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr "Toimingud"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -285,7 +285,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr "Aktiivne"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -299,7 +299,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr "Lisa"
+msgstr "Pievienot"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
@@ -319,7 +319,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr "Lisa toiming"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -327,7 +327,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr "Tingimuse lisamine"
+msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -339,7 +339,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr "Lisa faile"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -371,7 +371,7 @@ msgstr ""
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr ""
+msgstr "Jauna laika piezīme"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
@@ -391,20 +391,20 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr "Haldamine"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr "Administraator"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Papildu opcijas"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr "Laiendatud otsing"
+msgstr "Paplašinātā meklēšana"
 
 #: lib/eventum/class.help.php:105 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
@@ -461,11 +461,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr "Kõik"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "Visi uzdevumi"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -521,7 +521,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "Radusies kļūda"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
@@ -803,11 +803,11 @@ msgstr ""
 
 #: htdocs/adv_search.php:50 htdocs/list.php:78 templates/adv_search.tpl.html
 msgid "Any"
-msgstr "Ükskõik milline"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr "Arhiveeritud"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -982,7 +982,7 @@ msgstr ""
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
 msgid "Attachments"
-msgstr "Manused"
+msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "Attachments:"
@@ -1035,7 +1035,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
-msgstr "Saadaolevad keeled"
+msgstr ""
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
@@ -1053,7 +1053,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr "Keskm"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:692
 msgid "Avg Workload per Customer by Support Level"
@@ -1073,13 +1073,13 @@ msgstr ""
 
 #: lib/eventum/class.notification.php:956
 msgid "BLOCKED"
-msgstr ""
+msgstr "Bloķēts"
 
 #: templates/close.tpl.html
 #: templates/customer/example/customer_expired.tpl.html
 #: templates/duplicate.tpl.html
 msgid "Back"
-msgstr "Tagasi"
+msgstr "Atpakaļ"
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
@@ -1100,7 +1100,7 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/time_tracking.tpl.html
 #: templates/top_link.tpl.html
 msgid "Back to Top"
-msgstr ""
+msgstr "Uz augšu"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
@@ -1120,7 +1120,7 @@ msgstr ""
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
-msgstr "vahemikus"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
@@ -1140,7 +1140,7 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr "Hulkmuudatus"
+msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
@@ -1181,11 +1181,11 @@ msgstr ""
 #: templates/customer/example/customer_lookup.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
-msgstr "Loobu"
+msgstr "Atcelt"
 
 #: templates/update_form.tpl.html
 msgid "Cancel Update"
-msgstr "Katkesta uuendamine"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
@@ -1206,7 +1206,7 @@ msgstr ""
 #: templates/reports/workload_date_range.tpl.html
 #: templates/time_tracking.tpl.html templates/view_form.tpl.html
 msgid "Category"
-msgstr "Kategooria"
+msgstr "Kategorija"
 
 #: lib/eventum/class.help.php:61 templates/help/report_category.tpl.html
 msgid "Category Field"
@@ -1214,11 +1214,11 @@ msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
-msgstr "Kategooria:"
+msgstr "Kategorija:"
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr "Koopia"
+msgstr "CC"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
@@ -1226,11 +1226,11 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
-msgstr "Muuda parooli"
+msgstr "Mainīt paroli"
 
 #: templates/view_form.tpl.html
 msgid "Change Status To"
-msgstr ""
+msgstr "Mainīt stāvokli uz"
 
 #: templates/notifications/updated.tpl.text
 msgid "Changed Fields"
@@ -1246,7 +1246,7 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
-msgstr "Kontrolli õigekirja"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
@@ -1266,7 +1266,7 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
-msgstr "Puhasta"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
@@ -1278,12 +1278,12 @@ msgstr ""
 
 #: templates/quick_filter_form.tpl.html
 msgid "Clear Filters"
-msgstr ""
+msgstr "Noņemt filtrus"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/post_note.tpl.html templates/update_form.tpl.html
 msgid "Clear Selections"
-msgstr "Puhasta valikud"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Click to expand."
@@ -1303,25 +1303,25 @@ msgstr ""
 #: templates/removed_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_headers.tpl.html templates/view_note.tpl.html
 msgid "Close"
-msgstr "Sulge"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Close Form"
-msgstr "Vormi sulgemine"
+msgstr ""
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Close Issue"
-msgstr ""
+msgstr "Slēgt uzdevumu"
 
 #: templates/associate.tpl.html templates/faq.tpl.html
 #: templates/help/banner.tpl.html
 msgid "Close Window"
-msgstr "Sulge aken"
+msgstr "Aizvērt logu"
 
 #: lib/eventum/class.notification.php:816
 msgid "Closed"
-msgstr ""
+msgstr "Slēgts"
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
@@ -1345,23 +1345,23 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
-msgstr "Värvus"
+msgstr "Krāsa"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color:"
-msgstr "Värvus:"
+msgstr "Krāsa:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Column Name"
-msgstr "Veeru nimi"
+msgstr "Kolonas nosaukums"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
-msgstr "Valikukast"
+msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
-msgstr "Kommentaarid:"
+msgstr "Komentāri:"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
@@ -1369,7 +1369,7 @@ msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Company Name"
-msgstr "Asutuse nimi"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Complete Details"
@@ -1377,7 +1377,7 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Configuration"
-msgstr "Seadistused"
+msgstr "Konfigurācija"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
@@ -1385,12 +1385,12 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
-msgstr "Kinnita uus parool"
+msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Contact"
-msgstr "Kontakt"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
@@ -1421,7 +1421,7 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
-msgstr "Jätka"
+msgstr "Turpināt"
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Contract #"
@@ -1485,7 +1485,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Create Group"
-msgstr "Loo grupp"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
@@ -1513,7 +1513,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Create Project"
-msgstr "Projekti loomine"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Create Release"
@@ -1547,7 +1547,7 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
-msgstr "Loodud"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
 msgid "Created Date"
@@ -1607,7 +1607,7 @@ msgstr ""
 #: templates/reports/workload_time_period.tpl.html
 #: templates/view_form.tpl.html
 msgid "Customer"
-msgstr "Klient"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
@@ -1657,7 +1657,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customers"
-msgstr "Kliendid"
+msgstr ""
 
 #: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
@@ -1679,11 +1679,11 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr "Kuupäev"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
-msgstr "Kuupäevaväli"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field:"
@@ -1693,7 +1693,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Date Range"
-msgstr "Ajavahemik"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Date Triggered"
@@ -1713,7 +1713,7 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
-msgstr "Päev"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
@@ -1721,7 +1721,7 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Week"
-msgstr "Nädalapäev"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:707
 msgid "Days"
@@ -1748,7 +1748,7 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
-msgstr "Vaikimisi tähtsus:"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1767,11 +1767,11 @@ msgstr "Vaikimisi tähtsus:"
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr "Kustuta"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr "Kustuta alias"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1788,7 +1788,7 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Description"
-msgstr "Kirjeldus"
+msgstr ""
 
 #: lib/eventum/class.help.php:81 templates/help/report_description.tpl.html
 msgid "Description Field"
@@ -1800,23 +1800,23 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
 msgid "Description:"
-msgstr "Kirjeldus:"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
-msgstr "Üksikasjad"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Developer"
-msgstr "Arendaja"
+msgstr ""
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Developers"
-msgstr "Arendajad"
+msgstr ""
 
 #: templates/main.tpl.html
 msgid "Did you Know?"
@@ -1830,7 +1830,7 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Disabled"
-msgstr "Keelatud"
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
@@ -1869,7 +1869,7 @@ msgstr ""
 
 #: templates/email_drafts.tpl.html
 msgid "Drafts"
-msgstr "Mustandid"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Drop Tables If They Already Exist"
@@ -1968,7 +1968,7 @@ msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Edit"
-msgstr "Muuda"
+msgstr "Rediģēt"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -1976,7 +1976,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Categories"
-msgstr "Muuda kategooriaid"
+msgstr ""
 
 #: lib/eventum/class.help.php:137 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
@@ -1996,7 +1996,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Notification List"
-msgstr ""
+msgstr "Norādīt paziņojumu saņēmējus"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
@@ -2016,13 +2016,13 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
-msgstr "Allkirja redigeerimine"
+msgstr "Rediģēt parakstu"
 
 #: templates/authorized_replier.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 #: templates/notification.tpl.html
 msgid "Email"
-msgstr "E-post"
+msgstr "E-pasts"
 
 #: lib/eventum/class.support.php:1499
 #, php-format
@@ -2046,7 +2046,7 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Email Address"
-msgstr "E-posti aadress"
+msgstr "E-pasta adrese"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address Prefix:"
@@ -2058,7 +2058,7 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Email Address:"
-msgstr ""
+msgstr "E-pasta adrese:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Errors To:"
@@ -2100,7 +2100,7 @@ msgstr ""
 #: lib/eventum/class.help.php:117 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
-msgstr ""
+msgstr "Paziņojumi pa e-pastu"
 
 #: templates/manage/general.tpl.html
 msgid "Email Recipient Type Flag:"
@@ -2116,7 +2116,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Email Signature"
-msgstr ""
+msgstr "E-pasta paraksts"
 
 #: templates/manage/general.tpl.html
 msgid "Email Spell Checker:"
@@ -2171,7 +2171,7 @@ msgstr ""
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
-msgstr "E-postid"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
@@ -2201,18 +2201,18 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Enabled"
-msgstr "Lubatud"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "End"
-msgstr "Lõpp"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "End date"
-msgstr "Lõppkuupäev"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "End time in the future."
@@ -2220,7 +2220,7 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "End:"
-msgstr "Lõpp:"
+msgstr ""
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
@@ -2525,11 +2525,11 @@ msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Expiration Date"
-msgstr "Aegumiskuupäev"
+msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Expired"
-msgstr "Aegunud"
+msgstr ""
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Expired Customer"
@@ -2551,7 +2551,7 @@ msgstr ""
 #: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
-msgstr "Väli"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Options"
@@ -2559,7 +2559,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Type"
-msgstr "Välja tüüp"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Field to Graph"
@@ -2571,21 +2571,21 @@ msgstr ""
 
 #: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
 msgid "File"
-msgstr "Fail"
+msgstr "Fails"
 
 #: templates/file_upload.tpl.html
 msgid "Filenames"
-msgstr "Failinimed"
+msgstr ""
 
 #: templates/attachments.tpl.html templates/new.tpl.html
 #: templates/notifications/files.tpl.text
 #: templates/notifications/new_issue.tpl.text
 msgid "Files"
-msgstr "Failid"
+msgstr "Faili"
 
 #: templates/manage/general.tpl.html templates/notification.tpl.html
 msgid "Files are Attached"
-msgstr ""
+msgstr "Faili ir piesaistīti"
 
 #: templates/help/notifications.tpl.html
 msgid "Files are attached to existing issues"
@@ -2597,7 +2597,7 @@ msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "First Name"
-msgstr "Eesnimi"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
@@ -2613,11 +2613,11 @@ msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Fix Spelling"
-msgstr ""
+msgstr "Labot pareizrakstību"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Piemēram"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2631,11 +2631,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
-msgstr "Saatja"
+msgstr "No"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr "Alates:"
+msgstr "No:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2644,11 +2644,11 @@ msgstr "Alates:"
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html
 msgid "Full Name"
-msgstr "Täisnimi"
+msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Full Name:"
-msgstr "Täisnimi:"
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Further Requirements"
@@ -2656,7 +2656,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/manage.tpl.html
 msgid "General Setup"
-msgstr "Üldseadistused"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/customer_stats.tpl.html
@@ -2664,7 +2664,7 @@ msgstr "Üldseadistused"
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
-msgstr "Genereeri"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2676,13 +2676,13 @@ msgstr ""
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"
-msgstr "Mine"
+msgstr "Atvērt"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
 #: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
 msgid "Go Back"
-msgstr "Tagasi"
+msgstr "Atpakaļ"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
@@ -2691,7 +2691,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Greater Than"
-msgstr "suurem kui"
+msgstr ""
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
@@ -2707,19 +2707,19 @@ msgstr ""
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
-msgstr "Grupp"
+msgstr "Grupa"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Group By"
-msgstr ""
+msgstr "Grupēt pēc"
 
 #: templates/manage/users.tpl.html templates/update_form.tpl.html
 msgid "Group:"
-msgstr "Grupp:"
+msgstr "Grupa:"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
-msgstr "Käsitleja"
+msgstr ""
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2752,11 +2752,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Help"
-msgstr "Abiinfo"
+msgstr "Lietošanas instrukcija"
 
 #: lib/eventum/class.help.php:53
 msgid "Help Topics"
-msgstr ""
+msgstr "Lietošanas instrukcijas temati"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -2769,11 +2769,11 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "History of Changes"
-msgstr ""
+msgstr "Aktivitāšu hronoloģija"
 
 #: templates/history.tpl.html
 msgid "History of Changes to Issue"
-msgstr ""
+msgstr "Aktivitāšu hronoloģija uzdevumam"
 
 #: templates/history.tpl.html
 msgid "History of Reminders Triggered for Issue"
@@ -2781,7 +2781,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Home"
-msgstr "Kodu"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
@@ -2789,15 +2789,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
-msgstr "Masinanimi"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Hostname:"
-msgstr "Masina nimi:"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:716
 msgid "Hours"
-msgstr ""
+msgstr "Stundas"
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
@@ -2805,7 +2805,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
-msgstr ""
+msgstr "Esmu aizmirsis savu paroli"
 
 #: templates/manage/reminders.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -2814,7 +2814,7 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
@@ -2822,11 +2822,11 @@ msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAP mape"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
-msgstr "IMAP üle SSLi"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL (self-signed)"
@@ -2834,11 +2834,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, no TLS"
-msgstr "IMAP, ilma TLSita"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS"
-msgstr "IMAP, TLSiga"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS (self-signed)"
@@ -2846,7 +2846,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "IRC Notifications:"
-msgstr ""
+msgstr "Paziņojumi IRC"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -2941,7 +2941,7 @@ msgstr ""
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
-msgstr "Mitteaktiivne"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Incident Types to Redeem"
@@ -2959,7 +2959,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Incoming"
-msgstr "Sissetulev"
+msgstr ""
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
@@ -2980,7 +2980,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
-msgstr "Täisarv"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
@@ -2992,7 +2992,7 @@ msgstr ""
 
 #: templates/notes.tpl.html
 msgid "Internal Notes"
-msgstr "Sisemised märkmed"
+msgstr ""
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
 msgid "Internal Users"
@@ -3000,7 +3000,7 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Interval"
-msgstr "Intervall"
+msgstr ""
 
 #: lib/eventum/class.filter.php:632
 msgid "Is NULL"
@@ -3029,7 +3029,7 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 #: templates/reports/custom_fields.tpl.html templates/send.tpl.html
 msgid "Issue"
-msgstr "Issue"
+msgstr ""
 
 #: templates/notifications/updated.tpl.text
 msgid "Issue #"
@@ -3166,19 +3166,19 @@ msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
-msgstr "Pealdis"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label:"
-msgstr "Pealdis:"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:221 templates/adv_search.tpl.html
 msgid "Last Action Date"
-msgstr "Viimase toimingu kuupäev"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Last Name"
-msgstr "Perekonnanimi"
+msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -3200,11 +3200,11 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Update"
-msgstr "Viimane uuendus"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
-msgstr "Viimati uuendatud"
+msgstr ""
 
 #: templates/email_drafts.tpl.html templates/faq.tpl.html
 #: templates/view_form.tpl.html
@@ -3213,7 +3213,7 @@ msgstr ""
 
 #: templates/faq.tpl.html
 msgid "Last updated"
-msgstr "Viimati uuendatud."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3221,12 +3221,12 @@ msgstr ""
 
 #: templates/redeem_incident.tpl.html
 msgid "Left"
-msgstr "Vasak"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Less Than"
-msgstr "väiksem kui"
+msgstr ""
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
@@ -3239,11 +3239,11 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
-msgstr "Tasemed:"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Line"
-msgstr "Joon"
+msgstr ""
 
 #: lib/eventum/class.help.php:129 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
@@ -3279,7 +3279,7 @@ msgstr ""
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
 msgid "Login"
-msgstr "Logi sisse"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Login Time Spent"
@@ -3287,11 +3287,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Logout"
-msgstr "Logi välja"
+msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Lookup"
-msgstr "Päring"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Lookup Customer"
@@ -3307,7 +3307,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Mailbox"
-msgstr "Postkast"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Canned Email Responses"
@@ -3315,7 +3315,7 @@ msgstr ""
 
 #: templates/manage/categories.tpl.html
 msgid "Manage Categories"
-msgstr "Kategooriate haldamine"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Manage Columns to Display"
@@ -3339,7 +3339,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Groups"
-msgstr "Gruppide haldamine"
+msgstr ""
 
 #: templates/manage/faq.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Internal FAQ"
@@ -3401,11 +3401,11 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/users.tpl.html
 msgid "Manage Users"
-msgstr "Kasutajate haldamine"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
-msgstr "Haldur"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
@@ -3433,15 +3433,15 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Members"
-msgstr "Liikmed"
+msgstr ""
 
 #: templates/manage/news.tpl.html templates/view_email.tpl.html
 msgid "Message"
-msgstr "Teade"
+msgstr ""
 
 #: templates/manage/faq.tpl.html templates/view_note.tpl.html
 msgid "Message:"
-msgstr "Teade:"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Min"
@@ -3467,7 +3467,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Mobile"
-msgstr "Mobiil"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "Module / Directory"
@@ -3475,11 +3475,11 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Monday"
-msgstr "Esmaspäeval"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
-msgstr "Kuu"
+msgstr ""
 
 #: templates/help/adv_search.tpl.html
 msgid ""
@@ -3502,7 +3502,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr "MySQL-i andmebaas"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
@@ -3540,15 +3540,15 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Name"
-msgstr "Nimi"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Name:"
-msgstr "Nimi:"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid "New Alias"
-msgstr "Uus alias"
+msgstr ""
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
@@ -3564,7 +3564,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "New Password"
-msgstr "Uus parool"
+msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "New Status for Issue"
@@ -3585,7 +3585,7 @@ msgstr ""
 
 #: lib/eventum/class.pager.php:124 templates/post.tpl.html
 msgid "Next"
-msgstr "Edasi"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Next Issue"
@@ -3610,7 +3610,7 @@ msgstr ""
 #: templates/preferences.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html
 msgid "No"
-msgstr "Ei"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "No Customer Integration"
@@ -3843,13 +3843,13 @@ msgstr ""
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
-msgstr "Puudub"
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
-msgstr "Märkus"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Note Address Prefix:"
@@ -3892,7 +3892,7 @@ msgstr ""
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
-msgstr "Märkused"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Notes About Customer"
@@ -3945,11 +3945,11 @@ msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
-msgstr "Päevade arv"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
-msgstr "Kontor"
+msgstr ""
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -4002,16 +4002,16 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator"
-msgstr "Operaator"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator:"
-msgstr "Operaator:"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
-msgstr "Seaded"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
@@ -4019,12 +4019,12 @@ msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
-msgstr "Järjestus"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Other"
-msgstr "Muu"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Other Emails"
@@ -4032,7 +4032,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Other:"
-msgstr "Muud:"
+msgstr ""
 
 #: templates/duplicate.tpl.html templates/new.tpl.html
 msgid ""
@@ -4042,7 +4042,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Outgoing"
-msgstr "Väljaminev"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Outgoing Email Sender Address"
@@ -4067,11 +4067,11 @@ msgstr ""
 
 #: templates/attachments.tpl.html templates/notifications/files.tpl.text
 msgid "Owner"
-msgstr "Omanik"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3"
-msgstr "POP3"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL"
@@ -4098,7 +4098,7 @@ msgstr ""
 #: templates/notifications/new_user.tpl.text
 #: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
 msgid "Password"
-msgstr "Salasõna"
+msgstr ""
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation"
@@ -4110,7 +4110,7 @@ msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Password:"
-msgstr "Salasõna:"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Pattern"
@@ -4122,7 +4122,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Pending"
-msgstr "Ootel"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -4151,7 +4151,7 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Phone Calls"
-msgstr "Telefonikõned"
+msgstr "Tālruņa sarunas"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
@@ -4243,7 +4243,7 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a category"
-msgstr ""
+msgstr "Izvēlieties kategoriju"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please choose a customer"
@@ -4256,7 +4256,7 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a priority"
-msgstr ""
+msgstr "Izvēlieties prioritāti"
 
 #: templates/post.tpl.html
 msgid "Please choose a project"
@@ -4268,7 +4268,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Please choose a status"
-msgstr ""
+msgstr "Izvēlieties stāvokli"
 
 #: templates/edit_custom_fields.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -4517,7 +4517,7 @@ msgstr ""
 #: templates/notification.tpl.html templates/preferences.tpl.html
 #: templates/signup.tpl.html
 msgid "Please enter a valid email address."
-msgstr "Palun sisesta kehtiv e-posti aadress."
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Please enter a valid issue ID."
@@ -4934,7 +4934,7 @@ msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Please enter your password."
-msgstr "Palun sisesta parool."
+msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
@@ -5140,7 +5140,7 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
-msgstr "Port"
+msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5164,7 +5164,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Preferences"
-msgstr "Seadistused"
+msgstr ""
 
 #: lib/eventum/class.pager.php:123
 msgid "Previous"
@@ -5172,7 +5172,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
-msgstr ""
+msgstr "Iepriekšējais uzdevums"
 
 #: templates/view_email.tpl.html
 msgid "Previous Message"
@@ -5180,7 +5180,7 @@ msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "Previous Note"
-msgstr ""
+msgstr "Iepriekšējā piezīme"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Primary Technical Account Manager"
@@ -5198,7 +5198,7 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Priority"
-msgstr "Prioriteet"
+msgstr "Prioritāte"
 
 #: lib/eventum/class.help.php:65 templates/help/report_priority.tpl.html
 msgid "Priority Field"
@@ -5206,16 +5206,16 @@ msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Priority:"
-msgstr "Prioriteet:"
+msgstr "Prioritāte:"
 
 #: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
-msgstr "Privaatne"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Private:"
-msgstr "Salajane:"
+msgstr ""
 
 #: lib/eventum/class.reminder_action.php:589
 msgid "Processing Group Leader notification"
@@ -5231,11 +5231,11 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/select_project.tpl.html
 msgid "Project"
-msgstr "Projekt"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Project Lead"
-msgstr "Projekti juht"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Project automatically switched to '%1' from '%2'."
@@ -5255,7 +5255,7 @@ msgstr ""
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Projects"
-msgstr "Projektid"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Projects:"
@@ -5263,7 +5263,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Public"
-msgstr "Avalik"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
@@ -5294,7 +5294,7 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/statuses.tpl.html
 msgid "Rank"
-msgstr "Järk"
+msgstr ""
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
 #: templates/manage/statuses.tpl.html
@@ -5317,7 +5317,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Reason"
-msgstr "Põhjus"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Reason for closing issue"
@@ -5337,15 +5337,15 @@ msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
-msgstr "Vastu võetud"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent"
-msgstr "Hiljutine"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html templates/reports/tree.tpl.html
 msgid "Recent Activity"
-msgstr "Viimased tegevused"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Activity Report"
@@ -5377,7 +5377,7 @@ msgstr ""
 
 #: templates/mail_queue.tpl.html
 msgid "Recipient"
-msgstr "Saaja"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Recipient Type Flag:"
@@ -5386,11 +5386,11 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "Recipients"
-msgstr "Saajad"
+msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Recipients:"
-msgstr "Saajad:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Record Phone Call"
@@ -5444,7 +5444,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Register"
-msgstr "Registreeri"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
 #: lib/eventum/class.notification.php:622
@@ -5467,7 +5467,7 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
-msgstr "Meeldetuletus"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Reminder Alert"
@@ -5488,7 +5488,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Remove"
-msgstr "Eemalda"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Remove Quarantine"
@@ -5498,7 +5498,7 @@ msgstr ""
 #: templates/authorized_replier.tpl.html templates/checkins.tpl.html
 #: templates/impact_analysis.tpl.html templates/notification.tpl.html
 msgid "Remove Selected"
-msgstr "Eemalda valitud"
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Remove Selected Emails"
@@ -5510,7 +5510,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Removed"
-msgstr "Eemaldatud"
+msgstr ""
 
 #: templates/removed_emails.tpl.html
 msgid "Removed Emails"
@@ -5529,7 +5529,7 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Replacement"
-msgstr "Asendus"
+msgstr ""
 
 #: templates/help/link_filters.tpl.html
 msgid "Replacement: \"%1\""
@@ -5539,11 +5539,11 @@ msgstr ""
 #: templates/view_email.tpl.html templates/view_form.tpl.html
 #: templates/view_note.tpl.html
 msgid "Reply"
-msgstr "Vasta"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Report"
-msgstr "Aruanne"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Report Form"
@@ -5555,7 +5555,7 @@ msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Report Type"
-msgstr "Aruande tüüp"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
@@ -5593,7 +5593,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Reports"
-msgstr "Aruanded"
+msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Request a Password"
@@ -5605,7 +5605,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Required Fields"
-msgstr "Kohustuslikud väljad"
+msgstr ""
 
 #: templates/duplicate.tpl.html templates/new.tpl.html templates/post.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
@@ -5654,7 +5654,7 @@ msgstr ""
 #: lib/eventum/class.notification.php:635 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
-msgstr "Lahendus"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Response Body:"
@@ -5666,7 +5666,7 @@ msgstr ""
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Results"
-msgstr "Tulemused"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Return to Issue #%1 Details Page"
@@ -5678,7 +5678,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Role"
-msgstr "Roll"
+msgstr ""
 
 #: lib/eventum/class.filter.php:767 templates/adv_search.tpl.html
 msgid "Rows Per Page"
@@ -5737,7 +5737,7 @@ msgstr ""
 #: templates/manage/column_display.tpl.html
 #: templates/manage/email_alias.tpl.html
 msgid "Save"
-msgstr "Salvesta"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Save Draft Changes"
@@ -5761,7 +5761,7 @@ msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Save Search"
-msgstr "Salvesta otsing"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
@@ -5769,7 +5769,7 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Save as Draft"
-msgstr "Salvesta mustand"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Saved Searches"
@@ -5791,7 +5791,7 @@ msgstr ""
 #: templates/email_filter_form.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Search"
-msgstr "Otsing"
+msgstr ""
 
 #: templates/opensearch.tpl.xml
 msgid "Search Eventum Issues"
@@ -5799,7 +5799,7 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Search Results"
-msgstr "Otsingu tulemused"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -5832,7 +5832,7 @@ msgstr ""
 
 #: templates/send.tpl.html templates/support_emails.tpl.html
 msgid "Send Email"
-msgstr "Saada e-kiri"
+msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Send New Password"
@@ -5849,7 +5849,7 @@ msgstr ""
 #: templates/attached_emails.tpl.html templates/emails.tpl.html
 #: templates/setup.tpl.html
 msgid "Sender"
-msgstr "Saatja"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Sender Email"
@@ -5857,7 +5857,7 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Sender:"
-msgstr "Saatja:"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Separate Closed Issues"
@@ -5873,7 +5873,7 @@ msgstr ""
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
-msgstr "Määra"
+msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Set Close Message"
@@ -5893,7 +5893,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Short Description"
-msgstr "Lühikirjeldus"
+msgstr ""
 
 #: templates/resize_textarea.tpl.html
 msgid "Shorten the field"
@@ -6034,21 +6034,21 @@ msgstr ""
 
 #: lib/eventum/class.filter.php:771 templates/adv_search.tpl.html
 msgid "Sort By"
-msgstr "Sorteerimine"
+msgstr ""
 
 #: lib/eventum/class.filter.php:775 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
-msgstr "Sortimisjärjestus"
+msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
-msgstr "Õigekirja kontroll"
+msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Staff"
-msgstr "Meeskond"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Staff:"
@@ -6072,7 +6072,7 @@ msgstr ""
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Start"
-msgstr "Algus"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Start Installation"
@@ -6084,7 +6084,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Stats"
-msgstr "Statistika"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:733
 #: lib/eventum/class.notification.php:630
@@ -6103,7 +6103,7 @@ msgstr "Statistika"
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
 msgid "Status"
-msgstr "Staatus"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:218
 msgid "Status Change Date"
@@ -6117,11 +6117,11 @@ msgstr ""
 #: templates/manage/releases.tpl.html templates/searchbar.tpl.html
 #: templates/update_form.tpl.html
 msgid "Status:"
-msgstr "Seisund:"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Statuses"
-msgstr "Olekud"
+msgstr ""
 
 #: templates/attached_emails.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/mail_queue.tpl.html
@@ -6129,7 +6129,7 @@ msgstr "Olekud"
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Subject"
-msgstr "Teema"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
@@ -6142,11 +6142,11 @@ msgstr ""
 #: templates/new.tpl.html templates/post.tpl.html
 #: templates/reports/open_issues.tpl.html
 msgid "Submit"
-msgstr "Saada päring"
+msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Submitted"
-msgstr "Saadetud"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Submitted Date"
@@ -6158,7 +6158,7 @@ msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Suggestions:"
-msgstr "Soovitused:"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:227
 #: lib/eventum/class.notification.php:642
@@ -6181,7 +6181,7 @@ msgstr "Soovitused:"
 #: templates/reports/stalled_issues.tpl.html templates/time_tracking.tpl.html
 #: templates/view_form.tpl.html
 msgid "Summary"
-msgstr "Kokkuvõte"
+msgstr ""
 
 #: lib/eventum/class.help.php:77 templates/help/report_summary.tpl.html
 msgid "Summary Field"
@@ -6189,11 +6189,11 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
-msgstr "Kokkuvõte:"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Sunday"
-msgstr "Pühapäeval"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Support Expiration Date"
@@ -6223,7 +6223,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Switch"
-msgstr "Lülita"
+msgstr ""
 
 #: templates/help/notifications.tpl.html
 msgid ""
@@ -6250,11 +6250,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
-msgstr "Testi sätteid"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Text Input"
-msgstr "Tekstisisend"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
@@ -7232,7 +7232,7 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Time Period"
-msgstr "Periood"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
@@ -7242,7 +7242,7 @@ msgstr "Periood"
 #: templates/reports/stalled_issues.tpl.html templates/send.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Spent"
-msgstr "Kulutatud aeg"
+msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Time Spent:"
@@ -7310,7 +7310,7 @@ msgstr ""
 #: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Title"
-msgstr "Pealkiri"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/releases.tpl.html
@@ -7319,14 +7319,14 @@ msgstr "Pealkiri"
 #: templates/manage/time_tracking.tpl.html templates/post_note.tpl.html
 #: templates/view_note.tpl.html
 msgid "Title:"
-msgstr "Pealkiri:"
+msgstr ""
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/phone_support.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "To"
-msgstr "Saaja"
+msgstr ""
 
 #: templates/help/email_blocking.tpl.html
 msgid ""
@@ -7360,7 +7360,7 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "To:"
-msgstr "Saaja:"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Tool Caption:"
@@ -7373,7 +7373,7 @@ msgstr ""
 #: templates/redeem_incident.tpl.html
 #: templates/reports/customer_stats.tpl.html
 msgid "Total"
-msgstr "Kokku"
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Total Estimated Dev. Time"
@@ -7421,17 +7421,17 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Type"
-msgstr "Tüüp"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/email_accounts.tpl.html
 msgid "Type:"
-msgstr "Tüüp:"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "URL"
-msgstr "Aadress"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -7444,7 +7444,7 @@ msgstr ""
 #: templates/custom_fields.tpl.html templates/impact_analysis.tpl.html
 #: templates/update_form.tpl.html
 msgid "Update"
-msgstr "Uuenda"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Update Account"
@@ -7604,7 +7604,7 @@ msgstr ""
 
 #: templates/attachments.tpl.html templates/file_upload.tpl.html
 msgid "Upload File"
-msgstr "Laadi fail üles"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Upload New Signature"
@@ -7634,11 +7634,11 @@ msgstr ""
 #: templates/checkins.tpl.html templates/notes.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
-msgstr "Kasutaja"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "User Details"
-msgstr "Kasutaja info"
+msgstr ""
 
 #: lib/eventum/class.help.php:149 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
@@ -7656,11 +7656,11 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Username"
-msgstr "Kasutajanimi"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Users"
-msgstr "Kasutajad"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid ""
@@ -7679,11 +7679,11 @@ msgstr ""
 #: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value"
-msgstr "Väärtus"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value:"
-msgstr "Väärtus:"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
@@ -7699,7 +7699,7 @@ msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Viewer"
-msgstr "Vaataja"
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Viewing Emails (%1 email found)"
@@ -7712,7 +7712,7 @@ msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "WARNING"
-msgstr "HOIATUS"
+msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid ""
@@ -7808,7 +7808,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Warning"
-msgstr "Hoiatus"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid ""
@@ -7858,15 +7858,15 @@ msgstr ""
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
-msgstr "Nädal"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Week starts on:"
-msgstr "Nädal algab:"
+msgstr ""
 
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
-msgstr "Iganädalane"
+msgstr ""
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
@@ -7934,7 +7934,7 @@ msgstr ""
 #: templates/preferences.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html
 msgid "Yes"
-msgstr "Jah"
+msgstr ""
 
 #: templates/select_project.tpl.html
 msgid "You are not allowed to use the selected project."
@@ -8097,11 +8097,11 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid "as"
-msgstr "kui"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "ascending"
-msgstr "kasvav"
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "associated"
@@ -8138,16 +8138,16 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "day"
-msgstr "päev"
+msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 msgid "days"
-msgstr "päev(a)"
+msgstr ""
 
 #: templates/attachments.tpl.html templates/notes.tpl.html
 #: templates/phone_support.tpl.html templates/time_tracking.tpl.html
 msgid "delete"
-msgstr "kustuta"
+msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "delete attachment"
@@ -8159,7 +8159,7 @@ msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "descending"
-msgstr "kahanev"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "diff to %1"
@@ -8212,7 +8212,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
-msgstr "eesnimi"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "fixed width font"
@@ -8269,7 +8269,7 @@ msgstr ""
 #: lib/eventum/class.reminder_condition.php:222 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
-msgstr "tundi"
+msgstr ""
 
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/update_form.tpl.html
@@ -8307,11 +8307,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "keywords"
-msgstr "võtmesõnad"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "last name"
-msgstr "perekonnanimi"
+msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "leave empty to keep the current password"
@@ -8355,11 +8355,11 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "mon"
-msgstr "kuu"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "month"
-msgstr "kuu"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "move field down"
@@ -8404,11 +8404,11 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "or"
-msgstr "või"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "page"
-msgstr "lehekülg"
+msgstr ""
 
 #: templates/lookup_field.tpl.html
 msgid "paste or start typing here"
@@ -8416,7 +8416,7 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "pending"
-msgstr "ootel"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "previous issue on your current active filter"
@@ -8595,8 +8595,8 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "week"
-msgstr "nädal"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
-msgstr "aasta"
+msgstr ""
