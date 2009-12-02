@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-18 17:00+0200\n"
+"POT-Creation-Date: 2009-12-02 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3479,6 +3479,10 @@ msgid ""
 "Most of the time users will want to run common used queries against the "
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
+msgstr ""
+
+#: templates/update_form.tpl.html
+msgid "Move"
 msgstr ""
 
 #: templates/view_email.tpl.html

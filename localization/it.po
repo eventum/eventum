@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-18 17:00+0200\n"
+"POT-Creation-Date: 2009-12-02 11:28+0200\n"
 "PO-Revision-Date: 2009-11-18 16:03+0000\n"
 "Last-Translator: Franco Alberganti <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -3595,6 +3595,11 @@ msgid ""
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
+
+#: templates/update_form.tpl.html
+#, fuzzy
+msgid "Move"
+msgstr "Mobile"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
