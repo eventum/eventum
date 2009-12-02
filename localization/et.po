@@ -2630,7 +2630,7 @@ msgstr "Saatja"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr "Alates:"
+msgstr "Saatja:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
