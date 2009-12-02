@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:28+0200\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
 "PO-Revision-Date: 2009-11-18 16:03+0000\n"
 "Last-Translator: Alex Krappen <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -35,10 +35,6 @@ msgid ""
 msgstr ""
 "\n"
 "Bezoek de volgende hyperlink om de melding te bekijken"
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
-msgstr " Fout: Geef een geldig emailadres."
 
 #: htdocs/view.php:74
 #, php-format
@@ -2319,6 +2315,10 @@ msgstr "Fout: Voer het voorvoegsel van het emailadres in."
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
 msgstr "Fout: Geef een geldig e-mail account."
+
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
+msgstr "Fout: Geef een geldig emailadres."
 
 #: lib/eventum/class.routing.php:70
 msgid ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:28+0200\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
 "PO-Revision-Date: 2009-11-18 16:03+0000\n"
 "Last-Translator: Jyrki Heinonen <Unknown>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -38,10 +38,6 @@ msgid ""
 msgstr ""
 "\n"
 "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
-msgstr " Virhe: Anna sähköpostiosoitteesi."
 
 #: htdocs/view.php:74
 #, php-format
@@ -2297,6 +2293,10 @@ msgstr "Virhe: Aseta sähköpostiosoitteen etuliite."
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
+
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
+msgstr "Virhe: Anna sähköpostiosoitteesi."
 
 #: lib/eventum/class.routing.php:70
 msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:28+0200\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,10 +27,6 @@ msgid ""
 "\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
-msgstr ""
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
 msgstr ""
 
 #: htdocs/view.php:74
@@ -2255,6 +2251,10 @@ msgstr ""
 
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
+msgstr ""
+
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
 msgstr ""
 
 #: lib/eventum/class.routing.php:70

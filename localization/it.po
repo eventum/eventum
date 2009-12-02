@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:28+0200\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
 "PO-Revision-Date: 2009-11-18 16:03+0000\n"
 "Last-Translator: Franco Alberganti <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -32,10 +32,6 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
-msgstr " Errore: inserisci l'indirizzo email."
 
 #: htdocs/view.php:74
 #, php-format
@@ -2329,6 +2325,10 @@ msgstr "Errore: configura il prefisso dell'indirizzo email."
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
 msgstr "Errore: inserisci l'ID dell'account email."
+
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
+msgstr "Errore: inserisci l'indirizzo email."
 
 #: lib/eventum/class.routing.php:70
 msgid ""
