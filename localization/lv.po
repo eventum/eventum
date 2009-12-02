@@ -3485,7 +3485,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Move"
-msgstr ""
+msgstr "Pārvietot"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"

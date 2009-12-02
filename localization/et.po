@@ -3484,9 +3484,8 @@ msgid ""
 msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Move"
-msgstr "Mobiil"
+msgstr "Liiguta"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
