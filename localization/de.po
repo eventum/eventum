@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:43+0200\n"
+"POT-Creation-Date: 2009-12-03 11:56+0200\n"
 "PO-Revision-Date: 2009-11-23 08:53+0000\n"
 "Last-Translator: Keruskerfuerst <armin_mohring@web.de>\n"
 "Language-Team: German\n"
@@ -102,6 +102,11 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Tipp: Standard Port für POP3: 110 und IMAP: 143)"
+
+#: lib/eventum/class.template_helper.php:175
+#, fuzzy
+msgid "(archived)"
+msgstr "(archiviert)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
