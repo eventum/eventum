@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-05 20:27+0000\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
+"PO-Revision-Date: 2009-12-02 10:39+0000\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:47+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -35,10 +35,6 @@ msgstr ""
 "\n"
 "Para ver más detalles de este caso, o para actualizarlo, visite la siguiente "
 "URL"
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
-msgstr " Error: Por favor, especifique su dirección de email."
 
 #: htdocs/view.php:74
 #, php-format
@@ -2438,6 +2434,10 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Error: Por favor ingrese el ID de la cuenta de correo electrónico."
 
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
+msgstr "Error: Por favor, especifique su dirección de email."
+
 #: lib/eventum/class.routing.php:70
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
@@ -3746,6 +3746,10 @@ msgstr ""
 "comúnmente utilizadas contra la base de datos de los casos, y esta es una "
 "característica ideal para este tipo de situaciones, basta con crear una "
 "consulta en esta pantalla y ejecutarla desde la página Listado de Casos."
+
+#: templates/update_form.tpl.html
+msgid "Move"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"

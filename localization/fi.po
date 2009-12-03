@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-18 17:00+0200\n"
-"PO-Revision-Date: 2009-11-18 16:03+0000\n"
-"Last-Translator: Jyrki Heinonen <Unknown>\n"
+"POT-Creation-Date: 2009-12-02 11:43+0200\n"
+"PO-Revision-Date: 2009-12-02 10:39+0000\n"
+"Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:46+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: FINLAND\n"
 "X-Poedit-Language: Finnish\n"
@@ -38,10 +38,6 @@ msgid ""
 msgstr ""
 "\n"
 "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
-
-#: templates/forgot_password.tpl.html
-msgid " Error: Please provide your email address."
-msgstr " Virhe: Anna sähköpostiosoitteesi."
 
 #: htdocs/view.php:74
 #, php-format
@@ -2304,6 +2300,10 @@ msgstr "Virhe: Aseta sähköpostiosoitteen etuliite."
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 
+#: templates/forgot_password.tpl.html
+msgid "Error: Please provide your email address."
+msgstr "Virhe: Anna sähköpostiosoitteesi."
+
 #: lib/eventum/class.routing.php:70
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
@@ -3567,6 +3567,10 @@ msgid ""
 "Most of the time users will want to run common used queries against the "
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
+msgstr ""
+
+#: templates/update_form.tpl.html
+msgid "Move"
 msgstr ""
 
 #: templates/view_email.tpl.html
