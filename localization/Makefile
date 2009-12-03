@@ -2,7 +2,6 @@
 # (c) 2007-2009 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
-POOTLE_URL  := https://www.unixlan.com.ar/eventum
 ALL_LINGUAS := de en et es fi fr it lt lv nl pl ru sv pt_BR
 DOMAIN      := eventum
 POFILES     := $(patsubst %,%.po,$(ALL_LINGUAS))
@@ -49,12 +48,13 @@ pot: tools-check
 	cd -; \
 	rm -rf workdir
 
+# update pot -> po all languages
 update-po:
 	@set -x -e; \
 	umask 002; \
 	for lang in $(ALL_LINGUAS); do \
 		[ -f $$lang.po ] || continue; \
-		if msgmerge $$lang.po $(DOMAIN).pot -o new.po; then \
+		if msgmerge -w 78 $$lang.po $(DOMAIN).pot -o new.po; then \
 			if cmp -s $$lang.po new.po; then \
 				rm -f new.po; \
 			else \
@@ -62,18 +62,3 @@ update-po:
 			fi \
 		fi \
 	done
-
-update-pootle:
-	@set -x -e; \
-	svn export $(POOTLE_URL) pootle; \
-	for lang in $(ALL_LINGUAS); do \
-		[ -f pootle/$$lang/eventum.po ] || continue; \
-		if msgmerge pootle/$$lang/eventum.po $(DOMAIN).pot -o new.po; then \
-			if cmp -s $$lang.po new.po; then \
-				rm -f new.po; \
-			else \
-				mv -f new.po $$lang.po; \
-			fi \
-		fi \
-	done; \
-	rm -rf pootle
