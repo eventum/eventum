@@ -342,7 +342,7 @@ class Auth
             echo $html;
         } else {
             // IIS 5 has problems with "Location" header so don't use it under IIS
-            if (strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
+            if (!empty($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
                 // IIS
                 header("Refresh: 0; URL=$url");
             } else {
