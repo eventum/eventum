@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:43+0200\n"
-"PO-Revision-Date: 2009-12-02 10:36+0000\n"
+"POT-Creation-Date: 2009-12-03 11:56+0200\n"
+"PO-Revision-Date: 2009-12-03 11:09+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-12-03 04:45+0000\n"
+"X-Launchpad-Export-Date: 2009-12-05 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -98,6 +98,10 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+
+#: lib/eventum/class.template_helper.php:175
+msgid "(archived)"
+msgstr "(arhiveeritud)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
