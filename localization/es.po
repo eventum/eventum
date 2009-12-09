@@ -1036,7 +1036,7 @@ msgstr "Asociar"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Asociar Mensaje de Email al Caso #%1"
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -4538,7 +4538,7 @@ msgstr "Por favor, asigne usuarios para este proyecto."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Por favor escoge"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4609,6 +4609,8 @@ msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
+"Por favor, escoja una de las siguientes acciones a tomar sobre el email "
+"seleccionado"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
