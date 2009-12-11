@@ -172,7 +172,7 @@ class Template_Helper
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
-                    $prj_info['prj_title'] .= ' (' . ev_gettext('archived') . ')';
+                    $prj_info['prj_title'] .= ' ' . ev_gettext('(archived)');
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
