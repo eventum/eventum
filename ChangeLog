@@ -44,6 +44,7 @@ Eventum Issue Tracking System
 - Make popup windows unique to issue, so creating two post note popups won't overwrite former ones (Elan Ruusamäe)
 - Updated php-gettext up to 1.0.9 (Elan Ruusamäe)
 - Added automatic lock file cleanup to download_emails.php (Erno Rigo)
+- Check /etc/mailname for hostname to use in mail system (Peter Lieverdink)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
