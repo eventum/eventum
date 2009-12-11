@@ -43,6 +43,7 @@ Eventum Issue Tracking System
 - Prevent users with a role less than manager from logging into archived projects (Bryan Alsdorf)
 - Make popup windows unique to issue, so creating two post note popups won't overwrite former ones (Elan Ruusamäe)
 - Updated php-gettext up to 1.0.9 (Elan Ruusamäe)
+- Added automatic lock file cleanup to download_emails.php (Erno Rigo)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
