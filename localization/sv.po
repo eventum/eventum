@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-03 11:56+0200\n"
-"PO-Revision-Date: 2009-12-11 03:30+0000\n"
+"PO-Revision-Date: 2009-12-11 15:54+0000\n"
 "Last-Translator: Fredrik Kilegran <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-12-11 04:35+0000\n"
+"X-Launchpad-Export-Date: 2009-12-12 04:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3736,11 +3736,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "No email accounts could be found."
-msgstr ""
+msgstr "Inga e-postkonton hittades"
 
 #: templates/email_drafts.tpl.html
 msgid "No email drafts could be found."
-msgstr "Inga e-postutkast kunde hittas."
+msgstr "Inga e-postutkast hittades."
 
 #: templates/emails.tpl.html templates/removed_emails.tpl.html
 msgid "No emails could be found."
@@ -3757,11 +3757,11 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "No groups could be found."
-msgstr ""
+msgstr "Inga grupper hittades"
 
 #: templates/notes.tpl.html
 msgid "No internal notes could be found."
-msgstr "Inga interna noteringar kunde hittas."
+msgstr "Inga interna noteringar hittades."
 
 #: templates/view_form.tpl.html
 msgid "No issues associated"
@@ -3773,7 +3773,7 @@ msgstr ""
 
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "No issues could be found."
-msgstr "Inga ärenden kunde hittas."
+msgstr "Inga ärenden hittades."
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues touched this time period"
@@ -3789,19 +3789,19 @@ msgstr ""
 
 #: templates/mail_queue.tpl.html
 msgid "No mail queue could be found."
-msgstr ""
+msgstr "Ingen e-postkö hittades."
 
 #: templates/manage/news.tpl.html
 msgid "No news entries could be found."
-msgstr ""
+msgstr "Inga nyhetsinlägg hittades."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "No notes could be found."
-msgstr ""
+msgstr "Inga noteringar hittades."
 
 #: templates/phone_support.tpl.html
 msgid "No phone calls recorded yet."
-msgstr "Inga telefonsamtal sparande."
+msgstr "Inga telefonsamtal sparade."
 
 #: templates/manage/phone_categories.tpl.html
 msgid "No phone support categories could be found."
@@ -3809,15 +3809,15 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "No priorities could be found."
-msgstr ""
+msgstr "Inga prioriteringar hittades."
 
 #: templates/manage/projects.tpl.html
 msgid "No projects could be found."
-msgstr ""
+msgstr "Inga projekt hittades."
 
 #: templates/manage/releases.tpl.html
 msgid "No releases could be found."
-msgstr ""
+msgstr "Inga utgåvor hittades."
 
 #: templates/history.tpl.html templates/manage/reminders.tpl.html
 msgid "No reminders could be found."
@@ -3849,7 +3849,7 @@ msgstr ""
 
 #: templates/notification.tpl.html
 msgid "No subscribers could be found."
-msgstr "Ing prenumeranter kunde hittas."
+msgstr "Inga prenumeranter hittades."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "No time tracking categories could be found."
@@ -3861,7 +3861,7 @@ msgstr "Inga tidsnoteringar kunde hittas."
 
 #: templates/manage/users.tpl.html
 msgid "No users could be found."
-msgstr ""
+msgstr "Inga användare hittades."
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
@@ -3967,7 +3967,7 @@ msgstr "Meddela avsändare?"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
-msgstr ""
+msgstr "Antal dagar"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -3983,7 +3983,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
-msgstr ""
+msgstr "Ladda enbart ner oläsa meddelanden"
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Only for Known Customers?"
@@ -4095,27 +4095,27 @@ msgstr "Ägare"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3"
-msgstr ""
+msgstr "POP3"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL"
-msgstr ""
+msgstr "POP3 över SSL"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL (self-signed)"
-msgstr ""
+msgstr "POP3 över SSL (självsignerad)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, no TLS"
-msgstr ""
+msgstr "POP3, ingen TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS"
-msgstr ""
+msgstr "POP3, med TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
-msgstr ""
+msgstr "POP3, med TLS (självsignerad)"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4163,6 +4163,7 @@ msgstr "Procent färdigt måste vara mellan 0 och 100"
 #: templates/reports/custom_fields.tpl.html
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
+"Det kan hända att procentsatsen inte blir exakt 100% pga. avrundning."
 
 #: lib/eventum/class.reminder_action.php:605
 #, php-format
@@ -4267,20 +4268,20 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a category"
-msgstr "Ange en kategori"
+msgstr "Vänligen välj en kategori"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please choose a customer"
-msgstr ""
+msgstr "Vänligen välj en kund"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please choose a field"
-msgstr ""
+msgstr "Vänligen välj ett fält"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a priority"
-msgstr ""
+msgstr "Vänligen välj en prioritet"
 
 #: templates/post.tpl.html
 msgid "Please choose a project"
@@ -4306,7 +4307,7 @@ msgstr "Vänligen välj ett alternativ"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose an user"
-msgstr ""
+msgstr "Vänligen välj en användare"
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
@@ -4350,7 +4351,7 @@ msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default category."
-msgstr ""
+msgstr "Vänligen välj standardkategorin."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the default priority for remote invocations."
@@ -4358,7 +4359,7 @@ msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default priority."
-msgstr ""
+msgstr "Vänligen välj standardprioriteten."
 
 #: templates/redeem_incident.tpl.html
 msgid "Please choose the incident types to redeem for this issue."
@@ -4389,7 +4390,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please choose the project to be associated with this email account."
-msgstr ""
+msgstr "Vänligen välj projektet som du vill associera med detta e-postkonto."
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
@@ -4489,7 +4490,7 @@ msgstr "Var vänlig välj ärenden att uppdatera."
 
 #: templates/manage/groups.tpl.html templates/manage/link_filters.tpl.html
 msgid "Please click OK to confirm."
-msgstr ""
+msgstr "Vänligen tryck OK för att bekräfta."
 
 #: templates/send.tpl.html
 msgid "Please contact the administrator of this application for assistance."
@@ -4665,7 +4666,7 @@ msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the full name of this user."
-msgstr ""
+msgstr "Vänligen ange hela namnet för den här användaren."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -4675,7 +4676,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the hostname for this email account."
-msgstr ""
+msgstr "Vänligen skriv in värdnamnet för det här e-postkontot."
 
 #: templates/requirement.tpl.html
 msgid "Please enter the impact analysis for this new requirement."
@@ -5203,7 +5204,7 @@ msgstr "Inställningar"
 
 #: lib/eventum/class.pager.php:123
 msgid "Previous"
-msgstr ""
+msgstr "Föregående"
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
@@ -5237,7 +5238,7 @@ msgstr "Prioritet"
 
 #: lib/eventum/class.help.php:65 templates/help/report_priority.tpl.html
 msgid "Priority Field"
-msgstr ""
+msgstr "Prioritetsfält"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Priority:"
@@ -5284,17 +5285,17 @@ msgstr ""
 #: templates/manage/customize_listing.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/round_robin.tpl.html
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 #: templates/manage/email_responses.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Projects"
-msgstr ""
+msgstr "Projekt"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Projects:"
-msgstr ""
+msgstr "Projekt:"
 
 #: templates/file_upload.tpl.html
 msgid "Public"
@@ -5423,7 +5424,7 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "Recipients"
-msgstr ""
+msgstr "Mottagare"
 
 #: templates/post_note.tpl.html
 msgid "Recipients:"
@@ -5488,7 +5489,7 @@ msgstr ""
 #: lib/eventum/class.notification.php:623 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
-msgstr "Version"
+msgstr "Utgåva"
 
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
@@ -5525,7 +5526,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Remove"
-msgstr ""
+msgstr "Ta bort"
 
 #: templates/view_form.tpl.html
 msgid "Remove Quarantine"
@@ -5539,7 +5540,7 @@ msgstr "Ta bort markerade"
 
 #: templates/emails.tpl.html
 msgid "Remove Selected Emails"
-msgstr "Ta bort Valda E-postmeddelanden"
+msgstr "Ta bort valda e-postmeddelanden"
 
 #: templates/attached_emails.tpl.html
 msgid "Remove?"
@@ -5638,7 +5639,7 @@ msgstr "Begär lösenord"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Required Field"
-msgstr ""
+msgstr "Obligatoriskt fält"
 
 #: templates/setup.tpl.html
 msgid "Required Fields"
@@ -5719,7 +5720,7 @@ msgstr ""
 
 #: lib/eventum/class.filter.php:767 templates/adv_search.tpl.html
 msgid "Rows Per Page"
-msgstr ""
+msgstr "Rader per sida"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Rows per Page:"
@@ -5774,7 +5775,7 @@ msgstr ""
 #: templates/manage/column_display.tpl.html
 #: templates/manage/email_alias.tpl.html
 msgid "Save"
-msgstr ""
+msgstr "Spara"
 
 #: templates/send.tpl.html
 msgid "Save Draft Changes"
@@ -5798,7 +5799,7 @@ msgstr "Spara telefonsamtal"
 
 #: templates/adv_search.tpl.html
 msgid "Save Search"
-msgstr ""
+msgstr "Spara sökning"
 
 #: templates/manage/general.tpl.html
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
@@ -5844,7 +5845,7 @@ msgstr "Söktitel"
 
 #: lib/eventum/class.filter.php:791
 msgid "Search Type"
-msgstr ""
+msgstr "Söktyp"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Sections to Display"
@@ -5930,7 +5931,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Short Description"
-msgstr ""
+msgstr "Kort beskrivning"
 
 #: templates/resize_textarea.tpl.html
 msgid "Shorten the field"
@@ -5946,7 +5947,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Show Customers"
-msgstr ""
+msgstr "Visa kunder"
 
 #: templates/adv_search.tpl.html
 msgid "Show Issues in Which I Am"
@@ -5958,11 +5959,11 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
-msgstr ""
+msgstr "Visa prioritet"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Status"
-msgstr ""
+msgstr "Visa status"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
@@ -6231,7 +6232,7 @@ msgstr "Rubrik:"
 
 #: templates/preferences.tpl.html
 msgid "Sunday"
-msgstr ""
+msgstr "Söndag"
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Support Expiration Date"
@@ -6249,7 +6250,7 @@ msgstr "Supportnivå"
 
 #: templates/manage/faq.tpl.html
 msgid "Support Levels"
-msgstr ""
+msgstr "Supportnivåer"
 
 #: templates/view_form.tpl.html
 msgid "Support Options"
@@ -6257,7 +6258,7 @@ msgstr "Supportalternativ"
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Support Type"
-msgstr ""
+msgstr "Supporttyp"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
