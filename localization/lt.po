@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:43+0200\n"
-"PO-Revision-Date: 2009-12-02 10:42+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2009-12-03 11:56+0200\n"
+"PO-Revision-Date: 2009-12-13 12:16+0000\n"
+"Last-Translator: Tomas D Davainis <tomasdd@gmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-12-03 04:46+0000\n"
+"X-Launchpad-Export-Date: 2009-12-14 04:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -24,6 +24,8 @@ msgid ""
 "\n"
 "To add more information to this issue, simply reply to this email."
 msgstr ""
+"\n"
+"Norėdami papildyti šią problemą, atsakykite į el. laišką."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -31,19 +33,22 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
+"\n"
+"Norėdami daugiau informacijos apie šią problemą ar jos atnaujinimą, sekite "
+"pateiktą nuorodą."
 
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% atlikta"
+msgstr "% Baigta"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 Laukas"
 
 #: lib/eventum/class.filter.php:673
 #, php-format
@@ -76,7 +81,7 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr ""
+msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
@@ -84,7 +89,7 @@ msgstr "(Atviros problemos)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
+msgstr "PRIVALOMA pateikti veikiantį el. paštą, pvz. \"$1\" arba \"%2\""
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -98,6 +103,10 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
+msgstr ""
+
+#: lib/eventum/class.template_helper.php:175
+msgid "(archived)"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -122,11 +131,11 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(pateikti valandomis)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
+msgstr "(paraidžiui)"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(only technical contacts listed on your contract)"
@@ -142,11 +151,11 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr ""
+msgstr "ši spalva bus naudojama klaidų puslapyje"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "(trijų raidžių santrumpa)"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
@@ -176,6 +185,7 @@ msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
 msgstr ""
+"<b>Pastaba</b>: Šis pažymėjimas neleis serveryje palikti žinučių kopijų."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -185,7 +195,7 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "Ką tik sukrta nauja klaida ir priskirta jums."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
@@ -193,7 +203,7 @@ msgstr ""
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr ""
+msgstr "Sistemoje jums sukurtas naujas vartotojas."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -205,7 +215,7 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
-msgstr ""
+msgstr "ĮSPĖJIMAS:"
 
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
@@ -214,40 +224,40 @@ msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "IR / ARBA"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr ""
+msgstr "Santrumpa"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Santrumpa:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr "Sąskaitos sukūrimas"
+msgstr "Paskyros Sukūrimas"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr "Sąskaitos tvarkytojas"
+msgstr "Paskyrų Administratorius"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr ""
+msgstr "Paskyros Administratorius:"
 
 #: lib/eventum/class.help.php:113 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr ""
+msgstr "Paskyros Parinktys"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
@@ -261,16 +271,16 @@ msgstr "Veiksmas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Veiksmo tipas"
+msgstr "Veiksmo Tipas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Veiksmo Tipas"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr ""
+msgstr "Veiksmai"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -286,7 +296,7 @@ msgstr "Aktyvus"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr "Veiksmo tipas"
+msgstr "Veiksmo Tipas"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
@@ -300,7 +310,7 @@ msgstr "Pridėti"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Pridėti / keisti kategorijas"
+msgstr "Pridėti / Keisti Kategorijas"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
@@ -312,11 +322,11 @@ msgstr "Pridėti / keisti prioritetus"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr ""
+msgstr "Pridėti / Keisti Laidas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "Pridėti Veiksmą"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -324,19 +334,19 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Pridėti Sąlygą"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr "Pridėti elektroninio pašto parašą"
+msgstr "Pridėti Elektroninio Pašto Parašą"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr ""
+msgstr "Ar Pridėti Papildomų į Perspėjimų Sąrašą?"
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr "Pridėti bylas"
+msgstr "Pridėti Failus"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -360,15 +370,15 @@ msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Add Primary Contact to Notification List? *"
-msgstr ""
+msgstr "Ar Pridėti Papildomų į Perspėjimų Sąrašą? *"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr ""
+msgstr "Pridėti Prenumeratą"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr ""
+msgstr "Pridėti Laiko Įrašą"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
@@ -380,11 +390,11 @@ msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Additional Contact Emails"
-msgstr ""
+msgstr "Papildomi elektroninio pašto adresai"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr ""
+msgstr "Pagrindinio Kompiuterio Adresas"
 
 #: templates/navigation.tpl.html
 msgid "Administration"
@@ -396,7 +406,7 @@ msgstr "Administratorius"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr "Sudėtingesnės parinktys"
+msgstr "Papildomos Parinktys"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -422,17 +432,17 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert IRC:"
-msgstr ""
+msgstr "IRC Įspėjimas:"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Query"
-msgstr ""
+msgstr "Įspėjimų Užklausos"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr ""
+msgstr "Įspėjimo Priežastis"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -462,7 +472,7 @@ msgstr "Visi"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr "Visos problemos"
+msgstr "Visos Problemos"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -476,7 +486,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr ""
+msgstr "Ar leisti Nepriskirtas Problemas?"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
