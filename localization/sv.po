@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-03 11:56+0200\n"
-"PO-Revision-Date: 2009-12-11 15:54+0000\n"
+"PO-Revision-Date: 2009-12-15 02:03+0000\n"
 "Last-Translator: Fredrik Kilegran <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-12-12 04:43+0000\n"
+"X-Launchpad-Export-Date: 2009-12-15 05:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -25,6 +25,9 @@ msgid ""
 "\n"
 "To add more information to this issue, simply reply to this email."
 msgstr ""
+"\n"
+"För att lägga till mer information i detta ärende behöver du bara svara på e-"
+"postmeddelandet."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -191,7 +194,7 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "Ett nytt ärende skapades precis och tilldelades till dig."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
@@ -382,7 +385,7 @@ msgstr "Lägg till anonym mottagare till ärendets notifieringslista"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr "Lägga till avsändare till listan över behöriga besvarare?"
+msgstr "Lägg till avsändare till listan över behöriga besvarare?"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Additional Contact Emails"
@@ -2353,7 +2356,7 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Error: the issue is already unassigned."
-msgstr "Fel: ärendets saknar redan tilldelning."
+msgstr "Fel: ärendet saknar redan tilldelning."
 
 #: templates/popup.tpl.html
 msgid "Error: you are already authorized to send emails in this issue."
@@ -3765,7 +3768,7 @@ msgstr "Inga interna noteringar hittades."
 
 #: templates/view_form.tpl.html
 msgid "No issues associated"
-msgstr "Inget ärende associerat"
+msgstr "Inga ärenden associerade"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues closed this time period"
