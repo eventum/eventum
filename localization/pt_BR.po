@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-02 11:43+0200\n"
-"PO-Revision-Date: 2009-12-02 10:39+0000\n"
+"POT-Creation-Date: 2009-12-03 11:56+0200\n"
+"PO-Revision-Date: 2009-12-18 03:12+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2009-12-03 04:46+0000\n"
+"X-Launchpad-Export-Date: 2009-12-18 04:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
 
@@ -112,6 +112,10 @@ msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 "(Dica: as portas padrão são 110 para servidores POP3 e 143 para servidores "
 "IMAP)"
+
+#: lib/eventum/class.template_helper.php:175
+msgid "(archived)"
+msgstr "(arquivado)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -3666,7 +3670,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
@@ -4273,7 +4277,7 @@ msgstr "Visão Geral ou Detalhes Forem Atualizados"
 
 #: templates/attachments.tpl.html templates/notifications/files.tpl.text
 msgid "Owner"
-msgstr "Dono"
+msgstr "Proprietário"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3"
@@ -8209,7 +8213,7 @@ msgstr "Senha de conta de usuário modificada"
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Username"
-msgstr "Nome de usuário"
+msgstr "Usuário"
 
 #: templates/manage/projects.tpl.html
 msgid "Users"
