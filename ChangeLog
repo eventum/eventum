@@ -45,6 +45,7 @@ Eventum Issue Tracking System
 - Updated php-gettext up to 1.0.9 (Elan Ruusamäe)
 - Added automatic lock file cleanup to download_emails.php (Erno Rigo)
 - Check /etc/mailname for hostname to use in mail system (Peter Lieverdink)
+- Fixed subject based routing to extract attachments from notes as well (Bryan Alsdorf)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
