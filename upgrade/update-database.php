@@ -59,67 +59,68 @@ function db_query($query) {
 	return $res;
 }
 
-function apply_db_changes($stmts) {
-	foreach ($stmts as $stmt) {
-		db_query($stmt);
+function exec_sql_file($input_file) {
+	if (!file_exists($input_file) && !is_readable($input_file)) {
+		echo "ERROR: Can't read file: $input_file\n";
+		exit(EXIT_ERROR);
+	}
+
+	// use *.php for complex updates
+	if (substr($input_file, -4) == '.php') {
+		$queries = array();
+		require $input_file;
+	} else {
+		$queries = explode(';', file_get_contents($input_file));
+	}
+
+	foreach ($queries as $query) {
+		db_query(trim($query));
 	}
 }
 
+function read_patches($update_path) {
+	$handle = opendir($update_path);
+	if (!$handle) {
+		echo "ERROR: Could not read: $update_path\n";
+		exit(EXIT_ERROR);
+	}
+	while (false !== ($file = readdir($handle))) {
+		$number =  substr($file, 0, strpos($file, '_'));
+		if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
+			$files[(int )$number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
+		}
+	}
+	closedir($handle);
+	ksort($files);
+	return $files;
+}
+
 function patch_database() {
-	/*
-	 * database versions. each version script can create it's dynamic queries
-	 */
-	$versions = array(
-		1 => '01_notes.php',
-		2 => '02_usr_alias.php',
-		3 => '03_prj_mail_aliases.php',
-		4 => '04_isu_order.php',
-		5 => '05_his_rename.php',
-	);
-
 	// sanity check. check that the version table exists.
-	$version = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
-	if (!isset($version)) {
-		# insert initial value
+	$last_patch = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
+	if (!isset($last_patch)) {
+		// insert initial value
 		db_query("INSERT INTO %TABLE_PREFIX%version SET ver_version=0");
-		$version = 0;
-	}
-	$target = max(array_keys($versions));
-	echo "Current database version: $version; Versions available: $target\n";
-	if ($target < $version) {
-		echo "ERROR: Your database version is greater ($version) than this upgrade supports ($target)!\n";
-		return EXIT_ERROR;
-	}
-	if ($target == $version) {
-		echo "Database already at version $version. Nothing to upgrade.\n";
-		return EXIT_OK;
+		$last_patch = 0;
 	}
 
-	echo "Upgrading database to version $target\n";
-	for ($i = $version + 1; $i <= $target; $i++) {
-		if (empty($versions[$i])) {
-			echo "ERROR: patch $i is not recorded in upgrade script.\n";
-			return EXIT_ERROR;
+	$files = read_patches(APP_SQL_PATCHES_PATH);
+
+	$addCount = 0;
+	foreach ($files as $number => $file) {
+		if ($number > $last_patch) {
+			echo "* Applying patch: ", $number, "\n";
+			exec_sql_file($file);
+			db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$number");
+			$addCount++;
 		}
-		$patch = APP_SQL_PATCHES_PATH . '/' . $versions[$i];
-		echo "Checking patch $patch\n";
-		if (!file_exists($patch)) {
-			echo "ERROR: Patch file doesn't exist\n";
-			return EXIT_ERROR;
-		}
-		require $patch;
-		$func = "db_patch_$i";
-		if (!function_exists($func)) {
-			echo "ERROR: Patch did not define '$func' function\n";
-			return EXIT_ERROR;
-		}
-		$patchset = $func();
-		echo "Applying patch ", $i, ": ", count($patchset), " queries\n";
-		apply_db_changes($patchset);
-		db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$i");
 	}
 
-	return EXIT_OK;
+	if ($addCount == 0) {
+		echo "* Your database is already up-to-date\n";
+	} else {
+		echo "* Your database is now up-to-date\n";
+	}
 }
 
 if (php_sapi_name() != 'cli') {
@@ -132,4 +133,4 @@ if (php_sapi_name() != 'cli') {
 	echo "</pre>\n";
 }
 
-exit($ret);
+exit(EXIT_OK);
