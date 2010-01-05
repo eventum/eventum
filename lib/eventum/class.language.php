@@ -63,12 +63,15 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
+        'da_DK' => 'Danish'
         'de_DE' => 'German',
 #        'en_US' => 'English',
+        'eo' => 'Esperanto',
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
         'fi_FI' => 'Finnish',
 #        'fr_FR' => 'French',
+        'he_IL' => 'Hebrew',
         'it_IT' => 'Italian',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
@@ -76,6 +79,7 @@ class Language
         'pl_PL' => 'Polish',
         'pt_BR' => 'Brazilian Portuguese',
         'ru_RU' => 'Russian',
+        'sv_SE' => 'Swedish',
         'sv_SE' => 'Swedish',
     );
 
