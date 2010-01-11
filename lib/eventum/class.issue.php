@@ -1739,7 +1739,7 @@ class Issue
                   " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
               SET
                   iss_prc_id=" . Misc::escapeInteger($new_prc_id) . ",
-                  iss_pri_id=" . $new_pri_id . "
+                  iss_pri_id=" . Misc::escapeInteger($new_pri_id) . "
               WHERE
                   iss_id=$issue_id";
             $res = DB_Helper::getInstance()->query($stmt);
