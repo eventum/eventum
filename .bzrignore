@@ -1,3 +1,5 @@
+.project
+.settings
 config/config.php
 config/private_key.php
 config/setup.php
