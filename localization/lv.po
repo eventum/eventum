@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-03 11:56+0200\n"
-"PO-Revision-Date: 2009-12-09 16:36+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-01-06 00:02+0200\n"
+"PO-Revision-Date: 2010-01-11 15:48+0000\n"
+"Last-Translator: Kārlis Šteinbergs <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2009-12-10 04:35+0000\n"
+"X-Launchpad-Export-Date: 2010-01-12 04:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -42,22 +42,22 @@ msgstr "% izpildīti"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 lauks"
 
 #: lib/eventum/class.filter.php:673
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "%1$s grupa"
 
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s vai lielāks"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s vai mazāks"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -71,7 +71,7 @@ msgstr "(Visi uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr ""
+msgstr "(Citi domēni, kuri norāda uz  'Adreses saimniekdatoru')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -84,6 +84,7 @@ msgstr "(Aktuālie uzdevumi)"
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+"(Šim ir jāsatur reālas e-pasta adreses, piemēram,  \"%1\" vai \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -98,14 +99,15 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Padoms: noklusētie porti ir 110  POP3 serveriem un 143 IMAP serveriem)"
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(arhivēts)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(noklusētā mape ir INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
@@ -121,11 +123,11 @@ msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(hold ctrl to select multiple options)"
-msgstr ""
+msgstr "(turiet ctrl lai iezīmetu vairākas izvēles)"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(stundās, lūdzu)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -202,7 +204,7 @@ msgstr ""
 msgid "ADDED"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:464
+#: lib/eventum/class.mail_helper.php:467
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
 
@@ -971,11 +973,11 @@ msgstr ""
 msgid "Attached Files"
 msgstr ""
 
-#: lib/eventum/class.support.php:1447
+#: lib/eventum/class.support.php:1452
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: lib/eventum/class.support.php:1445
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from an email"
 msgstr ""
 
@@ -2024,12 +2026,12 @@ msgstr "Rediģēt parakstu"
 msgid "Email"
 msgstr "E-pasts"
 
-#: lib/eventum/class.support.php:1499
+#: lib/eventum/class.support.php:1504
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1842
+#: lib/eventum/class.support.php:1847
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2138,7 +2140,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2566
+#: lib/eventum/class.support.php:2571
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2153,7 +2155,7 @@ msgstr ""
 msgid "Email message saved as a draft by %1$s"
 msgstr ""
 
-#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:789
+#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -3607,7 +3609,7 @@ msgstr ""
 msgid "Next Note"
 msgstr "Nākamā piezīme"
 
-#: lib/eventum/class.misc.php:691 templates/close.tpl.html
+#: lib/eventum/class.misc.php:693 templates/close.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -4060,7 +4062,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2200
+#: lib/eventum/class.support.php:2205
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -7742,7 +7744,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:466
+#: lib/eventum/class.mail_helper.php:469
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -7932,7 +7934,7 @@ msgstr ""
 msgid "Workload by time period"
 msgstr ""
 
-#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:689
+#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
 #: templates/close.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
