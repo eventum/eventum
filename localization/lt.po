@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-06 00:02+0200\n"
-"PO-Revision-Date: 2010-01-08 16:57+0000\n"
+"PO-Revision-Date: 2010-01-14 06:21+0000\n"
 "Last-Translator: Tomas D Davainis <tomasdd@gmail.com>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-01-09 07:50+0000\n"
+"X-Launchpad-Export-Date: 2010-01-15 04:35+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -53,7 +53,7 @@ msgstr "%1 Laukas"
 #: lib/eventum/class.filter.php:673
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "%1$s grupės"
 
 #: lib/eventum/class.filter.php:602
 #, php-format
@@ -70,6 +70,8 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"Kategorijos 'Note Discussion', 'Email Discussion' ir 'Telephone Discussion'  "
+"yra būtinos ir negali būti pašalintos."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -107,7 +109,7 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(archyvuota)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -151,7 +153,7 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr "ši spalva bus naudojama klaidų puslapyje"
+msgstr "(ši spalva bus naudojama klaidų puslapyje)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
@@ -199,7 +201,7 @@ msgstr "Ką tik sukrta nauja klaida ir priskirta jums."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr ""
+msgstr "Sistemoje ką tik sukurta nauja klaida."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
@@ -271,11 +273,11 @@ msgstr "Veiksmas"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Veiksmo Tipas"
+msgstr "Veiksmo Rūšis"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr "Veiksmo Tipas"
+msgstr "Veiksmo Rūšis:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -296,7 +298,7 @@ msgstr "Aktyvus"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr "Veiksmo Tipas"
+msgstr "Veiklos Rūšis"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
@@ -314,7 +316,7 @@ msgstr "Pridėti / Keisti Kategorijas"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr "Pridėti / keisti Phone Support Categories"
+msgstr "Pridėti / Keisti pagalbos telefonu kategorijas"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
@@ -342,7 +344,7 @@ msgstr "Pridėti Elektroninio Pašto Parašą"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr "Ar Pridėti Papildomų į Perspėjimų Sąrašą?"
+msgstr "Ar pridėti papildomų gavėjų į perspėjimų sąrašą?"
 
 #: templates/new.tpl.html
 msgid "Add Files"
@@ -362,7 +364,7 @@ msgstr "Pridėti naują reikalavimą"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "Pridėti skambinimą telefonu"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
@@ -382,11 +384,11 @@ msgstr "Pridėti Laiko Įrašą"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr ""
+msgstr "Pridėti nežinomus gavėjus į klaidų pranešimo sąrašą"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
+msgstr "Ar pridėti siuntėją prie patvirtintų atsakovų sąrašo?"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Additional Contact Emails"
@@ -394,7 +396,7 @@ msgstr "Papildomi elektroninio pašto adresai"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr "Pagrindinio Kompiuterio Adresas"
+msgstr "Pagrindinio kompiuterio adresas:"
 
 #: templates/navigation.tpl.html
 msgid "Administration"
@@ -476,7 +478,7 @@ msgstr "Visos Problemos"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "Visas tekstas(elektroninis paštas, užrašai, ir t.t.)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -518,7 +520,7 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
-msgstr ""
+msgstr "Filtruoti problemas pagal prioritetą"
 
 #: templates/update_form.tpl.html
 msgid ""
@@ -528,7 +530,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "Įvyko klaida"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
@@ -540,16 +542,16 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują sąskaitą."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują veiksmą."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują kategoriją."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
@@ -557,7 +559,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują papildomą lauką."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
@@ -569,11 +571,11 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują grupę."
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr ""
+msgstr "Įvyko klaida bandant pridėti naują problemos sprendimą."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
@@ -581,15 +583,15 @@ msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują žinutę."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują prioritetą."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują projektą."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
@@ -597,7 +599,7 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr ""
+msgstr "Įvyko klaida kuriant naują priminimą."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
@@ -609,7 +611,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
-msgstr ""
+msgstr "Įvyko klaida pridedant naują vartotoją."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
@@ -622,7 +624,7 @@ msgstr ""
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
-msgstr ""
+msgstr "Įvyko klaida mėginant sujungti pažymėtas el. pašto žinutes."
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
