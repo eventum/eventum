@@ -70,7 +70,7 @@ class Language
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
         'fi_FI' => 'Finnish',
-#        'fr_FR' => 'French',
+        'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
         'it_IT' => 'Italian',
         'lt_LT' => 'Lithuanian',
@@ -78,9 +78,10 @@ class Language
 #        'nl_NL' => 'Dutch',
         'pl_PL' => 'Polish',
         'pt_BR' => 'Brazilian Portuguese',
+        'pt' => 'Portuguese',
         'ru_RU' => 'Russian',
         'sv_SE' => 'Swedish',
-        'sv_SE' => 'Swedish',
+        'zh_CN' => 'Simplified Chinese ',
     );
 
     /**
