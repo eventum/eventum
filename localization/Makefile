@@ -2,7 +2,7 @@
 # (c) 2007-2010 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
-ALL_LINGUAS := da de en eo et es fi fr he it lt lv nl pl ru sv pt_BR
+ALL_LINGUAS := da de en eo et es fi fr he it lt lv nl pl ru sv pt pt_BR zh_CN
 DOMAIN      := eventum
 POFILES     := $(patsubst %,%.po,$(ALL_LINGUAS))
 
@@ -12,6 +12,7 @@ all:
 	for lang in $(ALL_LINGUAS); do \
 		echo -n "$$lang: "; \
 		[ -f $$lang.po ] || { echo Missing; continue; }; \
+		[ -d $$lang/LC_MESSAGES/$(DOMAIN).mo ] || install -d $$lang/LC_MESSAGES; \
 		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
