@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-06 00:02+0200\n"
-"PO-Revision-Date: 2009-11-20 11:45+0000\n"
-"Last-Translator: Jānis <Unknown>\n"
+"PO-Revision-Date: 2010-01-16 23:23+0000\n"
+"Last-Translator: Kārlis Šteinbergs <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
-"2;\n"
-"X-Launchpad-Export-Date: 2009-11-21 04:47+0000\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2010-01-18 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -43,22 +42,22 @@ msgstr "% izpildīti"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 lauks"
 
 #: lib/eventum/class.filter.php:673
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "%1$s grupa"
 
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s vai lielāks"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s vai mazāks"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -72,7 +71,7 @@ msgstr "(Visi uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr ""
+msgstr "(Citi domēni, kuri norāda uz  'Adreses saimniekdatoru')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -85,6 +84,7 @@ msgstr "(Aktuālie uzdevumi)"
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+"(Šim ir jāsatur reālas e-pasta adreses, piemēram,  \"%1\" vai \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -99,14 +99,15 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Padoms: noklusētie porti ir 110  POP3 serveriem un 143 IMAP serveriem)"
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(arhivēts)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(noklusētā mape ir INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
@@ -122,11 +123,11 @@ msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(hold ctrl to select multiple options)"
-msgstr ""
+msgstr "(turiet ctrl lai iezīmetu vairākas izvēles)"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(stundās, lūdzu)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -197,11 +198,11 @@ msgstr ""
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr ""
+msgstr "Tikko jums tika izveidots jauns lietotājs sistēmā."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
-msgstr ""
+msgstr "PIEVIENOTS"
 
 #: lib/eventum/class.mail_helper.php:467
 msgid "ADVISORY: Your reply will be sent to the notification list."
@@ -218,11 +219,11 @@ msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
@@ -238,11 +239,11 @@ msgstr "Saīsinājums:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Kontu izveide"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr ""
+msgstr "Kontu pārvaldnieks"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
