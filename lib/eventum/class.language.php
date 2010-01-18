@@ -81,7 +81,7 @@ class Language
         'pt' => 'Portuguese',
         'ru_RU' => 'Russian',
         'sv_SE' => 'Swedish',
-        'zh_CN' => 'Simplified Chinese ',
+        'zh_CN' => 'Chinese (Simplified)',
     );
 
     /**
