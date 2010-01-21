@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-03 11:56+0200\n"
-"PO-Revision-Date: 2009-12-09 16:36+0000\n"
-"Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
+"POT-Creation-Date: 2010-01-06 00:02+0200\n"
+"PO-Revision-Date: 2010-01-20 22:55+0000\n"
+"Last-Translator: Santiago Riega <sriega@gmail.com>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2009-12-10 04:35+0000\n"
+"X-Launchpad-Export-Date: 2010-01-21 04:35+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -118,7 +118,7 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(archivado)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -187,6 +187,8 @@ msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
+"<b>NOTA:</b> El email será difundido a toda la lista de notificación, "
+"incluyendo cualquier cliente, si es que esta opción ha sido escogida."
 
 #: templates/associate.tpl.html
 msgid ""
@@ -227,7 +229,7 @@ msgstr "Se acaba de crear un nuevo usuario para usted en el sistema."
 msgid "ADDED"
 msgstr "AÑADIDO"
 
-#: lib/eventum/class.mail_helper.php:464
+#: lib/eventum/class.mail_helper.php:467
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "AVISO: Su respuesta será enviada a la lista de notificación."
 
@@ -1090,11 +1092,11 @@ msgstr "Emails Adjuntados"
 msgid "Attached Files"
 msgstr "Archivos Adjuntos"
 
-#: lib/eventum/class.support.php:1447
+#: lib/eventum/class.support.php:1452
 msgid "Attachment originated from a note"
 msgstr "Adjuntos originados desde una nota"
 
-#: lib/eventum/class.support.php:1445
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from an email"
 msgstr "Adjuntos originados desde un email"
 
@@ -2188,12 +2190,12 @@ msgstr "Editar Firma"
 msgid "Email"
 msgstr "Email"
 
-#: lib/eventum/class.support.php:1499
+#: lib/eventum/class.support.php:1504
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (asunto: '%1$s') asociado por %2$s"
 
-#: lib/eventum/class.support.php:1842
+#: lib/eventum/class.support.php:1847
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (asunto: '%1$s') desasociado por %2$s"
@@ -2304,7 +2306,7 @@ msgstr "Emails por Período de Tiempo"
 msgid "Email by time period"
 msgstr "Correo por período de tiempo"
 
-#: lib/eventum/class.support.php:2566
+#: lib/eventum/class.support.php:2571
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"
@@ -2319,7 +2321,7 @@ msgstr "Borrador de correo actualizado por %1$s"
 msgid "Email message saved as a draft by %1$s"
 msgstr "Mensaje de correo guardado como borrador por %1$s"
 
-#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:789
+#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Correo electrónico enrutado desde %1$s"
@@ -3872,7 +3874,7 @@ msgstr "Siguiente Mensaje"
 msgid "Next Note"
 msgstr "Siguiente Nota"
 
-#: lib/eventum/class.misc.php:691 templates/close.tpl.html
+#: lib/eventum/class.misc.php:693 templates/close.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -4347,7 +4349,7 @@ msgstr "Dirección del Remitente del Correo Saliente"
 msgid "Outgoing Email Sender Name"
 msgstr "Nombre del Remitente del Correo Saliente"
 
-#: lib/eventum/class.support.php:2200
+#: lib/eventum/class.support.php:2205
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email saliente enviado por %1$s"
@@ -6203,7 +6205,7 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid "Save Message as an Internal Note"
-msgstr ""
+msgstr "Guardar el mensaje como una nota interna"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
@@ -7831,10 +7833,13 @@ msgid ""
 "\n"
 "%2."
 msgstr ""
+"Este caso ya lo cerró %1 con el mensaje:\n"
+"\n"
+"%2"
 
 #: templates/notifications/closed.tpl.text
 msgid "This issue was just closed by %1."
-msgstr ""
+msgstr "Este caso ya fue cerrado por %1."
 
 #: templates/view_email.tpl.html
 msgid "This message already belongs to that account"
@@ -8432,7 +8437,7 @@ msgstr "Observador"
 
 #: templates/emails.tpl.html
 msgid "Viewing Emails (%1 email found)"
-msgstr ""
+msgstr "Monstrando correos (%1 encontrados)"
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
@@ -8468,7 +8473,7 @@ msgstr ""
 "cualquier cliente que pueda estar incluido en la lista de notificaciones de "
 "este caso."
 
-#: lib/eventum/class.mail_helper.php:466
+#: lib/eventum/class.mail_helper.php:469
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "ADVERTENCIA: En caso de responder, agréguese primero usted mismo a la Lista "
@@ -8702,7 +8707,7 @@ msgstr "Carga de Trabajo por Hora del Día"
 msgid "Workload by time period"
 msgstr "Carga de trabajo por período de tiempo"
 
-#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:689
+#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
 #: templates/close.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
