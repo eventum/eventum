@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -63,18 +63,25 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
-        'pl_PL' =>  'Polish',
-#       'en_US' =>  'English',
-        'et_EE' =>  'Estonian',
-        'ru_RU' =>  'Russian',
-        'de_DE' =>  'German',
-#       'fr_FR' =>  'French',
-        'it_IT' =>  'Italian',
-        'fi_FI' =>  'Finnish',
-        'es_ES' =>  'Spanish',
-#       'nl_NL' =>  'Dutch',
-        'sv_SE' =>  'Swedish',
-        'pt_BR' =>  'Brazilian Portuguese',
+        'da_DK' => 'Danish',
+        'de_DE' => 'German',
+#        'en_US' => 'English',
+        'eo' => 'Esperanto',
+        'es_ES' => 'Spanish',
+        'et_EE' => 'Estonian',
+        'fi_FI' => 'Finnish',
+        'fr_FR' => 'French',
+        'he_IL' => 'Hebrew',
+        'it_IT' => 'Italian',
+        'lt_LT' => 'Lithuanian',
+        'lv_LV' => 'Latvian',
+#        'nl_NL' => 'Dutch',
+        'pl_PL' => 'Polish',
+        'pt_BR' => 'Brazilian Portuguese',
+        'pt' => 'Portuguese',
+        'ru_RU' => 'Russian',
+        'sv_SE' => 'Swedish',
+        'zh_CN' => 'Chinese (Simplified)',
     );
 
     /**

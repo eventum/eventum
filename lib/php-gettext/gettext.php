@@ -1,6 +1,6 @@
 <?php
 /*
-   Copyright (c) 2003 Danilo Segan <danilo@kvota.net>.
+   Copyright (c) 2003, 2009 Danilo Segan <danilo@kvota.net>.
    Copyright (c) 2005 Nico Kaiser <nico@siriux.net>
 
    This file is part of PHP-gettext.
@@ -63,12 +63,18 @@ class gettext_reader {
   function readint() {
       if ($this->BYTEORDER == 0) {
         // low endian
-        return array_shift(unpack('V', $this->STREAM->read(4)));
+        $input=unpack('V', $this->STREAM->read(4));
+        return array_shift($input);
       } else {
         // big endian
-        return array_shift(unpack('N', $this->STREAM->read(4)));
+        $input=unpack('N', $this->STREAM->read(4));
+        return array_shift($input);
       }
     }
+
+  function read($bytes) {
+    return $this->STREAM->read($bytes);
+  }
 
   /**
    * Reads an array of Integers from the Stream
@@ -102,16 +108,15 @@ class gettext_reader {
     // Caching can be turned off
     $this->enable_cache = $enable_cache;
 
-    // enabled again, see http://lists.mysql.com/eventum-devel/814
-    $MAGIC1 = (int)0x950412de;
-    $MAGIC2 = (int)0xde120495;
+    $MAGIC1 = "\x95\x04\x12\xde";
+    $MAGIC2 = "\xde\x12\x04\x95";
 
     $this->STREAM = $Reader;
-    $magic = $this->readint();
+    $magic = $this->read(4);
     if ($magic == $MAGIC1) {
-      $this->BYTEORDER = 0;
-    } elseif ($magic == $MAGIC2) {
       $this->BYTEORDER = 1;
+    } elseif ($magic == $MAGIC2) {
+      $this->BYTEORDER = 0;
     } else {
       $this->error = 1; // not MO file
       return false;
@@ -129,7 +134,7 @@ class gettext_reader {
    * Loads the translation tables from the MO file into the cache
    * If caching is enabled, also loads all strings into a cache
    * to speed up translation lookups
-   *
+   * 
    * @access private
    */
   function load_tables() {
@@ -261,6 +266,41 @@ class gettext_reader {
   }
 
   /**
+   * Sanitize plural form expression for use in PHP eval call.
+   *
+   * @access private
+   * @return string sanitized plural form expression
+   */
+  function sanitize_plural_expression($expr) {
+    // Get rid of disallowed characters.
+    $expr = preg_replace('@[^a-zA-Z0-9_:;\(\)\?\|\&=!<>+*/\%-]@', '', $expr);
+
+    // Add parenthesis for tertiary '?' operator.
+    $expr .= ';';
+    $res = '';
+    $p = 0;
+    for ($i = 0; $i < strlen($expr); $i++) {
+      $ch = $expr[$i];
+      switch ($ch) {
+      case '?':
+        $res .= ' ? (';
+        $p++;
+        break;
+      case ':':
+        $res .= ') : (';
+        break;
+      case ';':
+        $res .= str_repeat( ')', $p) . ';';
+        $p = 0;
+        break;
+      default:
+        $res .= $ch;
+      }
+    }
+    return $res;
+  }
+
+  /**
    * Get possible plural forms from MO header
    *
    * @access private
@@ -282,7 +322,8 @@ class gettext_reader {
         $expr = $regs[1];
       else
         $expr = "nplurals=2; plural=n == 1 ? 0 : 1;";
-      $this->pluralheader = $expr;
+
+      $this->pluralheader = $this->sanitize_plural_expression($expr);
     }
     return $this->pluralheader;
   }

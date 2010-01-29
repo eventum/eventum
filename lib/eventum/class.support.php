@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -630,7 +630,7 @@ class Support
 
             // TODO:
             // disabling return here allows routing and issue auto creating from same account
-            // but it will download email store it in database and do nothing 
+            // but it will download email store it in database and do nothing
             // with it if it does not match support@ address.
             //return;
         }
@@ -723,6 +723,11 @@ class Support
                             'parent_id'            => $should_create_array['parent_id'],
                         );
                         $res = Note::insert($usr_id, $t['issue_id']);
+
+                        // need to handle attachments coming from notes as well
+                        if ($res != -1) {
+                            Support::extractAttachments($t['issue_id'], $structure, true, $res);
+                        }
                     }
                 }
             }

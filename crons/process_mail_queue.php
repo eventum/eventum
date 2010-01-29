@@ -5,7 +5,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -27,37 +27,69 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: monitor.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: process_mail_queue.php 3823 2009-02-10 06:46:03Z glen $
 
-require_once 'init.php';
+ini_set("memory_limit", '1024M');
 
-// the disk partition in which eventum is stored in
-$partition = '/';
+require_once '../init.php';
 
-Monitor::checkDiskspace($partition);
+// setup constant to be used globally
+define('SAPI_CLI', 'cli' == php_sapi_name());
 
-// the owner, group and filesize settings should be changed to match the correct permissions on your server.
-$required_files = array(
-    APP_CONFIG_PATH . '/config.php' => array(
-        'check_owner'      => true,
-        'owner'            => 'apache',
-        'check_group'      => true,
-        'group'            => 'apache',
-        'check_permission' => true,
-        'permission'       => 755,
-    ),
-    APP_CONFIG_PATH . '/setup.php' => array(
-        'check_owner'      => true,
-        'owner'            => 'apache',
-        'check_group'      => true,
-        'group'            => 'apache',
-        'check_permission' => true,
-        'permission'       => 750,
-        'check_filesize'   => true,
-        'filesize'         => 1024
-    ),
-);
-Monitor::checkConfiguration($required_files);
-Monitor::checkDatabase();
-Monitor::checkMailQueue();
-Monitor::checkIRCBot();
+/**
+ * Get parameters needed for this script.
+ *
+ * for CLI mode these are take from command line arguments
+ * for Web mode those are taken as named _GET parameters.
+ *
+ * @return  array   $config
+ */
+function getParams() {
+    // defaults
+    $config = array(
+        'fix-lock' => false,
+    );
+
+    if (SAPI_CLI) {
+        global $argc, $argv;
+        // --fix-lock may be only the last argument
+        if ($argv[$argc - 1] == '--fix-lock') {
+            // no other args are allowed
+            $config['fix-lock'] = true;
+        }
+
+    } else {
+        foreach (array_keys($config) as $key) {
+            if (isset($_GET[$key])) {
+                $config[$key] = $_GET[$key];
+            }
+        }
+    }
+    return $config;
+}
+
+$config = getParams();
+
+// if requested, clear the lock
+if ($config['fix-lock']) {
+    Lock::release('process_mail_queue');
+    echo "The lock file was removed successfully.\n";
+    exit(0);
+}
+
+if (!Lock::acquire('process_mail_queue')) {
+    $pid = Lock::getProcessID('process_mail_queue');
+    fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
+    fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
+    exit(1);
+}
+
+// handle only pending emails
+$limit = 50;
+Mail_Queue::send('pending', $limit);
+
+// handle emails that we tried to send before, but an error happened...
+$limit = 50;
+Mail_Queue::send('error', $limit);
+
+Lock::release('process_mail_queue');

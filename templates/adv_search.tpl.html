@@ -276,29 +276,29 @@ function disableCustomFields(disable)
           <td>
             <span class="default">{t}Rows Per Page{/t}:</span><br />
             <select name="rows" class="default">
-              <option value="5" {if $options.cst_rows == 5}selected{/if}>5</option>
-              <option value="10" {if $options.cst_rows == 10}selected{/if}>10</option>
-              <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
-              <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
               <option value="100" {if $options.cst_rows == 100}selected{/if}>100</option>
+              <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
+              <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
+              <option value="10" {if $options.cst_rows == 10}selected{/if}>10</option>
+              <option value="5" {if $options.cst_rows == 5}selected{/if}>5</option>
               <option value="ALL" {if $options.cst_rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
             </select>
           </td>
           <td>
             <span class="default">{t}Sort By{/t}:</span><br />
             <select name="sort_by" class="default">
+              <option value="last_action_date" {if $options.cst_sort_by == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
               <option value="iss_pri_id" {if $options.cst_sort_by == "iss_pri_id"}selected{/if}>{t}Priority{/t}</option>
               <option value="iss_id" {if $options.cst_sort_by == "iss_id"}selected{/if}>{t}Issue ID{/t}</option>
               <option value="sta_rank" {if $options.cst_sort_by == "sta_rank"}selected{/if}>{t}Status{/t}</option>
               <option value="iss_summary" {if $options.cst_sort_by == "iss_summary"}selected{/if}>{t}Summary{/t}</option>
-              <option value="last_action_date" {if $options.cst_sort_by == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
             </select>
           </td>
           <td colspan="2">
             <span class="default">{t}Sort Order{/t}:</span><br />
             <select name="sort_order" class="default">
-              <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>{t}ascending{/t}</option>
               <option value="desc" {if $options.cst_sort_order == "desc"}selected{/if}>{t}descending{/t}</option>
+              <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>{t}ascending{/t}</option>
             </select>
           </td>
         </tr>

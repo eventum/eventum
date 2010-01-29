@@ -8,7 +8,7 @@ function deleteNote(note_id)
     }
 
     var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=delete_note&id=' + note_id, '_popup#' + note_id, features);
+    var popupWin = window.open('popup.php?cat=delete_note&id=' + note_id, '_popup_' + note_id, features);
     popupWin.focus();
 }
 function convertNote(note_id)
@@ -18,25 +18,25 @@ function convertNote(note_id)
     }
 
     var features = 'width=420,height=180,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote#'+note_id, features);
+    var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote_'+note_id, features);
     popupWin.focus();
 }
 function viewNote(note_id)
 {
     var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('view_note.php?id=' + note_id, '_note#' + note_id, features);
+    var noteWin = window.open('view_note.php?id=' + note_id, '_note_' + note_id, features);
     noteWin.focus();
 }
 function postInternalNote(issue_id)
 {
     var features = 'width=560,height=600,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote#' + issue_id, features);
+    var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote_' + issue_id, features);
     noteWin.focus();
 }
 function replyNote(note_id, issue_id)
 {
     var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote#'+ issue_id, features);
+    var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote_'+ issue_id, features);
     noteWin.focus();
 }
 //-->

@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -172,7 +172,7 @@ class Template_Helper
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
-                    $prj_info['prj_title'] .= ' (archived)';
+                    $prj_info['prj_title'] .= ' ' . ev_gettext('(archived)');
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }

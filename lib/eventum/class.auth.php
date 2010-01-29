@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -342,7 +342,7 @@ class Auth
             echo $html;
         } else {
             // IIS 5 has problems with "Location" header so don't use it under IIS
-            if (strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
+            if (!empty($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
                 // IIS
                 header("Refresh: 0; URL=$url");
             } else {

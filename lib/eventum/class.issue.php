@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -1739,7 +1739,7 @@ class Issue
                   " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
               SET
                   iss_prc_id=" . Misc::escapeInteger($new_prc_id) . ",
-                  iss_pri_id=" . $new_pri_id . "
+                  iss_pri_id=" . Misc::escapeInteger($new_pri_id) . "
               WHERE
                   iss_id=$issue_id";
             $res = DB_Helper::getInstance()->query($stmt);

@@ -5,7 +5,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -31,7 +31,7 @@
 
 ini_set("memory_limit", "1024M");
 
-require_once 'init.php';
+require_once '../init.php';
 
 // setup constant to be used globally
 define('SAPI_CLI', 'cli' == php_sapi_name());
@@ -209,10 +209,16 @@ if (!Lock::acquire('download_emails_' . $account_id)) {
     exit;
 }
 
+// clear the lock in all cases of termination
+function cleanup_lock() {
+    global $account_id;
+    Lock::release('download_emails_' . $account_id);
+}
+register_shutdown_function('cleanup_lock');
+
 $account = Email_Account::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
-    Lock::release('download_emails_' . $account_id);
     fatal("Could not connect to the email server. Please verify your email account settings and try again.");
 }
 
@@ -225,6 +231,3 @@ if ($total_emails > 0) {
 }
 imap_expunge($mbox);
 Support::clearErrors();
-
-// clear the lock
-Lock::release('download_emails_' . $account_id);
