@@ -29,7 +29,7 @@
 //
 // @(#) $Id: check_reminders.php 3823 2009-02-10 06:46:03Z glen $
 
-require_once 'init.php';
+require_once '../init.php';
 
 // if requested, clear the lock
 if (in_array('--fix-lock', $argv)) {
@@ -38,11 +38,11 @@ if (in_array('--fix-lock', $argv)) {
     exit;
 }
 
-// acquire a lock to prevent multiple scripts from 
+// acquire a lock to prevent multiple scripts from
 // running at the same time
 if (!Lock::acquire('check_reminders')) {
-    echo "Error: Another instance of the script is still running. " . 
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
+    echo "Error: Another instance of the script is still running. " .
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
                 "as the only parameter.\n";
     exit;
 }
@@ -68,7 +68,7 @@ for ($i = 0; $i < count($reminders); $i++) {
         }
         continue;
     }
-    
+
     // for each action, get the conditions and see if it triggered any issues
     $found = 0;
     for ($y = 0; $y < count($reminders[$i]['actions']); $y++) {
@@ -83,11 +83,11 @@ for ($i = 0; $i < count($reminders); $i++) {
             continue;
         }
         $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
-        // avoid repeating reminder actions, so get the list of issues 
+        // avoid repeating reminder actions, so get the list of issues
         // that were last triggered with this reminder action ID
         $repeat_issues = Reminder_Action::getRepeatActions($issues, $reminders[$i]['actions'][$y]['rma_id']);
         if (count($repeat_issues) > 0) {
-            // add the repeated issues to the list of already triggered 
+            // add the repeated issues to the list of already triggered
             // issues, so they get ignored for the next reminder actions
             for ($w = 0; $w < count($repeat_issues); $w++) {
                 if (Reminder::isDebug()) {
