@@ -50,6 +50,10 @@ define('APP_CONFIG_PATH', APP_PATH . '/config');
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
 
+if (!defined('APP_LOCAL_PATH')) {
+    define('APP_LOCAL_PATH', APP_PATH . '/local');
+}
+
 if (!defined('APP_COOKIE')) {
     define('APP_COOKIE', 'eventum');
 }
@@ -119,7 +123,7 @@ if (!defined('APP_SYSTEM_USER_ID')) {
 // email address of anonymous user.
 // if you want anonymous users getting access to your eventum.
 if (!defined('APP_ANON_USER')) {
-	define('APP_ANON_USER', '');
+    define('APP_ANON_USER', '');
 }
 
 // if full text searching is enabled
@@ -181,6 +185,8 @@ if (get_magic_quotes_gpc()) {
     $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 }
 
+set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
+
 Language::setup();
 
 // set charset
@@ -194,5 +200,5 @@ if (APP_MAINTENANCE){
         $tpl->setTemplate("maintenance.tpl.html");
         $tpl->displayTemplate();
         exit(0);
-	}
+    }
 }
