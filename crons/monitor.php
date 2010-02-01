@@ -29,7 +29,7 @@
 //
 // @(#) $Id: monitor.php 3823 2009-02-10 06:46:03Z glen $
 
-require_once '../init.php';
+require_once dirname(__FILE__).'/../init.php';
 
 // the disk partition in which eventum is stored in
 $partition = '/';

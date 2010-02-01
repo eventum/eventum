@@ -24,6 +24,7 @@ install-eventum:
 	cp -a htdocs $(DESTDIR)$(datadir)
 	cp -a templates $(DESTDIR)$(datadir)
 	cp -a upgrade $(DESTDIR)$(datadir)
+	cp -a crons $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)
