@@ -29,7 +29,7 @@
 //
 // @(#) $Id: check_reminders.php 3823 2009-02-10 06:46:03Z glen $
 
-require_once '../init.php';
+require_once dirname(__FILE__).'/../init.php';
 
 // if requested, clear the lock
 if (in_array('--fix-lock', $argv)) {

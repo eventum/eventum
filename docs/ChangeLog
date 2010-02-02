@@ -52,6 +52,7 @@ Eventum Issue Tracking System
 - Check /etc/mailname for hostname to use in mail system (Peter Lieverdink)
 - Fixed subject based routing to extract attachments from notes as well (Bryan Alsdorf)
 - Moved crons to /crons/ (Bryan Alsdorf)
+- Remove PEAR HTTP_Request from docs, no longer seems used (Elan Ruusamäe)
 - Fixed problem with auth redirects failing in subdirectories (Bryan Alsdorf)
 
 2009-01-14, Version 2.2
