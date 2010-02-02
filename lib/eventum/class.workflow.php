@@ -38,6 +38,7 @@ class Workflow
     function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/workflow'));
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
             // display a prettyfied backend name in the admin section
@@ -106,7 +107,11 @@ class Workflow
             $file_name_chunks = explode(".", $backend_class);
             $class_name = $file_name_chunks[1] . "_Workflow_Backend";
 
-            require_once APP_INC_PATH . "/workflow/$backend_class";
+            if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
+                require_once(APP_LOCAL_PATH . "/workflow/$backend_class");
+            } else {
+                require_once APP_INC_PATH . "/workflow/$backend_class";
+            }
 
             $setup_backends[$prj_id] = new $class_name;
         }

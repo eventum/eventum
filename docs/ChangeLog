@@ -2,6 +2,10 @@ Eventum Issue Tracking System
 =============================
 
 ???, Version ???
+- Made workflow class also look in /local/workflow/ (Bryan)
+
+
+???, Version ???
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
