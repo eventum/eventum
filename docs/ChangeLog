@@ -48,6 +48,7 @@ Eventum Issue Tracking System
 - Fixed subject based routing to extract attachments from notes as well (Bryan Alsdorf)
 - Moved crons to /crons/ (Bryan Alsdorf)
 - Remove PEAR HTTP_Request from docs, no longer seems used (Elan Ruusamäe)
+- Fixed problem with auth redirects failing in subdirectories (Bryan Alsdorf)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
