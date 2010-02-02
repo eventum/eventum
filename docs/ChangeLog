@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 ???, Version ???
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
+- Set SQL_MODE to '' in setup (Bryan)
 
 
 ???, Version ???
