@@ -2,7 +2,7 @@ Eventum Issue Tracking System
 =============================
 
 ???, Version ???
-- Made workflow class also look in /local/workflow/ (Bryan)
+- Made workflow class also look in /local/workflow/ for backends (Bryan)
 
 
 ???, Version ???
