@@ -88,7 +88,7 @@ class Auth
     function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
         if ($failed_url == NULL) {
-            $failed_url = "index.php?err=5";
+            $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
         $failed_url .= "&url=" . urlencode($_SERVER['REQUEST_URI']);
         if (!isset($_COOKIE[$cookie_name])) {

@@ -32,7 +32,7 @@ tools-check:
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
 	done
 
-# generate .pot file from Eventum svn trunk
+# generate .pot file from clean copy
 pot: tools-check
 	@set -x -e; \
 	export tsmarty2c=`pwd`/tsmarty2c; \
