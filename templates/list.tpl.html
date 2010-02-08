@@ -282,7 +282,8 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'sta_change_date'}
               {$list[i].status_change_date|escape:"html"}
             {elseif $field_name == 'last_action_date'}
-              {$list[i].last_action_date|escape:"html"}
+              {t 1=$list[i].last_action_date_label 2=$list[i].last_action_date_diff}%1:
+%2 ago{/t}
             {elseif $field_name == 'usr_full_name'}
               <a href="list.php?view=reporter&reporter_id={$list[i].iss_usr_id}" class="link"
               title="View other issues from this reporter">
