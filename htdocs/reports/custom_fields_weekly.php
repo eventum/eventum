@@ -3,8 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2010 Sun Microsystem Inc.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,10 +22,10 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Raul Raat <raul.raat@delfi.ee>                              |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: custom_fields.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -94,7 +93,7 @@ if (isset($_POST["custom_field"])) {
     ));
 }
 
-//split date up
+// split date up
 if (@$_POST["report_type"] == "weekly") {
     $dates = explode("_", $_POST["week"]);
 } else {

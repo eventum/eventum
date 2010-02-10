@@ -794,7 +794,7 @@ class Report
 
         $sql = "SELECT
                     iss_id, 
-                    SUM(ttr_time_spent) time_spent,
+                    SUM(ttr_time_spent) ttr_time_spent_sum,
                     iss_summary,
                     iss_customer_id,
                     iss_private,
@@ -838,7 +838,7 @@ class Report
         } else {
         	for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
-                $res[$i]['time_spent_human'] = Misc::getFormattedTime($res[$i]['time_spent'], false);
+                $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
             }
             return $res;
         }

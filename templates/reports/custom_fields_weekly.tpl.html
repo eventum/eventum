@@ -193,7 +193,7 @@ setOptions('{$custom_field}', false);
             <a href="{$app_base_url}view.php?id={$row.iss_id}" class="link">{$row.iss_id}</a>
           </td>
           <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
-          <td class="default" bgcolor="{$row_color}">{if $smarty.post.time_in_min == 1}{$row.time_spent}{else}{$row.time_spent_human}{/if}</td>
+          <td class="default" bgcolor="{$row_color}">{if $smarty.post.time_in_min == 1}{$row.ttr_time_spent_sum}{else}{$row.ttr_time_spent_sum_formatted}{/if}</td>
           <td class="default" bgcolor="{$row_color}">{$row.field_value}</td>
         </tr>
         {foreachelse}
