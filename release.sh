@@ -9,7 +9,7 @@ dir=$app
 # checkout
 rm -rf $dir
 
-# if running in bzr checkout clone that instead
+# if running in bzr checkout, clone that instead
 if [ "$(bzr revno)" ]; then
 	bzr clone . $dir
 else
