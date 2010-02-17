@@ -9,7 +9,7 @@ all: $(MOFILES)
 
 # create mo from the po files
 %.mo: %.po
-	msgfmt --statistics $< -o t.mo && mv t.mo $(subst .po,,$<).mo
+	msgfmt --statistics $< -o $(subst .po,,$<).mo.tmp && mv $(subst .po,,$<).mo.tmp $(subst .po,,$<).mo
 
 install: $(MOFILES)
 	install -d $(DESTDIR)$(localedir)
