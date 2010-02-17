@@ -34,7 +34,8 @@ fi
 # update to include checksums of js/css files
 ./dyncontent-chksum.pl
 
-make -C localization
+make -C localization install localedir=.
+rm -f localization/{tsmarty2c,Makefile,eventum.pot,*.mo,*.po}
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
