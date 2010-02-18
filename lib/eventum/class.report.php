@@ -774,8 +774,75 @@ class Report
 
         return $data;
     }
+    /**
+     * Returns data for the custom fields weekly report, based on the field and options passed in.
+     *
+     * @access  public
+     * @param   integer $fld_id The id of the custom field.
+     * @param   array $cfo_ids An array of option ids.
+     * @param   string $start_date
+     * @param   string $end_date
+     * @return  array An array of data.
+     */
+    function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date)
+    {
+        $prj_id = Auth::getCurrentProject();
+        $fld_id = Misc::escapeInteger($fld_id);
+        $cfo_ids = Misc::escapeInteger($cfo_ids);
+        // get field values
+        $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
+        $sql = "SELECT
+                    iss_id, 
+                    SUM(ttr_time_spent) ttr_time_spent_sum,
+                    iss_summary,
+                    iss_customer_id,
+                    iss_private,
+                    fld_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field, 
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,";
+            if (count($options) > 0) {
+                $sql .= "
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,";
+            }
+            $sql .= "
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                    WHERE
+                        ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "' AND
+                        fld_id = icf_fld_id AND
+                       	ttr_iss_id = iss_id AND
+                  		";
+            if (count($options) > 0) {
+                $sql .=
+                        " cfo_id = icf_value AND";
+            }
+            $sql .= "
+                        icf_iss_id = iss_id AND
+                        isu_iss_id = iss_id AND
+                        icf_fld_id = $fld_id";
+            if (count($options) > 0) {
+                $sql .= " AND
+                        cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
+            }
+            $sql .= "
+                    GROUP BY
+                        iss_id";
 
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+        	for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
+                $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
+            }
+            return $res;
+        }
+    }
     /**
      * Returns workload information for the specified date range and interval.
      *
