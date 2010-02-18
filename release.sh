@@ -35,7 +35,7 @@ fi
 ./dyncontent-chksum.pl
 
 make -C localization install localedir=.
-rm -f localization/{tsmarty2c,Makefile,eventum.pot,*.mo,*.po}
+rm -f localization/{tsmarty2c,*.mo}
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
