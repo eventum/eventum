@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-02-22 20:28+0000\n"
-"Last-Translator: schulz3000 <Unknown>\n"
+"PO-Revision-Date: 2010-03-02 14:49+0000\n"
+"Last-Translator: sezgin <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-02-23 05:06+0000\n"
+"X-Launchpad-Export-Date: 2010-03-03 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -22,6 +22,9 @@ msgid ""
 "\n"
 "To add more information to this issue, simply reply to this email."
 msgstr ""
+"\n"
+"Um weitere Informationen zu diesem Thema hinzuzufügen, antworten Sie einfach "
+"auf diese E-Mail"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -29,6 +32,9 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
+"\n"
+"Um weitere Informationen zu dieser Frage zu sehen oder diese zu "
+"aktualisieren, besuchen Sie bitte die folgende URL"
 
 #: htdocs/view.php:74
 #, php-format
@@ -37,7 +43,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% vollständig"
+msgstr "% abgeschlossen"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
@@ -69,10 +75,12 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"'Notiz Diskussion', 'E-Mail Diskussion' und 'Telefon Diskussion' sind "
+"Kategorien die von Eventum erforderlich sind und nicht gelöscht werden kann"
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Alle Probleme)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -85,7 +93,7 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Offene Probleme)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -111,7 +119,7 @@ msgstr "(Tipp: Standard Port für POP3: 110 und IMAP: 143)"
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(Archiviert)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
