@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-02-24 08:50+0000\n"
-"Last-Translator: uncleli <Unknown>\n"
+"PO-Revision-Date: 2010-03-10 16:10+0000\n"
+"Last-Translator: ceeback <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-02-25 04:52+0000\n"
+"X-Launchpad-Export-Date: 2010-03-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -42,7 +42,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% 完成"
+msgstr "完成百分比"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
@@ -76,7 +76,7 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
-"'Note Discussion', 'Email Discussion' and 'Telephone Discussion' 分类是 Eventum "
+"'Note Discussion', 'Email Discussion' 及 'Telephone Discussion' 分类是 Eventum "
 "所必需的，不能删除。"
 
 #: templates/main.tpl.html
@@ -97,7 +97,7 @@ msgstr "开放问题"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr "必须包含一个真实的 email 地址，例如 \"%1\"或 \"%2\""
+msgstr "必须包含一个有效的 email 地址，例如 \"%1\"或 \"%2\""
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -107,7 +107,7 @@ msgstr "这将包含在由Eventum发送的所有 Email 地址里面"
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
-msgstr "这将包含在由 Eventum 发送的所有备注地址里面"
+msgstr "这将出现在由Eventum发出的所有备注的发信人地址里。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
@@ -151,42 +151,42 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
-msgstr ""
+msgstr "要求您的机器上已安装 %1"
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
-msgstr ""
+msgstr "（多地址以逗号隔开）"
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr ""
+msgstr "此颜色将用于问题列表页面"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "三个字母的缩写词"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "请选择"
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
-msgstr ""
+msgstr "<b>注意：</b>如果选择此项， 邮件将 <b>不会</b> 发送到提醒列表。这在要从已存在问题中删除指定邮件时非常有用。"
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
-msgstr ""
+msgstr "<b>注意：</b>如果选择此项，邮件会广播发送到所有提醒列表名单，包括所有的客户。"
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
-msgstr ""
+msgstr "<b>注意：</b>邮件会被存为备注，且仅对员工广播发送。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
@@ -227,11 +227,11 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr ""
+msgstr "所有"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
@@ -6783,7 +6783,7 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
-msgstr ""
+msgstr "相关的跟踪项也已被删除。"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -6791,6 +6791,8 @@ msgid ""
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
 msgstr ""
+"以上命令将检出并创建你需要用到的CVSROOT目录。\r\n"
+"下一步，打开<b>loginfo</b>文件，并添加以下几行："
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -6803,7 +6805,7 @@ msgid ""
 "The default options for email notifications are used to pre-select the "
 "notification related fields when you report a new issue, or subscribe "
 "manually for changes in the issue details page."
-msgstr ""
+msgstr "邮件提醒的默认选项用于在你提交一个新问题，或者手动更改问题详细信息的时候，预先选择提醒相关的字段。"
 
 #: templates/help/report_description.tpl.html
 msgid ""
@@ -6811,12 +6813,12 @@ msgid ""
 "practices dictate that this field should have a description of what "
 "happened, steps to reproduce the problem/issue and what you expected to "
 "happen instead."
-msgstr ""
+msgstr "描述字段应该用于描述新的问题。建议描述发生了什么，重现问题的步骤，以及你期望发生什么。"
 
 #: templates/login_form.tpl.html
 msgid ""
 "The email address / password combination could not be found in the system."
-msgstr ""
+msgstr "无法找到邮箱地址或密码。"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
@@ -6825,38 +6827,38 @@ msgstr ""
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The first thing to do is to checkout the %1 module from your CVS repository:"
-msgstr ""
+msgstr "首先要做的是从您的CVS 仓库检出 %1 模块："
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
-msgstr ""
+msgstr "找不到收件人，以下 %1 提醒无法发出"
 
 #: templates/associate.tpl.html
 msgid ""
 "The following addresses could not be matched against the system user records:"
-msgstr ""
+msgstr "无法在系统用户记录中找到以下地址："
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "The following is a brief overview of the available user permission levels in "
 "Eventum:"
-msgstr ""
+msgstr "以下是在Eventum中可用的用户权限等级的概览。"
 
 #: templates/self_assign.tpl.html
 msgid "The following user is already assigned to this issue"
-msgstr ""
+msgstr "该问题已分配给以下用户"
 
 #: templates/help/view.tpl.html
 msgid ""
 "The full history of changes related to the current issue is available by "
 "clickin on the 'History of Changes' link."
-msgstr ""
+msgstr "关于当前问题的完整更改记录可以通过点击“更改历史”链接来查看。"
 
 #: templates/notification.tpl.html
 msgid "The given email address"
-msgstr ""
+msgstr "给定的邮件地址"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -6871,26 +6873,26 @@ msgid ""
 "The issue details screen can be accessed quickly by using the 'Go' input "
 "field in the top of your browser window. Just enter the issue number and it "
 "will take you to the appropriate screen."
-msgstr ""
+msgstr "问题详细信息页面可以通过使用浏览器窗口顶部的“Go”输入域快速访问。只要输入问题单号，你就会访问到对应的页面。"
 
 #: templates/notifications/updated.tpl.text
 msgid "The issue was updated by %1"
-msgstr ""
+msgstr "问题由 %1 更新"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The last step of this installation process is to login into the CVS server "
 "and copy the %1 script into the %2 directory. Make sure you give the "
 "appropriate permissions to the script."
-msgstr ""
+msgstr "安装过程的最后一步是登陆CVS服务器并拷贝 %1 脚本到目录 %2 中。请确保脚本有权限执行。"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
-msgstr ""
+msgstr "此文件的新版本"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The old revision of the file"
-msgstr ""
+msgstr "此文件的旧版本"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "The original message headers follow"
@@ -8539,15 +8541,15 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "sort by date"
-msgstr ""
+msgstr "按日期排序"
 
 #: templates/emails.tpl.html
 msgid "sort by recipient"
-msgstr ""
+msgstr "按收件人排序"
 
 #: templates/emails.tpl.html
 msgid "sort by sender"
-msgstr ""
+msgstr "按发件人排序"
 
 #: templates/emails.tpl.html
 msgid "sort by status"
@@ -8555,19 +8557,19 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "sort by subject"
-msgstr ""
+msgstr "按主题排序"
 
 #: templates/list.tpl.html
 msgid "sort by summary"
-msgstr ""
+msgstr "按摘要排序"
 
 #: templates/file_upload.tpl.html
 msgid "standard user and above only"
-msgstr ""
+msgstr "仅限标准用户及以上"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will determine the order in which actions are triggered"
-msgstr ""
+msgstr "这将决定触发动作的次序"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will show up on the bottom of the reminder messages"
@@ -8576,20 +8578,20 @@ msgstr ""
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
 msgid "to access this page."
-msgstr ""
+msgstr "访问此页面"
 
 #: htdocs/adv_search.php:51 htdocs/list.php:79
 #: lib/eventum/class.filter.php:665
 msgid "un-assigned"
-msgstr ""
+msgstr "未分派"
 
 #: templates/new.tpl.html
 msgid "un-scheduled"
-msgstr ""
+msgstr "未调度"
 
 #: templates/impact_analysis.tpl.html
 msgid "update entry"
-msgstr ""
+msgstr "更新项"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -8608,32 +8610,32 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
 #: templates/notification.tpl.html
 msgid "update this entry"
-msgstr ""
+msgstr "更新此项"
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/support_emails.tpl.html
 msgid "view email details"
-msgstr ""
+msgstr "查看邮件细节"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
 msgid "view issue details"
-msgstr ""
+msgstr "查看问题细节"
 
 #: templates/notes.tpl.html
 msgid "view note details"
-msgstr ""
+msgstr "查看备注细节"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder action details"
-msgstr ""
+msgstr "查看提醒者活动信息"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder details"
-msgstr ""
+msgstr "查看提醒者详细信息"
 
 #: templates/view_form.tpl.html
 msgid "view the full history of changes on this issue"
