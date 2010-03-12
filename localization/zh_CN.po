@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-03-10 16:10+0000\n"
+"PO-Revision-Date: 2010-03-11 16:12+0000\n"
 "Last-Translator: ceeback <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-03-11 05:06+0000\n"
+"X-Launchpad-Export-Date: 2010-03-12 04:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -6896,58 +6896,58 @@ msgstr "此文件的旧版本"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "The original message headers follow"
-msgstr ""
+msgstr "原始消息头如下"
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account email address could not be confirmed. Please "
 "contact the local Technical Support staff for further assistance."
-msgstr ""
+msgstr "无法确认您所提供的试用邮件账号.请联系当地技术支持以获取更多帮助."
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account email address could not be found. Please contact "
 "the local Technical Support staff for further assistance."
-msgstr ""
+msgstr "无法找到您所提供的试用邮件账号.请联系当地技术支持以获取更多帮助."
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account encrypted hash could not be authenticated. Please "
 "contact the local Technical Support staff for further assistance."
-msgstr ""
+msgstr "您所提供的试用邮件账号鉴权失败.请联系当地技术支持以获取更多帮助."
 
 #: templates/help/list.tpl.html
 msgid ""
 "The quick search table in the top of the screen helps the users find the "
 "issues they want quickly. More advanced searches may be created using the "
 "Advanced Search tool."
-msgstr ""
+msgstr "屏幕上方的快速搜索表可以帮助用户快色找到他们关心的问题.可以试用高级搜索工具来进行更详细搜索."
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
-msgstr ""
+msgstr "指定的备注不存在"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "The specified value already exists in the list of options."
-msgstr ""
+msgstr "选项列表中已存在指定的值."
 
 #: templates/preferences.tpl.html
 msgid ""
 "The two passwords do not match. Please review your information and try again."
-msgstr ""
+msgstr "两次密码不一致.请检查输入信息并重试."
 
 #: templates/file_upload.tpl.html
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
-msgstr ""
+msgstr "上传的文件已附加到当前问题.请修改文件名并重试."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
 "There seems to be a problem connecting to the database server specified in "
 "your configuration file. Please contact your local system administrator for "
 "further assistance."
-msgstr ""
+msgstr "无法连接您在配置文件中指定的数据库服务器.请联系系统管理员获取更多帮助."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
