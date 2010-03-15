@@ -9,7 +9,7 @@ dir=$app
 # checkout
 rm -rf $dir
 
-# if running in bzr checkout clone that instead
+# if running in bzr checkout, clone that instead
 if [ "$(bzr revno)" ]; then
 	bzr clone . $dir
 else
@@ -34,7 +34,8 @@ fi
 # update to include checksums of js/css files
 ./dyncontent-chksum.pl
 
-make -C localization
+make -C localization install localedir=.
+rm -f localization/{tsmarty2c,*.mo}
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config

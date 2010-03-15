@@ -2,28 +2,26 @@
 # (c) 2007-2010 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
-ALL_LINGUAS := da de en eo et es fi fr he it lt lv nl pl ru sv pt pt_BR zh_CN
 DOMAIN      := eventum
-POFILES     := $(patsubst %,%.po,$(ALL_LINGUAS))
+MOFILES     := $(patsubst %.po,%.mo,$(wildcard *.po))
 
-all:
-	@set -e; \
-	umask 002; \
-	for lang in $(ALL_LINGUAS); do \
-		echo -n "$$lang: "; \
-		[ -f $$lang.po ] || { echo Missing; continue; }; \
-		[ -d $$lang/LC_MESSAGES/$(DOMAIN).mo ] || install -d $$lang/LC_MESSAGES; \
-		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
-	done
+all: $(MOFILES)
 
-install: all
-	@install -d $(DESTDIR)$(localedir)
-	for lang in $(ALL_LINGUAS); do \
-		[ -f $$lang/LC_MESSAGES/$(DOMAIN).mo ] || continue; \
+# create mo from the po files
+%.mo: %.po
+	msgfmt --statistics $< -o $(subst .po,,$<).mo.tmp && mv $(subst .po,,$<).mo.tmp $(subst .po,,$<).mo
+
+install: $(MOFILES)
+	install -d $(DESTDIR)$(localedir)
+	@for mo in $(MOFILES); do \
+		lang=$$(basename $$mo .mo); \
 		install -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		echo cp -a $$lang/LC_MESSAGES/$(DOMAIN).mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		cp -a $$lang/LC_MESSAGES/$(DOMAIN).mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
+		echo cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
+
+clean:
+	rm -f *.mo
 
 tools-check:
 	@TOOLS='bzr find sort xargs xgettext sed mv rm'; \
@@ -51,15 +49,9 @@ pot: tools-check
 
 # update pot -> po all languages
 update-po:
-	@set -x -e; \
+	@set -e; \
 	umask 002; \
-	for lang in $(ALL_LINGUAS); do \
-		[ -f $$lang.po ] || continue; \
-		if msgmerge -w 78 $$lang.po $(DOMAIN).pot -o new.po; then \
-			if cmp -s $$lang.po new.po; then \
-				rm -f new.po; \
-			else \
-				mv -f new.po $$lang.po; \
-			fi \
-		fi \
+	for po in $(wildcard *.po); do \
+		echo -n $$po; \
+		msgmerge -U -w 78 $$po $(DOMAIN).pot; \
 	done

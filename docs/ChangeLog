@@ -54,6 +54,8 @@ Eventum Issue Tracking System
 - Moved crons to /crons/ (Bryan Alsdorf)
 - Remove PEAR HTTP_Request from docs, no longer seems used (Elan Ruusamäe)
 - Fixed problem with auth redirects failing in subdirectories (Bryan Alsdorf)
+- Make Last Action Date translatable in issue list screen (Elan Ruusamäe)
+- Added Custom Fields Weekly Report (Raul Raat)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

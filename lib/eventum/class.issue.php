@@ -2839,8 +2839,8 @@ class Issue
             }
             $date = new Date($last_date);
             $current = new Date(Date_Helper::getCurrentDateGMT());
-            $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($label),
-                    Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+            $result[$i]['last_action_date_diff'] = Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME));
+            $result[$i]['last_action_date_label'] = ucwords($label);
         }
     }
 
