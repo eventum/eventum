@@ -42,7 +42,7 @@ chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh js-chksum.pl
 
 # sanity check
-if [ -z "$revno" ]; then
+if [ "$rc" != "dev" ]; then
 	find -name '*.php' | xargs -l1 php -l
 fi
 rm -rf .bzr*
