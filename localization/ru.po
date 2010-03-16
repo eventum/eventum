@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-06 00:02+0200\n"
-"PO-Revision-Date: 2010-02-04 16:11+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-02-18 11:20+0200\n"
+"PO-Revision-Date: 2010-02-19 20:48+0000\n"
+"Last-Translator: Hinikato <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-02-05 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-02-20 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -67,6 +67,12 @@ msgstr "%1$s или больше"
 #, php-format
 msgid "%1$s or less"
 msgstr "%1$s или меньше"
+
+#: templates/list.tpl.html
+msgid ""
+"%1:\n"
+"%2 ago"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -1621,6 +1627,10 @@ msgstr "Текущий выбор:"
 msgid "Current filters:"
 msgstr "Текущие фильтры:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Custom Field"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
@@ -1629,6 +1639,11 @@ msgstr "Дополнительные поля"
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
 msgstr "Отчет по дополнительным полям"
+
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/tree.tpl.html
+msgid "Custom Fields Weekly Report"
+msgstr ""
 
 #: lib/eventum/class.custom_field.php:314
 #, php-format
@@ -1735,6 +1750,7 @@ msgstr "Поле даты"
 msgid "Date Field:"
 msgstr "Поле даты:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -2282,6 +2298,7 @@ msgstr "Конечная дата"
 msgid "End time in the future."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
 msgstr "Конец:"
@@ -2738,6 +2755,7 @@ msgid "General Setup"
 msgstr "Общие настройки"
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
@@ -3165,6 +3183,7 @@ msgstr "Детали запроса"
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -3245,6 +3264,7 @@ msgid "Issues with only status changed"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "Issues/Customers matching criteria"
 msgstr "Критерии соответствия запросам/клиентам"
 
@@ -3819,6 +3839,7 @@ msgid "No custom fields could be found."
 msgstr "Дополнительные поля не найдены"
 
 #: htdocs/reports/custom_fields.php:55
+#: htdocs/reports/custom_fields_weekly.php:54
 msgid "No custom fields for this project"
 msgstr "Для этого проекта нет дополнительных полей"
 
@@ -3831,6 +3852,7 @@ msgid "No customizations could be found."
 msgstr "Персонализация не найдена."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
 msgstr "Данные не найдена."
 
@@ -4133,6 +4155,7 @@ msgid "Operator:"
 msgstr "Оператор:"
 
 #: templates/manage/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr "Опции"
@@ -4140,6 +4163,10 @@ msgstr "Опции"
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
 msgstr "Опции диаграммы"
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Options:"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -5302,6 +5329,7 @@ msgstr ""
 "создают самостоятельно свои учетные записи."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
@@ -5767,6 +5795,7 @@ msgstr "Создание нового запроса"
 msgid "Report Type"
 msgstr "Тип отчета"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
 msgstr "Тип отчета:"
@@ -6283,6 +6312,7 @@ msgstr "Пользователь"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -6390,6 +6420,7 @@ msgstr "Варианты:"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7509,6 +7540,7 @@ msgstr "Период времени"
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7546,6 +7578,10 @@ msgstr "Предельное время до первого ответа"
 #: lib/eventum/class.phone_support.php:333
 msgid "Time entry inserted from phone call."
 msgstr "Запись времени добавлена из телефонного звонка."
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent as minutes"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
@@ -8174,6 +8210,7 @@ msgstr ""
 "который будет использован нашими сотрудниками для обсуждения вашего "
 "сообщения."
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
@@ -8183,6 +8220,7 @@ msgstr "Неделя"
 msgid "Week starts on:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
 msgstr "Недельный"
