@@ -77,10 +77,11 @@ class Language
         'lv_LV' => 'Latvian',
 #        'nl_NL' => 'Dutch',
         'pl_PL' => 'Polish',
-        'pt_BR' => 'Brazilian Portuguese',
         'pt' => 'Portuguese',
+        'pt_BR' => 'Brazilian Portuguese',
         'ru_RU' => 'Russian',
         'sv_SE' => 'Swedish',
+        'tr' => 'Turkish',
         'zh_CN' => 'Chinese (Simplified)',
     );
 
