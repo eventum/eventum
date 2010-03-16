@@ -425,7 +425,7 @@ class User
 
         if (!is_string($email)) {
             if (PEAR::isError($email)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                Error_Handler::logError(array($email->getMessage(), $email->getDebugInfo()), __FILE__, __LINE__);
                 return null;
             }
 
