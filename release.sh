@@ -2,8 +2,8 @@
 set -e
 set -x
 app=eventum
-#rc=RC1 # release candidate
-rc=dev # development version
+#rc=dev # development version
+rc=RC1 # release candidate
 dir=$app
 
 # checkout
