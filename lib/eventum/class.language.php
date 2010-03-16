@@ -65,7 +65,7 @@ class Language
     private static $avail_langs = array(
         'da_DK' => 'Danish',
         'de_DE' => 'German',
-#        'en_US' => 'English',
+        'en_GB' => 'English (United Kingdom)',
         'eo' => 'Esperanto',
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
@@ -75,7 +75,7 @@ class Language
         'it_IT' => 'Italian',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
-#        'nl_NL' => 'Dutch',
+        'nl_NL' => 'Dutch',
         'pl_PL' => 'Polish',
         'pt' => 'Portuguese',
         'pt_BR' => 'Brazilian Portuguese',
