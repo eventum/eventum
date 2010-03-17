@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,12 +182,6 @@ msgstr ""
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
-msgstr ""
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/notifications/new.tpl.text
@@ -1759,6 +1753,10 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Defaults"
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
@@ -3490,7 +3488,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3885,6 +3883,10 @@ msgstr ""
 #: lib/eventum/class.routing.php:340
 #, php-format
 msgid "Note routed from %1$s"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Note:"
 msgstr ""
 
 #: templates/forgot_password.tpl.html
@@ -6218,7 +6220,7 @@ msgstr ""
 msgid "Summary:"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
@@ -6759,6 +6761,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7325,7 +7333,7 @@ msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr ""
 
@@ -7890,7 +7898,7 @@ msgstr ""
 msgid "Week"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
