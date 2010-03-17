@@ -54,9 +54,14 @@ define('APP_LOCKS_PATH', APP_PATH . '/locks');
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
 if (defined('APP_PEAR_PATH')) {
-    set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
+    set_include_path(
+        APP_PEAR_PATH . PATH_SEPARATOR .
+        APP_INC_PATH . PATH_SEPARATOR .
+        get_include_path()
+    );
 }
 require_once 'File/Util.php';
+require_once 'class.date_helper.php';
 
 list($warnings, $errors) = checkRequirements();
 if ((count($warnings) > 0) || (count($errors) > 0)) {
@@ -143,6 +148,8 @@ if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'disabled';
 }
 $tpl->assign('ssl_mode', $ssl_mode);
+
+$tpl->assign("zones", Date_Helper::getTimezoneList());
 
 $tpl->display('setup.tpl.html');
 
@@ -347,9 +354,9 @@ function install()
         return "The file '" . APP_CONFIG_PATH . "' directory needs to be writable by the web server user. Please correct this problem and try again.";
     }
     // need to create a random private key variable
-    $private_key = '<?php
+    $private_key = '<'.'?php
 $private_key = "' . md5(microtime()) . '";
-?>';
+';
     $fp = @fopen($private_key_path, 'w');
     if ($fp === FALSE) {
         return "Could not open the file '$private_key_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
@@ -360,7 +367,7 @@ $private_key = "' . md5(microtime()) . '";
     }
     fclose($fp);
     // check if we can connect
-    $conn = @mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
+    $conn = mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
     if (!$conn) {
         return getErrorMessage('connect', mysql_error());
     }
@@ -436,6 +443,7 @@ $private_key = "' . md5(microtime()) . '";
         $_POST['db_username'] = $_POST['eventum_user'];
         $_POST['db_password'] = $_POST['eventum_password'];
     }
+
     $config_contents = file_get_contents('config.php');
     $config_contents = str_replace("%{APP_SQL_DBHOST}%", $_POST['db_hostname'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBNAME}%", $_POST['db_name'], $config_contents);
@@ -445,6 +453,9 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
     $config_contents = str_replace("%{CHARSET}%", APP_CHARSET, $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
+    $config_contents = str_replace("%{APP_DEFAULT_TIMEZONE}%", var_export($_POST['default_timezone'], 1), $config_contents);
+    $config_contents = str_replace("%{APP_DEFAULT_WEEKDAY}%", (int )$_POST['default_weekday'], $config_contents);
+
     if (@$_POST['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
