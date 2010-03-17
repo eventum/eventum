@@ -330,7 +330,7 @@ function disableAuthFields(f, bool)
           </td>
           <td width="80%">
             <select class="default" name="default_timezone">
-              {html_options values=$zones output=$zones selected=$user_prefs.timezone}
+              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone}
             </select><br/>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="default_timezone"}
           </td>
@@ -340,8 +340,8 @@ function disableAuthFields(f, bool)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td width="80%" class="default">
-            <label><input type="radio" name="default_weekday" {if $default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="default_weekday" {if $default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
         </tr>
