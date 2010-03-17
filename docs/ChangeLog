@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version ???
+???, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
@@ -51,6 +51,7 @@ Eventum Issue Tracking System
 - Fixed problem with auth redirects failing in subdirectories (Bryan Alsdorf)
 - Make Last Action Date translatable in issue list screen (Elan Ruusamäe)
 - Added Custom Fields Weekly Report (Raul Raat)
+- Allow setup to configure default timezone and start day of week (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

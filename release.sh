@@ -2,8 +2,8 @@
 set -e
 set -x
 app=eventum
-#rc=RC1 # release candidate
-rc=dev # development version
+#rc=dev # development version
+rc=RC1 # release candidate
 dir=$app
 
 # checkout
@@ -42,7 +42,7 @@ chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh js-chksum.pl
 
 # sanity check
-if [ -z "$revno" ]; then
+if [ "$rc" != "dev" ]; then
 	find -name '*.php' | xargs -l1 php -l
 fi
 rm -rf .bzr*

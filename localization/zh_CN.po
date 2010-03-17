@@ -6791,7 +6791,7 @@ msgid ""
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
 msgstr ""
-"以上命令将检出并创建你需要用到的CVSROOT目录。\r\n"
+"以上命令将检出并创建你需要用到的CVSROOT目录。"
 "下一步，打开<b>loginfo</b>文件，并添加以下几行："
 
 #: templates/reports/customer_stats.tpl.html
