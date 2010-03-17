@@ -65,7 +65,7 @@ define('APP_DEFAULT_NEW_EMAILS', false);
 // locale used for localized messages
 define('APP_DEFAULT_LOCALE', 'en_US');
 // timezone for displayed times in web and emails
-define('APP_DEFAULT_TIMEZONE', 'Europe/Tallinn');
+define('APP_DEFAULT_TIMEZONE', 'Etc/GMT');
 // default day of week start: 0 = sunday; 1 = monday
 define('APP_DEFAULT_WEEKDAY', 1);
 
