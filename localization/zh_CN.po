@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-03-16 11:19+0000\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-03-17 09:55+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-03-17 04:41+0000\n"
+"X-Launchpad-Export-Date: 2010-03-18 04:35+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -192,12 +192,6 @@ msgstr "<b>注意：</b>邮件会被存为备注，且仅对员工广播发送�
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
-msgstr ""
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/notifications/new.tpl.text
@@ -1772,6 +1766,10 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Defaults"
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
@@ -3505,7 +3503,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3900,6 +3898,10 @@ msgstr ""
 #: lib/eventum/class.routing.php:340
 #, php-format
 msgid "Note routed from %1$s"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Note:"
 msgstr ""
 
 #: templates/forgot_password.tpl.html
@@ -6238,7 +6240,7 @@ msgstr ""
 msgid "Summary:"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
@@ -6781,6 +6783,12 @@ msgid ""
 "to another user."
 msgstr ""
 
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
+msgstr ""
+
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
 msgstr "相关的跟踪项也已被删除。"
@@ -6790,9 +6798,7 @@ msgid ""
 "The command above will checkout and create the CVSROOT directory that you "
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
-msgstr ""
-"以上命令将检出并创建你需要用到的CVSROOT目录。"
-"下一步，打开<b>loginfo</b>文件，并添加以下几行："
+msgstr "以上命令将检出并创建你需要用到的CVSROOT目录。下一步，打开<b>loginfo</b>文件，并添加以下几行："
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -7349,7 +7355,7 @@ msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr ""
 
@@ -7915,7 +7921,7 @@ msgstr ""
 msgid "Week"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 

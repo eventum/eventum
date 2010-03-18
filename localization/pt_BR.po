@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-03-16 18:39+0000\n"
-"Last-Translator: Ricardo <Unknown>\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-03-18 01:23+0000\n"
+"Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-17 04:41+0000\n"
+"X-Launchpad-Export-Date: 2010-03-18 04:35+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
 
@@ -214,15 +214,6 @@ msgid ""
 msgstr ""
 "<b>Nota:</b> Se você marcar esta opção, não poderá deixar uma cópia das "
 "mensagens no servidor."
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-"<b>Nota:</b> A configuração SMTP (email sainte) é necessária para garantir "
-"que os emails sejam enviados de forma adequada ao criar novos "
-"usários/projetos."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -1849,6 +1840,10 @@ msgstr "Opções Padrão para Notificações:"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Prioridade Padrão:"
+
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr "Padrões"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -3671,7 +3666,7 @@ msgstr "Móvel"
 msgid "Module / Directory"
 msgstr "Módulo / Diretório"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr "Segunda"
 
@@ -4077,6 +4072,10 @@ msgstr "Flag do Tipo de Destinatário de Nota"
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Nota roteada de %1$s"
+
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Nota:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6578,7 +6577,7 @@ msgstr "Campo Resumo"
 msgid "Summary:"
 msgstr "Resumo:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr "Domingo"
 
@@ -7166,6 +7165,14 @@ msgstr ""
 "busca por chamados em um projeto. Você pode classificar a listagem por quase "
 "todas as colunas nesta tela, e usuários que tenham as permissões apropriadas "
 "também podem selecionar chamados e designá-los para outro usuário."
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
+msgstr ""
+"É necessário configurar o SMTP (email sainte) para assegurar que os emails "
+"serão enviados adequadamente quando forem criados novos usuários/projetos."
 
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
@@ -7878,7 +7885,7 @@ msgstr "Entrada de apontamento de tempo adicionada remotamente por %1$s"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Fuso Horário"
 
@@ -8501,7 +8508,7 @@ msgstr ""
 msgid "Week"
 msgstr "Semana"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr "Semana começa:"
 
@@ -9355,9 +9362,6 @@ msgstr "ano"
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Abertura Automática de Chamados:"
 
-#~ msgid "Note:"
-#~ msgstr "Nota:"
-
 #~ msgid "CLOCKED"
 #~ msgstr "CRONOMETRANDO:"
 
@@ -9465,3 +9469,11 @@ msgstr "ano"
 #~ msgstr ""
 #~ "A nota selecionada não existe. <br />\n"
 #~ "      Ela pode ter sido convertida em um email."
+
+#~ msgid ""
+#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+#~ "emails are properly sent when creating new users/projects."
+#~ msgstr ""
+#~ "<b>Nota:</b> A configuração SMTP (email sainte) é necessária para garantir "
+#~ "que os emails sejam enviados de forma adequada ao criar novos "
+#~ "usários/projetos."
