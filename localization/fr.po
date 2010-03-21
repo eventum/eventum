@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-03-17 17:48+0000\n"
-"Last-Translator: winniemiel05 <winniemiel05@sfr.fr>\n"
+"PO-Revision-Date: 2010-03-20 21:19+0000\n"
+"Last-Translator: Cédric Bleimling <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-18 04:35+0000\n"
+"X-Launchpad-Export-Date: 2010-03-21 04:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -33,7 +33,7 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Pour voir les détails de ce bogue, ou pour le mettre à jour, utliser e lien "
+"Pour voir les détails de ce bogue ou le mettre à jour, utiliser le lien "
 "suivant"
 
 #: htdocs/view.php:74
@@ -78,7 +78,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(tous les bogues)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -90,7 +90,7 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "(Bugs ouverts)"
+msgstr "Bogues ouverts"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -128,13 +128,13 @@ msgstr "(exemple %1)"
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
-"(Maintenir la touche 'ALT' et presser '3' une fois) - pour accéder à la "
-"fonction 'Search'"
+"(Maintenir la touche 'ALT' et appuyer sur  '3' une fois) - pour accéder au "
+"champ 'Search'"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
-"(Maintenir la touche 'ALT' et presser '4' une fois) - pour accéder à la "
+"(Maintenir la touche 'ALT' et appuyer sur  '4' une fois) - pour accéder à la "
 "fonction 'Go'"
 
 #: templates/customer/example/report_form_fields.tpl.html
@@ -143,7 +143,7 @@ msgstr "(Maintenir ctrl pour selectionner plusieurs options)"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr "(Dans quelques heures s'il vous plait)"
+msgstr "(en heures s'il vous plaît)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -193,8 +193,6 @@ msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"<b>NOTE:</b> Le courrier sera sauvé en tant que note et transmis uniquement "
-"au personnel."
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
@@ -323,7 +321,7 @@ msgstr "Ajouter"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Ajouter / Editer Catégories"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
@@ -828,7 +826,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr ""
+msgstr "Archivé"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -8674,7 +8672,7 @@ msgstr "semaine"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
-msgstr ""
+msgstr "année"
 
 #~ msgid ""
 #~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
