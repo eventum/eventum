@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-02-23 00:03+0000\n"
-"Last-Translator: Rodrigo Testa <rod-95@live.com>\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-03-20 21:52+0000\n"
+"Last-Translator: Jonay <jonay.santana@gmail.com>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-02-24 04:57+0000\n"
+"X-Launchpad-Export-Date: 2010-03-21 04:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -216,15 +216,6 @@ msgid ""
 msgstr ""
 "<b>Nota:</b>Si selecciona esto, no puede dejar una copia de los mensajes en "
 "el servidor."
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-"<b>Nota:</b> La configuración SMTP (correo saliente) es necesaria para "
-"asegurarse de que los mensajes de correo electrónico se envíen correctamente "
-"cuando se creen nuevos usuarios/proyectos."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -1917,6 +1908,10 @@ msgstr "Opciones predeterminadas para Notificaciones:"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Prioridad Predeterminada:"
+
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr "Por defecto"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -3761,7 +3756,7 @@ msgstr "Móvil"
 msgid "Module / Directory"
 msgstr "Módulo / Directorio"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr "Lunes"
 
@@ -4169,6 +4164,10 @@ msgstr "Marcador del Tipo de Destinatario de Nota:"
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Nota enrutada desde %1$s"
+
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Nota:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6712,7 +6711,7 @@ msgstr "Campo Resumen"
 msgid "Summary:"
 msgstr "Resumen:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr "Domingo"
 
@@ -7324,6 +7323,15 @@ msgstr ""
 "búsquedas manuales dentro del proyecto. Puede ordenar por (casi) cualquier "
 "columna en esta forma de grilla, y los usuarios con los privilegios "
 "apropiados también asignar los casos seleccionados a otro usuario."
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
+msgstr ""
+"La configuración SMTP (correo saliente) es necesaria para asegurarse de que "
+"los mensajes de correo electrónico se envíen correctamente cuando se creen "
+"nuevos usuarios/proyectos."
 
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
@@ -8055,7 +8063,7 @@ msgstr "Registro de tiempo capturado remotamente por %1$s"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Zona Horaria"
 
@@ -8687,7 +8695,7 @@ msgstr ""
 msgid "Week"
 msgstr "Semana"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr "Semana comienza el:"
 
@@ -9548,9 +9556,6 @@ msgstr "año"
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Auto-Creación de Casos:"
 
-#~ msgid "Note:"
-#~ msgstr "Nota:"
-
 # traducción contextual
 #~ msgid "CLOCKED"
 #~ msgstr "CRONOMETRO"
@@ -9862,3 +9867,11 @@ msgstr "año"
 
 #~ msgid "Reported"
 #~ msgstr "Reportado"
+
+#~ msgid ""
+#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+#~ "emails are properly sent when creating new users/projects."
+#~ msgstr ""
+#~ "<b>Nota:</b> La configuración SMTP (correo saliente) es necesaria para "
+#~ "asegurarse de que los mensajes de correo electrónico se envíen correctamente "
+#~ "cuando se creen nuevos usuarios/proyectos."
