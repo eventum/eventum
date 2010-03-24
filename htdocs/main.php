@@ -55,6 +55,7 @@ if ($role_id == User::getRoleID('customer')) {
     $customer_id = User::getCustomerID($usr_id);
     $tpl->assign("customer_stats", Customer::getOverallStats($prj_id, $customer_id));
     $tpl->assign("profile", Customer::getProfile($prj_id, $usr_id));
+    $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 } else {
     if ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
         $tpl->assign('hide_stats', true);

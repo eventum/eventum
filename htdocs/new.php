@@ -68,6 +68,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
         }
         $tpl->assign("message", Customer::getNewIssueMessage($prj_id, $customer_id));
     }
+    $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 }
 
 if (@$_POST["cat"] == "report") {

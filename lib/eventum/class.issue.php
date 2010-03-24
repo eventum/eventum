@@ -636,7 +636,7 @@ class Issue
             $sql = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     SET
-                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . " 
+                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . "
                     WHERE
                         iss_id = $issue_id";
             $res = DB_Helper::getInstance()->query($sql);
@@ -2259,6 +2259,16 @@ class Issue
             $contact_email = User::getEmailByContactID($data['contact']);
             if (@!in_array($contact_email, $recipients)) {
                 Customer::notifyCustomerIssue($prj_id, $issue_id, $data['contact']);
+            }
+            // now check for additional emails in contact_extra_emails
+            if (@count($data['contact_extra_emails']) > 0) {
+                $notification_emails = $data['contact_extra_emails'];
+                foreach($notification_emails as $notification_email) {
+                    if (@!in_array($notification_email, $recipients)) {
+                        $notification_contact_id = User::getCustomerContactID(User::getUserIDByEmail($notification_email));
+                        Customer::notifyCustomerIssue($prj_id, $issue_id, $notification_contact_id);
+                    }
+                }
             }
         }
 

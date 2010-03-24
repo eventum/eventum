@@ -57,6 +57,7 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 $details = Issue::getDetails($issue_id);
 $tpl->assign("extra_title", ev_gettext('Issue #%1$s Details', $issue_id));
 $tpl->assign("issue", $details);
+$tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 
 // in the case of a customer user, also need to check if that customer has access to this issue
 if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id']))) {

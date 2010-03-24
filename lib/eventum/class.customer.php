@@ -45,6 +45,7 @@ class Customer
     function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/customer');
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/customer'));
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
             // make sure we only list the customer backends
@@ -116,7 +117,12 @@ class Customer
                 $file_name_chunks = explode(".", $backend_class);
                 $class_name = $file_name_chunks[1] . "_Customer_Backend";
 
-                require_once APP_INC_PATH . "/customer/$backend_class";
+
+                if (file_exists(APP_LOCAL_PATH . "/customer/$backend_class")) {
+                    require_once(APP_LOCAL_PATH . "/customer/$backend_class");
+                } else {
+                    require_once APP_INC_PATH . "/customer/$backend_class";
+                }
 
                 $setup_backends[$prj_id] = new $class_name;
                 $setup_backends[$prj_id]->connect();
@@ -959,6 +965,38 @@ class Customer
 
 
     /**
+     * Returns the path php files for this customer backend are stored in.
+     *
+     * @param   integer $prj_id The project ID
+     */
+    function getPath($prj_id)
+    {
+        $backend =& self::_getBackend($prj_id);
+        if (method_exists($backend, 'getPath')) {
+            return $backend->getPath();
+        } else {
+            return 'customer/' . $this->getName() . '/';
+        }
+    }
+
+
+    /**
+     * Returns the path templates for this customer backend are stored in.
+     *
+     * @param   integer $prj_id The project ID
+     */
+    function getTemplatePath($prj_id)
+    {
+        $backend =& self::_getBackend($prj_id);
+        if (method_exists($backend, 'getTemplatePath')) {
+            return $backend->getTemplatePath();
+        } else {
+            return 'customer/' . $this->getName() . '/';
+        }
+    }
+
+
+    /**
      * Performs needed checks to see if a contact can login. Performs some default
      * checks if the backend does not implement checks
      *
@@ -1000,6 +1038,7 @@ class Customer
                 // check with cnt_support to see if this contact is allowed in this support contract
                 if (!self::isAllowedSupportContact($prj_id, $contact_id)) {
                     Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
+                    Auth::removeCookie(APP_COOKIE);
                     Auth::redirect("index.php?err=4&email=" . $email);
                 }
             }
@@ -1353,4 +1392,5 @@ class Customer
             return 1;
         }
     }
+
 }

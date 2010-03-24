@@ -627,4 +627,9 @@ class Abstract_Customer_Backend
     function getContractStartDate($customer_id, $contract_id = false)
     {
     }
+
+
+    function getSupportLevelsByIssues(&$result)
+    {
+    }
 }

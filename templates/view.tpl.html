@@ -30,7 +30,7 @@
   {/if}
   <div class="view_issue_seperator"></div>
   {if $has_customer_integration and $issue.iss_customer_id}
-  {include file="customer/$customer_backend_name/customer_info.tpl.html"}
+  {include file="$customer_template_path/customer_info.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
   {include file="attachments.tpl.html"}

@@ -19,7 +19,7 @@ function hideClosed(hide_closed)
 {/literal}
 
 {if $current_role == $roles.customer}
-  {include file="customer/$customer_backend_name/customer_report.tpl.html"}
+  {include file="$customer_template_path/customer_report.tpl.html"}
 {else}
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>

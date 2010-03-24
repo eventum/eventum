@@ -39,7 +39,7 @@ if (Routing::getMatchingIssueIDs($structure->headers['to'], 'email') !== false) 
     $_SERVER['argv'][1] = '1';
     Routing::route_emails($full_message);
 } elseif (Routing::getMatchingIssueIDs($structure->headers['to'], 'note') !== false) {
-    Routing::route_nodes($full_message);
+    Routing::route_notes($full_message);
 } elseif (Routing::getMatchingIssueIDs($structure->headers['to'], 'draft') !== false) {
     Routing::route_drafts($full_message);
 } else {
