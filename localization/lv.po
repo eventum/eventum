@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 09:05+0200\n"
-"PO-Revision-Date: 2010-02-17 22:07+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-03-23 16:06+0000\n"
+"Last-Translator: Jānis <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-02-18 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-03-24 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -89,8 +89,7 @@ msgstr "(Aktuālie uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
-"(Šim ir jāsatur reālas e-pasta adreses, piemēram,  \"%1\" vai \"%2\")"
+msgstr "(Šeit jāievada īsta e-pasta adrese, piemēram, \"%1\" vai \"%2\".)"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -188,12 +187,6 @@ msgid ""
 "server."
 msgstr ""
 
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
 msgstr ""
@@ -204,7 +197,7 @@ msgstr "Tikko tika izveidots jauns uzdevums."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "Tikko jums tika izveidots jauns lietotājs sistēmā."
+msgstr "Jums tikko tika izveidots jauns lietotāja konts."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -363,11 +356,11 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "Jauna telefonsaruna"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
+msgstr "Jauna telefonsaruna"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Add Primary Contact to Notification List? *"
@@ -1481,7 +1474,7 @@ msgstr ""
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Jauns melnraksts"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
@@ -1585,6 +1578,10 @@ msgstr ""
 msgid "Current filters:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Custom Field"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
@@ -1592,6 +1589,11 @@ msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/tree.tpl.html
+msgid "Custom Fields Weekly Report"
 msgstr ""
 
 #: lib/eventum/class.custom_field.php:314
@@ -1697,6 +1699,7 @@ msgstr ""
 msgid "Date Field:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -1758,6 +1761,10 @@ msgstr ""
 msgid "Default Priority:"
 msgstr ""
 
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr ""
+
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -1775,7 +1782,7 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "Dzēst"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
@@ -2226,6 +2233,7 @@ msgstr ""
 msgid "End time in the future."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
 msgstr ""
@@ -2529,11 +2537,11 @@ msgstr ""
 #: lib/eventum/class.notification.php:614
 #: lib/eventum/class.notification.php:615 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
-msgstr ""
+msgstr "Paredzamais atrisinājuma datums"
 
 #: templates/update_form.tpl.html
 msgid "Expected Resolution Date:"
-msgstr ""
+msgstr "Paredzamais atrisinājuma datums:"
 
 #: templates/customer/example/customer_lookup.tpl.html
 msgid "Expiration Date"
@@ -2671,6 +2679,7 @@ msgid "General Setup"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
@@ -3066,6 +3075,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -3146,6 +3156,7 @@ msgid "Issues with only status changed"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "Issues/Customers matching criteria"
 msgstr ""
 
@@ -3485,7 +3496,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3713,6 +3724,7 @@ msgid "No custom fields could be found."
 msgstr ""
 
 #: htdocs/reports/custom_fields.php:55
+#: htdocs/reports/custom_fields_weekly.php:54
 msgid "No custom fields for this project"
 msgstr ""
 
@@ -3725,6 +3737,7 @@ msgid "No customizations could be found."
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
 msgstr ""
 
@@ -3819,7 +3832,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "No resolution date given"
-msgstr ""
+msgstr "Atrisinājuma datums nav norādīts."
 
 #: templates/manage/resolution.tpl.html
 msgid "No resolutions could be found."
@@ -3878,6 +3891,10 @@ msgstr ""
 #: lib/eventum/class.routing.php:340
 #, php-format
 msgid "Note routed from %1$s"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Note:"
 msgstr ""
 
 #: templates/forgot_password.tpl.html
@@ -4025,12 +4042,17 @@ msgid "Operator:"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Options:"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html
@@ -5122,6 +5144,7 @@ msgid ""
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
@@ -5299,7 +5322,7 @@ msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
-msgstr ""
+msgstr "IZŅEMTS"
 
 #: templates/adv_search.tpl.html
 msgid "RSS feed for this custom search"
@@ -5526,11 +5549,11 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Removed"
-msgstr ""
+msgstr "Izņemts"
 
 #: templates/removed_emails.tpl.html
 msgid "Removed Emails"
-msgstr ""
+msgstr "Izņemtais e-pasts"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -5573,6 +5596,7 @@ msgstr ""
 msgid "Report Type"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
 msgstr ""
@@ -5670,7 +5694,7 @@ msgstr ""
 #: lib/eventum/class.notification.php:635 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
-msgstr ""
+msgstr "Atrisinājums"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Response Body:"
@@ -5937,15 +5961,15 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
-msgstr ""
+msgstr "Rādīt prioritātes"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Status"
-msgstr ""
+msgstr "Rādīt stāvokļus"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
-msgstr ""
+msgstr "Rādīt uzdevumiem veltīto laiku"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Show additional fields to search by"
@@ -6084,6 +6108,7 @@ msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -6191,6 +6216,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -6207,7 +6233,7 @@ msgstr ""
 msgid "Summary:"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
@@ -6541,7 +6567,7 @@ msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
-msgstr ""
+msgstr "Paldies, piezīme sekmīgi izdzēsta."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
@@ -6748,6 +6774,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7128,19 +7160,19 @@ msgstr ""
 
 #: templates/notifications/files.tpl.text
 msgid "This is an automated message sent at your request from"
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/updated.tpl.text
 msgid "This is an automated message sent at your request from %1"
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no %1."
 
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/closed.tpl.text
 msgid "This is an automated message sent at your request from %1."
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no %1."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "This is an automated message sent from %1"
@@ -7254,6 +7286,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7282,7 +7315,7 @@ msgstr ""
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "Patērētā laika piezīmes"
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Time Until First Response Deadline"
@@ -7290,6 +7323,10 @@ msgstr ""
 
 #: lib/eventum/class.phone_support.php:333
 msgid "Time entry inserted from phone call."
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent as minutes"
 msgstr ""
 
 #: templates/close.tpl.html
@@ -7313,7 +7350,7 @@ msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr ""
 
@@ -7328,7 +7365,7 @@ msgstr ""
 #: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Title"
-msgstr ""
+msgstr "Virsraksts"
 
 #: templates/manage/email_responses.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/releases.tpl.html
@@ -7337,7 +7374,7 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html templates/post_note.tpl.html
 #: templates/view_note.tpl.html
 msgid "Title:"
-msgstr ""
+msgstr "Virsraksts:"
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/phone_support.tpl.html templates/reports/customer_stats.tpl.html
@@ -7577,7 +7614,7 @@ msgstr ""
 
 #: templates/manage/resolution.tpl.html
 msgid "Update Resolution"
-msgstr ""
+msgstr "Atjaunināt atrisinājumu"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Update Round Robin Entry"
@@ -7873,15 +7910,17 @@ msgid ""
 "that will be used by our staff to handle your message."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
 msgstr ""
@@ -8165,15 +8204,15 @@ msgstr ""
 #: templates/attachments.tpl.html templates/notes.tpl.html
 #: templates/phone_support.tpl.html templates/time_tracking.tpl.html
 msgid "delete"
-msgstr ""
+msgstr "Dzēst"
 
 #: templates/attachments.tpl.html
 msgid "delete attachment"
-msgstr ""
+msgstr "Dzēst piesaistni"
 
 #: templates/attachments.tpl.html
 msgid "delete file"
-msgstr ""
+msgstr "Dzēst failu"
 
 #: templates/adv_search.tpl.html
 msgid "descending"
