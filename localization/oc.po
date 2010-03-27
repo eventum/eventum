@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-03-25 12:40+0000\n"
+"PO-Revision-Date: 2010-03-26 13:51+0000\n"
 "Last-Translator: Cédric VALMARY (Per Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-26 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-03-27 05:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -38,7 +38,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% efectuat"
+msgstr "% acabat"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
@@ -52,12 +52,12 @@ msgstr "%1$s Grop"
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s o mai"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s o mens"
 
 #: templates/list.tpl.html
 msgid ""
@@ -107,7 +107,7 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr ""
+msgstr "(archivat)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -135,7 +135,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
+msgstr "(literalament)"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(only technical contacts listed on your contract)"
@@ -159,7 +159,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Seleccionar un --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -208,7 +208,7 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
-msgstr ""
+msgstr "ALÈRTA :"
 
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
@@ -233,11 +233,11 @@ msgstr "Abreviacion"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Abreviacion :"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Creacion de compte"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
@@ -264,11 +264,11 @@ msgstr "Accion"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Tipe d'accion"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Tipe d'accion :"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -327,7 +327,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Apondre una condicion"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -367,7 +367,7 @@ msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr ""
+msgstr "Apondre un abonament"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
