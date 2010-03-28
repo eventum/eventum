@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-06 00:02+0200\n"
-"PO-Revision-Date: 2010-01-29 23:07+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-03-27 12:23+0000\n"
+"Last-Translator: ilsaggio <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-01-31 04:52+0000\n"
+"X-Launchpad-Export-Date: 2010-03-28 03:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -61,6 +61,12 @@ msgstr ""
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid ""
+"%1:\n"
+"%2 ago"
 msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
@@ -188,12 +194,6 @@ msgstr ""
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
-msgstr ""
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/notifications/new.tpl.text
@@ -1633,6 +1633,10 @@ msgstr "Selezioni correnti:"
 msgid "Current filters:"
 msgstr "Filtri applicati:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Custom Field"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
@@ -1641,6 +1645,11 @@ msgstr "Campi personalizzati"
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
 msgstr "Report campi personalizzati"
+
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/tree.tpl.html
+msgid "Custom Fields Weekly Report"
+msgstr ""
 
 #: lib/eventum/class.custom_field.php:314
 #, php-format
@@ -1745,6 +1754,7 @@ msgstr "Campo data"
 msgid "Date Field:"
 msgstr "Campo data:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -1807,6 +1817,10 @@ msgstr "Opzioni predefinite per le notifiche:"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Priorità di default:"
+
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -2293,6 +2307,7 @@ msgstr "Data di fine"
 msgid "End time in the future."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
 msgstr "Fine:"
@@ -2751,6 +2766,7 @@ msgid "General Setup"
 msgstr "Setup generale"
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
@@ -3176,6 +3192,7 @@ msgstr "Dettagli segnalazione"
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -3256,6 +3273,7 @@ msgid "Issues with only status changed"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "Issues/Customers matching criteria"
 msgstr "Segnalazioni/Clienti che soddisfano un criterio"
 
@@ -3597,7 +3615,7 @@ msgstr "Mobile"
 msgid "Module / Directory"
 msgstr "Modulo / Directory"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3829,6 +3847,7 @@ msgid "No custom fields could be found."
 msgstr "Nessun campo personalizzato trovato."
 
 #: htdocs/reports/custom_fields.php:55
+#: htdocs/reports/custom_fields_weekly.php:54
 msgid "No custom fields for this project"
 msgstr "Nessun campo personalizzato per questo progetto"
 
@@ -3841,6 +3860,7 @@ msgid "No customizations could be found."
 msgstr "Nessuna personalizzazione trovata."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
 msgstr "Nessun dato trovato"
 
@@ -3996,6 +4016,10 @@ msgstr "Flag tipo destinatario nota"
 msgid "Note routed from %1$s"
 msgstr "Nota reindirizzata da %1$s"
 
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Nota:"
+
 #: templates/forgot_password.tpl.html
 msgid ""
 "Note: Please enter your email address below and a new random password will "
@@ -4143,6 +4167,7 @@ msgid "Operator:"
 msgstr "Operatore:"
 
 #: templates/manage/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr "Opzioni"
@@ -4150,6 +4175,10 @@ msgstr "Opzioni"
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
 msgstr "Opzioni per grafico"
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Options:"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -5280,6 +5309,7 @@ msgstr ""
 "Seleziona i progetti assegnati per utenti che creano i propri account."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
@@ -5745,6 +5775,7 @@ msgstr "Crea nuova segnalazione"
 msgid "Report Type"
 msgstr "Tipo report"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
 msgstr "Tipo report:"
@@ -6261,6 +6292,7 @@ msgstr "Utente standard"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -6368,6 +6400,7 @@ msgstr "Suggerimenti:"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -6384,7 +6417,7 @@ msgstr "Campo riepilogo"
 msgid "Summary:"
 msgstr "Riepilogo:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
@@ -6951,6 +6984,12 @@ msgid ""
 "to another user."
 msgstr ""
 
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
+msgstr ""
+
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
 msgstr ""
@@ -7490,6 +7529,7 @@ msgstr "Periodo di tempo"
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7528,6 +7568,10 @@ msgstr "Tempo a scadenza prima risposta"
 msgid "Time entry inserted from phone call."
 msgstr "Voce temporale inserita da chiamata telefonica."
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent as minutes"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr ""
@@ -7549,7 +7593,7 @@ msgstr "Voce di tracciamento temporale inserita in remoto da %1$s"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Fuso orario"
 
@@ -8150,15 +8194,17 @@ msgstr ""
 "Abbiamo ricevuto un messaggio da te e nel tuo interesse, abbiamo creato una "
 "segnalazione che sarà usata dal nostro staff per gestire il tuo messaggio."
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
 msgstr "Settimana"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
 msgstr "Settimanalmente"
@@ -9002,9 +9048,6 @@ msgstr "anno"
 
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Auto-creazione segnalazioni:"
-
-#~ msgid "Note:"
-#~ msgstr "Nota:"
 
 #~ msgid "IN"
 #~ msgstr "IN"
