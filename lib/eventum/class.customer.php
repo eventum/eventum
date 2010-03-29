@@ -991,7 +991,7 @@ class Customer
         if (method_exists($backend, 'getTemplatePath')) {
             return $backend->getTemplatePath();
         } else {
-            return 'customer/' . $this->getName() . '/';
+            return 'customer/' . $backend->getName() . '/';
         }
     }
 
