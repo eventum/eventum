@@ -68,6 +68,7 @@ if (count(@$_POST["end"]) > 0 &&
         (@$_POST["end"]["Day"] != 0)) {
     $end_date = join("-", $_POST["end"]);
 }
+$per_user = empty($_POST['time_per_user']) ? false : true;
 
 $tpl->assign(array(
     "custom_fields" =>  $custom_fields,
@@ -78,6 +79,7 @@ $tpl->assign(array(
     "start_date"    =>  @$start_date,
     "end_date"      =>  @$end_date,
     "report_type"   =>  @$_POST["report_type"],
+    "per_user"   =>  $per_user,
     "weeks" => Date_Helper::getWeekOptions(3,0),
 ));
 
@@ -101,7 +103,7 @@ if (@$_POST["report_type"] == "weekly") {
 }
 
 if (count(@$_POST['custom_field']) > 0) {
-	$data = Report::getCustomFieldWeeklyReport($_POST["custom_field"], $_POST["custom_options"], $dates[0], $dates[1]);
+	$data = Report::getCustomFieldWeeklyReport($_POST["custom_field"], $_POST["custom_options"], $dates[0], $dates[1], $per_user);
     $tpl->assign(array(
         "data"  =>  $data
     ));
