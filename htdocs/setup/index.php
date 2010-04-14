@@ -453,8 +453,8 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
     $config_contents = str_replace("%{CHARSET}%", APP_CHARSET, $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_DEFAULT_TIMEZONE}%", var_export($_POST['default_timezone'], 1), $config_contents);
-    $config_contents = str_replace("%{APP_DEFAULT_WEEKDAY}%", (int )$_POST['default_weekday'], $config_contents);
+    $config_contents = str_replace("'%{APP_DEFAULT_TIMEZONE}%'", var_export($_POST['default_timezone'], 1), $config_contents);
+    $config_contents = str_replace("'%{APP_DEFAULT_WEEKDAY}%'", (int )$_POST['default_weekday'], $config_contents);
 
     if (@$_POST['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
