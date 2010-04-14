@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-03-16 11:18+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"PO-Revision-Date: 2010-04-13 11:53+0000\n"
+"Last-Translator: Marcel Schmücker <versus666@hotmail.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-03-17 04:40+0000\n"
+"X-Launchpad-Export-Date: 2010-04-14 03:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -210,15 +210,6 @@ msgid ""
 msgstr ""
 "<b>Hinweis:</b> Wenn Sie dies ankreuzen, können Sie keine Kopie der "
 "Nachrichten auf dem Server belaßen."
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-"<b>Hinweis:</b> Die SMTP-Konfiguration (ausgehende e-Mails) ist "
-"erforderlich, um zu gewährleisten, daß e-Mails ordnungsgemäß versendet "
-"werden beim Anlegen von neuen Benutzern/Projekten."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -1918,6 +1909,10 @@ msgstr "Standard Optionen für Benachrichtigungen:"
 msgid "Default Priority:"
 msgstr "Standard-Priorität:"
 
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr ""
+
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -2140,6 +2135,8 @@ msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
+"FEHLER: Das System hat keine entsprechenden Erlaubnisse, die "
+"Konfigurationsdatei im Einstellungsverzeichnis zu aktualisieren"
 
 #: templates/customer/example/customer_info.tpl.html
 msgid "Edit"
@@ -3182,7 +3179,7 @@ msgstr "Installationsanweisung"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
-msgstr ""
+msgstr "Zahl"
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
@@ -3679,7 +3676,7 @@ msgstr "Handy"
 msgid "Module / Directory"
 msgstr "Module / Verzeichnis"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -4080,6 +4077,10 @@ msgstr "Hinweis Sender Zusatz:"
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Notiz zugeühhrt von %1$s"
+
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Notiz:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6507,7 +6508,7 @@ msgstr "Zusammenfassung"
 msgid "Summary:"
 msgstr "Zusammenfassung:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
@@ -7094,6 +7095,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7698,7 +7705,7 @@ msgstr "Zeitüberwachungseintrag entfernt (remote) eingetragen durch %1$s"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Zeitzone"
 
@@ -8307,7 +8314,7 @@ msgstr ""
 msgid "Week"
 msgstr "Woche"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
@@ -9123,9 +9130,6 @@ msgstr "Jahr"
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Automatische Vorgangserstellung:"
 
-#~ msgid "Note:"
-#~ msgstr "Notiz:"
-
 #~ msgid "CLOCKED"
 #~ msgstr "Zeiterfassung"
 
@@ -9429,3 +9433,11 @@ msgstr "Jahr"
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"
 #~ msgstr ""
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"
+
+#~ msgid ""
+#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+#~ "emails are properly sent when creating new users/projects."
+#~ msgstr ""
+#~ "<b>Hinweis:</b> Die SMTP-Konfiguration (ausgehende e-Mails) ist "
+#~ "erforderlich, um zu gewährleisten, daß e-Mails ordnungsgemäß versendet "
+#~ "werden beim Anlegen von neuen Benutzern/Projekten."
