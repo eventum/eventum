@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-04-13 11:53+0000\n"
-"Last-Translator: Marcel Schmücker <versus666@hotmail.de>\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
+"PO-Revision-Date: 2010-04-16 12:04+0000\n"
+"Last-Translator: cmdrhenner <cmdrhenner@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-04-14 03:51+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1476,7 +1476,7 @@ msgstr "Datum Abschluß"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Geschlossene Nachricht"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
@@ -7684,6 +7684,10 @@ msgstr ""
 msgid "Time spent as minutes"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr ""
@@ -8045,6 +8049,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Benutzer"

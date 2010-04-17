@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-03-22 10:24+0000\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
+"PO-Revision-Date: 2010-04-16 15:24+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-23 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
 
@@ -7864,6 +7864,10 @@ msgstr ""
 msgid "Time spent as minutes"
 msgstr "Tempo gasto em minutos"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr "Tempo gasto por usuário"
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr "Categoria de apontamento de tempo"
@@ -8234,6 +8238,7 @@ msgid "Use the following shortcuts"
 msgstr "Use os seguintes atalhos"
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Usuário"
