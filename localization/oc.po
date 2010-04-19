@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-03-26 13:51+0000\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
+"PO-Revision-Date: 2010-04-18 13:13+0000\n"
 "Last-Translator: Cédric VALMARY (Per Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-03-27 05:00+0000\n"
+"X-Launchpad-Export-Date: 2010-04-19 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -64,6 +64,8 @@ msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"i a %2"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -73,7 +75,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Totes los problèmas)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -85,7 +87,7 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Problèmas dobèrts)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -250,11 +252,11 @@ msgstr "Gestion de compte :"
 #: lib/eventum/class.help.php:113 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr ""
+msgstr "Preferéncias del compte"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr ""
+msgstr "Inscripcion de compte"
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -289,11 +291,11 @@ msgstr "Actiu"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr ""
+msgstr "Tipe d'activitat"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr ""
+msgstr "Activitat anteriora"
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -331,7 +333,7 @@ msgstr "Apondre una condicion"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr ""
+msgstr "Apondre una signatura"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
@@ -430,7 +432,7 @@ msgstr "Alèrta IRC :"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Query"
-msgstr ""
+msgstr "Requèsta d'alèrta"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -807,7 +809,7 @@ msgstr "Quina que siá"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr ""
+msgstr "Archivat"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -899,7 +901,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr ""
+msgstr "Afectacion"
 
 #: lib/eventum/class.help.php:69 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
@@ -1053,7 +1055,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr ""
+msgstr "Mej."
 
 #: lib/eventum/class.customer_stats_report.php:692
 msgid "Avg Workload per Customer by Support Level"
@@ -1100,7 +1102,7 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/time_tracking.tpl.html
 #: templates/top_link.tpl.html
 msgid "Back to Top"
-msgstr ""
+msgstr "Retorn al començament"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
@@ -1120,7 +1122,7 @@ msgstr ""
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
-msgstr ""
+msgstr "Entre"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
@@ -1140,7 +1142,7 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr ""
+msgstr "Mesa a jorn en massa"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
@@ -7326,6 +7328,10 @@ msgstr ""
 msgid "Time spent as minutes"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr ""
@@ -7684,6 +7690,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr ""
