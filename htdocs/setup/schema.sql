@@ -1042,4 +1042,4 @@ CREATE TABLE `%TABLE_PREFIX%version` (
     ver_version int(11) unsigned NOT NULL DEFAULT 0
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `%TABLE_PREFIX%version` SET ver_version=2;
+INSERT INTO `%TABLE_PREFIX%version` SET ver_version=5;
