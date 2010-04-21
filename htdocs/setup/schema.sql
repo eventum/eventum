@@ -268,7 +268,9 @@ CREATE TABLE `%TABLE_PREFIX%issue_user` (
   isu_iss_id int(10) unsigned NOT NULL default 0,
   isu_usr_id int(10) unsigned NOT NULL default 0,
   isu_assigned_date datetime,
+  isu_order int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY  (isu_iss_id,isu_usr_id),
+  INDEX isu_order (isu_order),
   KEY isu_usr_id (isu_usr_id),
   KEY isu_iss_id (isu_iss_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
