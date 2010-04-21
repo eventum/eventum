@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 11:31+0200\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7312,6 +7312,10 @@ msgstr ""
 msgid "Time spent as minutes"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr ""
@@ -7670,6 +7674,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr ""

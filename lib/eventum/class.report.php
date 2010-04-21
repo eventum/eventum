@@ -782,9 +782,10 @@ class Report
      * @param   array $cfo_ids An array of option ids.
      * @param   string $start_date
      * @param   string $end_date
+     * @param   boolean $per_user Show time spent per user
      * @return  array An array of data.
      */
-    function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date)
+    function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -793,15 +794,27 @@ class Report
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
         $sql = "SELECT
-                    iss_id, 
+                    iss_id,
                     SUM(ttr_time_spent) ttr_time_spent_sum,
                     iss_summary,
                     iss_customer_id,
                     iss_private,
                     fld_id
+               ";
+
+
+            if ($per_user) {
+                $sql .= ', usr_full_name ';
+            }
+            $sql .= "
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field, 
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,";
+
+            if ($per_user) {
+                    $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user, ";
+            }
+
             if (count($options) > 0) {
                 $sql .= "
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,";
@@ -819,6 +832,9 @@ class Report
                 $sql .=
                         " cfo_id = icf_value AND";
             }
+            if ($per_user) {
+                 $sql .= " usr_id = ttr_usr_id AND ";
+            }
             $sql .= "
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
@@ -827,9 +843,15 @@ class Report
                 $sql .= " AND
                         cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
             }
-            $sql .= "
+            if ($per_user) {
+                $sql .= "
                     GROUP BY
-                        iss_id";
+                    iss_id, ttr_usr_id";
+            } else {
+                $sql .= "
+                    GROUP BY
+                    iss_id";
+           }
 
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
