@@ -89,13 +89,17 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td width="120" class="default">
+          <td width="120" class="default" valign="top">
             <b>{t}Options:{/t}</b>
           </td>
           <td width="200" class="default" NOWRAP>
             <input type="checkbox" name="time_in_min" value="1" class="default" {if $smarty.post.time_in_min == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:toggleCheckbox('custom_fields_report', 'time_in_min', 0)">{t}Time spent as minutes{/t}</a>&nbsp;
+            <br />
+            <input type="checkbox" name="time_per_user" value="1" class="default" {if $smarty.post.time_per_user == 1}checked{/if}>
+            <a id="link" class="link" href="javascript:void(null)"
+                            onClick="javascript:toggleCheckbox('custom_fields_report', 'time_per_user', 0)">{t}Time spent per user{/t}</a>&nbsp;
             <br />
           </td>
         </tr>
@@ -170,7 +174,7 @@ setOptions('{$custom_field}', false);
 </script>
 
 {if $data|@count > 0}
-{assign var="colspan" value=4}
+{assign var="colspan" value=5}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -185,6 +189,9 @@ setOptions('{$custom_field}', false);
           <td bgcolor="{$cell_color}" class="default_white">{t}Summary{/t}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Time Spent{/t}</td>
           <td bgcolor="{$cell_color}" class="default_white">{$field_info.fld_title}</td>
+          {if $per_user}
+              <td bgcolor="{$cell_color}" class="default_white">{t}User{/t}</td>
+          {/if}
         </tr>
         {foreach from=$data item=row}
         {cycle values=$cycle assign="row_color"}
@@ -195,6 +202,9 @@ setOptions('{$custom_field}', false);
           <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
           <td class="default" bgcolor="{$row_color}">{if $smarty.post.time_in_min == 1}{$row.ttr_time_spent_sum}{else}{$row.ttr_time_spent_sum_formatted}{/if}</td>
           <td class="default" bgcolor="{$row_color}">{$row.field_value}</td>
+          {if $per_user}
+              <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          {/if}
         </tr>
         {foreachelse}
         <tr>

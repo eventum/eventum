@@ -31,7 +31,7 @@
 require_once dirname(__FILE__) . '/../../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("customer/example/customer_lookup.tpl.html");
+$tpl->setTemplate("customer/customer_lookup.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();

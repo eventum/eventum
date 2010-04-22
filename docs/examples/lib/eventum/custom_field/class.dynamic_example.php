@@ -26,7 +26,7 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once "class.dynamic.php";
+require_once 'class.dynamic.php';
 
 /**
  * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",

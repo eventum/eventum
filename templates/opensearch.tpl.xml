@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 	<ShortName>{$app_setup.tool_caption|default:$application_title|escape:"html"}</ShortName>
 	<Description>{t}Search Eventum Issues{/t}</Description>
 	<OutputEncoding>{$app_charset}</OutputEncoding>
