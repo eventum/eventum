@@ -25,7 +25,7 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once "class.dynamic.php";
+require_once 'class.dynamic.php';
 
 class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {
