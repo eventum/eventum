@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-17 11:31+0200\n"
-"PO-Revision-Date: 2010-04-06 00:31+0000\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
+"PO-Revision-Date: 2010-04-22 07:17+0000\n"
 "Last-Translator: Jonathon Fernyhough <j.fernyhough@gmail.com>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-04-07 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-04-23 03:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -7757,6 +7757,10 @@ msgstr "Time entry inserted from phone call."
 msgid "Time spent as minutes"
 msgstr "Time spent as minutes"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr "Time tracking category"
@@ -8124,6 +8128,7 @@ msgid "Use the following shortcuts"
 msgstr "Use the following shortcuts"
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "User"
