@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-14 16:48+0300\n"
-"PO-Revision-Date: 2010-04-16 12:04+0000\n"
+"PO-Revision-Date: 2010-04-28 12:08+0000\n"
 "Last-Translator: cmdrhenner <cmdrhenner@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
+"X-Launchpad-Export-Date: 2010-04-29 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1116,11 +1116,11 @@ msgstr "Angehängte Dateien"
 
 #: lib/eventum/class.support.php:1452
 msgid "Attachment originated from a note"
-msgstr ""
+msgstr "Anhang basierend auf einer Bemerkung"
 
 #: lib/eventum/class.support.php:1450
 msgid "Attachment originated from an email"
-msgstr ""
+msgstr "Anhang basierend auf einer Bemerkung"
 
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
@@ -1193,6 +1193,8 @@ msgid ""
 "Average and median counts do not include customers who have never opened an "
 "issue."
 msgstr ""
+"Durchschnittliche und Mittlere  Kennzahlen beinhalten nicht Kunden, die "
+"niemals einen Vorgang eröffnet haben."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
@@ -1911,7 +1913,7 @@ msgstr "Standard-Priorität:"
 
 #: templates/setup.tpl.html
 msgid "Defaults"
-msgstr ""
+msgstr "Standardwerte"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
