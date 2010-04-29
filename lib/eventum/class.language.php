@@ -63,6 +63,7 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
+        'cs' => 'Czech',
         'da_DK' => 'Danish',
         'de_DE' => 'German',
         'en_GB' => 'English (United Kingdom)',
