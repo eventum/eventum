@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-14 16:48+0300\n"
-"PO-Revision-Date: 2010-04-22 07:00+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2010-05-01 12:35+0000\n"
+"Last-Translator: José Gonçalves <rouletamix@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-04-23 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-05-02 03:58+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -513,13 +513,16 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr ""
+msgstr "Autoriser les problèmes Un-Assigned ?"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Autorisés pour afficher toutes les questions sur les projets associés à cet "
+"utilisateur; autorisés à créer de nouveaux problèmes et à envoyer des "
+"courriels sur les problèmes existants."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -527,6 +530,10 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
+"Autorisés pour afficher toutes les questions sur les projets associés à cet "
+"utilisateur ; autorisés à créer de nouveaux problèmes, mise à jour les "
+"problèmes existants et pour envoyer des e-mails et des notes pour les "
+"problèmes existants."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -542,16 +549,21 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
+"Autorisés à afficher toutes les questions sur les projets associés à cet "
+"utilisateur ; ne peut pas créer de nouveaux problèmes ou modifier les "
+"problèmes existants."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
-msgstr ""
+msgstr "Également filtrer par numéro priorités"
 
 #: templates/update_form.tpl.html
 msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
+"En outre, toutes les questions qui sont marquées comme des doublons de celui-"
+"ci ont été mis à jour."
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
@@ -590,10 +602,14 @@ msgstr "Une erreur est apparue lors de l'ajout d'un nouveau champ client."
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
+"personnalisation."
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
+"réponse par e-mail."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
@@ -602,10 +618,14 @@ msgstr "Une erreur est apparue lors de l'ajout d'un nouveau groupe."
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
+"résolution de problème."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter le nouveau "
+"filtre de liaison."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
@@ -634,43 +654,61 @@ msgstr "Une erreur est apparue lors de l'ajout d'un status."
 #: templates/manage/time_tracking.tpl.html
 msgid "An error occurred while trying to add the new time tracking category."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
+"catégorie de suivi de temps."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter le nouvel "
+"utilisateur."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter l'entrée de "
+"nouvelles."
 
 #: templates/manage/round_robin.tpl.html
 msgid "An error occurred while trying to add the round robin entry."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'ajouter l'entrée round "
+"robin."
 
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
 msgstr ""
+"Une erreur s'est produite lors de la tentative d'associer le message "
+"sélectionné"
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
 msgstr ""
+"Une erreur s'est produite lors de la tentative convertir la note "
+"sélectionnée."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de supprimer le filtre de "
+"lien."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
-msgstr ""
+msgstr "Une erreur s'est produite lors de la tentative de supprimer la note."
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'insérer le replier "
+"autorisé."
 
 #: templates/file_upload.tpl.html
 msgid "An error occurred while trying to process the uploaded file."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de traiter le fichier "
+"téléchargé."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
@@ -680,80 +718,111 @@ msgstr ""
 #: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
 msgstr ""
+"Une erreur s'est produite pendant que vous tentez d'exécuter votre requête."
 
 #: templates/preferences.tpl.html
 msgid "An error occurred while trying to run your query."
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'exécution de votre requête."
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
 msgstr ""
+"Une erreur s'est produite lors de la tentative d'enregistrer les colonnes à "
+"afficher."
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour le champ "
+"paramètres d'affichage."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations d'entrée de FAQ."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations du compte."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations du gestionnaire de compte."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de l'action."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de catégorie."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de condition."
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "An error occurred while trying to update the custom field information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de champ personnalisé."
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de personnalisation."
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
 "An error occurred while trying to update the email response information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de réponse par e-mail."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations du groupe."
 
 #: templates/manage/anonymous.tpl.html
 msgid "An error occurred while trying to update the information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations."
 
 #: templates/manage/resolution.tpl.html
 msgid ""
 "An error occurred while trying to update the issue resolution information."
 msgstr ""
+"Une erreur s'est produite lors de la tentative de mettre à jour les "
+"informations de résolution de problème."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr ""
+msgstr "Une erreur s'est produite lors de la mise à jour du filtre de lien."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
 msgstr ""
+"Une erreur s'est produite lors de la mise à jour de l'entrée de nouvelles "
+"informations."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to update the note."
