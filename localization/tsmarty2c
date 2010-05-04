@@ -19,20 +19,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  * ------------------------------------------------------------------------- *
  *
- * This command line script rips gettext strings from smarty file,
- * and prints them to stdout in C format, that can later be used with the
- * standard gettext tools.
+ * This commandline script rips gettext strings from smarty file,
+ * and prints them to stdout in already gettext encoded format, which you can 
+ * later manipulate with standard gettext tools.
  *
  * Usage:
- * ./tsmarty2c.php <filename or directory> <file2> <..> > smarty.c
+ * ./tsmarty2c.php -o template.pot <filename or directory> <file2> <..>
  *
  * If a parameter is a directory, the template files within will be parsed.
  *
  * @package	smarty-gettext
- * @version	$Id: tsmarty2c.php,v 1.3 2005/07/27 17:59:39 sagi Exp $
- * @link	http://smarty-gettext.sf.net/
+ * @version	bzr
+ * @link	https://launchpad.net/smarty-gettext
  * @author	Sagi Bashari <sagi@boom.org.il>
+ * @author	Elan Ruusamäe <glen@delfi.ee>
  * @copyright 2004-2005 Sagi Bashari
+ * @copyright 2010 Elan Ruusamäe
  */
 
 // smarty open tag
@@ -47,9 +49,9 @@ $cmd = preg_quote('t');
 // extensions of smarty files, used when going through a directory
 $extensions = array('tpl');
 
-# we msgcat found strings from each file.
-# need header for each temporary .pot file to be merged.
-# https://help.launchpad.net/Translations/YourProject/PartialPOExport
+// we msgcat found strings from each file.
+// need header for each temporary .pot file to be merged.
+// https://help.launchpad.net/Translations/YourProject/PartialPOExport
 define('MSGID_HEADER', 'msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
