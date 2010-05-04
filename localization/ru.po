@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
-"PO-Revision-Date: 2010-02-19 20:48+0000\n"
-"Last-Translator: Hinikato <Unknown>\n"
+"POT-Creation-Date: 2010-04-14 16:48+0300\n"
+"PO-Revision-Date: 2010-05-03 21:01+0000\n"
+"Last-Translator: Bashtannik Andrew S. <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-02-20 04:44+0000\n"
+"X-Launchpad-Export-Date: 2010-05-04 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -73,6 +73,8 @@ msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"%2 назад"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -211,14 +213,6 @@ msgid ""
 msgstr ""
 "<b>Внимание!</b> Если это включить, вы не сможете сохранять на сервере копии "
 "отправленных писем."
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-"<b>Внимание!</b> Чтобы письма о создании новых пользователей и проектов "
-"могли быть отправлены, должна быть правильно настроена отправка почты (SMTP)."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -1812,6 +1806,10 @@ msgstr "Настройки по умолчанию для уведомлений
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Приоритет по умолчанию:"
+
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -3606,7 +3604,7 @@ msgstr "Мобильный"
 msgid "Module / Directory"
 msgstr "Модуль / Директория"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -4007,6 +4005,10 @@ msgstr "Отличительный флаг получателя примеча�
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Примечание маршутизировано от %1$s"
+
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Примечание:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6437,7 +6439,7 @@ msgstr "Поле Сводка"
 msgid "Summary:"
 msgstr "Сводка:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -6994,6 +6996,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7583,6 +7591,10 @@ msgstr "Запись времени добавлена из телефонног
 msgid "Time spent as minutes"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
+
 #: templates/close.tpl.html
 msgid "Time tracking category"
 msgstr ""
@@ -7604,7 +7616,7 @@ msgstr "Запись учета времени добавлена удаленн
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Часовой пояс"
 
@@ -7945,6 +7957,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Пользователь"
@@ -8216,7 +8229,7 @@ msgstr ""
 msgid "Week"
 msgstr "Неделя"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
@@ -9063,9 +9076,6 @@ msgstr "год"
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Авто-создание запросов:"
 
-#~ msgid "Note:"
-#~ msgstr "Примечание:"
-
 #~ msgid "IN"
 #~ msgstr "ДА"
 
@@ -9176,3 +9186,10 @@ msgstr "год"
 #~ msgstr ""
 #~ "Для просмотра детальной информации по запросу или для его \n"
 #~ "обновления, пожалуйста, перейдите по след. ссылке"
+
+#~ msgid ""
+#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+#~ "emails are properly sent when creating new users/projects."
+#~ msgstr ""
+#~ "<b>Внимание!</b> Чтобы письма о создании новых пользователей и проектов "
+#~ "могли быть отправлены, должна быть правильно настроена отправка почты (SMTP)."
