@@ -1,16 +1,16 @@
-# English (United Kingdom) translation for eventum
+# English (Australia) translation for eventum
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the eventum package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Robert Readman <robert_readman@hotmail.com>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-14 16:48+0300\n"
-"PO-Revision-Date: 2010-05-05 12:18+0000\n"
+"PO-Revision-Date: 2010-05-05 12:24+0000\n"
 "Last-Translator: Robert Readman <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language-Team: English (Australia) <en_AU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -9177,10 +9177,3 @@ msgstr "week"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "year"
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure e-"
-#~ "mails are properly sent when creating new users/projects."
