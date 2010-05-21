@@ -1,4 +1,4 @@
-# French translation for eventum
+# Faroese translation for eventum
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the eventum package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-14 16:48+0300\n"
-"PO-Revision-Date: 2010-05-20 12:01+0000\n"
-"Last-Translator: Stanislas Michalak <stanislas.michalak@live.fr>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2010-05-20 20:26+0000\n"
+"Last-Translator: Gunleif Joensen <Unknown>\n"
+"Language-Team: Faroese <fo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2010-05-21 03:38+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
@@ -30,9 +30,6 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
-"\n"
-"Pour voir les détails de ce bogue ou le mettre à jour, utiliser le lien "
-"suivant"
 
 #: htdocs/view.php:74
 #, php-format
@@ -41,143 +38,128 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "Complet à %"
+msgstr "% fullgjørt"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr "%1 Champ"
+msgstr ""
 
 #: lib/eventum/class.filter.php:673
 #, php-format
 msgid "%1$s Group"
-msgstr "%1$s Groupe"
+msgstr ""
 
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or greater"
-msgstr "%1$s ou plus"
+msgstr "%1$s ella stórri"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "%1$s or less"
-msgstr "%1$s ou moins"
+msgstr "%1$s ella minni"
 
 #: templates/list.tpl.html
 msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
-"%1:\n"
-"il y a %2"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
-"Les catégories « Discussion note », « Discussion courriel » et « Discussion "
-"téléphonique » sont nécessaires à Eventum et ne peuvent pas être effacées."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr "(Tous les problèmes)"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Domaines alternatifs pointant vers 'Adresse de l'hote')"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr "(GMT)"
+msgstr ""
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "(Problèmes en cours)"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
-"(Ce champ DOIT contenir une adresse courriel valide, par ex \"%1\" ou \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
-"(Ceci sera inclut dans l'adresse de l'expéditeur dans tous les courriels "
-"envoyés par Eventum)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
-"(Ceci sera inclut dans l'adresse de l'expéditeur dans toutes les notes "
-"envoyées par Eventum)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
-"(Astuce : les ports par défaut sont 110 pour les serveurs POP3 et 143 pour "
-"les serveurs IMAP)"
 
 #: lib/eventum/class.template_helper.php:175
 msgid "(archived)"
-msgstr "(archivé)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr "(Le dossier par défaut est INBOX)"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr "(ex. %1)"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
-"(maintenir la touche 'ALT' et appuyer sur  '3' une fois) - pour accéder au "
-"champ 'Recherche'"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
-"(Maintenir la touche 'ALT' et appuyer sur  '4' une fois) - pour accéder à la "
-"fonction 'Aller'"
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(hold ctrl to select multiple options)"
-msgstr "(maintenir ctrl pour sélectionner plusieurs options)"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr "(en heures s'il vous plaît)"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr "(littéralement)"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "(only technical contacts listed on your contract)"
-msgstr "(seuls les contacts techniques sont listés sur le contrat)"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
-msgstr "(nécessite l'installation de %1 sur votre serveur)"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
-msgstr "(séparer les adresses par des virgules)"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr "(cette couleur sera utilisée dans la page listant les requêtes)"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr "(abréviation en trois lettres)"
+msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr "-- Sélectionner --"
+msgstr ""
 
 #: templates/associate.tpl.html
 msgid ""
@@ -185,124 +167,113 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
-"<b>NOTE:</b> Si cette option est choisie, <b>AUCUN</b> courriel ne sera "
-"envoyé à la liste de notification. Ceci est utile afin de lier un ensemble "
-"d'emails à une requête existante."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
-"<b>NOTE:</b> Si cette option est choisie, le courriel sera transmis à "
-"l'ensemble de la liste de notification qui peut comprendre des clients."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"<b>NOTE:</b> Le courriel va être sauvegardé en tant que note et diffusé "
-"seulement aux employés."
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
 "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
 "server."
 msgstr ""
-"<b>Note:</b>Si vous cochez cette option, vous ne pourrez pas laisser une "
-"copie des messages sur le serveur."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr "Une nouvelle requête vient d'être créée et vous a été assignée"
+msgstr ""
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr "Une nouvelle requête vient d'être crée dans le système"
+msgstr ""
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "Un nouvel utilisateur vient d'être créé pour vous dans le système"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
-msgstr "AJOUTÉ"
+msgstr ""
 
 #: lib/eventum/class.mail_helper.php:467
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
-"<b>AVERTISSEMENT</b>: Votre réponse va être envoyée à la liste de "
-"notification."
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
-msgstr "ALERTE:"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr "TOUS"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr "ALT-3"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr "ALT-4"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr "ET / OU"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr "Abréviation"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr "Abréviation:"
+msgstr ""
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr "Création de compte"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr "Gestionnaire de compte"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr "Gestionnaire de compte:"
+msgstr ""
 
 #: lib/eventum/class.help.php:113 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr "Préférences du compte"
+msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr "Inscription de compte"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr "Action"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Type d'action"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr "Type d'action:"
+msgstr ""
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr "Actions"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -310,164 +281,161 @@ msgid ""
 "user or a developer updating an issue, uploading a file, sending an email, "
 "etc."
 msgstr ""
-"Une action peut être n'importe quel événement visible dans l'historique "
-"d'une requête, comme un utilisateur ou un développeur mettant à jour une "
-"requête, transférant un fichier, envoyant un courriel, etc."
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr "Actif"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr "Type d'activité"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr "Activité antérieure"
+msgstr ""
 
 #: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr "Ajouter"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Ajouter / Modifier les catégories"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr "Ajouter / Modifier les catégories de support téléphonique"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr "Ajouter / Modifier les priorités"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr "Ajouter / Modifier les versions"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr "Ajouter une Action"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
-msgstr "Ajouter un intervenant autorisé"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr "Ajouter une condition"
+msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr "Ajouter une signature"
+msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr "Ajouter d'autres destinataires à la liste de notification?"
+msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr "Ajouter des fichiers"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
-msgstr "M'ajouter à la liste des intervenants"
+msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr "Ajouter de nouveaux fichiers"
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr "Ajouter un nouveau pré-requis"
+msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr "Ajouter un appel téléphonique"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr "Ajouter une entrée dans l'annuaire téléphonique"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Add Primary Contact to Notification List? *"
-msgstr "Ajouter un contact primaire à la liste de notification? *"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr "Ajouter un abonnement"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr "Ajouter une entrée de temps"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr "Ajouter un destinataire inconnu à liste de notification de requête"
+msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr "Ajouter l'expéditeur à la liste intervenants autorisés?"
+msgstr ""
 
 #: templates/customer/example/report_form_fields.tpl.html
 msgid "Additional Contact Emails"
-msgstr "Courriels de contact supplémentaires"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr "Nom d'hôte de l'adresse"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr "Administration"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr "Administrateur"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr "Options avancées"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr "Recherche avancée"
+msgstr ""
 
 #: lib/eventum/class.help.php:105 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
-msgstr "Recherche avancée / Création de requêtes personnalisées"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr "après le nom de l'expéditeur"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:191
 msgid "Aggregate"
-msgstr "Agrégation"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
-msgstr "Alerter le leader du groupe"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert IRC:"
-msgstr "Alerte IRC:"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Query"
-msgstr "Requête d'alerte"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr "Raison de l'alerte"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -493,15 +461,15 @@ msgstr "Raison de l'alerte"
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr "Tous"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr "Toutes les requêtes"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr "Tout le texte (courriels, notes, etc)"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -511,16 +479,13 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr "Autoriser les problèmes Un-Assigned ?"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
-"Autorisés pour afficher toutes les questions sur les projets associés à cet "
-"utilisateur; autorisés à créer de nouveaux problèmes et à envoyer des "
-"courriels sur les problèmes existants."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -528,10 +493,6 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
-"Autorisés pour afficher toutes les questions sur les projets associés à cet "
-"utilisateur ; autorisés à créer de nouveaux problèmes, mise à jour les "
-"problèmes existants et pour envoyer des e-mails et des notes pour les "
-"problèmes existants."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -547,166 +508,134 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
-"Autorisés à afficher toutes les questions sur les projets associés à cet "
-"utilisateur ; ne peut pas créer de nouveaux problèmes ou modifier les "
-"problèmes existants."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
-msgstr "Également filtrer par numéro priorités"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
-"En outre, toutes les questions qui sont marquées comme des doublons de celui-"
-"ci ont été mis à jour."
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr "Une erreur a été trouvé"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr "Une erreur est apparue lors de l'ajout d'une entrée dans la FAQ."
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
 msgstr ""
-"Une erreur est apparue lors de l'ajout d'un nouveau gestionnaire de compte."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr "Une erreur est apparue lors de l'ajout d'un nouveau compte."
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle action."
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle catégorie."
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle condition."
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr "Une erreur est apparue lors de l'ajout d'un nouveau champ client."
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
-"personnalisation."
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
-"réponse par e-mail."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
-msgstr "Une erreur est apparue lors de l'ajout d'un nouveau groupe."
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
-"résolution de problème."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter le nouveau "
-"filtre de liaison."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle note."
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle priorité."
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr "Une erreur est apparue lors de l'ajout d'un nouveau projet."
+msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
-msgstr "Une erreur est apparue lors de l'ajout d'une nouvelle release."
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr "Une erreur est apparue lors de l'ajout d'un pense-bête."
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
-msgstr "Une erreur est apparue lors de l'ajout d'un status."
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
 msgid "An error occurred while trying to add the new time tracking category."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter la nouvelle "
-"catégorie de suivi de temps."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter le nouvel "
-"utilisateur."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter l'entrée de "
-"nouvelles."
 
 #: templates/manage/round_robin.tpl.html
 msgid "An error occurred while trying to add the round robin entry."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'ajouter l'entrée round "
-"robin."
 
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
 msgstr ""
-"Une erreur s'est produite lors de la tentative d'associer le message "
-"sélectionné"
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
 msgstr ""
-"Une erreur s'est produite lors de la tentative convertir la note "
-"sélectionnée."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de supprimer le filtre de "
-"lien."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
-msgstr "Une erreur s'est produite lors de la tentative de supprimer la note."
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'insérer le replier "
-"autorisé."
 
 #: templates/file_upload.tpl.html
 msgid "An error occurred while trying to process the uploaded file."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de traiter le fichier "
-"téléchargé."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
@@ -716,111 +645,80 @@ msgstr ""
 #: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
 msgstr ""
-"Une erreur s'est produite pendant que vous tentez d'exécuter votre requête."
 
 #: templates/preferences.tpl.html
 msgid "An error occurred while trying to run your query."
-msgstr "Une erreur s'est produite lors de l'exécution de votre requête."
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
 msgstr ""
-"Une erreur s'est produite lors de la tentative d'enregistrer les colonnes à "
-"afficher."
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour le champ "
-"paramètres d'affichage."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations d'entrée de FAQ."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations du compte."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations du gestionnaire de compte."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de l'action."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de catégorie."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de condition."
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "An error occurred while trying to update the custom field information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de champ personnalisé."
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de personnalisation."
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
 "An error occurred while trying to update the email response information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de réponse par e-mail."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations du groupe."
 
 #: templates/manage/anonymous.tpl.html
 msgid "An error occurred while trying to update the information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations."
 
 #: templates/manage/resolution.tpl.html
 msgid ""
 "An error occurred while trying to update the issue resolution information."
 msgstr ""
-"Une erreur s'est produite lors de la tentative de mettre à jour les "
-"informations de résolution de problème."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr "Une erreur s'est produite lors de la mise à jour du filtre de lien."
+msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
 msgstr ""
-"Une erreur s'est produite lors de la mise à jour de l'entrée de nouvelles "
-"informations."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to update the note."
@@ -909,7 +807,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr "Archivé"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -4047,7 +3945,7 @@ msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Notification Options"
-msgstr "Options de notification"
+msgstr ""
 
 #: lib/eventum/class.notification.php:2006
 #, php-format
@@ -4079,7 +3977,7 @@ msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
-msgstr "Nombre de jours"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -8740,32 +8638,24 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder details"
-msgstr "voir les détails du rappel"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "view the full history of changes on this issue"
-msgstr "afficher l'historique complet des changements sur ce problème"
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid "view the history of sent emails"
-msgstr "consulter l'historique des courriels envoyés"
+msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "visible to all"
-msgstr "visible par tous"
+msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "week"
-msgstr "semaine"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
-msgstr "année"
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Note:</b> La configuration SMTP (courrier sortant) est nécesaire pour "
-#~ "s'assurer de l'envoi de courrier à la création de nouveaux "
-#~ "utilisateurs/projets."
+msgstr ""
