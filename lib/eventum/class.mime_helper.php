@@ -243,13 +243,14 @@ class Mime_Helper
     }
 
     /**
-     * Decodes a MIME header field.
+     * Decode a quoted printable encoded string.
      *
-     * @author  Elan Ruusamäe <glen@delfi.ee>
-     * @param   string $string Thee MIME encoded string to decode
-     * @return  string The decoded string in APP_CHARSET encoding
+     * @author Elan Ruusamäe <glen@delfi.ee>
+     * @see    Zend_Mime_Decode::decodeQuotedPrintable
+     * @param  string encoded string
+     * @return string The decoded string in APP_CHARSET encoding
      */
-    function decodeHeader($string)
+    public static function decodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_decode')) {
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
@@ -558,10 +559,10 @@ class Mime_Helper
         // attempt to extract filename
         $mime_part_filename = '';
         if (!empty($mime_part->ctype_parameters['name'])) {
-            $mime_part_filename = self::decodeHeader($mime_part->ctype_parameters['name']);
+            $mime_part_filename = self::decodeQuotedPrintable($mime_part->ctype_parameters['name']);
         }
         if (empty($mime_part_filename) && !empty($mime_part->d_parameters['filename'])) {
-            $mime_part_filename = self::decodeHeader($mime_part->d_parameters['filename']);
+            $mime_part_filename = self::decodeQuotedPrintable($mime_part->d_parameters['filename']);
         }
 
         // hack in order to treat inline images as normal attachments
