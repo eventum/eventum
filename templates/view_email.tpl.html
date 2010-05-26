@@ -195,8 +195,8 @@ setTimeout('closeAndRefresh()', 2000);
           </td>
           <td bgcolor="{$dark_color}" class="default">
             {section name="i" loop=$email.attachments}
-            <a title="{t}download file{/t}" class="link" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}"><img src="{$rel_url}images/attachment.gif" border="0"></a>
-            <a title="{t}download file{/t}" class="link" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}">{$email.attachments[i].filename}</a><br />
+            <a title="{t}download file{/t}" class="link" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}"><img src="{$rel_url}images/attachment.gif" border="0"></a>
+            <a title="{t}download file{/t}" class="link" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}">{$email.attachments[i].filename}</a><br />
             {/section}
           </td>
         </tr>

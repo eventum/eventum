@@ -121,6 +121,7 @@ Eventum Issue Tracking System
 - Added 'Category' to workload by date range report (Bryan)
 - Update php-gettext wrapper to support switching locales on same page (Elan Ruusamäe)
 - Update php-gettext to find LC_MESSAGES from various dirs like glibc function does (Elan Ruusamäe)
+- MIME decode attachment filenames from emails properly (Elan Ruusamäe)
 
 2007-11-20, Version 2.1
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)
