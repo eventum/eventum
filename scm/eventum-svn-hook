@@ -41,23 +41,10 @@ $eventum_url = 'http://eventum.example.com/';
 //
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
 //
+
+
 // save name of this script
 $PROGRAM = basename(array_shift($argv));
-
-if (isset($eventum_url)) {
-    $data = parse_url($eventum_url);
-} else {
-    // legacy
-    $data = array();
-    $data['host'] = $eventum_domain;
-    $data['path'] = $eventum_relative_url;
-    $data['port'] = $eventum_port;
-    $data['scheme'] = 'http';
-}
-
-if (!isset($data['port'])) {
-    $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
-}
 
 if (!isset($svnlook)) {
     $svnlook = '/usr/bin/svnlook';
@@ -74,31 +61,30 @@ if ($argc < 3) {
 }
 
 $repos = $argv[1];
-$rev = $argv[2];
-$oldRev = $rev - 1;
+$new_revision = $argv[2];
+$old_revision = $new_revision - 1;
 
 $scm_module = rawurlencode(basename($repos));
 
-$results = array();
-exec($svnlook . ' info ' . $repos . ' -r ' . $rev, $results);
-
+exec($svnlook . ' info ' . $repos . ' -r ' . $new_revision, $results);
 $username = array_shift($results);
 $date = array_shift($results);
-array_shift($results); // ignore file length
+// ignore file length
+array_shift($results);
 
+// get the full commit message
 $commit_msg = join("\n", $results);
-// now we have to strip html-tags from the commit message
-$commit_msg = strip_tags($commit_msg);
 
-$files = array();
-exec($svnlook . ' changed ' . $repos . ' -r ' . $rev, $files);
+// now parse the list of modified files
+$modified_files = array();
+exec($svnlook . ' changed ' . $repos . ' -r ' . $new_revision, $files);
 foreach ($files as $file_info) {
     $pieces = explode('   ', $file_info);
     $filename = $pieces[1];
     $modified_files[] = array(
         'filename'     => $filename,
-        'old_revision' => $oldRev,
-        'new_revision' => $rev
+        'old_revision' => $old_revision,
+        'new_revision' => $new_revision
     );
 }
 

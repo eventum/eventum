@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 // URL to your Eventum installation.
@@ -51,6 +52,10 @@ if (in_array($msg, array('- Imported sources', '- New directory'))) {
     exit(0);
 }
 
+// get the full commit message
+$input = getInput();
+$commit_msg = rtrim(substr($input, strpos($input, 'Log Message:') + strlen('Log Message:') + 1));
+
 // now parse the list of modified files
 $modified_files = array();
 foreach ($args as $file_info) {
@@ -62,11 +67,7 @@ foreach ($args as $file_info) {
     );
 }
 
-// get the full commit message
-$input = getInput();
-$commit_msg = rtrim(substr($input, strpos($input, 'Log Message:') + strlen('Log Message:') + 1));
-
-// parse the commit message and get the first issue number we can find
+// parse the commit message and get all issue numbers we can find
 preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
 
 if (count($matches[1]) > 0) {
