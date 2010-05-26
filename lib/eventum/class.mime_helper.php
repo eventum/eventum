@@ -245,7 +245,7 @@ class Mime_Helper
     /**
      * Decodes a MIME header field.
      *
-     * @author  Elan Ruusamäe <glem@delfi.ee>
+     * @author  Elan Ruusamäe <glen@delfi.ee>
      * @param   string $string Thee MIME encoded string to decode
      * @return  string The decoded string in APP_CHARSET encoding
      */
