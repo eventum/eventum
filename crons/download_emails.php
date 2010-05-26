@@ -221,7 +221,12 @@ $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
     $uri = Support::getServerURI($account);
     $login = $account['ema_username'];
-    fatal("Could not connect to the email server '$uri' with login: '$login'. Please verify your email account settings and try again.");
+    $error = imap_last_error();
+    fatal(
+        "$error\n",
+        "Could not connect to the email server '$uri' with login: '$login'.",
+        "Please verify your email account settings and try again."
+    );
 }
 
 $total_emails = Support::getTotalEmails($mbox);
