@@ -55,6 +55,7 @@ Eventum Issue Tracking System
 - Make default timezone and default start day of week configurable in setup (Elan Ruusamäe) 
 - Add new option to Custom Fields Weekly Report to show time spent by user (Raul Raat)
 - Fixed bug with displaying help (Bryan)
+- Fixed bug with dynamic custom fields (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
