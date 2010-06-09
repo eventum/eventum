@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: 2010-05-15 08:32+0000\n"
 "Last-Translator: Sergey Sedov <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -22,14 +22,6 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Для дополнения запроса просто ответьте на это письмо."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7501,6 +7493,13 @@ msgstr "Название:"
 #: templates/view_email.tpl.html
 msgid "To"
 msgstr "Кому/В/По"
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Для дополнения запроса просто ответьте на это письмо."
 
 #: templates/help/email_blocking.tpl.html
 msgid ""

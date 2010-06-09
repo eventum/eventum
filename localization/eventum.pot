@@ -8,19 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7216,6 +7210,10 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "To"
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
 
 #: templates/help/email_blocking.tpl.html

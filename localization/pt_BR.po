@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: 2010-06-03 15:51+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
@@ -17,15 +17,6 @@ msgstr ""
 "X-Launchpad-Export-Date: 2010-06-04 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Para adicionar mais informações ao chamado, simplesmente responda este "
-"email."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7783,6 +7774,14 @@ msgstr "Título:"
 #: templates/view_email.tpl.html
 msgid "To"
 msgstr "Para"
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Para adicionar mais informações ao chamado, simplesmente responda este "
+"email."
 
 #: templates/help/email_blocking.tpl.html
 msgid ""

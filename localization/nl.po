@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: 2010-04-29 08:50+0000\n"
 "Last-Translator: Bas Weijenberg <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -18,14 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2010-04-30 03:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Beantwoord dit bericht om commentaar over deze melding toe te voegen."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7455,6 +7447,13 @@ msgstr "Titel:"
 #: templates/view_email.tpl.html
 msgid "To"
 msgstr "Geadresseerde(n)"
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Beantwoord dit bericht om commentaar over deze melding toe te voegen."
 
 #: templates/help/email_blocking.tpl.html
 msgid ""

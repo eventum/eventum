@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: 2010-06-02 09:12+0000\n"
 "Last-Translator: Jonay <jonay.santana@gmail.com>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
@@ -17,14 +17,6 @@ msgstr ""
 "X-Launchpad-Export-Date: 2010-06-03 03:34+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Para agregar más información a este caso, simplemente responda este correo."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7959,6 +7951,13 @@ msgstr "Título:"
 #: templates/view_email.tpl.html
 msgid "To"
 msgstr "Para"
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Para agregar más información a este caso, simplemente responda este correo."
 
 # traducción anterior forzada y con errores
 # Tags html no son aplicados, sino desplegados.

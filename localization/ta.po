@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:45+0300\n"
+"POT-Creation-Date: 2010-06-09 19:48+0300\n"
 "PO-Revision-Date: 2010-05-29 08:37+0000\n"
 "Last-Translator: Ramesh <rame20002007@yahoo.com>\n"
 "Language-Team: Tamil <ta@li.org>\n"
@@ -17,12 +17,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2010-05-30 03:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7238,6 +7232,10 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "To"
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
 
 #: templates/help/email_blocking.tpl.html
