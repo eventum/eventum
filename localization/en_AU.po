@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2010-05-05 12:24+0000\n"
 "Last-Translator: Robert Readman <Unknown>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
@@ -36,7 +36,8 @@ msgstr ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -3095,7 +3096,8 @@ msgstr "Issue"
 msgid "Issue #"
 msgstr "Issue #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr "Issue #%1$s Details"

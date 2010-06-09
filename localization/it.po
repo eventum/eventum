@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2010-05-10 12:07+0000\n"
 "Last-Translator: Daniele Baitieri <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -38,7 +38,8 @@ msgstr ""
 "Per avere maggiori dettagli sul problema, o aggiornarlo, per favore visita "
 "il seguente URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -3088,7 +3089,8 @@ msgstr "Segnalazione"
 msgid "Issue #"
 msgstr "Segnalazione #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""

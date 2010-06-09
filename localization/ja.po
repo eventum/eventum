@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2009-09-03 02:56-0200\n"
 "Last-Translator: Asako Nishizaki <asako.nishizaki@pbxl.jp>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,8 @@ msgid ""
 "following URL"
 msgstr ""
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -3106,7 +3107,8 @@ msgstr "技術的問題"
 msgid "Issue #"
 msgstr "問題のID番号"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""

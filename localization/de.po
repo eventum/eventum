@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2010-04-29 17:24+0000\n"
 "Last-Translator: cmdrhenner <cmdrhenner@gmail.com>\n"
 "Language-Team: German\n"
@@ -36,7 +36,8 @@ msgstr ""
 "Um weitere Informationen zu dieser Ticket zu sehen oder diese zu "
 "aktualisieren, besuchen Sie bitte die folgende URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -3147,7 +3148,8 @@ msgstr "Vorgang"
 msgid "Issue #"
 msgstr "Vorgang #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""

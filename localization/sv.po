@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2010-01-18 16:56+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -39,7 +39,8 @@ msgstr ""
 "För att se mer detaljer om detta ärende, eller för att uppdatera det, besök "
 "följande URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -2995,7 +2996,8 @@ msgstr "Ärende"
 msgid "Issue #"
 msgstr ""
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""

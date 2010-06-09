@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-09 19:45+0300\n"
 "PO-Revision-Date: 2010-05-26 12:01+0000\n"
 "Last-Translator: Devrim Şahin <room449@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -36,7 +36,8 @@ msgstr ""
 "Bu sorunun bilgi ayrıntılarını görmek veya güncelleştirmek için, lütfen "
 "gelen URL'yi takip ediniz"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -2974,7 +2975,8 @@ msgstr ""
 msgid "Issue #"
 msgstr ""
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
