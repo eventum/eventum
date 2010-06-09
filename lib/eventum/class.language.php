@@ -74,6 +74,7 @@ class Language
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
         'it_IT' => 'Italian',
+        'ja' => 'Japanese',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
         'nl_NL' => 'Dutch',
