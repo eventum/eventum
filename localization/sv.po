@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:48+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-01-18 16:56+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -5752,8 +5752,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Sökresultat"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -8334,10 +8339,6 @@ msgstr "är varken en personals eller kunds tekniska kontakt."
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "ärenden hittade"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr ""
@@ -8509,10 +8510,6 @@ msgid "sent to notification list"
 msgstr "skickat till notifieringslistan"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "visade"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "sortera efter"
 
@@ -8637,6 +8634,12 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr ""
+
+#~ msgid "issues found"
+#~ msgstr "ärenden hittade"
+
+#~ msgid "shown"
+#~ msgstr "visade"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(Håll ner ctrl för att välja flera alternativ)"

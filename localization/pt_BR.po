@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:48+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-06-03 15:51+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
@@ -6026,8 +6026,13 @@ msgid "Search Eventum Issues"
 msgstr "Buscar Chamados do Eventum"
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Resultados da Busca"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -8852,10 +8857,6 @@ msgstr "não é membro da equipe nem contato técnico de cliente."
 msgid "issue"
 msgstr "chamado"
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "chamado(s) encontrado(s)"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "- chamados trabalhados"
@@ -9029,10 +9030,6 @@ msgid "sent to notification list"
 msgstr "enviado para a lista de notificação"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "exibido(s)"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "classificar por"
 
@@ -9157,6 +9154,12 @@ msgstr "semana"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "ano"
+
+#~ msgid "issues found"
+#~ msgstr "chamado(s) encontrado(s)"
+
+#~ msgid "shown"
+#~ msgstr "exibido(s)"
 
 #~ msgid "Expired Customer"
 #~ msgstr "Cliente com Contrato Expirado"

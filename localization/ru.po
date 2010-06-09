@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 19:48+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-05-15 08:32+0000\n"
 "Last-Translator: Sergey Sedov <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -5901,8 +5901,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Результаты поиска"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -8532,10 +8537,6 @@ msgstr ""
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "запрос(а,ов) найдено"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "объем работы по запросам"
@@ -8709,10 +8710,6 @@ msgid "sent to notification list"
 msgstr "отправлено в список уведомлений"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "показано"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "сортировать по"
 
@@ -8837,6 +8834,12 @@ msgstr "неделя"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "год"
+
+#~ msgid "issues found"
+#~ msgstr "запрос(а,ов) найдено"
+
+#~ msgid "shown"
+#~ msgstr "показано"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(удерживайте Ctrl для выбора нескольких значений)"
