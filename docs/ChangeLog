@@ -54,6 +54,9 @@ Eventum Issue Tracking System
 - Allow setup to configure default timezone and start day of week (Elan Ruusamäe)
 - Make default timezone and default start day of week configurable in setup (Elan Ruusamäe) 
 - Add new option to Custom Fields Weekly Report to show time spent by user (Raul Raat)
+- Fixed bug with displaying help (Bryan)
+- Fixed bug with dynamic custom fields (Bryan)
+- Fixed formatting bug in email accounts admin page (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
@@ -121,6 +124,7 @@ Eventum Issue Tracking System
 - Added 'Category' to workload by date range report (Bryan)
 - Update php-gettext wrapper to support switching locales on same page (Elan Ruusamäe)
 - Update php-gettext to find LC_MESSAGES from various dirs like glibc function does (Elan Ruusamäe)
+- MIME decode attachment filenames from emails properly (Elan Ruusamäe)
 
 2007-11-20, Version 2.1
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)

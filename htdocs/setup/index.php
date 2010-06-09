@@ -225,29 +225,33 @@ function checkRequirements()
     $errors = array();
     $warnings = array();
 
-    $extensions = get_loaded_extensions();
-
     // check for GD support
-    if (array_search('gd', $extensions) === false) {
+    if (!extension_loaded('gd')) {
         $errors[] = 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for session support
-    if (!function_exists('session_start')) {
+    if (!extension_loaded('session')) {
         $errors[] = 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for MySQL support
-    if (!function_exists('mysql_query')) {
+    if (!extension_loaded('mysql')) {
         $errors[] = 'The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for the file_uploads php.ini directive
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
-    // check for the file_uploads php.ini directive
-    if (!function_exists('mb_detect_encoding')) {
+    // check for mbstring extension
+    if (!extension_loaded('mbstring')) {
         $warnings[] = "The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly " .
             "you need to install this extension. If you do not install this extension localization will be disabled.";
     }
+    // check for iconv extension
+    if (!extension_loaded('iconv')) {
+        $warnings[] = "The ICONV extension is not enabled in your PHP installation. ".
+            "You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.";
+    }
+
     $error = checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
@@ -264,6 +268,7 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
+
     $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;

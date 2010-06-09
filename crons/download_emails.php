@@ -219,7 +219,14 @@ register_shutdown_function('cleanup_lock');
 $account = Email_Account::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
-    fatal("Could not connect to the email server. Please verify your email account settings and try again.");
+    $uri = Support::getServerURI($account);
+    $login = $account['ema_username'];
+    $error = imap_last_error();
+    fatal(
+        "$error\n",
+        "Could not connect to the email server '$uri' with login: '$login'.",
+        "Please verify your email account settings and try again."
+    );
 }
 
 $total_emails = Support::getTotalEmails($mbox);

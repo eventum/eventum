@@ -58,7 +58,8 @@ class Error_Handler
         file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
 
         // if there's no database connection, then we cannot possibly queue up the error emails
-        if ($notify_error === false || is_null(DB_Helper::getInstance())) {
+        $dbh = DB_Helper::getInstance();
+        if ($notify_error === false || is_null($dbh) || PEAR::isError($dbh)) {
             return;
         }
 

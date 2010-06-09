@@ -63,17 +63,21 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
+        'ca' => 'Catalan',
         'cs' => 'Czech',
         'da_DK' => 'Danish',
         'de_DE' => 'German',
+        'en_AU' => 'English (Australia)',
         'en_GB' => 'English (United Kingdom)',
         'eo' => 'Esperanto',
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
         'fi_FI' => 'Finnish',
+        'fo' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
         'it_IT' => 'Italian',
+        'ja' => 'Japanese',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
         'nl_NL' => 'Dutch',
@@ -84,7 +88,9 @@ class Language
         'ru_RU' => 'Russian',
         'si' => 'Sinhalese',
         'sv_SE' => 'Swedish',
+        'ta' => 'Tamil',
         'tr' => 'Turkish',
+        'ur' => 'Urdu',
         'zh_CN' => 'Chinese (Simplified)',
     );
 
