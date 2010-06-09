@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-04-22 07:54+0000\n"
 "Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
@@ -23,14 +23,6 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
 "\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Jeżeli chcesz dodać dodatkowe informacje - odpowiedz na ten email."
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
@@ -38,7 +30,8 @@ msgstr ""
 "Jeżeli chcesz poznać szczegóły lub zmodyfikować tę informację - kliknij na "
 "podany URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -2981,7 +2974,8 @@ msgstr "Zgłoszenie"
 msgid "Issue #"
 msgstr ""
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -5728,8 +5722,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Wyniki wyszukiwania"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -7271,6 +7270,13 @@ msgstr "Tytuł:"
 msgid "To"
 msgstr "Do"
 
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Jeżeli chcesz dodać dodatkowe informacje - odpowiedz na ten email."
+
 #: templates/help/email_blocking.tpl.html
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
@@ -8251,10 +8257,6 @@ msgstr ""
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "zgłoszeń znaleziono"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "zgłoszeń obsłużonych"
@@ -8426,10 +8428,6 @@ msgid "sent to notification list"
 msgstr "wysłano do odbiorców powiadomień"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "pokazanych"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "sortuj wg"
 
@@ -8554,6 +8552,12 @@ msgstr "tydzień"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "rok"
+
+#~ msgid "issues found"
+#~ msgstr "zgłoszeń znaleziono"
+
+#~ msgid "shown"
+#~ msgstr "pokazanych"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(przytrzymaj ctrl by wybrać więcej opcji)"

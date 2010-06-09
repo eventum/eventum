@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-04-29 17:24+0000\n"
 "Last-Translator: cmdrhenner <cmdrhenner@gmail.com>\n"
 "Language-Team: German\n"
@@ -20,15 +20,6 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
 "\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Um weitere Informationen zu diesem Ticket hinzuzufügen, antworten Sie "
-"einfach auf diese E-Mail"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
@@ -36,7 +27,8 @@ msgstr ""
 "Um weitere Informationen zu dieser Ticket zu sehen oder diese zu "
 "aktualisieren, besuchen Sie bitte die folgende URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -3147,7 +3139,8 @@ msgstr "Vorgang"
 msgid "Issue #"
 msgstr "Vorgang #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -5979,8 +5972,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Suchergebnisse"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -7597,6 +7595,14 @@ msgstr "Titel:"
 msgid "To"
 msgstr "An"
 
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Um weitere Informationen zu diesem Ticket hinzuzufügen, antworten Sie "
+"einfach auf diese E-Mail"
+
 #: templates/help/email_blocking.tpl.html
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
@@ -8627,10 +8633,6 @@ msgstr "ist weder ein Mitarbeiter noch Technischer Kontakt eines Kunden"
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "gefundene Vorgänge"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "zuvor bearbeitete Vorgänge"
@@ -8804,10 +8806,6 @@ msgid "sent to notification list"
 msgstr "an Benachrichtigungsliste senden"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "gezeigt"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "sortieren nach"
 
@@ -8932,6 +8930,12 @@ msgstr "Woche"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "Jahr"
+
+#~ msgid "issues found"
+#~ msgstr "gefundene Vorgänge"
+
+#~ msgid "shown"
+#~ msgstr "gezeigt"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(Strg gedrückt halten, um mehrere Optionen auszuwählen)"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-05-10 12:07+0000\n"
 "Last-Translator: Daniele Baitieri <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -23,14 +23,6 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
 "\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Per aggiungere nuove informazioni a questo problema,rispondi a questa email."
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
@@ -38,7 +30,8 @@ msgstr ""
 "Per avere maggiori dettagli sul problema, o aggiornarlo, per favore visita "
 "il seguente URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -3088,7 +3081,8 @@ msgstr "Segnalazione"
 msgid "Issue #"
 msgstr "Segnalazione #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -5893,8 +5887,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Risultati Ricerca"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -7488,6 +7487,13 @@ msgstr "Titolo:"
 msgid "To"
 msgstr "A"
 
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Per aggiungere nuove informazioni a questo problema,rispondi a questa email."
+
 #: templates/help/email_blocking.tpl.html
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
@@ -8513,10 +8519,6 @@ msgstr ""
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "segnalazioni trovate"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "segnalazioni su cui si è lavorato"
@@ -8690,10 +8692,6 @@ msgid "sent to notification list"
 msgstr "inviato alla lista notifiche"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "visualizzato"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "ordina per"
 
@@ -8818,6 +8816,12 @@ msgstr "settimana"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "anno"
+
+#~ msgid "issues found"
+#~ msgstr "segnalazioni trovate"
+
+#~ msgid "shown"
+#~ msgstr "visualizzato"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(mantieni premuto ctrl per selezionare colonne multiple)"

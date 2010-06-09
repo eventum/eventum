@@ -18,8 +18,8 @@
 To view more details of this issue, or to update it, please visit the following URL{/t}:
 {$app_base_url}view.php?id={$data.iss_id}
 {else}
-{t escape=no}
-To add more information to this issue, simply reply to this email.{/t}
+
+{t escape=no}To add more information to this issue, simply reply to this email.{/t}
 {/if}
 
      {t escape=no}Issue{/t} #: {$data.iss_id}

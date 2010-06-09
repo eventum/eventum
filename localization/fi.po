@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-03-16 11:18+0000\n"
 "Last-Translator: Timppa <timo.myllari@netikka.fi>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -25,14 +25,6 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
 "\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Lisätäksesi tietoa tähän vikailmoitukseen, vastaa tähän sähköpostiin"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
@@ -40,7 +32,8 @@ msgstr ""
 "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava "
 "URL"
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -3048,7 +3041,8 @@ msgstr "Vikailmoitus"
 msgid "Issue #"
 msgstr "Vikailmoitus #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -5835,8 +5829,13 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+#, fuzzy
+msgid "Search Results (%1 issues found)"
 msgstr "Hakutulokset"
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -7414,6 +7413,13 @@ msgstr "Otsikko:"
 msgid "To"
 msgstr "Vastaanottaja"
 
+#: templates/notifications/new_auto_created_issue.tpl.text
+#, fuzzy
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+"\n"
+"Lisätäksesi tietoa tähän vikailmoitukseen, vastaa tähän sähköpostiin"
+
 #: templates/help/email_blocking.tpl.html
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
@@ -8430,10 +8436,6 @@ msgstr "ei kuulu henkilökuntaan eikä teknisiin asiakaspalvelijoihin."
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "vikailmoitusta löytynyt"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "vikailmoitusta, joiden parissa työskennelty"
@@ -8607,10 +8609,6 @@ msgid "sent to notification list"
 msgstr "lähetä ilmoituslistalle"
 
 #: templates/list.tpl.html
-msgid "shown"
-msgstr "näytetty"
-
-#: templates/list.tpl.html
 msgid "sort by"
 msgstr "Lajittele"
 
@@ -8735,6 +8733,12 @@ msgstr "viikko"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "vuosi"
+
+#~ msgid "issues found"
+#~ msgstr "vikailmoitusta löytynyt"
+
+#~ msgid "shown"
+#~ msgstr "näytetty"
 
 #~ msgid "(hold ctrl to select multiple options)"
 #~ msgstr "(pidä CTRL pohjassa valitaksesi useamman vaihtoehdon)"

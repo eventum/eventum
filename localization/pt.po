@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 13:17+0300\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
 "PO-Revision-Date: 2010-01-18 17:35+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -21,17 +21,12 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
 "\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -2963,7 +2958,8 @@ msgstr ""
 msgid "Issue #"
 msgstr ""
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -5705,7 +5701,11 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
+msgid "Search Results (%1 issues found)"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
 msgstr ""
 
 #: templates/adv_search.tpl.html
@@ -7236,6 +7236,10 @@ msgstr ""
 msgid "To"
 msgstr ""
 
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
+
 #: templates/help/email_blocking.tpl.html
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
@@ -8212,10 +8216,6 @@ msgstr ""
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr ""
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr ""
@@ -8384,10 +8384,6 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "sent to notification list"
-msgstr ""
-
-#: templates/list.tpl.html
-msgid "shown"
 msgstr ""
 
 #: templates/list.tpl.html
