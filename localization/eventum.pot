@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-26 20:42+0300\n"
+"POT-Creation-Date: 2010-06-09 13:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,12 +168,6 @@ msgstr ""
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
-msgstr ""
-
-#: templates/manage/email_accounts.tpl.html
-msgid ""
-"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-"server."
 msgstr ""
 
 #: templates/notifications/new.tpl.text
@@ -2793,6 +2787,10 @@ msgid ""
 "accumulate on the weekends."
 msgstr ""
 
+#: templates/manage/email_accounts.tpl.html
+msgid "If you check this, you cannot leave a copy of messages on the server."
+msgstr ""
+
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
 msgstr ""
@@ -3753,6 +3751,7 @@ msgid "None"
 msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
+#: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
@@ -7331,7 +7330,8 @@ msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:586
+#: lib/eventum/class.mime_helper.php:587
+#: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
 msgstr ""

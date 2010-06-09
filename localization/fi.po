@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 11:20+0200\n"
+"POT-Creation-Date: 2010-06-09 13:17+0300\n"
 "PO-Revision-Date: 2010-03-16 11:18+0000\n"
 "Last-Translator: Timppa <timo.myllari@netikka.fi>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -37,7 +37,8 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
+"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava "
+"URL"
 
 #: htdocs/view.php:74
 #, php-format
@@ -105,13 +106,15 @@ msgstr ""
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
-"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
+"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-"
+"kenttään)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
-"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
+"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-"
+"kenttään)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
@@ -137,10 +140,6 @@ msgstr ""
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(hold ctrl to select multiple options)"
-msgstr "(pidä CTRL pohjassa valitaksesi useamman vaihtoehdon)"
-
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
 msgstr "(tunneissa)"
@@ -148,10 +147,6 @@ msgstr "(tunneissa)"
 #: templates/setup.tpl.html
 msgid "(literally)"
 msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(only technical contacts listed on your contract)"
-msgstr "(ainoastaan tekniset kontaktit on listattu sopimuksessasi)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
@@ -175,9 +170,9 @@ msgstr "-- Valitse yksi --"
 
 #: templates/associate.tpl.html
 msgid ""
-"<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
-"option if chosen. This is useful as way to backload a set of emails into an "
-"existing issue."
+"<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if "
+"this option if chosen. This is useful as way to backload a set of emails "
+"into an existing issue."
 msgstr ""
 
 #: templates/associate.tpl.html
@@ -190,18 +185,6 @@ msgstr ""
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
-msgstr ""
-
-#: templates/manage/email_accounts.tpl.html
-msgid ""
-"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-"server."
-msgstr ""
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/notifications/new.tpl.text
@@ -313,7 +296,6 @@ msgstr "Aktiivisuustyyppi"
 msgid "Activity in Past"
 msgstr "Aktiivisuus menneisyydessä"
 
-#: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
@@ -379,10 +361,6 @@ msgstr "Lisää puhelu"
 msgid "Add Phone Entry"
 msgstr "Lisää puhelinmerkintä"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Add Primary Contact to Notification List? *"
-msgstr "Lisää pääyhteyshenkilö muistutuslistaan? *"
-
 #: templates/notification.tpl.html
 msgid "Add Subscription"
 msgstr "Lisätään tilaaja"
@@ -398,10 +376,6 @@ msgstr "Lisää tuntemattomat vastaanottajat vikailmoituksen muistutuslistaan."
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
 msgstr "Lisää lähettäjä oikeutettujen vastaajien listaan?"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Additional Contact Emails"
-msgstr "Vaihtoehtoiset sähköpostiyhteystiedot"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
@@ -475,7 +449,8 @@ msgstr "Hälytyksen syy"
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
+#: templates/removed_emails.tpl.html
+#: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
@@ -536,8 +511,8 @@ msgstr "Suodata myös vikailmoituksen prioriteetin mukaan"
 
 #: templates/update_form.tpl.html
 msgid ""
-"Also, all issues that are marked as duplicates from this one were updated as "
-"well."
+"Also, all issues that are marked as duplicates from this one were updated "
+"as well."
 msgstr "Kaikki tämän vikailmoituksen kaksoiskappaleet päivitettiin myös."
 
 #: templates/setup.tpl.html
@@ -634,8 +609,7 @@ msgid "An error occurred while trying to add the round robin entry."
 msgstr "Virhe tapahtui lisättäessä kiertovuorottelua."
 
 #: templates/associate.tpl.html
-msgid ""
-"An error occurred while trying to associate the selected email message"
+msgid "An error occurred while trying to associate the selected email message"
 msgstr "Virhe tapahtui liittäessä valittua sähköpostiviestiä."
 
 #: templates/convert_note.tpl.html
@@ -659,11 +633,11 @@ msgid "An error occurred while trying to process the uploaded file."
 msgstr "Virhe tapahtui kun siirrettyä tiedostoa käsiteltiin."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
-#: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
-#: templates/popup.tpl.html templates/post_note.tpl.html
-#: templates/removed_emails.tpl.html templates/requirement.tpl.html
-#: templates/self_assign.tpl.html templates/send.tpl.html
-#: templates/view_email.tpl.html
+#: templates/custom_fields_form.tpl.html
+#: templates/manage/email_alias.tpl.html templates/popup.tpl.html
+#: templates/post_note.tpl.html templates/removed_emails.tpl.html
+#: templates/requirement.tpl.html templates/self_assign.tpl.html
+#: templates/send.tpl.html templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
 msgstr "Hakusi suorittamisen aikana tapahtui virhe."
 
@@ -706,8 +680,7 @@ msgid "An error occurred while trying to update the condition information."
 msgstr "Virhe tapahtui päivittäessä ehdon tietoja."
 
 #: templates/manage/custom_fields.tpl.html
-msgid ""
-"An error occurred while trying to update the custom field information."
+msgid "An error occurred while trying to update the custom field information."
 msgstr "Virhe tapahtui päivittäessä lisäkentän tietoja."
 
 #: templates/manage/customize_listing.tpl.html
@@ -794,8 +767,8 @@ msgid ""
 "An integration script will need to be installed in your CVS root repository "
 "in order to send a message to Eventum whenever changes are committed to the "
 "repository. This message will then be processed by Eventum and the changes "
-"to the appropriate files will be associated with existing issue mentioned in "
-"your commit message."
+"to the appropriate files will be associated with existing issue mentioned "
+"in your commit message."
 msgstr ""
 
 #: templates/notifications/assigned.tpl.text
@@ -1099,9 +1072,7 @@ msgstr "Keskiarvo/med/Maks. vikailmoitukset/sähköpostiviestit"
 msgid "BLOCKED"
 msgstr "ESTETTY"
 
-#: templates/close.tpl.html
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/duplicate.tpl.html
+#: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
 msgstr "Takaisin"
 
@@ -1205,7 +1176,6 @@ msgstr "Kenelle soitettiin"
 msgid "Call Type"
 msgstr "Soiton tyyppi"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
 msgstr "Peruuta"
@@ -1394,10 +1364,6 @@ msgstr "Kommentit:"
 msgid "Commit Message"
 msgstr "Lähetä viesti"
 
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Company Name"
-msgstr "Yhtiön nimi"
-
 #: templates/view_form.tpl.html
 msgid "Complete Details"
 msgstr "Täydelliset yksityiskohdat"
@@ -1414,32 +1380,6 @@ msgstr "Asetuksien parametrit"
 msgid "Confirm New Password"
 msgstr "Vahvista uusi salasana"
 
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact"
-msgstr "Kontakti"
-
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Email"
-msgstr "Yhteys sähköpostiosoite"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact Person"
-msgstr "Yhteyshenkilö"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person First Name"
-msgstr "Contacthenkilön etunimi"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person Last Name"
-msgstr "Kontaktihenkilön sukunimi"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact's Local Time"
-msgstr "Yhteyshenkilön paikallinen aika"
-
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
 #: templates/custom_fields_form.tpl.html templates/file_upload.tpl.html
@@ -1449,10 +1389,6 @@ msgstr "Yhteyshenkilön paikallinen aika"
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
 msgstr "Jatka"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Contract #"
-msgstr "Sopimus #"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
@@ -1629,9 +1565,6 @@ msgstr "Lisäkenttä päivitetty (%1$s) päivittäjänä %2$s"
 
 #: lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1653,29 +1586,16 @@ msgstr "Asiakassopimus"
 msgid "Customer Counts"
 msgstr "Asiakaslaskuri"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Customer Details"
-msgstr "Asiakkaan yksityiskohdat"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer ID"
-msgstr "Asiakas ID"
-
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
-"Asiakkaan henkilöllisyys (esim. \"Esimerkki "
-"Oy.\",\"matti.meikalainen@example.com\", 12345)"
+"Asiakkaan henkilöllisyys (esim. \"Esimerkki Oy.\",\"matti."
+"meikalainen@example.com\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
 msgstr "Asiakasintegraatiojärjestelmä"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer Lookup Tool"
-msgstr "Asiakkaan etsimistyökalu"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
@@ -1748,7 +1668,8 @@ msgstr ""
 msgid "Date of Call"
 msgstr "Soiton päivämäärä"
 
-#: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
+#: templates/reports/recent_activity.tpl.html
+#: templates/time_tracking.tpl.html
 msgid "Date of Work"
 msgstr "Työn päivämäärä"
 
@@ -1791,6 +1712,11 @@ msgstr "Tiedotusten oletusasetukset:"
 msgid "Default Priority:"
 msgstr "Oletusprioriteetti:"
 
+#: templates/setup.tpl.html
+#, fuzzy
+msgid "Defaults"
+msgstr "Yksityiskohdat"
+
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -1824,7 +1750,8 @@ msgstr "Laskeva"
 #: templates/manage/link_filters.tpl.html
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
-#: templates/notifications/files.tpl.text templates/notifications/new.tpl.text
+#: templates/notifications/files.tpl.text
+#: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -2020,10 +1947,6 @@ msgid ""
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Edit"
-msgstr "Muokkaa"
-
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
 msgstr "Muokkaa oikeutettujen vastaajien listaa"
@@ -2072,11 +1995,14 @@ msgstr "Muokkaa julkaisuja"
 msgid "Edit Signature"
 msgstr "Muokkaa allekirjoitusta"
 
-#: templates/authorized_replier.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/notification.tpl.html
+#: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "Sähköposti"
+
+#: htdocs/view_email.php:50
+#, php-format
+msgid "Email #%1$s: %2$s"
+msgstr ""
 
 #: lib/eventum/class.support.php:1504
 #, php-format
@@ -2092,7 +2018,6 @@ msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 msgid "Email Account:"
 msgstr "Sähköpostitili:"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/new_user.tpl.text
@@ -2213,16 +2138,15 @@ msgid "Email routed from %1$s"
 msgstr "Sähköposti välitetty %1$s"
 
 #: templates/convert_note.tpl.html
-msgid ""
-"Email will be re-sent from original sender, including any attachments."
+msgid "Email will be re-sent from original sender, including any attachments."
 msgstr ""
 "Sähköpostiviesti lähetetään uudelleen alkuperäiseltä lähettäjältä, "
 "mukaanlukien kaikki liitteet"
 
 #: templates/convert_note.tpl.html
 msgid ""
-"Email will be re-sent from your name, NOT original sender's, and without any "
-"attachments."
+"Email will be re-sent from your name, NOT original sender's, and without "
+"any attachments."
 msgstr ""
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
@@ -2334,8 +2258,8 @@ msgstr ""
 
 #: templates/signup.tpl.html
 msgid ""
-"Error: The email address specified is already associated with an user in the "
-"system."
+"Error: The email address specified is already associated with an user in "
+"the system."
 msgstr ""
 "Virhe: Sähköpostiosoite on jo liitetty käyttäjään tässä järjestelmässä."
 
@@ -2374,8 +2298,8 @@ msgstr "Virhe: Vikailmoitusta ei löydetty"
 #: lib/eventum/class.routing.php:100 lib/eventum/class.routing.php:105
 #: lib/eventum/class.routing.php:398
 msgid ""
-"Error: The routed email had no associated Eventum issue ID or had an invalid "
-"recipient address."
+"Error: The routed email had no associated Eventum issue ID or had an "
+"invalid recipient address."
 msgstr ""
 "Virhe: Reititetty sähköpostiviesti ei sisältänyt Eventum vikailmoitus ID:tä "
 "tai vastaanottaja oli virheellisesti asetettu."
@@ -2471,10 +2395,6 @@ msgstr ""
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
 msgstr ""
-
-#: templates/customer/example/customer_report.tpl.html
-msgid "Example customer API front page"
-msgstr "Esimerkki asiakas API etusivu"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
@@ -2595,18 +2515,6 @@ msgstr "Oletettu ratkaisupäivämäärä"
 msgid "Expected Resolution Date:"
 msgstr "Oletettu ratkaisupäivämäärä:"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Expiration Date"
-msgstr "Loppumispäivämäärä"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired"
-msgstr "Loppunut"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired Customer"
-msgstr "Loppunut asiakkuus"
-
 #: templates/list.tpl.html
 msgid "Export Data:"
 msgstr "Vie data:"
@@ -2620,7 +2528,6 @@ msgid "Extra Note Recipients:"
 msgstr "Viestin lisävastaanottajat:"
 
 #: lib/eventum/class.reminder_condition.php:216
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr "Kenttä"
@@ -2667,10 +2574,6 @@ msgstr "Tiedostot on liitetty olemassaolevaan vikailmoitukseen"
 msgid "Filter by Arrival Date:"
 msgstr "Suodata saapumispäivän mukaan:"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "First Name"
-msgstr "Etunimi"
-
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
 msgstr "Ensimmäinen henkilökunnan vastaus"
@@ -2699,7 +2602,8 @@ msgid ""
 msgstr ""
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
-#: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
+#: templates/removed_emails.tpl.html
+#: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
@@ -2734,7 +2638,8 @@ msgstr "Yleiset asetukset"
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
-#: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
+#: templates/reports/stalled_issues.tpl.html
+#: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
 msgstr "Luo"
@@ -2753,7 +2658,8 @@ msgstr "Hae"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
-#: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
+#: templates/signup.tpl.html templates/update.tpl.html
+#: templates/view.tpl.html
 msgid "Go Back"
 msgstr "Palaa takaisin"
 
@@ -2810,14 +2716,14 @@ msgstr ""
 "Hei,\n"
 "\n"
 "Saimme juuri pyynnön luoda uuden käyttäjätilin %1 järjestelmään.\n"
-"Turvallisuussyistä tarvitsemme sinun vahvistavan tämän pyynnön, jotta voimme "
-"luoda tilin.\n"
+"Turvallisuussyistä tarvitsemme sinun vahvistavan tämän pyynnön, jotta "
+"voimme luoda tilin.\n"
 "\n"
 "Jos tämä ei ole sinun tekemä pyyntö tai et ole enää kiinnostunut tilin "
 "luomisesta, voit jättää vain vastaamatta tähän sähköpostiviestiin. Viikon "
 "kuluttua pyyntö poistetaan automaattisesti. \n"
-"Kuitenkin, jos haluat vahvistaa tilin luomisen, vieraile seuraavassa "
-"URL:ssa:\n"
+"Kuitenkin, jos haluat vahvistaa tilin luomisen, vieraile seuraavassa URL:"
+"ssa:\n"
 
 #: templates/notifications/password_confirmation.tpl.text
 msgid ""
@@ -2830,8 +2736,8 @@ msgid ""
 "If this is not a real request from you, or if you don't need a new password "
 "anymore, please disregard this email.\n"
 "\n"
-"However, if you would like to confirm this request, please do so by visiting "
-"the URL below:\n"
+"However, if you would like to confirm this request, please do so by "
+"visiting the URL below:\n"
 msgstr ""
 "Hei,\n"
 "\n"
@@ -2842,8 +2748,8 @@ msgstr ""
 "Jos tämä ei ole sinun tekemä pyyntö tai et tarvitse uutta salasanaa enää, "
 "voit jättää vain vastaamatta tähän sähköpostiviestiin.\n"
 "\n"
-"Kuitenkin, jos haluat vahvistaa tämän pyynnön, vieraile seuraavassa "
-"URL:ssa:\n"
+"Kuitenkin, jos haluat vahvistaa tämän pyynnön, vieraile seuraavassa URL:"
+"ssa:\n"
 
 #: templates/navigation.tpl.html
 msgid "Help"
@@ -2971,7 +2877,12 @@ msgid ""
 "If yes, this reminder will not activate on weekends and time will not "
 "accumulate on the weekends."
 msgstr ""
-"Jos kyllä, niin tämä muistutus ei aktivoidu ja aika ei kasva viikonloppuisin."
+"Jos kyllä, niin tämä muistutus ei aktivoidu ja aika ei kasva "
+"viikonloppuisin."
+
+#: templates/manage/email_accounts.tpl.html
+msgid "If you check this, you cannot leave a copy of messages on the server."
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
@@ -3053,8 +2964,8 @@ msgstr "Sisällytä loppuneet sopimukset"
 
 #: lib/eventum/class.customer_stats_report.php:685
 msgid ""
-"Includes issue count, Developer email Count, Customer Email Count, Customers "
-"count by Support Level"
+"Includes issue count, Developer email Count, Customer Email Count, "
+"Customers count by Support Level"
 msgstr ""
 "Sisältää vikailmoitusten määrän, kehittäjän sähköpostiviestien määrän, "
 "asiakkaan sähköpostiviestien määrän, asiakkaiden määrän tukitasoittain"
@@ -3282,10 +3193,6 @@ msgstr "Lipuke:"
 msgid "Last Action Date"
 msgstr "Viimeisen toiminnon päivämäärä"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Last Name"
-msgstr "Sukunimi"
-
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Outgoing Msg"
@@ -3358,8 +3265,8 @@ msgstr "Linkkisuodattimia"
 
 #: templates/help/link_filters.tpl.html
 msgid ""
-"Link filters are used to replace text such as '%1' with an automatic link to "
-"some external resource. It uses regular expressions to replace the text. "
+"Link filters are used to replace text such as '%1' with an automatic link "
+"to some external resource. It uses regular expressions to replace the text. "
 "Specify the search pattern in the pattern field without delimiters. Specify "
 "the entire string you would like to use as a replacement with $x to insert "
 "the matched text."
@@ -3395,14 +3302,6 @@ msgstr "Kirjautumisaikaa käytetty"
 msgid "Logout"
 msgstr "Uloskirjautuminen"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Lookup"
-msgstr "Etsintä"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Lookup Customer"
-msgstr "Asiakkaan etsintä"
-
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
 msgstr "Sähköpostijonon lokikirja"
@@ -3431,7 +3330,8 @@ msgstr "Hallinnoi näytettäviä sarakkeita"
 msgid "Manage Custom Fields"
 msgstr "Hallinnoi lisäkenttiä"
 
-#: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
+#: templates/manage/account_managers.tpl.html
+#: templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
 msgstr "Hallinnoi asiakkaan asiakaspäälliköitä"
 
@@ -3529,10 +3429,6 @@ msgstr "Merkitse kaksoiskappaleeksi"
 msgid "Max"
 msgstr "Maks."
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Maximum First Response Time"
-msgstr "Maksimi ensivastaus aika"
-
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
 msgstr "Mediaani"
@@ -3579,7 +3475,7 @@ msgstr "Matkapuhelin"
 msgid "Module / Directory"
 msgstr "Moduuli / Kansio"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3648,8 +3544,8 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid ""
-"NOTE: You may report issues without the need to login by using the following "
-"URL:"
+"NOTE: You may report issues without the need to login by using the "
+"following URL:"
 msgstr ""
 
 #: templates/manage/groups.tpl.html
@@ -3714,7 +3610,6 @@ msgid "Next Note"
 msgstr "Seuraava viesti"
 
 #: lib/eventum/class.misc.php:693 templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3926,10 +3821,6 @@ msgstr "Ratkaisupäivämäärää ei ole annettu"
 msgid "No resolutions could be found."
 msgstr "Ratkaisuja ei löytynyt."
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "No results could be found"
-msgstr "Ratkaisuja ei löytynyt"
-
 #: templates/manage/round_robin.tpl.html
 msgid "No round robin entries could be found."
 msgstr "Kiertovuorotteluja ei löytynyt."
@@ -3963,6 +3854,7 @@ msgid "None"
 msgstr "Ei mitään"
 
 #: templates/manage/customer_notes.tpl.html
+#: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
@@ -3981,12 +3873,16 @@ msgstr "Viestin vastaanottajien tyyppilippu:"
 msgid "Note routed from %1$s"
 msgstr "Viesti välitetty %1$s"
 
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Viesti:"
+
 #: templates/forgot_password.tpl.html
 msgid ""
 "Note: Please enter your email address below and a new random password will "
 "be created and assigned to your account. For security purposes a "
-"confirmation message will be sent to your email address and after confirming "
-"it the new password will be then activated and sent to you."
+"confirmation message will be sent to your email address and after "
+"confirming it the new password will be then activated and sent to you."
 msgstr ""
 "Huomio: Syötä sähköpostiosoitteesi ja uusi satunnainen salasanasi luodaan "
 "käyttäjätilillesi. Turvallisuussyistä vahvistusviesti lähetetään "
@@ -4005,19 +3901,15 @@ msgstr "Huomio: Suurin sallittu siirretyn tiedoston koko on %1"
 #: templates/help/report_priority.tpl.html
 #: templates/help/report_release.tpl.html
 msgid ""
-"Note: The values in this field can be changed by going in the administration "
-"section of this application and editing the appropriate atributes of a "
-"project. If you do not have the needed permissions to do so, please contact "
-"your local Eventum administrator."
+"Note: The values in this field can be changed by going in the "
+"administration section of this application and editing the appropriate "
+"atributes of a project. If you do not have the needed permissions to do so, "
+"please contact your local Eventum administrator."
 msgstr ""
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
 msgstr "Viestit"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Notes About Customer"
-msgstr "viestit asiakkaasta"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
@@ -4056,10 +3948,6 @@ msgstr "Muistutuslistan merkintä ('%1$s') lisääjänä %2$s"
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') päivittäjänä %2$s"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Notify Customer About New Issue? *"
-msgstr "Ilmoita asiakkaalle uudesta vikailmoituksesta? *"
-
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
 msgstr "Ilmoita lähettäjälle?"
@@ -4090,8 +3978,8 @@ msgstr "Ainoastaan tunnetuille asiakkaille?"
 
 #: lib/eventum/class.mail_helper.php:115
 msgid ""
-"Only staff members listed in the assignment or authorized replier fields can "
-"send emails."
+"Only staff members listed in the assignment or authorized replier fields "
+"can send emails."
 msgstr ""
 "Ainoastaan henkilökunnan jäsenet, jotka on listattu \"määrätty\"-kentässä "
 "tai \"oikeutetut vastaajat\"-kentässä voivat lähettää sähköpostia."
@@ -4133,7 +4021,8 @@ msgstr "Operaattori:"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
-#: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
+#: templates/reports/customer_stats.tpl.html
+#: templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr "Asetukset"
 
@@ -4164,8 +4053,8 @@ msgstr "Muuta:"
 
 #: templates/duplicate.tpl.html templates/new.tpl.html
 msgid ""
-"Otherwise, you will be automatically redirected to the Issue Details Page in "
-"5 seconds."
+"Otherwise, you will be automatically redirected to the Issue Details Page "
+"in 5 seconds."
 msgstr ""
 "Muuten sivu ohjautuu automaattisesti \"Vikailmoituksen yksityiskohdat\"-"
 "sivulle 5 sekunnin kuluttua."
@@ -4283,8 +4172,6 @@ msgstr "Poista pysyvästi"
 msgid "Phone Calls"
 msgstr "Puhelut"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
 msgstr "Puhelinnumero"
@@ -4423,7 +4310,8 @@ msgstr "Valitse käyttäjä"
 msgid ""
 "Please choose at least one person to assign the new issues created remotely."
 msgstr ""
-"Valitse vähintään yksi ihminen, jolle määrätään etänä luodut vikailmoitukset."
+"Valitse vähintään yksi ihminen, jolle määrätään etänä luodut "
+"vikailmoitukset."
 
 #: templates/close.tpl.html
 msgid "Please choose from one of the options below"
@@ -4524,8 +4412,7 @@ msgstr "Valitse uuden ajanseurantamerkinnän kategoria."
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
-msgstr ""
-"Valitse sähköpostipalvelimen tyyppi, joka liitetään sähköpostitiliin."
+msgstr "Valitse sähköpostipalvelimen tyyppi, joka liitetään sähköpostitiliin."
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -4534,20 +4421,20 @@ msgstr "Valitse on SCM-integraatio päällä vai pois."
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
-"Please choose whether the anonymous posting feature should be allowed or not "
-"for this project"
+"Please choose whether the anonymous posting feature should be allowed or "
+"not for this project"
 msgstr ""
 "Valitse sallitaanko anonyymi sähköpostiviestien lähetys tässä projektissa "
 "vai ei"
 
 #: templates/manage/general.tpl.html
-msgid ""
-"Please choose whether the daily tips feature should be enabled or not."
+msgid "Please choose whether the daily tips feature should be enabled or not."
 msgstr "Valitse onko päivittäiset vinkit päällä vai pois."
 
 #: templates/manage/general.tpl.html
 msgid ""
-"Please choose whether the email integration feature should be enabled or not."
+"Please choose whether the email integration feature should be enabled or "
+"not."
 msgstr "Valitse onko sähköpostin integrointi päällä vai pois."
 
 #: templates/manage/issue_auto_creation.tpl.html
@@ -4563,7 +4450,8 @@ msgid ""
 "Please choose whether the system should allow visitors to signup for new "
 "accounts or not."
 msgstr ""
-"Valitse salliiko järjestelmä vierailijoiden luoda tunnuksia itselleen vai ei."
+"Valitse salliiko järjestelmä vierailijoiden luoda tunnuksia itselleen vai "
+"ei."
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
@@ -4764,8 +4652,7 @@ msgstr ""
 "Syötä sähköpostiosoite, johon kopiot lähtevistä sähköposteista lähetetään."
 
 #: templates/manage/general.tpl.html
-msgid ""
-"Please enter the email address prefix for the email routing interface."
+msgid "Please enter the email address prefix for the email routing interface."
 msgstr "Syötä sähköpostiosoitteen alkuosa sähköpostivälitysrajapinnalle."
 
 #: templates/manage/users.tpl.html
@@ -4794,8 +4681,7 @@ msgid "Please enter the impact analysis for this new requirement."
 msgstr "Syötä vaikutusanalyysi tälle uudelle vaatimukselle."
 
 #: templates/manage/reminders.tpl.html
-msgid ""
-"Please enter the issue IDs that will be associated with this reminder."
+msgid "Please enter the issue IDs that will be associated with this reminder."
 msgstr "Valitse vikailmoitus ID:eet, joihin muistutus liitetään."
 
 #: templates/manage/general.tpl.html
@@ -5108,8 +4994,8 @@ msgstr ""
 
 #: templates/help/main.tpl.html
 msgid ""
-"Please refer to the following help sections for more information on specific "
-"parts of the application:"
+"Please refer to the following help sections for more information on "
+"specific parts of the application:"
 msgstr ""
 
 #: templates/view_form.tpl.html
@@ -5247,7 +5133,8 @@ msgstr "Valitse projektit joissa tämä linkkisuodatin on aktiivinen."
 
 #: templates/manage/general.tpl.html
 msgid ""
-"Please select the assigned projects for users that create their own accounts."
+"Please select the assigned projects for users that create their own "
+"accounts."
 msgstr ""
 "Valitse määrätyt projektit niille käyttäjille, jotka luovat omat "
 "käyttäjätilinsä."
@@ -5346,8 +5233,8 @@ msgstr "Ensisijainen tekninen asiakaspäällikkö"
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_auto_created_issue.tpl.text
 #: templates/notifications/new_issue.tpl.text
-#: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
-#: templates/view_form.tpl.html
+#: templates/notifications/notes.tpl.text
+#: templates/quick_filter_form.tpl.html templates/view_form.tpl.html
 msgid "Priority"
 msgstr "Prioriteetti"
 
@@ -5420,10 +5307,6 @@ msgstr "Julkinen"
 msgid "Quarantine expires in %1"
 msgstr "Eristys päättyy %1"
 
-#: templates/customer/example/quarantine.tpl.html
-msgid "Quarantine explanation goes here..."
-msgstr "Eristyksen selitys kuuluu tähän..."
-
 #: templates/mail_queue.tpl.html
 msgid "Queued Date"
 msgstr "Jonotuspäivämäärä"
@@ -5458,8 +5341,8 @@ msgstr "Raakaotsikot"
 
 #: templates/view_email.tpl.html
 msgid ""
-"Re-directing the parent window to the issue report page. This window will be "
-"closed automatically."
+"Re-directing the parent window to the issue report page. This window will "
+"be closed automatically."
 msgstr ""
 "Uudelleenohjataan isäntä-ikkuna vikailmoituksen ilmoittamissivulle. Tämä "
 "ikkuna suljetaan automaattisesti."
@@ -5580,12 +5463,12 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
-"Refers to the number of emails sent by developers in eventum per issue. Does "
-"<b>not</b> include emails sent to general support mailbox."
+"Refers to the number of emails sent by developers in eventum per issue. "
+"Does <b>not</b> include emails sent to general support mailbox."
 msgstr ""
 "Viittaa Eventumissa kehittäjien lähettämiin sähköpostiviesteihin per "
-"vikailmoitus. <b>Ei</b> ei sisällä sähköposteja, jotka on lähetetty yleiseen "
-"tukisähköpostilaatikkoon."
+"vikailmoitus. <b>Ei</b> ei sisällä sähköposteja, jotka on lähetetty "
+"yleiseen tukisähköpostilaatikkoon."
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -5677,8 +5560,8 @@ msgstr "Poistetut sähköpostiviestit"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as "
-"/home/username/repository for instance. Also make sure to put the "
+"Replace %1 by the appropriate absolute path in your CVS server, such as /"
+"home/username/repository for instance. Also make sure to put the "
 "appropriate path to your PHP binary."
 msgstr ""
 
@@ -5767,8 +5650,9 @@ msgstr "Vaadittu kenttä"
 msgid "Required Fields"
 msgstr "Vaaditut kentät"
 
-#: templates/duplicate.tpl.html templates/new.tpl.html templates/post.tpl.html
-#: templates/post_note.tpl.html templates/send.tpl.html
+#: templates/duplicate.tpl.html templates/new.tpl.html
+#: templates/post.tpl.html templates/post_note.tpl.html
+#: templates/send.tpl.html
 msgid "Required fields"
 msgstr "Vaaditut kentät"
 
@@ -5823,10 +5707,6 @@ msgstr "Vastauksen runko:"
 #: templates/removed_emails.tpl.html
 msgid "Restore Emails"
 msgstr "Palauta sähköpostiviestejä"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Results"
-msgstr "Tulokset"
 
 #: templates/update_form.tpl.html
 msgid "Return to Issue #%1 Details Page"
@@ -5889,10 +5769,6 @@ msgstr "SMTP-asetukset"
 #: templates/setup.tpl.html
 msgid "SSL Server"
 msgstr "SSL-palvelin"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Sales Account Manager"
-msgstr "Myyntipäällikkö"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/email_alias.tpl.html
@@ -6133,8 +6009,8 @@ msgstr "Ohita viikonloput"
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
 "So to examplify its use, whenever the users are ready to commit the changes "
-"to the CVS repository, they will add a special string to specify which issue "
-"this is related to. The following would be a good example of its use:"
+"to the CVS repository, they will add a special string to specify which "
+"issue this is related to. The following would be a good example of its use:"
 msgstr ""
 
 #: templates/close.tpl.html
@@ -6255,15 +6131,14 @@ msgstr "Tilastot"
 #: lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
-#: templates/close.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/email_drafts.tpl.html templates/emails.tpl.html
-#: templates/file_upload.tpl.html templates/mail_queue.tpl.html
-#: templates/manage/customize_listing.tpl.html templates/manage/news.tpl.html
-#: templates/manage/projects.tpl.html templates/manage/releases.tpl.html
-#: templates/manage/users.tpl.html templates/notifications/closed.tpl.text
-#: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
-#: templates/reports/issue_user.tpl.html
+#: templates/close.tpl.html templates/email_drafts.tpl.html
+#: templates/emails.tpl.html templates/file_upload.tpl.html
+#: templates/mail_queue.tpl.html templates/manage/customize_listing.tpl.html
+#: templates/manage/news.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/releases.tpl.html templates/manage/users.tpl.html
+#: templates/notifications/closed.tpl.text
+#: templates/notifications/notes.tpl.text
+#: templates/quick_filter_form.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
@@ -6327,9 +6202,9 @@ msgstr "Ehdotukset:"
 
 #: lib/eventum/class.display_column.php:227
 #: lib/eventum/class.notification.php:642
-#: lib/eventum/class.notification.php:643 templates/add_time_tracking.tpl.html
-#: templates/adv_search.tpl.html templates/history.tpl.html
-#: templates/list.tpl.html templates/new.tpl.html
+#: lib/eventum/class.notification.php:643
+#: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
+#: templates/history.tpl.html templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
 #: templates/notifications/new.tpl.text
@@ -6357,18 +6232,12 @@ msgstr "Yhteenvetokenttä"
 msgid "Summary:"
 msgstr "Yhteenveto:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Support Expiration Date"
-msgstr "Tuen loppumispäivämäärä"
-
 #: lib/eventum/class.customer_stats_report.php:669
 #: lib/eventum/class.display_column.php:212
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/customer_info.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
@@ -6382,10 +6251,6 @@ msgstr "Tukitasot"
 #: templates/view_form.tpl.html
 msgid "Support Options"
 msgstr "Tukivaihtoehdot"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Support Type"
-msgstr "Tukityypit"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6436,9 +6301,9 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid ""
-"Thank you, a confirmation message was just emailed to you. Please follow the "
-"instructions available in this message to confirm your password creation "
-"request."
+"Thank you, a confirmation message was just emailed to you. Please follow "
+"the instructions available in this message to confirm your password "
+"creation request."
 msgstr ""
 "Kiitos, vahvistusviesti on lähetetty sähköpostiisi. Noudata siinä annettuja "
 "ohjeita vahvistaaksesi salasanan luontipyynnön."
@@ -6660,16 +6525,16 @@ msgstr "Kiitos, uusi vikailmoitus luotiin onnistuneesti."
 
 #: templates/post.tpl.html
 msgid ""
-"Thank you, the new issue was created successfully. For your records, the new "
-"issue ID is <font color=\"red\">%1</font>"
+"Thank you, the new issue was created successfully. For your records, the "
+"new issue ID is <font color=\"red\">%1</font>"
 msgstr ""
 "Kiitos, uusi vikailmoitus luotiin onnistuneesti. Luomasi vikailmoituksen ID "
 "on <font color=\"red\">%1</font>"
 
 #: templates/new.tpl.html
 msgid ""
-"Thank you, the new issue was created successfully. Please choose from one of "
-"the options below"
+"Thank you, the new issue was created successfully. Please choose from one "
+"of the options below"
 msgstr ""
 "Kiitos, vikailmoitus luotiin onnistuneesti. Valitse toiminto alapuolelta"
 
@@ -6836,7 +6701,8 @@ msgstr "Kiitos, sinut on nyt määrätty tähän vikailmoitukseen."
 #: templates/popup.tpl.html
 msgid "Thank you, you are now authorized to send emails in this issue."
 msgstr ""
-"Kiitos, olet nyt oikeutettu lähettämään sähköposteja tässä vikailmoituksessa."
+"Kiitos, olet nyt oikeutettu lähettämään sähköposteja tässä "
+"vikailmoituksessa."
 
 #: templates/login_form.tpl.html
 msgid "Thank you, you are now logged out of %1"
@@ -6849,12 +6715,13 @@ msgstr "Kiitos, tilisi kellotustilaa muutettiin onnistuneesti."
 #: templates/signup.tpl.html
 msgid ""
 "Thank you, your account creation request was processed successfully. For "
-"security reasons a confirmation email was sent to the provided email address "
-"with instructions on how to confirm your request and activate your account."
+"security reasons a confirmation email was sent to the provided email "
+"address with instructions on how to confirm your request and activate your "
+"account."
 msgstr ""
-"Kiitos, tilisi luotiin onnistuneesti. Turvallisuussyistä vahvistussähköposti "
-"on lähetetty sähköpostiosoitteeseesi, jossa olevia ohjeita seuraamalla voit "
-"vahvistaa ja aktivoida tilisi."
+"Kiitos, tilisi luotiin onnistuneesti. Turvallisuussyistä "
+"vahvistussähköposti on lähetetty sähköpostiosoitteeseesi, jossa olevia "
+"ohjeita seuraamalla voit vahvistaa ja aktivoida tilisi."
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -6893,8 +6760,8 @@ msgstr ""
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The %1 script, which is available in the %2 sub-directory in your Eventum "
-"installation directory, will need to be installed in your CVSROOT CVS module "
-"by following the procedure below:"
+"installation directory, will need to be installed in your CVSROOT CVS "
+"module by following the procedure below:"
 msgstr ""
 
 #: templates/help/scm_integration.tpl.html
@@ -6911,9 +6778,15 @@ msgstr ""
 #: templates/help/list.tpl.html
 msgid ""
 "The Issue Listing page uses a grid layout to simplify the manual search for "
-"issues in a project. You may sort for (almost) any column in this grid form, "
-"and users with the appropriate permissions may also assign selected issues "
-"to another user."
+"issues in a project. You may sort for (almost) any column in this grid "
+"form, and users with the appropriate permissions may also assign selected "
+"issues to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -6974,13 +6847,14 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid ""
-"The following addresses could not be matched against the system user records:"
+"The following addresses could not be matched against the system user "
+"records:"
 msgstr "Seuraavia osoitteita ei löydetty järjestelmän käyttäjätiedoista:"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
-"The following is a brief overview of the available user permission levels in "
-"Eventum:"
+"The following is a brief overview of the available user permission levels "
+"in Eventum:"
 msgstr ""
 
 #: templates/self_assign.tpl.html
@@ -7049,8 +6923,8 @@ msgstr ""
 
 #: templates/confirm.tpl.html
 msgid ""
-"The provided trial account encrypted hash could not be authenticated. Please "
-"contact the local Technical Support staff for further assistance."
+"The provided trial account encrypted hash could not be authenticated. "
+"Please contact the local Technical Support staff for further assistance."
 msgstr ""
 
 #: templates/help/list.tpl.html
@@ -7070,7 +6944,8 @@ msgstr "Arvo löytyy jo vaihtoehdoista."
 
 #: templates/preferences.tpl.html
 msgid ""
-"The two passwords do not match. Please review your information and try again."
+"The two passwords do not match. Please review your information and try "
+"again."
 msgstr "Antamasi salasanat eivät täsmää. Tarkista ne ja yritä uudelleen."
 
 #: templates/file_upload.tpl.html
@@ -7096,8 +6971,8 @@ msgid ""
 "database server specified in your configuration file. Please contact your "
 "local system administrator for further assistance."
 msgstr ""
-"Asetustiedostossa määritettyjen tietokannan taulujen etsimisessä on ilmennyt "
-"ongelmia. Ota yhteyttä järjestelmänvalvojaan."
+"Asetustiedostossa määritettyjen tietokannan taulujen etsimisessä on "
+"ilmennyt ongelmia. Ota yhteyttä järjestelmänvalvojaan."
 
 #: templates/new.tpl.html
 msgid "There was an error creating your issue."
@@ -7141,13 +7016,11 @@ msgid "This action will permanently delete the specified note."
 msgstr "Tämä toiminto poistaa pysyvästi valitun viesti."
 
 #: templates/phone_support.tpl.html
-msgid ""
-"This action will permanently delete the specified phone support entry."
+msgid "This action will permanently delete the specified phone support entry."
 msgstr "Tämä toiminto poistaa pysyvästi valitun puhelintukimerkinnän."
 
 #: templates/time_tracking.tpl.html
-msgid ""
-"This action will permanently delete the specified time tracking entry."
+msgid "This action will permanently delete the specified time tracking entry."
 msgstr "Tämä toiminto poistaa ajanseurantamerkinnän pysyvästi."
 
 #: templates/manage/faq.tpl.html
@@ -7206,8 +7079,8 @@ msgstr ""
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
-"This column is useful to display the amount of time since the last change in "
-"status for each issue. For example, if issue #1234 is set to status "
+"This column is useful to display the amount of time since the last change "
+"in status for each issue. For example, if issue #1234 is set to status "
 "'Closed', you could configure Eventum to display the difference in time "
 "between \"now\" and the date value stored in the closed date field."
 msgstr ""
@@ -7215,14 +7088,14 @@ msgstr ""
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
-"and available in %1) and it will notify Eventum that these changes are to be "
-"associated with issue #13."
+"and available in %1) and it will notify Eventum that these changes are to "
+"be associated with issue #13."
 msgstr ""
 
 #: templates/close.tpl.html
 msgid ""
-"This customer has a per incident contract. You have chosen not to redeem any "
-"incidents. Press 'OK' to confirm or 'Cancel' to revise."
+"This customer has a per incident contract. You have chosen not to redeem "
+"any incidents. Press 'OK' to confirm or 'Cancel' to revise."
 msgstr ""
 "Asiakkaalla on \"laskutus per ongelma\"-sopimus. Olet valinnut olla "
 "laskuttamatta yhtään ongelmaa. Paina 'OK' vahvistaaksesi tai 'Cancel' "
@@ -7237,8 +7110,8 @@ msgstr ""
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
-"This feature allows your software development teams to integrate your Source "
-"Control Management system with your Issue Tracking System."
+"This feature allows your software development teams to integrate your "
+"Source Control Management system with your Issue Tracking System."
 msgstr ""
 
 #: templates/help/report_estimated_dev_time.tpl.html
@@ -7246,23 +7119,23 @@ msgid ""
 "This field can also be used as a way to check the estimation abilities of "
 "project managers against the impact analysis given by the developers "
 "themselves. That is, the value entered by a project manager here can be "
-"compared against the impact analysis / estimated development time entered by "
-"the developers, and this way get more experience estimating the required "
+"compared against the impact analysis / estimated development time entered "
+"by the developers, and this way get more experience estimating the required "
 "time for new projects."
 msgstr ""
 
 #: templates/help/report_summary.tpl.html
 msgid ""
-"This field is used as a simple and descriptive title to this new issue. As a "
-"suggestion, it should be descriptive and short enough to be used by other "
+"This field is used as a simple and descriptive title to this new issue. As "
+"a suggestion, it should be descriptive and short enough to be used by other "
 "users to remember quickly what the issue was all about."
 msgstr ""
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
 "This field is used by the reporters of new issues to estimate the total "
-"development time for the issue. It is especially important as a metrics tool "
-"to get a simple estimate of how much time each issue will take from "
+"development time for the issue. It is especially important as a metrics "
+"tool to get a simple estimate of how much time each issue will take from "
 "discovery, going through implementation and testing up until release time."
 msgstr ""
 
@@ -7307,10 +7180,10 @@ msgstr ""
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "This is a special permission level reserved for the Customer Integration "
-"API, which allows you to integrate Eventum with your CRM database. When this "
-"feature is enabled, this type of user can only access issues associated with "
-"their own customer. Allowed to create new issues, update and send emails to "
-"existing issues."
+"API, which allows you to integrate Eventum with your CRM database. When "
+"this feature is enabled, this type of user can only access issues "
+"associated with their own customer. Allowed to create new issues, update "
+"and send emails to existing issues."
 msgstr ""
 
 #: templates/notifications/files.tpl.text
@@ -7339,8 +7212,8 @@ msgstr "Tämä vikailmoitus on jo merkitty laskutetuksi."
 
 #: templates/view_form.tpl.html
 msgid ""
-"This issue is marked private. Only Managers, the reporter and users assigned "
-"to the issue can view it."
+"This issue is marked private. Only Managers, the reporter and users "
+"assigned to the issue can view it."
 msgstr ""
 "Tämä vikailmoitus on merkitty yksityiseksi. Ainoastaan johtajat, ilmoittaja "
 "sekä liitetyt käyttäjät saavat tarkastella sitä."
@@ -7443,9 +7316,9 @@ msgstr ""
 msgid "Time Period"
 msgstr "Ajanjakso"
 
-#: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
-#: templates/add_time_tracking.tpl.html templates/close.tpl.html
-#: templates/reports/custom_fields_weekly.tpl.html
+#: lib/eventum/class.display_column.php:192
+#: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
+#: templates/close.tpl.html templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7471,14 +7344,10 @@ msgid "Time To First Response"
 msgstr "Aikaa ensimmäiseen vastaukseen"
 
 #: lib/eventum/class.customer_stats_report.php:735
-#: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
-#: templates/time_tracking.tpl.html
+#: templates/help/view_time.tpl.html
+#: templates/reports/customer_stats.tpl.html templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr "Ajanseuranta"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Time Until First Response Deadline"
-msgstr "Aikaa ensimmäisen vastauksen aikarajaan"
 
 #: lib/eventum/class.phone_support.php:333
 msgid "Time entry inserted from phone call."
@@ -7487,6 +7356,11 @@ msgstr "Aikamerkintä puhelusta."
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Time spent as minutes"
 msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+#, fuzzy
+msgid "Time spent per user"
+msgstr "Näytä vikailmoitukseen käytetyt ajat"
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
@@ -7507,9 +7381,7 @@ msgstr "Ajanseurantamerkinnän lisääjä %1$s"
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Etänä lisätty ajanseurantamerkintä lisääjänä %1$s"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Aikavyöhyke"
 
@@ -7563,7 +7435,8 @@ msgstr "Jotta voit aloittaa järjestelmän käyttämisen, niin"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
-#: templates/notifications/files.tpl.text templates/notifications/new.tpl.text
+#: templates/notifications/files.tpl.text
+#: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 #: templates/notifications/updated.tpl.text
@@ -7571,7 +7444,8 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
-"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
+"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava "
+"URL"
 
 #: templates/email_filter_form.tpl.html
 msgid "To:"
@@ -7655,6 +7529,13 @@ msgstr "Merkitse vikailmoitus määräämättömäksi"
 #: templates/manage/releases.tpl.html
 msgid "Unavailable - Users may NOT use this release"
 msgstr "Saatamattomissa - Käyttäjät EIVÄT voi käyttää tätä julkaisua"
+
+#. TRANSLATORS: filename for inline image attachments, where %s is file extension
+#: lib/eventum/class.mime_helper.php:587
+#: upgrade/patches/06_iaf_attachment_filename.php:31
+#, php-format
+msgid "Untitled.%s"
+msgstr ""
 
 #: templates/custom_fields.tpl.html templates/impact_analysis.tpl.html
 #: templates/update_form.tpl.html
@@ -7847,7 +7728,9 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
-#: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/recent_activity.tpl.html
+#: templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Käyttäjä"
 
@@ -7893,7 +7776,6 @@ msgstr ""
 msgid "Using CSC"
 msgstr "Käyttää CSC:tä"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value"
 msgstr "Arvo"
@@ -7970,8 +7852,8 @@ msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid ""
-"WARNING: This action will permanently remove the selected email aliases from "
-"your email account."
+"WARNING: This action will permanently remove the selected email aliases "
+"from your email account."
 msgstr ""
 
 #: templates/removed_emails.tpl.html
@@ -8021,16 +7903,17 @@ msgstr ""
 
 #: lib/eventum/class.mail_helper.php:114
 msgid ""
-"WARNING: This message was blocked because the sender was not allowed to send "
-"emails to the associated issue."
+"WARNING: This message was blocked because the sender was not allowed to "
+"send emails to the associated issue."
 msgstr ""
-"VAROITUS: Tämä viesti estettiin koska lähettäjällä ei ole oikeuksia lähettää "
-"viestejä kyseiseen vikailmoitukseen."
+"VAROITUS: Tämä viesti estettiin koska lähettäjällä ei ole oikeuksia "
+"lähettää viestejä kyseiseen vikailmoitukseen."
 
 #: templates/send.tpl.html
 msgid ""
 "WARNING: You are not assigned to this issue so your email will be blocked.\n"
-"Your blocked email will be converted to a note that can be recovered later.\n"
+"Your blocked email will be converted to a note that can be recovered "
+"later.\n"
 "For more information, please see the topic 'email blocking' in help."
 msgstr ""
 "VAROITUS: Sinua ei ole määrätty tähän vikailmoitukseen, joten "
@@ -8074,8 +7957,7 @@ msgstr ""
 #: templates/send.tpl.html
 msgid ""
 "Warning: This draft has already been edited. You cannot send or edit it."
-msgstr ""
-"Varoitus: Luonnosta on jo muokattu. Et voi lähettää tai muokata sitä."
+msgstr "Varoitus: Luonnosta on jo muokattu. Et voi lähettää tai muokata sitä."
 
 #: templates/send.tpl.html
 msgid "Warning: This draft has already been sent. You cannot resend it."
@@ -8100,8 +7982,8 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
-"We received a message from you and for your convenience, we created an issue "
-"that will be used by our staff to handle your message."
+"We received a message from you and for your convenience, we created an "
+"issue that will be used by our staff to handle your message."
 msgstr ""
 "Vastaanotimme viestisi ja loimme vikailmoituksen, jonka henkilökuntamme "
 "käsittelee."
@@ -8112,7 +7994,7 @@ msgstr ""
 msgid "Week"
 msgstr "Viikko"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
@@ -8176,9 +8058,8 @@ msgid "Workload by time period"
 msgstr "Työmäärä aikajaksoittain"
 
 #: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
-#: templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
+#: templates/close.tpl.html templates/manage/custom_fields.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -8195,8 +8076,8 @@ msgstr "Sinulla ei ole oikeuksia käyttää valittua projektia."
 
 #: templates/tips/custom_queries.tpl.html
 msgid ""
-"You can create as many custom queries as you want through the <a "
-"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
+"You can create as many custom queries as you want through the <a class="
+"\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
 "ability to save and modify custom queries and load them quickly from the "
 "Issue Listing screen."
 msgstr ""
@@ -8211,9 +8092,9 @@ msgstr ""
 #: templates/help/column_display.tpl.html
 msgid ""
 "You can set the minimum role required to view a column. For example, if you "
-"set the mimimum role for 'Category' to be 'Manager' anyone with a role lower "
-"then 'Manager' will not be able to see that column. To hide a column from "
-"all users, select 'Never Display'."
+"set the mimimum role for 'Category' to be 'Manager' anyone with a role "
+"lower then 'Manager' will not be able to see that column. To hide a column "
+"from all users, select 'Never Display'."
 msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
@@ -8263,8 +8144,8 @@ msgstr ""
 
 #: templates/help/preferences.tpl.html
 msgid ""
-"You may also set the appropriate timezone where you live in this screen, and "
-"all of the software will adjust the dates displayed in the system "
+"You may also set the appropriate timezone where you live in this screen, "
+"and all of the software will adjust the dates displayed in the system "
 "accordingly."
 msgstr ""
 
@@ -8314,9 +8195,9 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid ""
-"Your user status is currently set as pending. This means that you still need "
-"to confirm your account creation request. Please contact your local system "
-"administrator for further information."
+"Your user status is currently set as pending. This means that you still "
+"need to confirm your account creation request. Please contact your local "
+"system administrator for further information."
 msgstr ""
 
 #: templates/help/scm_integration.tpl.html
@@ -8327,8 +8208,8 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
-"13)\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
+"\" form.php"
 msgstr ""
 "[Komentokehote]$ cvs -q commit -m \"Lisätään lomakkeen tarkistusta, kuten "
 "pyydettiin (vikailmoitus: 13)\" form.php"
@@ -8716,10 +8597,6 @@ msgstr ""
 msgid "see the source of revision %1 of %2"
 msgstr "katso lähdekoodin versio %1 %2:sta"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "select this contact"
-msgstr ""
-
 #: templates/manage/users.tpl.html
 msgid "send email to"
 msgstr "lähetä sähköpostia osoitteeseen"
@@ -8859,6 +8736,108 @@ msgstr "viikko"
 msgid "year"
 msgstr "vuosi"
 
+#~ msgid "(hold ctrl to select multiple options)"
+#~ msgstr "(pidä CTRL pohjassa valitaksesi useamman vaihtoehdon)"
+
+#~ msgid "(only technical contacts listed on your contract)"
+#~ msgstr "(ainoastaan tekniset kontaktit on listattu sopimuksessasi)"
+
+#~ msgid "Add Primary Contact to Notification List? *"
+#~ msgstr "Lisää pääyhteyshenkilö muistutuslistaan? *"
+
+#~ msgid "Additional Contact Emails"
+#~ msgstr "Vaihtoehtoiset sähköpostiyhteystiedot"
+
+#~ msgid "Company Name"
+#~ msgstr "Yhtiön nimi"
+
+#~ msgid "Contact"
+#~ msgstr "Kontakti"
+
+#~ msgid "Contact Email"
+#~ msgstr "Yhteys sähköpostiosoite"
+
+#~ msgid "Contact Person"
+#~ msgstr "Yhteyshenkilö"
+
+#~ msgid "Contact Person First Name"
+#~ msgstr "Contacthenkilön etunimi"
+
+#~ msgid "Contact Person Last Name"
+#~ msgstr "Kontaktihenkilön sukunimi"
+
+#~ msgid "Contact's Local Time"
+#~ msgstr "Yhteyshenkilön paikallinen aika"
+
+#~ msgid "Contract #"
+#~ msgstr "Sopimus #"
+
+#~ msgid "Customer Details"
+#~ msgstr "Asiakkaan yksityiskohdat"
+
+#~ msgid "Customer ID"
+#~ msgstr "Asiakas ID"
+
+#~ msgid "Customer Lookup Tool"
+#~ msgstr "Asiakkaan etsimistyökalu"
+
+#~ msgid "Edit"
+#~ msgstr "Muokkaa"
+
+#~ msgid "Example customer API front page"
+#~ msgstr "Esimerkki asiakas API etusivu"
+
+#~ msgid "Expiration Date"
+#~ msgstr "Loppumispäivämäärä"
+
+#~ msgid "Expired"
+#~ msgstr "Loppunut"
+
+#~ msgid "Expired Customer"
+#~ msgstr "Loppunut asiakkuus"
+
+#~ msgid "First Name"
+#~ msgstr "Etunimi"
+
+#~ msgid "Last Name"
+#~ msgstr "Sukunimi"
+
+#~ msgid "Lookup"
+#~ msgstr "Etsintä"
+
+#~ msgid "Lookup Customer"
+#~ msgstr "Asiakkaan etsintä"
+
+#~ msgid "Maximum First Response Time"
+#~ msgstr "Maksimi ensivastaus aika"
+
+#~ msgid "No results could be found"
+#~ msgstr "Ratkaisuja ei löytynyt"
+
+#~ msgid "Notes About Customer"
+#~ msgstr "viestit asiakkaasta"
+
+#~ msgid "Notify Customer About New Issue? *"
+#~ msgstr "Ilmoita asiakkaalle uudesta vikailmoituksesta? *"
+
+#~ msgid "Quarantine explanation goes here..."
+#~ msgstr "Eristyksen selitys kuuluu tähän..."
+
+#~ msgid "Results"
+#~ msgstr "Tulokset"
+
+#~ msgid "Sales Account Manager"
+#~ msgstr "Myyntipäällikkö"
+
+#~ msgid "Support Expiration Date"
+#~ msgstr "Tuen loppumispäivämäärä"
+
+#~ msgid "Support Type"
+#~ msgstr "Tukityypit"
+
+#~ msgid "Time Until First Response Deadline"
+#~ msgstr "Aikaa ensimmäisen vastauksen aikarajaan"
+
 #~ msgid " with the message"
 #~ msgstr " viestillä"
 
@@ -8953,9 +8932,6 @@ msgstr "vuosi"
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Vikailmoitusten automaattinen luominen:"
 
-#~ msgid "Note:"
-#~ msgstr "Viesti:"
-
 #~ msgid "IN"
 #~ msgstr "PÄÄLLÄ"
 
@@ -8970,8 +8946,8 @@ msgstr "vuosi"
 
 #~ msgid ""
 #~ "Warning: your issue is currently quarantined.\n"
-#~ "                Please see the <a href=\"faq.php\">FAQ</a> for information "
-#~ "regarding quarantined issues."
+#~ "                Please see the <a href=\"faq.php\">FAQ</a> for "
+#~ "information regarding quarantined issues."
 #~ msgstr ""
 #~ "Varoitus: Vikailmoituksesi on tällä hetkellä eristetty.\n"
 #~ "                Katso <a class=\"link\" href=\"faq.php\">UKK:sta</a> "
@@ -9005,12 +8981,11 @@ msgstr "vuosi"
 #~ msgstr "(esim. luonnos_51@<b>example.com</b>)"
 
 #~ msgid ""
-#~ "(requires <a target=\"_aspell\" class=\"link\" "
-#~ "href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)"
+#~ "(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspell</a> installed in your server)"
 #~ msgstr ""
-#~ "(vaatii <a target=\"_aspell\" class=\"link\" "
-#~ "href=\"http://aspell.sourceforge.net/\">aspellin</a> asentamista "
-#~ "palvelimelle)"
+#~ "(vaatii <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspellin</a> asentamista palvelimelle)"
 
 #~ msgid ""
 #~ "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
@@ -9021,18 +8996,19 @@ msgstr "vuosi"
 #~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
 #~ "'Search' box<br />\n"
 #~ "<br />\n"
-#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
+#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the "
+#~ "'Go' box"
 #~ msgstr ""
 #~ "Voit vaihtaa 'Haku' tai 'Hae' kenttiin nopeasti käyttämällä\n"
 #~ "erikoista pikanäppäinyhdistelmää.<br />\n"
 #~ "<br />\n"
 #~ "Käytä seuraavaa oikoreittiä: <br />\n"
 #~ "<br />\n"
-#~ "<b>ALT-3</b>(Pidä 'ALT'-näppäin pohjassa ja paina '3'-näppäintä kerran) - "
-#~ "Tällä pääset 'Haku'-kenttään<br />\n"
+#~ "<b>ALT-3</b>(Pidä 'ALT'-näppäin pohjassa ja paina '3'-näppäintä kerran) "
+#~ "- Tällä pääset 'Haku'-kenttään<br />\n"
 #~ "<br />\n"
-#~ "<b>ALT-4</b> (Pidä 'ALT'-näppäin pohjassa ja paina '4'-näppäintä kerran) - "
-#~ "Tällä pääset 'Hae'-kenttään"
+#~ "<b>ALT-4</b> (Pidä 'ALT'-näppäin pohjassa ja paina '4'-näppäintä kerran) "
+#~ "- Tällä pääset 'Hae'-kenttään"
 
 #~ msgid "Reported"
 #~ msgstr "Ilmoitettu"
@@ -9041,8 +9017,8 @@ msgstr "vuosi"
 #~ "Error: The sender of this email is not allowed in the project associated "
 #~ "with issue #"
 #~ msgstr ""
-#~ "Virhe: Lähettäjän sähköpostiosoite ei ole sallittu tähän vikailmoitus ID:hen "
-#~ "liittyvässä projektissa"
+#~ "Virhe: Lähettäjän sähköpostiosoite ei ole sallittu tähän vikailmoitus ID:"
+#~ "hen liittyvässä projektissa"
 
 #~ msgid ""
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"
@@ -9053,10 +9029,11 @@ msgstr "vuosi"
 #~ msgstr "Palaute"
 
 #~ msgid ""
-#~ "Thank you, the issue was closed successfully. Please choose from one of the "
-#~ "options below:"
+#~ "Thank you, the issue was closed successfully. Please choose from one of "
+#~ "the options below:"
 #~ msgstr ""
-#~ "Kiitos, vikailmoitus on suljettu onnistuneesti. Valitse toiminto alapuolelta:"
+#~ "Kiitos, vikailmoitus on suljettu onnistuneesti. Valitse toiminto "
+#~ "alapuolelta:"
 
 #~ msgid "Please choose the new status for this issue."
 #~ msgstr "Valitse uusi tila vikailmoitukselle."
@@ -9083,5 +9060,5 @@ msgstr "vuosi"
 #~ "To view more details of this issue, or to update it, please visit the\n"
 #~ "following URL"
 #~ msgstr ""
-#~ "Nähdäksesi enemmän yksityiskohtia tai päivittääksesi tätä vikailmoitusta, "
-#~ "seuraa tätä URL:ia"
+#~ "Nähdäksesi enemmän yksityiskohtia tai päivittääksesi tätä "
+#~ "vikailmoitusta, seuraa tätä URL:ia"
