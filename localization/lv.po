@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-14 16:48+0300\n"
-"PO-Revision-Date: 2010-04-22 08:03+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2010-05-21 12:37+0000\n"
+"Last-Translator: Jānis <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-04-23 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-05-22 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -972,7 +972,7 @@ msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr ""
+msgstr "Piesaistītie faili"
 
 #: lib/eventum/class.support.php:1452
 msgid "Attachment originated from a note"
@@ -1368,7 +1368,7 @@ msgstr "Komentāri:"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
-msgstr ""
+msgstr "Komentārs par izmaiņām"
 
 #: templates/customer/example/customer_expired.tpl.html
 msgid "Company Name"
@@ -1492,7 +1492,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Jauns uzdevums"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
@@ -1691,7 +1691,7 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr ""
+msgstr "Laiks"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
@@ -2357,6 +2357,7 @@ msgid ""
 "Error: the given email address is not allowed to be added to the "
 "notification list."
 msgstr ""
+"Kļūda: šo e-pasta adresi pievienot paziņojumu saņēmējiem nav atļauts."
 
 #: templates/popup.tpl.html
 msgid "Error: the issue is already unassigned."
@@ -3940,11 +3941,11 @@ msgstr ""
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
-msgstr ""
+msgstr "Paziņojumus saņem"
 
 #: templates/update_form.tpl.html
 msgid "Notification List:"
-msgstr ""
+msgstr "Paziņojumus saņem:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options"
@@ -5185,7 +5186,7 @@ msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
-msgstr ""
+msgstr "Jauna piezīme"
 
 #: templates/post_note.tpl.html
 msgid "Post New Internal Note"
@@ -5304,7 +5305,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Public"
-msgstr ""
+msgstr "Publisks"
 
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
@@ -6172,7 +6173,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Subject"
-msgstr ""
+msgstr "Virsraksts"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
