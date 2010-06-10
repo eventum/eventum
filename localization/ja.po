@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2009-09-03 02:56-0200\n"
-"Last-Translator: Asako Nishizaki <asako.nishizaki@pbxl.jp>\n"
+"PO-Revision-Date: 2010-06-10 00:17+0000\n"
+"Last-Translator: Asako Nishizaki <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 1.2.0\n"
+"X-Launchpad-Export-Date: 2010-06-10 03:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+"Language: ja\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -28,7 +29,7 @@ msgstr ""
 #: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -75,7 +76,7 @@ msgstr "（｢アドレスのホストネーム｣を指す代わりのドメイ
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr ""
+msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
@@ -83,9 +84,7 @@ msgstr "(問題を公開する）"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
-"（ここには実際のメールアドレスをいれなければいけません。例：\"%1\" もしく"
-"は、 \"%2\"）"
+msgstr "（ここには実際のメールアドレスをいれなければいけません。例：\"%1\" もしくは、 \"%2\"）"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -99,14 +98,11 @@ msgstr "（これは、Eventumが送った全ての通知のアドレスのFrom�
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
-msgstr ""
-"（ヒント：デフォルトのポートは、POP３サーバーのものが１１０で、IMAPサーバー"
-"のものが１４３あります）"
+msgstr "（ヒント：デフォルトのポートは、POP３サーバーのものが１１０で、IMAPサーバーのものが１４３あります）"
 
 #: lib/eventum/class.template_helper.php:175
-#, fuzzy
 msgid "(archived)"
-msgstr "アーカイブ"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -153,36 +149,23 @@ msgid "-- Select One --"
 msgstr "--ひとつ選びます--"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
-"<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if "
-"this option if chosen. This is useful as way to backload a set of emails "
-"into an existing issue."
+"<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
+"option if chosen. This is useful as way to backload a set of emails into an "
+"existing issue."
 msgstr ""
-"<b>注：</b>このオプションを選んだとき、eメールは通知リスト上の連絡先に送られ"
-"ることはない。これは、現存の問題に一連のeメールをバックロードするのに役立"
-"つ。<b>注：</b>このオプションを選んだとき、eメールは通知リスト上の連絡先に送"
-"られることはない。これは、現存の問題に一連のeメールをバックロードするのに役"
-"立つ。"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
-"<b>注：</b>このオプションを選ぶと、eメールはいずれの顧客も含め、通知リスト上"
-"のすべてに公表される。<b>注：</b>このオプションを選ぶと、eメールはいずれの顧"
-"客も含め、通知リスト上のすべてに公表される。"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"注:eメールはメモ(注釈）として保存されスタッフユーザーのみに公表される注:e"
-"メールはメモ(注釈）として保存されスタッフユーザーのみに公表される"
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -215,11 +198,11 @@ msgstr "すべて"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
@@ -379,18 +362,16 @@ msgid "Address Hostname:"
 msgstr "アドレスホストネーム"
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Administration"
-msgstr "アドミニストレーター"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
 msgstr "アドミニストレーター"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Advanced Options"
-msgstr "アドバンスオプション"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -448,17 +429,15 @@ msgstr ""
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/removed_emails.tpl.html
-#: templates/reports/customer_stats.tpl.html
+#: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
 msgstr "すべて"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "All Issues"
-msgstr "（全ての問題）"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -479,8 +458,7 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
-"このユーザーに関連するプロジェクトについて全ての問題を見ることができます。ま"
-"た、新しい問題を作成したり、既存の問題についてeメールを送ることができます。"
+"このユーザーに関連するプロジェクトについて全ての問題を見ることができます。また、新しい問題を作成したり、既存の問題についてeメールを送ることができます。"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -488,9 +466,8 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
-"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題を見ることができます。新しい"
-"問題を作成し、現在の問題を更新したり、現在の問題についてeメールや通知を送る"
-"ことができます。"
+"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題を見ることができます。新しい問題を作成し、現在の問題を更新したり、現在の問題についてeメールや通知"
+"を送ることができます。"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -500,19 +477,16 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
-"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題を見ることができます。新しい"
-"問題を作成し、現在の問題を更新、現在の問題についてeメールや通知をおくること"
-"ができます。また、このタイプのユーザーはEventumの特別なアドミニストレーショ"
-"ン部分で、多くのプロジェクトレベルの機能やオプションをカスタマイズすることが"
-"できます。"
+"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題を見ることができます。新しい問題を作成し、現在の問題を更新、現在の問題についてeメールや通知をおく"
+"ることができます。また、このタイプのユーザーはEventumの特別なアドミニストレーション部分で、多くのプロジェクトレベルの機能やオプションをカスタマイズ"
+"することができます。"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
-"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題をみることができますが、新し"
-"い問題を作成したり、現在の問題を編集したりすることはできません。"
+"このユーザーに関連するﾌﾟﾛｼﾞｪｸﾄについて全ての問題をみることができますが、新しい問題を作成したり、現在の問題を編集したりすることはできません。"
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
@@ -520,8 +494,8 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid ""
-"Also, all issues that are marked as duplicates from this one were updated "
-"as well."
+"Also, all issues that are marked as duplicates from this one were updated as "
+"well."
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -534,17 +508,15 @@ msgstr "FAQ入力を追加しようとしてエラーが発生しました。"
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr ""
-"新しいアカウントマネージャーを追加しようとしている間にエラーが発生しました。"
+msgstr "新しいアカウントマネージャーを追加しようとしている間にエラーが発生しました。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
 msgstr "新しいアカウントを追加しようとしてエラーが発生しました。"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new action."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -552,9 +524,8 @@ msgid "An error occurred while trying to add the new category."
 msgstr "新しいカテゴリーを追加しようとしてエラーが発生しました。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new condition."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
@@ -562,8 +533,7 @@ msgstr "新しいカスタムフィールドを追加しようとしてエラー
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
-msgstr ""
-"新しいカスタマイゼーションを追加しようとしている間にエラーが発生しました。"
+msgstr "新しいカスタマイゼーションを追加しようとしている間にエラーが発生しました。"
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
@@ -574,9 +544,8 @@ msgid "An error occurred while trying to add the new group."
 msgstr "新しいグループを追加しようとしてエラーが発生しました。"
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
@@ -591,47 +560,40 @@ msgid "An error occurred while trying to add the new priority."
 msgstr "新しい優先事項を追加しようとしてエラーが発生しました。"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new project."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new release."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new reminder."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new status."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new time tracking category."
 msgstr ""
-"新しいアカウントマネージャーを追加しようとしている間にエラーが発生しました。"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the new user."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
 msgstr "ニュース入力を追加しようとしてエラーが発生しました。"
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to add the round robin entry."
-msgstr "選択した注意書きを変更しようとしてエラーが発生しました。"
+msgstr ""
 
 #: templates/associate.tpl.html
-msgid "An error occurred while trying to associate the selected email message"
+msgid ""
+"An error occurred while trying to associate the selected email message"
 msgstr "選択したメールのメッセージと関連付けようとして発生したエラー"
 
 #: templates/convert_note.tpl.html
@@ -655,18 +617,17 @@ msgid "An error occurred while trying to process the uploaded file."
 msgstr "アップロードしたファイルを処理しようとする際にエラーが発生しました。"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
-#: templates/custom_fields_form.tpl.html
-#: templates/manage/email_alias.tpl.html templates/popup.tpl.html
-#: templates/post_note.tpl.html templates/removed_emails.tpl.html
-#: templates/requirement.tpl.html templates/self_assign.tpl.html
-#: templates/send.tpl.html templates/view_email.tpl.html
+#: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
+#: templates/popup.tpl.html templates/post_note.tpl.html
+#: templates/removed_emails.tpl.html templates/requirement.tpl.html
+#: templates/self_assign.tpl.html templates/send.tpl.html
+#: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
 msgstr "問い合わせ時に発生するエラー"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to run your query."
-msgstr "問い合わせ時に発生するエラー"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
@@ -682,20 +643,16 @@ msgstr "このFAQ入力情報をアップデートしようとする間にエラ
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
-msgstr ""
-"アカウント情報をアップデートしようとしている間にエラーが発生しました。"
+msgstr "アカウント情報をアップデートしようとしている間にエラーが発生しました。"
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
-msgstr ""
-"アカウントマネージャーの情報をアップデート使用としている間にエラーが発生しま"
-"した。"
+msgstr "アカウントマネージャーの情報をアップデート使用としている間にエラーが発生しました。"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the action information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -703,27 +660,23 @@ msgid "An error occurred while trying to update the category information."
 msgstr "カテゴリー情報をアップデートしようとする間にエラーが発生しました。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the condition information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
-msgid "An error occurred while trying to update the custom field information."
-msgstr ""
-"カスタムフィールド情報を更新しようとしている間にエラーが発生しました。"
+msgid ""
+"An error occurred while trying to update the custom field information."
+msgstr "カスタムフィールド情報を更新しようとしている間にエラーが発生しました。"
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
-msgstr ""
-"カスタマイゼーション情報をアップデートしようとしている間にエラーが発生しまし"
-"た。"
+msgstr "カスタマイゼーション情報をアップデートしようとしている間にエラーが発生しました。"
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
 "An error occurred while trying to update the email response information."
-msgstr ""
-"eメールの返信情報をアップデートしようとしている間にエラーが発生しました。"
+msgstr "eメールの返信情報をアップデートしようとしている間にエラーが発生しました。"
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
@@ -734,12 +687,9 @@ msgid "An error occurred while trying to update the information."
 msgstr "情報をアップデートしようとする間にエラーが発生しました。"
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the issue resolution information."
 msgstr ""
-"アカウントマネージャーの情報をアップデート使用としている間にエラーが発生しま"
-"した。"
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
@@ -754,9 +704,8 @@ msgid "An error occurred while trying to update the note."
 msgstr "注意書きを更新しようとしてエラーが発生しました。"
 
 #: templates/notification.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the notification entry."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to update the priority information."
@@ -767,41 +716,31 @@ msgid "An error occurred while trying to update the project information."
 msgstr "プロジェクト情報をアップデートしようとする間にエラーが発生しました。"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the release information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the reminder information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the round robin entry information."
 msgstr ""
-"アカウントマネージャーの情報をアップデート使用としている間にエラーが発生しま"
-"した。"
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the status information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
 msgstr ""
-"アカウントマネージャーの情報をアップデート使用としている間にエラーが発生しま"
-"した。"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "An error occurred while trying to update the user information."
-msgstr "情報をアップデートしようとする間にエラーが発生しました。"
+msgstr ""
 
 #: templates/clock_status.tpl.html
 msgid ""
@@ -813,13 +752,11 @@ msgid ""
 "An integration script will need to be installed in your CVS root repository "
 "in order to send a message to Eventum whenever changes are committed to the "
 "repository. This message will then be processed by Eventum and the changes "
-"to the appropriate files will be associated with existing issue mentioned "
-"in your commit message."
+"to the appropriate files will be associated with existing issue mentioned in "
+"your commit message."
 msgstr ""
-"統合したスクリプトはリポジトリーのどこに変更があったとしても、Eventumへメッ"
-"セージを送るために、CVSルートリポジトリーに設置される必要があります。この"
-"メッセージはEventumによって処理され、適切なファイルに対する変更は、あなたが"
-"送ったメッセージに記載されている現在の問題に関連付けられます。"
+"統合したスクリプトはリポジトリーのどこに変更があったとしても、Eventumへメッセージを送るために、CVSルートリポジトリーに設置される必要があります。"
+"このメッセージはEventumによって処理され、適切なファイルに対する変更は、あなたが送ったメッセージに記載されている現在の問題に関連付けられます。"
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
@@ -830,9 +767,8 @@ msgid "Anonymous Form"
 msgstr "匿名フォーム"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Anonymous Reporting"
-msgstr "無記名報告"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Anonymous Reporting Options"
@@ -876,9 +812,8 @@ msgstr "一例として、使用するのは・・・・"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Ascending"
-msgstr "昇順"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
@@ -928,19 +863,16 @@ msgid "Assigned Support"
 msgstr "指定されたサポート"
 
 #: templates/searchbar.tpl.html
-#, fuzzy
 msgid "Assigned:"
-msgstr "割当"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
-#, fuzzy
 msgid "Assignee"
-msgstr "割当"
+msgstr ""
 
 #: templates/include/issue_fields/assignee.tpl.html
-#, fuzzy
 msgid "Assignee:"
-msgstr "割当"
+msgstr ""
 
 #: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -956,9 +888,8 @@ msgstr "職務フィールド"
 
 #: lib/eventum/class.notification.php:609
 #: lib/eventum/class.notification.php:610
-#, fuzzy
 msgid "Assignment List"
-msgstr "職務フィールド"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -971,11 +902,8 @@ msgid "Associate"
 msgstr "アソシエイト"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Associate Email Message to Issue #%1"
 msgstr ""
-"#%1 の問題に関連のあるeメールメッセージ#%1の問題に関連のあるeメールメッセー"
-"ジ"
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -988,14 +916,12 @@ msgid "Associated"
 msgstr "関連性"
 
 #: templates/support_emails.tpl.html
-#, fuzzy
 msgid "Associated Emails"
-msgstr "関連eメール"
+msgstr ""
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "Associated Issues"
-msgstr "割り当てられた問題"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Associated Issues:"
@@ -1015,9 +941,8 @@ msgid "Associated with Issue"
 msgstr ""
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid "Attach Files"
-msgstr "添付ファイル"
+msgstr ""
 
 #: templates/attached_emails.tpl.html
 msgid "Attached Emails"
@@ -1041,18 +966,16 @@ msgid "Attachments"
 msgstr "添付書類"
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Attachments:"
-msgstr "添付書類"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
 msgstr "指定返信者"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Authorized Repliers:"
-msgstr "指定返信者"
+msgstr ""
 
 #: lib/eventum/class.filter.php:783 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
@@ -1211,9 +1134,8 @@ msgid "By Issue ID"
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "By Support Level"
-msgstr "サポートレベル"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
@@ -1269,13 +1191,12 @@ msgid "Category Field"
 msgstr "カテゴリーフィールド"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
-#, fuzzy
 msgid "Category:"
-msgstr "カテゴリー（種類･区分）"
+msgstr ""
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
@@ -1377,9 +1298,8 @@ msgid "Close Window"
 msgstr "ウィンドウを閉じてください"
 
 #: lib/eventum/class.notification.php:816
-#, fuzzy
 msgid "Closed"
-msgstr "閉じる"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
@@ -1467,9 +1387,7 @@ msgstr "eメールに変えて今送ってください。"
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
-msgstr ""
-"あなたのブラウザーではクッキーのサポートができないようです。この機能を使える"
-"ようにして再度試してください。"
+msgstr "あなたのブラウザーではクッキーのサポートができないようです。この機能を使えるようにして再度試してください。"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
@@ -1587,9 +1505,8 @@ msgstr ""
 #: templates/manage/column_display.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
-#, fuzzy
 msgid "Current Project"
-msgstr "現在のプロジェクト："
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
 msgid "Current Project:"
@@ -1605,9 +1522,8 @@ msgid "Current filters:"
 msgstr "現在のフィルター："
 
 #: templates/reports/custom_fields_weekly.tpl.html
-#, fuzzy
 msgid "Custom Field"
-msgstr "カスタムフィールド"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
@@ -1620,9 +1536,8 @@ msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Custom Fields Weekly Report"
-msgstr "カスタムフィールド"
+msgstr ""
 
 #: lib/eventum/class.custom_field.php:314
 #, php-format
@@ -1655,9 +1570,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
-msgstr ""
-"顧客ＩＤ（例：　「Ｅｘａｍｐｌｅ　Ｉｎｃ．」　、「johndoe@example.com」、１"
-"２３４５など）"
+msgstr "顧客ＩＤ（例：　「Ｅｘａｍｐｌｅ　Ｉｎｃ．」　、「johndoe@example.com」、１２３４５など）"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
@@ -1676,14 +1589,12 @@ msgid "Customer Stats Report"
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
-#, fuzzy
 msgid "Customer:"
-msgstr "顧客"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
-#, fuzzy
 msgid "Customers"
-msgstr "顧客"
+msgstr ""
 
 #: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
@@ -1734,8 +1645,7 @@ msgstr ""
 msgid "Date of Call"
 msgstr "通話日"
 
-#: templates/reports/recent_activity.tpl.html
-#: templates/time_tracking.tpl.html
+#: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
 msgstr ""
 
@@ -1779,9 +1689,8 @@ msgid "Default Priority:"
 msgstr "デフォルト優先順位"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Defaults"
-msgstr "結果"
+msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1799,9 +1708,8 @@ msgstr "結果"
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Delete"
-msgstr "削除"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
@@ -1809,17 +1717,15 @@ msgstr "アライアスを削除します。"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Descending"
-msgstr "降順"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
-#: templates/notifications/files.tpl.text
-#: templates/notifications/new.tpl.text
+#: templates/notifications/files.tpl.text templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -1835,9 +1741,8 @@ msgid "Description is currently collapsed"
 msgstr ""
 
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
-#, fuzzy
 msgid "Description:"
-msgstr "説明"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
@@ -1852,9 +1757,8 @@ msgid "Developer"
 msgstr "デベロッパー"
 
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Developers"
-msgstr "デベロッパー"
+msgstr ""
 
 #: templates/main.tpl.html
 msgid "Did you Know?"
@@ -1996,17 +1900,13 @@ msgstr ""
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
-msgstr ""
-"エラー：システムは、設定ディレクトリーに構成ファイルを作成できるように設定さ"
-"れていません。"
+msgstr "エラー：システムは、設定ディレクトリーに構成ファイルを作成できるように設定されていません。"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
-msgstr ""
-"エラー：このシステムは、設定ディレクトリーで構成ファイルを更新できるように設"
-"定されていません。"
+msgstr "エラー：このシステムは、設定ディレクトリーで構成ファイルを更新できるように設定されていません。"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -2033,9 +1933,8 @@ msgid "Edit Incident Redemption"
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
-#, fuzzy
 msgid "Edit Notification List"
-msgstr "通知リスト内"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
@@ -2200,21 +2099,19 @@ msgid "Email routed from %1$s"
 msgstr ""
 
 #: templates/convert_note.tpl.html
-msgid "Email will be re-sent from original sender, including any attachments."
+msgid ""
+"Email will be re-sent from original sender, including any attachments."
 msgstr "eメールは添付書類と一緒に最初の発信者から再送されます。"
 
 #: templates/convert_note.tpl.html
 msgid ""
-"Email will be re-sent from your name, NOT original sender's, and without "
-"any attachments."
-msgstr ""
-"eメールは最初の発信者ではなく、また添付書類なしで、あなたの名前で再送されま"
-"す。"
+"Email will be re-sent from your name, NOT original sender's, and without any "
+"attachments."
+msgstr "eメールは最初の発信者ではなく、また添付書類なしで、あなたの名前で再送されます。"
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
-#, fuzzy
 msgid "Emails"
-msgstr "eメール"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
@@ -2267,9 +2164,8 @@ msgid "End:"
 msgstr ""
 
 #: templates/requirement.tpl.html
-#, fuzzy
 msgid "Enter Impact Analysis"
-msgstr "最初のインパクト解析"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Enter the details below:"
@@ -2293,9 +2189,7 @@ msgstr "エラー：あなたの質問を処理する際にエラーが発生し
 
 #: templates/forgot_password.tpl.html
 msgid "Error: No user account was found matching the entered email address."
-msgstr ""
-"入力されたeメールアドレスに合致するユーザーアカウントは見つかりませんでし"
-"た。"
+msgstr "入力されたeメールアドレスに合致するユーザーアカウントは見つかりませんでした。"
 
 #: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
 #: lib/eventum/class.routing.php:382
@@ -2312,9 +2206,8 @@ msgid "Error: Please provide the email account ID."
 msgstr ""
 
 #: templates/forgot_password.tpl.html
-#, fuzzy
 msgid "Error: Please provide your email address."
-msgstr "エラー：あなたのeメールアドレスを教えてください。"
+msgstr ""
 
 #: lib/eventum/class.routing.php:70
 msgid ""
@@ -2323,8 +2216,8 @@ msgstr ""
 
 #: templates/signup.tpl.html
 msgid ""
-"Error: The email address specified is already associated with an user in "
-"the system."
+"Error: The email address specified is already associated with an user in the "
+"system."
 msgstr ""
 
 #: lib/eventum/class.routing.php:376
@@ -2352,20 +2245,18 @@ msgid "Error: The issue #%1 could not be found"
 msgstr "エラー：問題＃％１はみつかりません。"
 
 #: templates/view.tpl.html
-#, fuzzy
 msgid "Error: The issue #%1 could not be found."
-msgstr "エラー：問題＃％１はみつかりません。"
+msgstr ""
 
 #: templates/update.tpl.html
-#, fuzzy
 msgid "Error: The issue could not be found."
-msgstr "エラー：問題＃％１はみつかりません。"
+msgstr ""
 
 #: lib/eventum/class.routing.php:100 lib/eventum/class.routing.php:105
 #: lib/eventum/class.routing.php:398
 msgid ""
-"Error: The routed email had no associated Eventum issue ID or had an "
-"invalid recipient address."
+"Error: The routed email had no associated Eventum issue ID or had an invalid "
+"recipient address."
 msgstr ""
 
 #: lib/eventum/class.routing.php:281
@@ -2383,9 +2274,8 @@ msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
-"エラー：あなたのユーザーステータスは現在非アクティブになっています。詳しいこ"
-"とをお知りになりたい方は、現地システムのアドミニストレーターにお問い合わせく"
-"ださい。"
+"エラー：あなたのユーザーステータスは現在非アクティブになっています。詳しいことをお知りになりたい方は、現地システムのアドミニストレーターにお問い合わせくだ"
+"さい。"
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2417,14 +2307,12 @@ msgid "Estimated Dev. Time (only numbers)"
 msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Estimated Dev. Time:"
-msgstr "予測開発時間"
+msgstr ""
 
 #: templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Estimated Development Time"
-msgstr "概算されたデベロップメントタイムフィールド"
+msgstr ""
 
 #: lib/eventum/class.help.php:85
 #: templates/help/report_estimated_dev_time.tpl.html
@@ -2608,9 +2496,8 @@ msgid "Field to Graph"
 msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Field:"
-msgstr "フィールド"
+msgstr ""
 
 #: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
 msgid "File"
@@ -2664,22 +2551,19 @@ msgid ""
 "\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
 "category or release fields when reporting a new issue."
 msgstr ""
-"たとえば、このページを使って、\"<i>standard user</i>\"（及びより高いランクの"
-"役割）をもつユーザーだけが新しい問題を報告するときにカテゴリーを設定したり、"
-"フィールドを公開したりできます。"
+"たとえば、このページを使って、\"<i>standard "
+"user</i>\"（及びより高いランクの役割）をもつユーザーだけが新しい問題を報告するときにカテゴリーを設定したり、フィールドを公開したりできます。"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
-#: templates/removed_emails.tpl.html
-#: templates/reports/customer_stats.tpl.html
+#: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
 msgstr "～から"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
-#, fuzzy
 msgid "From:"
-msgstr "～から"
+msgstr ""
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2706,8 +2590,7 @@ msgstr "標準設定"
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
-#: templates/reports/stalled_issues.tpl.html
-#: templates/reports/weekly.tpl.html
+#: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
 msgstr ""
@@ -2726,8 +2609,7 @@ msgstr "進む"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
-#: templates/signup.tpl.html templates/update.tpl.html
-#: templates/view.tpl.html
+#: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
 msgid "Go Back"
 msgstr "戻る"
 
@@ -2793,8 +2675,8 @@ msgid ""
 "If this is not a real request from you, or if you don't need a new password "
 "anymore, please disregard this email.\n"
 "\n"
-"However, if you would like to confirm this request, please do so by "
-"visiting the URL below:\n"
+"However, if you would like to confirm this request, please do so by visiting "
+"the URL below:\n"
 msgstr ""
 
 #: templates/navigation.tpl.html
@@ -2843,9 +2725,8 @@ msgid "Hostname:"
 msgstr "ホスト名"
 
 #: lib/eventum/class.customer_stats_report.php:716
-#, fuzzy
 msgid "Hours"
-msgstr "数時間"
+msgstr ""
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
@@ -2862,16 +2743,15 @@ msgstr "パスワードを忘れました。"
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
 msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "IMAP Folder"
-msgstr "IMAPフォルダー"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -2901,9 +2781,7 @@ msgstr "IRC通知"
 msgid ""
 "If enabled, Eventum will look in the subject line of incoming notes/emails "
 "to determine which issue they should be associated with."
-msgstr ""
-"有効にすれば、Eventumは、送信されてくる通知/メールの件名欄を見て、それらがど"
-"の問題に関連しているかを決定してくれます。"
+msgstr "有効にすれば、Eventumは、送信されてくる通知/メールの件名欄を見て、それらがどの問題に関連しているかを決定してくれます。"
 
 #: templates/tips/canned_responses.tpl.html
 msgid ""
@@ -2916,9 +2794,7 @@ msgstr ""
 msgid ""
 "If this option is enabled, users with a role of Reporter will only be able "
 "to see issues they reported."
-msgstr ""
-"このオプションが有効になると、報告者の役割を持つユーザーは自分が報告した問題"
-"を見ることだけが可能になります。"
+msgstr "このオプションが有効になると、報告者の役割を持つユーザーは自分が報告した問題を見ることだけが可能になります。"
 
 #: templates/manage/reminders.tpl.html
 msgid ""
@@ -2938,9 +2814,7 @@ msgstr ""
 msgid ""
 "If you don't know who should be the assigned person for this new issue, "
 "assign it to your Project Lead."
-msgstr ""
-"新しい問題に関して誰を任命していいかわからない場合、ﾌﾟﾛｼﾞｪｸﾄリードに、任命し"
-"てください。"
+msgstr "新しい問題に関して誰を任命していいかわからない場合、ﾌﾟﾛｼﾞｪｸﾄリードに、任命してください。"
 
 #: templates/reports/weekly.tpl.html
 msgid "Ignore Issue Status Changes"
@@ -2986,8 +2860,7 @@ msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
-"%1が正しく作動するためにあなたのブラウザー上でクッキーサポートをできるように"
-"しなければなりません。再度ログインして、そこからくる全てのクッキーを受け入れ"
+"%1が正しく作動するためにあなたのブラウザー上でクッキーサポートをできるようにしなければなりません。再度ログインして、そこからくる全てのクッキーを受け入れ"
 "てください。"
 
 #: templates/setup.tpl.html
@@ -3001,8 +2874,7 @@ msgid ""
 "from the appropriate POP3/IMAP server."
 msgstr ""
 "しかし、そうするために、システムアドミニストレーターはしかるべきPOP3/IMAP "
-"サーバーよりソフトウェアをダウンロードしてeメールメッセージをつくるためのe"
-"メールのアカウントを構成しなければなりません。"
+"サーバーよりソフトウェアをダウンロードしてeメールメッセージをつくるためのeメールのアカウントを構成しなければなりません。"
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
@@ -3018,8 +2890,8 @@ msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:685
 msgid ""
-"Includes issue count, Developer email Count, Customer Email Count, "
-"Customers count by Support Level"
+"Includes issue count, Developer email Count, Customer Email Count, Customers "
+"count by Support Level"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html
@@ -3097,9 +2969,8 @@ msgid "Issue"
 msgstr "技術的問題"
 
 #: templates/notifications/updated.tpl.text
-#, fuzzy
 msgid "Issue #"
-msgstr "問題のID番号"
+msgstr ""
 
 #. TRANSLATORS: %1 = issue id
 #: htdocs/view.php:59
@@ -3146,19 +3017,16 @@ msgid "Issue details are updated"
 msgstr "問題の詳細が更新されました。"
 
 #: templates/notification.tpl.html
-#, fuzzy
 msgid "Issue is Closed"
-msgstr "問題が解決しました。"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html templates/reports/tree.tpl.html
-#, fuzzy
 msgid "Issues"
-msgstr "技術的問題"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Issues Closed"
-msgstr "問題が解決しました。"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issues Created Between"
@@ -3233,9 +3101,8 @@ msgid "Keyword(s)"
 msgstr "キーワード"
 
 #: templates/searchbar.tpl.html
-#, fuzzy
 msgid "Keyword(s):"
-msgstr "キーワード"
+msgstr "キーワード："
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3268,9 +3135,8 @@ msgstr "スタッフによる最後の応答"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
-#, fuzzy
 msgid "Last Update"
-msgstr "最終更新"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
@@ -3322,16 +3188,15 @@ msgstr "リンクフィルター"
 
 #: templates/help/link_filters.tpl.html
 msgid ""
-"Link filters are used to replace text such as '%1' with an automatic link "
-"to some external resource. It uses regular expressions to replace the text. "
+"Link filters are used to replace text such as '%1' with an automatic link to "
+"some external resource. It uses regular expressions to replace the text. "
 "Specify the search pattern in the pattern field without delimiters. Specify "
 "the entire string you would like to use as a replacement with $x to insert "
 "the matched text."
 msgstr ""
-"リンクフィルターは'%1' のようなテキストを外部のリソースへ自動的にリンクする"
-"ように変換するために使われます。区切りなしで、パターンフィールの検索パターン"
-"を指定します。テキストに入力するために、$xとして使用したいストリング全体を指"
-"定します。"
+"リンクフィルターは'%1' "
+"のようなテキストを外部のリソースへ自動的にリンクするように変換するために使われます。区切りなしで、パターンフィールの検索パターンを指定します。テキストに入"
+"力するために、$xとして使用したいストリング全体を指定します。"
 
 #: templates/navigation.tpl.html
 msgid "List Issues"
@@ -3391,8 +3256,7 @@ msgstr "表示するコラムを管理"
 msgid "Manage Custom Fields"
 msgstr "カスタムフィールドを管理します。"
 
-#: templates/manage/account_managers.tpl.html
-#: templates/manage/manage.tpl.html
+#: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
 msgstr "顧客のアカウントマネージャーを管理します"
 
@@ -3475,9 +3339,8 @@ msgid "Manager"
 msgstr "マネージャー"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Manager:"
-msgstr "マネージャー"
+msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3551,14 +3414,12 @@ msgid ""
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
-"ユーザーは問題のデータベースに対して一般に使用する質問を処理したい、またこれ"
-"が、そのような場合にぴったりの機能である場合、この画面で特別な質問を作って、"
-"問題リストのページから処理してください。"
+"ユーザーは問題のデータベースに対して一般に使用する質問を処理したい、またこれが、そのような場合にぴったりの機能である場合、この画面で特別な質問を作って、問"
+"題リストのページから処理してください。"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Move"
-msgstr "携帯電話"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
@@ -3589,9 +3450,8 @@ msgid "MySQL Table Prefix"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "MySQL Username"
-msgstr "ユーザー名"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3607,10 +3467,9 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid ""
-"NOTE: You may report issues without the need to login by using the "
-"following URL:"
-msgstr ""
-"注：以下のURLを使えば、ログインしなくても問題を報告することができます。"
+"NOTE: You may report issues without the need to login by using the following "
+"URL:"
+msgstr "注：以下のURLを使えば、ログインしなくても問題を報告することができます。"
 
 #: templates/manage/groups.tpl.html
 msgid "Name"
@@ -3662,14 +3521,12 @@ msgid "Next"
 msgstr ""
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "Next Issue"
-msgstr "新しい問題"
+msgstr ""
 
 #: templates/view_email.tpl.html
-#, fuzzy
 msgid "Next Message"
-msgstr "メッセージを保存"
+msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "Next Note"
@@ -3728,9 +3585,8 @@ msgid "No account managers could be found."
 msgstr "アカウントマネージャーが見つかりません。"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "No actions could be found."
-msgstr "チェックインはみつかりません"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid "No aliases could be found."
@@ -3765,9 +3621,8 @@ msgid "No checkins could be found."
 msgstr "チェックインはみつかりません"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "No conditions could be found."
-msgstr "チェックインはみつかりません"
+msgstr ""
 
 #: templates/custom_fields.tpl.html templates/manage/custom_fields.tpl.html
 msgid "No custom fields could be found."
@@ -3829,9 +3684,8 @@ msgid "No issues closed this time period"
 msgstr ""
 
 #: templates/list.tpl.html templates/main.tpl.html
-#, fuzzy
 msgid "No issues could be found."
-msgstr "結果は何もみつかりません。"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues touched this time period"
@@ -3870,14 +3724,12 @@ msgid "No priorities could be found."
 msgstr "優先事項が見つかりません"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "No projects could be found."
-msgstr "結果は何もみつかりません。"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "No releases could be found."
-msgstr "eメールが見つかりません"
+msgstr ""
 
 #: templates/history.tpl.html templates/manage/reminders.tpl.html
 msgid "No reminders could be found."
@@ -3888,9 +3740,8 @@ msgid "No resolution date given"
 msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "No resolutions could be found."
-msgstr "結果は何もみつかりません。"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "No round robin entries could be found."
@@ -3901,14 +3752,12 @@ msgid "No spelling mistakes could be found."
 msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "No statuses could be found."
-msgstr "eメールが見つかりません"
+msgstr ""
 
 #: templates/notification.tpl.html
-#, fuzzy
 msgid "No subscribers could be found."
-msgstr "eメールが見つかりません"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
 msgid "No time tracking categories could be found."
@@ -3919,9 +3768,8 @@ msgid "No time tracking entries could be found."
 msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "No users could be found."
-msgstr "eメールが見つかりません"
+msgstr ""
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
@@ -3948,44 +3796,38 @@ msgid "Note routed from %1$s"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Note:"
-msgstr "注意書き"
+msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid ""
 "Note: Please enter your email address below and a new random password will "
 "be created and assigned to your account. For security purposes a "
-"confirmation message will be sent to your email address and after "
-"confirming it the new password will be then activated and sent to you."
+"confirmation message will be sent to your email address and after confirming "
+"it the new password will be then activated and sent to you."
 msgstr ""
-"注：以下にeメールアドレスを入力すると、新しいパスワードが作られ、あなたのア"
-"カウントに割り当てられます。安全のために、あなたのeメールアドレスに確認メー"
-"ルが送られ新しいパスワードが有効且つあなたに間違いなく送られたかを確認しま"
-"す。"
+"注：以下にeメールアドレスを入力すると、新しいパスワードが作られ、あなたのアカウントに割り当てられます。安全のために、あなたのeメールアドレスに確認メール"
+"が送られ新しいパスワードが有効且つあなたに間違いなく送られたかを確認します。"
 
 #: templates/file_upload.tpl.html
 msgid "Note: The current maximum allowed upload file size is"
 msgstr "注：現在のアップロード可能ファイルの最大サイズは、"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Note: The current maximum allowed upload file size is %1"
-msgstr "注：現在のアップロード可能ファイルの最大サイズは、"
+msgstr ""
 
 #: templates/help/report_category.tpl.html
 #: templates/help/report_priority.tpl.html
 #: templates/help/report_release.tpl.html
 msgid ""
-"Note: The values in this field can be changed by going in the "
-"administration section of this application and editing the appropriate "
-"atributes of a project. If you do not have the needed permissions to do so, "
-"please contact your local Eventum administrator."
+"Note: The values in this field can be changed by going in the administration "
+"section of this application and editing the appropriate atributes of a "
+"project. If you do not have the needed permissions to do so, please contact "
+"your local Eventum administrator."
 msgstr ""
-"注：このフィールドの値は、このアプリケーションのアドミニストレーション部分へ"
-"行き、プロジェクトの適切なアトリビュートを編集することによって変更できます。"
-"そのために必要な許可を与えられていない場合は社内のEventumのアドミニストレー"
-"タへ連絡してください。"
+"注：このフィールドの値は、このアプリケーションのアドミニストレーション部分へ行き、プロジェクトの適切なアトリビュートを編集することによって変更できます。そ"
+"のために必要な許可を与えられていない場合は社内のEventumのアドミニストレータへ連絡してください。"
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
@@ -3997,14 +3839,12 @@ msgstr "現存の問題に注意書きが追加されました。"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "Notification List"
-msgstr "通知リスト内"
+msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Notification List:"
-msgstr "通知リスト内"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Notification Options"
@@ -4049,10 +3889,8 @@ msgid ""
 "support questions, issues or suggestions to that mailbox. Eventum will then "
 "download the emails and provide them to the users of the system."
 msgstr ""
-"この機能を最適に使用するとしたら、別々の｢問題」もしくは、｢サポート」のPOP3/"
-"IMAPアカウントを作ることです。そして、顧客またはエンドユーザーへサポートの質"
-"問、問題、提案をメールボックスへ送ってもらうよう頼んでください。Eventumはe"
-"メールをダウンロードし、システムユーザーにそれらを渡します。"
+"この機能を最適に使用するとしたら、別々の｢問題」もしくは、｢サポート」のPOP3/IMAPアカウントを作ることです。そして、顧客またはエンドユーザーへサポ"
+"ートの質問、問題、提案をメールボックスへ送ってもらうよう頼んでください。Eventumはeメールをダウンロードし、システムユーザーにそれらを渡します。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
@@ -4064,8 +3902,8 @@ msgstr "既知の顧客用だけですか？"
 
 #: lib/eventum/class.mail_helper.php:115
 msgid ""
-"Only staff members listed in the assignment or authorized replier fields "
-"can send emails."
+"Only staff members listed in the assignment or authorized replier fields can "
+"send emails."
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -4105,8 +3943,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
-#: templates/reports/customer_stats.tpl.html
-#: templates/reports/weekly.tpl.html
+#: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr "オプション"
 
@@ -4115,9 +3952,8 @@ msgid "Options to Graph"
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
-#, fuzzy
 msgid "Options:"
-msgstr "オプション"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -4133,14 +3969,13 @@ msgid "Other Emails"
 msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Other:"
-msgstr "その他"
+msgstr ""
 
 #: templates/duplicate.tpl.html templates/new.tpl.html
 msgid ""
-"Otherwise, you will be automatically redirected to the Issue Details Page "
-"in 5 seconds."
+"Otherwise, you will be automatically redirected to the Issue Details Page in "
+"5 seconds."
 msgstr "さもなければ、5秒後に問題の詳細ページに自動的にリダイレクトされます。"
 
 #: templates/add_phone_entry.tpl.html
@@ -4212,9 +4047,8 @@ msgid "Password Confirmation Success"
 msgstr "パスワードの確認が完了しました"
 
 #: templates/signup.tpl.html
-#, fuzzy
 msgid "Password:"
-msgstr "パスワード"
+msgstr "パスワード:"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Pattern"
@@ -4225,9 +4059,8 @@ msgid "Pattern: \"%1\""
 msgstr "パターン　\"%1\""
 
 #: templates/main.tpl.html
-#, fuzzy
 msgid "Pending"
-msgstr "保留中"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -4339,9 +4172,8 @@ msgid "Please assign the users for this project."
 msgstr "このプロジェクトのユーザーを指定してください。"
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "Please choose"
-msgstr "ユーザーを選んでください。"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4354,9 +4186,8 @@ msgid "Please choose a customer"
 msgstr "顧客を選んでください。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please choose a field"
-msgstr "ユーザーを選んでください。"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
@@ -4364,9 +4195,8 @@ msgid "Please choose a priority"
 msgstr "優先順位を選んでください。"
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid "Please choose a project"
-msgstr "優先順位を選んでください。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Please choose a project that will be associated with this reminder."
@@ -4393,30 +4223,25 @@ msgstr "ユーザーを選んでください。"
 #: templates/manage/anonymous.tpl.html
 msgid ""
 "Please choose at least one person to assign the new issues created remotely."
-msgstr ""
-"リモートで新しく作成された問題を少なくとも一人に任命するを選んでください。"
+msgstr "リモートで新しく作成された問題を少なくとも一人に任命するを選んでください。"
 
 #: templates/close.tpl.html
 msgid "Please choose from one of the options below"
 msgstr "次のオプションのひとつから選んでください。"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Please choose from one of the options below:"
-msgstr "次のオプションのひとつから選んでください。"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "Please choose new values for the selected issues"
 msgstr "選んだ問題に関する新しい値を選んでください。"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
-"選択したメールメッセージに関して起こす行動を次の中からひとつ選びなさい。選択"
-"したメールメッセージに関して起こす行動を次の中から選びなさい。"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
@@ -4455,9 +4280,7 @@ msgstr ""
 msgid ""
 "Please choose the initial status from one of the assigned statuses of this "
 "project."
-msgstr ""
-"このプロジェクトに指定されたステータスのうちから最初のステータスを選んでくだ"
-"さい。"
+msgstr "このプロジェクトに指定されたステータスのうちから最初のステータスを選んでください。"
 
 #: templates/manage/reminders.tpl.html
 msgid ""
@@ -4501,8 +4324,7 @@ msgstr "新しく入力する際、時間追跡の種類を選んでください
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
-msgstr ""
-"このe-メールアカウントに関連したメールサーバーのタイプを選んでください。"
+msgstr "このe-メールアカウントに関連したメールサーバーのタイプを選んでください。"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -4511,40 +4333,36 @@ msgstr "SCM統合機能を可能にするか否かを選んで下さい。"
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
-"Please choose whether the anonymous posting feature should be allowed or "
-"not for this project"
+"Please choose whether the anonymous posting feature should be allowed or not "
+"for this project"
 msgstr "無記名登録機能がこのプロジェクトでは使えるか否かを選んでください。"
 
 #: templates/manage/general.tpl.html
-msgid "Please choose whether the daily tips feature should be enabled or not."
+msgid ""
+"Please choose whether the daily tips feature should be enabled or not."
 msgstr "メール統合機能を可能にするか否かを選んでください。"
 
 #: templates/manage/general.tpl.html
 msgid ""
-"Please choose whether the email integration feature should be enabled or "
-"not."
+"Please choose whether the email integration feature should be enabled or not."
 msgstr "メール統合機能を可能にするか否かを選んでください。"
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid ""
 "Please choose whether the issue auto creation feature should be allowed or "
 "not for this email account"
-msgstr ""
-"問題の自動作成機能がこのメールアカウントで可能か否かを選んでください。"
+msgstr "問題の自動作成機能がこのメールアカウントで可能か否かを選んでください。"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please choose whether the system should allow visitors to signup for new "
 "accounts or not."
-msgstr ""
-"新しいアカウントにビジターがサインアップできるシステムにするかどうかを選んで"
-"ください。"
+msgstr "新しいアカウントにビジターがサインアップできるシステムにするかどうかを選んでください。"
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
 "Please choose whether to show custom fields for remote invocations or not."
-msgstr ""
-"リモート起動の際にカスタムフィールドを表示するか否かを選んでください。"
+msgstr "リモート起動の際にカスタムフィールドを表示するか否かを選んでください。"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Please choose which aliases need to be removed."
@@ -4559,9 +4377,8 @@ msgid "Please choose which emails need to be marked as deleted."
 msgstr "削除の印をつけなければならないメールを選びなさい。"
 
 #: templates/removed_emails.tpl.html
-#, fuzzy
 msgid "Please choose which emails need to be permanently removed."
-msgstr "削除の印をつけなければならないメールを選びなさい。"
+msgstr ""
 
 #: templates/manage/email_alias.tpl.html templates/removed_emails.tpl.html
 msgid "Please choose which emails need to be restored."
@@ -4598,25 +4415,19 @@ msgstr ""
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
-msgstr ""
-"御社のシステムアドミニストレーターに連絡をとって、用意されているファイルネー"
-"ムに権限を書き込むように頼んでください。"
+msgstr "御社のシステムアドミニストレーターに連絡をとって、用意されているファイルネームに権限を書き込むように頼んでください。"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
-msgstr ""
-"御社のシステムアドミニストレーターに連絡をとって、用意されているパスに権限を"
-"書き込むように頼んでください。"
+msgstr "御社のシステムアドミニストレーターに連絡をとって、用意されているパスに権限を書き込むように頼んでください。"
 
 #: templates/manage/projects.tpl.html
 msgid ""
 "Please enter a comma separated list of valid mail address aliases for this "
 "project"
-msgstr ""
-"このプロジェクトについて有効なメールアドレスアライアスのリストを区切るコンマ"
-"を入力してください"
+msgstr "このプロジェクトについて有効なメールアドレスアライアスのリストを区切るコンマを入力してください"
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter a number for the rank of this FAQ entry."
@@ -4704,13 +4515,11 @@ msgstr "この問題に必要な変更に関する分析を入力してくださ
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
-msgstr ""
-"あなたのSCM統合ツール用にチェックアウトページのURLを入力してください。"
+msgstr "あなたのSCM統合ツール用にチェックアウトページのURLを入力してください。"
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the color of this status."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Please enter the database hostname for this installation of Eventum."
@@ -4725,9 +4534,8 @@ msgid "Please enter the database username for this installation of Eventum."
 msgstr ""
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Please enter the description for this issue."
-msgstr "この問題について新しい要求事項を入力してください。"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please enter the description for this new phone support entry."
@@ -4740,9 +4548,7 @@ msgstr "あなたのSCM統合ツール用にディフページのURLを入力し
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address hostname for the email routing interface."
-msgstr ""
-"メールのルーティングインターフェイス用に、メールアドレスのホストネームを入力"
-"してください。"
+msgstr "メールのルーティングインターフェイス用に、メールアドレスのホストネームを入力してください。"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -4751,10 +4557,9 @@ msgid ""
 msgstr "送信メールのコピーが送られるメールアドレスを入力してください。"
 
 #: templates/manage/general.tpl.html
-msgid "Please enter the email address prefix for the email routing interface."
-msgstr ""
-"メールのルーティングインターフェイス用に、メールアドレスのプレフィックスを入"
-"力してください。"
+msgid ""
+"Please enter the email address prefix for the email routing interface."
+msgstr "メールのルーティングインターフェイス用に、メールアドレスのプレフィックスを入力してください。"
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the email of this user."
@@ -4782,7 +4587,8 @@ msgid "Please enter the impact analysis for this new requirement."
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
-msgid "Please enter the issue IDs that will be associated with this reminder."
+msgid ""
+"Please enter the issue IDs that will be associated with this reminder."
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -4834,9 +4640,8 @@ msgid "Please enter the port number for this email account."
 msgstr "このeメールアカウントに関するポート番号を入力してください。"
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the rank for this reminder."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the rank of this FAQ entry."
@@ -4847,9 +4652,8 @@ msgid "Please enter the rank of this priority"
 msgstr "この優先事項の順位を入力してください"
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the rank of this status."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Please enter the recipient of this email."
@@ -4882,9 +4686,8 @@ msgid "Please enter the title for this FAQ entry."
 msgstr "このFAQ入力のタイトルを入力してください。"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this action."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -4892,9 +4695,8 @@ msgid "Please enter the title for this category."
 msgstr "このカテゴリーのタイトルを入力してください。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this condition."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please enter the title for this customization."
@@ -4905,14 +4707,12 @@ msgid "Please enter the title for this email response."
 msgstr "このeメール返信に件名をつけて入力してください。"
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title for this issue resolution."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new action."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -4920,9 +4720,8 @@ msgid "Please enter the title for this new category."
 msgstr "この新しいカテゴリーのタイトルを入力してください。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new condition."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please enter the title for this new customization."
@@ -4933,9 +4732,8 @@ msgid "Please enter the title for this new email response."
 msgstr "新しいeメールの返信に名前をつけて入力してください。"
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new issue resolution."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title for this new priority."
@@ -4946,24 +4744,20 @@ msgid "Please enter the title for this new project."
 msgstr "この新しいプロジェクトに名前をつけて入力してください。"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new release."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new reminder."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new status."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title for this new time tracking category."
-msgstr "新しい時間追跡についてのサマリーを入力してください。"
+msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the title for this news entry."
@@ -4978,33 +4772,28 @@ msgid "Please enter the title for this project."
 msgstr "このプロジェクトに名前をつけて入力してください。"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title for this release."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please enter the title for this reminder."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please enter the title for this round robin entry."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Please enter the title for this saved search."
 msgstr "保存した検索に名前をつけて入力してください。"
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title for this status."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title for this time tracking category."
-msgstr "新しい時間追跡についてのサマリーを入力してください。"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the title of this FAQ entry."
@@ -5028,9 +4817,8 @@ msgid "Please enter the title of this news entry."
 msgstr "このニュースのタイトルを入力してください。"
 
 #: templates/post_note.tpl.html
-#, fuzzy
 msgid "Please enter the title of this note."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title of this priority"
@@ -5041,24 +4829,20 @@ msgid "Please enter the title of this project."
 msgstr "このプロジェクトに名前をつけて入力してください。"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please enter the title of this release."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please enter the title of this resolution."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please enter the title of this status."
-msgstr "保存した検索に名前をつけて入力してください。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please enter the title of this time tracking category"
-msgstr "新しい時間追跡についてのサマリーを入力してください。"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the updated value."
@@ -5073,9 +4857,8 @@ msgid "Please enter your account email address."
 msgstr "あなたのeメールアドレスを入力してください"
 
 #: templates/signup.tpl.html
-#, fuzzy
 msgid "Please enter your email address."
-msgstr "有効なeメールアドレスを入力してください"
+msgstr ""
 
 #: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter your full name."
@@ -5086,9 +4869,8 @@ msgid "Please enter your new password with at least 6 characters."
 msgstr ""
 
 #: templates/signup.tpl.html
-#, fuzzy
 msgid "Please enter your password."
-msgstr "あなたのパスワードをいれなさい"
+msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
@@ -5106,9 +4888,8 @@ msgid ""
 "be shown. For example, if no releases are defined in the system the "
 "'Release' column will be hidden."
 msgstr ""
-"たとえコラムが見れるように指定しても、見れないコラムがあることに注意してくだ"
-"さい。システム上公開と定義されているものがなければ、「公開」のコラムは見るこ"
-"とができません。"
+"たとえコラムが見れるように指定しても、見れないコラムがあることに注意してください。システム上公開と定義されているものがなければ、「公開」のコラムは見ること"
+"ができません。"
 
 #: templates/login_form.tpl.html
 msgid "Please provide your email address."
@@ -5120,11 +4901,9 @@ msgstr "あなたのパスワードを入力しなさい"
 
 #: templates/help/main.tpl.html
 msgid ""
-"Please refer to the following help sections for more information on "
-"specific parts of the application:"
-msgstr ""
-"アプリケーションの指定箇所に関する情報について、以下のヘルプセクションを参照"
-"してください。"
+"Please refer to the following help sections for more information on specific "
+"parts of the application:"
+msgstr "アプリケーションの指定箇所に関する情報について、以下のヘルプセクションを参照してください。"
 
 #: templates/view_form.tpl.html
 msgid ""
@@ -5175,9 +4954,8 @@ msgid "Please select at least one of the accounts."
 msgstr "アカウントの中から少なくとも一つを選んでください"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Please select at least one of the actions."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Please select at least one of the authorized repliers."
@@ -5189,9 +4967,8 @@ msgid "Please select at least one of the categories."
 msgstr "カテゴリーの中から少なくともひとつを選んでください"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Please select at least one of the conditions."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select at least one of the custom fields."
@@ -5222,49 +4999,40 @@ msgid "Please select at least one of the priorities."
 msgstr "優先事項の中から少なくともひとつ選んでください"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Please select at least one of the projects."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Please select at least one of the releases."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Please select at least one of the reminders."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Please select at least one of the resolutions."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Please select at least one of the round robin entries."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Please select at least one of the statuses."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/notification.tpl.html
-#, fuzzy
 msgid "Please select at least one of the subscribers."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Please select at least one of the time tracking categories."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Please select at least one of the users."
-msgstr "指定返信者の中から少なくとも一人を選んでください"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select projects this link filter should be active for."
@@ -5272,8 +5040,7 @@ msgstr "このリンクフィルターが有効なプロジェクトを選んで
 
 #: templates/manage/general.tpl.html
 msgid ""
-"Please select the assigned projects for users that create their own "
-"accounts."
+"Please select the assigned projects for users that create their own accounts."
 msgstr "ユーザーが自分のアカウントを作成できるプロジェクトを選んで下さい。"
 
 #: templates/reports/custom_fields.tpl.html
@@ -5291,9 +5058,7 @@ msgstr ""
 msgid ""
 "Please select the minimum user role that should be able to see this link "
 "filter."
-msgstr ""
-"このリンクフィルターを見ることができる最小限のユーザーの役割を選んでくださ"
-"い。"
+msgstr "このリンクフィルターを見ることができる最小限のユーザーの役割を選んでください。"
 
 #: templates/view_form.tpl.html
 msgid "Please select the new status for this issue."
@@ -5303,18 +5068,13 @@ msgstr ""
 msgid ""
 "Please use only floating point numbers (or integers) on the estimated "
 "development time field."
-msgstr ""
-"予測したデベロップメント時間フィールド浮動小数点（もしくは整数）のみを使用し"
-"てください。"
+msgstr "予測したデベロップメント時間フィールド浮動小数点（もしくは整数）のみを使用してください。"
 
 #: templates/requirement.tpl.html
-#, fuzzy
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
 msgstr ""
-"予測したデベロップメント時間フィールド浮動小数点（もしくは整数）のみを使用し"
-"てください。"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -5374,8 +5134,8 @@ msgstr "第一テクニカルアカウントマネージャー"
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_auto_created_issue.tpl.text
 #: templates/notifications/new_issue.tpl.text
-#: templates/notifications/notes.tpl.text
-#: templates/quick_filter_form.tpl.html templates/view_form.tpl.html
+#: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
+#: templates/view_form.tpl.html
 msgid "Priority"
 msgstr "優先順位"
 
@@ -5384,9 +5144,8 @@ msgid "Priority Field"
 msgstr "優先フィールド"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
-#, fuzzy
 msgid "Priority:"
-msgstr "優先順位"
+msgstr ""
 
 #: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html
 #: templates/new.tpl.html
@@ -5394,9 +5153,8 @@ msgid "Private"
 msgstr "プライベート"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Private:"
-msgstr "プライベート"
+msgstr ""
 
 #: lib/eventum/class.reminder_action.php:589
 msgid "Processing Group Leader notification"
@@ -5411,9 +5169,8 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/select_project.tpl.html
-#, fuzzy
 msgid "Project"
-msgstr "プロジェクト"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Project Lead"
@@ -5436,14 +5193,12 @@ msgstr "プロジェクト"
 #: templates/manage/email_responses.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Projects"
-msgstr "プロジェクト"
+msgstr ""
 
 #: templates/manage/email_responses.tpl.html
-#, fuzzy
 msgid "Projects:"
-msgstr "プロジェクト"
+msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Public"
@@ -5458,9 +5213,8 @@ msgid "Queued Date"
 msgstr "キューに入った日"
 
 #: templates/searchbar.tpl.html
-#, fuzzy
 msgid "Quick Search"
-msgstr "クイック検索"
+msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
@@ -5488,8 +5242,8 @@ msgstr ""
 
 #: templates/view_email.tpl.html
 msgid ""
-"Re-directing the parent window to the issue report page. This window will "
-"be closed automatically."
+"Re-directing the parent window to the issue report page. This window will be "
+"closed automatically."
 msgstr ""
 
 #: templates/latest_news.tpl.html
@@ -5545,9 +5299,8 @@ msgid "Recent Notes"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Recent Phone Calls"
-msgstr "通話記録"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Reminder Actions"
@@ -5567,14 +5320,12 @@ msgstr "受信者タイプのフラッグ"
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Recipients"
-msgstr "受信者"
+msgstr ""
 
 #: templates/post_note.tpl.html
-#, fuzzy
 msgid "Recipients:"
-msgstr "受信者"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Record Phone Call"
@@ -5608,8 +5359,8 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
-"Refers to the number of emails sent by developers in eventum per issue. "
-"Does <b>not</b> include emails sent to general support mailbox."
+"Refers to the number of emails sent by developers in eventum per issue. Does "
+"<b>not</b> include emails sent to general support mailbox."
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
@@ -5702,13 +5453,13 @@ msgstr ""
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
-"Replace %1 by the appropriate absolute path in your CVS server, such as /"
-"home/username/repository for instance. Also make sure to put the "
+"Replace %1 by the appropriate absolute path in your CVS server, such as "
+"/home/username/repository for instance. Also make sure to put the "
 "appropriate path to your PHP binary."
 msgstr ""
-"%1 をCVSサーバーにある適切な、たとえば、/home/username/repositoryのようなア"
-"ブソリュートパスに置き換えてください。また、PHPバイナリーに適切なパスをおい"
-"たことを確認してください。"
+"%1 "
+"をCVSサーバーにある適切な、たとえば、/home/username/repositoryのようなアブソリュートパスに置き換えてください。また、PHPバイ"
+"ナリーに適切なパスをおいたことを確認してください。"
 
 #: templates/self_assign.tpl.html
 msgid "Replace current assignee with Myself."
@@ -5729,34 +5480,29 @@ msgid "Reply"
 msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
-#, fuzzy
 msgid "Report"
-msgstr "リポーター"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Report Form"
 msgstr "リポートフォーム"
 
 #: templates/post.tpl.html
-#, fuzzy
 msgid "Report New Issue"
-msgstr "新しい問題報告"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
-#, fuzzy
 msgid "Report Type"
-msgstr "サポートタイプ"
+msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
-#, fuzzy
 msgid "Report Type:"
-msgstr "サポートタイプ"
+msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Report a New Issue"
-msgstr "新しい問題報告"
+msgstr ""
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5773,23 +5519,20 @@ msgid "Reporter"
 msgstr "リポーター"
 
 #: templates/manage/anonymous.tpl.html templates/update_form.tpl.html
-#, fuzzy
 msgid "Reporter:"
-msgstr "リポーター"
+msgstr ""
 
 #: lib/eventum/class.help.php:57
-#, fuzzy
 msgid "Reporting Issues"
-msgstr "新しい問題報告"
+msgstr ""
 
 #: templates/help/main.tpl.html templates/help/report.tpl.html
 msgid "Reporting New Issues"
 msgstr "新しい問題報告"
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Reports"
-msgstr "リポーター"
+msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Request a Password"
@@ -5800,13 +5543,11 @@ msgid "Required Field"
 msgstr "要求されたフィールド"
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Required Fields"
-msgstr "必要なフィールド"
+msgstr ""
 
-#: templates/duplicate.tpl.html templates/new.tpl.html
-#: templates/post.tpl.html templates/post_note.tpl.html
-#: templates/send.tpl.html
+#: templates/duplicate.tpl.html templates/new.tpl.html templates/post.tpl.html
+#: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Required fields"
 msgstr "必要なフィールド"
 
@@ -5820,8 +5561,7 @@ msgstr "認証が必要ですか？"
 
 #: templates/login_form.tpl.html
 msgid "Requires support for cookies and javascript in your browser"
-msgstr ""
-"あなたのブラウザーではクッキー及びジャバスクリプトのサポートが必要です。"
+msgstr "あなたのブラウザーではクッキー及びジャバスクリプトのサポートが必要です。"
 
 #: templates/adv_search.tpl.html templates/authorized_replier.tpl.html
 #: templates/bulk_update.tpl.html templates/manage/account_managers.tpl.html
@@ -5910,9 +5650,8 @@ msgid "SCM Integration - Checkins"
 msgstr "SCM 統合　-　チェックイン"
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "SMS Email Address"
-msgstr "eメールアドレス"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "SMTP (Outgoing Email) Settings:"
@@ -5940,16 +5679,12 @@ msgid "Save Message"
 msgstr "メッセージを保存"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as Reference Email"
-msgstr "照会eメールとしてメッセージを保存照会eメールとしてメッセージを保存"
+msgstr ""
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Save Message as an Internal Note"
 msgstr ""
-"インターナルのメモとしてメッセージを保存インターナルのメモとしてメッセージを"
-"保存"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
@@ -5990,14 +5725,12 @@ msgid "Search"
 msgstr "検索："
 
 #: templates/opensearch.tpl.xml
-#, fuzzy
 msgid "Search Eventum Issues"
-msgstr "検索結果"
+msgstr ""
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "Search Results (%1 issues found)"
-msgstr "検索結果"
+msgstr ""
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found, %2 - %3 shown)"
@@ -6008,18 +5741,16 @@ msgid "Search Title"
 msgstr "題名を検索しなさい"
 
 #: lib/eventum/class.filter.php:791
-#, fuzzy
 msgid "Search Type"
-msgstr "題名を検索しなさい"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Sections to Display"
 msgstr ""
 
 #: templates/help/segregate_reporter.tpl.html
-#, fuzzy
 msgid "Segregate Reporter"
-msgstr "報告者を分けます。"
+msgstr ""
 
 #: lib/eventum/class.help.php:145 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
@@ -6072,9 +5803,8 @@ msgid "Separate Only Status Changes"
 msgstr ""
 
 #: templates/setup.tpl.html
-#, fuzzy
 msgid "Server Hostname"
-msgstr "ホスト名"
+msgstr ""
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
@@ -6089,9 +5819,8 @@ msgid "Set Display Preferences"
 msgstr "優先表示の設定"
 
 #: templates/bulk_update.tpl.html
-#, fuzzy
 msgid "Set Message"
-msgstr "メッセージを保存"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Set available options"
@@ -6163,9 +5892,8 @@ msgid ""
 "allows you to segregate users who will deal with issues, and overall normal "
 "staff users who do not handle issues themselves."
 msgstr ""
-"いろいろな意味で以上の許可レベルと同様ですが、この許可レベルを追加することに"
-"よって、問題を取り扱うユーザーと、自分で問題を取り扱わない一般的なユーザーと"
-"を分けることができます。"
+"いろいろな意味で以上の許可レベルと同様ですが、この許可レベルを追加することによって、問題を取り扱うユーザーと、自分で問題を取り扱わない一般的なユーザーとを"
+"分けることができます。"
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -6173,9 +5901,8 @@ msgid ""
 "driven, this manual process is needed to associate a status to a date field "
 "coming from the database."
 msgstr ""
-"ﾌﾟﾛｼﾞｪｸﾄにつき可能なステータスリストが動的及びデータベース主導型であるため"
-"に、このマニュアルプロセスは、データベースからくる日付フィールドにステータス"
-"を関連づけることが必要です。"
+"ﾌﾟﾛｼﾞｪｸﾄにつき可能なステータスリストが動的及びデータベース主導型であるために、このマニュアルプロセスは、データベースからくる日付フィールドにステー"
+"タスを関連づけることが必要です。"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
@@ -6184,11 +5911,10 @@ msgstr ""
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
 "So to examplify its use, whenever the users are ready to commit the changes "
-"to the CVS repository, they will add a special string to specify which "
-"issue this is related to. The following would be a good example of its use:"
+"to the CVS repository, they will add a special string to specify which issue "
+"this is related to. The following would be a good example of its use:"
 msgstr ""
-"使用方法を例示するために、ユーザーがCVSリポジトリーに対して変更をしようとす"
-"るときはいつも、これが関係している問題がどれなのかを特定するために特別な紐を"
+"使用方法を例示するために、ユーザーがCVSリポジトリーに対して変更をしようとするときはいつも、これが関係している問題がどれなのかを特定するために特別な紐を"
 "つけます。以下は使用する上での良い例です。"
 
 #: templates/close.tpl.html
@@ -6219,9 +5945,7 @@ msgstr ""
 
 #: templates/emails.tpl.html templates/signup.tpl.html
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr ""
-"申し訳ありませんが、この機能はアドミニストレーターによって使用不可になってお"
-"ります。"
+msgstr "申し訳ありませんが、この機能はアドミニストレーターによって使用不可になっております。"
 
 #: templates/emails.tpl.html
 msgid "Sorry, but you do not have access to this page."
@@ -6231,13 +5955,11 @@ msgstr "申し訳ありませんが、このページをみることはできま
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
-msgstr ""
-"申し訳ありませんが、あなたはこのスクリーンにアクセスすることはできません。"
+msgstr "申し訳ありませんが、あなたはこのスクリーンにアクセスすることはできません。"
 
 #: templates/permission_denied.tpl.html
-#, fuzzy
 msgid "Sorry, you do not have permission to access this page."
-msgstr "申し訳ありません、あなたはこのページを見ることはできません。"
+msgstr ""
 
 #: templates/mail_queue.tpl.html
 msgid "Sorry, you do not have permission to view this page"
@@ -6303,9 +6025,8 @@ msgid "Start time in the future."
 msgstr "今後の開始時間"
 
 #: templates/navigation.tpl.html
-#, fuzzy
 msgid "Stats"
-msgstr "階層"
+msgstr ""
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:733
 #: lib/eventum/class.notification.php:630
@@ -6317,8 +6038,8 @@ msgstr "階層"
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/closed.tpl.text
-#: templates/notifications/notes.tpl.text
-#: templates/quick_filter_form.tpl.html templates/reports/issue_user.tpl.html
+#: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
+#: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
@@ -6336,14 +6057,12 @@ msgstr "解決済み"
 #: templates/manage/customize_listing.tpl.html
 #: templates/manage/releases.tpl.html templates/searchbar.tpl.html
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Status:"
-msgstr "階層"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Statuses"
-msgstr "階層"
+msgstr ""
 
 #: templates/attached_emails.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/mail_queue.tpl.html
@@ -6384,9 +6103,9 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:227
 #: lib/eventum/class.notification.php:642
-#: lib/eventum/class.notification.php:643
-#: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
-#: templates/history.tpl.html templates/list.tpl.html templates/new.tpl.html
+#: lib/eventum/class.notification.php:643 templates/add_time_tracking.tpl.html
+#: templates/adv_search.tpl.html templates/history.tpl.html
+#: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
 #: templates/notifications/new.tpl.text
@@ -6411,9 +6130,8 @@ msgid "Summary Field"
 msgstr "サマリーフィールド"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Summary:"
-msgstr "概要"
+msgstr ""
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
@@ -6428,9 +6146,8 @@ msgid "Support Level"
 msgstr "サポートレベル"
 
 #: templates/manage/faq.tpl.html
-#, fuzzy
 msgid "Support Levels"
-msgstr "サポートレベル"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Support Options"
@@ -6446,9 +6163,8 @@ msgid ""
 "they report new issues or by visiting the issue details screen and "
 "subscribing manually by using the 'Edit Notification List' link."
 msgstr ""
-"システムユーザーは、新しい問題を報告したときや、問題詳細の画面をみたり、｢編"
-"集通知リスト」のリンクを使い手動で使用することで、特定の問題に関して上記の行"
-"動をとることができます。"
+"システムユーザーは、新しい問題を報告したときや、問題詳細の画面をみたり、｢編集通知リスト」のリンクを使い手動で使用することで、特定の問題に関して上記の行動"
+"をとることができます。"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6486,12 +6202,10 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid ""
-"Thank you, a confirmation message was just emailed to you. Please follow "
-"the instructions available in this message to confirm your password "
-"creation request."
-msgstr ""
-"ありがとうございます。確認メッセージがあなたに送られました。このメッセージに"
-"書かれた指示に従ってパスワード作成依頼を確認してください。"
+"Thank you, a confirmation message was just emailed to you. Please follow the "
+"instructions available in this message to confirm your password creation "
+"request."
+msgstr "ありがとうございます。確認メッセージがあなたに送られました。このメッセージに書かれた指示に従ってパスワード作成依頼を確認してください。"
 
 #: templates/manage/column_display.tpl.html
 msgid "Thank you, columns to display was saved successfully."
@@ -6502,9 +6216,8 @@ msgid "Thank you, field display settings were updated successfully."
 msgstr "ありがとうございます。フィールド表示設定が問題なく更新されました。"
 
 #: templates/update_form.tpl.html
-#, fuzzy
 msgid "Thank you, issue #%1 was updated successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was added successfully."
@@ -6516,28 +6229,23 @@ msgstr "ありがとうございます。このFAQ入力が問題なく更新さ
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was added successfully."
-msgstr ""
-"ありがとうございます。アカウントマネージャーが問題なく追加されました。"
+msgstr "ありがとうございます。アカウントマネージャーが問題なく追加されました。"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was updated successfully."
-msgstr ""
-"ありがとうございます。アカウントマネージャーが問題なくアップデートされまし"
-"た。"
+msgstr "ありがとうございます。アカウントマネージャーが問題なくアップデートされました。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the account was updated successfully."
 msgstr "ありがとうございます。アカウントは問題なく更新されました。"
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Thank you, the action was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
-#, fuzzy
 msgid "Thank you, the action was updated successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6545,9 +6253,8 @@ msgid ""
 msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the attachment was removed successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Thank you, the authorized replier was inserted successfully."
@@ -6564,14 +6271,12 @@ msgid "Thank you, the category was updated successfully."
 msgstr "ありがとうございます。カテゴリーが問題なく更新されました。"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Thank you, the condition was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Thank you, the condition was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the current issue is no longer marked as a duplicate."
@@ -6579,8 +6284,7 @@ msgstr ""
 
 #: templates/custom_fields_form.tpl.html
 msgid "Thank you, the custom field values were updated successfully."
-msgstr ""
-"ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
+msgstr "ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was added successfully."
@@ -6591,10 +6295,8 @@ msgid "Thank you, the custom field was updated successfully."
 msgstr "ありがとうございます。カスタムフィールドは問題なく更新されました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the custom filter was saved successfully."
 msgstr ""
-"ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was added successfully."
@@ -6625,28 +6327,24 @@ msgid "Thank you, the email response was updated successfully."
 msgstr "ありがとうございます。eメール返信が問題なく更新されました。"
 
 #: templates/send.tpl.html
-#, fuzzy
 msgid "Thank you, the email was queued to be sent successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/send.tpl.html
-#, fuzzy
 msgid "Thank you, the email was sent successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/view_email.tpl.html
-#, fuzzy
 msgid "Thank you, the email was successfully moved."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the emails were marked as removed successfully."
 msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the file was removed successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was added successfully."
@@ -6657,14 +6355,12 @@ msgid "Thank you, the group was updated successfully."
 msgstr "ありがとうございます。グループが問題なく更新されました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the impact analysis was set successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/requirement.tpl.html
-#, fuzzy
 msgid "Thank you, the impact analysis was updated successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 msgid "Thank you, the information was updated successfully."
@@ -6675,19 +6371,16 @@ msgid "Thank you, the inital impact analysis was set successfully."
 msgstr ""
 
 #: templates/post_note.tpl.html
-#, fuzzy
 msgid "Thank you, the internal note was posted successfully."
-msgstr "ありがとうございます。情報が問題なくアップデートされました。"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Thank you, the issue resolution was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/resolution.tpl.html
-#, fuzzy
 msgid "Thank you, the issue resolution was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Thank you, the issue was closed successfully"
@@ -6697,23 +6390,19 @@ msgstr "ありがとうございます。問題はうまく解決されました
 msgid ""
 "Thank you, the issue was marked as a duplicate successfully. Please choose "
 "from one of the options below:"
-msgstr ""
-"ありがとうございます。この件は、重複したものとして問題なく処理されました。以"
-"下のオプションのうちひとつを選んでください。"
+msgstr "ありがとうございます。この件は、重複したものとして問題なく処理されました。以下のオプションのうちひとつを選んでください。"
 
 #: templates/redeem_incident.tpl.html
 msgid "Thank you, the issue was successfully marked."
 msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the issue was unassigned successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the issue was updated successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was added successfully."
@@ -6728,24 +6417,20 @@ msgid "Thank you, the link filter was updated successfully."
 msgstr "ありがとうございます。リンクフィルターが問題なく更新されました。"
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid "Thank you, the new issue was created successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/post.tpl.html
 msgid ""
-"Thank you, the new issue was created successfully. For your records, the "
-"new issue ID is <font color=\"red\">%1</font>"
+"Thank you, the new issue was created successfully. For your records, the new "
+"issue ID is <font color=\"red\">%1</font>"
 msgstr ""
 
 #: templates/new.tpl.html
-#, fuzzy
 msgid ""
-"Thank you, the new issue was created successfully. Please choose from one "
-"of the options below"
+"Thank you, the new issue was created successfully. Please choose from one of "
+"the options below"
 msgstr ""
-"ありがとうございます。この件は、重複したものとして問題なく処理されました。以"
-"下のオプションのうちひとつを選んでください。"
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6753,9 +6438,8 @@ msgid ""
 msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the new requirement was added successfully."
-msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was added successfully."
@@ -6778,27 +6462,24 @@ msgid "Thank you, the note was deleted successfully."
 msgstr "ありがとうございます。注意書きが問題なく削除されました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the note was removed successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was updated successfully."
 msgstr "ありがとうございます。注意書きが問題なく更新されました。"
 
 #: templates/notification.tpl.html
-#, fuzzy
 msgid "Thank you, the notification entry was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Thank you, the phone entry was added successfully."
 msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the phone support entry was removed successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was added successfully."
@@ -6817,34 +6498,28 @@ msgid "Thank you, the project was updated successfully."
 msgstr "ありがとうございます。プロジェクトは問題なく更新されました。"
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Thank you, the release was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/releases.tpl.html
-#, fuzzy
 msgid "Thank you, the release was updated successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Thank you, the reminder was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
-#, fuzzy
 msgid "Thank you, the reminder was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Thank you, the round robin entry was added successfully."
-msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "Thank you, the round robin entry was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6853,78 +6528,60 @@ msgid ""
 msgstr ""
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the selected custom filters were removed successfully."
 msgstr ""
-"ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
 
 #: templates/associate.tpl.html
-#, fuzzy
 msgid "Thank you, the selected email message was associated successfully."
 msgstr ""
-"ありがとうございます。選択したメールメッセージは問題なく関連付けされました。"
-"ありがとうございます。選択したメールメッセージはすべて問題なく関連付けされま"
-"した。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the selected issues were updated successfully."
 msgstr ""
-"ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
-"ありがとうございます。カスタムフィールドの値は問題なく更新されました。"
 
 #: templates/manage/general.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "ありがとうございます。設定情報が問題なく保存されました。"
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Thank you, the status was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
-#, fuzzy
 msgid "Thank you, the status was updated successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Thank you, the time tracking category was added successfully."
-msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
-#, fuzzy
 msgid "Thank you, the time tracking category was updated successfully."
-msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "Thank you, the time tracking entry was added successfully."
 msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
 
 #: templates/popup.tpl.html
-#, fuzzy
 msgid "Thank you, the time tracking entry was removed successfully."
-msgstr "ありがとうございます。時間追跡の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Thank you, the uploaded file was associated with the issue below."
-msgstr ""
-"ありがとうございます。アップロードしたファイルは以下の問題と関連がありました"
+msgstr "ありがとうございます。アップロードしたファイルは以下の問題と関連がありました"
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Thank you, the user was added successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/manage/users.tpl.html
-#, fuzzy
 msgid "Thank you, the user was updated successfully."
-msgstr "ありがとうございます。注意書きが問題なく変更されました。"
+msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, this issue was removed from quarantine."
@@ -6949,18 +6606,15 @@ msgstr ""
 #: templates/signup.tpl.html
 msgid ""
 "Thank you, your account creation request was processed successfully. For "
-"security reasons a confirmation email was sent to the provided email "
-"address with instructions on how to confirm your request and activate your "
-"account."
+"security reasons a confirmation email was sent to the provided email address "
+"with instructions on how to confirm your request and activate your account."
 msgstr ""
 
 #: templates/login_form.tpl.html
 msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
-msgstr ""
-"ありがとうございました。あなたのアカウントは現在アクティブになったので、すぐ"
-"に使えます。ログインするにはそのフォームを使ってください。"
+msgstr "ありがとうございました。あなたのアカウントは現在アクティブになったので、すぐに使えます。ログインするにはそのフォームを使ってください。"
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
@@ -6975,32 +6629,27 @@ msgid "Thank you, your email address was updated successfully."
 msgstr ""
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Thank you, your full name was updated successfully."
-msgstr "ありがとうございます。問題はうまく解決されました。"
+msgstr ""
 
 #: templates/preferences.tpl.html
-#, fuzzy
 msgid "Thank you, your password was updated successfully."
-msgstr "ありがとうございます。追加した電話機の入力が問題なく完了しました。"
+msgstr ""
 
 #: templates/confirm.tpl.html
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
-msgstr ""
-"ありがとうございます。新しいパスワードがまちがいなく確認されました。まもなく"
-"新しいパスワードを明記したeメールがお手元に届きます。"
+msgstr "ありがとうございます。新しいパスワードがまちがいなく確認されました。まもなく新しいパスワードを明記したeメールがお手元に届きます。"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The %1 script, which is available in the %2 sub-directory in your Eventum "
-"installation directory, will need to be installed in your CVSROOT CVS "
-"module by following the procedure below:"
+"installation directory, will need to be installed in your CVSROOT CVS module "
+"by following the procedure below:"
 msgstr ""
-"%1スクリプトは、Eventumのインストレーションディレクトリーのサブディレクト"
-"リーの%2にあり、次の手続きにしたがって、CVSROOT CVSモジュールに設置される必"
-"要があります。"
+"%1スクリプトは、Eventumのインストレーションディレクトリーのサブディレクトリーの%2にあり、次の手続きにしたがって、CVSROOT "
+"CVSモジュールに設置される必要があります。"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The CVS module name"
@@ -7012,21 +6661,18 @@ msgid ""
 ">>' links that are related to the previous and next issues for the current "
 "active filter, if appropriate."
 msgstr ""
-"問題詳細ページに、'<< Previous Issue' and 'Next Issue >>'のリンクが載せてあ"
-"り、適切であれば、それは現在のアクティブフィルターに対応する以前の、及び次の"
-"問題に関係しています。"
+"問題詳細ページに、'<< Previous Issue' and 'Next Issue "
+">>'のリンクが載せてあり、適切であれば、それは現在のアクティブフィルターに対応する以前の、及び次の問題に関係しています。"
 
 #: templates/help/list.tpl.html
 msgid ""
 "The Issue Listing page uses a grid layout to simplify the manual search for "
-"issues in a project. You may sort for (almost) any column in this grid "
-"form, and users with the appropriate permissions may also assign selected "
-"issues to another user."
+"issues in a project. You may sort for (almost) any column in this grid form, "
+"and users with the appropriate permissions may also assign selected issues "
+"to another user."
 msgstr ""
-"問題の一覧ページは、ﾌﾟﾛｼﾞｪｸﾄ上の問題をマニュアルで簡単に検索できるように、グ"
-"リッドのレイアウトを使用しています。このグリッドフォームでほとんど全てのコラ"
-"ムを分類できます。適切な許可を得たユーザーが他のユーザーに選択した問題の担当"
-"をしてもらうこともできます。"
+"問題の一覧ページは、ﾌﾟﾛｼﾞｪｸﾄ上の問題をマニュアルで簡単に検索できるように、グリッドのレイアウトを使用しています。このグリッドフォームでほとんど全て"
+"のコラムを分類できます。適切な許可を得たユーザーが他のユーザーに選択した問題の担当をしてもらうこともできます。"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7044,9 +6690,8 @@ msgid ""
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
 msgstr ""
-"上記のコマンドにより、次に必要な作業であるCVSROOTディレクトリーをチェックア"
-"ウト及び作成できます。　次に、<b>loginfo</b>ファイルを開けて、以下を追加して"
-"ください。 "
+"上記のコマンドにより、次に必要な作業であるCVSROOTディレクトリーをチェックアウト及び作成できます。　次に、<b>loginfo</b>ファイルを開け"
+"て、以下を追加してください。"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -7060,9 +6705,8 @@ msgid ""
 "notification related fields when you report a new issue, or subscribe "
 "manually for changes in the issue details page."
 msgstr ""
-"eメール通知のデフォルトオプションは、新しい問題を報告したり、問題の詳細ペー"
-"ジで手動で変更をする時、関連するフィールドの通知を前もって選ぶために使用しま"
-"す。"
+"eメール通知のデフォルトオプションは、新しい問題を報告したり、問題の詳細ページで手動で変更をする時、関連するフィールドの通知を前もって選ぶために使用します"
+"。"
 
 #: templates/help/report_description.tpl.html
 msgid ""
@@ -7071,9 +6715,8 @@ msgid ""
 "happened, steps to reproduce the problem/issue and what you expected to "
 "happen instead."
 msgstr ""
-"記述フィールドは、新しい問題を記述するために使用します。上手に練習すること"
-"で、このフィールドは、問題を再発生させる段階や、発生すると予測されることの代"
-"わりに、何が発生しているのかを説明してくれます。"
+"記述フィールドは、新しい問題を記述するために使用します。上手に練習することで、このフィールドは、問題を再発生させる段階や、発生すると予測されることの代わり"
+"に、何が発生しているのかを説明してくれます。"
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -7087,9 +6730,7 @@ msgstr "指定したファイル名"
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The first thing to do is to checkout the %1 module from your CVS repository:"
-msgstr ""
-"最初にするべきことは、CVSリポジトリーから%1モジュールをチェックアウトするこ"
-"とです。"
+msgstr "最初にするべきことは、CVSリポジトリーから%1モジュールをチェックアウトすることです。"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid ""
@@ -7099,14 +6740,13 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid ""
-"The following addresses could not be matched against the system user "
-"records:"
+"The following addresses could not be matched against the system user records:"
 msgstr "以下の住所はシステムユーザーの記録と合致しません。"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
-"The following is a brief overview of the available user permission levels "
-"in Eventum:"
+"The following is a brief overview of the available user permission levels in "
+"Eventum:"
 msgstr "Eventumにおけるユーザーの許可レベルを次のように簡単に説明します。"
 
 #: templates/self_assign.tpl.html
@@ -7117,9 +6757,7 @@ msgstr ""
 msgid ""
 "The full history of changes related to the current issue is available by "
 "clickin on the 'History of Changes' link."
-msgstr ""
-"最近の問題に関する全ての変更履歴は「履歴変更」リンクをくりっくすれば見ること"
-"ができます。"
+msgstr "最近の問題に関する全ての変更履歴は「履歴変更」リンクをくりっくすれば見ることができます。"
 
 #: templates/notification.tpl.html
 msgid "The given email address"
@@ -7132,9 +6770,8 @@ msgid ""
 "required information for the checkout page and diff page input fields, use "
 "the following placeholders:"
 msgstr ""
-"CVSのようなSCMシステムとかなり互換性をもたせる方法で、統合が実行されます。"
-"チェックアウトページや、diffページの入力フィールドに必要な情報を入力するとき"
-"以下のプレースホルダーを使用します。"
+"CVSのようなSCMシステムとかなり互換性をもたせる方法で、統合が実行されます。チェックアウトページや、diffページの入力フィールドに必要な情報を入力す"
+"るとき以下のプレースホルダーを使用します。"
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7142,8 +6779,7 @@ msgid ""
 "field in the top of your browser window. Just enter the issue number and it "
 "will take you to the appropriate screen."
 msgstr ""
-"問題詳細画面には、ブラウザーウィンドウのトップにある「Go」の入力フィールドを"
-"使ってすぐにアクセスできます。ただ問題番号を入力すれば、しかるべき画面に連れ"
+"問題詳細画面には、ブラウザーウィンドウのトップにある「Go」の入力フィールドを使ってすぐにアクセスできます。ただ問題番号を入力すれば、しかるべき画面に連れ"
 "て行ってくれます。"
 
 #: templates/notifications/updated.tpl.text
@@ -7156,9 +6792,8 @@ msgid ""
 "and copy the %1 script into the %2 directory. Make sure you give the "
 "appropriate permissions to the script."
 msgstr ""
-"設置過程の最後のステップは、CVSサーバーへログインし、%1のスクリプトを %2の"
-"ディレクトリーへコピーします。スクリプトに対して適切な許可を与えたことを確認"
-"してください。"
+"設置過程の最後のステップは、CVSサーバーへログインし、%1のスクリプトを "
+"%2のディレクトリーへコピーします。スクリプトに対して適切な許可を与えたことを確認してください。"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
@@ -7176,25 +6811,19 @@ msgstr ""
 msgid ""
 "The provided trial account email address could not be confirmed. Please "
 "contact the local Technical Support staff for further assistance."
-msgstr ""
-"いただきました、トライアルアカウントのeメールアドレスが確認できません。現地"
-"の技術サポートにお問い合わせください。"
+msgstr "いただきました、トライアルアカウントのeメールアドレスが確認できません。現地の技術サポートにお問い合わせください。"
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account email address could not be found. Please contact "
 "the local Technical Support staff for further assistance."
-msgstr ""
-"いただきました、トライアルアカウントのeメールアドレスがみつかりません。現地"
-"の技術サポートにお問い合わせください。"
+msgstr "いただきました、トライアルアカウントのeメールアドレスがみつかりません。現地の技術サポートにお問い合わせください。"
 
 #: templates/confirm.tpl.html
 msgid ""
-"The provided trial account encrypted hash could not be authenticated. "
-"Please contact the local Technical Support staff for further assistance."
-msgstr ""
-"いただきました暗号化されたハッシュは認証されません。現地の技術サポートにお問"
-"い合わせください。"
+"The provided trial account encrypted hash could not be authenticated. Please "
+"contact the local Technical Support staff for further assistance."
+msgstr "いただきました暗号化されたハッシュは認証されません。現地の技術サポートにお問い合わせください。"
 
 #: templates/help/list.tpl.html
 msgid ""
@@ -7202,9 +6831,8 @@ msgid ""
 "issues they want quickly. More advanced searches may be created using the "
 "Advanced Search tool."
 msgstr ""
-"画面最上部にある即時検索用テーブルで、ユーザーはすぐに自分のほしい問題をみつ"
-"けることができます。アドバンスト検索ツールを使うと、もっとたくさんのアドバン"
-"ストサーチを作ることができます。"
+"画面最上部にある即時検索用テーブルで、ユーザーはすぐに自分のほしい問題をみつけることができます。アドバンスト検索ツールを使うと、もっとたくさんのアドバンス"
+"トサーチを作ることができます。"
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
@@ -7216,17 +6844,14 @@ msgstr "既に特定値はオプションリストに載っています。"
 
 #: templates/preferences.tpl.html
 msgid ""
-"The two passwords do not match. Please review your information and try "
-"again."
+"The two passwords do not match. Please review your information and try again."
 msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
-msgstr ""
-"アップロードしたファイルは既に最近の問題に添付してあります。ファイルに名前を"
-"つけなおして再度ためしてください。"
+msgstr "アップロードしたファイルは既に最近の問題に添付してあります。ファイルに名前をつけなおして再度ためしてください。"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
@@ -7280,19 +6905,18 @@ msgid "This action will permanently delete the selected file."
 msgstr "これにより、選択したファイルは完全に消去されます。"
 
 #: templates/notes.tpl.html
-#, fuzzy
 msgid "This action will permanently delete the specified note."
-msgstr "これにより、選択したファイルは完全に消去されます。"
+msgstr ""
 
 #: templates/phone_support.tpl.html
-#, fuzzy
-msgid "This action will permanently delete the specified phone support entry."
-msgstr "これにより、選択したファイルは完全に消去されます。"
+msgid ""
+"This action will permanently delete the specified phone support entry."
+msgstr ""
 
 #: templates/time_tracking.tpl.html
-#, fuzzy
-msgid "This action will permanently delete the specified time tracking entry."
-msgstr "これにより、選択したファイルは完全に消去されます。"
+msgid ""
+"This action will permanently delete the specified time tracking entry."
+msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "This action will permanently remove the selected FAQ entries."
@@ -7303,18 +6927,16 @@ msgid "This action will permanently remove the selected custom fields."
 msgstr "これにより選んだカスタムフィールドは完全に消去されます。"
 
 #: templates/manage/customer_notes.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected entries."
-msgstr "これにより選んだ入力項目は完全に消去されます。"
+msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "This action will permanently remove the selected news entries."
 msgstr "これにより選んだニュース入力は完全に消去されます。"
 
 #: templates/manage/round_robin.tpl.html
-#, fuzzy
 msgid "This action will permanently remove the selected round robin entries."
-msgstr "これにより選んだ入力項目は完全に消去されます。"
+msgstr ""
 
 #: templates/support_emails.tpl.html
 msgid ""
@@ -7347,31 +6969,25 @@ msgstr ""
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
-"This column is useful to display the amount of time since the last change "
-"in status for each issue. For example, if issue #1234 is set to status "
+"This column is useful to display the amount of time since the last change in "
+"status for each issue. For example, if issue #1234 is set to status "
 "'Closed', you could configure Eventum to display the difference in time "
 "between \"now\" and the date value stored in the closed date field."
 msgstr ""
-"このコラムは、各問題について最後に変更してからどのくらいたったかを表示するの"
-"に役立つ。たとえば、1234番が「解決済み」という状況に設定されたならば、今と解"
-"決した日のフィールドに保存された日との間にある相違を表示するEventumを設定で"
-"きる。"
+"このコラムは、各問題について最後に変更してからどのくらいたったかを表示するのに役立つ。たとえば、1234番が「解決済み」という状況に設定されたならば、今と"
+"解決した日のフィールドに保存された日との間にある相違を表示するEventumを設定できる。"
 
 #: templates/help/scm_integration_usage.tpl.html
-#, fuzzy
 msgid ""
 "This command will be parsed by the CVS integration script (provided to you "
-"and available in %1) and it will notify Eventum that these changes are to "
-"be associated with issue #13."
+"and available in %1) and it will notify Eventum that these changes are to be "
+"associated with issue #13."
 msgstr ""
-"このコマンドは構文解析されます。CVS統合スクリプト（提供され、いかで見られま"
-"す：%eventum_path%/misc/scm/process_cvs_commits.php)、そしてこれらの変更は、"
-"問題NO.13と関係があると知らせてくれます。"
 
 #: templates/close.tpl.html
 msgid ""
-"This customer has a per incident contract. You have chosen not to redeem "
-"any incidents. Press 'OK' to confirm or 'Cancel' to revise."
+"This customer has a per incident contract. You have chosen not to redeem any "
+"incidents. Press 'OK' to confirm or 'Cancel' to revise."
 msgstr ""
 
 #: templates/help/notifications.tpl.html
@@ -7380,62 +6996,52 @@ msgid ""
 "changes are done to specific issues. The current actions that trigger email "
 "notifications are:"
 msgstr ""
-"この機能によって、特定の問題に対して変更が生じたときに、システムユーザーはe"
-"メール通知を受け取ることができます。eメール通知を誘引する行為は以下のとおり"
-"です。"
+"この機能によって、特定の問題に対して変更が生じたときに、システムユーザーはeメール通知を受け取ることができます。eメール通知を誘引する行為は以下のとおりで"
+"す。"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
-"This feature allows your software development teams to integrate your "
-"Source Control Management system with your Issue Tracking System."
-msgstr ""
-"この機能によって、ソフトウェアデベロップメントチームはソースコントロールマ"
-"ネージメントと問題追跡システムを統合することができます。"
+"This feature allows your software development teams to integrate your Source "
+"Control Management system with your Issue Tracking System."
+msgstr "この機能によって、ソフトウェアデベロップメントチームはソースコントロールマネージメントと問題追跡システムを統合することができます。"
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
 "This field can also be used as a way to check the estimation abilities of "
 "project managers against the impact analysis given by the developers "
 "themselves. That is, the value entered by a project manager here can be "
-"compared against the impact analysis / estimated development time entered "
-"by the developers, and this way get more experience estimating the required "
+"compared against the impact analysis / estimated development time entered by "
+"the developers, and this way get more experience estimating the required "
 "time for new projects."
 msgstr ""
-"このフィールドは、デベロッパーによる影響の分析に対して、プロジェクトマネー"
-"ジャーの見積り能力を調査する方法として使われます。つまり、ここにプロジェクト"
-"マネージャーが入力した値は、影響の分析/デベロッパーが入力したデベロップメン"
-"ト予測タイムと比較され、このようにして、新しいﾌﾟﾛｼﾞｪｸﾄにかかる必要な時間を予"
-"測する経験をたくさん得ることができます。"
+"このフィールドは、デベロッパーによる影響の分析に対して、プロジェクトマネージャーの見積り能力を調査する方法として使われます。つまり、ここにプロジェクトマネ"
+"ージャーが入力した値は、影響の分析/デベロッパーが入力したデベロップメント予測タイムと比較され、このようにして、新しいﾌﾟﾛｼﾞｪｸﾄにかかる必要な時間を"
+"予測する経験をたくさん得ることができます。"
 
 #: templates/help/report_summary.tpl.html
 msgid ""
-"This field is used as a simple and descriptive title to this new issue. As "
-"a suggestion, it should be descriptive and short enough to be used by other "
+"This field is used as a simple and descriptive title to this new issue. As a "
+"suggestion, it should be descriptive and short enough to be used by other "
 "users to remember quickly what the issue was all about."
 msgstr ""
-"このフィールドは新しい問題に対する、簡単で記述的なタイトルとして使用されま"
-"す。提案ですが、タイトルは、内容をよく言い表されており、短いほうが、その問題"
-"は何の問題であるか他のユーザーにもすぐに理解できるので、良いでしょう。"
+"このフィールドは新しい問題に対する、簡単で記述的なタイトルとして使用されます。提案ですが、タイトルは、内容をよく言い表されており、短いほうが、その問題は何"
+"の問題であるか他のユーザーにもすぐに理解できるので、良いでしょう。"
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
 "This field is used by the reporters of new issues to estimate the total "
-"development time for the issue. It is especially important as a metrics "
-"tool to get a simple estimate of how much time each issue will take from "
+"development time for the issue. It is especially important as a metrics tool "
+"to get a simple estimate of how much time each issue will take from "
 "discovery, going through implementation and testing up until release time."
 msgstr ""
-"このフィールドは新しい問題の報告者が使うもので、その問題にデベロップメントタ"
-"イムが合計でどれほどかかるか見積もることができます。メトリクスツールとして、"
-"それぞれの問題が発生し、いろいろなことを経て解決されるまでどれほどの時間がか"
-"かるか簡単に見積もるために、大変重要です。"
+"このフィールドは新しい問題の報告者が使うもので、その問題にデベロップメントタイムが合計でどれほどかかるか見積もることができます。メトリクスツールとして、そ"
+"れぞれの問題が発生し、いろいろなことを経て解決されるまでどれほどの時間がかかるか簡単に見積もるために、大変重要です。"
 
 #: templates/help/report_category.tpl.html
 msgid ""
 "This field is used to categorize issues by a common denominator, such as "
 "'Feature Request', 'Bug' or 'Support Inquiry'."
-msgstr ""
-"このフィールドは「機能リクエスト」、｢バグ」もしくは「サポートの問い合わせ」"
-"のような共通項で区分された問題に使われています。"
+msgstr "このフィールドは「機能リクエスト」、｢バグ」もしくは「サポートの問い合わせ」のような共通項で区分された問題に使われています。"
 
 #: templates/help/report_release.tpl.html
 msgid ""
@@ -7444,18 +7050,14 @@ msgid ""
 "deadline should be for this new issue, leave the field as 'un-scheduled', "
 "and a project manager will set it appropriately."
 msgstr ""
-"このフィールドは、この新しい問題が完結し解決される期限はいつなのか決定するた"
-"めに使われます。新しい問題の解決期限がいつなのかわからない場合は、フィールド"
-"を「予定なし」としておくと、プロジェクトマネージャーが適切な設定をしてくれま"
-"す。"
+"このフィールドは、この新しい問題が完結し解決される期限はいつなのか決定するために使われます。新しい問題の解決期限がいつなのかわからない場合は、フィールドを"
+"「予定なし」としておくと、プロジェクトマネージャーが適切な設定をしてくれます。"
 
 #: templates/help/report_assignment.tpl.html
 msgid ""
 "This field is used to determine who should be assigned to this new issue. "
 "You are be able to assign a new issue to several persons at the same time."
-msgstr ""
-"このフィールドは「機能リクエスト」、｢バグ」もしくは「サポートの問い合わせ」"
-"のような共通項で区分された問題に使われています。"
+msgstr "このフィールドは「機能リクエスト」、｢バグ」もしくは「サポートの問い合わせ」のような共通項で区分された問題に使われています。"
 
 #: templates/help/report_priority.tpl.html
 msgid ""
@@ -7464,10 +7066,8 @@ msgid ""
 "priority should be for new issues, choose 'not prioritized' as the option "
 "and leave the issue to be prioritized by a project manager."
 msgstr ""
-"このフィールドは、問題に優先順位をつけるために使われ、プロジェクトマネージメ"
-"ントの仕事をやり易くしてくれます。新しい問題に対して適切な優先順位のつけ方が"
-"わからない、確信がないという場合、オプションで「優先順位をつけない」を選び、"
-"その問題は、プロジェクトマネージャーに優先順位をつけてもらいます。"
+"このフィールドは、問題に優先順位をつけるために使われ、プロジェクトマネージメントの仕事をやり易くしてくれます。新しい問題に対して適切な優先順位のつけ方がわ"
+"からない、確信がないという場合、オプションで「優先順位をつけない」を選び、その問題は、プロジェクトマネージャーに優先順位をつけてもらいます。"
 
 #: templates/reminders/sms_alert.tpl.text
 msgid ""
@@ -7479,16 +7079,14 @@ msgstr ""
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "This is a special permission level reserved for the Customer Integration "
-"API, which allows you to integrate Eventum with your CRM database. When "
-"this feature is enabled, this type of user can only access issues "
-"associated with their own customer. Allowed to create new issues, update "
-"and send emails to existing issues."
+"API, which allows you to integrate Eventum with your CRM database. When this "
+"feature is enabled, this type of user can only access issues associated with "
+"their own customer. Allowed to create new issues, update and send emails to "
+"existing issues."
 msgstr ""
-"これは、カスタマーインテグレーションAPIに限定された特別な許可レベルで、自分"
-"のCRMデータベースでEventumをインテグレートすることができます。この機能が使用"
-"できるようになると、このタイプのユーザーのみが自分自身の顧客に関連する問題に"
-"アクセスすることができます。そして、新しい問題を作成し、更新作業をし、既存の"
-"問題についてeメールを送ることができます。"
+"これは、カスタマーインテグレーションAPIに限定された特別な許可レベルで、自分のCRMデータベースでEventumをインテグレートすることができます。この"
+"機能が使用できるようになると、このタイプのユーザーのみが自分自身の顧客に関連する問題にアクセスすることができます。そして、新しい問題を作成し、更新作業をし"
+"、既存の問題についてeメールを送ることができます。"
 
 #: templates/notifications/files.tpl.text
 msgid "This is an automated message sent at your request from"
@@ -7516,8 +7114,8 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid ""
-"This issue is marked private. Only Managers, the reporter and users "
-"assigned to the issue can view it."
+"This issue is marked private. Only Managers, the reporter and users assigned "
+"to the issue can view it."
 msgstr ""
 
 #: templates/notifications/closed.tpl.text
@@ -7545,43 +7143,33 @@ msgstr ""
 msgid ""
 "This page allows you to create and modify saved custom searches, which will "
 "save searches that can be executed from the Issue Listing screen."
-msgstr ""
-"このページで保存したカスタムサーチを作成したり、修正したりできます。また、問"
-"題リストの画面から実行した検索を保存することもできます。"
+msgstr "このページで保存したカスタムサーチを作成したり、修正したりできます。また、問題リストの画面から実行した検索を保存することもできます。"
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
 "This page allows you to dynamically configure the values displayed in the "
 "\"Status Change Date\" column in the issue listing screen, for a particular "
 "project."
-msgstr ""
-"このページでは、特別なﾌﾟﾛｼﾞｪｸﾄに関する、問題リスト画面上の「ステータス変更"
-"日」に表示される値が動的に構成される事が可能である。"
+msgstr "このページでは、特別なﾌﾟﾛｼﾞｪｸﾄに関する、問題リスト画面上の「ステータス変更日」に表示される値が動的に構成される事が可能である。"
 
 #: templates/help/column_display.tpl.html
 msgid ""
 "This page allows you to dynamically control which columns are displayed on "
 "the list issues page."
-msgstr ""
-"このページで、リストののっている問題のページにどのコラムを載せるかをコント"
-"ロールすることができます"
+msgstr "このページで、リストののっている問題のページにどのコラムを載せるかをコントロールすることができます"
 
 #: templates/help/field_display.tpl.html
 msgid ""
 "This page allows you to dynamically control which fields are displayed to "
 "users of a certain minimum role."
-msgstr ""
-"このページで、最低限の役割を持つユーザーに対し、どのフィールドが表示されるか"
-"を動的にコントロールできます。"
+msgstr "このページで、最低限の役割を持つユーザーに対し、どのフィールドが表示されるかを動的にコントロールできます。"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
 msgid ""
 "This page can only be accessed in relation to a project. Please go to the "
 "project page and choose"
-msgstr ""
-"このページは、プロジェクトに関して唯一アクセスできるページです。プロジェクト"
-"ページに進んで選んでください。"
+msgstr "このページは、プロジェクトに関して唯一アクセスできるページです。プロジェクトページに進んで選んでください。"
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -7590,9 +7178,8 @@ msgid ""
 "email notifications whenever details about issues you are subscribed to "
 "changes."
 msgstr ""
-"この画面で、ユーザーは、名前、アカウントのパスワード、eメールアドレスを変更"
-"したりすることができます。問題の詳細を変更したいときはいつでも、このアドレス"
-"を使ってシステムがeメール通知を送ります。"
+"この画面で、ユーザーは、名前、アカウントのパスワード、eメールアドレスを変更したりすることができます。問題の詳細を変更したいときはいつでも、このアドレスを"
+"使ってシステムがeメール通知を送ります。"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -7600,16 +7187,14 @@ msgid ""
 "emails with existing issues, or create new issues and associate emails with "
 "them."
 msgstr ""
-"この画面で、しかるべき許可を持つユーザーはeメールを現在の問題に関連付け、新"
-"しい問題を作成し、eメールをそれらと関連付けすることができます。"
+"この画面で、しかるべき許可を持つユーザーはeメールを現在の問題に関連付け、新しい問題を作成し、eメールをそれらと関連付けすることができます。"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "This type of user has full access to Eventum, including the low level "
 "configuration parameters available through the administration interface."
 msgstr ""
-"このタイプのユーザーはアドミニストレーションのインターフェイスを通して、低レ"
-"ベルの構成パラミターを含め、全てのEvantumにアクセスすることができます。"
+"このタイプのユーザーはアドミニストレーションのインターフェイスを通して、低レベルの構成パラミターを含め、全てのEvantumにアクセスすることができます。"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7631,9 +7216,9 @@ msgstr "時間区分"
 msgid "Time Period"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:192
-#: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
-#: templates/close.tpl.html templates/reports/custom_fields_weekly.tpl.html
+#: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
+#: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7643,9 +7228,8 @@ msgid "Time Spent"
 msgstr "通話時間"
 
 #: templates/post_note.tpl.html
-#, fuzzy
 msgid "Time Spent:"
-msgstr "通話時間"
+msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:734
 msgid "Time Statistics"
@@ -7660,8 +7244,8 @@ msgid "Time To First Response"
 msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:735
-#: templates/help/view_time.tpl.html
-#: templates/reports/customer_stats.tpl.html templates/time_tracking.tpl.html
+#: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
+#: templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr "追跡時間"
 
@@ -7670,14 +7254,12 @@ msgid "Time entry inserted from phone call."
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
-#, fuzzy
 msgid "Time spent as minutes"
-msgstr "分単位で"
+msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
-#, fuzzy
 msgid "Time spent per user"
-msgstr "通話時間"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
@@ -7721,9 +7303,8 @@ msgstr "タイトル"
 #: templates/manage/resolution.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/post_note.tpl.html
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "Title:"
-msgstr "タイトル"
+msgstr ""
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/phone_support.tpl.html templates/reports/customer_stats.tpl.html
@@ -7744,18 +7325,15 @@ msgid ""
 "and stored for later use. This note can be converted into an email at a "
 "later date."
 msgstr ""
-"通知リストに不適切なeメールが届かないように、その件を担当するユーザーだけに"
-"Eventum を通してeメールが送られるようにします。許可されていないユーザーがe"
-"メールを<i>%1</i>に送ると、注意書きに変換され、後で使うために保存されます。"
-"この注意書きは後日eメールに変換されます。"
+"通知リストに不適切なeメールが届かないように、その件を担当するユーザーだけにEventum "
+"を通してeメールが送られるようにします。許可されていないユーザーがeメールを<i>%1</i>に送ると、注意書きに変換され、後で使うために保存されます。こ"
+"の注意書きは後日eメールに変換されます。"
 
 #: templates/help/report.tpl.html
 msgid ""
 "To report new issues, click in the 'Create Issue' link in the top of your "
 "browser window."
-msgstr ""
-"新しい問題を報告するとき、ブラウザーウィンドウのトップにある、｢問題作成」を"
-"クリックしてください。"
+msgstr "新しい問題を報告するとき、ブラウザーウィンドウのトップにある、｢問題作成」をクリックしてください。"
 
 #: templates/notifications/new_user.tpl.text
 msgid "To start using the system, please load the URL below"
@@ -7763,8 +7341,7 @@ msgstr ""
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
-#: templates/notifications/files.tpl.text
-#: templates/notifications/new.tpl.text
+#: templates/notifications/files.tpl.text templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 #: templates/notifications/updated.tpl.text
@@ -7840,9 +7417,8 @@ msgstr "種類(型）"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/email_accounts.tpl.html
-#, fuzzy
 msgid "Type:"
-msgstr "種類(型）"
+msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -7924,9 +7500,8 @@ msgid "Update Group"
 msgstr "グループを更新します"
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "Update Issue"
-msgstr "値を更新してください。"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Update Issue #%1"
@@ -8015,9 +7590,8 @@ msgid "Update Values"
 msgstr "値を更新してください。"
 
 #: lib/eventum/class.notification.php:686
-#, fuzzy
 msgid "Updated"
-msgstr "更新"
+msgstr ""
 
 #: lib/eventum/class.filter.php:747
 msgid "Updated Date"
@@ -8058,8 +7632,7 @@ msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
-#: templates/reports/recent_activity.tpl.html
-#: templates/time_tracking.tpl.html
+#: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "ユーザー"
 
@@ -8086,9 +7659,8 @@ msgid "Username"
 msgstr "ユーザー名"
 
 #: templates/manage/projects.tpl.html
-#, fuzzy
 msgid "Users"
-msgstr "ユーザー"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid ""
@@ -8097,9 +7669,8 @@ msgid ""
 msgstr "顧客ユーザーあるいは以下のユーザーは指定返信者リストに追加されません"
 
 #: templates/manage/groups.tpl.html
-#, fuzzy
 msgid "Users:"
-msgstr "ユーザー"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Using CSC"
@@ -8110,34 +7681,28 @@ msgid "Value"
 msgstr "値"
 
 #: templates/manage/reminder_conditions.tpl.html
-#, fuzzy
 msgid "Value:"
-msgstr "値"
+msgstr ""
 
 #: templates/view_email.tpl.html
-#, fuzzy
 msgid "View Email Details"
-msgstr "eメールの詳細を見る"
+msgstr ""
 
 #: templates/view_headers.tpl.html
 msgid "View Email Raw Headers"
 msgstr ""
 
 #: templates/view_note.tpl.html
-#, fuzzy
 msgid "View Note Details"
-msgstr "問題の詳細を見る"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Viewer"
 msgstr "視聴者"
 
 #: templates/emails.tpl.html
-#, fuzzy
 msgid "Viewing Emails (%1 email found)"
 msgstr ""
-"eメールを見る（%1のeメールが見つかりました）eメールを見る（%1のeメールが見つ"
-"かりました、%2 - %3のeメールが見られます）"
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
@@ -8152,25 +7717,19 @@ msgstr ""
 msgid ""
 "WARNING: By converting this blocked message to a draft any attachments this "
 "message may have will be lost."
-msgstr ""
-"警告：ここで区分けしたメッセージを添付原稿へ変換すると、このメッセージがなく"
-"なってしまうことがあります。"
+msgstr "警告：ここで区分けしたメッセージを添付原稿へ変換すると、このメッセージがなくなってしまうことがあります。"
 
 #: templates/convert_note.tpl.html
 msgid ""
 "WARNING: Converting this note to an email will send the email to all users "
 "listed in this issue's notification list."
-msgstr ""
-"警告：この注意書きからeメールへの変換についてのeメールはこの件についての通知"
-"リストに載っている全てのユーザーに送られます。"
+msgstr "警告：この注意書きからeメールへの変換についてのeメールはこの件についての通知リストに載っている全てのユーザーに送られます。"
 
 #: templates/convert_note.tpl.html
 msgid ""
 "WARNING: Converting this note to an email will send the email to any "
 "customers that may be listed in this issue's notification list."
-msgstr ""
-"警告：この注意書きからeメールへの変換について　のeメールが問題通知リストに"
-"載っているすべての顧客へ送られます。"
+msgstr "警告：この注意書きからeメールへの変換について　のeメールが問題通知リストに載っているすべての顧客へ送られます。"
 
 #: lib/eventum/class.mail_helper.php:469
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
@@ -8186,11 +7745,9 @@ msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid ""
-"WARNING: This action will permanently remove the selected email aliases "
-"from your email account."
-msgstr ""
-"警告：これによって、eメールアカウントより選択したeメールアライアスを永久に消"
-"去できます。"
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr "警告：これによって、eメールアカウントより選択したeメールアライアスを永久に消去できます。"
 
 #: templates/removed_emails.tpl.html
 msgid ""
@@ -8229,15 +7786,14 @@ msgstr ""
 
 #: lib/eventum/class.mail_helper.php:114
 msgid ""
-"WARNING: This message was blocked because the sender was not allowed to "
-"send emails to the associated issue."
+"WARNING: This message was blocked because the sender was not allowed to send "
+"emails to the associated issue."
 msgstr ""
 
 #: templates/send.tpl.html
 msgid ""
 "WARNING: You are not assigned to this issue so your email will be blocked.\n"
-"Your blocked email will be converted to a note that can be recovered "
-"later.\n"
+"Your blocked email will be converted to a note that can be recovered later.\n"
 "For more information, please see the topic 'email blocking' in help."
 msgstr ""
 
@@ -8261,7 +7817,7 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Warning: If you continue, you will change the "
-msgstr "警告：　続行したければ変更してください。"
+msgstr "警告：　続行したければ変更してください。 "
 
 #: templates/reports/workload_date_range.tpl.html
 msgid ""
@@ -8286,9 +7842,7 @@ msgstr "警告：　不明な連絡先がみつかりました。"
 msgid ""
 "Warning: Unknown contacts were found in the selected email messages. Please "
 "make sure you have selected the correct email messages to associate."
-msgstr ""
-"警告：選択したメールメッセージに不明な連絡先がみつかりました。関連のある正し"
-"いメールメッセージを選択したかどうか確認してください。"
+msgstr "警告：選択したメールメッセージに不明な連絡先がみつかりました。関連のある正しいメールメッセージを選択したかどうか確認してください。"
 
 #: templates/new.tpl.html
 msgid "Warning: your issue is currently quarantined."
@@ -8296,8 +7850,8 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
-"We received a message from you and for your convenience, we created an "
-"issue that will be used by our staff to handle your message."
+"We received a message from you and for your convenience, we created an issue "
+"that will be used by our staff to handle your message."
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -8335,9 +7889,7 @@ msgstr "eメールとして保存します"
 msgid ""
 "With that information in mind, the appropriate value to be entered in the "
 "'Checkout page' input field is:"
-msgstr ""
-"｢チェックアウトページ」の入力フィールドにその情報を念頭に入れて、入力した適"
-"切な値は："
+msgstr "｢チェックアウトページ」の入力フィールドにその情報を念頭に入れて、入力した適切な値は："
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work ended"
@@ -8390,8 +7942,8 @@ msgstr ""
 
 #: templates/tips/custom_queries.tpl.html
 msgid ""
-"You can create as many custom queries as you want through the <a class="
-"\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
+"You can create as many custom queries as you want through the <a "
+"class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the "
 "ability to save and modify custom queries and load them quickly from the "
 "Issue Listing screen."
 msgstr ""
@@ -8406,14 +7958,12 @@ msgstr ""
 #: templates/help/column_display.tpl.html
 msgid ""
 "You can set the minimum role required to view a column. For example, if you "
-"set the mimimum role for 'Category' to be 'Manager' anyone with a role "
-"lower then 'Manager' will not be able to see that column. To hide a column "
-"from all users, select 'Never Display'."
+"set the mimimum role for 'Category' to be 'Manager' anyone with a role lower "
+"then 'Manager' will not be able to see that column. To hide a column from "
+"all users, select 'Never Display'."
 msgstr ""
-"コラムを見るために必要な最低限の役割を設定することができます。たとえば、最低"
-"限の役割をカテゴリー上マネージャーに設定すると、マネージャーより下位の役割を"
-"持っている人はそのコラムを見ることができません。全てのユーザーにコラムを見せ"
-"ないようにするには、｢決して見せない」を選択します。"
+"コラムを見るために必要な最低限の役割を設定することができます。たとえば、最低限の役割をカテゴリー上マネージャーに設定すると、マネージャーより下位の役割を持"
+"っている人はそのコラムを見ることができません。全てのユーザーにコラムを見せないようにするには、｢決して見せない」を選択します。"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid ""
@@ -8462,13 +8012,12 @@ msgstr ""
 
 #: templates/help/preferences.tpl.html
 msgid ""
-"You may also set the appropriate timezone where you live in this screen, "
-"and all of the software will adjust the dates displayed in the system "
+"You may also set the appropriate timezone where you live in this screen, and "
+"all of the software will adjust the dates displayed in the system "
 "accordingly."
 msgstr ""
-"この画面であなたが住んでいる地域の適切なタイムゾーンを設定することもできま"
-"す。また、それによって、全てのソフトウェアがシステムに表示される日付を調整し"
-"てくれます。"
+"この画面であなたが住んでいる地域の適切なタイムゾーンを設定することもできます。また、それによって、全てのソフトウェアがシステムに表示される日付を調整してく"
+"れます。"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -8481,9 +8030,7 @@ msgstr ""
 msgid ""
 "You may also use 'bug' to specify the issue ID - whichever you are more "
 "comfortable with."
-msgstr ""
-"それが、やりやすいか否かにかかわらず、｢バグ」を問題IDを特定するために使用す"
-"ることもできます。"
+msgstr "それが、やりやすいか否かにかかわらず、｢バグ」を問題IDを特定するために使用することもできます。"
 
 #: lib/eventum/class.notification.php:1574
 msgid "Your User Account Details"
@@ -8515,44 +8062,37 @@ msgid ""
 "Your user status is currently set as inactive. Please contact your local "
 "system administrator for further information."
 msgstr ""
-"あなたのユーザーステータスは現在アクティブではありません。詳しいことをお知り"
-"になりたい方は、現地システムのアドミニストレーターにお問い合わせください。"
+"あなたのユーザーステータスは現在アクティブではありません。詳しいことをお知りになりたい方は、現地システムのアドミニストレーターにお問い合わせください。"
 
 #: templates/login_form.tpl.html
 msgid ""
-"Your user status is currently set as pending. This means that you still "
-"need to confirm your account creation request. Please contact your local "
-"system administrator for further information."
+"Your user status is currently set as pending. This means that you still need "
+"to confirm your account creation request. Please contact your local system "
+"administrator for further information."
 msgstr ""
-"現在のあなたのユーザーステータスはペンディングに設定されています。これは、あ"
-"なたがまだアカウント作成依頼を確認する必要があるという意味です。他にお知りに"
-"なりたいことがあれば、あなたの会社のシステムアドミニストレーターに連絡を取っ"
-"てください。"
+"現在のあなたのユーザーステータスはペンディングに設定されています。これは、あなたがまだアカウント作成依頼を確認する必要があるという意味です。他にお知りにな"
+"りたいことがあれば、あなたの会社のシステムアドミニストレーターに連絡を取ってください。"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
 "[highly recommended] from the Horde project you would usually have the "
 "following URL as the diff page:"
-msgstr ""
-"Hordeプロジェクトで[高く評価]されたものには、通常diffページとして以下のURLが"
-"あります。"
+msgstr "Hordeプロジェクトで[高く評価]されたものには、通常diffページとして以下のURLがあります。"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
-"\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
+"13)\" form.php"
 msgstr ""
-"[prompt]$ cvs -q commit -m 「依頼がありましたように、検証フォームを追加しま"
-"す」 (問題: 13)\" form.php"
+"[prompt]$ cvs -q commit -m 「依頼がありましたように、検証フォームを追加します」 (問題: 13)\" form.php"
 
 #: htdocs/reports/workload_time_period_graph.php:57
 msgid "actions"
 msgstr ""
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "advanced search"
-msgstr "アドバンスト･サーチ"
+msgstr ""
 
 #: templates/associate.tpl.html
 msgid "an"
@@ -8576,9 +8116,8 @@ msgid "associated"
 msgstr "関連性"
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "bulk update tool"
-msgstr "一括更新ツール"
+msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "change your account clocked-in status"
@@ -8601,9 +8140,8 @@ msgid "create advanced searches"
 msgstr ""
 
 #: templates/list.tpl.html
-#, fuzzy
 msgid "current filters"
-msgstr "現在のフィルター："
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -8665,9 +8203,8 @@ msgid "edit this custom search"
 msgstr "カスタマイズした検索を編集しなさい"
 
 #: htdocs/reports/workload_time_period_graph.php:53
-#, fuzzy
 msgid "emails"
-msgstr "eメール"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "enter a new option above"
@@ -8678,9 +8215,8 @@ msgid "error condition detected"
 msgstr "検出されたエラー状態"
 
 #: templates/js/dynamic_custom_field.tpl.js
-#, fuzzy
 msgid "first"
-msgstr "名"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
@@ -8762,9 +8298,8 @@ msgid "is neither a known staff member or customer technical contact."
 msgstr ""
 
 #: templates/view_form.tpl.html
-#, fuzzy
 msgid "issue"
-msgstr "技術的問題"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
@@ -8865,9 +8400,7 @@ msgstr ""
 msgid ""
 "of associated projects. This will remove all data for this field from the "
 "selected project(s)."
-msgstr ""
-"関連性のあるプロジェクトから、これにより、選んだプロジェクトからこのフィール"
-"ドに関する全てのデータが削除されます。"
+msgstr "関連性のあるプロジェクトから、これにより、選んだプロジェクトからこのフィールドに関する全てのデータが削除されます。"
 
 #: templates/preferences.tpl.html
 msgid "only used for automatic issue reminders"
@@ -8898,9 +8431,8 @@ msgid "quick search"
 msgstr "クイック検索"
 
 #: templates/quick_filter_form.tpl.html
-#, fuzzy
 msgid "quick search bar"
-msgstr "クイック検索"
+msgstr ""
 
 #: templates/faq.tpl.html
 msgid "read faq entry"
@@ -9033,9 +8565,8 @@ msgid "view issue details"
 msgstr "問題の詳細を見る"
 
 #: templates/notes.tpl.html
-#, fuzzy
 msgid "view note details"
-msgstr "問題の詳細を見る"
+msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder action details"
@@ -9182,9 +8713,8 @@ msgstr ""
 
 #~ msgid ""
 #~ "Use account for non-subject based email/note/draft routing.\n"
-#~ "                    <b> Note: </b>If you check this, you cannot leave a "
-#~ "copy of messages on the server.</a>"
+#~ "                    <b> Note: </b>If you check this, you cannot leave a copy "
+#~ "of messages on the server.</a>"
 #~ msgstr ""
-#~ " email/note/draft routing.\n"
-#~ "<b>に基づいた件名なし用のアカウントを使います。注：  </b>これをチェックし"
-#~ "たら, サーバーにメッセージのコピーは残せません</a>"
+#~ "email/note/draft routing.\n"
+#~ "<b>に基づいた件名なし用のアカウントを使います。注：  </b>これをチェックしたら, サーバーにメッセージのコピーは残せません</a>"
