@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-10 08:14+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2010-06-14 08:02+0000\n"
+"Last-Translator: Alessandro Aragione <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-11 03:44+0000\n"
+"X-Launchpad-Export-Date: 2010-06-15 03:34+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -64,12 +64,16 @@ msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"%2 processato"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"'Nota di discussione', 'Email Discussione' e 'Telefono Discussione' le "
+"categorie sono richieste da eventum e non possono essere cancellate"
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -129,7 +133,7 @@ msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
-msgstr ""
+msgstr "(Premere 'ALT' e '4' ) - per accedere alla casella"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -137,11 +141,11 @@ msgstr "(in ore)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
+msgstr "(letteralmente)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
-msgstr ""
+msgstr "(richiesto 1% installato nel tuo server)"
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
@@ -209,11 +213,11 @@ msgstr "TUTTI"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
@@ -273,6 +277,9 @@ msgid ""
 "user or a developer updating an issue, uploading a file, sending an email, "
 "etc."
 msgstr ""
+"Le azioni sono in ogni caso salvate nella storia dei problemi, come ad "
+"esempio un utente o uno sviluppatore l'aggiornamento di un problema, il "
+"caricamento di un file, inviare una e-mail, ecc"
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
@@ -472,6 +479,9 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Il permesso di vedere tutti gli aspetti per i progetti legati a questo "
+"utente; permesso di creare nuovi problemi e di inviare e-mail su temi "
+"attuali."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -488,6 +498,12 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
+"Il permesso di vedere tutti gli aspetti per i progetti legati a questo "
+"utente; permesso di creare nuovi problemi, aggiornare i problemi esistenti, "
+"e di inviare e-mail e note ai problemi esistenti. Inoltre, questo tipo di "
+"utente è ammesso anche nella sezione amministrazione straordinaria di "
+"eventum per modificare maggior parte delle caratteristiche di progetto e le "
+"opzioni."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -800,6 +816,11 @@ msgid ""
 "to the appropriate files will be associated with existing issue mentioned in "
 "your commit message."
 msgstr ""
+"Uno script di integrazione dovrà essere installato nel repository CVS di "
+"root in modo da inviare un messaggio a eventum quando si verificano "
+"cambiamenti impegnati nel repository. Questo messaggio sarà poi elaborato da "
+"eventum e le modifiche ai file appropriati saranno associati a tema "
+"esistente citato nel messaggio di commit"
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
@@ -916,7 +937,7 @@ msgstr ""
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Assegnatario:"
 
 #: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text

@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-13 07:44+0000\n"
-"Last-Translator: zumteufel <Unknown>\n"
+"PO-Revision-Date: 2010-06-14 21:42+0000\n"
+"Last-Translator: JoseRoberto <Unknown>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-14 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-06-15 03:34+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -3021,6 +3021,7 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "If you check this, you cannot leave a copy of messages on the server."
 msgstr ""
+"Si usted comprueba esto, no puede dejar una copia de mensajes en el servidor"
 
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
@@ -6141,11 +6142,12 @@ msgstr "Buscar Casos de Eventum"
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found)"
-msgstr ""
+msgstr "Resultados de la búsqueda (%1 cuestiones encontradas)"
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found, %2 - %3 shown)"
 msgstr ""
+"Resultados de la búsqueda (%1 cuestiones encontradas, %2 - %3 se muestra)"
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -7944,6 +7946,8 @@ msgstr "Para"
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
+"Para añadir mas información a esta cuestión, simplemente conteste a este "
+"correo electrónico"
 
 # traducción anterior forzada y con errores
 # Tags html no son aplicados, sino desplegados.
