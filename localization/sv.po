@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-16 15:00+0000\n"
+"PO-Revision-Date: 2010-06-17 11:29+0000\n"
 "Last-Translator: Viktor Kull <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-17 03:34+0000\n"
+"X-Launchpad-Export-Date: 2010-06-18 03:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1504,7 +1504,7 @@ msgstr "Skapad"
 
 #: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
 msgid "Created Date"
-msgstr ""
+msgstr "Skapad datum"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
@@ -2627,7 +2627,7 @@ msgstr "Tillbaka"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
-msgstr ""
+msgstr "Grafer"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
@@ -5741,11 +5741,11 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found)"
-msgstr "Sök resultat (%1 ärenden hittades)"
+msgstr "Sökresultat (%1 ärenden hittades)"
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found, %2 - %3 shown)"
-msgstr "%1 ärenden hittade, %2 - %3 visade"
+msgstr "Sökresultat (%1 ärenden hittade, %2 - %3 visas)"
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -5987,7 +5987,7 @@ msgstr "Sortera efter"
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
-msgstr "Sorteringsordning"
+msgstr "Sortering"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -7695,7 +7695,7 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Viewing Emails (%1 email found)"
-msgstr "Visar e-postmeddelanden"
+msgstr "Visar e-postmeddelanden (%1 meddelanden hittades)"
 
 #: lib/eventum/class.help.php:121 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
