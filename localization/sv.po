@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-17 11:29+0000\n"
+"PO-Revision-Date: 2010-06-18 08:09+0000\n"
 "Last-Translator: Viktor Kull <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-18 03:33+0000\n"
+"X-Launchpad-Export-Date: 2010-06-19 03:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -5095,15 +5095,15 @@ msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
-msgstr "Posta intern notering"
+msgstr "Lägg till kommentar"
 
 #: templates/post_note.tpl.html
 msgid "Post New Internal Note"
-msgstr "Posta ny intern notering"
+msgstr "Lägg till en ny kommentar"
 
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Posted Date"
-msgstr "Postat datum"
+msgstr "Tilläggs datum"
 
 #: templates/view_note.tpl.html
 msgid "Posted Date:"
@@ -6382,7 +6382,7 @@ msgstr "Tack så mycket, den initiala förändringsanalysen har sparats."
 
 #: templates/post_note.tpl.html
 msgid "Thank you, the internal note was posted successfully."
-msgstr "Tack så mycket, den interna noteringen har sparats."
+msgstr "Tack så mycket, kommentaren har sparats"
 
 #: templates/manage/resolution.tpl.html
 msgid "Thank you, the issue resolution was added successfully."
