@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-09 11:36+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2010-06-24 17:47+0000\n"
+"Last-Translator: Manoj Prasanna Handapangoda <Unknown>\n"
 "Language-Team: Sinhalese <si@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-10 03:37+0000\n"
+"X-Launchpad-Export-Date: 2010-06-25 03:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -89,7 +89,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
+msgstr "(මෙයට සැබෑ email තිබීම අවශ්‍යයි උදා: \"%1\" හෝ \"%2\" )"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -174,11 +174,11 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "නව දොෂයක තොරතුරක් සාදන ලද අතර එයට ඔබව සම්බන්ධ කර ඇත"
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr ""
+msgstr "නව දොෂයක තොරතුරක් සාදන ලදී"
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
@@ -304,7 +304,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "ක්‍රියාවක් අලුතින් එකතු කරන්න"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -312,7 +312,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "කොන්දේසියක් යොදන්න"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -332,7 +332,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr ""
+msgstr "අලුත් ගොනු එකතු කරන්න"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "නව දුරකථන ඇමතුමක්"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
@@ -390,7 +390,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr ""
+msgstr "යවන්නාගේ නමට පසුව"
 
 #: lib/eventum/class.customer_stats_report.php:191
 msgid "Aggregate"
@@ -442,11 +442,11 @@ msgstr "සියල්ල"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "සියලුම දෝෂ"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "සියලුම වචන (email, notes, etc..)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -498,7 +498,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "දෝෂයක් පැන නගින ලදී"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
@@ -780,7 +780,7 @@ msgstr ""
 
 #: htdocs/adv_search.php:50 htdocs/list.php:78 templates/adv_search.tpl.html
 msgid "Any"
-msgstr ""
+msgstr "ඔනැම"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
@@ -809,7 +809,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "ආරෝහණ"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
@@ -826,7 +826,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:723
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr ""
+msgstr "නියම කළ"
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
@@ -959,7 +959,7 @@ msgstr ""
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
 msgid "Attachments"
-msgstr ""
+msgstr "ඇමුණුම්"
 
 #: templates/view_note.tpl.html
 msgid "Attachments:"
@@ -1054,7 +1054,7 @@ msgstr ""
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
-msgstr ""
+msgstr "ආපසු"
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
@@ -1155,7 +1155,7 @@ msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
-msgstr ""
+msgstr "අහෝසි කරන්න"
 
 #: templates/update_form.tpl.html
 msgid "Cancel Update"
@@ -1180,7 +1180,7 @@ msgstr ""
 #: templates/reports/workload_date_range.tpl.html
 #: templates/time_tracking.tpl.html templates/view_form.tpl.html
 msgid "Category"
-msgstr ""
+msgstr "ප්‍රභේද"
 
 #: lib/eventum/class.help.php:61 templates/help/report_category.tpl.html
 msgid "Category Field"
@@ -1188,11 +1188,11 @@ msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
-msgstr ""
+msgstr "ප්‍රවර්ගය:"
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr ""
+msgstr "පිටපත"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
@@ -1200,7 +1200,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
-msgstr ""
+msgstr "රහස්පදය වෙනස් කරන්න"
 
 #: templates/view_form.tpl.html
 msgid "Change Status To"
@@ -1220,7 +1220,7 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
-msgstr ""
+msgstr "අක්‍ෂර වින්‍යාසය පරීක්‍ෂා කරන්න"
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
@@ -1240,7 +1240,7 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
-msgstr ""
+msgstr "පැහිදිලි කරන්න"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
@@ -1277,7 +1277,7 @@ msgstr ""
 #: templates/removed_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_headers.tpl.html templates/view_note.tpl.html
 msgid "Close"
-msgstr ""
+msgstr "වසන්න"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Close Form"
@@ -1291,7 +1291,7 @@ msgstr ""
 #: templates/associate.tpl.html templates/faq.tpl.html
 #: templates/help/banner.tpl.html
 msgid "Close Window"
-msgstr ""
+msgstr "කවුළුව වසන්න"
 
 #: lib/eventum/class.notification.php:816
 msgid "Closed"
@@ -1319,11 +1319,11 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
-msgstr ""
+msgstr "පාට"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color:"
-msgstr ""
+msgstr "වර්ණය:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Column Name"
@@ -1335,7 +1335,7 @@ msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
-msgstr ""
+msgstr "ගුණ දොස් නිරූපනය"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
@@ -1347,7 +1347,7 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Configuration"
-msgstr ""
+msgstr "සැකසුම්"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
@@ -1365,7 +1365,7 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
-msgstr ""
+msgstr "දිගටම කරගෙන යන්න"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
@@ -1387,7 +1387,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
-msgstr ""
+msgstr "ගනන"
 
 #: templates/manage/email_accounts.tpl.html templates/signup.tpl.html
 msgid "Create Account"
@@ -1487,7 +1487,7 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
-msgstr ""
+msgstr "නිර්මාණය කරන ලදි"
 
 #: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
 msgid "Created Date"
@@ -1524,7 +1524,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
-msgstr ""
+msgstr "විකල්ප ක්ෂේත්‍ර"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
@@ -1612,7 +1612,7 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr ""
+msgstr "දිනය"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
@@ -1647,7 +1647,7 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
-msgstr ""
+msgstr "දවස"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
@@ -1659,7 +1659,7 @@ msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:707
 msgid "Days"
-msgstr ""
+msgstr "දින"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1682,11 +1682,11 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
-msgstr ""
+msgstr "පෙරනිමි ප්‍රමුඛත්වය:"
 
 #: templates/setup.tpl.html
 msgid "Defaults"
-msgstr ""
+msgstr "පෙරනිමි"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1705,7 +1705,7 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "ඉවත් කරන්න"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
@@ -1714,7 +1714,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Descending"
-msgstr ""
+msgstr "අවරෝහණ"
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -1726,7 +1726,7 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Description"
-msgstr ""
+msgstr "විස්තරය"
 
 #: lib/eventum/class.help.php:81 templates/help/report_description.tpl.html
 msgid "Description Field"
@@ -1738,23 +1738,23 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
 msgid "Description:"
-msgstr ""
+msgstr "විස්තරය:"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
-msgstr ""
+msgstr "තොරතුරු"
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Developer"
-msgstr ""
+msgstr "සංවර්ධක"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Developers"
-msgstr ""
+msgstr "නිර්මාණකරුවෝ"
 
 #: templates/main.tpl.html
 msgid "Did you Know?"
@@ -1768,7 +1768,7 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Disabled"
-msgstr ""
+msgstr "අක්‍රිය කර ඇත"
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
@@ -1791,7 +1791,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "ඔබට කරගෙන යාමට ඔනේද?"
 
 #: templates/view_email.tpl.html
 msgid "Download Raw Email"
@@ -1807,7 +1807,7 @@ msgstr ""
 
 #: templates/email_drafts.tpl.html
 msgid "Drafts"
-msgstr ""
+msgstr "කෙටුම් පත්"
 
 #: templates/setup.tpl.html
 msgid "Drop Tables If They Already Exist"
@@ -1954,7 +1954,7 @@ msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
-msgstr ""
+msgstr "විද්‍යුත් තැපෑල"
 
 #: htdocs/view_email.php:50
 #, php-format
@@ -1982,7 +1982,7 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Email Address"
-msgstr ""
+msgstr "විද්‍යුත් තැපැල් ලිපිනය"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address Prefix:"
@@ -2107,7 +2107,7 @@ msgstr ""
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
-msgstr ""
+msgstr "විද්‍යත් තැපෑල්"
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
@@ -2137,14 +2137,14 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Enabled"
-msgstr ""
+msgstr "සක්‍රීයයි"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "End"
-msgstr ""
+msgstr "නිමයි"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "End date"
@@ -2177,7 +2177,7 @@ msgstr ""
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
-msgstr ""
+msgstr "දෝෂය"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Error: An error occurred while trying to run your query."
@@ -2475,7 +2475,7 @@ msgstr ""
 #: lib/eventum/class.reminder_condition.php:216
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
-msgstr ""
+msgstr "ක්‍ෂේත්‍රය"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Options"
@@ -2495,7 +2495,7 @@ msgstr ""
 
 #: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
 msgid "File"
-msgstr ""
+msgstr "ගොනුව"
 
 #: templates/file_upload.tpl.html
 msgid "Filenames"
@@ -2551,11 +2551,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
-msgstr ""
+msgstr "වෙතින්"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr ""
+msgstr "වෙතින්:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2564,7 +2564,7 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html
 msgid "Full Name"
-msgstr ""
+msgstr "සම්පූර්ණ නම"
 
 #: templates/signup.tpl.html
 msgid "Full Name:"
@@ -2597,13 +2597,13 @@ msgstr ""
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"
-msgstr ""
+msgstr "යන්න"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
 #: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
 msgid "Go Back"
-msgstr ""
+msgstr "ආපසු යන්න"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
@@ -2628,7 +2628,7 @@ msgstr ""
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
-msgstr ""
+msgstr "සමුහය"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Group By"
@@ -2636,7 +2636,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html templates/update_form.tpl.html
 msgid "Group:"
-msgstr ""
+msgstr "සමූහය:"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
@@ -2702,7 +2702,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Home"
-msgstr ""
+msgstr "මුල් පිටුව"
 
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
@@ -2710,15 +2710,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
-msgstr ""
+msgstr "ධාරක නාමය"
 
 #: templates/manage/general.tpl.html
 msgid "Hostname:"
-msgstr ""
+msgstr "ධාරක නාමය:"
 
 #: lib/eventum/class.customer_stats_report.php:716
 msgid "Hours"
-msgstr ""
+msgstr "පැය"
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
@@ -2735,11 +2735,11 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
@@ -2866,7 +2866,7 @@ msgstr ""
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
-msgstr ""
+msgstr "අක්‍රීය"
 
 #: templates/close.tpl.html
 msgid "Incident Types to Redeem"
@@ -2884,7 +2884,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Incoming"
-msgstr ""
+msgstr "එන"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
