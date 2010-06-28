@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-06-21 13:25+0000\n"
-"Last-Translator: Viktor Kull <Unknown>\n"
+"PO-Revision-Date: 2010-06-27 19:19+0000\n"
+"Last-Translator: Fredrik Kilegran <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-22 04:21+0000\n"
+"X-Launchpad-Export-Date: 2010-06-28 03:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -220,7 +220,7 @@ msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "OCH / ELLER"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
@@ -822,7 +822,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "Stigande"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
@@ -1017,7 +1017,7 @@ msgstr "Stäng bekräftelse popup fönster automatiskt?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
-msgstr ""
+msgstr "Tillgänglig - Användare kan använda den här utgåvan"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
@@ -1063,7 +1063,7 @@ msgstr ""
 
 #: lib/eventum/class.notification.php:956
 msgid "BLOCKED"
-msgstr ""
+msgstr "BLOCKERAD"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
@@ -1221,11 +1221,11 @@ msgstr "Ändra Status till"
 
 #: templates/notifications/updated.tpl.text
 msgid "Changed Fields"
-msgstr ""
+msgstr "Ändrade fält"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
-msgstr ""
+msgstr "Ändrande av fälttyp kan resultera i förlust av data"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1344,7 +1344,7 @@ msgstr "Kolumnnamn"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
-msgstr ""
+msgstr "Flervalslista"
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
@@ -1397,6 +1397,8 @@ msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
+"Stöd för kakor (cookies) verkar vara avstängt i din webbläsare. Vänligen "
+"aktivera denna funktion och försök igen."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
@@ -1446,7 +1448,7 @@ msgstr "Skapa ärende"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Skapa länkfilter"
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
@@ -1579,7 +1581,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
-msgstr ""
+msgstr "Kundidentitet (t.ex. \"Exempel AB\", \"johndoe@example.com\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
@@ -1613,7 +1615,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
-msgstr ""
+msgstr "Dagliga tips:"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1718,16 +1720,16 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr ""
+msgstr "Ta bort alias"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Descending"
-msgstr ""
+msgstr "Fallande"
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -2326,7 +2328,7 @@ msgstr "Uppskattad utvecklingstid:"
 
 #: templates/reports/tree.tpl.html
 msgid "Estimated Development Time"
-msgstr ""
+msgstr "Beräknad utvecklingstid"
 
 #: lib/eventum/class.help.php:85
 #: templates/help/report_estimated_dev_time.tpl.html
@@ -2339,7 +2341,7 @@ msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
-msgstr ""
+msgstr "Beräknad tid (Timmar)"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2412,7 +2414,7 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Existing Issue"
-msgstr ""
+msgstr "Existerande ärende"
 
 #: templates/manage/reminders.tpl.html
 msgid "Existing Issue Reminders"
@@ -2557,7 +2559,7 @@ msgstr "Kontrollera stavningen"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Till exempel"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2641,7 +2643,7 @@ msgstr ""
 #: lib/eventum/class.filter.php:608
 #, php-format
 msgid "Greater than %1$s"
-msgstr ""
+msgstr "Större än %1$s"
 
 #: htdocs/list.php:90 lib/eventum/class.display_column.php:186
 #: lib/eventum/class.project.php:1105 templates/manage/users.tpl.html
@@ -2675,6 +2677,16 @@ msgid ""
 "request will be erased automatically. However, if you would like to confirm "
 "the new account, please do so by visiting the URL below:\n"
 msgstr ""
+"Hej,\n"
+"\n"
+"Vi mottog just en förfrågan om att skapa ett konto i %1\n"
+"På grund av säkerhetsskäl behöver du verifiera detta så vi kan aktivera "
+"kontot.\n"
+"\n"
+"Om detta inte är en riktig förfrågan eller om du inte längre är intresserad "
+"av att skapa ett konto, vänligen bortse från detta e-postmeddelandet. Om en "
+"vecka kommer förfrågan att tas bort automatiskt. Om du däremot vill aktivera "
+"kontot behöver du besöka länken nedanför:\n"
 
 #: templates/notifications/password_confirmation.tpl.text
 msgid ""
@@ -2697,7 +2709,7 @@ msgstr "Hjälp"
 
 #: lib/eventum/class.help.php:53
 msgid "Help Topics"
-msgstr ""
+msgstr "Hjälpavsnitt"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -2759,7 +2771,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
@@ -2767,23 +2779,23 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
-msgstr ""
+msgstr "IMAP över SSL"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL (self-signed)"
-msgstr ""
+msgstr "IMAP över SSL (självsignerat)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, no TLS"
-msgstr ""
+msgstr "IMAP, utan TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS"
-msgstr ""
+msgstr "IMAP, med TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS (self-signed)"
-msgstr ""
+msgstr "IMAP, med TLS (självsignerat)"
 
 #: templates/manage/general.tpl.html
 msgid "IRC Notifications:"
@@ -2916,7 +2928,7 @@ msgstr "Initial påverkansanalys"
 
 #: templates/manage/projects.tpl.html
 msgid "Initial Status for New Issues"
-msgstr ""
+msgstr "Inledande status för nya ärenden"
 
 #: lib/eventum/class.help.php:97 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
@@ -2925,7 +2937,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
-msgstr ""
+msgstr "Heltal"
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
@@ -2963,12 +2975,12 @@ msgstr ""
 #: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Är större än %1$s-%2$s-%3$s"
 
 #: lib/eventum/class.filter.php:643
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Är mindre än %1$s-%2$s-%3$s"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -2978,7 +2990,7 @@ msgstr "Ärende"
 
 #: templates/notifications/updated.tpl.text
 msgid "Issue #"
-msgstr ""
+msgstr "Ärende #"
 
 #. TRANSLATORS: %1 = issue id
 #: htdocs/view.php:59
@@ -3183,7 +3195,7 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
-msgstr ""
+msgstr "Nivåer:"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Line"
@@ -3192,7 +3204,7 @@ msgstr ""
 #: lib/eventum/class.help.php:129 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
-msgstr ""
+msgstr "Länkfilter"
 
 #: templates/help/link_filters.tpl.html
 msgid ""
