@@ -68,6 +68,7 @@ class Language
         'da_DK' => 'Danish',
         'de_DE' => 'German',
         'en_AU' => 'English (Australia)',
+        'en_CA' => 'English (Canada)',
         'en_GB' => 'English (United Kingdom)',
         'eo' => 'Esperanto',
         'es_ES' => 'Spanish',
@@ -78,6 +79,7 @@ class Language
         'he_IL' => 'Hebrew',
         'it_IT' => 'Italian',
         'ja' => 'Japanese',
+        'ko' => 'Korean',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
         'nl_NL' => 'Dutch',
@@ -90,6 +92,7 @@ class Language
         'sv_SE' => 'Swedish',
         'ta' => 'Tamil',
         'tr' => 'Turkish',
+        'uk' => 'Ukrainian',
         'ur' => 'Urdu',
         'zh_CN' => 'Chinese (Simplified)',
     );
