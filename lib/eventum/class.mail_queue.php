@@ -78,7 +78,7 @@ class Mail_Queue
             $issue_id = 'null';
         }
         // if the Date: header is missing, add it.
-        if (!in_array('Date', array_keys($headers))) {
+        if (empty($headers['Date'])) {
             $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
         }
         if (!empty($headers['To'])) {
