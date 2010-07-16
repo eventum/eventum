@@ -69,7 +69,10 @@ class Mail_Queue
                 (@in_array(Mail_Helper::getEmailAddress($to), $reminder_addresses))) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
-        $headers['precedence'] = 'bulk';
+
+        // try to prevent triggering absence auto responders
+        $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
+        $headers['Auto-submitted: auto-generated']; // the RFC 3834 way
 
 
         if (empty($issue_id)) {
