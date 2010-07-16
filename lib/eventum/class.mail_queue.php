@@ -72,8 +72,7 @@ class Mail_Queue
 
         // try to prevent triggering absence auto responders
         $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
-        $headers['Auto-submitted: auto-generated']; // the RFC 3834 way
-
+        $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
 
         if (empty($issue_id)) {
             $issue_id = 'null';
