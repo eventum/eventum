@@ -114,10 +114,11 @@ class Mail_Queue
         if ($type_id != false) {
             $stmt .= ",\nmaq_type_id";
         }
+        $ip = !empty($_SERVER['REMOTE_ADDR']) ? Misc::escapeString($_SERVER['REMOTE_ADDR']) : '';
         $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . @$_SERVER['REMOTE_ADDR'] . "',
+                    '" . Misc::escapeString($ip) . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',
