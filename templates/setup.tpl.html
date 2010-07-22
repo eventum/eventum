@@ -311,6 +311,43 @@ function disableAuthFields(f, bool)
             </table>
           </td>
         </tr>
+
+
+        <tr>
+          <td colspan="2" class="default" align="right">
+            &nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="center" colspan="2">
+            <h2><b>{t}Defaults{/t}</b></h2>
+            <hr size="1" noshade color="#000000">
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right" valign="top">
+            <b>{t}Timezone{/t}:</b>
+          </td>
+          <td width="80%">
+            <select class="default" name="default_timezone">
+              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone}
+            </select><br/>
+            {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="default_timezone"}
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>{t}Week starts on:{/t}</b>
+          </td>
+          <td width="80%" class="default">
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+          </td>
+        </tr>
+        </tr>
+
+
+
         <tr>
           <td colspan="2" class="default" align="right">
             &nbsp;
@@ -324,7 +361,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td colspan="2" class="small_default" align="center">
-            {t}<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
+            <b>{t}Note:{/t}</b> {t}The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
             &nbsp;
             <hr size="1" noshade color="#000000">
           </td>

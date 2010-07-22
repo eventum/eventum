@@ -165,7 +165,7 @@ class Help
      */
     function topicExists($topic)
     {
-        global $topics;
+        $topics = self::getTopics();
 
         if (isset($topics[$topic])) {
             return true;
@@ -185,7 +185,7 @@ class Help
      */
     function getParent($topic)
     {
-        global $topics;
+        $topics = self::getTopics();
 
         $child = @$topics[$topic];
         if (empty($child["parent"])) {
@@ -209,7 +209,7 @@ class Help
      */
     function getChildLinks($topic)
     {
-        global $topics;
+        $topics = self::getTopics();
 
         $links = array();
         foreach ($topics as $child => $data) {

@@ -41,7 +41,7 @@ ini_set('memory_limit', '128M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'http://www.mysql.com/products/eventum/');
-define('APP_VERSION', '2.2');
+define('APP_VERSION', '2.3');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));

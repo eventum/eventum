@@ -30,12 +30,15 @@ that it needs to work properly:
 - overLIB 3.5.1 (http://www.bosrup.com/web/overlib/)
 - A few other small javascript libraries
 
-Anyway, all you should have to do is place the Eventum files in a directory that
-is viewable from the web, and open it up with your browser. Eventum should
-redirect you to the installation screen, and it will try to guess some of
-required parameters, like path in the server and etc.
+Anyway, all you should have to do is place the Eventum files in a directory,
+point your webserver to that /path-to-eventum/htdocs/. Open it up with your and
+Eventum should redirect you to the installation screen, and it will try to guess
+some of required parameters, like path in the server and etc.
 
   http://yourserver.com/eventum/
+
+PLEASE NOTE: The whole eventum directory should *NOT* be accessible under
+the webserver, only /path-to-eventum/htdocs/
 
 If Eventum's installation script finds that it needs a few directories or
 permissions changed, it will print the warnings before actually displaying
@@ -43,7 +46,7 @@ the installation screen. So just fix what it says it's wrong/missing and
 everything should go well.
 
 After the installation is done, you should go and take all of the available
-privileges from the '/setup' directory, so other people are not allowed to
+privileges from the '/htdocs/setup' directory, so other people are not allowed to
 go in there and mess with your configuration.
 
 IMPORTANT: If you already have an installation of Eventum, please read the
@@ -66,7 +69,7 @@ processed by a cron job. If an email cannot be sent, it will be marked as such
 in the mail queue log, and the cron job script will re-try to send it again the
 next time it runs.
 
-* * * * * <PATH-TO-EVENTUM>/process_mail_queue.php
+* * * * * <PATH-TO-EVENTUM>/crons/process_mail_queue.php
 
 The above line will run the mail queue script every minute. To setup the SMTP
 server that Eventum should use to send these queued emails, go to:
@@ -80,7 +83,7 @@ In order for Eventum's email integration feature to work, you need to setup a
 cron job to run the script above every so often. The following is an example of
 the required crontab line:
 
-0 * * * * <PATH-TO-EVENTUM>/download_emails.php username_here mail.domain.com INBOX
+0 * * * * <PATH-TO-EVENTUM>/crons/download_emails.php username_here mail.domain.com INBOX
 
 The above will run the command every hour, and will download emails associated
 with the given email account. If you have more than one email account, you may
@@ -101,7 +104,7 @@ for issues that need attention. Depending on what configuration you create, you
 may have several reminders (or alerts) be sent out whenever an issue needs
 attention, for whatever parameter you may deem necessary.
 
-*/10 * * * * <PATH-TO-EVENTUM>/check_reminders.php
+*/10 * * * * <PATH-TO-EVENTUM>/crons/check_reminders.php
 
 It is recommended that you run the reminder cron job every 10 minutes, so it
 won't flood you with alerts too often, but it would still be enough to handle
@@ -118,7 +121,7 @@ the heartbeat monitor, you may need to customize some of the checks to be
 appropriate for your own system, particularly the permission and file checks on
 Monitor::checkConfiguration().
 
-*/10 * * * * <PATH-TO-EVENTUM>/monitor.php
+*/10 * * * * <PATH-TO-EVENTUM>/crons/monitor.php
 
 
 

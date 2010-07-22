@@ -39,7 +39,7 @@ pot: tools-check
 	bzr export workdir; \
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $$tsmarty2c -o ts.pot; \
-		find -name '*.php' | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=code.pot; \
+		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
 		msgcat -o merged.pot code.pot ts.pot; \
 		sed -ne '1,/^$$/p' code.pot > header.pot; \
 		msgcat -s -o eventum.pot --use-first header.pot merged.pot; \

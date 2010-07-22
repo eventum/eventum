@@ -75,7 +75,7 @@ class Mime_Helper
             and count($structure->parts) >= 1 and $structure->parts[0]->ctype_primary == 'text') {
             $content_type = $structure->parts[0]->headers['content-type'];
         } else {
-            $content_type = @$structure->headers['content-type'];
+            $content_type = !empty($structure->headers['content-type']) ? $structure->headers['content-type'] : '';
         }
 
         if (preg_match('/charset\s*=\s*(["\'])?([-\w\d]+)(\1)?;?/i', $content_type, $matches)) {
@@ -227,6 +227,9 @@ class Mime_Helper
     /**
      * Decodes a quoted printable encoded address and returns the string.
      *
+     * FIXME: it does not respect charset being used in qp string
+     * use self::decode() instead.
+     *
      * @param   string $address The address to decode
      * @return  string The decoded address
      */
@@ -237,6 +240,31 @@ class Mime_Helper
         } else {
             return self::removeQuotes($address);
         }
+    }
+
+    /**
+     * Decode a quoted printable encoded string.
+     *
+     * @author Elan Ruusamäe <glen@delfi.ee>
+     * @see    Zend_Mime_Decode::decodeQuotedPrintable
+     * @param  string encoded string
+     * @return string The decoded string in APP_CHARSET encoding
+     */
+    public static function decodeQuotedPrintable($string)
+    {
+        if (function_exists('iconv_mime_decode')) {
+            return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
+        }
+
+        // this part likely is pointless as to fully work it needs iconv extension as well.
+        while (preg_match("/=\?(?P<charset>.*?)\?Q\?(?P<string>.*?)\?=/i", $string, $matches)) {
+            $string = quoted_printable_decode($matches['string']);
+            if (function_exists('iconv')) {
+                $string = iconv($matches['charset'], APP_CHARSET, $string);
+            }
+            $string = str_replace('_', ' ', $string);
+        }
+        return $string;
     }
 
 
@@ -527,14 +555,19 @@ class Mime_Helper
             $content_type = '';
         }
         $found = 0;
-        // get the proper filename
-        $mime_part_filename = @$mime_part->ctype_parameters['name'];
-        if (empty($mime_part_filename)) {
-            $mime_part_filename = @$mime_part->d_parameters['filename'];
+
+        // attempt to extract filename
+        $mime_part_filename = '';
+        if (!empty($mime_part->ctype_parameters['name'])) {
+            $mime_part_filename = self::decodeQuotedPrintable($mime_part->ctype_parameters['name']);
         }
+        if (empty($mime_part_filename) && !empty($mime_part->d_parameters['filename'])) {
+            $mime_part_filename = self::decodeQuotedPrintable($mime_part->d_parameters['filename']);
+        }
+
         // hack in order to treat inline images as normal attachments
         // (since Eventum does not display those embedded within the message)
-        if (@$mime_part->ctype_primary == 'image') {
+        if (isset($mime_part->ctype_primary ) && $mime_part->ctype_primary == 'image') {
             // if requested, return only the details of a particular filename
             if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
                 return array();
@@ -542,10 +575,17 @@ class Mime_Helper
             // if requested, return only the details of
             // a particular attachment CID. Only really needed
             // as hack for inline images
-            if (($return_cid != false) && (@$mime_part->headers['content-id'] != $return_cid)) {
+            if ($return_cid != false && (@$mime_part->headers['content-id'] != $return_cid)) {
                 return array();
             }
             $found = 1;
+
+            // inline images might not have filename
+            if (empty($mime_part_filename)) {
+                $ext = $mime_part->ctype_secondary;
+                // TRANSLATORS: filename for inline image attachments, where %s is file extension
+                $mime_part_filename = sprintf(ev_gettext('Untitled.%s'), $ext);
+            }
         } else {
             if ((!in_array($content_type, self::_getInvalidContentTypes())) &&
                     (in_array(@strtolower($mime_part->disposition), self::_getValidDispositions())) &&
@@ -727,6 +767,8 @@ class Mime_Helper
     /**
      * Given a quoted-printable string, this
      * function will decode and return it.
+     *
+     * FIXME: it does not respect charset being used in qp string
      *
      * @access private
      * @param  string Input body to decode

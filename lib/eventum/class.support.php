@@ -417,12 +417,12 @@ class Support
     function connectEmailServer($info)
     {
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
-        if ($mbox === FALSE) {
-            $errors = @imap_errors();
-            if (strstr(strtolower($errors[0]), 'certificate failure')) {
-                $mbox = @imap_open(self::getServerURI($info, TRUE), $info['ema_username'], $info['ema_password']);
+        if ($mbox === false) {
+            $error = @imap_last_error();
+            if (strstr(strtolower($error), 'certificate failure')) {
+                $mbox = @imap_open(self::getServerURI($info, true), $info['ema_username'], $info['ema_password']);
             } else {
-                Error_Handler::logError('Error while connecting to the email server - ' . $errors[0], __FILE__, __LINE__);
+                Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
             }
         }
         return $mbox;

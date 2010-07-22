@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-06 00:02+0200\n"
-"PO-Revision-Date: 2010-02-04 16:11+0000\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
+"PO-Revision-Date: 2010-06-09 11:37+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
@@ -17,19 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-02-05 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-06-10 03:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
-"\n"
-"Для дополнения запроса просто ответьте на это письмо."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -40,7 +32,8 @@ msgstr ""
 "\n"
 "Пройдите по ссылке, чтобы получить больше информации о запросе."
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -67,6 +60,14 @@ msgstr "%1$s или больше"
 #, php-format
 msgid "%1$s or less"
 msgstr "%1$s или меньше"
+
+#: templates/list.tpl.html
+msgid ""
+"%1:\n"
+"%2 ago"
+msgstr ""
+"%1:\n"
+"%2 назад"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -136,10 +137,6 @@ msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
 "Чтобы попасть в строку быстрого перехода, нажмите одновременно кнопки ALT и 4"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(hold ctrl to select multiple options)"
-msgstr "(удерживайте Ctrl для выбора нескольких значений)"
-
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
 msgstr "(в часах пожалуйста)"
@@ -147,10 +144,6 @@ msgstr "(в часах пожалуйста)"
 #: templates/setup.tpl.html
 msgid "(literally)"
 msgstr "(буквально)"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(only technical contacts listed on your contract)"
-msgstr "(перечислены только технические контакты в списке контактов)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
@@ -197,22 +190,6 @@ msgid ""
 msgstr ""
 "<b>ПРИМЕЧАНИЕ:</b> Эл.письмо будет сохранено как примечание и отправлено "
 "только сотрудникам."
-
-#: templates/manage/email_accounts.tpl.html
-msgid ""
-"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-"server."
-msgstr ""
-"<b>Внимание!</b> Если это включить, вы не сможете сохранять на сервере копии "
-"отправленных писем."
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-"<b>Внимание!</b> Чтобы письма о создании новых пользователей и проектов "
-"могли быть отправлены, должна быть правильно настроена отправка почты (SMTP)."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -323,7 +300,6 @@ msgstr "Тип деятельности"
 msgid "Activity in Past"
 msgstr "Деятельность за"
 
-#: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
@@ -389,10 +365,6 @@ msgstr "Добавить телефонный звонок"
 msgid "Add Phone Entry"
 msgstr "Добавить телефонную запись"
 
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Add Primary Contact to Notification List? *"
-msgstr "Добавить основной контакт в список уведомлений? *"
-
 #: templates/notification.tpl.html
 msgid "Add Subscription"
 msgstr "Добавить подписку"
@@ -408,10 +380,6 @@ msgstr "Добавить неизвестных получателей в спи
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
 msgstr "Добавить отправителя в список допущенных к ответу?"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Additional Contact Emails"
-msgstr "Дополнительные адреса контактов"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
@@ -960,7 +928,7 @@ msgstr "Связать"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Связать сообщение электронной почты с запросом #%1"
 
 #: lib/eventum/class.help.php:109 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -1116,9 +1084,7 @@ msgstr "Средн./Пром./Макс. Запросов/Эл.писем"
 msgid "BLOCKED"
 msgstr "БЛОКИРОВАННЫЙ"
 
-#: templates/close.tpl.html
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/duplicate.tpl.html
+#: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
 msgstr "Назад"
 
@@ -1222,7 +1188,6 @@ msgstr "Звонок кому"
 msgid "Call Type"
 msgstr "Тип звонка"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
 msgstr "Отменить"
@@ -1237,7 +1202,7 @@ msgstr "Подготовленные ответы"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "Категории и статусы"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:728
 #: lib/eventum/class.notification.php:618
@@ -1286,7 +1251,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
-msgstr ""
+msgstr "Проверка разрешений"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
@@ -1411,10 +1376,6 @@ msgstr "Комментарии:"
 msgid "Commit Message"
 msgstr "Отправить сообщение"
 
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Company Name"
-msgstr "Название компании"
-
 #: templates/view_form.tpl.html
 msgid "Complete Details"
 msgstr "Полная информация"
@@ -1431,32 +1392,6 @@ msgstr "Конфигурационные параметры:"
 msgid "Confirm New Password"
 msgstr "Подтвердите новый пароль"
 
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact"
-msgstr "Контакт"
-
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Email"
-msgstr "Эл. адрес контакта"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact Person"
-msgstr "Контактное лицо"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person First Name"
-msgstr "Имя контактного лица"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person Last Name"
-msgstr "Фамилия контактного лица"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact's Local Time"
-msgstr "Местное время контакта"
-
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
 #: templates/custom_fields_form.tpl.html templates/file_upload.tpl.html
@@ -1466,10 +1401,6 @@ msgstr "Местное время контакта"
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
 msgstr "Продолжить"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Contract #"
-msgstr "Договор #"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
@@ -1621,6 +1552,10 @@ msgstr "Текущий выбор:"
 msgid "Current filters:"
 msgstr "Текущие фильтры:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Custom Field"
+msgstr "Пользовательское поле"
+
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
@@ -1630,6 +1565,11 @@ msgstr "Дополнительные поля"
 msgid "Custom Fields Report"
 msgstr "Отчет по дополнительным полям"
 
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/tree.tpl.html
+msgid "Custom Fields Weekly Report"
+msgstr ""
+
 #: lib/eventum/class.custom_field.php:314
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
@@ -1637,9 +1577,6 @@ msgstr "Дополнительное поле (%1$s) обновлено поль
 
 #: lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1661,15 +1598,6 @@ msgstr "Договор клиента"
 msgid "Customer Counts"
 msgstr "Кол-во клиентов"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Customer Details"
-msgstr "Информация о клиенте"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer ID"
-msgstr "Клиент ID"
-
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1680,10 +1608,6 @@ msgstr ""
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
 msgstr "Процесс обработки интеграции клиентов"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer Lookup Tool"
-msgstr "Инструмент поиска клиента"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
@@ -1735,6 +1659,7 @@ msgstr "Поле даты"
 msgid "Date Field:"
 msgstr "Поле даты:"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -1797,6 +1722,10 @@ msgstr "Настройки по умолчанию для уведомлений
 msgid "Default Priority:"
 msgstr "Приоритет по умолчанию:"
 
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr "По умолчанию"
+
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -1818,7 +1747,7 @@ msgstr "Удалить"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr ""
+msgstr "Удалить псевдоним"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -2028,10 +1957,6 @@ msgid ""
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Edit"
-msgstr "Редактировать"
-
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
 msgstr "Ред. список допущенных к ответу"
@@ -2080,11 +2005,14 @@ msgstr "Редактировать релизы"
 msgid "Edit Signature"
 msgstr "Редактировать подпись"
 
-#: templates/authorized_replier.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/notification.tpl.html
+#: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "Email"
+
+#: htdocs/view_email.php:50
+#, php-format
+msgid "Email #%1$s: %2$s"
+msgstr ""
 
 #: lib/eventum/class.support.php:1504
 #, php-format
@@ -2100,7 +2028,6 @@ msgstr "Эл. письмо (тема: '%1$s') разъединено польз�
 msgid "Email Account:"
 msgstr "Учетная запись эл. почты:"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/new_user.tpl.text
@@ -2282,6 +2209,7 @@ msgstr "Конечная дата"
 msgid "End time in the future."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
 msgstr "Конец:"
@@ -2479,10 +2407,6 @@ msgstr ""
 msgid "Eventum was unable to route your email"
 msgstr ""
 
-#: templates/customer/example/customer_report.tpl.html
-msgid "Example customer API front page"
-msgstr "Пример стартовой страницы клиентского API"
-
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
 msgstr "Существующие учетные записи:"
@@ -2602,18 +2526,6 @@ msgstr "Предполагаемая дата решения"
 msgid "Expected Resolution Date:"
 msgstr "Предполагаемая дата решения:"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Expiration Date"
-msgstr "Дата окончания"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired"
-msgstr "Недействительный"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired Customer"
-msgstr "Недействительные клиенты"
-
 #: templates/list.tpl.html
 msgid "Export Data:"
 msgstr "Экспорт данных"
@@ -2627,7 +2539,6 @@ msgid "Extra Note Recipients:"
 msgstr "Дополнительные получатели заметки:"
 
 #: lib/eventum/class.reminder_condition.php:216
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr "Поле"
@@ -2673,10 +2584,6 @@ msgstr "Файлы прикреплены к существующим запро
 #: templates/email_filter_form.tpl.html
 msgid "Filter by Arrival Date:"
 msgstr "Фильтр по дате прибытия:"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "First Name"
-msgstr "Имя"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
@@ -2738,6 +2645,7 @@ msgid "General Setup"
 msgstr "Общие настройки"
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
@@ -2982,6 +2890,10 @@ msgstr ""
 "Если да, это напоминание не будет активировано по выходным и время не будет "
 "накапливаться по выходным."
 
+#: templates/manage/email_accounts.tpl.html
+msgid "If you check this, you cannot leave a copy of messages on the server."
+msgstr ""
+
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
 msgstr "Если вы закроете это окно, сообщение будет утеряно."
@@ -3146,7 +3058,8 @@ msgstr "Запрос"
 msgid "Issue #"
 msgstr "Запрос #"
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -3165,6 +3078,7 @@ msgstr "Детали запроса"
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -3245,6 +3159,7 @@ msgid "Issues with only status changed"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "Issues/Customers matching criteria"
 msgstr "Критерии соответствия запросам/клиентам"
 
@@ -3288,10 +3203,6 @@ msgstr "Метка:"
 #: lib/eventum/class.display_column.php:221 templates/adv_search.tpl.html
 msgid "Last Action Date"
 msgstr "Дата последнего действия"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Last Name"
-msgstr "Фамилия"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -3401,14 +3312,6 @@ msgstr "Затраченное время на вход в систему"
 #: templates/navigation.tpl.html
 msgid "Logout"
 msgstr "Выход"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Lookup"
-msgstr "Просмотр"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Lookup Customer"
-msgstr "Просмотр клиентов"
 
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
@@ -3536,10 +3439,6 @@ msgstr "Отметить как дубликат"
 msgid "Max"
 msgstr "Макс."
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Maximum First Response Time"
-msgstr "Максимальное время первого ответа"
-
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
 msgstr "Промеж."
@@ -3586,7 +3485,7 @@ msgstr "Мобильный"
 msgid "Module / Directory"
 msgstr "Модуль / Директория"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -3722,7 +3621,6 @@ msgid "Next Note"
 msgstr "Следующее примечание"
 
 #: lib/eventum/class.misc.php:693 templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3819,6 +3717,7 @@ msgid "No custom fields could be found."
 msgstr "Дополнительные поля не найдены"
 
 #: htdocs/reports/custom_fields.php:55
+#: htdocs/reports/custom_fields_weekly.php:54
 msgid "No custom fields for this project"
 msgstr "Для этого проекта нет дополнительных полей"
 
@@ -3831,6 +3730,7 @@ msgid "No customizations could be found."
 msgstr "Персонализация не найдена."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
 msgstr "Данные не найдена."
 
@@ -3931,10 +3831,6 @@ msgstr "Не задана дата решения"
 msgid "No resolutions could be found."
 msgstr "Решения не найдены."
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "No results could be found"
-msgstr "Результаты не найдены"
-
 #: templates/manage/round_robin.tpl.html
 msgid "No round robin entries could be found."
 msgstr "Записи круговой системы не найдены."
@@ -3968,6 +3864,7 @@ msgid "None"
 msgstr "Нет"
 
 #: templates/manage/customer_notes.tpl.html
+#: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
@@ -3985,6 +3882,10 @@ msgstr "Отличительный флаг получателя примеча�
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Примечание маршутизировано от %1$s"
+
+#: templates/setup.tpl.html
+msgid "Note:"
+msgstr "Примечание:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -4015,10 +3916,6 @@ msgstr ""
 #: templates/help/view_note.tpl.html
 msgid "Notes"
 msgstr "Примечания"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Notes About Customer"
-msgstr "Примечания по клиенту"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
@@ -4056,10 +3953,6 @@ msgstr "Запись ('%1$s') списка уведомлений добавле
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Запись ('%1$s') списка уведомлений обновлена пользователем %2$s"
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Notify Customer About New Issue? *"
-msgstr "Уведомить клиента о новом запросе? *"
 
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
@@ -4133,6 +4026,7 @@ msgid "Operator:"
 msgstr "Оператор:"
 
 #: templates/manage/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr "Опции"
@@ -4140,6 +4034,10 @@ msgstr "Опции"
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
 msgstr "Опции диаграммы"
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Options:"
+msgstr ""
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -4279,8 +4177,6 @@ msgstr "Удалить без восстановления"
 msgid "Phone Calls"
 msgstr "Телефонные звонки"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
 msgstr "Номер телефона"
@@ -5302,6 +5198,7 @@ msgstr ""
 "создают самостоятельно свои учетные записи."
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
@@ -5472,10 +5369,6 @@ msgstr "Общедоступный"
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
 msgstr "Изоляция истекает в %1"
-
-#: templates/customer/example/quarantine.tpl.html
-msgid "Quarantine explanation goes here..."
-msgstr "Объяснение изолирования находится здесь..."
 
 #: templates/mail_queue.tpl.html
 msgid "Queued Date"
@@ -5767,6 +5660,7 @@ msgstr "Создание нового запроса"
 msgid "Report Type"
 msgstr "Тип отчета"
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
 msgstr "Тип отчета:"
@@ -5874,10 +5768,6 @@ msgstr "Содержимое ответа:"
 msgid "Restore Emails"
 msgstr "Восстановить эл. письма"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Results"
-msgstr "Результаты"
-
 #: templates/update_form.tpl.html
 msgid "Return to Issue #%1 Details Page"
 msgstr "Вернуться к странице деталей запроса #%1"
@@ -5939,10 +5829,6 @@ msgstr "Конфигурация SMTP"
 #: templates/setup.tpl.html
 msgid "SSL Server"
 msgstr "Сервер SSL"
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Sales Account Manager"
-msgstr "Менеджер продаж"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/email_alias.tpl.html
@@ -6008,8 +5894,12 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
-msgstr "Результаты поиска"
+msgid "Search Results (%1 issues found)"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -6283,6 +6173,7 @@ msgstr "Пользователь"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -6305,13 +6196,12 @@ msgstr "Статистика"
 #: lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
-#: templates/close.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/email_drafts.tpl.html templates/emails.tpl.html
-#: templates/file_upload.tpl.html templates/mail_queue.tpl.html
-#: templates/manage/customize_listing.tpl.html templates/manage/news.tpl.html
-#: templates/manage/projects.tpl.html templates/manage/releases.tpl.html
-#: templates/manage/users.tpl.html templates/notifications/closed.tpl.text
+#: templates/close.tpl.html templates/email_drafts.tpl.html
+#: templates/emails.tpl.html templates/file_upload.tpl.html
+#: templates/mail_queue.tpl.html templates/manage/customize_listing.tpl.html
+#: templates/manage/news.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/releases.tpl.html templates/manage/users.tpl.html
+#: templates/notifications/closed.tpl.text
 #: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
@@ -6390,6 +6280,7 @@ msgstr "Варианты:"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -6406,18 +6297,12 @@ msgstr "Поле Сводка"
 msgid "Summary:"
 msgstr "Сводка:"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Support Expiration Date"
-msgstr "Срок действия поддержки"
-
 #: lib/eventum/class.customer_stats_report.php:669
 #: lib/eventum/class.display_column.php:212
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/customer_info.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
@@ -6431,10 +6316,6 @@ msgstr "Уровни поддержки"
 #: templates/view_form.tpl.html
 msgid "Support Options"
 msgstr "Настройки поддержки"
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Support Type"
-msgstr "Тип поддержки"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6963,6 +6844,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7509,6 +7396,7 @@ msgstr "Период времени"
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7539,13 +7427,17 @@ msgstr "Время первого ответа"
 msgid "Time Tracking"
 msgstr "Учет времени"
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Time Until First Response Deadline"
-msgstr "Предельное время до первого ответа"
-
 #: lib/eventum/class.phone_support.php:333
 msgid "Time entry inserted from phone call."
 msgstr "Запись времени добавлена из телефонного звонка."
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent as minutes"
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
+msgstr ""
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
@@ -7566,9 +7458,7 @@ msgstr "Запись учета времени добавлена пользов
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Запись учета времени добавлена удаленно пользователем %1$s"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr "Часовой пояс"
 
@@ -7600,6 +7490,10 @@ msgstr "Название:"
 #: templates/view_email.tpl.html
 msgid "To"
 msgstr "Кому/В/По"
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid "To add more information to this issue, simply reply to this email."
+msgstr ""
 
 #: templates/help/email_blocking.tpl.html
 msgid ""
@@ -7715,6 +7609,13 @@ msgstr "Снять назначение запроса"
 #: templates/manage/releases.tpl.html
 msgid "Unavailable - Users may NOT use this release"
 msgstr "Недоступен - пользователи НЕ могут использовать этот релиз"
+
+#. TRANSLATORS: filename for inline image attachments, where %s is file extension
+#: lib/eventum/class.mime_helper.php:587
+#: upgrade/patches/06_iaf_attachment_filename.php:31
+#, php-format
+msgid "Untitled.%s"
+msgstr ""
 
 #: templates/custom_fields.tpl.html templates/impact_analysis.tpl.html
 #: templates/update_form.tpl.html
@@ -7909,6 +7810,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Пользователь"
@@ -7955,7 +7857,6 @@ msgstr ""
 msgid "Using CSC"
 msgstr "Используя CSC"
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value"
 msgstr "Значение"
@@ -8174,15 +8075,17 @@ msgstr ""
 "который будет использован нашими сотрудниками для обсуждения вашего "
 "сообщения."
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
 msgstr "Неделя"
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
 msgstr "Недельный"
@@ -8242,9 +8145,8 @@ msgid "Workload by time period"
 msgstr "Объем работы за период"
 
 #: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
-#: templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
+#: templates/close.tpl.html templates/manage/custom_fields.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -8620,10 +8522,6 @@ msgstr ""
 msgid "issue"
 msgstr ""
 
-#: templates/list.tpl.html
-msgid "issues found"
-msgstr "запрос(а,ов) найдено"
-
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
 msgstr "объем работы по запросам"
@@ -8787,10 +8685,6 @@ msgstr ""
 msgid "see the source of revision %1 of %2"
 msgstr "просмотреть исходный код ревизии %1 из %2"
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "select this contact"
-msgstr "выбрать этот контакт"
-
 #: templates/manage/users.tpl.html
 msgid "send email to"
 msgstr "отправить эл. почту адресату"
@@ -8799,10 +8693,6 @@ msgstr "отправить эл. почту адресату"
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "sent to notification list"
 msgstr "отправлено в список уведомлений"
-
-#: templates/list.tpl.html
-msgid "shown"
-msgstr "показано"
 
 #: templates/list.tpl.html
 msgid "sort by"
@@ -8930,6 +8820,114 @@ msgstr "неделя"
 msgid "year"
 msgstr "год"
 
+#~ msgid "Expired Customer"
+#~ msgstr "Недействительные клиенты"
+
+#~ msgid "Contact"
+#~ msgstr "Контакт"
+
+#~ msgid "Company Name"
+#~ msgstr "Название компании"
+
+#~ msgid "Contract #"
+#~ msgstr "Договор #"
+
+#~ msgid "Expired"
+#~ msgstr "Недействительный"
+
+#~ msgid "Customer Details"
+#~ msgstr "Информация о клиенте"
+
+#~ msgid "Contact Person"
+#~ msgstr "Контактное лицо"
+
+#~ msgid "Contact Email"
+#~ msgstr "Эл. адрес контакта"
+
+#~ msgid "Contact's Local Time"
+#~ msgstr "Местное время контакта"
+
+#~ msgid "Maximum First Response Time"
+#~ msgstr "Максимальное время первого ответа"
+
+#~ msgid "Time Until First Response Deadline"
+#~ msgstr "Предельное время до первого ответа"
+
+#~ msgid "Support Expiration Date"
+#~ msgstr "Срок действия поддержки"
+
+#~ msgid "Sales Account Manager"
+#~ msgstr "Менеджер продаж"
+
+#~ msgid "Notes About Customer"
+#~ msgstr "Примечания по клиенту"
+
+#~ msgid "Edit"
+#~ msgstr "Редактировать"
+
+#~ msgid "Customer Lookup Tool"
+#~ msgstr "Инструмент поиска клиента"
+
+#~ msgid "Customer ID"
+#~ msgstr "Клиент ID"
+
+#~ msgid "Lookup"
+#~ msgstr "Просмотр"
+
+#~ msgid "Results"
+#~ msgstr "Результаты"
+
+#~ msgid "Support Type"
+#~ msgstr "Тип поддержки"
+
+#~ msgid "Expiration Date"
+#~ msgstr "Дата окончания"
+
+#~ msgid "No results could be found"
+#~ msgstr "Результаты не найдены"
+
+#~ msgid "Example customer API front page"
+#~ msgstr "Пример стартовой страницы клиентского API"
+
+#~ msgid "Quarantine explanation goes here..."
+#~ msgstr "Объяснение изолирования находится здесь..."
+
+#~ msgid "Contact Person Last Name"
+#~ msgstr "Фамилия контактного лица"
+
+#~ msgid "Contact Person First Name"
+#~ msgstr "Имя контактного лица"
+
+#~ msgid "Lookup Customer"
+#~ msgstr "Просмотр клиентов"
+
+#~ msgid "Add Primary Contact to Notification List? *"
+#~ msgstr "Добавить основной контакт в список уведомлений? *"
+
+#~ msgid "Notify Customer About New Issue? *"
+#~ msgstr "Уведомить клиента о новом запросе? *"
+
+#~ msgid "Last Name"
+#~ msgstr "Фамилия"
+
+#~ msgid "First Name"
+#~ msgstr "Имя"
+
+#~ msgid "Additional Contact Emails"
+#~ msgstr "Дополнительные адреса контактов"
+
+#~ msgid "(hold ctrl to select multiple options)"
+#~ msgstr "(удерживайте Ctrl для выбора нескольких значений)"
+
+#~ msgid "(only technical contacts listed on your contract)"
+#~ msgstr "(перечислены только технические контакты в списке контактов)"
+
+#~ msgid "issues found"
+#~ msgstr "запрос(а,ов) найдено"
+
+#~ msgid "shown"
+#~ msgstr "показано"
+
 #~ msgid "Port:"
 #~ msgstr "Порт:"
 
@@ -9024,9 +9022,6 @@ msgstr "год"
 
 #~ msgid "Auto-Creation of Issues:"
 #~ msgstr "Авто-создание запросов:"
-
-#~ msgid "Note:"
-#~ msgstr "Примечание:"
 
 #~ msgid "IN"
 #~ msgstr "ДА"
@@ -9138,3 +9133,13 @@ msgstr "год"
 #~ msgstr ""
 #~ "Для просмотра детальной информации по запросу или для его \n"
 #~ "обновления, пожалуйста, перейдите по след. ссылке"
+
+#~ msgid "select this contact"
+#~ msgstr "выбрать этот контакт"
+
+#~ msgid ""
+#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+#~ "emails are properly sent when creating new users/projects."
+#~ msgstr ""
+#~ "<b>Внимание!</b> Чтобы письма о создании новых пользователей и проектов "
+#~ "могли быть отправлены, должна быть правильно настроена отправка почты (SMTP)."

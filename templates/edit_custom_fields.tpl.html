@@ -59,7 +59,7 @@ var custom_fields_info = new Array();
       {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value}
     </select>
     {/if}
-    {if $custom_fields[i].lookup_method != '' && $custom_fields[i].field_options|@count < 1}
+    {if $custom_fields[i].lookup_method != ''}
     <script type="text/javascript">custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
     {/if}
     {if $custom_fields[i].fld_type == 'multiple'}

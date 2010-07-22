@@ -7,22 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 09:05+0200\n"
-"PO-Revision-Date: 2010-02-17 22:07+0000\n"
+"POT-Creation-Date: 2010-06-10 00:16+0300\n"
+"PO-Revision-Date: 2010-06-09 11:42+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-02-18 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-06-10 03:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: templates/notifications/new_auto_created_issue.tpl.text
-msgid ""
-"\n"
-"To add more information to this issue, simply reply to this email."
-msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -31,7 +25,8 @@ msgid ""
 "following URL"
 msgstr ""
 
-#: htdocs/view.php:74
+#. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+#: htdocs/view.php:76
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
@@ -89,8 +84,7 @@ msgstr "(Aktuālie uzdevumi)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
-"(Šim ir jāsatur reālas e-pasta adreses, piemēram,  \"%1\" vai \"%2\")"
+msgstr "(Šeit jāievada īsta e-pasta adrese, piemēram, \"%1\" vai \"%2\".)"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -122,14 +116,12 @@ msgstr "(piem., %1)"
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
+"(turiet taustiņu [ALT] un nospiediet [3]) — lai aktivizētu meklēšanas lodziņu"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(hold ctrl to select multiple options)"
-msgstr "(turiet ctrl lai iezīmetu vairākas izvēles)"
+"(turiet taustiņu [ALT] un nospiediet [4]) — lai aktivizētu atvēršanas lodziņu"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -137,10 +129,6 @@ msgstr "(stundās, lūdzu)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "(only technical contacts listed on your contract)"
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -182,18 +170,6 @@ msgid ""
 "users."
 msgstr ""
 
-#: templates/manage/email_accounts.tpl.html
-msgid ""
-"<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-"server."
-msgstr ""
-
-#: templates/setup.tpl.html
-msgid ""
-"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-"emails are properly sent when creating new users/projects."
-msgstr ""
-
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
 msgstr ""
@@ -204,7 +180,7 @@ msgstr "Tikko tika izveidots jauns uzdevums."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "Tikko jums tika izveidots jauns lietotājs sistēmā."
+msgstr "Jums tikko tika izveidots jauns lietotāja konts."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -303,7 +279,6 @@ msgstr ""
 msgid "Activity in Past"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
@@ -363,15 +338,11 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "Jauna telefonsaruna"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Add Primary Contact to Notification List? *"
-msgstr ""
+msgstr "Jauna telefonsaruna"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
@@ -387,10 +358,6 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Additional Contact Emails"
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -977,7 +944,7 @@ msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr ""
+msgstr "Piesaistītie faili"
 
 #: lib/eventum/class.support.php:1452
 msgid "Attachment originated from a note"
@@ -1083,9 +1050,7 @@ msgstr ""
 msgid "BLOCKED"
 msgstr "Bloķēts"
 
-#: templates/close.tpl.html
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/duplicate.tpl.html
+#: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
 msgstr "Atpakaļ"
 
@@ -1186,7 +1151,6 @@ msgstr ""
 msgid "Call Type"
 msgstr ""
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
 msgstr "Atcelt"
@@ -1373,11 +1337,7 @@ msgstr "Komentāri:"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
-msgstr ""
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Company Name"
-msgstr ""
+msgstr "Komentārs par izmaiņām"
 
 #: templates/view_form.tpl.html
 msgid "Complete Details"
@@ -1395,32 +1355,6 @@ msgstr ""
 msgid "Confirm New Password"
 msgstr ""
 
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Email"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact Person"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person First Name"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Contact Person Last Name"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Contact's Local Time"
-msgstr ""
-
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
 #: templates/custom_fields_form.tpl.html templates/file_upload.tpl.html
@@ -1430,10 +1364,6 @@ msgstr ""
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
 msgstr "Turpināt"
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Contract #"
-msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
@@ -1481,7 +1411,7 @@ msgstr ""
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Jauns melnraksts"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
@@ -1497,7 +1427,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Jauns uzdevums"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
@@ -1585,6 +1515,10 @@ msgstr ""
 msgid "Current filters:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Custom Field"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
@@ -1594,6 +1528,11 @@ msgstr ""
 msgid "Custom Fields Report"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
+#: templates/reports/tree.tpl.html
+msgid "Custom Fields Weekly Report"
+msgstr ""
+
 #: lib/eventum/class.custom_field.php:314
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
@@ -1601,9 +1540,6 @@ msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1625,15 +1561,6 @@ msgstr ""
 msgid "Customer Counts"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Customer Details"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer ID"
-msgstr ""
-
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1641,10 +1568,6 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Customer Lookup Tool"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html
@@ -1687,7 +1610,7 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr ""
+msgstr "Laiks"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
@@ -1697,6 +1620,7 @@ msgstr ""
 msgid "Date Field:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -1758,6 +1682,10 @@ msgstr ""
 msgid "Default Priority:"
 msgstr ""
 
+#: templates/setup.tpl.html
+msgid "Defaults"
+msgstr ""
+
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -1775,7 +1703,7 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "Dzēst"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
@@ -1974,10 +1902,6 @@ msgid ""
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Edit"
-msgstr "Rediģēt"
-
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
 msgstr ""
@@ -2026,11 +1950,14 @@ msgstr ""
 msgid "Edit Signature"
 msgstr "Rediģēt parakstu"
 
-#: templates/authorized_replier.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/notification.tpl.html
+#: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "E-pasts"
+
+#: htdocs/view_email.php:50
+#, php-format
+msgid "Email #%1$s: %2$s"
+msgstr ""
 
 #: lib/eventum/class.support.php:1504
 #, php-format
@@ -2046,7 +1973,6 @@ msgstr ""
 msgid "Email Account:"
 msgstr ""
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/new_user.tpl.text
@@ -2226,6 +2152,7 @@ msgstr ""
 msgid "End time in the future."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
 msgstr ""
@@ -2347,6 +2274,7 @@ msgid ""
 "Error: the given email address is not allowed to be added to the "
 "notification list."
 msgstr ""
+"Kļūda: šo e-pasta adresi pievienot paziņojumu saņēmējiem nav atļauts."
 
 #: templates/popup.tpl.html
 msgid "Error: the issue is already unassigned."
@@ -2410,10 +2338,6 @@ msgstr ""
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
-msgstr ""
-
-#: templates/customer/example/customer_report.tpl.html
-msgid "Example customer API front page"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -2529,23 +2453,11 @@ msgstr ""
 #: lib/eventum/class.notification.php:614
 #: lib/eventum/class.notification.php:615 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
-msgstr ""
+msgstr "Paredzamais atrisinājuma datums"
 
 #: templates/update_form.tpl.html
 msgid "Expected Resolution Date:"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Expiration Date"
-msgstr ""
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired"
-msgstr ""
-
-#: templates/customer/example/customer_expired.tpl.html
-msgid "Expired Customer"
-msgstr ""
+msgstr "Paredzamais atrisinājuma datums:"
 
 #: templates/list.tpl.html
 msgid "Export Data:"
@@ -2560,7 +2472,6 @@ msgid "Extra Note Recipients:"
 msgstr ""
 
 #: lib/eventum/class.reminder_condition.php:216
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr ""
@@ -2597,7 +2508,7 @@ msgstr "Faili"
 
 #: templates/manage/general.tpl.html templates/notification.tpl.html
 msgid "Files are Attached"
-msgstr "Faili ir piesaistīti"
+msgstr "Tiek piesaistīti faili"
 
 #: templates/help/notifications.tpl.html
 msgid "Files are attached to existing issues"
@@ -2605,10 +2516,6 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Filter by Arrival Date:"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "First Name"
 msgstr ""
 
 #: templates/adv_search.tpl.html
@@ -2671,6 +2578,7 @@ msgid "General Setup"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
@@ -2885,6 +2793,10 @@ msgid ""
 "accumulate on the weekends."
 msgstr ""
 
+#: templates/manage/email_accounts.tpl.html
+msgid "If you check this, you cannot leave a copy of messages on the server."
+msgstr ""
+
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
 msgstr ""
@@ -3047,7 +2959,8 @@ msgstr ""
 msgid "Issue #"
 msgstr ""
 
-#: htdocs/view.php:58
+#. TRANSLATORS: %1 = issue id
+#: htdocs/view.php:59
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -3066,6 +2979,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
 #: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -3146,6 +3060,7 @@ msgid "Issues with only status changed"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "Issues/Customers matching criteria"
 msgstr ""
 
@@ -3186,10 +3101,6 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:221 templates/adv_search.tpl.html
 msgid "Last Action Date"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Last Name"
 msgstr ""
 
 #: templates/reports/open_issues.tpl.html
@@ -3299,14 +3210,6 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Logout"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Lookup"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Lookup Customer"
 msgstr ""
 
 #: templates/support_emails.tpl.html
@@ -3435,10 +3338,6 @@ msgstr ""
 msgid "Max"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Maximum First Response Time"
-msgstr ""
-
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
 msgstr ""
@@ -3485,7 +3384,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
 msgstr ""
 
@@ -3616,7 +3515,6 @@ msgid "Next Note"
 msgstr "Nākamā piezīme"
 
 #: lib/eventum/class.misc.php:693 templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3713,6 +3611,7 @@ msgid "No custom fields could be found."
 msgstr ""
 
 #: htdocs/reports/custom_fields.php:55
+#: htdocs/reports/custom_fields_weekly.php:54
 msgid "No custom fields for this project"
 msgstr ""
 
@@ -3725,6 +3624,7 @@ msgid "No customizations could be found."
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
 msgstr ""
 
@@ -3819,14 +3719,10 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "No resolution date given"
-msgstr ""
+msgstr "Atrisinājuma datums nav norādīts."
 
 #: templates/manage/resolution.tpl.html
 msgid "No resolutions could be found."
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "No results could be found"
 msgstr ""
 
 #: templates/manage/round_robin.tpl.html
@@ -3862,6 +3758,7 @@ msgid "None"
 msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
+#: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
@@ -3878,6 +3775,10 @@ msgstr ""
 #: lib/eventum/class.routing.php:340
 #, php-format
 msgid "Note routed from %1$s"
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid "Note:"
 msgstr ""
 
 #: templates/forgot_password.tpl.html
@@ -3910,10 +3811,6 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-msgid "Notes About Customer"
-msgstr ""
-
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
 msgstr ""
@@ -3921,11 +3818,11 @@ msgstr ""
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
-msgstr ""
+msgstr "Paziņojumus saņem"
 
 #: templates/update_form.tpl.html
 msgid "Notification List:"
-msgstr ""
+msgstr "Paziņojumus saņem:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options"
@@ -3949,10 +3846,6 @@ msgstr ""
 #: lib/eventum/class.notification.php:2188
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
-msgstr ""
-
-#: templates/customer/example/report_form_fields.tpl.html
-msgid "Notify Customer About New Issue? *"
 msgstr ""
 
 #: templates/attached_emails.tpl.html
@@ -4025,12 +3918,17 @@ msgid "Operator:"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Options:"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html
@@ -4169,8 +4067,6 @@ msgstr ""
 msgid "Phone Calls"
 msgstr "Tālruņa sarunas"
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
 msgstr ""
@@ -5122,6 +5018,7 @@ msgid ""
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
@@ -5160,7 +5057,7 @@ msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
-msgstr ""
+msgstr "Jauna piezīme"
 
 #: templates/post_note.tpl.html
 msgid "Post New Internal Note"
@@ -5279,14 +5176,10 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Public"
-msgstr ""
+msgstr "Publisks"
 
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
-msgstr ""
-
-#: templates/customer/example/quarantine.tpl.html
-msgid "Quarantine explanation goes here..."
 msgstr ""
 
 #: templates/mail_queue.tpl.html
@@ -5299,7 +5192,7 @@ msgstr ""
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
-msgstr ""
+msgstr "IZŅEMTS"
 
 #: templates/adv_search.tpl.html
 msgid "RSS feed for this custom search"
@@ -5526,11 +5419,11 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Removed"
-msgstr ""
+msgstr "Izņemts"
 
 #: templates/removed_emails.tpl.html
 msgid "Removed Emails"
-msgstr ""
+msgstr "Izņemtais e-pasts"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -5573,6 +5466,7 @@ msgstr ""
 msgid "Report Type"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
 msgstr ""
@@ -5670,7 +5564,7 @@ msgstr ""
 #: lib/eventum/class.notification.php:635 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
-msgstr ""
+msgstr "Atrisinājums"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Response Body:"
@@ -5678,10 +5572,6 @@ msgstr ""
 
 #: templates/removed_emails.tpl.html
 msgid "Restore Emails"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Results"
 msgstr ""
 
 #: templates/update_form.tpl.html
@@ -5744,10 +5634,6 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "SSL Server"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Sales Account Manager"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html
@@ -5814,8 +5700,12 @@ msgid "Search Eventum Issues"
 msgstr ""
 
 #: templates/list.tpl.html
-msgid "Search Results"
-msgstr "Meklēšanas rezultāts"
+msgid "Search Results (%1 issues found)"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "Search Results (%1 issues found, %2 - %3 shown)"
+msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
@@ -5937,15 +5827,15 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
-msgstr ""
+msgstr "Rādīt prioritātes"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Status"
-msgstr ""
+msgstr "Rādīt stāvokļus"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
-msgstr ""
+msgstr "Rādīt uzdevumiem veltīto laiku"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Show additional fields to search by"
@@ -6084,6 +5974,7 @@ msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
@@ -6106,13 +5997,12 @@ msgstr ""
 #: lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
-#: templates/close.tpl.html
-#: templates/customer/example/customer_lookup.tpl.html
-#: templates/email_drafts.tpl.html templates/emails.tpl.html
-#: templates/file_upload.tpl.html templates/mail_queue.tpl.html
-#: templates/manage/customize_listing.tpl.html templates/manage/news.tpl.html
-#: templates/manage/projects.tpl.html templates/manage/releases.tpl.html
-#: templates/manage/users.tpl.html templates/notifications/closed.tpl.text
+#: templates/close.tpl.html templates/email_drafts.tpl.html
+#: templates/emails.tpl.html templates/file_upload.tpl.html
+#: templates/mail_queue.tpl.html templates/manage/customize_listing.tpl.html
+#: templates/manage/news.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/releases.tpl.html templates/manage/users.tpl.html
+#: templates/notifications/closed.tpl.text
 #: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
@@ -6145,7 +6035,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Subject"
-msgstr ""
+msgstr "Virsraksts"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
@@ -6191,6 +6081,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -6207,18 +6098,12 @@ msgstr ""
 msgid "Summary:"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Support Expiration Date"
 msgstr ""
 
 #: lib/eventum/class.customer_stats_report.php:669
 #: lib/eventum/class.display_column.php:212
-#: templates/customer/example/customer_expired.tpl.html
-#: templates/customer/example/customer_info.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
@@ -6231,10 +6116,6 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Support Options"
-msgstr ""
-
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "Support Type"
 msgstr ""
 
 #: templates/navigation.tpl.html
@@ -6541,7 +6422,7 @@ msgstr ""
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
-msgstr ""
+msgstr "Paldies, piezīme sekmīgi izdzēsta."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
@@ -6748,6 +6629,12 @@ msgid ""
 "issues in a project. You may sort for (almost) any column in this grid form, "
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
+msgstr ""
+
+#: templates/setup.tpl.html
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
 msgstr ""
 
 #: templates/popup.tpl.html
@@ -7128,19 +7015,19 @@ msgstr ""
 
 #: templates/notifications/files.tpl.text
 msgid "This is an automated message sent at your request from"
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/updated.tpl.text
 msgid "This is an automated message sent at your request from %1"
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no %1."
 
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/closed.tpl.text
 msgid "This is an automated message sent at your request from %1."
-msgstr ""
+msgstr "Šis paziņojums ar jūsu ziņu ir automātiski atsūtīts no %1."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "This is an automated message sent from %1"
@@ -7254,6 +7141,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -7282,14 +7170,18 @@ msgstr ""
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
-msgstr ""
-
-#: templates/customer/example/customer_info.tpl.html
-msgid "Time Until First Response Deadline"
-msgstr ""
+msgstr "Patērētā laika piezīmes"
 
 #: lib/eventum/class.phone_support.php:333
 msgid "Time entry inserted from phone call."
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent as minutes"
+msgstr ""
+
+#: templates/reports/custom_fields_weekly.tpl.html
+msgid "Time spent per user"
 msgstr ""
 
 #: templates/close.tpl.html
@@ -7311,9 +7203,7 @@ msgstr ""
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
 
-#: templates/customer/example/customer_info.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
 msgstr ""
 
@@ -7328,7 +7218,7 @@ msgstr ""
 #: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Title"
-msgstr ""
+msgstr "Virsraksts"
 
 #: templates/manage/email_responses.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/releases.tpl.html
@@ -7337,13 +7227,17 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html templates/post_note.tpl.html
 #: templates/view_note.tpl.html
 msgid "Title:"
-msgstr ""
+msgstr "Virsraksts:"
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/phone_support.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "To"
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
 
 #: templates/help/email_blocking.tpl.html
@@ -7457,6 +7351,13 @@ msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Unavailable - Users may NOT use this release"
+msgstr ""
+
+#. TRANSLATORS: filename for inline image attachments, where %s is file extension
+#: lib/eventum/class.mime_helper.php:587
+#: upgrade/patches/06_iaf_attachment_filename.php:31
+#, php-format
+msgid "Untitled.%s"
 msgstr ""
 
 #: templates/custom_fields.tpl.html templates/impact_analysis.tpl.html
@@ -7577,7 +7478,7 @@ msgstr ""
 
 #: templates/manage/resolution.tpl.html
 msgid "Update Resolution"
-msgstr ""
+msgstr "Atjaunināt atrisinājumu"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Update Round Robin Entry"
@@ -7650,6 +7551,7 @@ msgid "Use the following shortcuts"
 msgstr ""
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Lietotājs"
@@ -7694,7 +7596,6 @@ msgstr "Lietotāji:"
 msgid "Using CSC"
 msgstr ""
 
-#: templates/customer/example/customer_lookup.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value"
 msgstr ""
@@ -7873,15 +7774,17 @@ msgid ""
 "that will be used by our staff to handle your message."
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Week"
 msgstr ""
 
-#: templates/preferences.tpl.html
+#: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
 msgstr ""
 
+#: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
 msgstr ""
@@ -7941,9 +7844,8 @@ msgid "Workload by time period"
 msgstr ""
 
 #: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
-#: templates/close.tpl.html
-#: templates/customer/example/report_form_fields.tpl.html
-#: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
+#: templates/close.tpl.html templates/manage/custom_fields.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -8165,15 +8067,15 @@ msgstr ""
 #: templates/attachments.tpl.html templates/notes.tpl.html
 #: templates/phone_support.tpl.html templates/time_tracking.tpl.html
 msgid "delete"
-msgstr ""
+msgstr "Dzēst"
 
 #: templates/attachments.tpl.html
 msgid "delete attachment"
-msgstr ""
+msgstr "Dzēst piesaistni"
 
 #: templates/attachments.tpl.html
 msgid "delete file"
-msgstr ""
+msgstr "Dzēst failu"
 
 #: templates/adv_search.tpl.html
 msgid "descending"
@@ -8309,10 +8211,6 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "issue"
-msgstr ""
-
-#: templates/list.tpl.html
-msgid "issues found"
 msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
@@ -8476,10 +8374,6 @@ msgstr ""
 msgid "see the source of revision %1 of %2"
 msgstr ""
 
-#: templates/customer/example/customer_lookup.tpl.html
-msgid "select this contact"
-msgstr ""
-
 #: templates/manage/users.tpl.html
 msgid "send email to"
 msgstr ""
@@ -8487,10 +8381,6 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "sent to notification list"
-msgstr ""
-
-#: templates/list.tpl.html
-msgid "shown"
 msgstr ""
 
 #: templates/list.tpl.html
@@ -8618,3 +8508,9 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr ""
+
+#~ msgid "Edit"
+#~ msgstr "Rediģēt"
+
+#~ msgid "(hold ctrl to select multiple options)"
+#~ msgstr "(turiet ctrl lai iezīmetu vairākas izvēles)"

@@ -55,6 +55,7 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 }
 
 $details = Issue::getDetails($issue_id);
+// TRANSLATORS: %1 = issue id
 $tpl->assign("extra_title", ev_gettext('Issue #%1$s Details', $issue_id));
 $tpl->assign("issue", $details);
 $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
@@ -72,6 +73,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         $tpl->assign('issue', '');
     } else {
         // now that we can access to the issue, add more verbose HTML <title>
+        // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
         $tpl->assign("extra_title", ev_gettext('#%1$s - %2$s', $issue_id, $details['iss_summary']));
 
         // check if the requested issue is a part of one of the projects
