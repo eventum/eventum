@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.command_line.php 3823 2009-02-10 06:46:03Z glen $
-//
 
 require_once APP_INC_PATH . '/class.misc.php';
 require_once 'PEAR.php';

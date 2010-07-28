@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: custom_fields_graph.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 require_once APP_JPGRAPH_PATH . '/jpgraph.php';

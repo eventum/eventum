@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.monitor.php 3797 2009-01-12 20:14:39Z balsdorf $
-//
 
 require_once 'DB.php';
 require_once APP_INC_PATH . '/class.misc.php';

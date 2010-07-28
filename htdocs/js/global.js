@@ -1,6 +1,5 @@
 <!--
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// @(#) $Id: global.js 3762 2008-10-28 18:23:04Z glen $
 
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));

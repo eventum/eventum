@@ -26,9 +26,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.lock.php 3881 2009-05-29 09:21:05Z glen $
-//
 
 class Lock
 {

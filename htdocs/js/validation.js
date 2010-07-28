@@ -1,7 +1,3 @@
-/*
- * @(#) $Id: validation.js 3682 2008-07-28 20:05:00Z balsdorf $
- */
-
 last_issue_number_validation_value = '';
 function validateIssueNumberField(baseURL, form_name, field_name, options)
 {
