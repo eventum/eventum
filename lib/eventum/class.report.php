@@ -842,7 +842,6 @@ class Report
                     GROUP BY
                     iss_id";
            }
-pre($sql);
 
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
