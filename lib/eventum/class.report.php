@@ -810,8 +810,7 @@ class Report
             }
 
             $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "' AND
                        	ttr_iss_id = iss_id AND
@@ -820,7 +819,7 @@ class Report
                  $sql .= " usr_id = ttr_usr_id AND ";
             }
             $sql .= "
-                        isu_iss_id = iss_id
+                        ttr_iss_id = iss_id
                         ";
             if (count($options) > 0) {
             $sql .= " AND (
@@ -843,6 +842,7 @@ class Report
                     GROUP BY
                     iss_id";
            }
+pre($sql);
 
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
