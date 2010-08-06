@@ -10,7 +10,7 @@ function clearFilters(f)
     f.status.selectedIndex = 0;
     f.priority.selectedIndex = 0;
     {/literal}
-    {if $has_customer_integration}
+    {if $has_customer_integration && $current_role != $roles.customer}
     document.getElementById('search_type_customer').checked = true;
     {else}
     document.getElementById('search_type').value = 'all_text';
@@ -45,6 +45,7 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'release', '');
     setHiddenFieldValue(f, 'custom_field', '');
 
+    alert('blah');
     f.submit();
 }
 {/literal}
@@ -107,13 +108,16 @@ function runCustomFilter(f)
         <input type="hidden" name="category" value="">
         {/if}
         <input type="hidden" name="release" value="{$options.release}">
+        {if $current_role == $roles.customer}
+        <input type="hidden" name="users" value="" />
+        {/if}
         <tr>
           <td nowrap>
             <span class="default">{t}Keyword(s){/t}:</span><br />
             <input class="default" type="text" name="keywords" size="40" value="{$options.keywords|escape:"html"}">
           </td>
           <td nowrap colspan="{if $categories|@count > 0}3{else}2{/if}">
-            {if $has_customer_integration}
+            {if $has_customer_integration and $current_role != $roles.customer}
             <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
             <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">{t}All Text (emails, notes, etc){/t}</label>
             {else}
@@ -126,12 +130,14 @@ function runCustomFilter(f)
           </td>
         </tr>
         <tr>
+          {if $current_role != $roles.customer}
           <td valign="top">
             <span class="default">{t}Assigned{/t}:</span><br />
             <select name="users" class="default">
               {html_options options=$assign_options selected=$options.users}
             </select>
           </td>
+          {/if}
           {if $categories|@count > 0}
           <td valign="top">
             <span class="default">{t}Category{/t}:</span><br />
@@ -165,7 +171,7 @@ function runCustomFilter(f)
       &nbsp;
     </td>
   </tr>
-  {if $current_role > $roles.reporter}
+  {if $current_role > $roles.reporter && $current_role != $roles.customer}
   <tr id="custom_filter_form1" {get_display_style element_name="custom_filter_form"}>
     <td>
       &nbsp;
