@@ -140,7 +140,7 @@ class Template_Helper
     function processTemplate()
     {
         // determine the correct CSS file to use
-        if (ereg('MSIE ([0-9].[0-9]{1,2})', @$_SERVER["HTTP_USER_AGENT"], $log_version)) {
+        if (preg_match('/MSIE ([0-9].[0-9]{1,2})/', @$_SERVER["HTTP_USER_AGENT"], $log_version)) {
             $user_agent = 'ie';
         } else {
             $user_agent = 'other';
