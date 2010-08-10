@@ -47,7 +47,7 @@ class DB_Helper
     private static $instance;
     function getInstance() {
         if (!self::$instance) {
-            self::$instance =& new DB_Helper();
+            self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
                 Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);

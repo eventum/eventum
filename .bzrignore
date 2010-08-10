@@ -7,3 +7,4 @@ config/setup.php
 *.gz.md5
 logs/*.log
 templates_c/*
+misc/routed_emails/*

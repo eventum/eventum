@@ -649,8 +649,8 @@ class Notification
             require_once 'Text/Diff/Renderer/unified.php';
             $old['iss_description'] = explode("\n", $old['iss_description']);
             $new['description'] = explode("\n", $new['description']);
-            $diff = &new Text_Diff($old["iss_description"], $new["description"]);
-            $renderer = &new Text_Diff_Renderer_unified();
+            $diff = new Text_Diff($old["iss_description"], $new["description"]);
+            $renderer = new Text_Diff_Renderer_unified();
             $desc_diff = explode("\n", trim($renderer->render($diff)));
             $diffs[] = 'Description:';
             for ($i = 0; $i < count($desc_diff); $i++) {
