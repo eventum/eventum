@@ -1006,6 +1006,7 @@ class Customer
      */
     function authenticateCustomer($prj_id, $customer_id, $contact_id)
     {
+        GLOBAL $tpl;
         $backend =& self::_getBackend($prj_id);
         if (method_exists($backend, 'authenticateCustomer')) {
             $backend->authenticateCustomer($customer_id, $contact_id);
@@ -1023,13 +1024,13 @@ class Customer
                     Auth::removeCookie(APP_PROJECT_COOKIE);
 
                     $contact_id = User::getCustomerContactID($usr_id);
-                    $tpl->setTemplate("customer/" . self::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
+                    $tpl->setTemplate(Customer::getTemplatePath($prj_id) . "/customer_expired.tpl.html");
                     $tpl->assign('customer', self::getContractDetails($prj_id, $contact_id, false));
                     $tpl->displayTemplate();
                     exit;
                 } elseif ($status == 'in_grace_period') {
                     self::sendExpirationNotice($prj_id, $contact_id);
-                    $tpl->setTemplate("customer/" . self::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
+                    $tpl->setTemplate(Customer::getTemplatePath($prj_id) . "/grace_period.tpl.html");
                     $tpl->assign('customer', self::getContractDetails($prj_id, $contact_id, false));
                     $tpl->assign('expiration_offset', self::getExpirationOffset($prj_id));
                     $tpl->displayTemplate();
