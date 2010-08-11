@@ -1101,7 +1101,8 @@ class Notification
             $irc_notice .= $data['customer_info']['customer_name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
-        self::notifyIRC($prj_id, $irc_notice, $issue_id);
+        // MPAB: Disable notification so it is done in workflow
+//        self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
         $headers = array(
