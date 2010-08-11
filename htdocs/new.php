@@ -143,10 +143,12 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     $customer_contact_id = User::getCustomerContactID($usr_id);
     $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $customer_contact_id));
     $customer_id = User::getCustomerID($usr_id);
+    $customer_details = Customer::getDetails($prj_id, $customer_id);
     $tpl->assign("contacts", Customer::getContactEmailAssocList($prj_id, $customer_id));
     $tpl->assign(array(
-        "customer_id" => User::getCustomerID($usr_id),
-        "contact_id"  => User::getCustomerContactID($usr_id)
+        "customer_id" => $customer_id,
+        "contact_id"  => User::getCustomerContactID($usr_id),
+        "contract_id" => $customer_details['contract_id'],
     ));
 }
 
