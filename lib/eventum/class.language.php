@@ -91,6 +91,7 @@ class Language
         'si' => 'Sinhalese',
         'sv_SE' => 'Swedish',
         'ta' => 'Tamil',
+        'th' => 'Thai',
         'tr' => 'Turkish',
         'uk' => 'Ukrainian',
         'ur' => 'Urdu',
