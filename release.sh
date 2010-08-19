@@ -3,7 +3,7 @@ set -e
 set -x
 app=eventum
 #rc=dev # development version
-rc=RC3 # release candidate
+#rc=RC3 # release candidate
 dir=$app
 
 # checkout
