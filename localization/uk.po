@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-06-10 00:16+0300\n"
-"PO-Revision-Date: 2010-08-19 20:47+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2010-08-21 11:27+0000\n"
+"Last-Translator: mamay <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-08-20 03:41+0000\n"
+"X-Launchpad-Export-Date: 2010-08-22 03:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -227,19 +227,19 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr ""
+msgstr "Абревіатура"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Абревіатура:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Створення рахунку"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr ""
+msgstr "Головний бухгалтер"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
@@ -258,20 +258,20 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr ""
+msgstr "Дія"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Тип дії"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Тип дії:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr ""
+msgstr "Дії"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -283,7 +283,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "Активний"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -296,7 +296,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
