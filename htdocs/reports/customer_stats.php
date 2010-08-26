@@ -112,14 +112,14 @@ $tpl->assign("display", $display);
 
 
 if (@$_POST["cat"] == "Generate") {
-    
+
     if ($start_date == "0000-00-00") {
         $start_date = '';
     }
     if ($end_date == "0000-00-00") {
         $end_date = '';
     }
-    
+
     // set the date range msg
     if ((!empty($start_date)) && (!empty($end_date))) {
         $date_msg_text = "Date Range: $start_date - $end_date";
@@ -130,7 +130,7 @@ if (@$_POST["cat"] == "Generate") {
                                 </div>"
         ));
     }
-    
+
     $csr = new Customer_Stats_Report(
                     $prj_id,
                     @$_POST["support_level"],
@@ -145,12 +145,12 @@ if (@$_POST["cat"] == "Generate") {
     } else {
         $csr->excludeExpired(true);
     }
-    
+
     $data = $csr->getData();
     $tpl->assign("data", $data);
     $tpl->assign("time_tracking_categories", $csr->getTimeTrackingCategories());
     $tpl->assign("row_label", $csr->getRowLabel());
-    
+
     Session::set("customer_stats_data", $data);
 }
 
@@ -161,7 +161,7 @@ function formatValue($value, $all_value, $round_places = false, $alternate_value
     } else {
         $compare_value = $alternate_value;
     }
-    
+
     if ($all_value < $compare_value) {
         $color = "red";
     } else if ($all_value > $compare_value)  {

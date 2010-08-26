@@ -30,7 +30,7 @@
 class Email_Account
 {
     /**
-     * Method used to get the options related to the auto creation of 
+     * Method used to get the options related to the auto creation of
      * new issues.
      *
      * @access  public
@@ -158,7 +158,7 @@ class Email_Account
 
 
     /**
-     * Method used to get the details of a given support email 
+     * Method used to get the details of a given support email
      * account.
      *
      * @access  public
@@ -186,7 +186,7 @@ class Email_Account
 
 
     /**
-     * Method used to remove all support email accounts associated 
+     * Method used to remove all support email accounts associated
      * with a specified set of projects.
      *
      * @access  public
@@ -348,7 +348,7 @@ class Email_Account
 
 
     /**
-     * Method used to get the list of available support email 
+     * Method used to get the list of available support email
      * accounts in the system.
      *
      * @access  public

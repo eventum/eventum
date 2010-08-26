@@ -28,7 +28,7 @@
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
- * as functions to work around PHP bugs or incompatibilities between separate 
+ * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  *
  * @version 1.0

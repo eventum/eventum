@@ -45,7 +45,7 @@ foreach ($projects as $project_id => $project_name) {
     echo "Project: $project_name<br />\n";
     if ($first) {
         echo "Updating priorities<br />\n";
-        $stmt = "UPDATE 
+        $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
                     pri_prj_id = $project_id";
@@ -58,7 +58,7 @@ foreach ($projects as $project_id => $project_name) {
     } else {
         foreach ($priorities as $pri_id => $pri_title) {
             echo "Inserting new priority '$pri_title'<br />\n";
-            $stmt = "INSERT INTO 
+            $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                      SET
                         pri_title = '" . $pri_title . "',

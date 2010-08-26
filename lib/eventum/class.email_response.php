@@ -38,7 +38,7 @@
 class Email_Response
 {
     /**
-     * Method used to add a project association to a email 
+     * Method used to add a project association to a email
      * response entry.
      *
      * @access  public
@@ -309,7 +309,7 @@ class Email_Response
 
 
     /**
-     * Method used to get an associative array of all of the canned email 
+     * Method used to get an associative array of all of the canned email
      * responses' bodies.
      *
      * @access  public

@@ -87,7 +87,7 @@ class Category
 
 
     /**
-     * Method used to remove user-selected categories from the 
+     * Method used to remove user-selected categories from the
      * database.
      *
      * @access  public
@@ -111,8 +111,8 @@ class Category
 
 
     /**
-     * Method used to update the values stored in the database. 
-     * Typically the user would modify the title of the category in 
+     * Method used to update the values stored in the database.
+     * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
      * @access  public
@@ -200,7 +200,7 @@ class Category
 
 
     /**
-     * Method used to get an associative array of the list of 
+     * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
      * @access  public

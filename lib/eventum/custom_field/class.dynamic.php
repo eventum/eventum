@@ -32,7 +32,7 @@
 /**
  * Custom field backend to assist other backends in dynamically changing the
  * contents of one field or hiding/showing based on another field.
- * 
+ *
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Dynamic_Custom_Field_Backend
@@ -46,8 +46,8 @@ class Dynamic_Custom_Field_Backend
         }
         return $list;
     }
-    
-    
+
+
     /**
      * Returns a multi dimension array of data to display. The values listed
      * in the "keys" array are possible values for the controlling field to display
@@ -74,37 +74,37 @@ class Dynamic_Custom_Field_Backend
      *          )
      *      )
      * );
-     * 
+     *
      * @return  array An array of data to display
      */
    function getStructuredData()
    {
        return array();
    }
-   
+
     /**
      * Returns the ID of the "controlling" custom field.
-     * 
+     *
      * @return   integer The ID of the controlling custom field
      */
     function getControllingCustomFieldID()
     {
         return 0;
     }
-   
+
     /**
      * Returns the name of the "controlling" custom field.
-     * 
+     *
      * @return   string The name of the controlling custom field
      */
     function getControllingCustomFieldName()
     {
         return '';
     }
-    
+
     /**
      * Returns true if this row should be hidden if it has no value
-     * 
+     *
      * @return  boolean True if this field should be hidden before options are set
      */
     function hideWhenNoOptions()

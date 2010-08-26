@@ -69,7 +69,7 @@ $tpl->assign(array(
 
 
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
-    
+
     if (count(@$_REQUEST["start"]) > 0 &&
             (@$_REQUEST["start"]["Year"] != 0) &&
             (@$_REQUEST["start"]["Month"] != 0) &&
@@ -82,7 +82,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             (@$_REQUEST["end"]["Day"] != 0)) {
         $end_date = join("-", $_POST["end"]);
     }
-    
+
     $data = array();
     if (in_array('phone', $_REQUEST['activity_types'])) {
         $sql = "SELECT
@@ -111,7 +111,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['phone'] = processResult($res, 'phs_created_date', 'phs_iss_id');
         }
     }
-    
+
     if (in_array('note', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note.*,
@@ -136,7 +136,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['note'] = processResult($res, 'not_created_date', 'not_iss_id');
         }
     }
-    
+
     if (in_array('email', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email.*,
@@ -160,7 +160,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
         }
     }
-    
+
     if (in_array('draft', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft.*,
@@ -194,7 +194,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             }
         }
     }
-    
+
     if (in_array('time', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking.*,
@@ -226,7 +226,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             }
         }
     }
-    
+
     if ((empty($_REQUEST['developer'])) && (in_array('reminder', $_REQUEST['activity_types']))) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history.*,
@@ -252,7 +252,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
         }
     }
-    
+
     $tpl->assign(array(
         "unit"  =>  $_REQUEST['unit'],
         "amount"    =>  $_REQUEST['amount'],
@@ -267,7 +267,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
 function createWhereClause($date_field, $user_field = false)
 {
     GLOBAL $start_date, $end_date;
-    
+
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
         $sql .= "$date_field >= DATE_SUB('" . Date_Helper::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger($_REQUEST['amount']) . " " . Misc::escapeString($_REQUEST['unit']) . ")";
@@ -285,7 +285,7 @@ function processResult($res, $date_field, $issue_field)
 {
     GLOBAL $prj_id;
     GLOBAL $usr_id;
-    
+
     $data = array();
     for ($i = 0; $i < count($res); $i++) {
         if (!Issue::canAccess($res[$i][$issue_field], $usr_id)) {

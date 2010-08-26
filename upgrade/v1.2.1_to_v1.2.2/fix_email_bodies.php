@@ -30,4 +30,3 @@ foreach ($res as $sup_id => $full_message) {
     flush();
 }
 echo "complete";
-

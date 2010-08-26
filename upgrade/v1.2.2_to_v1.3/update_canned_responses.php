@@ -43,7 +43,7 @@ if (count($responses) < 1) {
 foreach ($responses as $ere_id => $ere_title) {
     echo "Response: $ere_title<br />\n";
     foreach ($projects as $prj_id => $prj_title) {
-        $stmt = "INSERT INTO 
+        $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
                  VALUES
                     (

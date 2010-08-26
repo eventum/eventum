@@ -40,7 +40,7 @@ if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
     $tpl->assign("denied", 1);
 } else {
     $data = Mail_Queue::getListByIssueID($issue_id);
-    
+
     $tpl->assign(array(
                     "data"  =>  $data,
                     "issue_id"  =>  $issue_id

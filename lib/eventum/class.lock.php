@@ -54,7 +54,7 @@ class Lock
 
 
     /**
-     * Removes the process file to allow other instances of this 
+     * Removes the process file to allow other instances of this
      * script to run.
      *
      * @access  public
@@ -71,7 +71,7 @@ class Lock
 
 
     /**
-     * Returns the full path to the file that keeps the process 
+     * Returns the full path to the file that keeps the process
      * ID of the running script.
      *
      * @access  private

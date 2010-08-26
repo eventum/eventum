@@ -62,8 +62,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } else {
         $show_customer = false;
     }
-    
-    
+
+
     $tpl->assign("user_options", $user_options);
     $tpl->assign("list", Group::getList());
     $tpl->assign("project_list", Project::getAll());

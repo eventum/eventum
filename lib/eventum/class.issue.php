@@ -636,7 +636,7 @@ class Issue
             $sql = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     SET
-                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . " 
+                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . "
                     WHERE
                         iss_id = $issue_id";
             $res = DB_Helper::getInstance()->query($sql);

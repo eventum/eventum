@@ -70,4 +70,3 @@ function smarty_modifier_highlight_quoted($text, $escape = true, $indenter =
     }
     return $ret;
 }
-?>

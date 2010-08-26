@@ -50,7 +50,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $page = 'list_issues';
     $available = Display_Column::getAllColumns($page);
     $selected = Display_Column::getSelectedColumns($prj_id, $page);
-    
+
     // re-order available array to match rank
     $available_ordered = array();
     foreach ($selected as $field_name => $field_info) {
@@ -60,20 +60,20 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (count($available) > 0) {
         $available_ordered += $available;
     }
-    
+
     $excluded_roles = array();
     if (!Customer::hasCustomerIntegration($prj_id)) {
         $excluded_roles[] = "customer";
     }
     $user_roles = User::getRoles($excluded_roles);
     $user_roles[9] = "Never Display";
-    
+
     // generate ranks
     $ranks = array();
     for ($i = 1; $i <= count($available_ordered); $i++) {
         $ranks[$i] = $i;
     }
-    
+
     $tpl->assign(array(
         "available" =>  $available_ordered,
         "selected"  =>  $selected,

@@ -53,9 +53,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $info = Link_Filter::getDetails($_GET["id"]);
         $tpl->assign("info", $info);
     }
-    
+
     $user_roles = User::getRoles();
-    
+
     $tpl->assign("list", Link_Filter::getList());
     $tpl->assign("project_list", Project::getAll());
     $tpl->assign("user_roles", $user_roles);

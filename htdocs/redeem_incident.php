@@ -41,12 +41,12 @@ if (!empty($_REQUEST['submit'])) {
     // update counts
     $res = Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
     $tpl->assign('res', $res);
-}  
+}
 $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id), true);
 
 $tpl->assign(array(
     'issue_id'  =>  $issue_id,
     'redeemed'  =>  Customer::getRedeemedIncidentDetails($prj_id, $issue_id),
     'incident_details'  =>  $details['incident_details']
-)); 
+));
 $tpl->displayTemplate();

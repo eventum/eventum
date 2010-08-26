@@ -60,7 +60,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
             $_GET['field'] = $info['rlc_rmf_id'];
         }
         $tpl->assign("info", $info);
-        
+
     }
 
     if (!empty($_GET['field'])) {

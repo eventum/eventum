@@ -80,7 +80,7 @@ class Prefs
         static $returns;
 
         $usr_id = Misc::escapeInteger($usr_id);
-        
+
         if (!empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }
