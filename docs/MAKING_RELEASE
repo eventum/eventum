@@ -1,0 +1,130 @@
+--- before RC tarball
+    * make sure schema.sql is up to date
+    * Change the release number in /init.php (APP_VERSION)
+    * Update the ChangeLog file with the correct version number and release date
+	* Update UPGRADE with instructions, check misc/upgrade new files have proper text and versions
+	* Localization: make pot, review, commit
+	$ make -C misc/localization pot
+	$ make -C misc/localization update-po
+
+--- making RC tarball
+    * Set proper rc=RC1 in release.sh
+    $ ./release.sh
+
+--- after RC
+	* Use last RC tarball you like for release. if any svn commits after RC remake tarball.
+    * Tag the repository with the new release (svn copy trunk/eventum/ tags/eventum-2.0)
+	$ svn cp svn://eventum.mysql.org/eventum-gpl/trunk/eventum svn://eventum.mysql.org/eventum-gpl/tags/eventum-2.1
+
+--- after release
+   * update freshmeat: http://freshmeat.net/projects/eventum/
+
+
+
+
+---------------------
+    * make sure schema.sql is up to date
+    * Change the release number in /init.php (APP_VERSION)
+    * Update the ChangeLog file with the correct version number and release date
+	* Update UPGRADE with instructions, check misc/upgrade new files have proper text and versions
+    * Commit those changes
+    * Tag the repository with the new release (svn copy trunk/eventum/ tags/eventum-2.0)
+
+	$ svn cp svn://eventum.mysql.org/eventum-gpl/trunk/eventum svn://eventum.mysql.org/eventum-gpl/tags/eventum-2.1
+
+    * Commit changes (svn commit)
+    * Export the release tag into a separate directory (cd tags/eventum-2.0/; svn export . ../../../releases/eventum-2.0) 
+
+    * Make the following directories writeable (chmod -R 777 $dir_name):
+          o templates_c
+          o locks
+          o logs
+          o config 
+
+chmod -R 777 templates_c
+chmod -R 777 locks
+chmod -R 777 logs
+chmod -R 777 config
+
+    * tar the directory up ( 
+
+    * Test the new release directory with a quick installation
+          o see if a new issue can be created correctly and etc
+
+# http://pastebin.com/pastebin.php?dl=me7e23a
+cd /work/eventum/
+
+php -q misc/tsmarty2c.php templates/ > misc/localization/eventum.c
+
+grep -R -l "ev_gettext(" * | grep -v '.svn'  > /tmp/files_to_xgettext; xgettext --files-from=/tmp/files_to_xgettext --keyword=ev_gettext --output=misc/localization/eventum.po
+
+cd misc/localization/
+
+msgmerge sv_SE/LC_MESSAGES/eventum.po eventum.po --output-file=sv_SE/LC_MESSAGES/eventum.po
+msgfmt -f -o sv_SE/LC_MESSAGES/eventum.mo sv_SE/LC_MESSAGES/eventum.po
+
+msgmerge it_IT/LC_MESSAGES/eventum.po eventum.po --output-file=it_IT/LC_MESSAGES/eventum.po
+msgfmt -f -o it_IT/LC_MESSAGES/eventum.mo it_IT/LC_MESSAGES/eventum.po
+
+msgmerge en_US/LC_MESSAGES/eventum.po eventum.po --output-file=en_US/LC_MESSAGES/eventum.po
+msgfmt -f -o en_US/LC_MESSAGES/eventum.mo en_US/LC_MESSAGES/eventum.po
+
+msgmerge de_DE/LC_MESSAGES/eventum.po eventum.po --output-file=de_DE/LC_MESSAGES/eventum.po
+msgfmt -f -o de_DE/LC_MESSAGES/eventum.mo de_DE/LC_MESSAGES/eventum.po
+
+msgmerge es_ES/LC_MESSAGES/eventum.po eventum.po --output-file=es_ES/LC_MESSAGES/eventum.po
+msgfmt -f -o es_ES/LC_MESSAGES/eventum.mo es_ES/LC_MESSAGES/eventum.po
+
+msgmerge fi_FI/LC_MESSAGES/eventum.po eventum.po --output-file=fi_FI/LC_MESSAGES/eventum.po
+msgfmt -f -o fi_FI/LC_MESSAGES/eventum.mo fi_FI/LC_MESSAGES/eventum.po
+
+msgmerge fr_FR/LC_MESSAGES/eventum.po eventum.po --output-file=fr_FR/LC_MESSAGES/eventum.po
+msgfmt -f -o fr_FR/LC_MESSAGES/eventum.mo fr_FR/LC_MESSAGES/eventum.po
+
+msgmerge nl_NL/LC_MESSAGES/eventum.po eventum.po --output-file=nl_NL/LC_MESSAGES/eventum.po
+msgfmt -f -o nl_NL/LC_MESSAGES/eventum.mo nl_NL/LC_MESSAGES/eventum.po
+
+msgmerge ru_RU/LC_MESSAGES/eventum.po eventum.po --output-file=ru_RU/LC_MESSAGES/eventum.po
+msgfmt -f -o ru_RU/LC_MESSAGES/eventum.mo ru_RU/LC_MESSAGES/eventum.po
+
+
+// commit SVN
+
+svn export svn://eventum.mysql.org/eventum-gpl/trunk/eventum/ ../releases/eventum-localization-dev8/
+
+cd /work/releases/eventum-localization-dev8/
+
+chmod 777 templates_c/
+
+cd /work/releases/
+
+tar -cf eventum-localization-dev8.tar eventum-localization-dev8/
+
+gzip -9 eventum-localization-dev8.tar
+
+
+=========================
+
+
+
+php -q tsmarty2c.php /work/releases/eventum-localization-dev8/templates/ > /work/releases/eventum-localization-dev8/misc/localization/eventum.c
+
+
+
+
+
+
+msgfmt -f -o eventum.mo eventum.po
+
+
+msgmerge de_DE/LC_MESSAGES/eventum.po eventum.po --output-file=de_DE/LC_MESSAGES/eventum.po
+
+
+
+#----------------------------
+
+
+rm -rf tmp
+svn export svn://eventum.mysql.org/eventum-gpl/trunk/eventum tmp
+cd tmp
+find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > misc/localization/eventum.c
