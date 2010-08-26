@@ -1,15 +1,4 @@
 <?php
-/**
- * LGPL Disclaimer
- *
- * For the avoidance of doubt, except that if any license choice other
- * than GPL or LGPL is available it will apply instead, Sun elects to
- * use only the Lesser General Public License version 2.1 (LGPLv2) at
- * this time for any software where a choice of LGPL license versions
- * is made available with the language indicating that LGPLv2.1 or any
- * later version may be used, or where a choice of which version of the
- * LGPL is applied is otherwise unspecified.
- */
 
 /**
  * Project:     Smarty: the PHP compiling template engine
@@ -31,17 +20,17 @@
  *
  * For questions, help, comments, discussion, etc., please join the
  * Smarty mailing list. Send a blank e-mail to
- * smarty-general-subscribe@lists.php.net
+ * smarty-discussion-subscribe@googlegroups.com 
  *
- * @link http://smarty.php.net/
+ * @link http://www.smarty.net/
  * @copyright 2001-2005 New Digital Group, Inc.
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
- * @version 2.6.18
+ * @version 2.6.26
  */
 
-/* $Id: Smarty.class.php,v 1.528 2007/03/06 10:40:06 messju Exp $ */
+/* $Id: Smarty.class.php 3163 2009-06-17 14:39:24Z monte.ohrt $ */
 
 /**
  * DIR_SEP isn't used anymore, but third party apps might
@@ -118,7 +107,7 @@ class Smarty
     /**
      * When set, smarty does uses this value as error_reporting-level.
      *
-     * @var boolean
+     * @var integer
      */
     var $error_reporting  =  null;
 
@@ -247,7 +236,8 @@ class Smarty
                                     'INCLUDE_ANY'     => false,
                                     'PHP_TAGS'        => false,
                                     'MODIFIER_FUNCS'  => array('count'),
-                                    'ALLOW_CONSTANTS'  => false
+                                    'ALLOW_CONSTANTS'  => false,
+                                    'ALLOW_SUPER_GLOBALS' => true
                                    );
 
     /**
@@ -475,7 +465,7 @@ class Smarty
      *
      * @var string
      */
-    var $_version              = '2.6.18';
+    var $_version              = '2.6.26';
 
     /**
      * current template inclusion depth
@@ -849,69 +839,66 @@ class Smarty
      * Registers a prefilter function to apply
      * to a template before compiling
      *
-     * @param string $function name of PHP function to register
+     * @param callback $function
      */
     function register_prefilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['prefilter'][$_name]
+        $this->_plugins['prefilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters a prefilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_prefilter($function)
     {
-        unset($this->_plugins['prefilter'][$function]);
+        unset($this->_plugins['prefilter'][$this->_get_filter_name($function)]);
     }
 
     /**
      * Registers a postfilter function to apply
      * to a compiled template after compilation
      *
-     * @param string $function name of PHP function to register
+     * @param callback $function
      */
     function register_postfilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['postfilter'][$_name]
+        $this->_plugins['postfilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters a postfilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_postfilter($function)
     {
-        unset($this->_plugins['postfilter'][$function]);
+        unset($this->_plugins['postfilter'][$this->_get_filter_name($function)]);
     }
 
     /**
      * Registers an output filter function to apply
      * to a template output
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function register_outputfilter($function)
     {
-    $_name = (is_array($function)) ? $function[1] : $function;
-        $this->_plugins['outputfilter'][$_name]
+        $this->_plugins['outputfilter'][$this->_get_filter_name($function)]
             = array($function, null, null, false);
     }
 
     /**
      * Unregisters an outputfilter function
      *
-     * @param string $function name of PHP function
+     * @param callback $function
      */
     function unregister_outputfilter($function)
     {
-        unset($this->_plugins['outputfilter'][$function]);
+        unset($this->_plugins['outputfilter'][$this->_get_filter_name($function)]);
     }
 
     /**
@@ -1071,7 +1058,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;
+            return $_tmp;   
         }
     }
 
@@ -1130,7 +1117,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-
+        
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
@@ -1562,7 +1549,7 @@ class Smarty
                         $params['source_content'] = $this->_read_file($_resource_name);
                     }
                     $params['resource_timestamp'] = filemtime($_resource_name);
-                    $_return = is_file($_resource_name);
+                    $_return = is_file($_resource_name) && is_readable($_resource_name);
                     break;
 
                 default:
@@ -1725,7 +1712,7 @@ class Smarty
      */
     function _read_file($filename)
     {
-        if ( file_exists($filename) && ($fd = @fopen($filename, 'rb')) ) {
+        if ( file_exists($filename) && is_readable($filename) && ($fd = @fopen($filename, 'rb')) ) {
             $contents = '';
             while (!feof($fd)) {
                 $contents .= fread($fd, 8192);
@@ -1946,6 +1933,25 @@ class Smarty
     {
         return eval($code);
     }
+    
+    /**
+     * Extracts the filter name from the given callback
+     * 
+     * @param callback $function
+     * @return string
+     */
+	function _get_filter_name($function)
+	{
+		if (is_array($function)) {
+			$_class_name = (is_object($function[0]) ?
+				get_class($function[0]) : $function[0]);
+			return $_class_name . '_' . $function[1];
+		}
+		else {
+			return $function;
+		}
+	}
+  
     /**#@-*/
 
 }
