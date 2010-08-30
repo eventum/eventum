@@ -117,6 +117,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         'current_year' =>   date('Y'),
     ));
 
+    $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
+
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
     if (!empty($cookie['auto_switched_from'])) {
         $tpl->assign(array(

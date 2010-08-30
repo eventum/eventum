@@ -406,7 +406,7 @@ function closeIssue(issue_id)
         {/if}
 
         {if $has_customer_integration}
-          {include file="customer/$customer_backend_name/update_report_form_fields.tpl.html"}
+          {include file="$customer_template_path/update_report_form_fields.tpl.html"}
         {/if}
 
         <tr bgcolor="{$cell_color}">
