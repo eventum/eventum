@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.db_helper.php 3868 2009-03-30 00:22:35Z glen $
-//
 
 require_once 'DB.php';
 
@@ -47,7 +44,7 @@ class DB_Helper
     private static $instance;
     function getInstance() {
         if (!self::$instance) {
-            self::$instance =& new DB_Helper();
+            self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
                 Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);

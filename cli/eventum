@@ -8,8 +8,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: eventum 3786 2008-12-02 17:08:25Z glen $
 
 // definitions of path related variables
 define('APP_PATH', dirname(__FILE__) . '/');

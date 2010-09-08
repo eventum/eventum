@@ -1,15 +1,4 @@
 <?php
-/**
- * LGPL Disclaimer
- *
- * For the avoidance of doubt, except that if any license choice other
- * than GPL or LGPL is available it will apply instead, Sun elects to
- * use only the Lesser General Public License version 2.1 (LGPLv2) at
- * this time for any software where a choice of LGPL license versions
- * is made available with the language indicating that LGPLv2.1 or any
- * later version may be used, or where a choice of which version of the
- * LGPL is applied is otherwise unspecified.
- */
 
 /**
  * Project:     Smarty: the PHP compiling template engine
@@ -32,12 +21,12 @@
  * @link http://smarty.php.net/
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
- * @version 2.6.18
+ * @version 2.6.26
  * @copyright 2001-2005 New Digital Group, Inc.
  * @package Smarty
  */
 
-/* $Id: Smarty_Compiler.class.php,v 1.395 2007/03/06 10:40:06 messju Exp $ */
+/* $Id: Smarty_Compiler.class.php 3163 2009-06-17 14:39:24Z monte.ohrt $ */
 
 /**
  * Template compiling class
@@ -173,7 +162,7 @@ class Smarty_Compiler extends Smarty {
                 . '(?:\s*,\s*' . $this->_obj_single_param_regexp . ')*)?\)';
         $this->_obj_start_regexp = '(?:' . $this->_dvar_regexp . '(?:' . $this->_obj_ext_regexp . ')+)';
         $this->_obj_call_regexp = '(?:' . $this->_obj_start_regexp . '(?:' . $this->_obj_params_regexp . ')?(?:' . $this->_dvar_math_regexp . '(?:' . $this->_num_const_regexp . '|' . $this->_dvar_math_var_regexp . ')*)?)';
-
+        
         // matches valid modifier syntax:
         // |foo
         // |@foo
@@ -315,7 +304,7 @@ class Smarty_Compiler extends Smarty {
                 }
             }
         }
-
+        
         /* Compile the template tags into PHP code. */
         $compiled_tags = array();
         for ($i = 0, $for_max = count($template_tags); $i < $for_max; $i++) {
@@ -344,7 +333,7 @@ class Smarty_Compiler extends Smarty {
                 for ($j = $i + 1; $j < $for_max; $j++) {
                     /* remove leading and trailing whitespaces of each line */
                     $text_blocks[$j] = preg_replace('![\t ]*[\r\n]+[\t ]*!', '', $text_blocks[$j]);
-                    if ($compiled_tags[$j] == '{/strip}') {
+                    if ($compiled_tags[$j] == '{/strip}') {                       
                         /* remove trailing whitespaces from the last text_block */
                         $text_blocks[$j] = rtrim($text_blocks[$j]);
                     }
@@ -360,9 +349,9 @@ class Smarty_Compiler extends Smarty {
             }
         }
         $compiled_content = '';
-
+        
         $tag_guard = '%%%SMARTYOTG' . md5(uniqid(rand(), true)) . '%%%';
-
+        
         /* Interleave the compiled contents and text blocks to get the final result. */
         for ($i = 0, $for_max = count($compiled_tags); $i < $for_max; $i++) {
             if ($compiled_tags[$i] == '') {
@@ -372,7 +361,7 @@ class Smarty_Compiler extends Smarty {
             // replace legit PHP tags with placeholder
             $text_blocks[$i] = str_replace('<?', $tag_guard, $text_blocks[$i]);
             $compiled_tags[$i] = str_replace('<?', $tag_guard, $compiled_tags[$i]);
-
+            
             $compiled_content .= $text_blocks[$i] . $compiled_tags[$i];
         }
         $compiled_content .= str_replace('<?', $tag_guard, $text_blocks[$i]);
@@ -382,8 +371,8 @@ class Smarty_Compiler extends Smarty {
         $compiled_content = preg_replace("~(?<!')language\s*=\s*[\"\']?\s*php\s*[\"\']?~", "<?php echo 'language=php' ?>\n", $compiled_content);
 
         // recover legit tags
-        $compiled_content = str_replace($tag_guard, '<?', $compiled_content);
-
+        $compiled_content = str_replace($tag_guard, '<?', $compiled_content); 
+        
         // remove \n from the end of the file, if any
         if (strlen($compiled_content) && (substr($compiled_content, -1) == "\n") ) {
             $compiled_content = substr($compiled_content, 0, -1);
@@ -448,7 +437,7 @@ class Smarty_Compiler extends Smarty {
         /* Matched comment. */
         if (substr($template_tag, 0, 1) == '*' && substr($template_tag, -1) == '*')
             return '';
-
+        
         /* Split tag into two three parts: command, command modifiers and the arguments. */
         if(! preg_match('~^(?:(' . $this->_num_const_regexp . '|' . $this->_obj_call_regexp . '|' . $this->_var_regexp
                 . '|\/?' . $this->_reg_obj_regexp . '|\/?' . $this->_func_regexp . ')(' . $this->_mod_regexp . '*))
@@ -456,7 +445,7 @@ class Smarty_Compiler extends Smarty {
                     ~xs', $template_tag, $match)) {
             $this->_syntax_error("unrecognized tag: $template_tag", E_USER_ERROR, __FILE__, __LINE__);
         }
-
+        
         $tag_command = $match[1];
         $tag_modifier = isset($match[2]) ? $match[2] : null;
         $tag_args = isset($match[3]) ? $match[3] : null;
@@ -596,7 +585,7 @@ class Smarty_Compiler extends Smarty {
                 } else if ($this->_compile_block_tag($tag_command, $tag_args, $tag_modifier, $output)) {
                     return $output;
                 } else if ($this->_compile_custom_tag($tag_command, $tag_args, $tag_modifier, $output)) {
-                    return $output;
+                    return $output;                    
                 } else {
                     $this->_syntax_error("unrecognized tag '$tag_command'", E_USER_ERROR, __FILE__, __LINE__);
                 }
@@ -880,7 +869,7 @@ class Smarty_Compiler extends Smarty {
             // traditional argument format
             $args = implode(',', array_values($attrs));
             if (empty($args)) {
-                $args = 'null';
+                $args = '';
             }
         }
 
@@ -947,7 +936,7 @@ class Smarty_Compiler extends Smarty {
         if (empty($name)) {
             return $this->_syntax_error("missing insert name", E_USER_ERROR, __FILE__, __LINE__);
         }
-
+        
         if (!preg_match('~^\w+$~', $name)) {
             return $this->_syntax_error("'insert: 'name' must be an insert function name", E_USER_ERROR, __FILE__, __LINE__);
         }
@@ -1182,7 +1171,7 @@ class Smarty_Compiler extends Smarty {
         }
         $item = $this->_dequote($attrs['item']);
         if (!preg_match('~^\w+$~', $item)) {
-            return $this->_syntax_error("'foreach: 'item' must be a variable name (literal string)", E_USER_ERROR, __FILE__, __LINE__);
+            return $this->_syntax_error("foreach: 'item' must be a variable name (literal string)", E_USER_ERROR, __FILE__, __LINE__);
         }
 
         if (isset($attrs['key'])) {
@@ -1233,22 +1222,20 @@ class Smarty_Compiler extends Smarty {
         $attrs = $this->_parse_attrs($tag_args);
 
         if ($start) {
-            if (isset($attrs['name']))
-                $buffer = $attrs['name'];
-            else
-                $buffer = "'default'";
-
-            if (isset($attrs['assign']))
-                $assign = $attrs['assign'];
-            else
-                $assign = null;
+            $buffer = isset($attrs['name']) ? $attrs['name'] : "'default'";
+            $assign = isset($attrs['assign']) ? $attrs['assign'] : null;
+            $append = isset($attrs['append']) ? $attrs['append'] : null;
+            
             $output = "<?php ob_start(); ?>";
-            $this->_capture_stack[] = array($buffer, $assign);
+            $this->_capture_stack[] = array($buffer, $assign, $append);
         } else {
-            list($buffer, $assign) = array_pop($this->_capture_stack);
+            list($buffer, $assign, $append) = array_pop($this->_capture_stack);
             $output = "<?php \$this->_smarty_vars['capture'][$buffer] = ob_get_contents(); ";
             if (isset($assign)) {
                 $output .= " \$this->assign($assign, ob_get_contents());";
+            }
+            if (isset($append)) {
+                $output .= " \$this->append($append, ob_get_contents());";
             }
             $output .= "ob_end_clean(); ?>";
         }
@@ -1279,11 +1266,11 @@ class Smarty_Compiler extends Smarty {
 
         if(empty($tokens)) {
             $_error_msg = $elseif ? "'elseif'" : "'if'";
-            $_error_msg .= ' statement requires arguments';
+            $_error_msg .= ' statement requires arguments'; 
             $this->_syntax_error($_error_msg, E_USER_ERROR, __FILE__, __LINE__);
         }
-
-
+            
+                
         // make sure we have balanced parenthesis
         $token_count = array_count_values($tokens);
         if(isset($token_count['(']) && $token_count['('] != $token_count[')']) {
@@ -1376,9 +1363,14 @@ class Smarty_Compiler extends Smarty {
                     /* If last token was a ')', we operate on the parenthesized
                        expression. The start of the expression is on the stack.
                        Otherwise, we operate on the last encountered token. */
-                    if ($tokens[$i-1] == ')')
+                    if ($tokens[$i-1] == ')') {
                         $is_arg_start = array_pop($is_arg_stack);
-                    else
+                        if ($is_arg_start != 0) {
+                            if (preg_match('~^' . $this->_func_regexp . '$~', $tokens[$is_arg_start-1])) {
+                                $is_arg_start--;
+                            } 
+                        } 
+                    } else
                         $is_arg_start = $i-1;
                     /* Construct the argument for 'is' expression, so it knows
                        what to operate on. */
@@ -1408,7 +1400,7 @@ class Smarty_Compiler extends Smarty {
                             }
                     } elseif(preg_match('~^' . $this->_var_regexp . '$~', $token) && (strpos('+-*/^%&|', substr($token, -1)) === false) && isset($tokens[$i+1]) && $tokens[$i+1] == '(') {
                         // variable function call
-                        $this->_syntax_error("variable function call '$token' not allowed in if statement", E_USER_ERROR, __FILE__, __LINE__);
+                        $this->_syntax_error("variable function call '$token' not allowed in if statement", E_USER_ERROR, __FILE__, __LINE__);                      
                     } elseif(preg_match('~^' . $this->_obj_call_regexp . '|' . $this->_var_regexp . '(?:' . $this->_mod_regexp . '*)$~', $token)) {
                         // object or variable
                         $token = $this->_parse_var_props($token);
@@ -1761,12 +1753,12 @@ class Smarty_Compiler extends Smarty {
             $_var_ref = $var_expr;
         else
             $_var_ref = substr($var_expr, 1);
-
+        
         if(!$_has_math) {
-
+            
             // get [foo] and .foo and ->foo and (...) pieces
             preg_match_all('~(?:^\w+)|' . $this->_obj_params_regexp . '|(?:' . $this->_var_bracket_regexp . ')|->\$?\w+|\.\$?\w+|\S+~', $_var_ref, $match);
-
+                        
             $_indexes = $match[0];
             $_var_name = array_shift($_indexes);
 
@@ -2026,7 +2018,7 @@ class Smarty_Compiler extends Smarty {
                         array_shift($indexes);
                         $compiled_ref = "(\$this->_foreach[$_var]['iteration']-1)";
                         break;
-
+                        
                     case 'first':
                         array_shift($indexes);
                         $compiled_ref = "(\$this->_foreach[$_var]['iteration'] <= 1)";
@@ -2036,12 +2028,12 @@ class Smarty_Compiler extends Smarty {
                         array_shift($indexes);
                         $compiled_ref = "(\$this->_foreach[$_var]['iteration'] == \$this->_foreach[$_var]['total'])";
                         break;
-
+                        
                     case 'show':
                         array_shift($indexes);
                         $compiled_ref = "(\$this->_foreach[$_var]['total'] > 0)";
                         break;
-
+                        
                     default:
                         unset($_max_index);
                         $compiled_ref = "\$this->_foreach[$_var]";
@@ -2055,27 +2047,57 @@ class Smarty_Compiler extends Smarty {
                 break;
 
             case 'get':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_GET' : "\$GLOBALS['HTTP_GET_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_GET";
                 break;
 
             case 'post':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_POST' : "\$GLOBALS['HTTP_POST_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_POST";
                 break;
 
             case 'cookies':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_COOKIE' : "\$GLOBALS['HTTP_COOKIE_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_COOKIE";
                 break;
 
             case 'env':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_ENV' : "\$GLOBALS['HTTP_ENV_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_ENV";
                 break;
 
             case 'server':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_SERVER' : "\$GLOBALS['HTTP_SERVER_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_SERVER";
                 break;
 
             case 'session':
-                $compiled_ref = ($this->request_use_auto_globals) ? '$_SESSION' : "\$GLOBALS['HTTP_SESSION_VARS']";
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
+                $compiled_ref = "\$_SESSION";
                 break;
 
             /*
@@ -2083,8 +2105,13 @@ class Smarty_Compiler extends Smarty {
              * compiler.
              */
             case 'request':
+                if ($this->security && !$this->security_settings['ALLOW_SUPER_GLOBALS']) {
+                    $this->_syntax_error("(secure mode) super global access not permitted",
+                                         E_USER_WARNING, __FILE__, __LINE__);
+                    return;
+                }
                 if ($this->request_use_auto_globals) {
-                    $compiled_ref = '$_REQUEST';
+                    $compiled_ref = "\$_REQUEST";
                     break;
                 } else {
                     $this->_init_smarty_vars = true;
@@ -2132,7 +2159,7 @@ class Smarty_Compiler extends Smarty {
             case 'rdelim':
                 $compiled_ref = "'$this->right_delimiter'";
                 break;
-
+                
             default:
                 $this->_syntax_error('$smarty.' . $_ref . ' is an unknown reference', E_USER_ERROR, __FILE__, __LINE__);
                 break;

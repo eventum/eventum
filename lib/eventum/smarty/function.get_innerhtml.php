@@ -20,7 +20,7 @@ function smarty_function_get_innerhtml($params, &$smarty)
             $html_result = 'show';
         }
     }
-    
+
     if ($print_result) {
         print $html_result;
     } else {

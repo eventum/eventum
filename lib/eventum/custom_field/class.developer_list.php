@@ -31,7 +31,7 @@
 
 /**
  * Custom field backend to return list of users with a role of developer or above.
- * 
+ *
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Developer_List_Custom_Field_Backend

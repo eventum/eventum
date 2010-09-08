@@ -25,14 +25,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.misc.php 3823 2009-02-10 06:46:03Z glen $
-//
-
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
- * as functions to work around PHP bugs or incompatibilities between separate 
+ * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  *
  * @version 1.0

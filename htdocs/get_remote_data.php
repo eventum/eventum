@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: get_remote_data.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../init.php';
 
@@ -46,10 +44,10 @@ if (in_array($action, $valid_functions)) {
 exit;
 
 /**
- * Selects the email from the table and returns the contents. Since jsrs only supports returning one value, 
+ * Selects the email from the table and returns the contents. Since jsrs only supports returning one value,
  * the string that is returned is in the format
  * of ec_id:id:email. If ec_id is not passed as a parameter, only the email is returned.
- * 
+ *
  * @param   string $id The sup_ema_id and sup_id seperated by a -.
  * @return  A string containing the body of the email, optionally prefaced by the ec_id and $id.
  */
@@ -67,7 +65,7 @@ function getEmail($id)
 
 /**
  * Selects a note from the table and returns the contents.
- * 
+ *
  * @param   string $id The ID of this note.
  * @return  A string containing the note.
  */
@@ -84,7 +82,7 @@ function getNote($id)
 
 /**
  * Selects a draft from the table and returns the contents.
- * 
+ *
  * @param   string $id The ID of this draft.
  * @return  A string containing the note.
  */
@@ -101,7 +99,7 @@ function getDraft($id)
 
 /**
  * Selects a phone support entry from the table and returns the contents.
- * 
+ *
  * @param   string $id The phone support entry ID.
  * @return  A string containing the description.
  */
@@ -118,7 +116,7 @@ function getPhoneSupport($id)
 
 /**
  * Selects a mail queue entry from the table and returns the contents.
- * 
+ *
  * @param   string $id The mail queue entry ID.
  * @return  A string containing the body.
  */

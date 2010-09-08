@@ -3,7 +3,7 @@ set -e
 set -x
 app=eventum
 #rc=dev # development version
-rc=RC3 # release candidate
+#rc=RC3 # release candidate
 dir=$app
 
 # checkout
@@ -39,7 +39,7 @@ rm -f localization/{tsmarty2c,*.mo}
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
-rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh dyncontent-chksum.pl
+rm -f release.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl
 
 # sanity check
 if [ "$rc" != "dev" ]; then

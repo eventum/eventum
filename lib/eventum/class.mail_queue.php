@@ -69,14 +69,16 @@ class Mail_Queue
                 (@in_array(Mail_Helper::getEmailAddress($to), $reminder_addresses))) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
-        $headers['precedence'] = 'bulk';
 
+        // try to prevent triggering absence auto responders
+        $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
+        $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
 
         if (empty($issue_id)) {
             $issue_id = 'null';
         }
         // if the Date: header is missing, add it.
-        if (!in_array('Date', array_keys($headers))) {
+        if (empty($headers['Date'])) {
             $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
         }
         if (!empty($headers['To'])) {
@@ -112,10 +114,11 @@ class Mail_Queue
         if ($type_id != false) {
             $stmt .= ",\nmaq_type_id";
         }
+        $ip = !empty($_SERVER['REMOTE_ADDR']) ? Misc::escapeString($_SERVER['REMOTE_ADDR']) : '';
         $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . @$_SERVER['REMOTE_ADDR'] . "',
+                    '" . Misc::escapeString($ip) . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',

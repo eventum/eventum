@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.prefs.php 3880 2009-05-14 17:38:32Z glen $
-//
 
 
 /**
@@ -83,7 +80,7 @@ class Prefs
         static $returns;
 
         $usr_id = Misc::escapeInteger($usr_id);
-        
+
         if (!empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }

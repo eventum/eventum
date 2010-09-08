@@ -91,6 +91,7 @@ class Language
         'si' => 'Sinhalese',
         'sv_SE' => 'Swedish',
         'ta' => 'Tamil',
+        'th' => 'Thai',
         'tr' => 'Turkish',
         'uk' => 'Ukrainian',
         'ur' => 'Urdu',
@@ -194,7 +195,7 @@ class Language
 
 // if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
 if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE == 'php')) {
-    require_once APP_INC_PATH . '/lib/php-gettext/gettext.inc';
+    require_once APP_PATH . '/lib/php-gettext/gettext.inc';
 
 	function ev_gettext($string) {
 		if (func_num_args() > 1) {
