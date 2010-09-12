@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-08 11:44+0300\n"
-"PO-Revision-Date: 2010-09-09 19:23+0000\n"
+"PO-Revision-Date: 2010-09-11 08:33+0000\n"
 "Last-Translator: denis <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-09-10 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-09-12 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1122,7 +1122,7 @@ msgstr "valide - les utilisateurs peuvent utiliser cette version"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
-msgstr ""
+msgstr "rubriques d'aide disponibles"
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
@@ -1130,17 +1130,19 @@ msgstr "Langues disponibles"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "rubriques d'aide  concernées"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
-msgstr ""
+msgstr "rapports disponibles"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Average and median counts do not include customers who have never opened an "
 "issue."
 msgstr ""
+"Moyenne et médiane n'inclut pas  les clients qui n'ont jamais ouvert un "
+"problème."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
@@ -1148,15 +1150,15 @@ msgstr "Moyenne"
 
 #: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Charge de travail moyenne par client par niveau de support"
 
 #: lib/eventum/class.customer_stats_report.php:698
 msgid "Avg and Median Time to Close by Support Level"
-msgstr ""
+msgstr "Temps moyen et médian de resolution par niveau de support"
 
 #: lib/eventum/class.customer_stats_report.php:707
 msgid "Avg and Median Time to First Response by Support Level"
-msgstr ""
+msgstr "Temps moyen et médian de premiere réponse par niveau de support"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Avg/Med/Max Issues/Emails"
@@ -1278,11 +1280,11 @@ msgstr "Annuler la mise à jour"
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
-msgstr ""
+msgstr "Réponses pré enregistrées"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "catégorie et statuts"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:618
@@ -1299,7 +1301,7 @@ msgstr "Catégorie"
 
 #: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
 msgid "Category Field"
-msgstr ""
+msgstr "champ catégorie"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
@@ -1332,7 +1334,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
-msgstr ""
+msgstr "Vérifier les permissions"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
@@ -1348,11 +1350,11 @@ msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Choose a misspelled word"
-msgstr ""
+msgstr "Choisissez un mot mal orthographié"
 
 #: templates/help/scm_integration.tpl.html
 msgid "Chora CVS viewer"
-msgstr ""
+msgstr "editeur chora CVS"
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
@@ -1364,7 +1366,7 @@ msgstr "Effacer la date"
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
-msgstr ""
+msgstr "Effacer les statuts en doublon"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Clear Filters"
@@ -1415,23 +1417,23 @@ msgstr "Fermé"
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
-msgstr ""
+msgstr "Contexte clos"
 
 #: lib/eventum/class.filter.php:759
 msgid "Closed Date"
-msgstr ""
+msgstr "Date close"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Message clos"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
-msgstr ""
+msgstr "réduire toutes les cellules ouvertes"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse expanded cell"
-msgstr ""
+msgstr "réduire la cellule ouverte"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
@@ -1485,15 +1487,15 @@ msgstr "Continuer"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
-msgstr ""
+msgstr "Exporter la note dans un e-mail"
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Draft and Save For Later Editing"
-msgstr ""
+msgstr "sauvegarder en brouillon (réédition possible)"
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Email and Send Now"
-msgstr ""
+msgstr "Exporter en mail et envoyer immédiatement"
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -1523,23 +1525,23 @@ msgstr "Créer une catégorie"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Create Custom Field"
-msgstr ""
+msgstr "créer un champ personnalisé"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
-msgstr ""
+msgstr "Créer une personnalisation"
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Créer un brouillon"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
-msgstr ""
+msgstr "Répondre par mail"
 
 #: templates/manage/faq.tpl.html
 msgid "Create FAQ Entry"
-msgstr ""
+msgstr "Créer une entrée dans la FAQ"
 
 #: templates/manage/groups.tpl.html
 msgid "Create Group"
@@ -1547,7 +1549,7 @@ msgstr "Créer un groupe"
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Créer un problème"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
@@ -1555,7 +1557,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
-msgstr ""
+msgstr "Créer un nouveau problème"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
@@ -1567,7 +1569,7 @@ msgstr "Créer une note"
 
 #: templates/manage/priorities.tpl.html
 msgid "Create Priority"
-msgstr ""
+msgstr "Créer une priorité"
 
 #: templates/manage/projects.tpl.html
 msgid "Create Project"
@@ -1575,15 +1577,15 @@ msgstr "Créer un projet"
 
 #: templates/manage/releases.tpl.html
 msgid "Create Release"
-msgstr ""
+msgstr "Créer une version"
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Créer un rappel"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
-msgstr ""
+msgstr "Créer une résolution"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Create Round Robin Entry"
@@ -1599,7 +1601,7 @@ msgstr "Créer un utilisateur"
 
 #: templates/setup.tpl.html
 msgid "Create User and Permissions"
-msgstr ""
+msgstr "Créer un utlisateur et définir ses permissions"
 
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
@@ -1637,7 +1639,7 @@ msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
-msgstr ""
+msgstr "Champ personalisé"
 
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
@@ -1656,7 +1658,7 @@ msgstr ""
 #: lib/eventum/class.custom_field.php:311
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
-msgstr ""
+msgstr "Champ personalisé mis à jour (%1$s) par %2$s"
 
 #: lib/eventum/class.customer_stats_report.php:664
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
@@ -1734,18 +1736,18 @@ msgstr "Date"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
-msgstr ""
+msgstr "Champ « Date »"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field:"
-msgstr ""
+msgstr "Champ Date:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Date Range"
-msgstr ""
+msgstr "Plage de date"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Date Triggered"
@@ -1757,7 +1759,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Date of Call"
-msgstr ""
+msgstr "Date d'appel"
 
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
@@ -1791,7 +1793,7 @@ msgstr "Cher"
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Category:"
-msgstr ""
+msgstr "Catégorie par défaut :"
 
 #: templates/manage/general.tpl.html
 msgid "Default Options for Notifications:"
@@ -1800,11 +1802,11 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
-msgstr ""
+msgstr "Priorité par défaut:"
 
 #: templates/setup.tpl.html
 msgid "Defaults"
-msgstr ""
+msgstr "Défauts"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1832,7 +1834,7 @@ msgstr "Supprimer l'alias"
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Descending"
-msgstr ""
+msgstr "Décroissant"
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -1886,7 +1888,7 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
@@ -1925,11 +1927,11 @@ msgstr ""
 
 #: templates/email_drafts.tpl.html
 msgid "Drafts"
-msgstr ""
+msgstr "Brouillons"
 
 #: templates/setup.tpl.html
 msgid "Drop Tables If They Already Exist"
-msgstr ""
+msgstr "Vider les tables si elles existent encore"
 
 #: templates/view_form.tpl.html
 msgid "Duplicate of"
@@ -1941,7 +1943,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Duplicated by"
-msgstr ""
+msgstr "Dupliqué par"
 
 #: templates/view_form.tpl.html
 msgid "Duplicates"
@@ -1953,7 +1955,7 @@ msgstr ""
 
 #: lib/eventum/class.monitor.php:83
 msgid "ERROR: Almost no free disk space left (percentage left"
-msgstr ""
+msgstr "ERREUR: espace disque presque nul (pourcentage restant"
 
 #: lib/eventum/class.monitor.php:171
 msgid ""
@@ -1969,7 +1971,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:142
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
-msgstr ""
+msgstr "ERREUR: répertoire introuvable (chemin: %1$s)"
 
 #: lib/eventum/class.monitor.php:148
 #, php-format
@@ -1977,6 +1979,8 @@ msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
+"ERREUR: problème de permission sur le répertoire (répertoire: %1$s; perm "
+"actuel: %2$s; perm correct: %3$s)"
 
 #: lib/eventum/class.monitor.php:104
 msgid "ERROR: File could not be found (path"
@@ -1988,6 +1992,8 @@ msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
+"ERREUR: groupe de fichier inadéquate (répertoire: %1$s; groupe actuel: %2$s; "
+"groupe correct: %3$s)"
 
 #: lib/eventum/class.monitor.php:110
 #, php-format
@@ -1995,6 +2001,8 @@ msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
+"ERREUR: propriétaire du fichier incorrect (répertoire: %1$s; propriétaire "
+"actuel: %2$s; priopriétaire correct: %3$s)"
 
 #: lib/eventum/class.monitor.php:118
 #, php-format
@@ -2002,11 +2010,15 @@ msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
+"ERREUR: permission de fichier incorrect (répertoire: %1$s; perm actuelle: "
+"%2$s; perm correcte : %3$s)"
 
 #: lib/eventum/class.monitor.php:122
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
+"ERREUR: taille de fichier incorrecte (répertoire: %1$s; taille de fichier "
+"actuelle: %2$s)"
 
 #: lib/eventum/class.monitor.php:87
 msgid "ERROR: Free disk space left is getting very low (percentage left"
@@ -2030,7 +2042,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
-msgstr ""
+msgstr "Editer la liste des personnes autorisées à répondre"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Categories"
@@ -2040,13 +2052,13 @@ msgstr "Modifier les catégories"
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
-msgstr ""
+msgstr "Editer les colonnes à afficher"
 
 #: lib/eventum/class.help.php:130 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
-msgstr ""
+msgstr "Editer les champs à afficher"
 
 #: templates/view_form.tpl.html
 msgid "Edit Incident Redemption"
@@ -2058,11 +2070,11 @@ msgstr "Modifier la liste de notification"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
-msgstr ""
+msgstr "Éditer l'option"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
-msgstr ""
+msgstr "Editer les catégories de support téléphonique"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Priorities"
@@ -2083,7 +2095,7 @@ msgstr "Courriel"
 #: htdocs/view_email.php:48
 #, php-format
 msgid "Email #%1$s: %2$s"
-msgstr ""
+msgstr "Email #%1$s: %2$s"
 
 #: lib/eventum/class.support.php:1504
 #, php-format
@@ -2097,7 +2109,7 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Email Account:"
-msgstr ""
+msgstr "Compte mail:"
 
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2110,11 +2122,11 @@ msgstr "Adresse électronique"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address Prefix:"
-msgstr ""
+msgstr "Préfixe d'adresse mail"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address to Send Saved Messages:"
-msgstr ""
+msgstr "Adresse mail pour envoyer les messages sauvegardés"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Email Address:"
@@ -2122,15 +2134,15 @@ msgstr "Adresse électronique :"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Errors To:"
-msgstr ""
+msgstr "Adresses mail à qui envoyer les messages d'erreur:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Information To:"
-msgstr ""
+msgstr "Adresses mail à qui envoyer les messages d'information:"
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
 msgid "Email Alias"
-msgstr ""
+msgstr "alias mail"
 
 #: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
