@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Set SQL_MODE to '' in setup (Bryan)
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
 - Allow customers to use the quick filters (Bryan)
+- Added 'close_popup_windows' to Prefs::getDefaults() (Bryan)
 
 
 ???, Version 2.3

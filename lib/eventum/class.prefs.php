@@ -59,6 +59,7 @@ class Prefs
             'email_signature'         => '',
             'auto_append_sig'         => 'no',
             'auto_append_note_sig'    => 'no',
+            'close_popup_windows'     => 0,
         );
 
         if (is_array($projects)) {
@@ -83,7 +84,7 @@ class Prefs
         static $returns;
 
         $usr_id = Misc::escapeInteger($usr_id);
-        
+
         if (!empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }
