@@ -1583,6 +1583,7 @@ class Custom_Field
     function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
             // make sure we only list the backends
@@ -1637,12 +1638,14 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } elseif (!empty($res)) {
-            $file_name = APP_INC_PATH . "/custom_field/$res";
-            if (!file_exists($file_name)) {
+            if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
+                require_once(APP_LOCAL_PATH . "/custom_field/$res");
+            } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
+                require_once APP_INC_PATH . "/custom_field/$res";
+            } else {
                 $returns[$fld_id] = false;
                 return $returns[$fld_id];
             }
-            require_once $file_name;
 
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";
