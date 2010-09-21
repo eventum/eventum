@@ -213,7 +213,7 @@ function validateForm(f)
         {/if}
         {if $current_role >= $field_display_settings.priority}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.category > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>{t}Priority{/t}: *</b> {include file="help_link.tpl.html" topic="report_priority"}
           </td>
           <td bgcolor="{$light_color}">
