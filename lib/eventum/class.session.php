@@ -42,7 +42,7 @@ class Session
 {
     /**
      * Sets the passed variable in the session using the specified name.
-     * 
+     *
      * @access  public
      * @param   string $name Name to store variable under.
      * @param   mixed $var Variable to store in session.
@@ -51,11 +51,11 @@ class Session
     {
         $_SESSION[$name] = $var;
     }
-    
-    
+
+
     /**
      * Returns the session variable specified by $name
-     * 
+     *
      * @access  public
      * @param   string $name The name of variable to be returned.
      * @return  mixed The session variable.
@@ -64,11 +64,11 @@ class Session
     {
         return @$_SESSION[$name];
     }
-    
-    
+
+
     /**
      * Returns true if the session variable $name is set, false otherwise.
-     * 
+     *
      * @access  public
      * @param   string $name The name of the variable to check.
      * @return  boolean If the variable is set
@@ -87,7 +87,9 @@ class Session
      */
     function init($usr_id)
     {
-        session_start();
+        if (session_id() == '') {
+            session_start();
+        }
 
         // clear all old session variables
         $_SESSION = array();

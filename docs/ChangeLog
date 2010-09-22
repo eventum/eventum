@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
 - Allow customers to use the quick filters (Bryan)
 - Added 'close_popup_windows' to Prefs::getDefaults() (Bryan)
+- Check if session is already started before calling session_start() (Bryan)
 
 
 ???, Version 2.3
