@@ -176,3 +176,11 @@ div.app_messages {
 .custom_field {
     cursor: pointer;
 }
+
+.alerts {
+    background-color: #FFF91A;  font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 70%;
+    padding: 2px;
+}

@@ -213,6 +213,18 @@ function closeIssue(issue_id)
             {$issue.iss_created_date}
           </td>
         </tr>
+        {if $severities|@count > 0 }
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Severity:{/t}</b>
+          </td>
+          <td bgcolor="{$light_color}" colspan="3">
+            <select class="default" name="severity">
+              {html_options options=$severities selected=$issue.iss_sev_id}
+            </select>
+          </td>
+        </tr>
+        {/if}
         <tr>
           <td {if $current_role < $roles.standard_user}rowspan="2"{/if} width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Priority:{/t}</b>

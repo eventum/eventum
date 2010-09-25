@@ -6,6 +6,7 @@ CREATE TABLE `%TABLE_PREFIX%custom_filter` (
   cst_prj_id int(10) unsigned NOT NULL default 0,
   cst_title varchar(64) NOT NULL default '',
   cst_iss_pri_id int(10) unsigned default NULL,
+  cst_iss_sev_id int(10) unsigned NULL,
   cst_keywords varchar(64) default NULL,
   cst_users varchar(64) default NULL,
   cst_reporter int(11) unsigned default NULL,
@@ -146,6 +147,7 @@ CREATE TABLE `%TABLE_PREFIX%issue` (
   iss_prc_id int(11) unsigned NOT NULL default 0,
   iss_pre_id int(10) unsigned NOT NULL default 0,
   iss_pri_id smallint(3) NOT NULL default 0,
+  iss_sev_id int(11) unsigned NOT NULL default 0,
   iss_sta_id tinyint(1) NOT NULL default 0,
   iss_res_id int(10) unsigned NULL default NULL,
   iss_duplicated_iss_id int(11) unsigned NULL default NULL,
@@ -397,6 +399,18 @@ INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VAL
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (7, 'not a bug', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (8, 'suspended', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (9, 'won\'t fix', NOW());
+
+
+DROP TABLE IF EXISTS `%TABLE_PREFIX%project_severity`;
+CREATE TABLE `%TABLE_PREFIX%project_severity` (
+  sev_id smallint(3) unsigned NOT NULL auto_increment,
+  sev_prj_id int(11) unsigned NOT NULL,
+  sev_title varchar(64) NOT NULL default '',
+  sev_description varchar(255) NULL,
+  sev_rank TINYINT(1) NOT NULL,
+  PRIMARY KEY (sev_id),
+  UNIQUE KEY sev_title (sev_title, sev_prj_id)
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `%TABLE_PREFIX%subscription`;
 CREATE TABLE `%TABLE_PREFIX%subscription` (
@@ -678,6 +692,14 @@ CREATE TABLE `%TABLE_PREFIX%reminder_priority` (
   rep_rem_id INT(11) UNSIGNED NOT NULL,
   rep_pri_id INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY(rep_id)
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `%TABLE_PREFIX%reminder_severity`;
+CREATE TABLE `%TABLE_PREFIX%reminder_severity` (
+  rms_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  rms_rem_id INT(11) UNSIGNED NOT NULL,
+  rms_sev_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY(rms_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `%TABLE_PREFIX%reminder_requirement`;

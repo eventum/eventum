@@ -235,6 +235,11 @@ class Reminder
                 $res['check_priority'] = 'yes';
                 $res['rer_pri_id'] = $priorities;
             }
+            $severities = self::getAssociatedSeverities($rem_id);
+            if (count($severities) > 0) {
+                $res['check_severity'] = 'yes';
+                $res['rer_sev_id'] = $severities;
+            }
             return $res;
         }
     }
@@ -256,6 +261,32 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
                     rep_rem_id=" . Misc::escapeInteger($rem_id);
+        $res = DB_Helper::getInstance()->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get a list of all severity IDs associated with the given
+     * reminder.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @return  array The list of associated severity IDs
+     */
+    function getAssociatedSeverities($rem_id)
+    {
+        $stmt = "SELECT
+                    rms_sev_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 WHERE
+                    rms_rem_id=" . Misc::escapeInteger($rem_id);
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -413,6 +444,35 @@ class Reminder
 
 
     /**
+     * Method used to associate a severity with a given reminder.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @param   integer $priority_id The severity ID
+     * @return  boolean
+     */
+    function addSeverityAssociation($rem_id, $severity_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 (
+                    rms_rem_id,
+                    rms_sev_id
+                 ) VALUES (
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($severity_id) . "
+                 )";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
      * Method used to remove all requirements and priority associations for a
      * given reminder.
      *
@@ -434,6 +494,11 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
+        DB_Helper::getInstance()->query($stmt);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 WHERE
+                    rms_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
     }
 
@@ -488,6 +553,11 @@ class Reminder
                     self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
                 }
             }
+            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+                for ($i = 0; $i < count($_POST['severities']); $i++) {
+                    self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
+                }
+            }
             return 1;
         }
     }
@@ -536,6 +606,11 @@ class Reminder
             if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
                 for ($i = 0; $i < count($_POST['priorities']); $i++) {
                     self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+                }
+            }
+            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+                for ($i = 0; $i < count($_POST['severities']); $i++) {
+                    self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
                 }
             }
             return 1;
@@ -779,6 +854,10 @@ class Reminder
         $priorities = self::getAssociatedPriorities($reminder['rem_id']);
         if (count($priorities) > 0) {
             $stmt .= ' AND iss_pri_id IN (' . implode(', ', $priorities) . ")\n";
+        }
+        $severities = self::getAssociatedSeverities($reminder['rem_id']);
+        if (count($severities) > 0) {
+            $stmt .= ' AND iss_sev_id IN (' . implode(', ', $severities) . ")\n";
         }
         // now for the interesting stuff
         for ($i = 0; $i < count($conditions); $i++) {

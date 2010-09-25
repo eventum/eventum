@@ -619,6 +619,60 @@ class Issue
         }
     }
 
+
+    /**
+     * Method used to set the severity of an issue
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $pri_id The ID of the severity to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    public static function setSeverity($issue_id, $sev_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $sev_id = Misc::escapeInteger($sev_id);
+
+        if ($pri_id != self::getSeverity($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_sev_id = $sev_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = DB_Helper::getInstance()->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the current issue severity
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The severity
+     */
+    public static function getSeverity($issue_id)
+    {
+        $sql = "SELECT
+                    iss_sev_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = DB_Helper::getInstance()->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return $res;
+        }
+    }
+
     /**
      * Method used to set the expected resolution date of an issue
      *
@@ -1558,7 +1612,6 @@ class Issue
         }
         $stmt .= "
                     iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",
-                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
                     iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
                     iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . ",
                     iss_summary='" . Misc::escapeString($_POST["summary"]) . "',
@@ -1570,6 +1623,14 @@ class Issue
         if (isset($_POST['private'])) {
             $stmt .= ",
                     iss_private = " . Misc::escapeInteger($_POST['private']);
+        }
+        if (isset($_POST['priority'])) {
+            $stmt .= ",
+                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]);
+        }
+        if (isset($_POST['severity'])) {
+            $stmt .= ",
+                    iss_sev_id=" . Misc::escapeInteger($_POST["severity"]);
         }
         $stmt .= "
                  WHERE
@@ -1593,6 +1654,10 @@ class Issue
             if ($current["iss_pri_id"] != $_POST["priority"]) {
                 $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
                 Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
+            }
+            if (isset($_POST["severity"]) && $current["iss_sev_id"] != $_POST["severity"]) {
+                $updated_fields["Severity"] = History::formatChanges(Severity::getTitle($current["iss_sev_id"]), Severity::getTitle($_POST["severity"]));
+                Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
             }
             if ($current["iss_sta_id"] != $_POST["status"]) {
                 // clear out the last-triggered-reminder flag when changing the status of an issue
@@ -2103,7 +2168,7 @@ class Issue
         $keys = array(
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
-            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'summary', 'users',
+            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2325,6 +2390,9 @@ class Issue
         if (!empty($data['priority'])) {
             $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
         }
+        if (!empty($data['severity'])) {
+            $stmt .= "iss_sev_id=". Misc::escapeInteger($data['severity']) . ",";
+        }
 
         $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
@@ -2434,6 +2502,7 @@ class Issue
             'users'          => self::getParam('users'),
             'status'         => self::getParam('status'),
             'priority'       => self::getParam('priority'),
+            'severity'       => self::getParam('severity'),
             'category'       => self::getParam('category'),
             'customer_email' => self::getParam('customer_email'),
             // advanced search form
@@ -2606,6 +2675,7 @@ class Issue
                     iss_usr_id,
                     iss_summary,
                     pri_title,
+                    sev_title,
                     prc_title,
                     sta_title,
                     sta_color status_color,
@@ -2702,6 +2772,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  ON
@@ -2972,6 +3046,9 @@ class Issue
         }
         if (!empty($options["priority"])) {
             $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);
+        }
+        if (!empty($options["severity"])) {
+            $stmt .= " AND iss_sev_id=" . Misc::escapeInteger($options["severity"]);
         }
         if (!empty($options["status"])) {
             $stmt .= " AND iss_sta_id=" . Misc::escapeInteger($options["status"]);
@@ -3443,6 +3520,7 @@ class Issue
                     prc_title,
                     pre_title,
                     pri_title,
+                    sev_title,
                     sta_title,
                     sta_abbreviation,
                     sta_color status_color,
@@ -3456,6 +3534,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON

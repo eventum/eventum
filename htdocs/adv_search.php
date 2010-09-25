@@ -68,6 +68,7 @@ $assign_options += $users;
 $tpl->assign(array(
     "cats"          => Category::getAssocList($prj_id),
     "priorities"    => Priority::getList($prj_id),
+    "severities"    => Severity::getList($prj_id),
     "status"        => Status::getAssocStatusList($prj_id),
     "users"         => $assign_options,
     "releases"      => Release::getAssocList($prj_id, TRUE),

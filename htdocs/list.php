@@ -99,6 +99,7 @@ $tpl->assign("csv_data", base64_encode(@$list["csv"]));
 
 $tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
 $tpl->assign("priorities", Priority::getAssocList($prj_id));
+$tpl->assign("severities", Severity::getAssocList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("assign_options", $assign_options);
 $tpl->assign("custom", Filter::getAssocList($prj_id));

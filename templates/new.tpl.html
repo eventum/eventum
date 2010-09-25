@@ -98,6 +98,13 @@ function validateForm(f)
     }
     {/literal}
     {/if}
+    {if $current_role >= $field_display_settings.severity}
+        {literal}
+        if (hasSelected(f.severity, -1)) {
+            errors[errors.length] = new Option('{/literal}{t escape=js}Severity{/t}{literal}', 'severity');
+        }
+        {/literal}
+    {/if}
     {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
     {literal}
     if (!hasOneSelected(f, 'users[]')) {
@@ -137,6 +144,28 @@ function validateForm(f)
         f.main_submit_button.disabled = false;
     }
 }
+
+var severity_descriptions = {}
+{/literal}
+
+{foreach from=$severity_descriptions key=sev_id item=sev_desc}
+severity_descriptions[{$sev_id}] = '{$sev_desc|escape:"js"}';
+{/foreach}
+{literal}
+function display_severity_description()
+{
+    var selected_sev_id = $('#severity').val();
+    var description = severity_descriptions[selected_sev_id];
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
+    }
+}
+$().ready(function() {
+    display_severity_description(); 
+    $('#severity').bind('change', display_severity_description);
+});
 //-->
 </script>
 {/literal}
@@ -211,9 +240,24 @@ function validateForm(f)
           </td>
         </tr>
         {/if}
+        {if $current_role >= $field_display_settings.severity}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.severity > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Severity{/t}: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select id="severity" name="severity" class="default" tabindex="{$tabindex++}">
+              <option value="-1">{t}Please choose a severity{/t}</option>
+              {html_options options=$severities selected=$smarty.post.severity}
+            </select>
+            <span id="severity_desc" class="alerts"></span>
+            {include file="error_icon.tpl.html" field="severity"}
+          </td>
+        </tr>
+        {/if}
         {if $current_role >= $field_display_settings.priority}
         <tr>
-          <td width="150" bgcolor="{if $field_display_settings.category > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.priority > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>{t}Priority{/t}: *</b> {include file="help_link.tpl.html" topic="report_priority"}
           </td>
           <td bgcolor="{$light_color}">

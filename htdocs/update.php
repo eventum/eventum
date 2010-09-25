@@ -107,6 +107,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
+        "severities"   => Severity::getAssocList($prj_id),
         "status"       => $statuses,
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),

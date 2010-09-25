@@ -93,11 +93,25 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
     function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    {
+    }
+
+
+    /**
+     * Called when the severity of an issue changes.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
+     * @param   array $old_details The old details of the issue.
+     * @param   array $changes The changes that were applied to this issue (the $_POST)
+     */
+    function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
 

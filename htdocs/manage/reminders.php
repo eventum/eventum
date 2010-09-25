@@ -69,21 +69,23 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         }
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
         $tpl->assign("info", $info);
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized' 
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
         // issue, so let's remove that as an option
         $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
+        $tpl->assign("severities", Severity::getAssocList($info['rem_prj_id']));
     } elseif (@$_GET["cat"] == "change_rank") {
         Reminder::changeRank($_GET['id'], $_GET['rank']);
     } elseif (!empty($_GET['prj_id'])) {
         $tpl->assign("info", array('rem_prj_id' => $_GET['prj_id']));
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($_GET['prj_id']));
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized' 
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
         // issue, so let's remove that as an option
         $priorities = array_flip(Priority::getAssocList($_GET['prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
+        $tpl->assign("severities", Severity::getAssocList($_GET['prj_id']));
         // only show customers and support levels if the selected project really needs it
         $project_has_customer_integration = Customer::hasCustomerIntegration($_GET['prj_id']);
         $tpl->assign("project_has_customer_integration", $project_has_customer_integration);

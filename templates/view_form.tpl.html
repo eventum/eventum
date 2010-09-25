@@ -222,191 +222,94 @@ function collapseDescription()
           </td>
         </tr>
         {/if}
-        <tr>
-          {* If we are not showing categories, put status here *}
-          {if $show_category == 1}
-          <td width="150" nowrap bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Category{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.prc_title|escape:"html"}
-          </td>
-          {else}
-          <td width="150" bgcolor="{$cell_color}" class="default_white" rowspan="2">
-            <b>{t}Status{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$issue.status_color}" class="default" rowspan="2">
-            {$issue.sta_title|escape:"html"}
-          </td>
-          {/if}
-          <td width="150" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
-            <b>{t}Notification List{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
-            {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
-            {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
-            {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
-          </td>
-        </tr>
-        <tr>
-          {if $show_category == 1}
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Status{/t}:</b>
-          </td>
-          <td bgcolor="{$issue.status_color}" class="default">
-            {$issue.sta_title|escape:"html"}
-          </td>
-          {/if}
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Submitted Date{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.iss_created_date}
-          </td>
-        </tr>
-        <tr>
-          <td {if $current_role == $roles.customer || $show_releases == 0}rowspan="2"{/if} width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Priority{/t}:</b>
-          </td>
-          <td {if $current_role == $roles.customer || $show_releases == 0}rowspan="2"{/if} bgcolor="{$light_color}" class="default">
-            {$issue.pri_title|escape:"html"}
-          </td>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Last Updated Date{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.iss_updated_date}
-          </td>
-        </tr>
-        <tr>
-          {if $current_role != $roles.customer && $show_releases == 1}
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <nobr><b>{t}Scheduled Release{/t}:</b>&nbsp;</nobr>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.pre_title|escape:"html"}
-          </td>
-          {/if}
-          <td nowrap width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Associated Issues{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {section name="i" loop=$issue.associated_issues_details}
-              {strip}
-              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="{t}issue{/t} #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
-              {if not $smarty.section.i.last},{/if}
-              {/strip}
-            {sectionelse}
-              <i>{t}No issues associated{/t}</i>
-            {/section}
-          </td>
-        </tr>
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Resolution{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.iss_resolution}
-          </td>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Expected Resolution Date{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {if $issue.iss_expected_resolution_date == 0}
-            <i>{t}No resolution date given{/t}</i>
-            {else}
-            {$issue.iss_expected_resolution_date|escape:"html"}
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Percentage Complete{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.iss_percent_complete|default:"0"}%
-          </td>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Estimated Dev. Time{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.iss_dev_time}
-            {if $issue.iss_dev_time != ''} {t}hours{/t}{/if}
-          </td>
-        </tr>
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Reporter{/t}:</b>
-          </td>
-          <td width="50%" {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
-            <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter}</a>
-          </td>
-          {if $current_role > $roles.customer}
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Duplicates{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {if $issue.iss_duplicated_iss_id}
-            {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
-            {/if}
-            {if $issue.duplicates_details|@count > 0}
-              {if $issue.iss_duplicated_iss_id}<br />{/if}
-              {t}Duplicated by{/t}:
-              {section name="i" loop=$issue.duplicates_details}
-                {strip}
-                <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
-                {if not $smarty.section.i.last}, {/if}
-                {/strip}
-              {/section}
-            {/if}
-          </td>
-          {/if}
-        </tr>
-        <tr>
-          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2"{/if} width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Assignment{/t}:</b>
-          </td>
-          <td width="50%" {if $current_role <= $roles.customer}colspan="3" {elseif $groups|@count > 0}rowspan="2"{/if} bgcolor="{$light_color}" class="default">
-            {$issue.assignments}
-          </td>
-          {if $current_role > $roles.customer}
-          <td width="150" bgcolor="{$internal_color}" valign="top" class="default_white" nowrap>
-            <b>{t}Authorized Repliers{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
-            {if $issue.authorized_repliers.users|@count > 0}
-                {t}Staff{/t}:
-                {section name="replier" loop=$issue.authorized_repliers.users}
-                    {strip}
-                    {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                    {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                    {/strip}
-                {/section}
-                <br />
-            {/if}
-            {if $issue.authorized_repliers.other|@count > 0}
-                {t}Other{/t}:
-                {section name="replier" loop=$issue.authorized_repliers.other}
-                    {strip}
-                    {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                    {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                    {/strip}
-                {/section}
-            {/if}
-          </td>
-          {/if}
-        </tr>
-        {* Display Group if a group is set and user is above a customer *}
-        {if $current_role > $roles.customer && $groups|@count > 0}
-        <tr>
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Group{/t}:</b>
-          </td>
-          <td colspan="3" bgcolor="{$light_color}" class="default">
-            {$issue.group.grp_name}
-          </td>
-        </tr>
+        
+        {if $columns[0]|@count < $columns[1]|@count}
+            {assign var=row_count value=$columns[1]|@count}
+            {math equation="(x - y) + 1" assign=col_0_last_rowspan x=$columns[1]|@count y=$columns[0]|@count}
+        {else}
+            {assign var=row_count value=$columns[0]|@count}
+            {math equation="(x - y) + 1" assign=col_1_last_rowspan x=$columns[0]|@count y=$columns[1]|@count}
         {/if}
+        {section name=row loop=$row_count}
+        <tr>
+          {if $smarty.section.row.rownum <= $columns[0]|@count}
+          <td width="150" nowrap bgcolor="{if $columns[0][row].title_bgcolor != '' }{$columns[0][row].title_bgcolor}{else}{$cell_color}{/if}" class="default_white"
+            {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
+            <b>{$columns[0][row].title}:</b>
+          </td>
+          <td width="50%" bgcolor="{if $columns[0][row].data_bgcolor != '' }{$columns[0][row].data_bgcolor}{else}{$light_color}{/if}" class="default"
+            {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
+            {if $columns[0][row].tpl_block == 'reporter'}
+                <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter}</a>
+            {else}
+                {$columns[0][row].data|escape:"html"}
+            {/if}
+          </td>
+          {/if}
+          <td width="150" valign="top" class="default_white" nowrap
+             bgcolor="{if $columns[1][row].title_bgcolor != '' }{$columns[1][row].title_bgcolor}{else}{$cell_color}{/if}">
+            <b>{$columns[1][row].title}:</b>
+          </td>
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+            {if $columns[1][row].tpl_block == 'notification_list'}
+                {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+                {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
+                {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+            {elseif $columns[1][row].tpl_block == 'associated_issues'}
+                {section name="i" loop=$issue.associated_issues_details}
+                  {strip}
+                  <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="{t}issue{/t} #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
+                  {if not $smarty.section.i.last},{/if}
+                  {/strip}
+                {sectionelse}
+                  <i>{t}No issues associated{/t}</i>
+                {/section}
+            {elseif $columns[1][row].tpl_block == 'expected_resolution'}
+                {if $issue.iss_expected_resolution_date == 0}
+                <i>{t}No resolution date given{/t}</i>
+                {else}
+                {$issue.iss_expected_resolution_date|escape:"html"}
+                {/if}
+            {elseif $columns[1][row].tpl_block == 'duplicates'}
+                {if $issue.iss_duplicated_iss_id}
+                {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
+                {/if}
+                {if $issue.duplicates_details|@count > 0}
+                  {if $issue.iss_duplicated_iss_id}<br />{/if}
+                  {t}Duplicated by{/t}:
+                  {section name="i" loop=$issue.duplicates_details}
+                    {strip}
+                    <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
+                    {if not $smarty.section.i.last}, {/if}
+                    {/strip}
+                  {/section}
+                {/if}
+            {elseif $columns[1][row].tpl_block == 'authorized_repliers'}
+                {if $issue.authorized_repliers.users|@count > 0}
+                    {t}Staff{/t}:
+                    {section name="replier" loop=$issue.authorized_repliers.users}
+                        {strip}
+                        {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                        {/strip}
+                    {/section}
+                    <br />
+                {/if}
+                {if $issue.authorized_repliers.other|@count > 0}
+                    {t}Other{/t}:
+                    {section name="replier" loop=$issue.authorized_repliers.other}
+                        {strip}
+                        {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                        {/strip}
+                    {/section}
+                {/if}
+            {else}
+                {$columns[1][row].data|escape:"html"}
+            {/if}
+          </td>
+        </tr>
+        {/section}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Summary{/t}:</b><img src="images/blank.gif" height="1" width="150">

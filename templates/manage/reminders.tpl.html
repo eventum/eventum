@@ -57,6 +57,7 @@
                   var f = getForm('reminder_form');
                   var issue_field = getFormElement(f, 'issues[]');
                   var priority_field = getFormElement(f, 'priorities[]');
+                  var severity_field = getFormElement(f, 'severities[]');
                   var level_field = getFormElement(f, 'support_levels[]');
                   var customer_field = getFormElement(f, 'customers[]');
 
@@ -90,6 +91,12 @@
                       priority_field.disabled = false;
                   } else {
                       priority_field.disabled = true;
+                  }
+                  field = getFormElement(f, 'check_severity');
+                  if (field.checked) {
+                      severity_field.disabled = false;
+                  } else {
+                      severity_field.disabled = true;
                   }
               }
               function validateForm(f)
@@ -134,6 +141,10 @@
                   }
                   if ((f.check_priority.checked) && (!hasOneSelected(f, 'priorities[]'))) {
                       alert('{/literal}{t escape=js}Please choose the priorities that will be associated with this reminder.{/t}{literal}');
+                      return false;
+                  }
+                  if ((f.check_severity.checked) && (!hasOneSelected(f, 'severities[]'))) {
+                      alert('{/literal}{t escape=js}Please choose the severities that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   return true;
@@ -250,6 +261,29 @@
                       <td>
                         <select name="priorities[]" size="4" multiple class="default">
                           {html_options options=$priorities selected=$info.rer_pri_id}
+                        </select>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td class="default">
+                        &nbsp;
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td class="default">
+                        <input type="checkbox" name="check_severity" value="yes" {if $info.check_severity == 'yes'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('reminder_form', 'check_severity');toggleReminderTypeFields();">{t}Also Filter By Issue Severities{/t}</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>
+                        <select name="severities[]" size="4" multiple class="default">
+                          {html_options options=$severities selected=$info.rer_sev_id}
                         </select>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

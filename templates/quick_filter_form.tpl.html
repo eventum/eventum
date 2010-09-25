@@ -9,6 +9,7 @@ function clearFilters(f)
     f.category.selectedIndex = 0;
     f.status.selectedIndex = 0;
     f.priority.selectedIndex = 0;
+    f.severity.selectedIndex = 0;
     {/literal}
     {if $has_customer_integration && $current_role != $roles.customer}
     document.getElementById('search_type_customer').checked = true;
@@ -106,6 +107,12 @@ function runCustomFilter(f)
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}
+        {if $severities|@count < 1}
+        <input type="hidden" name="severity" value="">
+        {/if}
+        {if $priorities|@count < 1}
+        <input type="hidden" name="priority" value="">
+        {/if}
         <input type="hidden" name="release" value="{$options.release}">
         {if $current_role == $roles.customer}
         <input type="hidden" name="users" value="" />
@@ -146,6 +153,7 @@ function runCustomFilter(f)
             </select>
           </td>
           {/if}
+          {if $priorities|@count > 0}
           <td valign="top">
             <span class="default">{t}Priority{/t}:</span><br />
             <select name="priority" class="default">
@@ -153,6 +161,16 @@ function runCustomFilter(f)
               {html_options options=$priorities selected=$options.priority}
             </select>
           </td>
+          {/if}
+          {if $severities|@count > 0}
+          <td valign="top">
+            <span class="default">{t}Severity{/t}:</span><br />
+            <select name="severity" class="default">
+              <option value="">{t}any{/t}</option>
+              {html_options options=$severities selected=$options.severity}
+            </select>
+          </td>
+          {/if}
           <td valign="top">
             <span class="default">{t}Status{/t}:</span><br />
             <select name="status" class="default">

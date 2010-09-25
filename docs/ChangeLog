@@ -8,7 +8,8 @@ Eventum Issue Tracking System
 - Allow customers to use the quick filters (Bryan)
 - Added 'close_popup_windows' to Prefs::getDefaults() (Bryan)
 - Check if session is already started before calling session_start() (Bryan)
-
+- Added "Severity" field, this can be used with or instead of "Priority" (Bryan)
+- Changed view page and template to better manage fields that can be disabled or selectively shown (Bryan)
 
 ???, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
