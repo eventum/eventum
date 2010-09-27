@@ -2,8 +2,9 @@
 set -e
 set -x
 app=eventum
-#rc=dev # development version
+rc=dev # development version
 #rc=RC3 # release candidate
+#rc= # release
 dir=$app
 
 # checkout
@@ -28,7 +29,6 @@ if [ "$rc" = "dev" ]; then
 		    d
 
 		}" init.php
-	rc=-dev-r$revno
 fi
 
 # update to include checksums of js/css files
@@ -45,8 +45,13 @@ rm -f release.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl
 if [ "$rc" != "dev" ]; then
 	find -name '*.php' | xargs -l1 php -l
 fi
+
 rm -rf .bzr*
 cd -
+
+if [ "$rc" = "dev" ]; then
+	rc=-dev-r$revno
+fi
 
 # make tarball and md5 checksum
 rm -rf $app-$version
