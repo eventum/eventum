@@ -16,7 +16,7 @@ var custom_fields_info = new Array();
   {assign var="cf_required" value=$custom_fields[i].fld_close_form_required}
 {/if}
 <tr>
-  <td width="150" bgcolor="{$cell_color}" class="default_white">
+  <td width="150" bgcolor="{if $custom_fields[i].fld_min_role > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
     <b>{$custom_fields[i].fld_title}:{if $cf_required} *{/if}</b>
     <script type="text/javascript">
     <!--
