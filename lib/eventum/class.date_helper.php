@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.date_helper.php 3873 2009-04-13 21:25:59Z glen $
-//
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
 $GLOBALS['_DATE_TIMEZONE_DEFAULT'] = 'UTC';

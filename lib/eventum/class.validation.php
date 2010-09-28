@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.validation.php 3822 2009-02-10 06:35:01Z glen $
-//
 
 
 /**
@@ -69,10 +66,10 @@ class Validation
      */
     function isEmail($str)
     {
-        $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
                                 's', 't', 'u', 'w', 'v', 'x', 'y', 'z',
-                                '0', '1', '2', '3', '4', '5', '6', '7', 
+                                '0', '1', '2', '3', '4', '5', '6', '7',
                                 '8', '9');
         $extended_chars = array('.', '+', '_', '-', '@');
         $str = strtolower($str);
@@ -87,7 +84,7 @@ class Validation
         }
         // check for invalid characters in the email address
         for ($i = 0; $i < strlen($str); $i++) {
-            if ((!in_array(substr($str, $i, 1), $valid_chars)) && 
+            if ((!in_array(substr($str, $i, 1), $valid_chars)) &&
                     (!in_array(substr($str, $i, 1), $extended_chars))) {
                 return false;
             }
@@ -102,7 +99,7 @@ class Validation
         }
         // do an extra check for a dot as the last character of an address
         array_shift($extended_chars);
-        if ((substr($str, strlen($str)-1) == '.') && 
+        if ((substr($str, strlen($str)-1) == '.') &&
                 (substr($str, strrpos($str, '@')) != '@localhost.')) {
             return false;
         }
@@ -115,7 +112,7 @@ class Validation
 
 
     /**
-     * Method used to check whether a string has only valid (ASCII) 
+     * Method used to check whether a string has only valid (ASCII)
      * characters.
      *
      * @access  public
@@ -124,7 +121,7 @@ class Validation
      */
     function hasValidChars($str)
     {
-        $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
                                 's', 't', 'u', 'w', 'v', 'x', 'y', 'z');
 

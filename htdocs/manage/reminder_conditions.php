@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: reminder_conditions.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -62,7 +60,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
             $_GET['field'] = $info['rlc_rmf_id'];
         }
         $tpl->assign("info", $info);
-        
+
     }
 
     if (!empty($_GET['field'])) {

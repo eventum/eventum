@@ -25,14 +25,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.link_filter.php 3868 2009-03-30 00:22:35Z glen $
-//
-
 
 /**
  * Class to handle parsing content for links.
- * 
+ *
  * @author  Bryan Alsdorf <bryan@mysql.com>
  * @version 1.0
  */
@@ -40,7 +36,7 @@ class Link_Filter
 {
     /**
      * Returns information about a specific link filter.
-     * 
+     *
      * @access  public
      * @param   integer $lfi_id The ID of the link filter to return info about.
      * @return  array An array of information.
@@ -83,7 +79,7 @@ class Link_Filter
 
     /**
      * Lists the link filters currently in the system.
-     * 
+     *
      * @return array An array of information.
      */
     function getList()
@@ -130,7 +126,7 @@ class Link_Filter
 
     /**
      * Inserts a new link filter into the database.
-     * 
+     *
      * @return integer 1 if insert was successful, -1 otherwise
      */
     function insert()
@@ -177,7 +173,7 @@ class Link_Filter
 
     /**
      * Removes link filters from the database
-     * 
+     *
      * @return integer 1 if delete was successful, -1 otherwise.
      */
     function remove()
@@ -206,7 +202,7 @@ class Link_Filter
 
     /**
      * Updates link filter information.
-     * 
+     *
      * @return integer 1 if insert was successful, -1 otherwise
      */
     function update()
@@ -257,7 +253,7 @@ class Link_Filter
 
     /**
      * Processes text through all link filters.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   string $text The text to process
@@ -266,26 +262,26 @@ class Link_Filter
      */
     function processText($prj_id, $text, $class = "link")
     {
-        
+
         // process issue link seperatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
         $text = self::processIssueSpecificLinks($text);
-        
+
         $filters = self::getFilters($prj_id);
-        
+
         if (count($filters) > 0) {
             foreach ($filters as $filter) {
                 $text = preg_replace('/' . $filter[0] . '/i', $filter[1], $text);
             }
         }
-        
+
         return $text;
     }
 
 
     /**
      * Callback function to be used from template class.
-     * 
+     *
      * @access  public
      * @param   string $text The text to process
      * @return  string the processed text.
@@ -298,7 +294,7 @@ class Link_Filter
 
     /**
      * Returns an array of patterns and replacements.
-     * 
+     *
      * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
@@ -308,7 +304,7 @@ class Link_Filter
         static $filters;
 
         $prj_id = Misc::escapeInteger($prj_id);
-        
+
         // poor man's caching system
         if (!empty($filters[$prj_id])) {
             return $filters[$prj_id];

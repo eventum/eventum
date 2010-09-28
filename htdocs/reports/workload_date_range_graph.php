@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: workload_date_range_graph.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 require_once APP_JPGRAPH_PATH . '/jpgraph.php';
@@ -107,42 +105,42 @@ if (count($plots) < 1) {
 }
 
 if (@$_REQUEST["type"] == "pie") {
-    
+
     // A new graph
     $graph = new PieGraph(500,300,"auto");
-    
+
     // The pie plot
     $plot = new PiePlot($plots);
     $plot->SetTheme('pastel');
-    
+
     // Move center of pie to the left to make better room
     // for the legend
     $plot->SetCenter(0.26,0.55);
-    
+
     // Label font and color setup
     $plot->SetFont(FF_FONT1, FS_BOLD);
     $plot->SetFontColor("black");
-    
+
     // Use percentages
     $plot->SetLabelType(0);
-    
+
     // Size of pie in fraction of the width of the graph
     $plot->SetSize(0.3);
-    
+
     // Legends
     $plot->SetLegends($labels);
     $graph->legend->SetFont(FF_FONT1);
     $graph->legend->Pos(0.06,0.27);
-    
+
 } else {
-    
+
     // bar chart
     $plot = new BarPlot($plots);
     $plot->showValue(true);
     $plot->SetValueFont(FF_FONT2, FS_NORMAL, 9);
-    
+
     //$plot->setLegend("Issues");
-    
+
     // figure out the best size for this graph.
     $width = 75;
     if (count($labels) > 3) {
@@ -157,28 +155,28 @@ if (@$_REQUEST["type"] == "pie") {
     if ($width < 500) {
         $width = 500;
     }
-    
+
     $plot->showValue(true);
     $plot->SetFillColor("#0000ff");
-    
+
     $graph = new Graph($width,350);
     $graph->SetScale("textlin");
     $graph->img->SetMargin(50,30,40,40);
     $graph->yaxis->SetTitleMargin(30);
     $graph->SetShadow();
-    
-    // Turn the tickmarks 
+
+    // Turn the tickmarks
     $graph->xaxis->SetTickDirection(SIDE_DOWN);
     $graph->yaxis->SetTickDirection(SIDE_LEFT);
     $graph->xaxis->SetTickLabels($labels);
-    
+
     $graph->xaxis->title->Set($x_title);
     $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
     $graph->title->SetFont(FF_FONT1,FS_BOLD);
     $graph->yaxis->scale->setGrace(15,0);
     $graph->yaxis->title->Set($y_label);
     $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-    
+
 }
 
 $graph->title->Set($graph_title);

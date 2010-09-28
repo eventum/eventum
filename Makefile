@@ -14,6 +14,9 @@ install: install-eventum install-cli install-irc install-scm install-libs
 dist:
 	./release.sh
 
+phpcs:
+	 phpcs --standard=Eventum --ignore=config,lib/pear,cli/lib/pear .
+
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)

@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: customer_notes.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -46,7 +44,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Customer::insertNote($_POST["project"], $_POST["customer"], $_POST["note"]));
     } else if (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Customer::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"])); 
+        $tpl->assign("result", Customer::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"]));
     } elseif (@$_POST["cat"] == "delete") {
         $tpl->assign("result", Customer::removeNotes($_POST['items']));
     } elseif (!empty($_GET['prj_id'])) {

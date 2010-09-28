@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: customer_stats_graph.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 require_once APP_JPGRAPH_PATH . '/jpgraph.php';
@@ -69,11 +67,11 @@ $graph_id = $_GET["graph_id"];
 $plots = array();
 $max_title_len = 0;
 foreach ($data as $index => $info) {
-    
+
     if (strlen($info["title"]) > $max_title_len) {
         $max_title_len = strlen($info["title"]);
     }
-    
+
     // go through data and convert into something plottable
     $plottable = array();
     switch ($graph_id) {
@@ -98,7 +96,7 @@ foreach ($data as $index => $info) {
             break;
     }
 
-    // Create a bar pot 
+    // Create a bar pot
     $bplot = new BarPlot(array_values($plottable));
     $bplot->showValue(true);
     $bplot->SetValueFont(FF_FONT2, FS_NORMAL, 9);
@@ -144,7 +142,7 @@ $graph->yaxis->SetTitleMargin(45);
 $graph->yaxis->scale->setGrace(15,0);
 $graph->SetShadow();
 
-// Turn the tickmarks 
+// Turn the tickmarks
 $graph->xaxis->SetTickDirection(SIDE_DOWN);
 $graph->yaxis->SetTickDirection(SIDE_LEFT);
 $graph->xaxis->SetTickLabels($labels);

@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: workload_time_period_graph.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 require_once APP_JPGRAPH_PATH . '/jpgraph.php';
@@ -60,10 +58,10 @@ if (@$_GET["type"] == "email") {
 $plots = array();
 foreach ($data as $performer => $values) {
     ksort($values);ksort($data[$performer]);
-    
-    // Create a bar pot 
+
+    // Create a bar pot
     $bplot = new BarPlot(array_values($values));
-    
+
     if ($performer == "customer") {
         $color = "#99ccff";
     } else {
@@ -71,7 +69,7 @@ foreach ($data as $performer => $values) {
     }
     $bplot->SetFillColor($color);
     $bplot->setLegend(ucfirst($performer) . " " . $event_type);
-    
+
     $plots[] = $bplot;
 }
 
@@ -81,7 +79,7 @@ $graph->img->SetMargin(60,30,40,40);
 $graph->yaxis->SetTitleMargin(45);
 $graph->SetShadow();
 
-// Turn the tickmarks 
+// Turn the tickmarks
 $graph->xaxis->SetTickDirection(SIDE_DOWN);
 $graph->yaxis->SetTickDirection(SIDE_LEFT);
 $graph->xaxis->SetTickLabels(array_keys($data["developer"] + $data["customer"]));
@@ -97,5 +95,5 @@ $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->Set(ucfirst($event_type) . " (%)");
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->legend->Pos(0.01,0.09,'left','bottom');
-$graph->legend->SetLayout(LEGEND_HOR); 
+$graph->legend->SetLayout(LEGEND_HOR);
 $graph->Stroke();

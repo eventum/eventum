@@ -16,7 +16,7 @@ function smarty_function_get_textarea_size($params, &$smarty)
         }
         $html_result = $default;
     }
-    
+
     if ($print_result) {
         print $html_result;
     } else {

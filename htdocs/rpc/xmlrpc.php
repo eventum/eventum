@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: xmlrpc.php 3874 2009-04-15 14:51:08Z balsdorf $
 
 require_once dirname(__FILE__) . '/../../init.php';
 require_once 'XML/RPC/Server.php';

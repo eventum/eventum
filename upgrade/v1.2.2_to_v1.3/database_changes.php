@@ -128,8 +128,8 @@ $changes[] = "ALTER TABLE eventum_reminder_action ADD COLUMN rma_alert_group_lea
 $changes[] = "ALTER TABLE eventum_project_user DROP KEY pru_prj_id";
 $changes[] = "ALTER TABLE eventum_project_user ADD UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_id)";
 $changes[] = "ALTER TABLE eventum_history_type ADD COLUMN htt_role tinyint(1) DEFAULT '0'";
-$changes[] = "UPDATE eventum_history_type SET htt_role = 4 WHERE htt_name IN('note_added', 'note_removed', 'note_converted_draft', 
-    'note_converted_email', 'phone_entry_added', 'phone_entry_removed', 'time_added', 'time_removed', 
+$changes[] = "UPDATE eventum_history_type SET htt_role = 4 WHERE htt_name IN('note_added', 'note_removed', 'note_converted_draft',
+    'note_converted_email', 'phone_entry_added', 'phone_entry_removed', 'time_added', 'time_removed',
     'remote_time_added', 'email_blocked', 'note_routed', 'group_changed', 'draft_added', 'draft_updated')";
 $changes[] = "INSERT INTO eventum_history_type SET htt_name = 'status_auto_changed', htt_role = 4";
 $changes[] = "CREATE TABLE eventum_reminder_triggered_action (

@@ -1,7 +1,15 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version ???
+???, Version ??
+- Improve getCustomFieldWeeklyReport (merge request 31659)
+- Update Smarty 2.6.18 -> 2.6.26 (Elan Ruusamäe)
+- Put 'Release' in the 'The issue was updated by' e-mail (Robbert-Jan Roos)
+- Changed ereg to preg_match in template helper for compatability (Bryan)
+- Removed assignment by reference in db helper to prevent PHP warning (Bryan)
+- Fix problem with custom field validation (Bryan) [lp#628862]
+- Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
+
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
@@ -11,7 +19,7 @@ Eventum Issue Tracking System
 - Added "Severity" field, this can be used with or instead of "Priority" (Bryan)
 - Changed view page and template to better manage fields that can be disabled or selectively shown (Bryan)
 
-???, Version 2.3
+2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)

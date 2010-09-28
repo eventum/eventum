@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: link_filters.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -55,9 +53,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $info = Link_Filter::getDetails($_GET["id"]);
         $tpl->assign("info", $info);
     }
-    
+
     $user_roles = User::getRoles();
-    
+
     $tpl->assign("list", Link_Filter::getList());
     $tpl->assign("project_list", Project::getAll());
     $tpl->assign("user_roles", $user_roles);

@@ -26,9 +26,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: bot.php 3825 2009-02-10 06:57:44Z glen $
-//
 
 ini_set('memory_limit', '1024M');
 
@@ -367,7 +364,8 @@ class Eventum_Bot
 
     function _joinChannels(&$irc)
     {
-        foreach ($GLOBALS['channels'] as $prj_id => $channel_list) {
+        global $channels;
+        foreach ($channels as $prj_id => $channel_list) {
             $irc->join($channel_list);
         }
     }

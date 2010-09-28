@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: mail_queue.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../init.php';
 
@@ -42,7 +40,7 @@ if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
     $tpl->assign("denied", 1);
 } else {
     $data = Mail_Queue::getListByIssueID($issue_id);
-    
+
     $tpl->assign(array(
                     "data"  =>  $data,
                     "issue_id"  =>  $issue_id

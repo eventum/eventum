@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: $
-//
 
 // This is an example config file for the IRC bot. This file should be
 // placed in the config/ directory.

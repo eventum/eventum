@@ -35,9 +35,9 @@ $customers = Customer::getAssocList($prj_id);
 
 foreach ($customers as $customer_id => $customer_name) {
     echo "Customer: $customer_name<br />\n";
-    
+
     $details = Customer::getDetails($prj_id, $customer_id);
-    
+
     foreach ($details['contacts'] as $contact) {
         echo "Contact: " . $contact['first_name'] . " " . $contact['last_name'] . " (" . $contact['email'] . ")<br />\n";
         $contact_id = User::getUserIDByContactID($contact['contact_id']);

@@ -13,7 +13,7 @@ function smarty_function_get_display_style($params, &$smarty)
             $html_result = 'style="display: none;"';
         }
     }
-    
+
     if ($print_result) {
         print $html_result;
     } else {

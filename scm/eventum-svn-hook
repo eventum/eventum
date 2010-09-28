@@ -29,8 +29,6 @@
 // |          Frederik M. Kraus <f.kraus@pangora.com>                     |
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: process_svn_commits.php 3797 2009-01-12 20:14:39Z balsdorf $
 
 // See http://forge.mysql.com/wiki/Eventum:Subversion_integration about SVN integration.
 
