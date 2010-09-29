@@ -444,7 +444,6 @@ class Abstract_Workflow_Backend
     /**
      * Returns an array of patterns and replacements.
      *
-     * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
