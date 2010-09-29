@@ -332,7 +332,6 @@ class Link_Filter
         }
     }
 
-
     /**
      * Method used as a callback with the regular expression code that parses
      * text and creates links to other issues.
@@ -341,18 +340,18 @@ class Link_Filter
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */
-    function callbackIssueLinks($matches)
+    private static function callbackIssueLinks($matches)
     {
         // check if the issue is still open
-        if (Issue::isClosed($matches[5])) {
+        if (Issue::isClosed($matches['issue_id'])) {
             $class = 'closed_link';
         } else {
             $class = 'link';
         }
-        $issue_title = Issue::getTitle($matches[5]);
-        return "<a title=\"issue " . $matches[5] . " - $issue_title\" class=\"" . $class . "\" href=\"view.php?id=" . $matches[5] . "\">" . $matches[1] . $matches[2] . $matches[3] . $matches[4] . $matches[5] . "</a>";
+        $issue_title = Issue::getTitle($matches['issue_id']);
+        $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
+        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
     }
-
 
     /**
      * Method used to parse the given string for references to issues in the
@@ -363,9 +362,9 @@ class Link_Filter
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    function processIssueSpecificLinks($text, $class = "link")
+    private static function processIssueSpecificLinks($text, $class = "link")
     {
-        $text = preg_replace_callback("/(issue)(:)?(\s)(\#)?(\d+)/i", array('Link_Filter', 'callbackIssueLinks'), $text);
+        $text = preg_replace_callback("/issue:?\s\#?(?P<issue_id>\d+)/i", array('self', 'callbackIssueLinks'), $text);
         return $text;
     }
 }
