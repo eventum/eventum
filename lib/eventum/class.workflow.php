@@ -665,4 +665,20 @@ class Workflow
         $backend =& self::_getBackend($prj_id);
         return $backend->getIssueFieldsToDisplay($prj_id, $issue_id, $location);
     }
+
+    /**
+     * Returns an array of patterns and replacements.
+     *
+     * @access  private
+     * @param   integer $prj_id The ID of the project
+     * @return  array An array of patterns and replacements
+     */
+    function getLinkFilters($prj_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return $text;
+        }
+        $backend =& self::_getBackend($prj_id);
+        return $backend->getLinkFilters($prj_id);
+    }
 }

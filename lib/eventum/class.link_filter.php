@@ -267,11 +267,16 @@ class Link_Filter
         $text = Misc::activateLinks($text, $class);
         $text = self::processIssueSpecificLinks($text);
 
-        $filters = self::getFilters($prj_id);
-
+        $filters = array_merge(self::getFilters($prj_id), Workflow::getLinkFilters($prj_id));
         if (count($filters) > 0) {
             foreach ($filters as $filter) {
-                $text = preg_replace('/' . $filter[0] . '/i', $filter[1], $text);
+                list($pattern, $replacement) = $filter;
+                // if replacement may be a callback, provided by workflow
+                if (is_callable($replacement)) {
+                    $text = preg_replace_callback($pattern, $replacement, $text);
+                } else {
+                    $text = preg_replace($pattern, $replacement, $text);
+                }
             }
         }
 
@@ -311,7 +316,7 @@ class Link_Filter
         }
 
         $stmt = "SELECT
-                    lfi_pattern,
+                    CONCAT('/', lfi_pattern, '/i'),
                     lfi_replacement
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter,
@@ -326,10 +331,10 @@ class Link_Filter
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            $filters[$prj_id] = $res;
-            return $res;
         }
+
+        $filters[$prj_id] = $res;
+        return $res;
     }
 
     /**
