@@ -972,7 +972,7 @@ class Customer
         if (method_exists($backend, 'getPath')) {
             return $backend->getPath();
         } else {
-            return 'customer/' . $this->getName() . '/';
+            return 'customer/' . $backend->getName() . '/';
         }
     }
 

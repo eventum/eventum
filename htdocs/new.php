@@ -156,6 +156,7 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         "customer_id" => $customer_id,
         "contact_id"  => User::getCustomerContactID($usr_id),
         "contract_id" => $customer_details['contract_id'],
+        "customer"    => $customer_details,
     ));
 }
 

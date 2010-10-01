@@ -38,4 +38,4 @@ if (!Customer::hasCustomerIntegration($prj_id)) {
     echo "No customer integration for specified project.";exit;
 }
 
-require Customer::getPath($prj_id) . basename($page) . '.php';
+require Customer::getPath($prj_id) . "/htdocs/" . basename($page) . '.php';
