@@ -430,7 +430,7 @@ class Auth
      * @access  public
      * @return  integer The project ID
      */
-    function getCurrentProject()
+    function getCurrentProject($redirect=true)
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie)) {
@@ -442,7 +442,11 @@ class Auth
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            self::redirect("select_project.php");
+            if ($redirect) {
+                self::redirect("select_project.php");
+            } else {
+                return false;
+            }
         }
         return $cookie["prj_id"];
     }
