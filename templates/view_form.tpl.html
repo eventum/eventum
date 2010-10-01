@@ -248,7 +248,7 @@ function collapseDescription()
           {/if}
           <td width="150" valign="top" class="default_white" nowrap
              bgcolor="{if $columns[1][row].title_bgcolor != '' }{$columns[1][row].title_bgcolor}{else}{$cell_color}{/if}">
-            <b>{$columns[1][row].title}:</b>
+            <b>{$columns[1][row].title}{if $columns[1][row].title}:{/if}</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
             {if $columns[1][row].tpl_block == 'notification_list'}
