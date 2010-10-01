@@ -51,7 +51,13 @@ class Template_Helper
     function Template_Helper()
     {
         $this->smarty = new Smarty;
-        $this->smarty->template_dir = APP_TPL_PATH;
+        $this->smarty->template_dir = array(APP_TPL_PATH, APP_LOCAL_PATH);
+
+        // See if there is an active project and if so customer integration.
+        // If so, add the customer template path to include path
+//        if ((Auth::getCurrentProject(false) != false) && (Customer::hasCustomerIntegration(Auth::getCurrentProject()))) {
+//            $this->smarty->template_dir[] = APP_LOCAL_PATH . "/customer/";
+//        }
         $this->smarty->compile_dir = APP_TPL_COMPILE_PATH;
         $this->smarty->plugins_dir  = array(APP_INC_PATH . '/smarty', 'plugins');
         $this->smarty->config_dir = '';
