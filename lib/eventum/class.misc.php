@@ -400,7 +400,11 @@ class Misc
      */
     function getRandomTip($tpl)
     {
-        $tip_dir = $tpl->smarty->template_dir . "/tips";
+        $tpl_dir = $tpl->smarty->template_dir;
+        if (is_array($tpl_dir)) {
+            $tpl_dir = $tpl_dir[0];
+        }
+        $tip_dir = $tpl_dir . "/tips";
         $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
