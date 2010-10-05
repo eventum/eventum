@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Removed assignment by reference in db helper to prevent PHP warning (Bryan)
 - Fix problem with custom field validation (Bryan) [lp#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
+- Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)
