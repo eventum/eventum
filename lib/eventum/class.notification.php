@@ -374,7 +374,8 @@ class Notification
                     pre_title,
                     pri_title,
                     sta_title,
-                    sta_color
+                    sta_color,
+                    sev_title
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
@@ -385,6 +386,10 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  ON
