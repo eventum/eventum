@@ -176,7 +176,7 @@ function disableAuthFields(f, bool)
 {else}
 <br />
 <table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="install_form" action="{$smarty.server.PHP_SELF}" method="post" onSubmit="javascript:return validateForm(this);">
+<form name="install_form" action="{$smarty.server.PHP_SELF}" method="post" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="install">
   <tr>
     <td>
@@ -195,7 +195,7 @@ function disableAuthFields(f, bool)
             {assign var="tabindex" value="1"}
             <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" class="default" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="hostname"}
-            <input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'is_ssl');">{t}SSL Server{/t}</a></b></span>
+            <input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'is_ssl');">{t}SSL Server{/t}</a></b></span>
           </td>
         </tr>
         <tr>
@@ -223,7 +223,7 @@ function disableAuthFields(f, bool)
           <td>
             <input type="text" name="db_name" class="default" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name}">
             {include file="error_icon.tpl.html" field="db_name"}
-            <input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db == 'yes'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
+            <input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db == 'yes'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
           </td>
         </tr>
         <tr>
@@ -236,7 +236,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td colspan="2" class="default" align="center">
-            <input type="checkbox" name="drop_tables" value="yes" tabindex="{$tabindex}" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'drop_tables');">{t}Drop Tables If They Already Exist{/t}</a></b>
+            <input type="checkbox" name="drop_tables" value="yes" tabindex="{$tabindex}" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'drop_tables');">{t}Drop Tables If They Already Exist{/t}</a></b>
           </td>
         </tr>
         <tr>
@@ -263,7 +263,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td colspan="2" class="default" align="center">
-            <input type="checkbox" name="alternate_user" value="yes" onClick="javascript:toggleAlternateUserFields();"  tabindex="{$tabindex}" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">{t}Use a Separate MySQL User for Normal Eventum Use{/t}</a></b>
+            <input type="checkbox" name="alternate_user" value="yes" onClick="toggleAlternateUserFields();"  tabindex="{$tabindex}" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">{t}Use a Separate MySQL User for Normal Eventum Use{/t}</a></b>
           </td>
         </tr>
         <tr id="alternate_user_row">
@@ -299,7 +299,7 @@ function disableAuthFields(f, bool)
                           </tr>
                           <tr>
                             <td colspan="2" class="default" align="center">
-                              <input type="checkbox" name="create_user" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">{t}Create User and Permissions{/t}</a></b>
+                              <input type="checkbox" name="create_user" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'create_user');">{t}Create User and Permissions{/t}</a></b>
                             </td>
                           </tr>
                         </table>
@@ -399,10 +399,10 @@ function disableAuthFields(f, bool)
             <b>{t}Requires Authentication?{/t}&nbsp;</b>
           </td>
           <td width="80%" class="default">
-            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);" tabindex="{$tabindex}">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);" tabindex="{$tabindex}">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">{t}No{/t}</a>
+            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="disableAuthFields(this.form, false);" tabindex="{$tabindex}">
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="disableAuthFields(this.form, true);" tabindex="{$tabindex}">
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">{t}No{/t}</a>
           </td>
         </tr>
         <tr>

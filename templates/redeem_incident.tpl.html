@@ -27,7 +27,7 @@
         <tr bgcolor="{$row_color}" class="default">
           <td>
             {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} ({t}Total{/t}: {$type_details.total}; {t}Left{/t}: {$type_details.total-$type_details.redeemed})</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} ({t}Total{/t}: {$type_details.total}; {t}Left{/t}: {$type_details.total-$type_details.redeemed})</a>
           </td>
         </tr>
         {/foreach}
@@ -52,7 +52,7 @@
     //-->
     </script>
     {if not $current_user_prefs.close_popup_windows}
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
     {/if}
     </td>
   </tr>

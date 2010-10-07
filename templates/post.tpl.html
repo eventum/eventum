@@ -56,7 +56,7 @@ function validateForm(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="report_form" action="{$smarty.server.PHP_SELF}" method="get" onSubmit="javascript:return validateForm(this);">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="post_form" value="yes">
   <tr>
     <td>
@@ -119,7 +119,7 @@ function validateForm(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 {assign var="tabindex" value=1}
   <tr>
@@ -172,7 +172,7 @@ function validateForm(f)
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
               <tr>
                 <td>
-                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="{$tabindex++}" {if $user_agent == 'ie'}onChange="javascript:addFileRow();"{/if}>
+                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="{$tabindex++}" {if $user_agent == 'ie'}onChange="addFileRow();"{/if}>
                 </td>
               </tr>
             </table>
@@ -192,7 +192,7 @@ function validateForm(f)
                 rows = fileTable.rows.length;
                 newRow = fileTable.insertRow(rows);
                 cell = newRow.insertCell(0);
-                cell.innerHTML = '<input class="shortcut" size="40" type="file" name="file[]" onChange="javascript:addFileRow();">';
+                cell.innerHTML = '<input class="shortcut" size="40" type="file" name="file[]" onChange="addFileRow();">';
             }
             //-->
             </script>

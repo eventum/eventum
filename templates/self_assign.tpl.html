@@ -21,7 +21,7 @@
   <br />
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
   {/if}
 {else}
@@ -42,7 +42,7 @@
             <input type="radio" name="target" value="replace" checked>
           </td>
           <td class="default" bgcolor="{$dark_color}">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('assign_form', 'target', 0);">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('assign_form', 'target', 0);">
             {t count=$assigned_users|@count plural="Replace current assignees with Myself."}Replace current assignee with Myself.{/t}</a></b>
           </td>
         </tr>
@@ -51,7 +51,7 @@
             <input type="radio" name="target" value="add">
           </td>
           <td bgcolor="{$dark_color}" class="default">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('assign_form', 'target', 1);">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('assign_form', 'target', 1);">
             {t}Add Myself to list of assignees.{/t}</a></b>
           </td>
         </tr>

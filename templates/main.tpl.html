@@ -33,7 +33,7 @@ function hideClosed(hide_closed)
                 <td>
                   <span class="default"><b>{t}Overall Stats{/t}</b></span><br />
                   <span class="default">
-                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="javascript:hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
+                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
                   </span>
                   <hr size="1" noshade color="{$cell_color}">
                 </td>

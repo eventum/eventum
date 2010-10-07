@@ -21,7 +21,7 @@ function removeCheckins(f)
 </script>
 {/literal}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form onSubmit="javascript:return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
+<form onSubmit="return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
 <input type="hidden" name="cat" value="remove_checkin">
   <tr>
     <td width="100%">
@@ -33,7 +33,7 @@ function removeCheckins(f)
           <td align="right" class="default">
           [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
+            [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
             {/if}
           </td>
         </tr>
@@ -43,7 +43,7 @@ function removeCheckins(f)
               <tr bgcolor="{$cell_color}">
                 <td width="5">
                   {if $checkins != ""}
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
                 <td class="default_white" nowrap>{t}Date{/t}</td>
@@ -92,7 +92,7 @@ function removeCheckins(f)
               <tr>
                 <td colspan="6" bgcolor="{$cell_color}">
                   {if $checkins != ""}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   <input type="submit" class="button" value="{t}Remove Selected{/t}">
                   {/if}
                 </td>

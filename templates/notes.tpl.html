@@ -54,7 +54,7 @@ function replyNote(note_id, issue_id)
           <td align="right" class="default">
             [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
+            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
             {/if}
           </td>
         </tr>
@@ -75,19 +75,19 @@ function replyNote(note_id, issue_id)
                 <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
                 <td class="default" align="center">{$smarty.section.i.iteration}</td>
                 <td align="center">
-                  <a title="{t}reply to this note{/t}" href="javascript:void(null);" onClick="javascript:replyNote({$notes[i].not_id}, {$smarty.get.id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
+                  <a title="{t}reply to this note{/t}" href="javascript:void(null);" onClick="replyNote({$notes[i].not_id}, {$smarty.get.id|intval});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
                 </td>
                 <td class="default">{$notes[i].not_created_date}</td>
                 <td class="default">
                   {$notes[i].usr_full_name|escape:"html"}
-                  {if $current_user_id == $notes[i].not_usr_id OR $current_role >= $roles.manager}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
+                  {if $current_user_id == $notes[i].not_usr_id OR $current_role >= $roles.manager}[ <a class="link" href="javascript:void(null);" onClick="deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">
-                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
                   {if $notes[i].not_has_attachment}
-                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
+                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
                   {/if}
-                  {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="javascript:convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
+                  {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
                 </td>
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
@@ -101,7 +101,7 @@ function replyNote(note_id, issue_id)
               {if $current_role > $roles.reporter}
               <tr>
                 <td colspan="6" bgcolor="{$internal_color}" align="center">
-                  <input type="button" value="{t}Post Internal Note{/t}" class="button" onClick="javascript:postInternalNote({$smarty.get.id});">
+                  <input type="button" value="{t}Post Internal Note{/t}" class="button" onClick="postInternalNote({$smarty.get.id|intval});">
                 </td>
               </tr>
               {/if}
