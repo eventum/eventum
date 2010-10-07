@@ -56,7 +56,7 @@ function validateAccount(f)
           </td>
         </tr>
         {if $current_role != $roles.customer}
-        <form name="update_name_form" onSubmit="javascript:return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_name_form" onSubmit="return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_name">
         {if $update_name_result}
         <tr>
@@ -85,7 +85,7 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
-        <form name="update_email_form" onSubmit="javascript:return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_email">
         {if $update_email_result}
         <tr>
@@ -115,7 +115,7 @@ function validateAccount(f)
         </tr>
         </form>
         {/if}
-        <form name="update_password_form" onSubmit="javascript:return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_password">
         {if $update_password_result}
         <tr>
@@ -161,7 +161,7 @@ function validateAccount(f)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <form name="account_prefs_form" onSubmit="javascript:return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
+        <form name="account_prefs_form" onSubmit="return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="cat" value="update_account">
         <tr>
           <td class="default">

@@ -16,7 +16,7 @@ function validateForm(f)
 </script>
 {/literal}
 
-<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="post" onSubmit="javascript:return validateForm(this);">
+<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="post" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
   <tr>

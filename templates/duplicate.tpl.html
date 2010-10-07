@@ -60,7 +60,7 @@ function validateDuplicate(f)
 {/literal}
 </script>
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="duplicate_form" onSubmit="javascript:return validateDuplicate(this);" method="post" action="duplicate.php">
+<form name="duplicate_form" onSubmit="return validateDuplicate(this);" method="post" action="duplicate.php">
 <input type="hidden" name="cat" value="mark">
 <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
   <tr>

@@ -56,7 +56,7 @@ function removeOption(f, field_name)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <form name="notification_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        <form name="notification_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
         {if $smarty.get.cat == 'edit'}
         <input type="hidden" name="cat" value="update">
         <input type="hidden" name="id" value="{$smarty.get.id|intval}">
@@ -142,7 +142,7 @@ function removeOption(f, field_name)
             </script>
             {/literal}
             <table border="0" width="100%" cellpadding="1" cellspacing="1">
-              <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="delete">
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>

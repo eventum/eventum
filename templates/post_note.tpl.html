@@ -68,7 +68,7 @@ function setSignature(f)
 //-->
 </script>
 {/literal}
-<form onSubmit="javascript:return validate(this);" name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form onSubmit="return validate(this);" name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="cat" value="post_note">
 <input type="hidden" name="parent_id" value="{$parent_note_id}">
 <input type="hidden" name="issue_id" value="{$issue_id}">

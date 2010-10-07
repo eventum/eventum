@@ -95,7 +95,7 @@ function validateForm(f)
     </td>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <form action="emails.php" method="get" name="email_filter_form" onSubmit="javascript:return validateForm(this);">
+        <form action="emails.php" method="get" name="email_filter_form" onSubmit="return validateForm(this);">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="hidden1" value="">
         <tr>

@@ -81,7 +81,7 @@
               //-->
               </script>
               {/literal}
-              <form name="anon_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="anon_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="update">
               <input type="hidden" name="prj_id" value="{$prj_id}">
               <tr>

@@ -21,7 +21,7 @@
               //-->
               </script>
               {/literal}
-              <form name="reminder_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+              <form name="reminder_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="return checkFormSubmission(this, 'validateForm');">
               <input type="hidden" name="rem_id" value="{$rem_id}">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
@@ -232,7 +232,7 @@
                   </script>
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="rem_id" value="{$rem_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>

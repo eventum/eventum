@@ -21,7 +21,7 @@ function removeCheckins(f)
 </script>
 {/literal}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form onSubmit="javascript:return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
+<form onSubmit="return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
 <input type="hidden" name="cat" value="remove_checkin">
   <tr>
     <td width="100%">

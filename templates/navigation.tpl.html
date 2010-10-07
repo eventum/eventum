@@ -76,7 +76,7 @@
           //-->
           </script>
           {/literal}
-          <form onSubmit="javascript:return setCurrentProject();" target="_active_project" method="post" action="{$rel_url}switch.php{if $is_frame == "yes"}?is_frame=yes{/if}">
+          <form onSubmit="return setCurrentProject();" target="_active_project" method="post" action="{$rel_url}switch.php{if $is_frame == "yes"}?is_frame=yes{/if}">
           <td nowrap width="50%" bgcolor="{$light_color}">
             <select name="current_project" class="shortcut">
               {html_options options=$active_projects selected=$current_project}
@@ -108,7 +108,7 @@
             {/if}
           </td>
           </form>
-          <form onSubmit="javascript:return validateIssueID(this);" target="_top" method="get" action="{$rel_url}view.php">
+          <form onSubmit="return validateIssueID(this);" target="_top" method="get" action="{$rel_url}view.php">
           <td width="2%" nowrap bgcolor="{$light_color}" align="right">
             <label for="shortcut" accesskey="4"></label>
             <input type="text" id="shortcut" name="id" value="id #"

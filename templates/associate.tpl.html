@@ -72,7 +72,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<form name="associate_email_form" method="post" action="associate.php" onSubmit="javascript:return validateForm(this);">
+<form name="associate_email_form" method="post" action="associate.php" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="associate">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
 {section name="i" loop=$emails}

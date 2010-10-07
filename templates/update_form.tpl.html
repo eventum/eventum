@@ -138,7 +138,7 @@ function closeIssue(issue_id)
 {/if}
 
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form onSubmit="javascript:return validateForm(this);" name="update_form" method="post" action="update.php">
+<form onSubmit="return validateForm(this);" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="issue_id" value="{$issue.iss_id}">
 <input type="hidden" name="resolution" value="{$issue.iss_res_id}">

@@ -187,7 +187,7 @@ function disableCustomFields(disable)
             {include file="help_link.tpl.html" topic="adv_search"}
           </td>
         </tr>
-        <form name="custom_filter_form" method="get" action="list.php" onSubmit="javascript:return validateForm(this);">
+        <form name="custom_filter_form" method="get" action="list.php" onSubmit="return validateForm(this);">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="hidden1" value="">
         <input type="hidden" name="hidden2" value="">
@@ -589,7 +589,7 @@ function disableCustomFields(disable)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="2">
-        <form onSubmit="javascript:return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
+        <form onSubmit="return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
         <input type="hidden" name="cat" value="delete_filter">
         <tr>
           <td bgcolor="{$light_color}" colspan="3">

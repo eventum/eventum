@@ -55,7 +55,7 @@ function disableAR(flag)
 //-->
 </script>
 {/literal}
-<form name="convert_note_form" method="post" action="convert_note.php" onSubmit="javascript:return validateForm(this);">
+<form name="convert_note_form" method="post" action="convert_note.php" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="convert">
 <input type="hidden" name="note_id" value="{$note_id}">
 <table align="center" width="100%" cellpadding="3">

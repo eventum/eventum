@@ -123,7 +123,7 @@ function setSignature(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="close_form" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');" method="post" action="close.php">
+<form name="close_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="close.php">
 <input type="hidden" name="cat" value="close">
 <input type="hidden" name="issue_id" value="{$issue_id}">
   <tr>
