@@ -139,9 +139,9 @@
                         </select>
                       </td>
                       <td>
-                        <input class="shortcut" type="button" value="{t}Add{/t} &gt;&gt;" onClick="javascript:addUserList(this.form);">
+                        <input class="shortcut" type="button" value="{t}Add{/t} &gt;&gt;" onClick="addUserList(this.form);">
                         <br /><br />
-                        <input class="shortcut" type="button" value="{t}Remove{/t}" onClick="javascript:removeUserList(this.form);">
+                        <input class="shortcut" type="button" value="{t}Remove{/t}" onClick="removeUserList(this.form);">
                       </td>
                       <td>
                         <select class="default" name="user_list[]" multiple size="4">
@@ -169,9 +169,9 @@
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="alert_group_leader" value="1" {if $info.rma_alert_group_leader}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'alert_group_leader', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="alert_group_leader" value="0" {if not $info.rma_alert_group_leader}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 1);">{t}No{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'alert_group_leader', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
@@ -180,9 +180,9 @@
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="alert_irc" value="1" {if $info.rma_alert_irc}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'alert_irc', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="alert_irc" value="0" {if not $info.rma_alert_irc}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 1);">{t}No{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'alert_irc', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
@@ -236,7 +236,7 @@
                     <input type="hidden" name="rem_id" value="{$rem_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
                       <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                       <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
@@ -272,7 +272,7 @@
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="4" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="{t}Delete{/t}" class="button">

@@ -21,7 +21,7 @@
   <br />
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
   {/if}
 {else}
@@ -53,7 +53,7 @@ function validateForm(f)
         <tr>
           <td colspan="2" bgcolor="{$cell_color}">
             <input class="button" type="submit" value="{t}Update Values{/t}">&nbsp;&nbsp;
-            <input class="button" type="button" value="{t}Close{/t}" onClick="javascript:window.close();">
+            <input class="button" type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>
       </table>

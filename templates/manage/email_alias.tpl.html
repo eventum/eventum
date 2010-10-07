@@ -37,7 +37,7 @@ setTimeout('window.close()', 2000);
             <b>{t}New Alias{/t}: </b>
             </td></tr><tr><td>
             <input type="text" name="alias" class="default" size="50" value="">
-            <input type="button" class="button" value="{t}Save{/t}" onClick="javascript:save_email(this.form);">
+            <input type="button" class="button" value="{t}Save{/t}" onClick="save_email(this.form);">
           </td>
 		</tr>
 		</form>
@@ -83,7 +83,7 @@ setTimeout('window.close()', 2000);
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
                 <td width="1%" bgcolor="{$cell_color}">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td bgcolor="{$cell_color}" width="50%" class="default_white">{t}Email Alias{/t}</td>
               </tr>
@@ -106,11 +106,11 @@ setTimeout('window.close()', 2000);
               {/section}
               <tr>
                 <td bgcolor="{$cell_color}" width="1%" align="center">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td colspan="3" bgcolor="{$cell_color}">
-                  <input type="button" class="button" value="{t}Delete Alias{/t}" onClick="javascript:removeEmails(this.form);">
-                  <input type="button" class="button" value="{t}Close{/t}" onClick="javascript:window.close();">
+                  <input type="button" class="button" value="{t}Delete Alias{/t}" onClick="removeEmails(this.form);">
+                  <input type="button" class="button" value="{t}Close{/t}" onClick="window.close();">
                 </td>
               </tr>
               <tr>

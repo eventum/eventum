@@ -59,10 +59,10 @@ function validateForm(f)
             {if $has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">{t}Issue{/t}</a><br />
+                            onClick="checkRadio('custom_fields_report', 'group_by', 0);">{t}Issue{/t}</a><br />
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">{t}Customer{/t}</a><br />
+                            onClick="checkRadio('custom_fields_report', 'group_by', 1);">{t}Customer{/t}</a><br />
             {else}
               <input type="hidden" name="group_by" value="issue">
             {/if}
