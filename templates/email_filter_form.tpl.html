@@ -130,7 +130,7 @@ function validateForm(f)
                 <td nowrap width="50%">
                   <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="toggleDateFields(this.form, 'arrival_date');">
                   <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
-                  <select name="arrival_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="arrival_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>

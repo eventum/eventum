@@ -115,7 +115,7 @@ function checkDelete(f)
                         <b>{t}Users:{/t} *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
-                        <select name="users[]" multiple size="6" class="default" onChange="javascript:showSelections('group_form', 'users[]');">
+                        <select name="users[]" multiple size="6" class="default" onChange="showSelections('group_form', 'users[]');">
                             {html_options options=$user_options selected=$info.users}
                         </select>
                         {include file="error_icon.tpl.html" field="users[]"}

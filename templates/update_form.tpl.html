@@ -294,7 +294,7 @@ function closeIssue(issue_id)
             {else}
             <input type="hidden" name="keep_assignments" value="no">
             {/if}
-            <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple class="default" name="assignments[]" onChange="javascript:showSelections('update_form', 'assignments[]');">
+            <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple class="default" name="assignments[]" onChange="showSelections('update_form', 'assignments[]');">
               {if $issue.has_inactive_users}
               {html_options options=$users}
               {else}

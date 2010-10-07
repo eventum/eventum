@@ -126,7 +126,7 @@ function setSignature(f)
               {else}
                 size="{$users|@count}"
               {/if}
-              multiple name="note_cc[]" onChange="javascript:showSelections('post_note_form', 'note_cc[]');">
+              multiple name="note_cc[]" onChange="showSelections('post_note_form', 'note_cc[]');">
               {html_options options=$users}
             </select><input class="button" type="button" value="{t}Clear Selections{/t}" onClick="clearExtraRecipients();"><br />
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="note_cc[]" callbacks="new Array('showSelections(\'post_note_form\', \'note_cc[]\')')"}

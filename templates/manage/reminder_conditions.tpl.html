@@ -100,7 +100,7 @@
                   <b>{t}Field:{/t}</b>
                 </td>
                 <td width="90%" bgcolor="{$light_color}">
-                  <select name="field" class="default" onChange="javascript:setValueField(this.form);">
+                  <select name="field" class="default" onChange="setValueField(this.form);">
                     <option value="-1">{t}Please choose an option{/t}</option>
                     {html_options options=$fields selected=$info.rlc_rmf_id}
                   </select>

@@ -428,7 +428,7 @@
                   <table>
                     <tr>
                       <td>
-                        <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled" {if $setup.subject_based_routing.status == 'enabled'}checked{/if} onChange="javascript:toggleSubjectBasedRouting(this.form, true);">
+                        <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled" {if $setup.subject_based_routing.status == 'enabled'}checked{/if} onChange="toggleSubjectBasedRouting(this.form, true);">
                         <label for="subject_based_routing_enabled" class="default">{t}Enabled{/t}</label>&nbsp;&nbsp;
                         <input id="subject_based_routing_disabled" type="radio" name="subject_based_routing[status]" value="disabled" {if $setup.subject_based_routing.status != 'enabled'}checked{/if} onClick="toggleSubjectBasedRouting(this.form, false);">
                         <label for="subject_based_routing_disabled" class="default">{t}Disabled{/t}</label><br />

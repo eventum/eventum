@@ -70,7 +70,7 @@
               <b>{t}Project{/t}:</b>
             </td>
             <td bgcolor="{$light_color}">
-              <select name="project" class="default" onChange="javascript:populateCustomerComboBox(this.form);">
+              <select name="project" class="default" onChange="populateCustomerComboBox(this.form);">
                 <option value="-1">{t}Please choose an option{/t}</option>
                 {html_options options=$project_list selected=$info.cno_prj_id}
               </select>

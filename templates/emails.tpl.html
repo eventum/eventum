@@ -246,7 +246,7 @@ jQuery(function() { toggleIssueField(); });
                 </td>
                 <td nowrap align="center">
                   <span class="default_white">{t}Rows per Page:{/t}</span>
-                  <select name="page_size" class="default" onChange="javascript:resizePager(this.form);">
+                  <select name="page_size" class="default" onChange="resizePager(this.form);">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>
                     <option value="25" {if $options.rows == 25}selected{/if}>25</option>

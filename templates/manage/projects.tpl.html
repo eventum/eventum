@@ -145,7 +145,7 @@
                   <b>{t}Project Lead{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="lead_usr_id" class="default" onChange="javascript:checkLeadSelection(this.form);">
+                  <select name="lead_usr_id" class="default" onChange="checkLeadSelection(this.form);">
                     {html_options options=$user_options selected=$info.prj_lead_usr_id}
                   </select>
                 </td>

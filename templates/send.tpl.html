@@ -203,7 +203,7 @@ function setSignature(f)
           <td bgcolor="{$light_color}">
             {if $issue_id == ''}
                 <input type="text" name="to" class="default" size="50" value="{$email.sup_from|escape:"html"}" onKeyUp="autoComplete(this, contact_list);">
-                {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+                {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
                 {include file="error_icon.tpl.html" field="to"}
             {else}
                 <span class="default">{t}Issue{/t} #{$issue_id} {t}Notification List{/t} ({t}Members{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{if $subscribers.customers != ''}, {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if})</span>
@@ -216,7 +216,7 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="cc" class="default" size="50" value="{$email.cc|escape:"html"}" {if $read_only == 1}readonly{/if}>
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
         </tr>
         {if $issue_id and $current_role != $roles.customer and $read_only != 1}

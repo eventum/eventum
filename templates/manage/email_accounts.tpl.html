@@ -131,7 +131,7 @@
                   <b>{t}Type:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="type" class="default" onChange="javascript:toggleFolderField(this.form);">
+                  <select name="type" class="default" onChange="toggleFolderField(this.form);">
                     <option value="-1"></option>
                     <option value="imap" {if $info.ema_type == 'imap'}selected{/if}>{t}IMAP{/t}</option>
                     <option value="imap/ssl" {if $info.ema_type == 'imap/ssl'}selected{/if}>{t}IMAP over SSL{/t}</option>

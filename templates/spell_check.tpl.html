@@ -112,7 +112,7 @@ function buildSuggestionBox()
             <b>{t}Misspelled Words:{/t}</b>
           </td>
           <td width="60%" bgcolor="{$light_color}">
-            <select class="default" name="misspelled_words" onChange="javascript:buildSuggestionBox();">
+            <select class="default" name="misspelled_words" onChange="buildSuggestionBox();">
             {html_options options=$spell_check.words}
             </select>
           </td>

@@ -153,7 +153,7 @@
                   <b>{t}Project{/t}:</b>
                 </td>
                 <td width="85%" bgcolor="{$light_color}">
-                  <select name="project" class="default" onChange="javascript:populateIssueComboBox(this.form);">
+                  <select name="project" class="default" onChange="populateIssueComboBox(this.form);">
                     <option value="">{t}Please choose an option{/t}</option>
                     {html_options options=$project_list selected=$info.rem_prj_id}
                   </select>

@@ -184,7 +184,7 @@ function runCustomFilter(f)
           </td>
           <td align="right">
             <span class="default">{t}Saved Searches{/t}:</span>
-            <select name="custom_filter" class="default" onChange="javascript:runCustomFilter(this.form);">
+            <select name="custom_filter" class="default" onChange="runCustomFilter(this.form);">
               <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
               {html_options options=$custom}
             </select>

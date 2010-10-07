@@ -120,7 +120,7 @@
                   <b>{t}Action Type:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <select name="type" class="default" onChange="javascript:checkActionType(this.form);">
+                  <select name="type" class="default" onChange="checkActionType(this.form);">
                     <option value="-1">{t}Please choose an option{/t}</option>
                     {html_options options=$action_types selected=$info.rma_rmt_id}
                   </select>

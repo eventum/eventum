@@ -69,7 +69,7 @@
                   <b>{t}Project:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="project" class="default" onChange="javascript:retrieveStatuses(this.form);">
+                  <select name="project" class="default" onChange="retrieveStatuses(this.form);">
                     <option value="-1">{t}Please choose an option{/t}</option>
                   {html_options options=$project_list selected=$project_id}
                   </select>

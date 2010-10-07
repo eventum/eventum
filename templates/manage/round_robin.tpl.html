@@ -73,7 +73,7 @@
                   {else}
                     {assign var=project value=$smarty.request.prj_id}
                   {/if}
-                  <select name="project" class="default" onChange="javascript:populateUserComboBox(this.form);">
+                  <select name="project" class="default" onChange="populateUserComboBox(this.form);">
                   <option value="-1">{t}Please choose an option{/t}</option>
                   {html_options options=$project_list selected=$project}
                   </select>
