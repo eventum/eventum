@@ -9,7 +9,7 @@
                     <tr>
                       <td class="default"><b>{t}Manage Issue Reminders{/t}</b></td>
                       <td align="right" class="default">
-                        <b>{if $smarty.get.cat == 'edit'}{t}Updating Reminder{/t} #{$smarty.get.id}{else}{t}Creating New Reminder{/t}{/if}</b>
+                        <b>{if $smarty.get.cat == 'edit'}{t}Updating Reminder{/t} #{$smarty.get.id|intval}{else}{t}Creating New Reminder{/t}{/if}</b>
                       </td>
                     </tr>
                   </table>
@@ -41,7 +41,7 @@
               <script type="text/javascript">
               <!--
               var url = '{$smarty.server.PHP_SELF}';
-              var rem_id = '{$smarty.get.id}';
+              var rem_id = '{$smarty.get.id|intval}';
               {literal}
               function populateIssueComboBox(f)
               {
@@ -144,7 +144,7 @@
               <form name="reminder_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id}">
+              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
               {else}
               <input type="hidden" name="cat" value="new">
               {/if}

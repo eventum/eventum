@@ -30,7 +30,7 @@ function associate(f)
     var field = getFormElement(f, 'issue');
     if (field.options[field.selectedIndex].value == 'new') {
 {/literal}
-        loadReport({$smarty.get.id});
+        loadReport({$smarty.get.id|intval});
 {literal}
     } else {
         var hidden_field = getFormElement(f, 'issue');
@@ -42,7 +42,7 @@ function openRawHeaders()
 {
 {/literal}
     var features = 'width=740,height=580,top=60,left=60,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var headersWin = window.open('view_headers.php?id={$smarty.get.id}', '_headers', features);
+    var headersWin = window.open('view_headers.php?id={$smarty.get.id|intval}', '_headers', features);
     headersWin.focus();
 {literal}
 }
@@ -99,7 +99,7 @@ setTimeout('closeAndRefresh()', 2000);
 {else}
 <form method="post" action="popup.php" name="view_email">
 <input type="hidden" name="cat" value="associate">
-<input type="hidden" name="item[]" value="{$smarty.get.id}">
+<input type="hidden" name="item[]" value="{$smarty.get.id|intval}">
 <table align="center" width="100%" cellpadding="3">
   <tr>
     <td>
@@ -224,7 +224,7 @@ setTimeout('closeAndRefresh()', 2000);
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:reply({$smarty.get.ema_id}, {$smarty.get.id});">
+            <input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:reply({$smarty.get.ema_id}, {$smarty.get.id|intval});">
             <input class="button" type="button" value="{t}Close{/t}" onClick="javascript:window.close();">
           </td>
         </tr>

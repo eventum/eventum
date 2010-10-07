@@ -34,7 +34,7 @@
         {/literal}
         <form name="set_initial_impact_form" onSubmit="javascript:return validateImpactAnalysis(this);" target="_impact" method="post" action="popup.php">
         <input type="hidden" name="cat" value="set_initial_impact">
-        <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+        <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
         <tr>
           <td class="default" nowrap>
             <b>{t}Impact Analysis{/t}</b>
@@ -185,7 +185,7 @@
               {/literal}
               <form name="add_requirement_form" onSubmit="javascript:return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
               <input type="hidden" name="cat" value="add_requirement">
-              <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+              <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
               <tr bgcolor="{$light_color}">
                 <td align="center" width="100%">
                   <textarea name="new_requirement" rows="4" style="width: 97%"></textarea>

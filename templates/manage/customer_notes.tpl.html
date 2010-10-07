@@ -5,7 +5,7 @@
           <script type="text/javascript">
           <!--
           var url = '{$smarty.server.PHP_SELF}';
-          var cno_id = '{$smarty.get.id}';
+          var cno_id = '{$smarty.get.id|intval}';
           {literal}
           function populateCustomerComboBox(f)
           {
@@ -31,7 +31,7 @@
           <form name="release_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
           {if $smarty.get.cat == 'edit'}
           <input type="hidden" name="cat" value="update">
-          <input type="hidden" name="id" value="{$smarty.get.id}">
+          <input type="hidden" name="id" value="{$smarty.get.id|intval}">
           {else}
           <input type="hidden" name="cat" value="new">
           {/if}

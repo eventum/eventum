@@ -27,7 +27,7 @@ function reply(account_id, email_id)
 {
 {/literal}
     var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('send.php?issue_id={$smarty.get.id}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
+    var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
     emailWin.focus();
 {literal}
 }
@@ -58,7 +58,7 @@ function sendEmail(account_id, issue_id)
           <td align="right" class="default">
             [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $current_role > $roles.standard_user}
-            [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
+            [ <a href="mail_queue.php?iss_id={$smarty.get.id|intval}" class="link" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
             {/if}
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="support_emails_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('support_emails');">{get_innerhtml element_name="support_emails" total=$emails|@count}</a> ]
@@ -138,7 +138,7 @@ function sendEmail(account_id, issue_id)
                       </td>
                       <td align="center">
                         {if $ema_id != ""}
-                        <input type="button" class="button" value="{t}Send Email{/t}" onClick="javascript:sendEmail({$ema_id}, {$smarty.get.id});">
+                        <input type="button" class="button" value="{t}Send Email{/t}" onClick="javascript:sendEmail({$ema_id}, {$smarty.get.id|intval});">
                         {/if}
                       </td>
                     </tr>

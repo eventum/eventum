@@ -15,7 +15,7 @@ function addTimeEntry()
 {
     var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     {/literal}
-    var issue_id = {$smarty.get.id};
+    var issue_id = {$smarty.get.id|intval};
     var popupWin = window.open('time_tracking.php?iss_id=' + issue_id, 'time_tracking_' + issue_id, features);
     {literal}
     popupWin.focus();

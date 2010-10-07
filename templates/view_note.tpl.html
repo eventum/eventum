@@ -24,7 +24,7 @@ function openRawHeaders()
 {
 {/literal}
     var features = 'width=740,height=580,top=60,left=60,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var headersWin = window.open('view_headers.php?cat=note&id={$smarty.get.id}', '_headers', features);
+    var headersWin = window.open('view_headers.php?cat=note&id={$smarty.get.id|intval}', '_headers', features);
     headersWin.focus();
 {literal}
 }
@@ -141,7 +141,7 @@ function viewNote(id)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$internal_color}" align="center">
-            <input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:reply({$smarty.get.id}, {$issue_id});">&nbsp;&nbsp;
+            <input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:reply({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
             <input class="button" type="button" value="{t}Close{/t}" onClick="javascript:window.close();">
           </td>
         </tr>

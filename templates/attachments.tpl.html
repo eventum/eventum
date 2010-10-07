@@ -96,7 +96,7 @@ function uploadFile(issue_id)
               {if $current_role > $roles.viewer}
               <tr>
                 <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$cell_color}" align="center">
-                  <input type="button" class="button" value="{t}Upload File{/t}" onClick="javascript:uploadFile({$smarty.get.id});">
+                  <input type="button" class="button" value="{t}Upload File{/t}" onClick="javascript:uploadFile({$smarty.get.id|intval});">
                 </td>
               </tr>
               {/if}

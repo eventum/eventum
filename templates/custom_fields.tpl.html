@@ -40,7 +40,7 @@ function updateCustomFields(issue_id)
                   {if $custom_fields[i].fld_type == 'textarea'}
                     {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
                   {else}
-                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id}
+                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id|intval}
                   {/if}
                 </td>
               </tr>
@@ -54,7 +54,7 @@ function updateCustomFields(issue_id)
               {if $current_role > $roles.reporter and $custom_fields != ""}
               <tr>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
-                  <input class="button" type="button" value="{t}Update{/t}" onClick="javascript:updateCustomFields({$smarty.get.id});">
+                  <input class="button" type="button" value="{t}Update{/t}" onClick="javascript:updateCustomFields({$smarty.get.id|intval});">
                 </td>
               </tr>
               {/if}
