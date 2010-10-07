@@ -459,7 +459,7 @@ class Report
 
 
     /**
-     * Returns data on when support emails are sent/recieved.
+     * Returns data on when support emails are sent/received.
      *
      * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT

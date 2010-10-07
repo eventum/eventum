@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Fix problem with custom field validation (Bryan) [lp#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
 - Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
+- Changed 'recieved' to 'received' (Robbert-Jan Roos)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
