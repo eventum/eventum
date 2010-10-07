@@ -103,7 +103,7 @@
             {if $current_role != $roles.customer}
             <label for="search" accesskey="3"></label>
             <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15"
-              onBlur="javascript:if (this.value == '') this.value = '{t escape=js}keywords{/t}';" onFocus="javascript:if (this.value == '{t escape=js}keywords{/t}') this.value='';" class="shortcut">
+              onBlur="if (this.value == '') this.value = '{t escape=js}keywords{/t}';" onFocus="if (this.value == '{t escape=js}keywords{/t}') this.value='';" class="shortcut">
             <input type="submit" value="{t}Search{/t}" class="shortcut">
             {/if}
           </td>
@@ -112,7 +112,7 @@
           <td width="2%" nowrap bgcolor="{$light_color}" align="right">
             <label for="shortcut" accesskey="4"></label>
             <input type="text" id="shortcut" name="id" value="id #"
-              onBlur="javascript:if (this.value == '') this.value = 'id #';" onFocus="javascript:if (this.value == 'id #') this.value='';" size="5" class="shortcut">
+              onBlur="if (this.value == '') this.value = 'id #';" onFocus="if (this.value == 'id #') this.value='';" size="5" class="shortcut">
             {include file="error_icon.tpl.html" field="id"}
             <input type="submit" value="{t}Go{/t}" class="shortcut">
           </td>
