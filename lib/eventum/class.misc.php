@@ -402,7 +402,7 @@ class Misc
     {
         $tpl_dir = $tpl->smarty->template_dir;
         if (is_array($tpl_dir)) {
-            $tpl_dir = $tpl_dir[0];
+            $tpl_dir = $tpl_dir[1];
         }
         $tip_dir = $tpl_dir . "/tips";
         $files = self::getFileList($tip_dir);
