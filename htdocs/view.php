@@ -141,10 +141,13 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'title' =>  ev_gettext('Resolution'),
                     'data'  =>  $details['iss_resolution'],
             );
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Percentage Complete'),
-                    'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
-            );
+            if ((!isset($issue_fields_display['percent_complete'])) ||
+                ($issue_fields_display['percent_complete'] != false)) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Percentage Complete'),
+                        'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
+                );
+            }
             $column[0][] = array(
                     'title' =>  ev_gettext('Reporter'),
                     'tpl_block' =>  'reporter',
@@ -170,14 +173,20 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'title' =>  ev_gettext('Associated Issues'),
                     'tpl_block' =>  'associated_issues',
             );
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Expected Resolution Date'),
-                    'tpl_block' =>  'expected_resolution',
-            );
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Estimated Dev. Time'),
-                    'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
-            );
+            if ((!isset($issue_fields_display['expected_resolution'])) ||
+                ($issue_fields_display['expected_resolution'] != false)) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Expected Resolution Date'),
+                        'tpl_block' =>  'expected_resolution',
+                );
+            }
+            if ((!isset($issue_fields_display['estimated_dev_time'])) ||
+                ($issue_fields_display['estimated_dev_time'] != false)) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Estimated Dev. Time'),
+                        'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                );
+            }
             if ($role_id > User::getRoleID('Customer')) {
                 $column[1][] = array(
                         'title' =>  ev_gettext('Duplicates'),

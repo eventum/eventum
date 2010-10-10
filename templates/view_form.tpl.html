@@ -246,11 +246,14 @@ function collapseDescription()
             {/if}
           </td>
           {/if}
+          {if $smarty.section.row.rownum <= $columns[1]|@count}
           <td width="150" valign="top" class="default_white" nowrap
-             bgcolor="{if $columns[1][row].title_bgcolor != '' }{$columns[1][row].title_bgcolor}{else}{$cell_color}{/if}">
+             bgcolor="{if $columns[1][row].title_bgcolor != '' }{$columns[1][row].title_bgcolor}{else}{$cell_color}{/if}"
+             {if $smarty.section.row.rownum == $columns[1]|@count && $col_1_last_rowspan != ''}rowspan="{$col_1_last_rowspan}"{/if}>
             <b>{$columns[1][row].title}{if $columns[1][row].title}:{/if}</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default"
+            {if $smarty.section.row.rownum == $columns[1]|@count && $col_1_last_rowspan != ''}rowspan="{$col_1_last_rowspan}"{/if}>
             {if $columns[1][row].tpl_block == 'notification_list'}
                 {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
                 {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
@@ -308,6 +311,7 @@ function collapseDescription()
                 {$columns[1][row].data|escape:"html"}
             {/if}
           </td>
+          {/if}
         </tr>
         {/section}
         <tr>
