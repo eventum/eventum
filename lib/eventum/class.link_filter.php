@@ -265,9 +265,8 @@ class Link_Filter
 
         // process issue link seperatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
-        $text = self::processIssueSpecificLinks($text);
 
-        $filters = array_merge(self::getFilters($prj_id), Workflow::getLinkFilters($prj_id));
+        $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
         if (count($filters) > 0) {
             foreach ($filters as $filter) {
                 list($pattern, $replacement) = $filter;
@@ -301,10 +300,26 @@ class Link_Filter
      * Returns an array of patterns and replacements.
      *
      * @access  private
+     * @return  array An array of patterns and replacements
+     */
+    private static function getFilters()
+    {
+        // link eventum issue ids
+        $patterns = array(
+            array('/issue:?\s\#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
+        );
+        return $patterns;
+    }
+
+
+    /**
+     * Returns an array of patterns and replacements.
+     *
+     * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
-    function getFilters($prj_id)
+    private static function getFiltersByProject($prj_id)
     {
         static $filters;
 
@@ -334,6 +349,7 @@ class Link_Filter
         }
 
         $filters[$prj_id] = $res;
+
         return $res;
     }
 
@@ -345,7 +361,7 @@ class Link_Filter
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */
-    private static function callbackIssueLinks($matches)
+    private static function LinkFilter_issues($matches)
     {
         // check if the issue is still open
         if (Issue::isClosed($matches['issue_id'])) {
@@ -356,20 +372,5 @@ class Link_Filter
         $issue_title = Issue::getTitle($matches['issue_id']);
         $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
         return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
-    }
-
-    /**
-     * Method used to parse the given string for references to issues in the
-     * system, and creating links to those if any are found.
-     *
-     * @access  private
-     * @param   string $text The text to search against
-     * @param   string $class The CSS class to use on the actual links
-     * @return  string The parsed string
-     */
-    private static function processIssueSpecificLinks($text, $class = "link")
-    {
-        $text = preg_replace_callback("/issue:?\s\#?(?P<issue_id>\d+)/i", array('self', 'callbackIssueLinks'), $text);
-        return $text;
     }
 }
