@@ -295,6 +295,37 @@ class Link_Filter
         return self::processText(Auth::getCurrentProject(), $text);
     }
 
+    /**
+     * Callback function to be used from template class.
+     *
+     * @access  public
+     * @param   string $text The text to process
+     * @param   integer $issue_id The ID of the issue from where attachment list is taken
+     * @return  string the processed text.
+     */
+    function activateAttachmentLinks($text, $issue_id)
+    {
+        // build list of files to replace, so duplicate matches will always
+        // take last matching filename.
+        $files = array();
+        foreach (Attachment::getList($issue_id) as $attachment) {
+            foreach ($attachment['files'] as $file) {
+                $title = sprintf(ev_gettext("download file (%s - %s)"), $file['iaf_filename'], $file['iaf_filesize']);
+                $link = sprintf('<a class="link" title="%s" href="download.php?cat=attachment&id=%d">%s</a>',
+                    htmlspecialchars($title), htmlspecialchars($file['iaf_id']),
+                    htmlspecialchars($file['iaf_filename'])
+                );
+                $files[$file['iaf_filename']] = $link;
+            }
+        }
+
+        foreach ($files as $file => $link) {
+            // we use attachment prefix, so we don't accidentally match already processed urls
+            $text = preg_replace("/attachment:?\s*\Q$file\E\b/", $link, $text);
+        }
+        return $text;
+    }
+
 
     /**
      * Returns an array of patterns and replacements.

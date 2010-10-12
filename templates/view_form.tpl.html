@@ -435,7 +435,7 @@ function collapseDescription()
             <img src="images/blank.gif" height="1" width="150">
           </td>
           <td bgcolor="{$dark_color}" id="issue_description" class="default">
-            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"}</span>
+            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
             <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a class="link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
             {literal}
             <script type="text/javascript">
