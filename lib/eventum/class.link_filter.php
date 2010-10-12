@@ -267,15 +267,13 @@ class Link_Filter
         $text = Misc::activateLinks($text, $class);
 
         $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
-        if (count($filters) > 0) {
-            foreach ($filters as $filter) {
-                list($pattern, $replacement) = $filter;
-                // if replacement may be a callback, provided by workflow
-                if (is_callable($replacement)) {
-                    $text = preg_replace_callback($pattern, $replacement, $text);
-                } else {
-                    $text = preg_replace($pattern, $replacement, $text);
-                }
+        foreach ((array )$filters as $filter) {
+            list($pattern, $replacement) = $filter;
+            // if replacement may be a callback, provided by workflow
+            if (is_callable($replacement)) {
+                $text = preg_replace_callback($pattern, $replacement, $text);
+            } else {
+                $text = preg_replace($pattern, $replacement, $text);
             }
         }
 
