@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-08 11:44+0300\n"
-"PO-Revision-Date: 2010-09-08 12:21+0000\n"
-"Last-Translator: Simon <simon.shlomo@poil.dk>\n"
+"POT-Creation-Date: 2010-10-07 15:03+0300\n"
+"PO-Revision-Date: 2010-10-20 10:47+0000\n"
+"Last-Translator: nanker <Unknown>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-09-09 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-10-21 05:03+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -29,7 +29,7 @@ msgstr ""
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -103,7 +103,7 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:172
 msgid "(archived)"
-msgstr ""
+msgstr "(Arkiveret)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(i timer, tak)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Vælg en --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -195,19 +195,19 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr ""
+msgstr "ALLE"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "OG / ELLER"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "Tilføj handling"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -328,7 +328,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr ""
+msgstr "Tilføj nye filer"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
@@ -7757,6 +7757,12 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Warning: your issue is currently quarantined."
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid ""
+"We received a message from %1 and created an issue from it. Since you were a "
+"recipient of the original message, we are sending you the issue details."
 msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
