@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Changed 'recieved' to 'received' (Robbert-Jan Roos)
 - XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
 - Make attachment names linked in issue Initial Description (Elan Ruusamäe)
+- Do not notify plain text password to user when account details have been changed (Elan Ruusamäe)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
