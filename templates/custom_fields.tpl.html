@@ -40,7 +40,8 @@ function updateCustomFields(issue_id)
                   {if $custom_fields[i].fld_type == 'textarea'}
                     {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
                   {else}
-                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id|intval}
+                    {assign var=issue_id value=$smarty.get.id|intval}
+                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$issue_id}
                   {/if}
                 </td>
               </tr>
