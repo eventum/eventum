@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
 - Changed 'recieved' to 'received' (Robbert-Jan Roos)
 - XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
+- Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
