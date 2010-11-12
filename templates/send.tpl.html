@@ -24,7 +24,7 @@ setTimeout('closeAndRefresh()', 2000);
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
 {/if}
 {elseif $draft_result != ''}
@@ -48,7 +48,7 @@ setTimeout('closeAndRefresh()', 2000);
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
 {/if}
 {else}
@@ -147,7 +147,7 @@ function setSignature(f)
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
 <script type="text/javascript" src="{$rel_url}js/autocomplete.js"></script>
-<form onSubmit="javascript:return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
+<form onSubmit="return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id}">
 <input type="hidden" name="ema_id" value="{$ema_id}">
@@ -202,8 +202,8 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}">
             {if $issue_id == ''}
-                <input type="text" name="to" class="default" size="50" value="{$email.sup_from|escape:"html"}" onKeyUp="javascript:autoComplete(this, contact_list);">
-                {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+                <input type="text" name="to" class="default" size="50" value="{$email.sup_from|escape:"html"}" onKeyUp="autoComplete(this, contact_list);">
+                {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
                 {include file="error_icon.tpl.html" field="to"}
             {else}
                 <span class="default">{t}Issue{/t} #{$issue_id} {t}Notification List{/t} ({t}Members{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{if $subscribers.customers != ''}, {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if})</span>
@@ -216,7 +216,7 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="cc" class="default" size="50" value="{$email.cc|escape:"html"}" {if $read_only == 1}readonly{/if}>
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
         </tr>
         {if $issue_id and $current_role != $roles.customer and $read_only != 1}
@@ -226,7 +226,7 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="checkbox" name="add_unknown" value="yes">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_unknown');">{t}Add Unknown Recipients to Issue Notification List{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('send_email_form', 'add_unknown');">{t}Add Unknown Recipients to Issue Notification List{/t}</a>
           </td>
         </tr>
         {else}
@@ -247,7 +247,7 @@ function setSignature(f)
             <span class="default"><b>{t}Canned Responses{/t}:</b></span>
             <select name="email_response" class="default">
               {html_options options=$canned_responses}
-            </select>&nbsp;<input type="button" class="shortcut" value="{t}Use Canned Response{/t}" onClick="javascript:setResponseBody(this.form);"><br />
+            </select>&nbsp;<input type="button" class="shortcut" value="{t}Use Canned Response{/t}" onClick="setResponseBody(this.form);"><br />
             {/if}
             <textarea name="message" rows="15" style="width: 97%" {if $read_only == 1}readonly{/if}>{$email.seb_body|escape:"html"}{if $current_user_prefs.auto_append_sig == 'yes' && $body_has_sig_already != 1}
 
@@ -296,20 +296,20 @@ function setSignature(f)
                 <td align="center">
                   {if $read_only != 1}
                   <input class="button" type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
-                  <input class="button" type="button" value="{t}Reset{/t}" onClick="javascript:resetForm(this.form);">&nbsp;&nbsp;
+                  <input class="button" type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
                   {/if}
-                  <input class="button" type="button" value="{t}Cancel{/t}" onClick="javascript:confirmCloseWindow();">
+                  <input class="button" type="button" value="{t}Cancel{/t}" onClick="confirmCloseWindow();">
                 </td>
                 {if $app_setup.spell_checker == 'enabled'}
                 <td align="center" width="150">
-                  <input class="button" type="button" value="{t}Check Spelling{/t}" onClick="javascript:checkSpelling('send_email_form', 'message');">
+                  <input class="button" type="button" value="{t}Check Spelling{/t}" onClick="checkSpelling('send_email_form', 'message');">
                 </td>
                 {/if}
                 {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_sig != 'yes'}
                 <td class="default_white" align="right" width="150">
                   <nobr>
-                  <input type="checkbox" name="add_email_signature" value="yes" onClick="javascript:setSignature(this.form);">
-                  <a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_email_signature');setSignature(getForm('send_email_form'));">{t}Add Email Signature{/t}</a>
+                  <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
+                  <a id="white_link" class="white_link" href="javascript:void(null);" onClick="toggleCheckbox('send_email_form', 'add_email_signature');setSignature(getForm('send_email_form'));">{t}Add Email Signature{/t}</a>
                   &nbsp;&nbsp;
                   </nobr>
                 </td>
@@ -324,9 +324,9 @@ function setSignature(f)
           <td bgcolor="{if $hide_email_buttons == 'yes'}{$cell_color}{else}{$dark_color}{/if}" colspan="2">
             {if $read_only != 1}
             {if $smarty.get.cat == 'view_draft'}
-            <input type="button" class="button" value="{t}Save Draft Changes{/t}" onClick="javascript:updateDraft(this.form);">
+            <input type="button" class="button" value="{t}Save Draft Changes{/t}" onClick="updateDraft(this.form);">
             {else}
-            <input type="button" class="button" value="{t}Save as Draft{/t}" onClick="javascript:saveDraft(this.form);">
+            <input type="button" class="button" value="{t}Save as Draft{/t}" onClick="saveDraft(this.form);">
             {/if}
             {/if}
           </td>

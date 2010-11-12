@@ -15,7 +15,7 @@ function addTimeEntry()
 {
     var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     {/literal}
-    var issue_id = {$smarty.get.id};
+    var issue_id = {$smarty.get.id|intval};
     var popupWin = window.open('time_tracking.php?iss_id=' + issue_id, 'time_tracking_' + issue_id, features);
     {literal}
     popupWin.focus();
@@ -35,7 +35,7 @@ function addTimeEntry()
           <td align="right" class="default">
           [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="time_tracker_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('time_tracker');">{get_innerhtml element_name="time_tracker" total=$time_entries|@count}</a> ]
+            [ <a id="time_tracker_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('time_tracker');">{get_innerhtml element_name="time_tracker" total=$time_entries|@count}</a> ]
             {/if}
           </td>
         </tr>
@@ -57,7 +57,7 @@ function addTimeEntry()
                 <td class="default" nowrap>{$time_entries[i].ttr_created_date}</td>
                 <td class="default" nowrap>
                   {$time_entries[i].usr_full_name}
-                  {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}
+                  {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">{$time_entries[i].formatted_time}</td>
                 <td class="default" nowrap>{$time_entries[i].ttc_title}</td>

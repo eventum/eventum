@@ -88,7 +88,7 @@ class Misc
     function getToolCaption()
     {
         $setup = Setup::load();
-        return @$setup['tool_caption'] ? $setup['tool_caption'] : APP_NAME;
+        return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
     }
 
 

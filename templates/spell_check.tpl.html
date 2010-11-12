@@ -112,7 +112,7 @@ function buildSuggestionBox()
             <b>{t}Misspelled Words:{/t}</b>
           </td>
           <td width="60%" bgcolor="{$light_color}">
-            <select class="default" name="misspelled_words" onChange="javascript:buildSuggestionBox();">
+            <select class="default" name="misspelled_words" onChange="buildSuggestionBox();">
             {html_options options=$spell_check.words}
             </select>
           </td>
@@ -130,8 +130,8 @@ function buildSuggestionBox()
         {/if}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
-            {if $spell_check.total_words > 0}<input class="button" type="button" value="{t}Fix Spelling{/t}" onClick="javascript:fixSpelling();">&nbsp;&nbsp;{/if}
-            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
+            {if $spell_check.total_words > 0}<input class="button" type="button" value="{t}Fix Spelling{/t}" onClick="fixSpelling();">&nbsp;&nbsp;{/if}
+            <input class="button" type="button" value="Close" onClick="window.close();">
           </td>
         </tr>
       </table>

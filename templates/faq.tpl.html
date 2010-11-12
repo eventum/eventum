@@ -26,7 +26,7 @@
   {/if} 
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:window.close();">{t}Close Window{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="window.close();">{t}Close Window{/t}</a></span>
   </center>
   {/if}
 {else}
@@ -64,7 +64,7 @@
                     {section name="i" loop=$faqs}
                     {cycle values=$cycle assign="row_color"}
                     <tr bgcolor="{$row_color}">
-                      <td class="default"><b><a class="link" href="javascript:void(null);" onClick="javascript:openFAQEntry({$faqs[i].faq_id});" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
+                      <td class="default"><b><a class="link" href="javascript:void(null);" onClick="openFAQEntry({$faqs[i].faq_id});" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
                       <td class="default">{$faqs[i].faq_updated_date}</td>
                     </tr>
                     {/section}

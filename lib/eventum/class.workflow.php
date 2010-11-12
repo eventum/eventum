@@ -305,7 +305,7 @@ class Workflow
 
 
     /**
-     * Called when an email is recieved.
+     * Called when an email is received.
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.

@@ -83,10 +83,10 @@
               //-->
               </script>
               {/literal}
-              <form name="email_account_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="email_account_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id}">
+              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
               {else}
               <input type="hidden" name="cat" value="new">
               {/if}
@@ -131,7 +131,7 @@
                   <b>{t}Type:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="type" class="default" onChange="javascript:toggleFolderField(this.form);">
+                  <select name="type" class="default" onChange="toggleFolderField(this.form);">
                     <option value="-1"></option>
                     <option value="imap" {if $info.ema_type == 'imap'}selected{/if}>{t}IMAP{/t}</option>
                     <option value="imap/ssl" {if $info.ema_type == 'imap/ssl'}selected{/if}>{t}IMAP over SSL{/t}</option>
@@ -199,17 +199,17 @@
                 </td>
                 <td bgcolor="{$light_color}" width="80%" class="default">
                   <input type="checkbox" name="get_only_new" value="1" {if $info.ema_get_only_new}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'get_only_new', 0);">{t}Only Download Unread Messages{/t}</a><br />
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'get_only_new', 0);">{t}Only Download Unread Messages{/t}</a><br />
                   <input type="checkbox" name="leave_copy" value="1" {if $smarty.get.cat == 'edit'}{if $info.ema_leave_copy}checked{/if}{else}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'leave_copy', 0);">{t}Leave Copy of Messages On Server{/t}</a><br />
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'leave_copy', 0);">{t}Leave Copy of Messages On Server{/t}</a><br />
                   <input type="checkbox" name="use_routing" value="1" {if $info.ema_use_routing}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'use_routing', 0);">{t escape="none"}Use account for non-subject based email/note/draft routing.{/t}</a><br />
-                    <b>{t}Note{/t}:</b> {t}If you check this, you cannot leave a copy of messages on the server.{/t}
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'use_routing', 0);">{t escape="none"}Use account for non-subject based email/note/draft routing.{/t}</a><br />
+                    <b>{t}Note{/t}:</b>: {t}If you check this, you cannot leave a copy of messages on the server.{/t}
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input class="button" type="button" value="{t}Test Settings{/t}" onClick="javascript:testSettings(this.form);">
+                  <input class="button" type="button" value="{t}Test Settings{/t}" onClick="testSettings(this.form);">
                   {if $smarty.get.cat == 'edit'}
                   <input class="button" type="submit" value="{t}Update Account{/t}">
                   {else}
@@ -245,10 +245,10 @@
                   </script>
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Associated Project{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Hostname{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
@@ -279,7 +279,7 @@
                     {/section}
                     <tr bgcolor="{$cell_color}">
                       <td width="4" align="center">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="7" align="center">
                         <input type="submit" value="{t}Delete{/t}" class="button">

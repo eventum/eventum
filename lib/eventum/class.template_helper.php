@@ -57,6 +57,7 @@ class Template_Helper
         $this->smarty->plugins_dir  = array(APP_INC_PATH . '/smarty', 'plugins');
         $this->smarty->config_dir = '';
         $this->smarty->register_modifier("activateLinks", array('Link_Filter', 'activateLinks'));
+        $this->smarty->register_modifier("activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
         $this->smarty->register_modifier("formatCustomValue", array('Custom_Field', 'formatValue'));
     }
 

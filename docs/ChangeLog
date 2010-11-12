@@ -10,6 +10,11 @@ Eventum Issue Tracking System
 - Fix problem with custom field validation (Bryan) [lp#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
 - Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
+- Changed 'recieved' to 'received' (Robbert-Jan Roos)
+- XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
+- Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
+- Make attachment names linked in issue Initial Description (Elan Ruusamäe)
+- Do not notify plain text password to user when account details have been changed (Elan Ruusamäe)
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)

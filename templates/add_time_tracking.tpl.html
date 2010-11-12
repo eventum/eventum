@@ -21,7 +21,7 @@
     <br />
     {if not $current_user_prefs.close_popup_windows}
     <center>
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
     </center>
     {/if}
 {else}
@@ -142,7 +142,7 @@ function calcDateDiff(f, type, element)
   <tr>
     <td>
       <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center">
-      <form name="add_time_form" onSubmit="javascript:return validateTimeForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+      <form name="add_time_form" onSubmit="return validateTimeForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
       <input type="hidden" name="cat" value="add_time">
       <input type="hidden" name="issue_id" value="{$issue_id}">
         <tr>
@@ -177,7 +177,7 @@ function calcDateDiff(f, type, element)
                 <td bgcolor="{$light_color}" width="100%">
                   {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
                   {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
-                  <a href="javascript:void(null);" onClick="javascript:updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+                  <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
               </tr>
 
@@ -186,7 +186,7 @@ function calcDateDiff(f, type, element)
                 <td bgcolor="{$light_color}" width="100%">
                   {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"'}&nbsp;
                   {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"' display_seconds=false}
-                  <a href="javascript:void(null);" onClick="javascript:updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+                  <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
               </tr>
 

@@ -60,15 +60,15 @@ function validateDuplicate(f)
 {/literal}
 </script>
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="duplicate_form" onSubmit="javascript:return validateDuplicate(this);" method="post" action="duplicate.php">
+<form name="duplicate_form" onSubmit="return validateDuplicate(this);" method="post" action="duplicate.php">
 <input type="hidden" name="cat" value="mark">
-<input type="hidden" name="issue_id" value="{$smarty.get.id}">
+<input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>{t}Mark Issue as Duplicate{/t}</b> ({t}Issue ID:{/t} <a href="{$rel_url}view.php?id={$smarty.get.id}" class="link">{$smarty.get.id}</a>)
+            <b>{t}Mark Issue as Duplicate{/t}</b> ({t}Issue ID:{/t} <a href="{$rel_url}view.php?id={$smarty.get.id|intval}" class="link">{$smarty.get.id|intval}</a>)
           </td>
         </tr>
         <tr>
@@ -76,7 +76,7 @@ function validateDuplicate(f)
             <b>{t}Duplicated Issue:{/t} *</b>
           </td>
           <td bgcolor="{$light_color}">
-            {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id error_message="You must enter the ID of an issue that does not have a duplicate status." exclude_duplicates=1}
+            {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id|intval error_message="You must enter the ID of an issue that does not have a duplicate status." exclude_duplicates=1}
           </td>
         </tr>
         <tr>
@@ -91,7 +91,7 @@ function validateDuplicate(f)
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
-                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="javascript:history.go(-1);"></td>
+                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
                 <td width="100%" align="center"><input class="button" type="submit" value="{t}Mark Issue as Duplicate{/t}"></td>
               </tr>
             </table>

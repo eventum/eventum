@@ -176,10 +176,10 @@
               {/foreach}
               //-->
               </script>
-              <form name="custom_field_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="custom_field_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id}">
+              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
               {else}
               <input type="hidden" name="cat" value="new">
               {/if}
@@ -242,12 +242,12 @@
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
-                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
-                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a><br />
-                  <input type="checkbox" name="close_form" value="1" {if $info.fld_close_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'close_form', 0);checkRequiredFields();">{t}Close Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'close_form_required', 0);">{t}Required Field{/t}</a>
+                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="close_form" value="1" {if $info.fld_close_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form', 0);checkRequiredFields();">{t}Close Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form_required', 0);">{t}Required Field{/t}</a>
                   </span>
                 </td>
               </tr>
@@ -258,9 +258,9 @@
                 <td bgcolor="{$light_color}">
                   <span class="default">
                   <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
                   <input type="radio" name="list_display" value="0" {if $info.fld_list_display != 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 1);">{t}No{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 1);">{t}No{/t}</a>
                   </span>
                 </td>
               </tr>
@@ -269,18 +269,18 @@
                   <b>{t}Field Type{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="field_type" value="text" {if $info.fld_type == 'text'}checked{/if} onClick="javascript:toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;<br />
-                  <input type="radio" name="field_type" value="textarea" {if $info.fld_type == 'textarea'}checked{/if} onClick="javascript:toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">{t}Textarea{/t}</a>&nbsp;<br />
-                  <input type="radio" name="field_type" value="combo" {if $info.fld_type == 'combo'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">{t}Combo Box{/t}</a>&nbsp;<br />
-                  <input type="radio" name="field_type" value="multiple" {if $info.fld_type == 'multiple'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a><br />
-                  <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a><br />
-                  <input type="radio" name="field_type" value="integer" {if $info.fld_type == 'integer'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 5);toggleCustomOptionsField(true);">{t}Integer{/t}</a><br /><br />
+                  <input type="radio" name="field_type" value="text" {if $info.fld_type == 'text'}checked{/if} onClick="toggleCustomOptionsField(true);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;<br />
+                  <input type="radio" name="field_type" value="textarea" {if $info.fld_type == 'textarea'}checked{/if} onClick="toggleCustomOptionsField(true);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">{t}Textarea{/t}</a>&nbsp;<br />
+                  <input type="radio" name="field_type" value="combo" {if $info.fld_type == 'combo'}checked{/if} onClick="toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">{t}Combo Box{/t}</a>&nbsp;<br />
+                  <input type="radio" name="field_type" value="multiple" {if $info.fld_type == 'multiple'}checked{/if} onClick="toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a><br />
+                  <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a><br />
+                  <input type="radio" name="field_type" value="integer" {if $info.fld_type == 'integer'}checked{/if} onClick="toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 5);toggleCustomOptionsField(true);">{t}Integer{/t}</a><br /><br />
                   <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{t}Warning{/t}: </b> {t}Changing field types can result in loss of data.{/t}<br /><br />
                 </td>
               </tr>
@@ -294,7 +294,7 @@
                       <td rowspan="2"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
                       <td valign="top">
                         <span class="default"><b>{t}Set available options{/t}:</b></span><br />
-                        <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="{t}Add{/t}" onClick="javascript:addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="javascript:updateFieldOption(this.form);">{/if}<br />
+                        <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="{t}Add{/t}" onClick="addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="updateFieldOption(this.form);">{/if}<br />
                       </td>
                       <td rowspan="3" class="default">
                         &nbsp;&nbsp;&nbsp;&nbsp;<b>{t}AND / OR{/t}</b>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -323,9 +323,9 @@
                             </td>
                             <td valign="top">
                               {if $smarty.get.cat == 'edit'}
-                              <input class="shortcut" type="button" name="edit_button" value="{t}Edit Option{/t}" onClick="javascript:editFieldOption(this.form);"><br />
+                              <input class="shortcut" type="button" name="edit_button" value="{t}Edit Option{/t}" onClick="editFieldOption(this.form);"><br />
                               {/if}
-                              <input class="shortcut" type="button" name="remove_button" value="{t}Remove{/t}" onClick="javascript:removeFieldOption(this.form);">
+                              <input class="shortcut" type="button" name="remove_button" value="{t}Remove{/t}" onClick="removeFieldOption(this.form);">
                             </td>
                           </tr>
                         </table>
@@ -389,10 +389,10 @@
                   </script>
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                       <td nowrap bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b></td>
                       <td width="15%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                       <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
@@ -435,7 +435,7 @@
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="6" bgcolor="{$cell_color}">
                         <input type="submit" value="{t}Delete{/t}" class="button">

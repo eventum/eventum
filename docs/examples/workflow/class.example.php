@@ -168,7 +168,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
 
     /**
-     * Called when a new message is recieved.
+     * Called when a new message is received.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.

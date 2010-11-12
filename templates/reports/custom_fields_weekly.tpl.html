@@ -16,7 +16,7 @@ function validateForm(f)
 </script>
 {/literal}
 
-<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="post" onSubmit="javascript:return validateForm(this);">
+<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="post" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
   <tr>
@@ -34,10 +34,10 @@ function validateForm(f)
           <td width="200" class="default" NOWRAP>
             <input type="radio" name="report_type" value="weekly" class="default" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
+                            onClick="checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
             <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
+                            onClick="checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
           </td>
         </tr>
         <tr id="week_row">
@@ -95,11 +95,11 @@ function validateForm(f)
           <td width="200" class="default" NOWRAP>
             <input type="checkbox" name="time_in_min" value="1" class="default" {if $smarty.post.time_in_min == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('custom_fields_report', 'time_in_min', 0)">{t}Time spent as minutes{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('custom_fields_report', 'time_in_min', 0)">{t}Time spent as minutes{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="time_per_user" value="1" class="default" {if $smarty.post.time_per_user == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('custom_fields_report', 'time_per_user', 0)">{t}Time spent per user{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('custom_fields_report', 'time_per_user', 0)">{t}Time spent per user{/t}</a>&nbsp;
             <br />
           </td>
         </tr>

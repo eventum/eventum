@@ -19,10 +19,10 @@
           <td width="200" class="default" NOWRAP>
             <input type="radio" name="report_type" value="weekly" class="default" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
+                            onClick="checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
             <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
+                            onClick="checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
           </td>
           <td rowspan="5">
             <input type="submit" value="{t}Generate{/t}" class="shortcut">
@@ -71,27 +71,27 @@
           <td width="200" class="default">
             <input type="checkbox" name="separate_closed" value="1" class="default" {if $smarty.request.separate_closed == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_closed', 0)">{t}Separate Closed Issues{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'separate_closed', 0)">{t}Separate Closed Issues{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="separate_status_changed" value="1" class="default" {if $smarty.request.separate_status_changed == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_status_changed', 0)">{t}Separate Only Status Changes{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'separate_status_changed', 0)">{t}Separate Only Status Changes{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="ignore_statuses" value="1" class="default" {if $smarty.request.ignore_statuses == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'ignore_statuses', 0)">{t}Ignore Issue Status Changes{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'ignore_statuses', 0)">{t}Ignore Issue Status Changes{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="show_per_issue" value="1" class="default" {if $smarty.request.show_per_issue == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'show_per_issue', 0)">{t}Show Times spent on issue{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'show_per_issue', 0)">{t}Show Times spent on issue{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="show_status" value="1" class="default" {if $smarty.request.show_status == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'show_status', 0)">{t}Show Status{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'show_status', 0)">{t}Show Status{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="show_priority" value="1" class="default" {if $smarty.request.show_priority == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'show_priority', 0)">{t}Show Priority{/t}</a>&nbsp;
+                            onClick="toggleCheckbox('weekly_report', 'show_priority', 0)">{t}Show Priority{/t}</a>&nbsp;
 
           </td>
         </tr>
