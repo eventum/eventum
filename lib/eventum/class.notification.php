@@ -1312,7 +1312,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function notifyIRC($project_id, $notice, $issue_id = false)
+    public static function notifyIRC($project_id, $notice, $issue_id = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();

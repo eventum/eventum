@@ -65,6 +65,8 @@ class Abstract_Workflow_Backend
 
 
     /**
+     * THIS METHOD IS NOW DEPRECATED AND ISN"T CALLED FROM ANYWHERE.
+     * USE handleAssignmentChange instead.
      * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID

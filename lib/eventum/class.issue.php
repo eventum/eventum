@@ -3472,7 +3472,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    function getAssignedUsers($issue_id)
+    public static function getAssignedUsers($issue_id)
     {
         $stmt = "SELECT
                     usr_full_name
@@ -3699,6 +3699,8 @@ class Issue
                 continue;
             }
 
+            $issue_details = Issue::getDetails($items[$i]);
+
             $updated_fields = array();
 
             // update assignment
@@ -3745,9 +3747,9 @@ class Issue
                         // add the assignment
                         self::addUserAssociation(Auth::getUserID(), $items[$i], $usr_id, false);
                         Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
-                        Workflow::handleAssignment(Auth::getCurrentProject(), $items[$i], Auth::getUserID());
                     }
                 }
+                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($issue_id), false);
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
                 $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
             }
