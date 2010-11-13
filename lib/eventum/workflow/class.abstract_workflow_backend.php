@@ -467,4 +467,13 @@ class Abstract_Workflow_Backend
     {
         return array();
     }
+
+
+    /**
+     * Returns if a user can update an issue. Return null to use default rules.
+     */
+    function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
 }

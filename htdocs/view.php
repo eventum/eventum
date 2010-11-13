@@ -221,6 +221,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'quarantine'          => Issue::getQuarantineInfo($issue_id),
                 'columns'             => $column,
+                'can_update'          => Issue::canUpdate($issue_id, $usr_id),
             ));
 
             if ($role_id != User::getRoleID('customer')) {

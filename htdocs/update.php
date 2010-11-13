@@ -66,7 +66,7 @@ $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');
-} elseif (!Issue::canAccess($issue_id, $usr_id)) {
+} elseif (!Issue::canUpdate($issue_id, $usr_id)) {
     $tpl->assign("auth_customer", 'denied');
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);

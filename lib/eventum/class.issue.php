@@ -4348,6 +4348,33 @@ class Issue
 
 
     /**
+     * Returns true if the user can update the issue
+     *
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean If the user can update the issue
+     */
+    public static function canUpdate($issue_id, $usr_id)
+    {
+        if (!self::canAccess($issue_id, $usr_id)) {
+            return false;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::canUpdateIssue($prj_id, $issue_id, $usr_id);
+        if (!is_null($workflow)) {
+            return $workflow;
+        }
+
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Customer")) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
      * Returns true if the specified issue is private, false otherwise
      *
      * @access  public

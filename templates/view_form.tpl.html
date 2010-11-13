@@ -376,7 +376,9 @@ function collapseDescription()
                 </td>
                 {/if}
                 <td width="100%" align="center">
+                  {if $can_update == true}
                   <input class="button" type="submit" value="{t}Update Issue{/t}">
+                  {/if}
                   {if $current_role >= $roles.standard_user and $app_setup.support_email == 'enabled' and $ema_id != ''}
                   &nbsp;<input class="button" type="button" value="{t}Reply{/t}" onClick="replyIssue({$issue.iss_id});">
                   {/if}

@@ -28,6 +28,7 @@ Eventum Issue Tracking System
 - Fixed permission check problem for close issue page (Bryan)
 - Changed "Custom Fields" to "Additional Details" on view issues page (Bryan)
 - Deprecated workflow "handleAssignment" in favor of "handleAssignmentChange" (Bryan)
+- Added workflow method to control if a user has access to update an issue (Bryan)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

@@ -704,4 +704,17 @@ class Workflow
         $backend =& self::_getBackend($prj_id);
         return $backend->getLinkFilters($prj_id);
     }
+
+
+    /**
+     * Returns if a user can update an issue. Return null to use default rules.
+     */
+    function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend =& self::_getBackend($prj_id);
+        return $backend->canUpdateIssue($prj_id, $issue_id, $usr_id);
+    }
 }
