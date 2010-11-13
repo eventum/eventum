@@ -675,3 +675,15 @@ ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_date date NULL DEFAU
 
 # October 6th
 ALTER TABLE eventum_issue ADD COLUMN iss_customer_contract_id int(11) unsigned AFTER iss_customer_id;
+
+
+##########################################
+### From here down needs merging into schema.sql and sql patch system
+
+# November 13th
+INSERT INTO reminder_field VALUES (null, 'Group', 'iss_grp_id', 'iss_grp_id', 0);
+
+ALTER TABLE resolution ADD COLUMN res_rank int(2) NOT NULL;
+
+
+

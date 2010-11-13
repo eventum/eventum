@@ -114,7 +114,8 @@ class Resolution
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  SET
-                    res_title='" . Misc::escapeString($_POST["title"]) . "'
+                    res_title='" . Misc::escapeString($_POST["title"]) . "',
+                    res_rank='" . Misc::escapeInteger($_POST["rank"]) . "'
                  WHERE
                     res_id=" . Misc::escapeInteger($_POST["id"]);
         $res = DB_Helper::getInstance()->query($stmt);
@@ -162,11 +163,12 @@ class Resolution
     {
         $stmt = "SELECT
                     res_id,
-                    res_title
+                    res_title,
+                    res_rank
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  ORDER BY
-                    res_title ASC";
+                    res_rank, res_title ASC";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -192,7 +194,7 @@ class Resolution
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  ORDER BY
-                    res_id ASC";
+                    res_rank, res_id ASC";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -219,9 +221,11 @@ class Resolution
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  (
                     res_title,
+                    res_rank,
                     res_created_date
                  ) VALUES (
                     '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeInteger($_POST['rank']) . "',
                     '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);

@@ -63,6 +63,15 @@
                 </td>
               </tr>
               <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Rank:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="rank" size="3" class="default" value="{$info.res_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
+                </td>
+              </tr>
+              <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input class="button" type="submit" value="{t}Update Resolution{/t}">
@@ -103,12 +112,14 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="20" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b></td>
                       <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
+                      <td width="20" nowrap bgcolor="{$row_color}" align="center" class="default">{$list[i].res_rank}</td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
                       </td>
