@@ -37,6 +37,9 @@
 
 class Reminder
 {
+    public static $debug = false;
+
+
     /**
      * Returns whether we are in "debug mode" or not. Returning true
      * here will enable all sorts of helpful messages in the reminder
@@ -47,7 +50,7 @@ class Reminder
      */
     function isDebug()
     {
-        return false;
+        return self::$debug;
     }
 
 
