@@ -8,7 +8,7 @@
 {if $is_message_sender}
 {t escape=no}We received a message from you and for your convenience, we created an issue that will be used by our staff to handle your message.{/t}
 {else}
-{t escape=no}We recieved a message from {$sender_name} and created an issue from it. Since you were a recipient of the original message, we are sending you the issue details.{/t}
+{t escape=no 1=$sender_name}We received a message from %1 and created an issue from it. Since you were a recipient of the original message, we are sending you the issue details.{/t}
 {/if}
 {/textformat}
 

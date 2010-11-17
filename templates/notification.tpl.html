@@ -56,10 +56,10 @@ function removeOption(f, field_name)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <form name="notification_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        <form name="notification_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
         {if $smarty.get.cat == 'edit'}
         <input type="hidden" name="cat" value="update">
-        <input type="hidden" name="id" value="{$smarty.get.id}">
+        <input type="hidden" name="id" value="{$smarty.get.id|intval}">
         {else}
         <input type="hidden" name="cat" value="insert">
         {/if}
@@ -89,7 +89,7 @@ function removeOption(f, field_name)
           </td>
           <td bgcolor="{$light_color}" nowrap>
             <input type="text" name="email" size="40" class="default" value="{if $info.sub_email != ''}{$info.sub_email}{else}{$current_email}{/if}">
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
@@ -98,10 +98,10 @@ function removeOption(f, field_name)
             <b>{t}Get a Notification When{/t}:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
+            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
           </td>
         </tr>
         <tr>
@@ -142,7 +142,7 @@ function removeOption(f, field_name)
             </script>
             {/literal}
             <table border="0" width="100%" cellpadding="1" cellspacing="1">
-              <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="delete">
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
@@ -172,7 +172,7 @@ function removeOption(f, field_name)
               <tr>
                 <td colspan="3" bgcolor="{$cell_color}" align="center">
                   <input type="submit" value="{t}Remove Selected{/t}" class="button">
-                  <input type="button" value="{t}Close{/t}" class="button" onClick="javascript:closeAndRefresh();">
+                  <input type="button" value="{t}Close{/t}" class="button" onClick="closeAndRefresh();">
                 </td>
               </tr>
               {/if}

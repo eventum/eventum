@@ -187,7 +187,7 @@ function disableCustomFields(disable)
             {include file="help_link.tpl.html" topic="adv_search"}
           </td>
         </tr>
-        <form name="custom_filter_form" method="get" action="list.php" onSubmit="javascript:return validateForm(this);">
+        <form name="custom_filter_form" method="get" action="list.php" onSubmit="return validateForm(this);">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="hidden1" value="">
         <input type="hidden" name="hidden2" value="">
@@ -271,7 +271,7 @@ function disableCustomFields(disable)
         </tr>
         <tr>
           <td align="center" class="default">
-            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'hide_closed');">{t}Hide Closed Issues{/t}</a>
+            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'hide_closed');">{t}Hide Closed Issues{/t}</a>
           </td>
           <td>
             <span class="default">{t}Rows Per Page{/t}:</span><br />
@@ -312,9 +312,9 @@ function disableCustomFields(disable)
                 </td>
                 <td width="80%" class="default">
                   <input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_authorized_issues');">{t}Authorized to Send Emails{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_authorized_issues');">{t}Authorized to Send Emails{/t}</a>
                   <input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">{t}In Notification List{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">{t}In Notification List{/t}</a>
                 </td>
               </tr>
             </table>
@@ -333,9 +333,9 @@ function disableCustomFields(disable)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="60%">
-                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'created_date');">
+                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" onClick="toggleDateFields(this.form, 'created_date');">
                   <span class="default"><label for="filter[created_date]">{t}Created{/t}:</label></span><br />
-                  <select name="created_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="created_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_created_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -376,9 +376,9 @@ function disableCustomFields(disable)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="60%">
-                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'updated_date');">
+                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" onClick="toggleDateFields(this.form, 'updated_date');">
                   <span class="default"><label for="filter[updated_date]">{t}Last Updated{/t}:</label></span><br />
-                  <select name="updated_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="updated_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_updated_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -420,9 +420,9 @@ function disableCustomFields(disable)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="60%">
-                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'first_response_date');">
+                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" onClick="toggleDateFields(this.form, 'first_response_date');">
                   <span class="default"><label for="filter[first_response_date]">{t}First Response by Staff{/t}:</label></span><br />
-                  <select name="first_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="first_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_first_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -464,9 +464,9 @@ function disableCustomFields(disable)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="60%">
-                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'last_response_date');">
+                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" onClick="toggleDateFields(this.form, 'last_response_date');">
                   <span class="default"><label for="filter[last_response_date]">{t}Last Response by Staff{/t}:</label></span><br />
-                  <select name="last_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="last_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_last_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -508,9 +508,9 @@ function disableCustomFields(disable)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="60%">
-                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'closed_date');">
+                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" onClick="toggleDateFields(this.form, 'closed_date');">
                   <span class="default"><label for="filter[closed_date]">{t}Status Closed{/t}:</label></span><br />
-                  <select name="closed_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <select name="closed_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_closed_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -571,7 +571,7 @@ function disableCustomFields(disable)
         </tr>
         <tr>
           <td colspan="5" align="center" bgcolor="{$light_color}">
-            <input class="button" type="button" value="{t}Save Search{/t}" onClick="javascript:saveCustomFilter(this.form);">
+            <input class="button" type="button" value="{t}Save Search{/t}" onClick="saveCustomFilter(this.form);">
           </td>
         </tr>
 	{/if}
@@ -589,7 +589,7 @@ function disableCustomFields(disable)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="2">
-        <form onSubmit="javascript:return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
+        <form onSubmit="return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
         <input type="hidden" name="cat" value="delete_filter">
         <tr>
           <td bgcolor="{$light_color}" colspan="3">
@@ -621,7 +621,7 @@ function disableCustomFields(disable)
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
               <tr>
                 <td align="left">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td align="right">
                   <input type="submit" value="{t}Remove Selected{/t}" class="button">

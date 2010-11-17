@@ -1,6 +1,6 @@
 
 <input class="lookup_field" name="{$lookup_field_name}" type="text" size="24" tabindex="{$tabindex}"
     value="{t}paste or start typing here{/t}" 
-    onBlur="javascript:this.value='{t}paste or start typing here{/t}';" 
-    onFocus="javascript:this.value='';" 
-    onKeyUp="javascript:lookupField(this.form, this, '{$lookup_field_target}', {if $callbacks != ""}{$callbacks}{else}null{/if});">
+    onBlur="this.value='{t}paste or start typing here{/t}';" 
+    onFocus="this.value='';" 
+    onKeyUp="lookupField(this.form, this, '{$lookup_field_target}', {if $callbacks != ""}{$callbacks}{else}null{/if});">

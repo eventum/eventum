@@ -21,7 +21,7 @@
   <br />
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
   {/if}
 {else}
@@ -72,7 +72,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<form name="associate_email_form" method="post" action="associate.php" onSubmit="javascript:return validateForm(this);">
+<form name="associate_email_form" method="post" action="associate.php" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="associate">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
 {section name="i" loop=$emails}
@@ -98,7 +98,7 @@ function validateForm(f)
             <input type="radio" name="target" value="email" checked>
           </td>
           <td bgcolor="{$dark_color}" class="default">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 0);">{t}Save Message{/t}{if $total_emails > 1}s{/if} {t}as{/t} {if $total_emails == 1}{t}an{/t} {/if}Email{if $total_emails > 1}s{/if}</a></b>
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 0);">{t}Save Message{/t}{if $total_emails > 1}s{/if} {t}as{/t} {if $total_emails == 1}{t}an{/t} {/if}Email{if $total_emails > 1}s{/if}</a></b>
           </td>
         </tr>
         <tr>
@@ -112,7 +112,7 @@ function validateForm(f)
             <input type="radio" name="target" value="reference">
           </td>
           <td bgcolor="{$dark_color}" class="default">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 1);">{t count=$total_emails plural="Save Message as Reference Emails"}Save Message as Reference Email{/t}</a></b>
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 1);">{t count=$total_emails plural="Save Message as Reference Emails"}Save Message as Reference Email{/t}</a></b>
           </td>
         </tr>
         <tr>
@@ -126,7 +126,7 @@ function validateForm(f)
             <input type="radio" name="target" value="note">
           </td>
           <td class="default" bgcolor="{$dark_color}">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 2);">{t count=$total_emails plural="Save Messages as an Internal Notes"}Save Message as an Internal Note{/t}</a></b>
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 2);">{t count=$total_emails plural="Save Messages as an Internal Notes"}Save Message as an Internal Note{/t}</a></b>
           </td>
         </tr>
         <tr>

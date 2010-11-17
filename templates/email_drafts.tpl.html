@@ -45,7 +45,7 @@ function showAllDrafts(thisBox)
           <td align="right" class="default">
             [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
           {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="drafts_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('drafts');">{get_innerhtml element_name="drafts" total=$drafts|@count}</a> ]
+            [ <a id="drafts_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('drafts');">{get_innerhtml element_name="drafts" total=$drafts|@count}</a> ]
             {/if}
           </td>
         </tr>
@@ -75,7 +75,7 @@ function showAllDrafts(thisBox)
                 <td width="20%" class="default" bgcolor="{$row_color}">{$drafts[i].to|escape:"html"}</td>
                 <td width="20%" class="default" nowrap bgcolor="{$row_color}">{$drafts[i].emd_updated_date}</td>
                 <td width="40%" class="default" bgcolor="{$row_color}">
-                  <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="javascript:viewDraft({$drafts[i].emd_id}, {$smarty.get.id});" class="link">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+                  <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewDraft({$drafts[i].emd_id}, {$smarty.get.id|intval});" class="link">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
                 </td>
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan=$draft_col_count}
@@ -92,9 +92,9 @@ function showAllDrafts(thisBox)
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td width="20%">&nbsp;</td>
-                      <td width="60%" align="center"><input type="button" value="{t}Create Draft{/t}" class="button" onClick="javascript:createDraft({$smarty.get.id});"></td>
+                      <td width="60%" align="center"><input type="button" value="{t}Create Draft{/t}" class="button" onClick="createDraft({$smarty.get.id|intval});"></td>
                       <td width="20%" align="right">
-                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">{t}Show All Drafts{/t}</label></span>
+                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">{t}Show All Drafts{/t}</label></span>
                       </td>
                     </tr>
                   </table>

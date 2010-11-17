@@ -32,16 +32,16 @@
         //-->
         </script>
         {/literal}
-        <form name="set_initial_impact_form" onSubmit="javascript:return validateImpactAnalysis(this);" target="_impact" method="post" action="popup.php">
+        <form name="set_initial_impact_form" onSubmit="return validateImpactAnalysis(this);" target="_impact" method="post" action="popup.php">
         <input type="hidden" name="cat" value="set_initial_impact">
-        <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+        <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
         <tr>
           <td class="default" nowrap>
             <b>{t}Impact Analysis{/t}</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="impact_analysis_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('impact_analysis');">{get_innerhtml element_name="impact_analysis"}</a> ]
+            [ <a id="impact_analysis_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('impact_analysis');">{get_innerhtml element_name="impact_analysis"}</a> ]
             {/if}
           </td>
         </tr>
@@ -108,12 +108,12 @@
           <td colspan="2" class="default" width="100%">
             <b>{t}Further Requirements{/t}:</b>
             <table width="100%" cellpadding="2" cellspacing="1">
-              <form onSubmit="javascript:return validateDeleteReq(this);" method="post" action="popup.php" target="_setImpact">
+              <form onSubmit="return validateDeleteReq(this);" method="post" action="popup.php" target="_setImpact">
               <input type="hidden" name="cat" value="delete_requirement">
               <tr bgcolor="{$cell_color}">
                 <td width="5">
                   {if $impacts != "" and $current_role > $roles.reporter}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
                 <td class="default_white">{t}Handler{/t}</td>
@@ -129,14 +129,14 @@
                 <td class="default" valign="top">{$impacts[i].isr_requirement} [submitted by {$impacts[i].submitter_name}]</td>
                 <td valign="top" class="default">
                   {if $impacts[i].formatted_dev_time == "00:00"}
-                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
+                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].formatted_dev_time}
                   {/if}
                 </td>
                 <td valign="top" class="default">
                   {if $impacts[i].isr_impact_analysis == ""}
-                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
+                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].isr_impact_analysis}
                   {/if}
@@ -145,7 +145,7 @@
               {if %i.last% && %i.total% > 0}
               <tr bgcolor="{$cell_color}">
                 <td colspan="5">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   <input type="submit" value="{t}Remove Selected{/t}" class="button">
                 </td>
               </tr>
@@ -183,9 +183,9 @@
               //-->
               </script>
               {/literal}
-              <form name="add_requirement_form" onSubmit="javascript:return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
+              <form name="add_requirement_form" onSubmit="return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
               <input type="hidden" name="cat" value="add_requirement">
-              <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+              <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
               <tr bgcolor="{$light_color}">
                 <td align="center" width="100%">
                   <textarea name="new_requirement" rows="4" style="width: 97%"></textarea>

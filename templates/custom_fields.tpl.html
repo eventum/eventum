@@ -23,7 +23,7 @@ function updateCustomFields(issue_id)
           <td align="right" class="default">
          [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="custom_fields_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_fields');">{get_innerhtml element_name="custom_fields" total=$custom_fields|@count}</a> ]
+            [ <a id="custom_fields_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('custom_fields');">{get_innerhtml element_name="custom_fields" total=$custom_fields|@count}</a> ]
             {/if}
           </td>
         </tr>
@@ -40,7 +40,8 @@ function updateCustomFields(issue_id)
                   {if $custom_fields[i].fld_type == 'textarea'}
                     {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
                   {else}
-                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id}
+                    {assign var=issue_id value=$smarty.get.id|intval}
+                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$issue_id}
                   {/if}
                 </td>
               </tr>
@@ -54,7 +55,7 @@ function updateCustomFields(issue_id)
               {if $current_role > $roles.reporter and $custom_fields != ""}
               <tr>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
-                  <input class="button" type="button" value="{t}Update{/t}" onClick="javascript:updateCustomFields({$smarty.get.id});">
+                  <input class="button" type="button" value="{t}Update{/t}" onClick="updateCustomFields({$smarty.get.id|intval});">
                 </td>
               </tr>
               {/if}

@@ -60,10 +60,10 @@
               //-->
               </script>
               {/literal}
-              <form name="user_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$rel_url}manage/users.php">
+              <form name="user_form" onSubmit="return validateForm(this);" method="post" action="{$rel_url}manage/users.php">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id}">
+              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
               {else}
               <input type="hidden" name="cat" value="new">
               {/if}
@@ -230,10 +230,10 @@
                   </script>
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form name="change_status_form" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <form name="change_status_form" onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="change_status">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Full Name{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Role{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Email Address{/t}</b></td>
@@ -259,7 +259,7 @@
                         &nbsp;<a href="mailto:{$list[i].usr_email}" class="link" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
                       </td>
                       <td width="10%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a title="{t}list all email aliases{/t}" class="link" href="javascript:void(null);" onClick="javascript:openAliasList({$list[i].usr_id});">{t}manage alias{/t}</a>
+                        &nbsp;<a title="{t}list all email aliases{/t}" class="link" href="javascript:void(null);" onClick="openAliasList({$list[i].usr_id});">{t}manage alias{/t}</a>
                       </td>
                       <td width="10%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].usr_status|capitalize}
@@ -280,7 +280,7 @@
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                           <tr>
                             <td>
-                              <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                              <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                               <input type="submit" value="{t}Update Status{/t} &gt;&gt;" class="button">
                               <select name="status" class="default">
                                 <option value="active">{t}Active{/t}</option>
@@ -288,7 +288,7 @@
                               </select>
                             </td>
                             <td align="right" bgcolor="{$cell_color}" class="default_white">
-                              <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="javascript:showCustomerUsers(this.form);">
+                              <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="showCustomerUsers(this.form);">
                               <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
                             </td>
                           </tr>

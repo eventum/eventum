@@ -446,7 +446,7 @@ class Command_Line
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
-        $nprojects = count($projects)
+        $nprojects = count($projects);
         for ($i = 0; $i < $nprojects; $i++) {
             if ($details['iss_prj_id'] == $projects[$i]['id']) {
                 $found = 1;

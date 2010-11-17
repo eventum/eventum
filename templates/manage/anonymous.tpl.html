@@ -81,7 +81,7 @@
               //-->
               </script>
               {/literal}
-              <form name="anon_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="anon_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="update">
               <input type="hidden" name="prj_id" value="{$prj_id}">
               <tr>
@@ -110,10 +110,10 @@
                   <b>{t}Anonymous Reporting:{/t} *</b>
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="anonymous_post" value="enabled" {if $project.prj_anonymous_post == 'enabled'}checked{/if} onClick="javascript:disableFields(getForm('anon_form'), false);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 0);disableFields(getForm('anon_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="anonymous_post" value="disabled" {if $project.prj_anonymous_post == 'disabled'}checked{/if} onClick="javascript:disableFields(getForm('anon_form'), true);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 1);disableFields(getForm('anon_form'), true);">{t}Disabled{/t}</a>
+                  <input type="radio" name="anonymous_post" value="enabled" {if $project.prj_anonymous_post == 'enabled'}checked{/if} onClick="disableFields(getForm('anon_form'), false);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'anonymous_post', 0);disableFields(getForm('anon_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
+                  <input type="radio" name="anonymous_post" value="disabled" {if $project.prj_anonymous_post == 'disabled'}checked{/if} onClick="disableFields(getForm('anon_form'), true);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'anonymous_post', 1);disableFields(getForm('anon_form'), true);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>
@@ -122,9 +122,9 @@
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
                   <input type="radio" name="options[show_custom_fields]" value="yes" {if $options.show_custom_fields == 'yes'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'options[show_custom_fields]', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="options[show_custom_fields]" value="no" {if $options.show_custom_fields == 'no'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 1);">{t}Disabled{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'options[show_custom_fields]', 1);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>

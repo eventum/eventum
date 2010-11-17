@@ -162,7 +162,7 @@ jQuery(function() { toggleIssueField(); });
           </td>
         </tr>
         <tr bgcolor="{$cell_color}">
-          <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">{/if}</td>
+          <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">{/if}</td>
           <td align="center" class="default_white">
             <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
             {if $sorting.images.sup_from != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
@@ -208,9 +208,9 @@ jQuery(function() { toggleIssueField(); });
           </td>
           <td class="default" width="45%">
             {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
-            &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
+            &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
             {if $list[i].sup_has_attachment}
-            <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a
+            <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a
             {/if}
           </td>
         </tr>
@@ -227,26 +227,26 @@ jQuery(function() { toggleIssueField(); });
               <tr>
                 <td width="35%">
                   {if $list}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   <select name="issue" class="default" onchange="toggleIssueField()" id="new_existing">
                     <option value="new">{t}New Issue{/t}</option>
                     <option value="existing">{t}Existing Issue{/t}</option>
                   </select>
                   {include file="include/issue_field.tpl.html" field_name="issue_id" form_name='email_list_form' span_class="default_white"}
-                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="javascript:associateEmails(this.form);">
+                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="associateEmails(this.form);">
                   {/if}
                 </td>
                 <td width="40%" align="center">
-                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="javascript:setPage(0);">
-                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="javascript:setPage({$list_info.previous_page});">
+                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="setPage(0);">
+                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="setPage({$list_info.previous_page});">
                   <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" style="background: {$cell_color};" class="paging_input">
-                  <input name="go" type="button" value="Go" class="shortcut" onClick="javascript:goPage(this.form, this.form.page.value);">
-                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="javascript:setPage({$list_info.next_page});">
-                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="javascript:setPage({$list_info.last_page});">
+                  <input name="go" type="button" value="Go" class="shortcut" onClick="goPage(this.form, this.form.page.value);">
+                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="setPage({$list_info.next_page});">
+                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="setPage({$list_info.last_page});">
                 </td>
                 <td nowrap align="center">
                   <span class="default_white">{t}Rows per Page:{/t}</span>
-                  <select name="page_size" class="default" onChange="javascript:resizePager(this.form);">
+                  <select name="page_size" class="default" onChange="resizePager(this.form);">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>
                     <option value="25" {if $options.rows == 25}selected{/if}>25</option>
@@ -254,10 +254,10 @@ jQuery(function() { toggleIssueField(); });
                     <option value="100" {if $options.rows == 100}selected{/if}>100</option>
                     <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
                   </select>
-                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="javascript:resizePager(this.form);">
+                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="resizePager(this.form);">
                 </td>
                 <td width="25%" class="default_white" align="right">
-                  <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="javascript:hideAssociated(this.form);"> <label for="hide_associated">{t}Hide Associated Emails{/t}</label>&nbsp;
+                  <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="hideAssociated(this.form);"> <label for="hide_associated">{t}Hide Associated Emails{/t}</label>&nbsp;
                 </td>
               </tr>
             </table>
@@ -269,11 +269,11 @@ jQuery(function() { toggleIssueField(); });
               <tr>
                 <td colspan="3">
                   {if $list}
-                  <input type="button" value="{t}Remove Selected Emails{/t}" class="shortcut" onClick="javascript:removeEmails(this.form);">
+                  <input type="button" value="{t}Remove Selected Emails{/t}" class="shortcut" onClick="removeEmails(this.form);">
                   {/if}
                 </td>
                 <td align="right" class="default">
-                  <a title="{t}list all removed emails{/t}" class="link" href="javascript:void(null);" onClick="javascript:openRemovedList();">{t}List Removed Emails{/t}</a>&nbsp;
+                  <a title="{t}list all removed emails{/t}" class="link" href="javascript:void(null);" onClick="openRemovedList();">{t}List Removed Emails{/t}</a>&nbsp;
                 </td>
               </tr>
             </table>

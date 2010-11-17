@@ -171,7 +171,7 @@ class Abstract_Workflow_Backend
 
 
     /**
-     * Called when a new message is recieved.
+     * Called when a new message is received.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
@@ -437,6 +437,17 @@ class Abstract_Workflow_Backend
      * @return  array   an array of fields to display and their associated options
      */
     function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    {
+        return array();
+    }
+
+    /**
+     * Returns an array of patterns and replacements.
+     *
+     * @param   integer $prj_id The ID of the project
+     * @return  array An array of patterns and replacements
+     */
+    function getLinkFilters($prj_id)
     {
         return array();
     }

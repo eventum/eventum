@@ -95,7 +95,7 @@ function validateForm(f)
     </td>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <form action="emails.php" method="get" name="email_filter_form" onSubmit="javascript:return validateForm(this);">
+        <form action="emails.php" method="get" name="email_filter_form" onSubmit="return validateForm(this);">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="hidden1" value="">
         <tr>
@@ -120,7 +120,7 @@ function validateForm(f)
           </td>
           <td>
             <input class="button" type="submit" value="{t}Search{/t}">
-            <input class="button" type="button" value="{t}Clear{/t}" onClick="javascript:clearFilters(this.form);">
+            <input class="button" type="button" value="{t}Clear{/t}" onClick="clearFilters(this.form);">
           </td>
         </tr>
         <tr>
@@ -128,9 +128,9 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'arrival_date');">
-                  <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
-                  <select name="arrival_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                  <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="toggleDateFields(this.form, 'arrival_date');">
+                  <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
+                  <select name="arrival_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
