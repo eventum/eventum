@@ -78,8 +78,7 @@ class Attachment
             $filename = ev_gettext("Untitled");
         }
         $disposition = self::displayInline($mimetype) ? 'inline' : 'attachment';
-        // FIXME: urlencode is wrong here, should be probably qp-encoded
-        $filename = urlencode($filename);
+        $filename = Mime_Helper::encodeQuotedPrintable($filename);
         header("Content-Type: " . $mimetype);
         header("Content-Disposition: {$disposition}; filename=\"{$filename}\"");
         header("Content-Length: {$filesize}");
