@@ -242,6 +242,7 @@ class Attachment
      */
     function removeByIssues($ids)
     {
+        $ids = Misc::escapeInteger($ids);
         $items = @implode(", ", $ids);
         $stmt = "SELECT
                     iat_id
@@ -441,6 +442,7 @@ class Attachment
      */
     function attach($usr_id, $status = 'public')
     {
+        $usr_id = Misc::escapeInteger($usr_id);
         $files = array();
         for ($i = 0; $i < count($_FILES["attachment"]["name"]); $i++) {
             $filename = @$_FILES["attachment"]["name"][$i];
@@ -505,6 +507,7 @@ class Attachment
      */
     function addFile($attachment_id, $filename, $filetype, &$blob)
     {
+        $attachment_id = Misc::escapeInteger($attachment_id);
         $filesize = strlen($blob);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
@@ -545,6 +548,8 @@ class Attachment
      */
     function add($issue_id, $usr_id, $description, $internal_only = FALSE, $unknown_user = FALSE, $associated_note_id = FALSE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $usr_id = Misc::escapeInteger($usr_id);
         if ($internal_only) {
             $attachment_status = 'internal';
         } else {
