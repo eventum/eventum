@@ -38,70 +38,29 @@
 class Attachment
 {
     /**
-     * Returns a list of file extensions that should be opened
-     * directly in the browser window as PHP source files.
-     *
-     * @access  private
-     * @return  array List of file extensions
-     */
-    function _getPHPExtensions()
-    {
-        return array(
-            "php",
-            "php3",
-            "php4",
-            "phtml"
-        );
-    }
-
-
-    /**
-     * Returns a list of file extensions that should be opened
-     * directly in the browser window and treated as text/plain
-     * files.
-     *
-     * @access  private
-     * @return  array List of file extensions
-     */
-    function _getTextPlainExtensions()
-    {
-        return array(
-            'err',
-            'log',
-            'cnf',
-            'var',
-            'ini',
-            'java',
-            'txt'
-        );
-    }
-
-
-    /**
-     * Returns a list of file extensions that should be opened
+     * Returns true if specified mime type should be displayed
      * directly in the browser window.
      *
      * @access  private
-     * @return  array List of file extensions
      */
-    function _getNoDownloadExtensions()
+    private static function displayInline($mimetype)
     {
-        return array(
-            'jpg',
-            'jpeg',
-            'gif',
-            'png',
-            'bmp',
-            'html',
-            'htm',
-            'xml',
-        );
-    }
+        $parts = explode('/', $mimetype, 2);
+        if (count($parts) < 2) {
+            return false;
+        }
 
+        list($type, $subtype) = $parts;
+
+        // display inline images and text documents
+        return in_array($type, array('image', 'text'));
+    }
 
     /**
      * Method used to output the headers and the binary data for
      * an attachment file.
+     *
+     * This method never returns to caller.
      *
      * @access  public
      * @param   string $data The binary data of this file download
@@ -110,37 +69,22 @@ class Attachment
      * @param   string $filetype The mimetype of this file
      * @return  void
      */
-    function outputDownload(&$data, $filename, $filesize, $filetype)
+    function outputDownload(&$data, $filename, $filesize, $mimetype)
     {
-        $filename = self::nameToSafe($filename);
-        $parts = pathinfo($filename);
-        if (in_array(strtolower(@$parts["extension"]), self::_getPHPExtensions())) {
-            // instead of redirecting the user to a PHP script that may contain malicious code, we highlight the code
-            highlight_string($data);
-        } else {
-            if ((empty($filename)) && (!empty($filetype))) {
-                // inline images
-                header("Content-Type: $filetype");
-            } elseif ((in_array(strtolower(@$parts["extension"]), self::_getTextPlainExtensions())) && ($filesize < 5000)) {
-                // always force the browser to display the contents of these special files
-                header('Content-Type: text/plain');
-                header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
-            } else {
-                if (empty($filetype)) {
-                    header("Content-Type: application/unknown");
-                } else {
-                    header("Content-Type: " . $filetype);
-                }
-                if (!in_array(strtolower(@$parts["extension"]), self::_getNoDownloadExtensions())) {
-                    header("Content-Disposition: attachment; filename=\"" . urlencode($filename) . "\"");
-                } else {
-                    header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
-                }
-            }
-            header("Content-Length: " . $filesize);
-            echo $data;
-            exit;
+        if (empty($mimetype)) {
+            $mimetype = "application/octet-stream";
         }
+        if (empty($filename)) {
+            $filename = ev_gettext("Untitled");
+        }
+        $disposition = self::displayInline($mimetype) ? 'inline' : 'attachment';
+        // FIXME: urlencode is wrong here, should be probably qp-encoded
+        $filename = urlencode($filename);
+        header("Content-Type: " . $mimetype);
+        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"");
+        header("Content-Length: {$filesize}");
+        echo $data;
+        exit;
     }
 
 
@@ -187,7 +131,7 @@ class Attachment
                 $attachment_id = DB_Helper::getInstance()->getOne($stmt);
 
                 $res = self::getFileList($attachment_id);
-                if (@count($res) > 1) {
+                if (count($res) > 1) {
                     self::removeFile($iaf_id);
                 } else {
                     self::remove($attachment_id);
@@ -591,30 +535,6 @@ class Attachment
             return DB_Helper::get_last_insert_id();
         }
     }
-
-
-    /**
-     * Method used to replace unsafe characters by safe characters.
-     *
-     * Side-effects: if $name is not in ISO8859-1 encoding, not very logical
-     * replacements are done. Eventually the non-ASCII characters are stripped.
-     *
-     * @access  public
-     * @param   string $name The name of the file to be checked. In ISO8859-1 encoding.
-     * @param   integer $maxlen The maximum length of the filename
-     * @return  string The 'safe' version of the filename. Always in US-ASCII encoding.
-     */
-    function nameToSafe($name, $maxlen = 250)
-    {
-        // using hex bytes as these need to be *bytes*, not dependant on sourcefile encoding.
-        $noalpha = "\xe1\xe9\xed\xf3\xfa\xe0\xe8\xec\xf2\xf9\xe4\xeb\xef\xf6\xfc\xc1\xc9\xcd\xd3\xda\xc0\xc8\xcc\xd2\xd9\xc4\xcb\xcf\xd6\xdc\xe2\xea\xee\xf4\xfb\xc2\xca\xce\xd4\xdb\xf1\xe7\xc7\x40";
-        $alpha = 'aeiouaeiouaeiouAEIOUAEIOUAEIOUaeiouAEIOUncCa';
-        $name = substr($name, 0, $maxlen);
-        $name = strtr($name, $noalpha, $alpha);
-        // not permitted chars are replaced with "_"
-        return ereg_replace('[^a-zA-Z0-9,._\+\()\-]', '_', $name);
-    }
-
 
     /**
      * Returns the current maximum file upload size.
