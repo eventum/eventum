@@ -29,13 +29,6 @@
 	<rule ref="Squiz.ControlStructures.LowercaseDeclaration" />
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
-		<exclude-pattern>*/htdocs/reports/workload_time_period_graph.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/rss.php</exclude-pattern>
-		<exclude-pattern>*/irc/restart.php</exclude-pattern>
-		<exclude-pattern>*/lib/eventum/class.issue.php</exclude-pattern>
-		<exclude-pattern>*/upgrade/snapshot_to_v1.1/set_history_type.php</exclude-pattern>
-		<exclude-pattern>*/upgrade/v1.2.2_to_v1.3/fix_last_action_date_fields.php</exclude-pattern>
-		<exclude-pattern>*/upgrade/v1.6.1_to_v1.7.0/set_root_message_ids.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.CodeAnalysis.EmptyStatement">

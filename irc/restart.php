@@ -4,7 +4,8 @@ require_once dirname(__FILE__) . '/../init.php';
 Auth::checkAuthentication(APP_COOKIE);
 
 if (Auth::getCurrentRole() < User::getRoleID("Developer")) {
-    echo "Invalid role";exit;
+	echo "Invalid role";
+	exit;
 }
 
 $process_id = Lock::getProcessID('irc_bot');

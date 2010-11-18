@@ -57,7 +57,8 @@ if (@$_GET["type"] == "email") {
 
 $plots = array();
 foreach ($data as $performer => $values) {
-    ksort($values);ksort($data[$performer]);
+    ksort($values);
+    ksort($data[$performer]);
 
     // Create a bar pot
     $bplot = new BarPlot(array_values($values));
