@@ -54,7 +54,7 @@ exit;
 function getEmail($id)
 {
     $split = explode("-", $id);
-    $info = Support::getEmailDetails($split[0],$split[1]);
+    $info = Support::getEmailDetails($split[0], $split[1]);
     if (!empty($_GET["ec_id"])) {
         return Link_Filter::processText(Auth::getCurrentProject(), nl2br($_GET["ec_id"] . ":" . $id. ":" . Misc::highlightQuotedReply($info['seb_body'])));
     } else {
