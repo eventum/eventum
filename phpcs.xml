@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<ruleset name="Eventum">
+	<!--
+		 http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php
+	 -->
+	<description>Eventum coding standard.</description>
+
+	<!-- Exclude data dirs
+	-->
+	<exclude-pattern>*/templates_c/*</exclude-pattern>
+	<exclude-pattern>*/.bzr/*</exclude-pattern>
+	<exclude-pattern>*/docs/*</exclude-pattern>
+	<exclude-pattern>*/config/*.php</exclude-pattern>
+
+	<!-- External libs: we do not modify these to fit standards -->
+	<exclude-pattern>*/lib/Smarty/*</exclude-pattern>
+	<exclude-pattern>*/lib/jpgraph/*</exclude-pattern>
+	<exclude-pattern>*/lib/pear/*</exclude-pattern>
+	<exclude-pattern>*/lib/php-gettext/*</exclude-pattern>
+
+	<exclude-pattern>*.css</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+
+	<!-- Include some from all around the place -->
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+	<rule ref="Squiz.ControlStructures.LowercaseDeclaration" />
+
+	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+	<rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+	<rule ref="Squiz.PHP.Eval"/>
+	<rule ref="Squiz.PHP.NonExecutableCode"/>
+</ruleset>

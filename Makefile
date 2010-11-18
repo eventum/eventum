@@ -15,7 +15,7 @@ dist:
 	./release.sh
 
 phpcs:
-	 phpcs --standard=Eventum --ignore=config,lib/pear,cli/lib/pear .
+	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
 
 # install eventum core
 install-eventum:
