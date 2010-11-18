@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 11:56+0200\n"
+"POT-Creation-Date: 2010-11-18 12:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -8086,9 +8086,10 @@ msgstr ""
 msgid "download file"
 msgstr ""
 
-#: lib/eventum/class.link_filter.php:311
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
 #, php-format
-msgid "download file (%s - %s)"
+msgid "download file (%1$s - %2$s)"
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
