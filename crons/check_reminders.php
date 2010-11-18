@@ -58,32 +58,33 @@ if (!Lock::acquire('check_reminders')) {
 $triggered_issues = array();
 
 $reminders = Reminder::getList();
-for ($i = 0; $i < count($reminders); $i++) {
+$weekday = date('w');
+foreach ($reminders as $reminder) {
     // if this is the weekend and this reminder isn't supposed to run on weekends skip
-    if (($reminders[$i]['rem_skip_weekend'] == 1) && (in_array(date("w"), array(0,6)))) {
+    if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, array(0, 6))) {
         if (Reminder::isDebug()) {
-            echo "Skipping Reminder '" . $reminders[$i]['rem_title'] . "' due to weekend exclusion\n";
+            echo "Skipping Reminder '" . $reminder['rem_title'] . "' due to weekend exclusion\n";
         }
         continue;
     }
 
     // for each action, get the conditions and see if it triggered any issues
     $found = 0;
-    for ($y = 0; $y < count($reminders[$i]['actions']); $y++) {
+    for ($y = 0; $y < count($reminder['actions']); $y++) {
         if (Reminder::isDebug()) {
-            echo "Processing Reminder Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
+            echo "Processing Reminder Action '" . $reminder['actions'][$y]['rma_title'] . "'\n";
         }
-        $conditions = Reminder_Condition::getList($reminders[$i]['actions'][$y]['rma_id']);
+        $conditions = Reminder_Condition::getList($reminder['actions'][$y]['rma_id']);
         if (count($conditions) == 0) {
             if (Reminder::isDebug()) {
                 echo "  - Skipping Reminder because there were no reminder conditions found\n";
             }
             continue;
         }
-        $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
+        $issues = Reminder::getTriggeredIssues($reminder, $conditions);
         // avoid repeating reminder actions, so get the list of issues
         // that were last triggered with this reminder action ID
-        $repeat_issues = Reminder_Action::getRepeatActions($issues, $reminders[$i]['actions'][$y]['rma_id']);
+        $repeat_issues = Reminder_Action::getRepeatActions($issues, $reminder['actions'][$y]['rma_id']);
         if (count($repeat_issues) > 0) {
             // add the repeated issues to the list of already triggered
             // issues, so they get ignored for the next reminder actions
@@ -108,13 +109,13 @@ for ($i = 0; $i < count($reminders); $i++) {
                 }
                 $triggered_issues[] = $issues[$z];
                 if (Reminder::isDebug()) {
-                    echo "  - Triggered Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "' for issue #" . $issues[$z] . "\n";
+                    echo "  - Triggered Action '" . $reminder['actions'][$y]['rma_title'] . "' for issue #" . $issues[$z] . "\n";
                 }
-                Reminder_Action::perform($issues[$z], $reminders[$i], $reminders[$i]['actions'][$y]);
+                Reminder_Action::perform($issues[$z], $reminder, $reminder['actions'][$y]);
             }
         } else {
             if (Reminder::isDebug()) {
-                echo "  - No triggered issues for action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
+                echo "  - No triggered issues for action '" . $reminder['actions'][$y]['rma_title'] . "'\n";
             }
         }
     }
