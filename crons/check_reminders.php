@@ -96,22 +96,22 @@ foreach ($reminders as $reminder) {
             }
         }
         if (count($issues) > 0) {
-            for ($z = 0; $z < count($issues); $z++) {
+            foreach ($issues as $issue) {
                 if (Reminder::isDebug()) {
-                    echo "  - Processing issue '" . $issues[$z] . "'\n";
+                    echo "  - Processing issue '" . $issue . "'\n";
                 }
                 // only perform one action per issue id
-                if (in_array($issues[$z], $triggered_issues)) {
+                if (in_array($issue, $triggered_issues)) {
                     if (Reminder::isDebug()) {
-                        echo "  - Ignoring issue '" . $issues[$z] . "' because it was found in the list of already triggered issues\n";
+                        echo "  - Ignoring issue '" . $issue . "' because it was found in the list of already triggered issues\n";
                     }
                     continue;
                 }
-                $triggered_issues[] = $issues[$z];
+                $triggered_issues[] = $issue;
                 if (Reminder::isDebug()) {
-                    echo "  - Triggered Action '" . $action['rma_title'] . "' for issue #" . $issues[$z] . "\n";
+                    echo "  - Triggered Action '" . $action['rma_title'] . "' for issue #" . $issue . "\n";
                 }
-                Reminder_Action::perform($issues[$z], $reminder, $action);
+                Reminder_Action::perform($issue, $reminder, $action);
             }
         } else {
             if (Reminder::isDebug()) {
