@@ -154,7 +154,6 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('sup_date', 'sup_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
@@ -177,19 +176,18 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
-            for ($i = 0; $i < count($data['draft']); $i++) {
-                if (!empty($data['draft'][$i]['emd_unknown_user'])) {
-                    $data['draft'][$i]['from'] = $data['draft'][$i]["emd_unknown_user"];
+            foreach ($data['draft'] as &$draft) {
+                if (!empty($draft['emd_unknown_user'])) {
+                    $draft['from'] = $draft["emd_unknown_user"];
                 } else {
-                    $data['draft'][$i]['from'] = User::getFromHeader($data['draft'][$i]['emd_usr_id']);
+                    $draft['from'] = User::getFromHeader($draft['emd_usr_id']);
                 }
-                list($data['draft'][$i]['to'], ) = Draft::getEmailRecipients($data['draft'][$i]['emd_id']);
-                if (empty($data['draft'][$i]['to'])) {
-                    $data['draft'][$i]['to'] = "Notification List";
+                list($draft['to'], ) = Draft::getEmailRecipients($draft['emd_id']);
+                if (empty($draft['to'])) {
+                    $draft['to'] = "Notification List";
                 }
             }
         }
@@ -217,12 +215,11 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['time'] = processResult($res, 'ttr_created_date', 'ttr_iss_id');
-            for ($i = 0; $i < count($data['time']); $i++) {
-                $data['time'][$i]['time_spent'] = Misc::getFormattedTime($data['time'][$i]['ttr_time_spent'], true);
+            foreach ($data['time'] as &$time) {
+                $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
             }
         }
     }
@@ -246,7 +243,6 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('rmh_created_date');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
