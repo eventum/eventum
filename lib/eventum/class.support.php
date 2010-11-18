@@ -808,7 +808,6 @@ class Support
                 @imap_setflag_full($mbox, $num, "\\Seen");
             }
         }
-        return;
     }
 
 
