@@ -47,8 +47,8 @@ if (@$_POST['cat'] == 'associate') {
         }
         $tpl->assign("associate_result", $res);
     } else {
-        for ($i = 0; $i < count($_POST['item']); $i++) {
-            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($_POST['item'][$i]), $_POST['item'][$i]);
+        foreach ($_POST['item'] as $item) {
+            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($item), $item);
             // add the message body as a note
             $_POST['full_message'] = $email['seb_full_email'];
             $_POST['title'] = $email['sup_subject'];
@@ -58,9 +58,9 @@ if (@$_POST['cat'] == 'associate') {
             $res = Note::insert(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
-                list($_POST["from"]) = Support::getSender(array($_POST['item'][$i]));
+                list($_POST["from"]) = Support::getSender(array($item));
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'associated');
-                Support::removeEmail($_POST['item'][$i]);
+                Support::removeEmail($item);
             }
         }
         $tpl->assign("associate_result", $res);
