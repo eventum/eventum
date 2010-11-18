@@ -41,7 +41,8 @@ foreach ($_GET['issue'] as $issue_id) {
     $commit_msg = $_GET['commit_msg'];
 
     $files = array();
-    for ($y = 0; $y < count($_GET['files']); $y++) {
+    $nfiles = count($_GET['files']);
+    for ($y = 0; $y < $nfiles; $y++) {
         $file = array(
             'file' => $_GET['files'][$y],
             'old_version' => $_GET['old_versions'][$y],
