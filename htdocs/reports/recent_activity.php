@@ -277,30 +277,29 @@ function createWhereClause($date_field, $user_field = false)
     return $sql;
 }
 
-function processResult($res, $date_field, $issue_field)
+function processResult($results, $date_field, $issue_field)
 {
-    GLOBAL $prj_id;
-    GLOBAL $usr_id;
+    global $prj_id, $usr_id;
 
     $data = array();
-    for ($i = 0; $i < count($res); $i++) {
-        if (!Issue::canAccess($res[$i][$issue_field], $usr_id)) {
+    foreach ($results as &$res) {
+        if (!Issue::canAccess($res[$issue_field], $usr_id)) {
             continue;
         }
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
-            $res[$i]["customer"] = @$details['customer_name'];
+            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$issue_field]));
+            $res["customer"] = @$details['customer_name'];
         }
-        $res[$i]["date"] = Date_Helper::getFormattedDate($res[$i][$date_field], Date_Helper::getPreferredTimezone($usr_id));
+        $res["date"] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
         // need to decode From:, To: mail headers
-        if (isset($res[$i]["sup_from"])) {
-            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+        if (isset($res["sup_from"])) {
+            $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
         }
-        if (isset($res[$i]["sup_to"])) {
-            $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
+        if (isset($res["sup_to"])) {
+            $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
         }
 
-        $data[] = $res[$i];
+        $data[] = $res;
     }
     return $data;
 }
