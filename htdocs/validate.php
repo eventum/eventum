@@ -42,18 +42,16 @@ exit;
 function validateIssueNumbers()
 {
     $issues = explode(',', $_REQUEST['values']);
-    if ($_REQUEST['check_project'] == 0) {
-        $check_project = false;
-    } else {
-        $check_project = true;
-    }
-
+    $check_project = $_REQUEST['check_project'] != 0;
+    $exclude_issue = isset($_REQUEST['exclude_issue']) ? $_REQUEST['exclude_issue'] : null;
+    $exclude_duplicates = isset($_REQUEST['exclude_duplicates']) ? $_REQUEST['exclude_duplicates'] == 1 : false;
     $bad_issues = array();
+
     foreach ($issues as $issue_id) {
         if (
             ($issue_id != '' && !Issue::exists($issue_id, $check_project)) ||
-            (isset($_REQUEST['exclude_issue']) && $_REQUEST['exclude_issue'] == $issue_id) ||
-            (isset($_REQUEST['exclude_duplicates']) && $_REQUEST['exclude_duplicates'] == 1 && Issue::isDuplicate($issue_id))
+            ($exclude_issue == $issue_id) ||
+            ($exclude_duplicates && Issue::isDuplicate($issue_id))
             ) {
             $bad_issues[] = $issues_id;
         }
