@@ -110,22 +110,22 @@ function getOpenIssues($p)
     $status_id = Status::getStatusID($status);
     $usr_id = User::getUserIDByEmail($email);
 
-    $res = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
+    $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
 
-    if (empty($res)) {
+    if (empty($results)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no open issues");
-    } else {
-        $structs = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $structs[] = new XML_RPC_Value(array(
-                "issue_id"   => new XML_RPC_Value($res[$i]['iss_id'], "int"),
-                "summary"    => new XML_RPC_Value($res[$i]['iss_summary']),
-                'assigned_users'    => new XML_RPC_Value($res[$i]['assigned_users']),
-                'status'     => new XML_RPC_Value($res[$i]['sta_title'])
-            ), "struct");
-        }
-        return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
     }
+
+    $structs = array();
+    foreach ($results as $res) {
+        $structs[] = new XML_RPC_Value(array(
+            "issue_id"   => new XML_RPC_Value($res['iss_id'], "int"),
+            "summary"    => new XML_RPC_Value($res['iss_summary']),
+            'assigned_users'    => new XML_RPC_Value($res['assigned_users']),
+            'status'     => new XML_RPC_Value($res['sta_title'])
+        ), "struct");
+    }
+    return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
 }
 
 $isValidLogin_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
@@ -519,10 +519,10 @@ function getEmailListing($p)
 
     // since xml-rpc has issues, lets base64 encode everything
     if (is_array($emails)) {
-        for ($i = 0; $i < count($emails); $i++) {
-            unset($emails[$i]["seb_body"]);
-            foreach ($emails[$i] as $key => $val) {
-                $emails[$i][$key] = base64_encode($val);
+        foreach ($emails as &$email) {
+            unset($email["seb_body"]);
+            foreach ($email as $key => $val) {
+                $email[$key] = base64_encode($val);
             }
         }
     }
@@ -567,9 +567,9 @@ function getNoteListing($p)
     $notes = Note::getListing($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
-    for ($i = 0; $i < count($notes); $i++) {
-        foreach ($notes[$i] as $key => $val) {
-            $notes[$i][$key] = base64_encode($val);
+    foreach ($notes as &$note) {
+        foreach ($note as $key => $val) {
+            $note[$key] = base64_encode($val);
         }
     }
     return new XML_RPC_Response(XML_RPC_Encode($notes));
@@ -588,7 +588,7 @@ function getNote($p)
     $note_id = XML_RPC_decode($p->getParam(3));
     $note = Note::getNoteBySequence($issue_id, $note_id);
 
-    if ((count($note) < 1) || (!is_array($note))) {
+    if (count($note) < 1 || !is_array($note)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Note #" . $note_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
@@ -740,9 +740,9 @@ function getDraftListing($p)
     $drafts = Draft::getList($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
-    for ($i = 0; $i < count($drafts); $i++) {
-        foreach ($drafts[$i] as $key => $val) {
-            $drafts[$i][$key] = base64_encode($val);
+    foreach ($drafts as &$draft) {
+        foreach ($draft as $key => $val) {
+            $draft[$key] = base64_encode($val);
         }
     }
     return new XML_RPC_Response(XML_RPC_Encode($drafts));
