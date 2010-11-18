@@ -40,7 +40,6 @@
 
 	<rule ref="Generic.CodeAnalysis.EmptyStatement">
 		<exclude-pattern>*/lib/eventum/smarty/function.calendar.php</exclude-pattern>
-		<exclude-pattern>*/lib/eventum/class.support.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
