@@ -197,12 +197,12 @@ class Attachment
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                self::remove($res[$i]);
-            }
-            return true;
         }
+
+        foreach ($res as $id) {
+            self::remove($id);
+        }
+        return true;
     }
 
 
@@ -248,8 +248,8 @@ class Attachment
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
                 }
-                for ($i = 0; $i < count($files); $i++) {
-                    self::removeFile($files[$i]['iaf_id']);
+                foreach ($files as $file) {
+                    self::removeFile($file['iaf_id']);
                 }
                 if ($add_history) {
                     Issue::markAsUpdated($usr_id);
