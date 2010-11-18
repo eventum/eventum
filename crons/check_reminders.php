@@ -88,11 +88,11 @@ foreach ($reminders as $reminder) {
         if (count($repeat_issues) > 0) {
             // add the repeated issues to the list of already triggered
             // issues, so they get ignored for the next reminder actions
-            for ($w = 0; $w < count($repeat_issues); $w++) {
+            foreach ($repeat_issues as $issue) {
                 if (Reminder::isDebug()) {
-                    echo "  - Adding repeated issue '" . $repeat_issues[$w] . "' to the list of already triggered issues\n";
+                    echo "  - Adding repeated issue '" . $issue . "' to the list of already triggered issues\n";
                 }
-                $triggered_issues[] = $repeat_issues[$w];
+                $triggered_issues[] = $issue;
             }
         }
         if (count($issues) > 0) {
