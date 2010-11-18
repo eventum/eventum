@@ -99,7 +99,6 @@
 	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
 	<rule ref="PEAR.Functions.ValidDefaultValue">
-		<exclude-pattern>*/lib/eventum/class.report.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Squiz.PHP.Eval"/>

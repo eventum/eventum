@@ -592,7 +592,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date, $end_date, $list = false, $interval = '', $assignee = false)
+    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
