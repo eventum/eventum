@@ -95,7 +95,5 @@
 
 	<rule ref="Squiz.PHP.Eval"/>
 	<rule ref="Squiz.PHP.NonExecutableCode">
-		<exclude-pattern>*/htdocs/validate.php*</exclude-pattern>
-		<exclude-pattern>*/htdocs/get_remote_data.php</exclude-pattern>
 	</rule>
 </ruleset>
