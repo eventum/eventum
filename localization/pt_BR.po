@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-07 15:03+0300\n"
-"PO-Revision-Date: 2010-11-17 22:55+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-11-18 12:00+0200\n"
+"PO-Revision-Date: 2010-11-18 16:04+0000\n"
+"Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-11-18 04:47+0000\n"
+"X-Launchpad-Export-Date: 2010-11-19 04:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: pt_BR\n"
 
@@ -114,7 +114,7 @@ msgstr ""
 "(Dica: as portas padrão são 110 para servidores POP3 e 143 para servidores "
 "IMAP)"
 
-#: lib/eventum/class.template_helper.php:172
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(arquivado)"
 
@@ -4199,8 +4199,7 @@ msgstr "POP3, com TLS (auto-assinado)"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
-#: templates/notifications/new_user.tpl.text
-#: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
+#: templates/notifications/new_user.tpl.text templates/setup.tpl.html
 msgid "Password"
 msgstr "Senha"
 
@@ -7888,8 +7887,12 @@ msgstr "Excluir designação do chamado"
 msgid "Unavailable - Users may NOT use this release"
 msgstr "Indisponível - Usuários NÃO podem usar esta versão"
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr "Sem nome"
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:663
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -8729,6 +8732,12 @@ msgstr "dds"
 #: templates/view_note.tpl.html
 msgid "download file"
 msgstr "baixar arquivo"
+
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
+msgstr "baixar arquivo (%1$s - %2$s)"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
