@@ -158,7 +158,7 @@ class Mail_Queue
         foreach (self::_getList($status, $limit) as $maq_id) {
             $email = self::_getEntry($maq_id);
             if (empty($email)) {
-                // skip for error
+                // skip on error
                 continue;
             }
 
