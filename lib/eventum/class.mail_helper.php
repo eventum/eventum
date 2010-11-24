@@ -640,7 +640,8 @@ class Mail_Helper
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::load();
-        if ($setup['smtp']['save_outgoing_email'] != 'yes' || empty($setup['smtp']['save_address'])) {
+        $save_outgoing_email = !empty($setup['smtp']['save_outgoing_email']) && $setup['smtp']['save_outgoing_email'] == 'yes';
+        if (!$save_outgoing_email || empty($setup['smtp']['save_address'])) {
             return false;
         }
 
