@@ -25,14 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__).'/../init.php';
 
 // the disk partition in which eventum is stored in
 $partition = '/';
-
-Monitor::checkDiskspace($partition);
 
 // the owner, group and filesize settings should be changed to match the correct permissions on your server.
 $required_files = array(
@@ -42,7 +41,7 @@ $required_files = array(
         'check_group'      => true,
         'group'            => 'apache',
         'check_permission' => true,
-        'permission'       => 755,
+        'permission'       => 640,
     ),
     APP_CONFIG_PATH . '/setup.php' => array(
         'check_owner'      => true,
@@ -50,12 +49,34 @@ $required_files = array(
         'check_group'      => true,
         'group'            => 'apache',
         'check_permission' => true,
-        'permission'       => 750,
+        'permission'       => 660,
         'check_filesize'   => true,
         'filesize'         => 1024
     ),
 );
-Monitor::checkConfiguration($required_files);
-Monitor::checkDatabase();
-Monitor::checkMailQueue();
-Monitor::checkIRCBot();
+
+$required_directories = array(
+    APP_PATH . '/misc/routed_emails' => array(
+        'check_permission' => true,
+        'permission'       => 770,
+    ),
+    APP_PATH . '/misc/routed_notes' => array(
+        'check_permission' => true,
+        'permission'       => 770,
+    ),
+    APP_PATH . '/htdocs/setup' => array(
+        'check_permission' => true,
+        'permission'       => 100,
+    ),
+);
+
+$errors = 0;
+$errors += Monitor::checkDiskspace($partition);
+$errors += Monitor::checkRequiredFiles($required_files);
+$errors += Monitor::checkRequiredDirs($required_directories);
+$errors += Monitor::checkDatabase();
+$errors += Monitor::checkMailQueue();
+$errors += Monitor::checkIRCBot();
+
+// propagate status code to shell
+exit($errors > 0 ? 1 : 0);
