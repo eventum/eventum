@@ -17,6 +17,8 @@ Eventum Issue Tracking System
 - Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
 - Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
 - Rework Mail_Queue code to be memory efficent by fetching only one email a time to memory (Elan Ruusamäe)
+- Fix xmlrpc server missing global $XML_RPC_erruser (Elan Ruusamäe)
+- Add better xmlrpc client class and sample (Elan Ruusamäe)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
