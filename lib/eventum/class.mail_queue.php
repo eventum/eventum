@@ -159,7 +159,7 @@ class Mail_Queue
             $email = self::_getEntry($maq_id);
             if (empty($email)) {
                 // skip for error
-                return;
+                continue;
             }
 
             $current_status = $status;
