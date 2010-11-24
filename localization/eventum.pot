@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-24 15:53+0200\n"
+"POT-Creation-Date: 2010-11-24 18:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,6 +100,10 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -1204,6 +1208,14 @@ msgstr ""
 msgid "Changing field types can result in loss of data."
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
+msgstr ""
+
 #: templates/setup.tpl.html
 msgid "Check Permissions"
 msgstr ""
@@ -1588,6 +1600,10 @@ msgstr ""
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr ""
@@ -1756,7 +1772,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr ""
 
@@ -1886,13 +1902,13 @@ msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2133,7 +2149,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr ""
 
@@ -3387,6 +3403,10 @@ msgstr ""
 msgid "Monday"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr ""
@@ -4002,6 +4022,10 @@ msgstr ""
 msgid "POP3, with TLS (self-signed)"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
+msgstr ""
+
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/new_user.tpl.text
@@ -4380,13 +4404,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4837,6 +4861,10 @@ msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Please enter your password."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
@@ -5535,8 +5563,8 @@ msgstr ""
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -6496,7 +6524,7 @@ msgstr ""
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 
@@ -7476,6 +7504,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr ""
 
@@ -7786,6 +7815,10 @@ msgstr ""
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
 msgstr ""
 
 #: templates/resize_textarea.tpl.html
