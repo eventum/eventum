@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-24 18:42+0200\n"
+"POT-Creation-Date: 2010-11-24 19:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3869,6 +3869,10 @@ msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
+msgstr ""
+
+#: crons/monitor.php:94
+msgid "OK: No errors found"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html
