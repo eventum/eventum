@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - Fix xmlrpc server missing global $XML_RPC_erruser (Elan Ruusamäe)
 - Add better xmlrpc client class and sample (Elan Ruusamäe)
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
+- Support for configuring Monitor preferences (Elan Ruusamäe)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

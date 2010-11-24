@@ -71,7 +71,13 @@ $required_directories = array(
 );
 
 $errors = 0;
-$errors += Monitor::checkDiskspace($partition);
+// load prefs
+$setup = Setup::load();
+$prefs = $setup['monitor'];
+
+if ($prefs['diskcheck']['status'] == 'enabled') {
+    $errors += Monitor::checkDiskspace($prefs['diskcheck']['partition']);
+}
 $errors += Monitor::checkRequiredFiles($required_files);
 $errors += Monitor::checkRequiredDirs($required_directories);
 $errors += Monitor::checkDatabase();

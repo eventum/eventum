@@ -100,6 +100,12 @@ class Setup
     public function getDefaults()
     {
         $defaults = array(
+            'monitor' => array(
+                'diskcheck' => array(
+                    'status' => 'enabled',
+                    'partition' => APP_PATH,
+                ),
+            ),
         );
 
         return $defaults;
