@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
 - Make attachment names linked in issue Initial Description (Elan Ruusamäe)
 - Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
+- Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
