@@ -51,7 +51,6 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup["allow_unassigned_issues"] = $_POST["allow_unassigned_issues"];
         $setup["update"] = $_POST["update"];
         $setup["closed"] = $_POST["closed"];
-        $setup["notes"] = $_POST["notes"];
         $setup["emails"] = $_POST["emails"];
         $setup["files"] = $_POST["files"];
         $setup["smtp"] = $_POST["smtp"];
