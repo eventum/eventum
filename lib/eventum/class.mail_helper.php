@@ -636,7 +636,7 @@ class Mail_Helper
      * @access  public
      * @param   array $email The email to save.
      */
-    function saveEmailInformation(&$email)
+    function saveOutgoingEmailCopy(&$email)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::load();

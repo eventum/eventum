@@ -178,7 +178,7 @@ class Mail_Queue
             self::_saveStatusLog($email['id'], 'sent', '');
             if ($email['save_copy']) {
                 // send a copy of this email to eventum_sent@
-                Mail_Helper::saveEmailInformation($email);
+                Mail_Helper::saveOutgoingEmailCopy($email);
             }
         }
     }
