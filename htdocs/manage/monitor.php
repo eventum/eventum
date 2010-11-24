@@ -48,6 +48,11 @@ if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("result", $res);
     }
 
+    $tpl->assign("enable_disable", array(
+        "enabled" => ev_gettext("Enabled"),
+        "disabled" => ev_gettext("Disabled"),
+    ));
+
     $options = Setup::load(true);
     $tpl->assign("setup", $options);
 } else {

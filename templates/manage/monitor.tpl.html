@@ -100,16 +100,8 @@
     <td bgcolor="{$light_color}" class="default">
       <table>
       <tr>
-        <td colspan="2" class="default_white">
-        <input type="radio" name="paths[status]" value="enabled" id="paths[status].enabled" {if $setup.monitor.paths.status == 'enabled'}checked{/if}>
-        <label for="paths[status].enabled">
-          <a id="link" class="link">{t}Enabled{/t}</a>
-        </label>
-        &nbsp;&nbsp;
-        <input type="radio" name="paths[status]" value="disabled" id="paths[status].disabled" {if $setup.monitor.paths.status != 'enabled'}checked{/if}>
-        <label for="paths[status].disabled">
-          <a id="link" class="link">{t}Disabled{/t}</a>
-        </label>
+        <td colspan="2" class="default">
+        {html_radios name='paths[status]' options=$enable_disable selected=$setup.monitor.paths.status separator='&nbsp;&nbsp;'}
         </td>
         <td width="80%">
           <span class="small_default">
