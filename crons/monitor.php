@@ -30,8 +30,12 @@
 
 require_once dirname(__FILE__).'/../init.php';
 
-// the disk partition in which eventum is stored in
-$partition = '/';
+// Nagios compatible exit codes
+define('STATE_OK', 0);
+define('STATE_WARNING', 1);
+define('STATE_CRITICAL', 2);
+define('STATE_UNKNOWN', 3);
+define('STATE_DEPENDENT', 4);
 
 // the owner, group and filesize settings should be changed to match the correct permissions on your server.
 $required_files = array(
@@ -82,5 +86,10 @@ $errors += Monitor::checkDatabase();
 $errors += Monitor::checkMailQueue();
 $errors += Monitor::checkIRCBot();
 
-// propagate status code to shell
-exit($errors > 0 ? 1 : 0);
+if ($errors) {
+    // propagate status code to shell
+    exit(STATE_CRITICAL);
+}
+
+echo ev_gettext("OK: No errors found"), "\n";
+exit(STATE_OK);
