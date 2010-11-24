@@ -80,9 +80,9 @@ class Setup
                 return -2;
             }
         }
-        $contents = "<?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n?>";
+        $contents = "<"."?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n";
         $res = file_put_contents(APP_SETUP_FILE, $contents);
-        if (!$res) {
+        if ($res === false) {
             return -2;
         }
         return 1;
