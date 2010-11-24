@@ -55,6 +55,9 @@ class Setup
                 return null;
             }
             $setup = unserialize(base64_decode($eventum_setup_string));
+
+            // merge with defaults
+            $setup = self::array_extend(self::getDefaults(), $setup);
         }
         return $setup;
     }
@@ -86,5 +89,37 @@ class Setup
             return -2;
         }
         return 1;
+    }
+
+    /**
+     * Method used to get the system-wide defaults.
+     *
+     * @access  public
+     * @return  string array of the default preferences
+     */
+    public function getDefaults()
+    {
+        $defaults = array(
+        );
+
+        return $defaults;
+    }
+
+    /*
+     * Merge two arrays so that $a contains all keys that $b would
+     */
+    private static function array_extend($a, $b) {
+        foreach ($b as $k => $v) {
+            if (is_array($v)) {
+                if (!isset($a[$k])) {
+                    $a[$k] = $v;
+                } else {
+                    $a[$k] = self::array_extend($a[$k], $v);
+                }
+            } else {
+                $a[$k] = $v;
+            }
+        }
+        return $a;
     }
 }
