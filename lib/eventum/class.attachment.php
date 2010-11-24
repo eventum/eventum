@@ -543,13 +543,7 @@ class Attachment
      */
     function getMaxAttachmentSize()
     {
-        $size = ini_get('upload_max_filesize');
-        // check if this directive uses the string version (e.g. 256M)
-        if (strstr($size, 'M')) {
-            $size = str_replace('M', '', $size);
-            return Misc::formatFileSize($size * 1024 * 1024);
-        } else {
-            return Misc::formatFileSize($size);
-        }
+        $size = Misc::return_bytes(ini_get('upload_max_filesize'));
+        return Misc::formatFileSize($size);
     }
 }
