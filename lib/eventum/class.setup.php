@@ -50,7 +50,7 @@ class Setup
         static $setup;
         if (empty($setup) || $force == true) {
             $eventum_setup_string = null;
-            require_once APP_SETUP_FILE;
+            require APP_SETUP_FILE;
             if (empty($eventum_setup_string)) {
                 return null;
             }
