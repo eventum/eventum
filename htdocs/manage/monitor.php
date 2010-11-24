@@ -43,6 +43,7 @@ if ($role_id == User::getRoleID('administrator')) {
     if (!empty($_POST['cat']) && $_POST["cat"] == 'update') {
         $setup = Setup::load();
         $setup['monitor']['diskcheck'] = $_POST["diskcheck"];
+        $setup['monitor']['paths'] = $_POST["paths"];
         $res = Setup::save($setup);
         $tpl->assign("result", $res);
     }

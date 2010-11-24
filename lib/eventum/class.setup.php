@@ -105,6 +105,9 @@ class Setup
                     'status' => 'enabled',
                     'partition' => APP_PATH,
                 ),
+                'paths' => array(
+                    'status' => 'enabled',
+                ),
             ),
         );
 

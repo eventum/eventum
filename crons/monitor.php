@@ -74,8 +74,10 @@ $prefs = $setup['monitor'];
 if ($prefs['diskcheck']['status'] == 'enabled') {
     $errors += Monitor::checkDiskspace($prefs['diskcheck']['partition']);
 }
-$errors += Monitor::checkRequiredFiles($required_files);
-$errors += Monitor::checkRequiredDirs($required_directories);
+if ($prefs['paths']['status'] == 'enabled') {
+    $errors += Monitor::checkRequiredFiles($required_files);
+    $errors += Monitor::checkRequiredDirs($required_directories);
+}
 $errors += Monitor::checkDatabase();
 $errors += Monitor::checkMailQueue();
 $errors += Monitor::checkIRCBot();
