@@ -64,10 +64,6 @@ $required_directories = array(
         'check_permission' => true,
         'permission'       => 770,
     ),
-    APP_PATH . '/htdocs/setup' => array(
-        'check_permission' => true,
-        'permission'       => 100,
-    ),
 );
 
 $errors = 0;
