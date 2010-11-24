@@ -660,7 +660,7 @@ class Mime_Helper
             if (empty($mime_part_filename)) {
                 $ext = $mime_part->ctype_secondary;
                 // TRANSLATORS: filename for inline image attachments, where %s is file extension
-                $mime_part_filename = sprintf(ev_gettext('Untitled.%s'), $ext);
+                $mime_part_filename = ev_gettext('Untitled.%s', $ext);
             }
         } else {
             if ((!in_array($content_type, self::_getInvalidContentTypes())) &&
