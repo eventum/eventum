@@ -28,3 +28,6 @@ UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id 
 * class.user.php :: getRole : notes:
        // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
        return isset($roles[$role_id]) ? $roles[$role_id] : null;
+
+* HTML modernization
+  convert all "checkRadio" calls to HTML labels. see revision@4227
