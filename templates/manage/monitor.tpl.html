@@ -100,12 +100,31 @@
     <td bgcolor="{$light_color}" class="default">
       <table>
       <tr>
-        <td colspan="2" class="default">
-        {html_radios name='paths[status]' options=$enable_disable selected=$setup.monitor.paths.status separator='&nbsp;&nbsp;'}
+        <td class="default" width="120">
+        {html_radios name='paths[status]' options=$enable_disable selected=$setup.monitor.paths.status separator='<br/>'}
         </td>
-        <td width="80%">
+        <td>
           <span class="small_default">
           {t}Whether to check permissions of directories and config files.{/t}
+          </span><br />
+        </td>
+      </tr>
+      </table>
+    </td>
+    </tr>
+
+    <td width="120" bgcolor="{$cell_color}" class="default_white">
+      <b>{t}Check IRC Bot:{/t}</b>
+    </td>
+    <td bgcolor="{$light_color}" class="default">
+      <table>
+      <tr>
+        <td class="default" width="120">
+        {html_radios name='ircbot[status]' options=$enable_disable selected=$setup.monitor.ircbot.status separator='<br/>'}
+        </td>
+        <td>
+          <span class="small_default">
+          {t}Whether to check if IRC Bot is running.{/t}
           </span><br />
         </td>
       </tr>

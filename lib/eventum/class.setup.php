@@ -108,6 +108,9 @@ class Setup
                 'paths' => array(
                     'status' => 'enabled',
                 ),
+                'ircbot' => array(
+                    'status' => 'enabled',
+                ),
             ),
         );
 

@@ -44,6 +44,7 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup = Setup::load();
         $setup['monitor']['diskcheck'] = $_POST["diskcheck"];
         $setup['monitor']['paths'] = $_POST["paths"];
+        $setup['monitor']['ircbot'] = $_POST["ircbot"];
         $res = Setup::save($setup);
         $tpl->assign("result", $res);
     }
