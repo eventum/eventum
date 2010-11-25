@@ -70,6 +70,9 @@ $required_directories = array(
     ),
 );
 
+$opt = getopt('q');
+$quiet = isset($opt['q']);
+
 $errors = 0;
 // load prefs
 $setup = Setup::load();
@@ -94,5 +97,7 @@ if ($errors) {
     exit(STATE_CRITICAL);
 }
 
-echo ev_gettext("OK: No errors found"), "\n";
+if (!$quiet) {
+    echo ev_gettext("OK: No errors found"), "\n";
+}
 exit(STATE_OK);
