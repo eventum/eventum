@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-24 19:20+0200\n"
+"POT-Creation-Date: 2010-11-25 14:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1213,6 +1213,10 @@ msgid "Check Disk Space:"
 msgstr ""
 
 #: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
 msgstr ""
 
@@ -1770,7 +1774,8 @@ msgstr ""
 msgid "Diff Page:"
 msgstr ""
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
@@ -2147,7 +2152,8 @@ msgstr ""
 msgid "Empty Subject Header"
 msgstr ""
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
@@ -3871,7 +3877,7 @@ msgstr ""
 msgid "Number of Days"
 msgstr ""
 
-#: crons/monitor.php:94
+#: crons/monitor.php:97
 msgid "OK: No errors found"
 msgstr ""
 
@@ -7819,6 +7825,10 @@ msgstr ""
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
 msgstr ""
 
 #: templates/manage/monitor.tpl.html
