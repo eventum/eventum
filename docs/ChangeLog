@@ -30,6 +30,7 @@ Eventum Issue Tracking System
 - Added workflow method to control if a user has access to update an issue (Bryan)
 - Added "Group" to reminder conditions (Bryan)
 - Allow ordering of resolutions (Bryan)
+- Allow aliases to be used when requesting new password (Bryan)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
