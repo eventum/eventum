@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-25 14:13+0200\n"
+"POT-Creation-Date: 2010-12-02 16:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3846,7 +3846,7 @@ msgid "Notification List:"
 msgstr ""
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
+msgid "Notification Options for Issue #%1"
 msgstr ""
 
 #: lib/eventum/class.notification.php:2006
@@ -3877,7 +3877,7 @@ msgstr ""
 msgid "Number of Days"
 msgstr ""
 
-#: crons/monitor.php:97
+#: crons/monitor.php:101
 msgid "OK: No errors found"
 msgstr ""
 
