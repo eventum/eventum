@@ -32,6 +32,8 @@ Eventum Issue Tracking System
 - Allow ordering of resolutions (Bryan)
 - Allow aliases to be used when requesting new password (Bryan)
 - Changed FAQ entries to not popup in new windows (Bryan)
+- Added "getActiveGroup" to workflow (Bryan)
+- Added "Active Group" to reminder conditions
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

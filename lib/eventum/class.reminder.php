@@ -797,14 +797,15 @@ class Reminder
     {
         // - build the SQL query to check if we have an issue that matches these conditions...
         $stmt = "SELECT
-                    iss_id
+                    iss_id,
+                    iss_prj_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         $stmt .= self::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
-        $res = DB_Helper::getInstance()->getCol($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -813,7 +814,20 @@ class Reminder
             if (empty($res)) {
                 return array();
             } else {
-                return $res;
+                // check for conditions that can't be run in the DB
+                foreach ($res as $iss_id => $iss_prj_id) {
+                    foreach ($conditions as $condition) {
+                        if (!empty($condition['rmf_sql_representation'])) {
+                            continue;
+                        }
+                        if ($condition['rmf_title'] == 'Active Group') {
+                            if (Workflow::getActiveGroup($iss_prj_id) != $condition['rlc_value']) {
+                                unset($res[$iss_id]);
+                            }
+                        }
+                    }
+                }
+                return array_keys($res);
             }
         }
     }
@@ -861,6 +875,10 @@ class Reminder
         }
         // now for the interesting stuff
         for ($i = 0; $i < count($conditions); $i++) {
+            if (empty($conditions[$i]['rmf_sql_representation'])) {
+                continue;
+            }
+
             // check for fields that compare to other fields
             if (!empty($conditions[$i]['rlc_comparison_rmf_id'])) {
                 $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_comparison_rmf_id']);

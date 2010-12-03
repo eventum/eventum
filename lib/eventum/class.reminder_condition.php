@@ -215,7 +215,7 @@ class Reminder_Condition
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
                     $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
-                } elseif (strtolower($res[$i]['rmf_title']) == 'group') {
+                } elseif ((strtolower($res[$i]['rmf_title']) == 'group') || (strtolower($res[$i]['rmf_title']) == 'active group')) {
                     $res[$i]['rlc_value'] = Group::getName($res[$i]['rlc_value']);
                 } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
                     $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");

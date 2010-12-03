@@ -476,4 +476,13 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    /**
+     * Returns the ID of the group that is "active" right now.
+     */
+    public function getActiveGroup($prj_id)
+    {
+        return null;
+    }
 }

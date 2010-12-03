@@ -687,3 +687,5 @@ ALTER TABLE resolution ADD COLUMN res_rank int(2) NOT NULL;
 
 
 
+# December 2nd
+INSERT INTO reminder_field SET rmf_title = 'Active Group', rmf_sql_field = 'iss_grp_id', rmf_sql_representation = '';
