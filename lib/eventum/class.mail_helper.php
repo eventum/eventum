@@ -636,20 +636,21 @@ class Mail_Helper
      * @access  public
      * @param   array $email The email to save.
      */
-    function saveEmailInformation($email)
+    function saveOutgoingEmailCopy(&$email)
     {
-        static $subjects = array();
-
-        $hdrs = $email['headers'];
-        $body = $email['body'];
-        $issue_id = $email['maq_iss_id'];
-        $sender_usr_id = $email['maq_usr_id'];
-
-        // do we really want to save every outgoing email?
+        // check early: do we really want to save every outgoing email?
         $setup = Setup::load();
-        if ((@$setup['smtp']['save_outgoing_email'] != 'yes') || (empty($setup['smtp']['save_address']))) {
+        $save_outgoing_email = !empty($setup['smtp']['save_outgoing_email']) && $setup['smtp']['save_outgoing_email'] == 'yes';
+        if (!$save_outgoing_email || empty($setup['smtp']['save_address'])) {
             return false;
         }
+
+        static $subjects = array();
+
+        $hdrs = &$email['headers'];
+        $body = &$email['body'];
+        $issue_id = $email['maq_iss_id'];
+        $sender_usr_id = $email['maq_usr_id'];
 
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;

@@ -27,7 +27,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-ini_set("memory_limit", "1024M");
+// Set to almost 2Gigs, as 2048M overflows:
+// script tried to disable memory_limit by setting it to a negative value -2147483648 bytes which is not allowed
+ini_set("memory_limit", "2047M");
 
 require_once dirname(__FILE__).'/../init.php';
 

@@ -808,7 +808,6 @@ class Support
                 @imap_setflag_full($mbox, $num, "\\Seen");
             }
         }
-        return;
     }
 
 
@@ -1324,9 +1323,8 @@ class Support
                     $res[$i]["sup_to"] = "Notification List";
                 } else {
                     $to = Mail_Helper::getName($res[$i]["sup_to"]);
-                    if (PEAR::isError($to)) {
-                        // ignore unformattable headers
-                    } else {
+                    // Ignore unformattable headers
+                    if (!PEAR::isError($to)) {
                         $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                     }
                 }

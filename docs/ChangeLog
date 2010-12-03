@@ -14,6 +14,13 @@ Eventum Issue Tracking System
 - XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
 - Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
 - Make attachment names linked in issue Initial Description (Elan Ruusamäe)
+- Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
+- Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
+- Rework Mail_Queue code to be memory efficent by fetching only one email a time to memory (Elan Ruusamäe)
+- Fix xmlrpc server missing global $XML_RPC_erruser (Elan Ruusamäe)
+- Add better xmlrpc client class and sample (Elan Ruusamäe)
+- Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
+- Support for configuring Monitor preferences (Elan Ruusamäe)
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)

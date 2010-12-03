@@ -50,11 +50,14 @@ class Setup
         static $setup;
         if (empty($setup) || $force == true) {
             $eventum_setup_string = null;
-            require_once APP_SETUP_FILE;
+            require APP_SETUP_FILE;
             if (empty($eventum_setup_string)) {
                 return null;
             }
             $setup = unserialize(base64_decode($eventum_setup_string));
+
+            // merge with defaults
+            $setup = self::array_extend(self::getDefaults(), $setup);
         }
         return $setup;
     }
@@ -80,11 +83,55 @@ class Setup
                 return -2;
             }
         }
-        $contents = "<?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n?>";
+        $contents = "<"."?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n";
         $res = file_put_contents(APP_SETUP_FILE, $contents);
-        if (!$res) {
+        if ($res === false) {
             return -2;
         }
         return 1;
+    }
+
+    /**
+     * Method used to get the system-wide defaults.
+     *
+     * @access  public
+     * @return  string array of the default preferences
+     */
+    public function getDefaults()
+    {
+        $defaults = array(
+            'monitor' => array(
+                'diskcheck' => array(
+                    'status' => 'enabled',
+                    'partition' => APP_PATH,
+                ),
+                'paths' => array(
+                    'status' => 'enabled',
+                ),
+                'ircbot' => array(
+                    'status' => 'enabled',
+                ),
+            ),
+        );
+
+        return $defaults;
+    }
+
+    /*
+     * Merge two arrays so that $a contains all keys that $b would
+     */
+    private static function array_extend($a, $b) {
+        foreach ($b as $k => $v) {
+            if (is_array($v)) {
+                if (!isset($a[$k])) {
+                    $a[$k] = $v;
+                } else {
+                    $a[$k] = self::array_extend($a[$k], $v);
+                }
+            } else {
+                $a[$k] = $v;
+            }
+        }
+        return $a;
     }
 }

@@ -197,12 +197,12 @@ class Attachment
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                self::remove($res[$i]);
-            }
-            return true;
         }
+
+        foreach ($res as $id) {
+            self::remove($id);
+        }
+        return true;
     }
 
 
@@ -232,33 +232,33 @@ class Attachment
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if (empty($res)) {
-                return -2;
-            } else {
-                $issue_id = $res;
-                $files = self::getFileList($iat_id);
-                $stmt = "DELETE FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
-                         WHERE
-                            iat_id=$iat_id AND
-                            iat_iss_id=$issue_id";
-                $res = DB_Helper::getInstance()->query($stmt);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                    return -1;
-                }
-                for ($i = 0; $i < count($files); $i++) {
-                    self::removeFile($files[$i]['iaf_id']);
-                }
-                if ($add_history) {
-                    Issue::markAsUpdated($usr_id);
-                    // need to save a history entry for this
-                    History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
-                }
-                return 1;
-            }
         }
+
+        if (empty($res)) {
+            return -2;
+        }
+
+        $issue_id = $res;
+        $files = self::getFileList($iat_id);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                 WHERE
+                    iat_id=$iat_id AND
+                    iat_iss_id=$issue_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        foreach ($files as $file) {
+            self::removeFile($file['iaf_id']);
+        }
+        if ($add_history) {
+            Issue::markAsUpdated($usr_id);
+            // need to save a history entry for this
+            History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+        }
+        return 1;
     }
 
     /**
@@ -543,13 +543,7 @@ class Attachment
      */
     function getMaxAttachmentSize()
     {
-        $size = ini_get('upload_max_filesize');
-        // check if this directive uses the string version (e.g. 256M)
-        if (strstr($size, 'M')) {
-            $size = str_replace('M', '', $size);
-            return Misc::formatFileSize($size * 1024 * 1024);
-        } else {
-            return Misc::formatFileSize($size);
-        }
+        $size = Misc::return_bytes(ini_get('upload_max_filesize'));
+        return Misc::formatFileSize($size);
     }
 }
