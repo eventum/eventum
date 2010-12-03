@@ -821,7 +821,9 @@ class Reminder
                             continue;
                         }
                         if ($condition['rmf_title'] == 'Active Group') {
-                            if (Workflow::getActiveGroup($iss_prj_id) != $condition['rlc_value']) {
+                            $equal = (Workflow::getActiveGroup($iss_prj_id) == $condition['rlc_value']);
+                            if ((($condition['rmo_sql_representation'] == '=') && ($equal != true)) ||
+                                (($condition['rmo_sql_representation'] == '<>') && ($equal != false))) {
                                 unset($res[$iss_id]);
                             }
                         }
