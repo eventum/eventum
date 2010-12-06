@@ -1102,7 +1102,8 @@ class Project
             "estimated_dev_time"    =>  ev_gettext("Estimated Dev. Time"),
             "group"     =>  ev_gettext("Group"),
             "file"  =>  ev_gettext("File"),
-            "private"   =>  ev_gettext("Private")
+            "private"   =>  ev_gettext("Private"),
+            "product"   =>  ev_gettext("Product"),
         );
     }
 }

@@ -41,6 +41,7 @@ Eventum Issue Tracking System
 - Changed FAQ entries to not popup in new windows (Bryan)
 - Added "getActiveGroup" to workflow (Bryan)
 - Added "Active Group" to reminder conditions
+- Added 'Product' field. Eventually multiple products per issue will be supported (Bryan)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

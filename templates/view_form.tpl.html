@@ -241,6 +241,9 @@ function collapseDescription()
             {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
             {if $columns[0][row].tpl_block == 'reporter'}
                 <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter}</a>
+            {elseif $columns[0][row].tpl_block == 'product'}
+                {$issue.products[0].product}
+                {$issue.products[0].version}
             {else}
                 {$columns[0][row].data|escape:"html"}
             {/if}

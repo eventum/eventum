@@ -133,6 +133,13 @@ function validateForm(f)
     }
     {/literal}
     {/if}
+    {if $current_role >= $field_display_settings.product}
+        {literal}
+        if (hasSelected(f.product, -1)) {
+            errors[errors.length] = new Option('{/literal}{t escape=js}Product{/t}{literal}', 'product');
+        }
+        {/literal}
+    {/if}
     {literal}
     checkCustomFields(f);
 
@@ -162,9 +169,31 @@ function display_severity_description()
         $('#severity_desc').text(description).show();
     }
 }
+
+var product_version_howtos = {}
+{/literal}
+
+{foreach from=$products_version_howto key=pro_id item=version_howto}
+product_version_howtos[{$pro_id}] = '{$version_howto|escape:"js"}';
+{/foreach}
+{literal}
+
+function display_product_version_howto()
+{
+    var selected_id = $('#product').val();
+    var howto = product_version_howtos[selected_id];
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
+    }
+}
+
 $().ready(function() {
     display_severity_description(); 
+    display_product_version_howto();
     $('#severity').bind('change', display_severity_description);
+    $('#product').bind('change', display_product_version_howto);
 });
 //-->
 </script>
@@ -293,7 +322,7 @@ $().ready(function() {
         {/if}
         {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
         <tr>
-          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.group > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>{t}Group{/t}: </b>
           </td>
           <td bgcolor="{$light_color}">
@@ -363,6 +392,30 @@ $().ready(function() {
             {/if}
             <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
             {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">({t}in hours{/t})</span>
+          </td>
+        </tr>
+        {/if}
+        {if $products_assoc|@count > 0 && $current_role >= $field_display_settings.product}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product{/t}: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" id="product" name="product" tabindex="{$tabindex++}">
+                <option value="-1"></option>
+                {html_options options=$products_assoc selected=$smarty.post.product}
+            </select>
+            {include file="error_icon.tpl.html" field="product"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product Version{/t}: </b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="product_version" value="{$smarty.post.product_version}" size="40" />
+            <span class="default" id="product_version_howto"></span>
+            {include file="error_icon.tpl.html" field="product_version"}
           </td>
         </tr>
         {/if}

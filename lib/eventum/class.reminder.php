@@ -235,6 +235,11 @@ class Reminder
                 $res['check_priority'] = 'yes';
                 $res['rer_pri_id'] = $priorities;
             }
+            $products = self::getAssociatedProducts($rem_id);
+            if (count($products) > 0) {
+                $res['check_product'] = 'yes';
+                $res['rer_pro_id'] = $products;
+            }
             $severities = self::getAssociatedSeverities($rem_id);
             if (count($severities) > 0) {
                 $res['check_severity'] = 'yes';
@@ -261,6 +266,24 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
                     rep_rem_id=" . Misc::escapeInteger($rem_id);
+        $res = DB_Helper::getInstance()->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    function getAssociatedProducts($rem_id)
+    {
+        $stmt = "SELECT
+                    rpr_pro_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                 WHERE
+                    rpr_rem_id=" . Misc::escapeInteger($rem_id);
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -443,6 +466,27 @@ class Reminder
     }
 
 
+    function addProductAssociation($rem_id, $pro_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                 (
+                    rpr_rem_id,
+                    rpr_pro_id
+                 ) VALUES (
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($pro_id) . "
+                 )";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     /**
      * Method used to associate a severity with a given reminder.
      *
@@ -494,6 +538,11 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
+        DB_Helper::getInstance()->query($stmt);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_products
+                 WHERE
+                    rpr_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
@@ -553,6 +602,11 @@ class Reminder
                     self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
                 }
             }
+            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+                for ($i = 0; $i < count($_POST['products']); $i++) {
+                    self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
+                }
+            }
             if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
                 for ($i = 0; $i < count($_POST['severities']); $i++) {
                     self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
@@ -606,6 +660,11 @@ class Reminder
             if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
                 for ($i = 0; $i < count($_POST['priorities']); $i++) {
                     self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+                }
+            }
+            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+                for ($i = 0; $i < count($_POST['products']); $i++) {
+                    self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
                 }
             }
             if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
@@ -801,6 +860,13 @@ class Reminder
                     iss_prj_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ",
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version";
+        }
+
         $stmt .= self::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
@@ -870,6 +936,10 @@ class Reminder
         $priorities = self::getAssociatedPriorities($reminder['rem_id']);
         if (count($priorities) > 0) {
             $stmt .= ' AND iss_pri_id IN (' . implode(', ', $priorities) . ")\n";
+        }
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ' AND ipv_iss_id = iss_id AND ipv_pro_id IN (' . implode(', ', $products) . ")\n";
         }
         $severities = self::getAssociatedSeverities($reminder['rem_id']);
         if (count($severities) > 0) {

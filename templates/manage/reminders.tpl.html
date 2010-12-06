@@ -56,6 +56,7 @@
               {
                   var f = getForm('reminder_form');
                   var issue_field = getFormElement(f, 'issues[]');
+                  var product_field = getFormElement(f, 'products[]');
                   var priority_field = getFormElement(f, 'priorities[]');
                   var severity_field = getFormElement(f, 'severities[]');
                   var level_field = getFormElement(f, 'support_levels[]');
@@ -91,6 +92,12 @@
                       priority_field.disabled = false;
                   } else {
                       priority_field.disabled = true;
+                  }
+                  field = getFormElement(f, 'check_product');
+                  if (field.checked) {
+                      product_field.disabled = false;
+                  } else {
+                      product_field.disabled = true;
                   }
                   field = getFormElement(f, 'check_severity');
                   if (field.checked) {
@@ -252,7 +259,10 @@
                         <input type="checkbox" name="check_priority" value="yes" {if $info.check_priority == 'yes'}checked{/if} onClick="toggleReminderTypeFields();">
                         <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('reminder_form', 'check_priority');toggleReminderTypeFields();">{t}Also Filter By Issue Priorities{/t}</a>
                       </td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td class="default">
+                        <input type="checkbox" name="check_product" value="yes" {if $info.check_product == 'yes'}checked{/if} onClick="toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('reminder_form', 'check_product');toggleReminderTypeFields();">{t}Also Filter By Issue Product{/t}</a>
+                      </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
@@ -263,7 +273,10 @@
                           {html_options options=$priorities selected=$info.rer_pri_id}
                         </select>
                       </td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>
+                        <select name="products[]" size="4" multiple class="default">
+                          {html_options options=$products selected=$info.rer_pro_id}
+                        </select></td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     <tr>

@@ -689,3 +689,34 @@ ALTER TABLE resolution ADD COLUMN res_rank int(2) NOT NULL;
 
 # December 2nd
 INSERT INTO reminder_field SET rmf_title = 'Active Group', rmf_sql_field = 'iss_grp_id', rmf_sql_representation = '';
+
+
+# December 3rd - Products
+CREATE TABLE product (
+  pro_id int(11) unsigned NOT NULL auto_increment,
+  pro_title varchar(255) NOT NULL,
+  pro_version_howto varchar(255) NOT NULL,
+  pro_rank mediumint unsigned NOT NULL default 0,
+  pro_removed tinyint(1) unsigned NOT NULL default 0,
+  PRIMARY KEY (pro_id),
+  KEY (pro_rank)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE issue_product_version (
+  ipv_id int(11) unsigned NOT NULL auto_increment,
+  ipv_iss_id int(11) unsigned NOT NULL,
+  ipv_pro_id int(11) unsigned NOT NULL,
+  ipv_version varchar(255) NOT NULL,
+  PRIMARY KEY (ipv_id),
+  KEY ipv_iss_id (ipv_iss_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO history_type (htt_name, htt_role) VALUES ('version_details_updated', '4');
+
+
+CREATE TABLE `reminder_product` (
+  rpr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  rpr_rem_id INT(11) UNSIGNED NOT NULL,
+  rpr_pro_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY(rpr_id)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;

@@ -153,6 +153,10 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'tpl_block' =>  'reporter',
             );
             $column[0][] = array(
+                    'title' =>  ev_gettext('Product'),
+                    'tpl_block' =>  'product',
+            );
+            $column[0][] = array(
                     'title' =>  ev_gettext('Assignment'),
                     'data' =>  $details['assignments'],
             );

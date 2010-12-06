@@ -1640,6 +1640,11 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // change product
+            if (isset($_POST['product'])) {
+                $product_changes = Product::updateProductsByIssue($issue_id, $_POST['product'], $_POST['product_version']);
+            }
+
             // add change to the history (only for changes on specific fields?)
             $updated_fields = array();
             if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
@@ -1687,6 +1692,9 @@ class Issue
             }
             if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
                 $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
+            }
+            if (count($product_changes) > 0) {
+                $updated_fields['Product'] = join('; ', $product_changes);
             }
             if (count($updated_fields) > 0) {
                 // log the changes
@@ -2169,6 +2177,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
+            'product', 'product_version',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2264,6 +2273,11 @@ class Issue
                     $has_RR = true;
                 }
             }
+        }
+
+        // set product and version
+        if (isset($data['product'])) {
+            Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
         // now process any files being uploaded
@@ -3645,6 +3659,8 @@ class Issue
 
                 // get quarantine issue
                 $res["quarantine"] = self::getQuarantineInfo($res["iss_id"]);
+
+                $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
                 $returns[$issue_id] = $res;
                 return $res;
