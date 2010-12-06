@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 12:00+0200\n"
-"PO-Revision-Date: 2010-11-17 22:53+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2010-12-02 16:48+0200\n"
+"PO-Revision-Date: 2010-12-05 13:03+0000\n"
+"Last-Translator: kievlyanin <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-11-19 04:52+0000\n"
+"X-Launchpad-Export-Date: 2010-12-06 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -119,6 +119,10 @@ msgstr "(обычно 110 порт для POP3 серверов, и 143 - для
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(архивировано)"
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -980,11 +984,11 @@ msgstr "Прикрепленные эл.письма"
 msgid "Attached Files"
 msgstr "Вложенные файлы"
 
-#: lib/eventum/class.support.php:1452
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
 msgstr "Приложение создано из примечания"
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
 msgstr "Приложение создано из эл. почты"
 
@@ -1251,6 +1255,18 @@ msgstr "Измененные поля"
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
 msgstr "Изменение типа поля может привести к потере данных."
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1638,6 +1654,10 @@ msgstr "Клиенты"
 msgid "Customize Issue Listing Screen"
 msgstr "Настройка страницы просмотра запросов"
 
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr "Подсказки дня:"
@@ -1805,9 +1825,10 @@ msgstr "Знаете ли вы?"
 msgid "Diff Page:"
 msgstr "Страница версий:"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr "Выключено"
 
@@ -1876,28 +1897,26 @@ msgstr "Дубликаты"
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:83
-msgid "ERROR: Almost no free disk space left (percentage left"
+#: lib/eventum/class.monitor.php:72
+#, php-format
+msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
-"ОШИБКА: Свободного дискового пространства практически нет (осталось %"
 
-#: lib/eventum/class.monitor.php:171
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
-msgstr ""
-"ОШИБКА: Невозможно подключиться к базе данных MySQL. Детальное сообщение "
-"ошибки:"
-
-#: lib/eventum/class.monitor.php:269
+#: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "ОШИБКА: Невозможно найти идентификатор бота IRC из списка процесса."
 
-#: lib/eventum/class.monitor.php:142
+#: lib/eventum/class.monitor.php:238
+#, php-format
+msgid "ERROR: Could not find required table \"%s\""
+msgstr ""
+
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "ОШИБКА: Директория не найдена (путь: %1$s)"
 
-#: lib/eventum/class.monitor.php:148
+#: lib/eventum/class.monitor.php:146
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -1906,11 +1925,12 @@ msgstr ""
 "ОШИБКА: Несоответствие разрешений директории (путь: %1$s; текущие разр.: "
 "%2$s; верные разр.: %3$s)"
 
-#: lib/eventum/class.monitor.php:104
-msgid "ERROR: File could not be found (path"
-msgstr "ОШИБКА: Файл не найден (путь"
+#: lib/eventum/class.monitor.php:97
+#, php-format
+msgid "ERROR: File could not be found (path: %s)"
+msgstr ""
 
-#: lib/eventum/class.monitor.php:113
+#: lib/eventum/class.monitor.php:108
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
@@ -1919,7 +1939,7 @@ msgstr ""
 "ОШИБКА: Несоответствие группы файла (путь: %1$s; текущая группа: %2$s; "
 "верная группа: %3$s)"
 
-#: lib/eventum/class.monitor.php:110
+#: lib/eventum/class.monitor.php:104
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
@@ -1928,7 +1948,7 @@ msgstr ""
 "ОШИБКА: Несоответствие владельца файла (путь: %1$s; текущий владелец: %2$s; "
 "верный владелец: %3$s)"
 
-#: lib/eventum/class.monitor.php:118
+#: lib/eventum/class.monitor.php:114
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
@@ -1937,18 +1957,19 @@ msgstr ""
 "ОШИБКА: Несоответствие разрешений файла (путь: %1$s; текущие разр.: %2$s; "
 "верные разреш.: %3$s)"
 
-#: lib/eventum/class.monitor.php:122
+#: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 "ОШИБКА: Несоответствие размера файла (путь: %1$s; текущий размер файла: %2$s)"
 
-#: lib/eventum/class.monitor.php:87
-msgid "ERROR: Free disk space left is getting very low (percentage left"
+#: lib/eventum/class.monitor.php:76
+#, php-format
+msgid ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
-"ОШИБКА: Свободного дискового пространство остается очень мало (осталось %"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -1956,13 +1977,18 @@ msgstr ""
 "ОШИБКА: система не имеет соответствующих разрешений на создание файла "
 "конфигурации в каталоге установки"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
 "ОШИБКА: система не имеет соответствующих разрешений для обновления "
 "конфигурационного файла в каталоге установки"
+
+#: lib/eventum/class.monitor.php:54
+#, php-format
+msgid "ERROR: There is a total of %d queued emails with errors."
+msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -2021,12 +2047,12 @@ msgstr "Email"
 msgid "Email #%1$s: %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1504
+#: lib/eventum/class.support.php:1502
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') связанно пользователем %2$s"
 
-#: lib/eventum/class.support.php:1847
+#: lib/eventum/class.support.php:1845
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') разъединено пользователем %2$s"
@@ -2134,7 +2160,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr "Кол-во эл.почты за период"
 
-#: lib/eventum/class.support.php:2571
+#: lib/eventum/class.support.php:2569
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Эл. письмо от  '%1$s'  заблокировано"
@@ -2195,9 +2221,10 @@ msgstr "Эл.письма сотрудников"
 msgid "Empty Subject Header"
 msgstr "Пустой заголовок темы"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr "Включено"
 
@@ -3496,6 +3523,10 @@ msgstr "Модуль / Директория"
 msgid "Monday"
 msgstr "Понедельник"
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr "Месяц"
@@ -3627,7 +3658,7 @@ msgstr "Следующее сообщение"
 msgid "Next Note"
 msgstr "Следующее примечание"
 
-#: lib/eventum/class.misc.php:693 templates/close.tpl.html
+#: lib/eventum/class.misc.php:720 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3934,8 +3965,8 @@ msgid "Notification List:"
 msgstr "Список уведомлений:"
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
-msgstr "Настройки уведомлений"
+msgid "Notification Options for Issue #%1"
+msgstr ""
 
 #: lib/eventum/class.notification.php:2006
 #, php-format
@@ -3964,6 +3995,10 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
 msgstr "Кол-во дней"
+
+#: crons/monitor.php:101
+msgid "OK: No errors found"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4079,7 +4114,7 @@ msgstr "Адрес отправителя для исходящей эл.поч�
 msgid "Outgoing Email Sender Name"
 msgstr "Имя отправителя для исходящей эл.почты"
 
-#: lib/eventum/class.support.php:2205
+#: lib/eventum/class.support.php:2203
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Исходящее эл. писмо отправлено пользователем %1$s"
@@ -4120,9 +4155,14 @@ msgstr "POP3, с TLS"
 msgid "POP3, with TLS (self-signed)"
 msgstr "POP3, с TLS (self-signed)"
 
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
+msgstr ""
+
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
-#: templates/notifications/new_user.tpl.text templates/setup.tpl.html
+#: templates/notifications/new_user.tpl.text
+#: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
 msgid "Password"
 msgstr "Пароль"
 
@@ -4537,13 +4577,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -5021,6 +5061,10 @@ msgstr "Пожалуйста, введите новый пароль по кра
 #: templates/signup.tpl.html
 msgid "Please enter your password."
 msgstr "Пожалуйста, введите пароль"
+
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
+msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
@@ -5741,8 +5785,8 @@ msgstr "Ваш броузер должен поддерживать cookies и j
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -6718,7 +6762,7 @@ msgstr "Спасибо, выбранный запрос обновлен усп�
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Спасибо, выбранные требования удалены успешно."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Спасибо, информация о настройках сохранена успешно."
 
@@ -7749,6 +7793,7 @@ msgstr "Обновить запись круговой системы"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Обновить настройки"
 
@@ -8106,6 +8151,14 @@ msgstr "Недельный"
 msgid "Weekly Report"
 msgstr "Еженедельный отчет"
 
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
+msgstr ""
+
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
 msgstr "Расширить поле"
@@ -8156,7 +8209,7 @@ msgstr "Объем работы по времени дня"
 msgid "Workload by time period"
 msgstr "Объем работы за период"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:691
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8952,11 +9005,31 @@ msgstr "год"
 #~ msgid "Username:"
 #~ msgstr "Имя пользователя:"
 
+#~ msgid "Notification Options"
+#~ msgstr "Настройки уведомлений"
+
 #~ msgid " with the message"
 #~ msgstr " с сообщением"
 
 #~ msgid "Details:"
 #~ msgstr "Детали:"
+
+#~ msgid "ERROR: Almost no free disk space left (percentage left"
+#~ msgstr ""
+#~ "ОШИБКА: Свободного дискового пространства практически нет (осталось %"
+
+#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
+#~ msgstr ""
+#~ "ОШИБКА: Свободного дискового пространство остается очень мало (осталось %"
+
+#~ msgid "ERROR: File could not be found (path"
+#~ msgstr "ОШИБКА: Файл не найден (путь"
+
+#~ msgid ""
+#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
+#~ msgstr ""
+#~ "ОШИБКА: Невозможно подключиться к базе данных MySQL. Детальное сообщение "
+#~ "ошибки:"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Страница сгенерирована за %1 секунд"
