@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-06 03:49+0000\n"
+"PO-Revision-Date: 2010-12-08 02:25+0000\n"
 "Last-Translator: Fitoschido <Unknown>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-12-07 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-08 04:50+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -2790,15 +2790,15 @@ msgstr "Nombre Completo"
 
 #: templates/signup.tpl.html
 msgid "Full Name:"
-msgstr "Nombre Completo:"
+msgstr "Nombre completo:"
 
 #: templates/impact_analysis.tpl.html
 msgid "Further Requirements"
-msgstr "Requerimientos Adicionales"
+msgstr "Requerimientos adicionales"
 
 #: templates/manage/general.tpl.html templates/manage/manage.tpl.html
 msgid "General Setup"
-msgstr "Configuración General"
+msgstr "Configuración general"
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -2811,11 +2811,11 @@ msgstr "Generar"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
-msgstr "Obtener una Notificación Cuando"
+msgstr "Obtener una notificación cuando"
 
 #: templates/adv_search.tpl.html
 msgid "Global Search"
-msgstr "Búsqueda Global"
+msgstr "Búsqueda global"
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"

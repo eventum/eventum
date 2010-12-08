@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-06 18:43+0000\n"
-"Last-Translator: Lilylnx Cosin <lilylnx.cosin@yahoo.com>\n"
+"PO-Revision-Date: 2010-12-07 12:47+0000\n"
+"Last-Translator: Lilylnx Cosin <lilylnx@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-12-07 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-08 04:50+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -31,7 +31,7 @@ msgstr ""
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -69,6 +69,8 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"Các danh mục 'Thảo luận Ghi chú', 'Thảo luận Email' và 'Thảo luận Điện "
+"thoại' được yêu cầu bởi Eventum và không thể bị xóa."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -522,124 +524,126 @@ msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
+"Ngoài ra, tất cả các vấn đề được đánh dấu trùng lặp từ vấn đề này đều được "
+"cập nhật."
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "Một lỗi được tìm thấy"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr ""
+msgstr "Có lỗi xảy ra trong khi thêm mục FAQ"
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr ""
+msgstr "Có lỗi xảy ra trong khi thêm mới người quản lý tài khoản."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo mới tài khoản."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr ""
+msgstr "Có lỗi xảy ra khi khi thêm hoạt động mới."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm mới một danh mục."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm điều kiện mới."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm mới một trường tùy chọn."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm tùy biến mới."
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm hồi đáp thư điện tử mới."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm nhóm mới."
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm giải pháp mới cho vấn đề."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm bộ lọc liên kết mới."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm ghi chú mới."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm độ ưu tiên mới."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo đề án mới."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo bản phát hành mới."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm trình nhắc nhở mới."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm trạng thái mới."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "An error occurred while trying to add the new time tracking category."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thêm mới danh mục theo dõi thời gian."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo người dùng mới."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo mục tin tức mới."
 
 #: templates/manage/round_robin.tpl.html
 msgid "An error occurred while trying to add the round robin entry."
-msgstr ""
+msgstr "Có lỗi xảy ra khi tạo mục robin tròn."
 
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
-msgstr ""
+msgstr "Có lỗi xảy ra khi kết hợp tin nhắn thư điện tử đã lựa chọn."
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
-msgstr ""
+msgstr "Có lỗi xảy ra khi chuyển đổi ghi chú đã lựa chọn."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
-msgstr ""
+msgstr "Có lỗi xảy ra khi xóa bộ lọc liên kết."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
-msgstr ""
+msgstr "Có lỗi xảy ra khi xóa ghi chú."
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
-msgstr ""
+msgstr "Có lỗi xảy ra thêm người hồi âm được cấp quyền."
 
 #: templates/file_upload.tpl.html
 msgid "An error occurred while trying to process the uploaded file."
-msgstr ""
+msgstr "Có lỗi xảy khi xử lý tập tin được tải lên."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
@@ -648,129 +652,130 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
-msgstr ""
+msgstr "Có lỗi xảy ra khi thực thi truy vấn của bạn."
 
 #: templates/preferences.tpl.html
 msgid "An error occurred while trying to run your query."
-msgstr ""
+msgstr "Có lỗi xảy ra khi thực thi truy vấn của bạn."
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
-msgstr ""
+msgstr "Có lỗi xảy ra khi lưu các cột hiển thị."
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật các thiết lập hiển thị của ô nhập."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin mục FAQ."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin tài khoản."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin người quản lý tài khoản."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về hoạt động."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin danh mục."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về điều kiện."
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "An error occurred while trying to update the custom field information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về ô nhập tùy chọn."
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin tùy biến."
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
 "An error occurred while trying to update the email response information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin hồi đáp thư điện tử."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin nhóm."
 
 #: templates/manage/anonymous.tpl.html
 msgid "An error occurred while trying to update the information."
-msgstr ""
+msgstr "Có lỗi có xảy ra khi cập nhật thông tin."
 
 #: templates/manage/resolution.tpl.html
 msgid ""
 "An error occurred while trying to update the issue resolution information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về giải pháp vấn đề."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật bộ lọc liên kết."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin mục tin tức."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to update the note."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật ghi chú."
 
 #: templates/notification.tpl.html
 msgid "An error occurred while trying to update the notification entry."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật mục thông báo."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to update the priority information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về độ ưu tiên."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to update the project information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin đề án."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to update the release information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin về bản phát hành."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to update the reminder information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin cho trình nhắc nhở."
 
 #: templates/manage/round_robin.tpl.html
 msgid ""
 "An error occurred while trying to update the round robin entry information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin mục robin tròn."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to update the status information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin trạng thái."
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin danh mục theo dõi thời gian."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to update the user information."
-msgstr ""
+msgstr "Có lỗi xảy ra khi cập nhật thông tin người dùng."
 
 #: templates/clock_status.tpl.html
 msgid ""
 "An error was found while trying to change your account clocked-in status."
 msgstr ""
+"Một lỗi được tìm thấy khi thay đổi trạng thái clocked-in tài khoản của bạn."
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -780,84 +785,89 @@ msgid ""
 "to the appropriate files will be associated with existing issue mentioned in "
 "your commit message."
 msgstr ""
+"Một script tích hợp cần được cài đặt trong kho lưu trữ gốc CVS của bạn để "
+"gửi thông báo đến Eventum bất cứ khi nào các thay đổi được cập nhật vào kho "
+"lưu trữ. Thông báo này sẽ được xử lý bởi Eventum và những thay đổi vào tập "
+"tin phù hợp sẽ được liên kết với vấn đề tồn tại được đề cập trong tin nhắn "
+"commit của bạn."
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
-msgstr ""
+msgstr "Một vấn đề đã được giao cho bạn bởi %1"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Anonymous Form"
-msgstr ""
+msgstr "Biểu mẫu vô danh"
 
 #: templates/manage/projects.tpl.html
 msgid "Anonymous Reporting"
-msgstr ""
+msgstr "Báo cáo vô danh"
 
 #: templates/manage/manage.tpl.html
 msgid "Anonymous Reporting Options"
-msgstr ""
+msgstr "Các tùy chọn Báo cáo vô danh"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting of New Issues"
-msgstr ""
+msgstr "Các báo cáo vô danh của Những vấn đề mới"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
-msgstr ""
+msgstr "Báo cáo vô danh:"
 
 #: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
-msgstr ""
+msgstr "Bất kỳ"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr ""
+msgstr "Lưu trữ"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
-msgstr ""
+msgstr "Bạn chắc chắn muốn thêm địa chỉ này vào danh sách thông báo?"
 
 #: templates/manage/manage.tpl.html
 msgid "Areas"
-msgstr ""
+msgstr "Vùng"
 
 #: templates/email_filter_form.tpl.html
 msgid "Arrival Date:"
-msgstr ""
+msgstr "Ngày Kết thúc:"
 
 #: templates/faq.tpl.html
 msgid "Article Entries"
-msgstr ""
+msgstr "Các điều mục"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Ví dụ như, sử dụng"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "Tăng dần"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
-msgstr ""
+msgstr "Vấn đề giao cho tôi"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users"
-msgstr ""
+msgstr "Người dùng có thể phân công"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users:"
-msgstr ""
+msgstr "Người dùng có thể phân công:"
 
 #: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr ""
+msgstr "Đã phân công"
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
-msgstr ""
+msgstr "Vấn đề được phân công"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
@@ -866,36 +876,36 @@ msgstr ""
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
 msgid "Assigned Projects"
-msgstr ""
+msgstr "Những đề án được phân công"
 
 #: templates/manage/users.tpl.html
 msgid "Assigned Projects and Roles"
-msgstr ""
+msgstr "Những đề án và vai trò được giao"
 
 #: templates/manage/general.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Assigned Projects:"
-msgstr ""
+msgstr "Những đề án được giao"
 
 #: templates/manage/general.tpl.html
 msgid "Assigned Role:"
-msgstr ""
+msgstr "Vai trò được giao"
 
 #: templates/manage/faq.tpl.html
 msgid "Assigned Support"
-msgstr ""
+msgstr "Hỗ trợ được giao"
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
-msgstr ""
+msgstr "Đã phân công:"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Người được ủy quyền"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Người được ủy quyền:"
 
 #: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -903,30 +913,30 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr ""
+msgstr "Phân công"
 
 #: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
-msgstr ""
+msgstr "Trường phân công"
 
 #: lib/eventum/class.notification.php:609
 #: lib/eventum/class.notification.php:610
 msgid "Assignment List"
-msgstr ""
+msgstr "Danh sách Phân công"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/update_form.tpl.html
 msgid "Assignment:"
-msgstr ""
+msgstr "Phân công:"
 
 #: templates/emails.tpl.html
 msgid "Associate"
-msgstr ""
+msgstr "Bạn hữu"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Liên kết tin nhắn thư vào vấn đề #%1"
 
 #: lib/eventum/class.help.php:106 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -936,152 +946,154 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Associated"
-msgstr ""
+msgstr "Được liên kết"
 
 #: templates/support_emails.tpl.html
 msgid "Associated Emails"
-msgstr ""
+msgstr "Các thư được kết hợp"
 
 #: templates/view_form.tpl.html
 msgid "Associated Issues"
-msgstr ""
+msgstr "Các vấn đề được liên kết"
 
 #: templates/update_form.tpl.html
 msgid "Associated Issues:"
-msgstr ""
+msgstr "Các vấn đề được liên kết:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Associated Project"
-msgstr ""
+msgstr "Đề án được liên kết"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Associated Project:"
-msgstr ""
+msgstr "Đề án được liên kết:"
 
 #: templates/view_email.tpl.html templates/view_note.tpl.html
 msgid "Associated with Issue"
-msgstr ""
+msgstr "Được liên kết với vấn đề"
 
 #: templates/post.tpl.html
 msgid "Attach Files"
-msgstr ""
+msgstr "Đính kèm các tập tin"
 
 #: templates/attached_emails.tpl.html
 msgid "Attached Emails"
-msgstr ""
+msgstr "Các thư đính kèm"
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr ""
+msgstr "Các tập tin đính kèm"
 
 #: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
-msgstr ""
+msgstr "Đính kèm gốc từ một ghi chú"
 
 #: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
-msgstr ""
+msgstr "Đính kèm gốc từ một bức thư"
 
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
 msgid "Attachments"
-msgstr ""
+msgstr "Các đính kèm"
 
 #: templates/view_note.tpl.html
 msgid "Attachments:"
-msgstr ""
+msgstr "Các đính kèm:"
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
-msgstr ""
+msgstr "Người hồi âm được phân quyền"
 
 #: templates/update_form.tpl.html
 msgid "Authorized Repliers:"
-msgstr ""
+msgstr "Người hồi âm được phân quyền:"
 
 #: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
-msgstr ""
+msgstr "Ủy quyền gửi các email"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Auto-Creation of Issues"
-msgstr ""
+msgstr "Các vấn đề tạo tự động"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
-msgstr ""
+msgstr "Phát sinh tự động"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Tự động phát sinh #%1 cho Trình nhắc nhở"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
-msgstr ""
+msgstr "Tự động thêm chữ ký email khi soạn ghi chú nội bộ"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing web based emails"
-msgstr ""
+msgstr "Tự động thêm chữ ký email khi soạn email trên web"
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
-msgstr ""
+msgstr "Tự động đóng các popup xác nhận?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
-msgstr ""
+msgstr "Hiệu lực - Người dùng có thể dùng bản phát hành này"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
-msgstr ""
+msgstr "Các chủ đề trợ giúp có sẵn"
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
-msgstr ""
+msgstr "Ngôn ngữ hỗ trợ"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Các chủ đề liên quan"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
-msgstr ""
+msgstr "Các báo cáo hợp lệ"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Average and median counts do not include customers who have never opened an "
 "issue."
 msgstr ""
+"Bình quân và các tính toán trung bình không bao gồm khách hàng chưa bao giờ "
+"mở một vấn đề nào."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr ""
+msgstr "Avg"
 
 #: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Khối lượng trung bình lỗi khách hàng theo Cấp hỗ trợ"
 
 #: lib/eventum/class.customer_stats_report.php:698
 msgid "Avg and Median Time to Close by Support Level"
-msgstr ""
+msgstr "Bình quân và thời gian trung bình để đóng theo Cấp hỗ trợ"
 
 #: lib/eventum/class.customer_stats_report.php:707
 msgid "Avg and Median Time to First Response by Support Level"
-msgstr ""
+msgstr "Bình quân và thời gian trung bình cho hồi âm lần đầu theo Cấp hỗ trợ"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Avg/Med/Max Issues/Emails"
-msgstr ""
+msgstr "Avg/Med/Max Issues/Emails"
 
 #: lib/eventum/class.notification.php:956
 msgid "BLOCKED"
-msgstr ""
+msgstr "Đã khóa"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
-msgstr ""
+msgstr "Trở lại"
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
