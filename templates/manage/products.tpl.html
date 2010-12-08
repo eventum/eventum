@@ -95,7 +95,7 @@ function checkDelete(f)
                         <b>{t}Version How To:{/t}</b>
                     </td>
                     <td bgcolor="{$light_color}">
-                        <input type="text" name="version_howto" size="100" class="default" value="{$info.pro_version_howto}">
+                        <input type="text" name="version_howto" size="100" class="default" value="{$info.pro_version_howto|escape}">
                         {include file="error_icon.tpl.html" field="version_howto"}
                     </td>
                 </tr>
