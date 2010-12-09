@@ -1,4 +1,3 @@
-<!--
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 
 var today = new Date();
@@ -849,4 +848,3 @@ if (navigator.appName != 'Konqueror') {
         });
     });
 }
-//-->
