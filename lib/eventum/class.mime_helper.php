@@ -314,7 +314,7 @@ class Mime_Helper
         );
 
         $string = str_replace('=', '=3D', $string);
-        $string = str_replace(self::$qpKeys, self::$qpReplaceValues, $string);
+        $string = str_replace($qpKeys, $qpReplaceValues, $string);
         return rtrim($string);
     }
 
