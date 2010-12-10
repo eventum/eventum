@@ -513,6 +513,24 @@ class Workflow
 
 
     /**
+     * Called to check if an email address that does not have an eventum account can send notes to an issue.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The email address to check
+     * @return  boolean True if the note should be added, false otherwise
+     */
+    function canSendNote($prj_id, $issue_id, $email)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->canSendNote($prj_id, $issue_id, $email);
+    }
+
+
+    /**
      * Handles when an authorized replier is added
      *
      * @param   integer $prj_id The project ID
