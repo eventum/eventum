@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-08 06:51+0000\n"
+"PO-Revision-Date: 2010-12-09 23:05+0000\n"
 "Last-Translator: Lilylnx Cosin <lilylnx@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-12-09 04:59+0000\n"
+"X-Launchpad-Export-Date: 2010-12-10 05:03+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1188,7 +1188,7 @@ msgstr "CLOCKED OUT"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call From"
-msgstr ""
+msgstr "Gọi từ"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call To"
@@ -1285,7 +1285,7 @@ msgstr "Trang thanh toán:"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
-msgstr ""
+msgstr "Chọn ô nhập tùy biến"
 
 #: templates/spell_check.tpl.html
 msgid "Choose a misspelled word"
@@ -1322,11 +1322,11 @@ msgstr "Mở rộng"
 
 #: templates/navigation.tpl.html
 msgid "Clock In"
-msgstr ""
+msgstr "Clock In"
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
-msgstr ""
+msgstr "Clock Out"
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1388,7 +1388,7 @@ msgstr "Tên cột"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
-msgstr ""
+msgstr "Hộp danh sách"
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
@@ -1408,7 +1408,7 @@ msgstr "Cấu hình"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
-msgstr ""
+msgstr "Tham số cấu hình"
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
@@ -1472,7 +1472,7 @@ msgstr "Tạo tùy biến"
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Tạo bản nháp"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
@@ -1480,39 +1480,39 @@ msgstr "Tạo hồi đáp Email"
 
 #: templates/manage/faq.tpl.html
 msgid "Create FAQ Entry"
-msgstr ""
+msgstr "Tạo mục FAQ"
 
 #: templates/manage/groups.tpl.html
 msgid "Create Group"
-msgstr ""
+msgstr "Tạo Nhóm"
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Tạo Vấn đề"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Tạo bộ lọc Liên kết"
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
-msgstr ""
+msgstr "Tạo vấn đề mới"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
-msgstr ""
+msgstr "Tạo mục mới"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Create Note"
-msgstr ""
+msgstr "Tạo ghi chú"
 
 #: templates/manage/priorities.tpl.html
 msgid "Create Priority"
-msgstr ""
+msgstr "Tạo độ ưu tiên"
 
 #: templates/manage/projects.tpl.html
 msgid "Create Project"
-msgstr ""
+msgstr "Tạo đề án"
 
 #: templates/manage/releases.tpl.html
 msgid "Create Release"
@@ -1520,84 +1520,84 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Tạo trình nhắc nhở"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
-msgstr ""
+msgstr "Tạo giải pháp"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Create Round Robin Entry"
-msgstr ""
+msgstr "Tạo mục Robin tròn"
 
 #: templates/manage/statuses.tpl.html
 msgid "Create Status"
-msgstr ""
+msgstr "Tạo trạng thái"
 
 #: templates/manage/users.tpl.html
 msgid "Create User"
-msgstr ""
+msgstr "Tạo người dùng"
 
 #: templates/setup.tpl.html
 msgid "Create User and Permissions"
-msgstr ""
+msgstr "Tạo người dùng và phân quyền"
 
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
-msgstr ""
+msgstr "Đã tạo"
 
 #: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:739
 msgid "Created Date"
-msgstr ""
+msgstr "Ngày tạo"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Tạo nhắc nhở mới"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
 msgid "Current Project"
-msgstr ""
+msgstr "Đề án hiện tại"
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
 msgid "Current Project:"
-msgstr ""
+msgstr "Đề án hiện tại:"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/update_form.tpl.html
 msgid "Current Selections:"
-msgstr ""
+msgstr "Lựa chọn hiện tại:"
 
 #: templates/current_filters.tpl.html
 msgid "Current filters:"
-msgstr ""
+msgstr "Bộ lọc hiện tại:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
-msgstr ""
+msgstr "Ô nhập tùy biến"
 
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
-msgstr ""
+msgstr "Các trường tùy biến"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
-msgstr ""
+msgstr "Báo cáo trường tùy biến"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields Weekly Report"
-msgstr ""
+msgstr "Báo trường tùy biến hàng tuần"
 
 #: lib/eventum/class.custom_field.php:311
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
-msgstr ""
+msgstr "Trường tùy biến đã cập nhật (%1$s) bởi %2$s"
 
 #: lib/eventum/class.customer_stats_report.php:664
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
@@ -1612,28 +1612,29 @@ msgstr ""
 #: templates/reports/workload_time_period.tpl.html
 #: templates/view_form.tpl.html
 msgid "Customer"
-msgstr ""
+msgstr "Khách hàng"
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
-msgstr ""
+msgstr "Hợp đồng Khách hàng"
 
 #: lib/eventum/class.customer_stats_report.php:728
 msgid "Customer Counts"
-msgstr ""
+msgstr "Số khách hàng"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
+"ID Khách hàng (ví dụ: \"Example Inc.\", \"johndoe@example.com\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
-msgstr ""
+msgstr "Gắn kết Khách hàng"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
-msgstr ""
+msgstr "Số phone của KH"
 
 #: templates/reports/tree.tpl.html
 msgid "Customer Profile Stats"
