@@ -52,7 +52,6 @@ class Template_Helper
     {
         $this->smarty = new Smarty;
         $this->smarty->template_dir = array(APP_LOCAL_PATH, APP_TPL_PATH);
-
         $this->smarty->compile_dir = APP_TPL_COMPILE_PATH;
         $this->smarty->plugins_dir  = array(APP_INC_PATH . '/smarty', 'plugins');
         $this->smarty->config_dir = '';

@@ -175,6 +175,8 @@ if (!defined('APP_MAINTENANCE')) {
 if (defined('APP_PEAR_PATH')) {
     set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 }
+set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
+set_include_path(APP_LOCAL_PATH . "/include/" . PATH_SEPARATOR . get_include_path());
 
 require_once APP_INC_PATH . '/autoload.php';
 

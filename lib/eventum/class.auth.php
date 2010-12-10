@@ -82,8 +82,11 @@ class Auth
      * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
      * @return  void
      */
-    function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
+    function checkAuthentication($cookie_name = NULL, $failed_url = NULL, $is_popup = false)
     {
+        if ($cookie_name == NULL) {
+            $cookie_name = APP_COOKIE;
+        }
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
@@ -97,7 +100,17 @@ class Auth
                 self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
-                self::redirect($failed_url, $is_popup);
+                // check for valid HTTP_BASIC params
+                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) &&
+                        Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                    $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
+                    $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
+                    self::createFakeCookie($usr_id, $prj_id);
+                    self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                    self::setCurrentProject($prj_id, true);
+                } else {
+                    self::redirect($failed_url, $is_popup);
+                }
             }
         }
         $cookie = $_COOKIE[$cookie_name];
