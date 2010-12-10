@@ -254,11 +254,16 @@ class Mime_Helper
     public static function encodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_encode')) {
+            // avoid any wrapping by specifying line length long enough
+            // "test" -> 4
+            // ": =?ISO-8859-1?B?dGVzdA==?=" -> 27
+            // 3 +2 +10      +3 +7     + 3
+            $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
+
             $params = array(
                 "input-charset" => APP_CHARSET,
                 "output-charset" => APP_CHARSET,
-                // avoid any wrapping
-                "line-length" => strlen($string) * 4,
+                "line-length" => $line_length,
             );
             $string = iconv_mime_encode("", $string, $params);
             return substr($string, 2);
@@ -314,7 +319,7 @@ class Mime_Helper
         );
 
         $string = str_replace('=', '=3D', $string);
-        $string = str_replace(self::$qpKeys, self::$qpReplaceValues, $string);
+        $string = str_replace($qpKeys, $qpReplaceValues, $string);
         return rtrim($string);
     }
 
