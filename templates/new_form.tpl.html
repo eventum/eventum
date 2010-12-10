@@ -56,7 +56,7 @@ function validateForm(f)
     }
     {/literal}
     {/if}
-    {if $current_role >= $field_display_settings.product}
+    {if $products_assoc|@count > 0 && $current_role >= $field_display_settings.product}
         {literal}
         if (hasSelected(f.product, -1)) {
             errors[errors.length] = new Option('{/literal}{t escape=js}Product{/t}{literal}', 'product');
