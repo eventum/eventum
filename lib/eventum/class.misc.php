@@ -400,7 +400,11 @@ class Misc
      */
     function getRandomTip($tpl)
     {
-        $tip_dir = $tpl->smarty->template_dir . "/tips";
+        $tpl_dir = $tpl->smarty->template_dir;
+        if (is_array($tpl_dir)) {
+            $tpl_dir = $tpl_dir[1];
+        }
+        $tip_dir = $tpl_dir . "/tips";
         $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
@@ -721,5 +725,24 @@ class Misc
     function getMessages()
     {
         return self::$messages;
+    }
+
+
+    /**
+     * Shortcut method to check if if an element is set in the array and if not
+     * return a default value.
+     *
+     * @param  array   $array The array to check if the element is in
+     * @param  string  $var_name The name of the element to check for
+     * @param  mixed   $default The default value to return if the element is not set
+     * @return mixed
+     */
+    public static function ifSet($array, $var_name, $default = null)
+    {
+        if (isset($array[$var_name])) {
+            return $array[$var_name];
+        } else {
+            return $default;
+        }
     }
 }
