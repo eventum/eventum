@@ -47,7 +47,7 @@ class Product
         }
         $res = DB_Helper::getInstance()->getAll($sql, $data, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-        	Error_Handler::handle(array($res->getMessage(), $res->getDebugInfo()));
+        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
             return array();
         }
         return $res;
@@ -140,7 +140,7 @@ class Product
                     pro_id = ?";
         $res = DB_Helper::getInstance()->getRow($sql, array($pro_id), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            Error_Handler::handle(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
             return array();
         }
         return $res;
@@ -187,7 +187,7 @@ class Product
                     ipv_iss_id = ?";
         $res = DB_Helper::getInstance()->getAll($sql, array($issue_id), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-        	Error_Handler::handle(array($res->getMessage(), $res->getDebugInfo()));
+        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
             return array();
         }
         return $res;
