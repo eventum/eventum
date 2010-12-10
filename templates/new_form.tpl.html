@@ -139,7 +139,7 @@ $().ready(function() {
 <br />
 {/if}
 
-<form id="report_form" name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
+<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="prj_id" value="{$current_project}">
 <input type="hidden" name="customer" value="{$customer_id}" id="customer_id">
