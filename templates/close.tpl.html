@@ -12,6 +12,16 @@
       </td>
     </tr>
   </table>
+{elseif $auth_customer == 'denied'}
+  <table width="500" align="center">
+    <tr>
+      <td>
+        &nbsp;<span class="default"><b>{t}Sorry, you do not have the required privileges to close this issue.{/t}</b>
+        <br /><br />
+        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+      </td>
+    </tr>
+  </table>
 {elseif $close_result != ""}
 <table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>

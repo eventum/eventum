@@ -65,6 +65,8 @@ class Abstract_Workflow_Backend
 
 
     /**
+     * THIS METHOD IS NOW DEPRECATED AND ISN"T CALLED FROM ANYWHERE.
+     * USE handleAssignmentChange instead.
      * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID
@@ -93,11 +95,25 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
     function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    {
+    }
+
+
+    /**
+     * Called when the severity of an issue changes.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
+     * @param   array $old_details The old details of the issue.
+     * @param   array $changes The changes that were applied to this issue (the $_POST)
+     */
+    function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
 
@@ -450,5 +466,23 @@ class Abstract_Workflow_Backend
     function getLinkFilters($prj_id)
     {
         return array();
+    }
+
+
+    /**
+     * Returns if a user can update an issue. Return null to use default rules.
+     */
+    function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+
+    /**
+     * Returns the ID of the group that is "active" right now.
+     */
+    public function getActiveGroup($prj_id)
+    {
+        return null;
     }
 }

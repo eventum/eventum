@@ -160,7 +160,8 @@ class Filter
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      SET
-                        cst_iss_pri_id='" . Misc::escapeInteger($_POST["priority"]) . "',
+                        cst_iss_pri_id='" . Misc::escapeInteger(@$_POST["priority"]) . "',
+                        cst_iss_sev_id='" . Misc::escapeInteger(@$_POST["severity"]) . "',
                         cst_keywords='" . Misc::escapeString($_POST["keywords"]) . "',
                         cst_users='" . Misc::escapeString($_POST["users"]) . "',
                         cst_reporter=" . Misc::escapeInteger($_POST["reporter"]) . ",
@@ -206,6 +207,7 @@ class Filter
                         cst_prj_id,
                         cst_title,
                         cst_iss_pri_id,
+                        cst_iss_sev_id,
                         cst_keywords,
                         cst_users,
                         cst_reporter,
@@ -245,7 +247,8 @@ class Filter
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
                         '" . Misc::escapeString($_POST["title"]) . "',
-                        '" . Misc::escapeInteger($_POST["priority"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["priority"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["severity"]) . "',
                         '" . Misc::escapeString($_POST["keywords"]) . "',
                         '" . Misc::escapeString($_POST["users"]) . "',
                         '" . Misc::escapeInteger($_POST["reporter"]) . "',
@@ -657,6 +660,9 @@ class Filter
             } elseif ($filter['param'] == 'priority') {
                 $priorities = Priority::getAssocList($prj_id);
                 $display = $priorities[$filter_details];
+            } elseif ($filter['param'] == 'severity') {
+                $severities = Severity::getAssocList($prj_id);
+                $display = $severities[$filter_details];
             } elseif ($filter['param'] == 'users') {
                 if ($filter_details == -1) {
                     $display = ev_gettext('un-assigned');
@@ -709,6 +715,11 @@ class Filter
             'iss_pri_id'    =>  array(
                 'title' =>  ev_gettext("Priority"),
                 'param' =>  'priority',
+                'quickfilter'   =>  true
+            ),
+            'iss_sev_id'    =>  array(
+                'title' =>  ev_gettext("Severity"),
+                'param' =>  'severity',
                 'quickfilter'   =>  true
             ),
             'keywords'  =>  array(

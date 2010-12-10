@@ -72,6 +72,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
+        $tpl->assign("severities", Severity::getAssocList($info['rem_prj_id']));
+        $tpl->assign("products", Product::getAssocList());
     } elseif (@$_GET["cat"] == "change_rank") {
         Reminder::changeRank($_GET['id'], $_GET['rank']);
     } elseif (!empty($_GET['prj_id'])) {
@@ -82,6 +84,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $priorities = array_flip(Priority::getAssocList($_GET['prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
+        $tpl->assign("severities", Severity::getAssocList($_GET['prj_id']));
+        $tpl->assign("products", Product::getAssocList());
         // only show customers and support levels if the selected project really needs it
         $project_has_customer_integration = Customer::hasCustomerIntegration($_GET['prj_id']);
         $tpl->assign("project_has_customer_integration", $project_has_customer_integration);

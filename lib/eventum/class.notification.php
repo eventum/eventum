@@ -374,7 +374,8 @@ class Notification
                     pre_title,
                     pri_title,
                     sta_title,
-                    sta_color
+                    sta_color,
+                    sev_title
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
@@ -385,6 +386,10 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  ON
@@ -625,6 +630,10 @@ class Notification
         if (isset($new["priority"]) && $old["iss_pri_id"] != $new["priority"]) {
             $diffs[] = '-' . ev_gettext('Priority') . ': ' . Priority::getTitle($old["iss_pri_id"]);
             $diffs[] = '+' . ev_gettext('Priority') . ': ' . Priority::getTitle($new["priority"]);
+        }
+        if (isset($new["severity"]) && $old["iss_sev_id"] != $new["severity"]) {
+            $diffs[] = '-' . ev_gettext('Severity') . ': ' . Severity::getTitle($old["iss_sev_id"]);
+            $diffs[] = '+' . ev_gettext('Severity') . ': ' . Severity::getTitle($new["severity"]);
         }
         if (isset($new["status"]) && $old["iss_sta_id"] != $new["status"]) {
             $diffs[] = '-' . ev_gettext('Status') . ': ' . Status::getStatusTitle($old["iss_sta_id"]);
@@ -1303,7 +1312,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function notifyIRC($project_id, $notice, $issue_id = false)
+    public static function notifyIRC($project_id, $notice, $issue_id = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();

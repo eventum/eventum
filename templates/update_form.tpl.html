@@ -124,6 +124,30 @@ function closeIssue(issue_id)
         window.location.href='close.php?id=' + issue_id;
     }
 }
+
+var product_version_howtos = {}
+{/literal}
+
+{foreach from=$products_version_howto key=pro_id item=version_howto}
+product_version_howtos[{$pro_id}] = '{$version_howto|escape:"js"}';
+{/foreach}
+{literal}
+
+function display_product_version_howto()
+{
+    var selected_id = $('#product').val();
+    var howto = product_version_howtos[selected_id];
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
+    }
+}
+
+$().ready(function() {
+    display_product_version_howto();
+    $('#product').bind('change', display_product_version_howto);
+});
 //-->
 {/literal}
 </script>
@@ -213,6 +237,18 @@ function closeIssue(issue_id)
             {$issue.iss_created_date}
           </td>
         </tr>
+        {if $severities|@count > 0 }
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Severity:{/t}</b>
+          </td>
+          <td bgcolor="{$light_color}" colspan="3">
+            <select class="default" name="severity">
+              {html_options options=$severities selected=$issue.iss_sev_id}
+            </select>
+          </td>
+        </tr>
+        {/if}
         <tr>
           <td {if $current_role < $roles.standard_user}rowspan="2"{/if} width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Priority:{/t}</b>
@@ -374,6 +410,28 @@ function closeIssue(issue_id)
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
+        {if $products_assoc|@count > 0 && $current_role >= $field_display_settings.product}
+        <tr>
+          <td width="120" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product{/t}: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" id="product" name="product[{$issue.products[0].ipv_id}]" tabindex="{$tabindex++}">
+                <option value="-1"></option>
+                {html_options options=$products_assoc selected=$issue.products[0].pro_id}
+            </select>
+            {include file="error_icon.tpl.html" field="product"}
+          </td>
+          <td width="120" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product Version{/t}: </b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="product_version[{$issue.products[0].ipv_id}]" value="{$issue.products[0].version}" size="20" />
+            <span class="default" id="product_version_howto"></span>
+            {include file="error_icon.tpl.html" field="product_version"}
+          </td>
+        </tr>
+        {/if}
         {if $current_role >= $roles.developer}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">

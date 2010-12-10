@@ -35,6 +35,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
+$role_id = Auth::getCurrentRole();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
 $tpl->assign("user_prefs", Prefs::get($usr_id));
@@ -43,7 +44,13 @@ if (!Issue::exists($issue_id, false)) {
     $tpl->assign("no_issue", true);
     $tpl->displayTemplate();
     exit;
+} elseif (($role_id == User::getRoleID('customer')) || (!Issue::canAccess($issue_id, $usr_id))) {
+    $tpl->assign("auth_customer", 'denied');
+    $tpl->displayTemplate();
+    exit;
 }
+
+
 
 $notification_list = Notification::getSubscribers($issue_id, 'closed');
 $tpl->assign("notification_list_all", $notification_list['all']);

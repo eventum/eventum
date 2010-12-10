@@ -619,6 +619,60 @@ class Issue
         }
     }
 
+
+    /**
+     * Method used to set the severity of an issue
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $pri_id The ID of the severity to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    public static function setSeverity($issue_id, $sev_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $sev_id = Misc::escapeInteger($sev_id);
+
+        if ($pri_id != self::getSeverity($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_sev_id = $sev_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = DB_Helper::getInstance()->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the current issue severity
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The severity
+     */
+    public static function getSeverity($issue_id)
+    {
+        $sql = "SELECT
+                    iss_sev_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = DB_Helper::getInstance()->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return $res;
+        }
+    }
+
     /**
      * Method used to set the expected resolution date of an issue
      *
@@ -1558,7 +1612,6 @@ class Issue
         }
         $stmt .= "
                     iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",
-                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
                     iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
                     iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . ",
                     iss_summary='" . Misc::escapeString($_POST["summary"]) . "',
@@ -1571,6 +1624,14 @@ class Issue
             $stmt .= ",
                     iss_private = " . Misc::escapeInteger($_POST['private']);
         }
+        if (isset($_POST['priority'])) {
+            $stmt .= ",
+                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]);
+        }
+        if (isset($_POST['severity'])) {
+            $stmt .= ",
+                    iss_sev_id=" . Misc::escapeInteger($_POST["severity"]);
+        }
         $stmt .= "
                  WHERE
                     iss_id=$issue_id";
@@ -1579,6 +1640,11 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // change product
+            if (isset($_POST['product'])) {
+                $product_changes = Product::updateProductsByIssue($issue_id, $_POST['product'], $_POST['product_version']);
+            }
+
             // add change to the history (only for changes on specific fields?)
             $updated_fields = array();
             if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
@@ -1593,6 +1659,10 @@ class Issue
             if ($current["iss_pri_id"] != $_POST["priority"]) {
                 $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
                 Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
+            }
+            if (isset($_POST["severity"]) && $current["iss_sev_id"] != $_POST["severity"]) {
+                $updated_fields["Severity"] = History::formatChanges(Severity::getTitle($current["iss_sev_id"]), Severity::getTitle($_POST["severity"]));
+                Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
             }
             if ($current["iss_sta_id"] != $_POST["status"]) {
                 // clear out the last-triggered-reminder flag when changing the status of an issue
@@ -1622,6 +1692,9 @@ class Issue
             }
             if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
                 $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
+            }
+            if (count($product_changes) > 0) {
+                $updated_fields['Product'] = join('; ', $product_changes);
             }
             if (count($updated_fields) > 0) {
                 // log the changes
@@ -2103,7 +2176,8 @@ class Issue
         $keys = array(
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
-            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'summary', 'users',
+            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
+            'product', 'product_version',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2199,6 +2273,11 @@ class Issue
                     $has_RR = true;
                 }
             }
+        }
+
+        // set product and version
+        if (isset($data['product'])) {
+            Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
         // now process any files being uploaded
@@ -2325,6 +2404,9 @@ class Issue
         if (!empty($data['priority'])) {
             $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
         }
+        if (!empty($data['severity'])) {
+            $stmt .= "iss_sev_id=". Misc::escapeInteger($data['severity']) . ",";
+        }
 
         $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
@@ -2434,6 +2516,7 @@ class Issue
             'users'          => self::getParam('users'),
             'status'         => self::getParam('status'),
             'priority'       => self::getParam('priority'),
+            'severity'       => self::getParam('severity'),
             'category'       => self::getParam('category'),
             'customer_email' => self::getParam('customer_email'),
             // advanced search form
@@ -2606,6 +2689,7 @@ class Issue
                     iss_usr_id,
                     iss_summary,
                     pri_title,
+                    sev_title,
                     prc_title,
                     sta_title,
                     sta_color status_color,
@@ -2702,6 +2786,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  ON
@@ -2972,6 +3060,9 @@ class Issue
         }
         if (!empty($options["priority"])) {
             $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);
+        }
+        if (!empty($options["severity"])) {
+            $stmt .= " AND iss_sev_id=" . Misc::escapeInteger($options["severity"]);
         }
         if (!empty($options["status"])) {
             $stmt .= " AND iss_sta_id=" . Misc::escapeInteger($options["status"]);
@@ -3405,7 +3496,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    function getAssignedUsers($issue_id)
+    public static function getAssignedUsers($issue_id)
     {
         $stmt = "SELECT
                     usr_full_name
@@ -3453,6 +3544,7 @@ class Issue
                     prc_title,
                     pre_title,
                     pri_title,
+                    sev_title,
                     sta_title,
                     sta_abbreviation,
                     sta_color status_color,
@@ -3466,6 +3558,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON
@@ -3564,6 +3660,8 @@ class Issue
                 // get quarantine issue
                 $res["quarantine"] = self::getQuarantineInfo($res["iss_id"]);
 
+                $res['products'] = Product::getProductsByIssue($res['iss_id']);
+
                 $returns[$issue_id] = $res;
                 return $res;
             }
@@ -3627,6 +3725,8 @@ class Issue
                 continue;
             }
 
+            $issue_details = Issue::getDetails($items[$i]);
+
             $updated_fields = array();
 
             // update assignment
@@ -3673,9 +3773,9 @@ class Issue
                         // add the assignment
                         self::addUserAssociation(Auth::getUserID(), $items[$i], $usr_id, false);
                         Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
-                        Workflow::handleAssignment(Auth::getCurrentProject(), $items[$i], Auth::getUserID());
                     }
                 }
+                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($issue_id), false);
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
                 $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
             }
@@ -4270,6 +4370,33 @@ class Issue
 
         $access[$issue_id . "-" . $usr_id] = $return;
         return $return;
+    }
+
+
+    /**
+     * Returns true if the user can update the issue
+     *
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean If the user can update the issue
+     */
+    public static function canUpdate($issue_id, $usr_id)
+    {
+        if (!self::canAccess($issue_id, $usr_id)) {
+            return false;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::canUpdateIssue($prj_id, $issue_id, $usr_id);
+        if (!is_null($workflow)) {
+            return $workflow;
+        }
+
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Customer")) {
+            return true;
+        }
+
+        return false;
     }
 
 

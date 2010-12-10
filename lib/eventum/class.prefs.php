@@ -56,6 +56,7 @@ class Prefs
             'email_signature'         => '',
             'auto_append_sig'         => 'no',
             'auto_append_note_sig'    => 'no',
+            'close_popup_windows'     => 0,
         );
 
         if (is_array($projects)) {

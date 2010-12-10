@@ -863,6 +863,8 @@ class User
             return $returns[$email];
         }
 
+        $email = User::getEmail(User::getUserIDByEmail($email, true));
+
         $stmt = "SELECT
                     usr_status
                  FROM

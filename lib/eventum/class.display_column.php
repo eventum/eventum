@@ -173,6 +173,9 @@ class Display_Column
                 "pri_rank"    =>  array(
                     "title" =>  ev_gettext("Priority")
                 ),
+                "sev_rank"    =>  array(
+                    "title" =>  ev_gettext("Severity")
+                ),
                 "iss_id"    =>  array(
                     "title" =>  ev_gettext("Issue ID")
                 ),

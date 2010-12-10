@@ -1096,12 +1096,14 @@ class Project
         return array(
             "category"  =>  ev_gettext("Category"),
             "priority"  =>  ev_gettext("Priority"),
+            "severity"  =>  ev_gettext("Severity"),
             "assignment"    =>  ev_gettext("Assignment"),
             "release"   =>  ev_gettext("Scheduled Release"),
             "estimated_dev_time"    =>  ev_gettext("Estimated Dev. Time"),
             "group"     =>  ev_gettext("Group"),
             "file"  =>  ev_gettext("File"),
-            "private"   =>  ev_gettext("Private")
+            "private"   =>  ev_gettext("Private"),
+            "product"   =>  ev_gettext("Product"),
         );
     }
 }

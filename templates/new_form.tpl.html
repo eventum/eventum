@@ -21,6 +21,13 @@ function validateForm(f)
     }
     {/literal}
     {/if}
+    {if $current_role >= $field_display_settings.severity}
+        {literal}
+        if (hasSelected(f.severity, -1)) {
+            errors[errors.length] = new Option('{/literal}{t escape=js}Severity{/t}{literal}', 'severity');
+        }
+        {/literal}
+    {/if}
     {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
     {literal}
     if (!hasOneSelected(f, 'users[]')) {
@@ -49,6 +56,13 @@ function validateForm(f)
     }
     {/literal}
     {/if}
+    {if $current_role >= $field_display_settings.product}
+        {literal}
+        if (hasSelected(f.product, -1)) {
+            errors[errors.length] = new Option('{/literal}{t escape=js}Product{/t}{literal}', 'product');
+        }
+        {/literal}
+    {/if}
     {literal}
     checkCustomFields(f);
 
@@ -60,6 +74,50 @@ function validateForm(f)
         f.main_submit_button.disabled = false;
     }
 }
+
+var severity_descriptions = {}
+{/literal}
+
+{foreach from=$severity_descriptions key=sev_id item=sev_desc}
+severity_descriptions[{$sev_id}] = '{$sev_desc|escape:"js"}';
+{/foreach}
+{literal}
+function display_severity_description()
+{
+    var selected_sev_id = $('#severity').val();
+    var description = severity_descriptions[selected_sev_id];
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
+    }
+}
+
+var product_version_howtos = {}
+{/literal}
+
+{foreach from=$products_version_howto key=pro_id item=version_howto}
+product_version_howtos[{$pro_id}] = '{$version_howto|escape:"js"}';
+{/foreach}
+{literal}
+
+function display_product_version_howto()
+{
+    var selected_id = $('#product').val();
+    var howto = product_version_howtos[selected_id];
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
+    }
+}
+
+$().ready(function() {
+    display_severity_description(); 
+    display_product_version_howto();
+    $('#severity').bind('change', display_severity_description);
+    $('#product').bind('change', display_product_version_howto);
+});
 //-->
 </script>
 {/literal}
@@ -81,12 +139,11 @@ function validateForm(f)
 <br />
 {/if}
 
-<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
+<form id="report_form" name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="prj_id" value="{$current_project}">
 <input type="hidden" name="customer" value="{$customer_id}" id="customer_id">
 <input type="hidden" name="contact" value="{$contact_id}">
-<input type="hidden" name="contract" value="{$contract_id}">
 <input type="hidden" name="attached_emails" value="{$attached_emails}">
 {if $current_role < $field_display_settings.assignment}
     <input type="hidden" name="assignment[]" value="">
@@ -134,9 +191,24 @@ function validateForm(f)
           </td>
         </tr>
         {/if}
+        {if $current_role >= $field_display_settings.severity}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.severity > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Severity{/t}: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select id="severity" name="severity" class="default" tabindex="{$tabindex++}">
+              <option value="-1">{t}Please choose a severity{/t}</option>
+              {html_options options=$severities selected=$smarty.post.severity}
+            </select>
+            <span id="severity_desc" class="alerts"></span>
+            {include file="error_icon.tpl.html" field="severity"}
+          </td>
+        </tr>
+        {/if}
         {if $current_role >= $field_display_settings.priority}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.priority > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>{t}Priority{/t}: *</b> {include file="help_link.tpl.html" topic="report_priority"}
           </td>
           <td bgcolor="{$light_color}">
@@ -173,7 +245,7 @@ function validateForm(f)
         {/if}
         {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
         <tr>
-          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.group > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>{t}Group{/t}: </b>
           </td>
           <td bgcolor="{$light_color}">
@@ -246,6 +318,30 @@ function validateForm(f)
           </td>
         </tr>
         {/if}
+        {if $products_assoc|@count > 0 && $current_role >= $field_display_settings.product}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product{/t}: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" id="product" name="product" tabindex="{$tabindex++}">
+                <option value="-1"></option>
+                {html_options options=$products_assoc selected=$smarty.post.product}
+            </select>
+            {include file="error_icon.tpl.html" field="product"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.product > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>{t}Product Version{/t}: </b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="product_version" value="{$smarty.post.product_version}" size="40" />
+            <span class="default" id="product_version_howto"></span>
+            {include file="error_icon.tpl.html" field="product_version"}
+          </td>
+        </tr>
+        {/if}
         {if $current_role >= $field_display_settings.private}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.private > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
@@ -253,9 +349,9 @@ function validateForm(f)
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="radio" name="private" value="1" {if $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
-            <a id="link" class="link" href="void(null);" onClick="checkRadio('report_form', 'private', 0);">{t}Yes{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('report_form', 'private', 0);">{t}Yes{/t}</a>
             <input type="radio" name="private" value="0" {if not $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
-            <a id="link" class="link" href="void(null);" onClick="checkRadio('report_form', 'private', 1);">{t}No{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('report_form', 'private', 1);">{t}No{/t}</a>
             {include file="error_icon.tpl.html" field="private"}
           </td>
         </tr>
@@ -296,7 +392,7 @@ function validateForm(f)
               <tr>
                 <td width="30%" nowrap class="default_white">
                   <nobr>
-                  <input type="checkbox" name="report_stays" value="yes" tabindex="{$tabindex++}" {if $smarty.post.report_stays == "yes"}CHECKED{/if}> <b><a id="white_link" class="white_link" href="void(null);" onClick="toggleCheckbox('report_form', 'report_stays');">{t}Keep form open to report another issue{/t}</a></b>
+                  <input type="checkbox" name="report_stays" value="yes" tabindex="{$tabindex++}" {if $smarty.post.report_stays == "yes"}CHECKED{/if}> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="toggleCheckbox('report_form', 'report_stays');">{t}Keep form open to report another issue{/t}</a></b>
                   </nobr>
                 </td>
                 <td width="40%" align="center">

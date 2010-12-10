@@ -66,7 +66,7 @@ $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');
-} elseif (!Issue::canAccess($issue_id, $usr_id)) {
+} elseif (!Issue::canUpdate($issue_id, $usr_id)) {
     $tpl->assign("auth_customer", 'denied');
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);
@@ -100,11 +100,20 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
 
+    $products = Product::getList(false);
+    $products_assoc = array();
+    $products_version_howto = array();
+    foreach ($products as $product) {
+        $products_version_howto[$product['pro_id']] = $product['pro_version_howto'];
+        $products_assoc[$product['pro_id']] = $product['pro_title'];
+    }
+
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
         "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
+        "severities"   => Severity::getAssocList($prj_id),
         "status"       => $statuses,
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),
@@ -113,6 +122,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
+        "products_version_howto" => $products_version_howto,
+        "products_assoc"         => $products_assoc,
     ));
 
     $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));

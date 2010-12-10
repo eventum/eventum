@@ -230,6 +230,7 @@ function disableCustomFields(disable)
             </select>
           </td>
           {/if}
+          {if $priorities|@count > 0}
           <td>
             <span class="default">{t}Priority{/t}:</span><br />
             <select name="priority" class="default">
@@ -239,6 +240,18 @@ function disableCustomFields(disable)
               {/section}
             </select>
           </td>
+          {/if}
+          {if $severities|@count > 0}
+          <td>
+            <span class="default">{t}Severity{/t}:</span><br />
+            <select name="severity" class="default">
+              <option value="">{t}any{/t}</option>
+              {section name="i" loop=$severities}
+              <option value="{$severities[i].sev_id}" {if $severities[i].sev_id == $options.cst_iss_sev_id}selected{/if}>{$severities[i].sev_title}</option>
+              {/section}
+            </select>
+          </td>
+          {/if}
           <td valign="top">
             <span class="default">{t}Status{/t}:</span><br />
             <select name="status" class="default">

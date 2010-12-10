@@ -22,13 +22,27 @@ Eventum Issue Tracking System
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
 - Support for configuring Monitor preferences (Elan Ruusamäe)
 
-
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
 - Allow customers to use the quick filters (Bryan)
 - Added basic auth support to Auth::checkAuthentication() (Bryan)
-
+- Added 'close_popup_windows' to Prefs::getDefaults() (Bryan)
+- Check if session is already started before calling session_start() (Bryan)
+- Added "Severity" field, this can be used with or instead of "Priority" (Bryan)
+- Changed view page and template to better manage fields that can be disabled or selectively shown (Bryan)
+- Look for templates in local directory before main directory so installations can be customized (Bryan)
+- Fixed permission check problem for close issue page (Bryan)
+- Changed "Custom Fields" to "Additional Details" on view issues page (Bryan)
+- Deprecated workflow "handleAssignment" in favor of "handleAssignmentChange" (Bryan)
+- Added workflow method to control if a user has access to update an issue (Bryan)
+- Added "Group" to reminder conditions (Bryan)
+- Allow ordering of resolutions (Bryan)
+- Allow aliases to be used when requesting new password (Bryan)
+- Changed FAQ entries to not popup in new windows (Bryan)
+- Added "getActiveGroup" to workflow (Bryan)
+- Added "Active Group" to reminder conditions
+- Added 'Product' field. Eventually multiple products per issue will be supported (Bryan)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

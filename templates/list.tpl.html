@@ -261,6 +261,8 @@ function updateCustomFields(issue_id)
               <a href="view.php?id={$list[i].iss_id}" class="link" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
             {elseif $field_name == 'pri_rank'}
               {$list[i].pri_title|escape:"html"}
+            {elseif $field_name == 'sev_rank'}
+              {$list[i].sev_title|escape:"html"}
             {elseif $field_name == 'iss_grp_id'}
               {$list[i].group}
             {elseif $field_name == 'assigned'}
