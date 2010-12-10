@@ -7,6 +7,8 @@ Eventum Issue Tracking System
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
 - Allow customers to use the quick filters (Bryan)
 
+- Added basic auth support to Auth::checkAuthentication() (Bryan)
+
 
 ???, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
