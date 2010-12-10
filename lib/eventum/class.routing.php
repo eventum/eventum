@@ -283,11 +283,19 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($structure->headers['from'])), true);
-        if ((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) {
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_usr_id = User::getUserIDByEmail($sender_email, true);
+        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) &&
+                ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email)))) {
             return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
 
+        if (empty($sender_usr_id)) {
+            $sender_usr_id = APP_SYSTEM_USER_ID;
+            $unknown_user = $structure->headers['from'];
+        } else {
+            $unknown_user = false;
+        }
         Auth::createFakeCookie($sender_usr_id, $prj_id);
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
@@ -331,7 +339,7 @@ class Routing
         if (Mime_Helper::hasAttachments($structure)) {
             $_POST['full_message'] = $full_message;
         }
-        $res = Note::insert(Auth::getUserID(), $issue_id, false, false);
+        $res = Note::insert(Auth::getUserID(), $issue_id, $unknown_user, false);
         // need to handle attachments coming from notes as well
         if ($res != -1) {
             Support::extractAttachments($issue_id, $structure, true, $res);
