@@ -1851,6 +1851,57 @@ class Notification
     }
 
 
+    public static function removeByEmail($issue_id, $email)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $usr_id = User::getUserIDByEmail($email, true);
+        $stmt = "SELECT
+                    sub_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_iss_id = $issue_id AND";
+        if (empty($usr_id)) {
+            $stmt .= "
+                    sub_email = '" . Misc::escapeString($email) . "'";
+        } else {
+            $stmt .= "
+                    sub_usr_id = $usr_id";
+        }
+        $sub_id = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($sub_id)) {
+        	Error_Handler::logError(array($sub_id->getMessage(), $sub_id->getDebugInfo()));
+            return false;
+        }
+
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_id=$sub_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            return false;
+        }
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                 WHERE
+                    sbt_sub_id=$sub_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            return false;
+        }
+
+        // need to save a history entry for this
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
+                        ev_gettext('Notification list entry (%1$s) removed by %2$s', $email, User::getFullName(Auth::getUserID())));
+
+        Issue::markAsUpdated($issue_id);
+        return true;
+    }
+
+
     /**
      * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
