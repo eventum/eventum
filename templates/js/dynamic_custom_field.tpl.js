@@ -150,24 +150,33 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                                 return true;
                             });
                             $(target).unbind("focus.choose_controller");
+                            show = true;
                         } else {
                             target.options.length = 0;
                             target.options[0] = new Option('Please choose an option', "");
                             wrapped_target.bind("focus.choose_controller", details.target_field_id, prompt_choose_controller_first);
+                            show = false;
+                        }
+                        if (details.hide_when_no_options == 1) {
+                            custom_field_change_visibility(target, show);
                         }
                     }
-                })
+                });
             }
 
             if (details[i].hide_when_no_options == 1) {
-                if (show == false) {
-                    target.parentNode.parentNode.style.display = 'none';
-                } else {
-                    target.parentNode.parentNode.style.display = getDisplayStyle();
-                }
+                custom_field_change_visibility(target, show);
             }
         }
     }
+}
 
+function custom_field_change_visibility(target, show)
+{
+    if (show == false) {
+        target.parentNode.parentNode.style.display = 'none';
+    } else {
+        target.parentNode.parentNode.style.display = getDisplayStyle();
+    }
 }
 {/literal}

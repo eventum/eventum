@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: field_display.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -50,14 +48,14 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     $fields = Project::getDisplayFields();
-    
+
     $excluded_roles = array("viewer");
     if (!Customer::hasCustomerIntegration($prj_id)) {
         $excluded_roles[] = "customer";
     }
     $user_roles = User::getRoles($excluded_roles);
     $user_roles[9] = "Never Display";
-    
+
     $tpl->assign("prj_id", $prj_id);
     $tpl->assign("fields", $fields);
     $tpl->assign("user_roles", $user_roles);

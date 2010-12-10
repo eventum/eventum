@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: scm_ping.php 3868 2009-03-30 00:22:35Z glen $
 
 // shortcut to exit out when no issue id-s are passed in request
 // as this script is always called by CVS but we handle only ones which can be
@@ -43,7 +41,8 @@ foreach ($_GET['issue'] as $issue_id) {
     $commit_msg = $_GET['commit_msg'];
 
     $files = array();
-    for ($y = 0; $y < count($_GET['files']); $y++) {
+    $nfiles = count($_GET['files']);
+    for ($y = 0; $y < $nfiles; $y++) {
         $file = array(
             'file' => $_GET['files'][$y],
             'old_version' => $_GET['old_versions'][$y],

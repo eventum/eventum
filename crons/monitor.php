@@ -25,16 +25,17 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: monitor.php 3823 2009-02-10 06:46:03Z glen $
 
 require_once dirname(__FILE__).'/../init.php';
 
-// the disk partition in which eventum is stored in
-$partition = '/';
-
-Monitor::checkDiskspace($partition);
+// Nagios compatible exit codes
+define('STATE_OK', 0);
+define('STATE_WARNING', 1);
+define('STATE_CRITICAL', 2);
+define('STATE_UNKNOWN', 3);
+define('STATE_DEPENDENT', 4);
 
 // the owner, group and filesize settings should be changed to match the correct permissions on your server.
 $required_files = array(
@@ -44,7 +45,7 @@ $required_files = array(
         'check_group'      => true,
         'group'            => 'apache',
         'check_permission' => true,
-        'permission'       => 755,
+        'permission'       => 640,
     ),
     APP_CONFIG_PATH . '/setup.php' => array(
         'check_owner'      => true,
@@ -52,12 +53,51 @@ $required_files = array(
         'check_group'      => true,
         'group'            => 'apache',
         'check_permission' => true,
-        'permission'       => 750,
+        'permission'       => 660,
         'check_filesize'   => true,
         'filesize'         => 1024
     ),
 );
-Monitor::checkConfiguration($required_files);
-Monitor::checkDatabase();
-Monitor::checkMailQueue();
-Monitor::checkIRCBot();
+
+$required_directories = array(
+    APP_PATH . '/misc/routed_emails' => array(
+        'check_permission' => true,
+        'permission'       => 770,
+    ),
+    APP_PATH . '/misc/routed_notes' => array(
+        'check_permission' => true,
+        'permission'       => 770,
+    ),
+);
+
+$opt = getopt('q');
+$quiet = isset($opt['q']);
+
+$errors = 0;
+// load prefs
+$setup = Setup::load();
+$prefs = $setup['monitor'];
+
+$errors += Monitor::checkDatabase();
+$errors += Monitor::checkMailQueue();
+
+if ($prefs['diskcheck']['status'] == 'enabled') {
+    $errors += Monitor::checkDiskspace($prefs['diskcheck']['partition']);
+}
+if ($prefs['paths']['status'] == 'enabled') {
+    $errors += Monitor::checkRequiredFiles($required_files);
+    $errors += Monitor::checkRequiredDirs($required_directories);
+}
+if ($prefs['ircbot']['status'] == 'enabled') {
+    $errors += Monitor::checkIRCBot();
+}
+
+if ($errors) {
+    // propagate status code to shell
+    exit(STATE_CRITICAL);
+}
+
+if (!$quiet) {
+    echo ev_gettext("OK: No errors found"), "\n";
+}
+exit(STATE_OK);

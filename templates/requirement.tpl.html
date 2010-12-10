@@ -39,7 +39,7 @@ function validate(f)
 //-->
 </script>
 {/literal}
-<form name="set_analysis_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form name="set_analysis_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="cat" value="set_analysis">
 <input type="hidden" name="isr_id" value="{$smarty.get.isr_id}">
 <table align="center" width="100%" cellpadding="3">
@@ -72,7 +72,7 @@ function validate(f)
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
             <input class="button" type="submit" value="Update">
-            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
+            <input class="button" type="button" value="Close" onClick="window.close();">
           </td>
         </tr>
       </table>

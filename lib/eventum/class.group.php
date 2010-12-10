@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.group.php 3868 2009-03-30 00:22:35Z glen $
-//
 
 
 /**
@@ -67,9 +64,9 @@ class Group
             return -1;
         } else {
             $grp_id = DB_Helper::get_last_insert_id();
-            
+
             self::setProjects($grp_id, $_POST["projects"]);
-            
+
             foreach ($_POST["users"] as $usr_id) {
                 User::setGroupID($usr_id, $grp_id);
             }
@@ -87,7 +84,7 @@ class Group
     function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  SET
@@ -120,14 +117,14 @@ class Group
 
     /**
      * Removes groups
-     * 
+     *
      * @access  public
      */
     function remove()
     {
         foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
             $users = self::getUsers($grp_id);
-            
+
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                      WHERE
@@ -138,7 +135,7 @@ class Group
                 return -1;
             } else {
                 self::removeProjectsByGroup($grp_id);
-                
+
                 foreach ($users as $usr_id) {
                     User::setGroupID($usr_id, false);
                 }
@@ -150,7 +147,7 @@ class Group
 
     /**
      * Sets projects for the group.
-     * 
+     *
      * @access  public
      * @param   integer $grp_id The id of the group.
      * @param   array $projects An array of projects to associate with the group.
@@ -160,7 +157,7 @@ class Group
         $grp_id = Misc::escapeInteger($grp_id);
         $projects = Misc::escapeInteger($projects);
         self::removeProjectsByGroup($grp_id);
-        
+
         // make new associations
         foreach ($projects as $prj_id) {
             $stmt = "INSERT INTO
@@ -184,7 +181,7 @@ class Group
 
     /**
      * Removes all the projects for a group
-     * 
+     *
      * @access  private
      * @param   integer $grp_id The ID of the group
      */
@@ -206,7 +203,7 @@ class Group
 
     /**
      * Removes specified projects from all groups.
-     * 
+     *
      * @access  public
      * @param   array $projects An array of projects to remove from all groups.
      * @return  integer 1 if successful, -1 otherwise
@@ -229,7 +226,7 @@ class Group
 
     /**
      * Returns details about a specific group
-     * 
+     *
      * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of group information
@@ -237,13 +234,13 @@ class Group
     function getDetails($grp_id)
     {
         static $returns;
-        
+
         $grp_id = Misc::escapeInteger($grp_id);
-        
+
         if (!empty($returns[$grp_id])) {
             return $returns[$grp_id];
         }
-        
+
         $stmt = "SELECT
                     grp_name,
                     grp_description,
@@ -273,7 +270,7 @@ class Group
 
     /**
      * Returns the name of the group
-     * 
+     *
      * @access  public
      * @param   integer $grp_id The id of the group
      * @return  string The name of the group
@@ -295,7 +292,7 @@ class Group
 
     /**
      * Returns a list of groups
-     * 
+     *
      * @access  public
      * @return  array An array of group information
      */
@@ -327,7 +324,7 @@ class Group
 
     /**
      * Returns an associative array of groups
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @return  array An associated array of groups
@@ -336,8 +333,8 @@ class Group
     {
         static $list;
 
-        $prj_id = Misc::escapeInteger($prj_id); 
-        
+        $prj_id = Misc::escapeInteger($prj_id);
+
         if (!empty($list[$prj_id])) {
             return $list[$prj_id];
         }
@@ -392,7 +389,7 @@ class Group
 
     /**
      * Returns an array of users who belong to the current group.
-     * 
+     *
      * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of usr ids
@@ -416,7 +413,7 @@ class Group
 
     /**
      * Returns an array of projects who belong to the current group.
-     * 
+     *
      * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of project ids
@@ -443,7 +440,7 @@ class Group
 
     /**
      * Returns a group ID based on group name
-     * 
+     *
      * @access  public
      * @param   string $name Name of the group
      * @return  integer The ID of the group, or -1 if no group by that name could be found.
@@ -471,4 +468,3 @@ class Group
         }
     }
 }
-

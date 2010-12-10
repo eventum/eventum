@@ -56,7 +56,7 @@ function validateAccount(f)
           </td>
         </tr>
         {if $current_role != $roles.customer}
-        <form name="update_name_form" onSubmit="javascript:return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_name_form" onSubmit="return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_name">
         {if $update_name_result}
         <tr>
@@ -85,7 +85,7 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
-        <form name="update_email_form" onSubmit="javascript:return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_email">
         {if $update_email_result}
         <tr>
@@ -115,7 +115,7 @@ function validateAccount(f)
         </tr>
         </form>
         {/if}
-        <form name="update_password_form" onSubmit="javascript:return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
+        <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_password">
         {if $update_password_result}
         <tr>
@@ -161,7 +161,7 @@ function validateAccount(f)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <form name="account_prefs_form" onSubmit="javascript:return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
+        <form name="account_prefs_form" onSubmit="return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="cat" value="update_account">
         <tr>
           <td class="default">
@@ -243,8 +243,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_new_emails[{$prj_id}]" {if $user_prefs.receive_new_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_new_emails[{$prj_id}]" {if not $user_prefs.receive_new_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 1);">{t}No{/t}</a>
+            &nbsp;<input type="radio" name="receive_new_emails[{$prj_id}]" {if $user_prefs.receive_new_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="receive_new_emails[{$prj_id}]" {if not $user_prefs.receive_new_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 1);">{t}No{/t}</a>
           </td>
           {/foreach}
         </tr>
@@ -254,8 +254,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_assigned_emails[{$prj_id}]" {if $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_assigned_emails[{$prj_id}]" {if not $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 1);">{t}No{/t}</a>
+            &nbsp;<input type="radio" name="receive_assigned_emails[{$prj_id}]" {if $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="receive_assigned_emails[{$prj_id}]" {if not $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 1);">{t}No{/t}</a>
           </td>
           {/foreach}
         </tr>
@@ -302,9 +302,9 @@ function validateAccount(f)
               <tr>
                 <td class="default" colspan="2">
                   <input type="checkbox" name="auto_append_sig" value="yes" {if $user_prefs.auto_append_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('account_prefs_form', 'auto_append_sig');">{t}Automatically append email signature when composing web based emails{/t}</a><br />
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_sig');">{t}Automatically append email signature when composing web based emails{/t}</a><br />
                   <input type="checkbox" name="auto_append_note_sig" value="yes" {if $user_prefs.auto_append_note_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('account_prefs_form', 'auto_append_note_sig');">{t}Automatically append email signature when composing internal notes{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_note_sig');">{t}Automatically append email signature when composing internal notes{/t}</a>
                 </td>
               </tr>
             </table>

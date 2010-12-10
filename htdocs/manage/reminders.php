@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: reminders.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -69,7 +67,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         }
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
         $tpl->assign("info", $info);
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized' 
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
         // issue, so let's remove that as an option
         $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
         unset($priorities['Not Prioritized']);
@@ -79,7 +77,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } elseif (!empty($_GET['prj_id'])) {
         $tpl->assign("info", array('rem_prj_id' => $_GET['prj_id']));
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($_GET['prj_id']));
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized' 
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
         // issue, so let's remove that as an option
         $priorities = array_flip(Priority::getAssocList($_GET['prj_id']));
         unset($priorities['Not Prioritized']);

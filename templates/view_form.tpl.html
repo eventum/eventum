@@ -171,7 +171,7 @@ function collapseDescription()
 {/if}
 
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
-<form method="get" action="update.php" name="view_form" onSubmit="javascript:return validateForm(this);">
+<form method="get" action="update.php" name="view_form" onSubmit="return validateForm(this);">
 <input type="hidden" name="id" value="{$issue.iss_id}">
   <tr>
     <td>
@@ -182,10 +182,10 @@ function collapseDescription()
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
-            [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="javascript:openAuthorizedReplier({$smarty.get.id});">{t}Edit Authorized Replier List{/t}</a> ]
-            [ <a class="link" title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">{t}Edit Notification List{/t}</a> ]
+            [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
+            [ <a class="link" title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
             {/if}
-            [ <a class="link" title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="javascript:openHistory({$smarty.get.id});">{t}History of Changes{/t}</a> ]
+            [ <a class="link" title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
           </td>
         </tr>
         {if $has_customer_integration and $issue.iss_customer_id}
@@ -427,16 +427,16 @@ function collapseDescription()
           <td align="left" valign="top" bgcolor="{$cell_color}" width="150">
             <center class="default_white">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="description_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleVisibility('description');collapseDescription();">{get_innerhtml element_name="description"}</a> ]
+            [ <a id="description_link" class="white_link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{get_innerhtml element_name="description"}</a> ]
             {/if}
             </center>
             <span class="default_white"><b>{t}Initial Description{/t}:</b></span><br />
-            <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('issue_description');">{t}fixed width font{/t}</a>)</span><br />
+            <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="displayFixedWidth('issue_description');">{t}fixed width font{/t}</a>)</span><br />
             <img src="images/blank.gif" height="1" width="150">
           </td>
           <td bgcolor="{$dark_color}" id="issue_description" class="default">
-            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"}</span>
-            <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
+            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+            <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a class="link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
             {literal}
             <script type="text/javascript">
             collapseDescription();
@@ -461,17 +461,17 @@ function collapseDescription()
                 <td nowrap>
                   {if $is_user_assigned == 1}
                   {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
-                  <input class="button" type="button" value="{t}Unassign Issue{/t}" onClick="javascript:unassign({$issue.iss_id});">&nbsp;
+                  <input class="button" type="button" value="{t}Unassign Issue{/t}" onClick="unassign({$issue.iss_id});">&nbsp;
                   {/if}
                   {else}
-                  <input class="button" type="button" value="{t}Assign Issue To Myself{/t}" onClick="javascript:selfAssign({$issue.iss_id});">&nbsp;
+                  <input class="button" type="button" value="{t}Assign Issue To Myself{/t}" onClick="selfAssign({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
                 {/if}
                 <td width="100%" align="center">
                   <input class="button" type="submit" value="{t}Update Issue{/t}">
                   {if $current_role >= $roles.standard_user and $app_setup.support_email == 'enabled' and $ema_id != ''}
-                  &nbsp;<input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:replyIssue({$issue.iss_id});">
+                  &nbsp;<input class="button" type="button" value="{t}Reply{/t}" onClick="replyIssue({$issue.iss_id});">
                   {/if}
                 </td>
                 {if $current_role > $roles.customer}
@@ -480,12 +480,12 @@ function collapseDescription()
                   {if not $issue.sta_is_closed}
                     {if $issue.duplicates == ''}
                       {if $issue.iss_duplicated_iss_id}
-                      <input class="button" type="button" value="{t}Clear Duplicate Status{/t}" onClick="javascript:clearDuplicateStatus({$issue.iss_id});">
+                      <input class="button" type="button" value="{t}Clear Duplicate Status{/t}" onClick="clearDuplicateStatus({$issue.iss_id});">
                       {else}
-                      <input class="button" type="button" value="{t}Mark as Duplicate{/t}" onClick="javascript:window.location.href='duplicate.php?id={$issue.iss_id}';">
+                      <input class="button" type="button" value="{t}Mark as Duplicate{/t}" onClick="window.location.href='duplicate.php?id={$issue.iss_id}';">
                       {/if}
                     {/if}
-                    <input class="button" type="button" value="{t}Close Issue{/t}" onClick="javascript:window.location.href='close.php?id={$issue.iss_id}';">
+                    <input class="button" type="button" value="{t}Close Issue{/t}" onClick="window.location.href='close.php?id={$issue.iss_id}';">
                   {/if}
                   </nobr>
                 </td>
@@ -502,15 +502,15 @@ function collapseDescription()
               <tr>
                 <td width="50%">
                   {if $is_user_authorized != 1}
-                  <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="javascript:signupAsAuthorizedReplier({$issue.iss_id});">
+                  <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
                   {/if}
                   {if $issue.customer_info.is_per_incident}
-                    <input type="button" value="{t}Edit Incident Redemption{/t}" class="button" onClick="javascript:editIncidentRedemption({$issue.iss_id});">
+                    <input type="button" value="{t}Edit Incident Redemption{/t}" class="button" onClick="editIncidentRedemption({$issue.iss_id});">
                   {/if}
                 </td>
                 <td width="50%" align="right">
                   {if $statuses != ''}
-                  <input type="button" value="{t}Change Status To{/t} &gt;" class="button" onClick="javascript:changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
+                  <input type="button" value="{t}Change Status To{/t} &gt;" class="button" onClick="changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
                   <select class="default" name="new_status">
                     {html_options options=$statuses selected=$issue.iss_sta_id}
                   </select>

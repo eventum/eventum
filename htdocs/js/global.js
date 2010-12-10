@@ -1,5 +1,5 @@
-<!--
-// @(#) $Id: global.js 3762 2008-10-28 18:23:04Z glen $
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
@@ -64,7 +64,9 @@ function getEmailFromAddress(str)
 
 function closeAndRefresh()
 {
-    opener.location.href = opener.location;
+    if (opener) {
+        opener.location.href = opener.location;
+    }
     window.close();
 }
 
@@ -802,7 +804,7 @@ $(document).ready(function() {
 // dialog type calender isn't working in Konqueror beacuse it's not a supported browser by either jQuery or jQuery UI
 // http://groups.google.com/group/jquery-ui/browse_thread/thread/ea61238c34cb5f33/046837b02fb90b5c
 if (navigator.appName != 'Konqueror') {
-	$(document).ready(function() {
+    $(document).ready(function() {
         $(".inline_date_pick").click(function() {
             var masterObj = this;
             var masterObjPos = $(masterObj).offset();
@@ -844,6 +846,5 @@ if (navigator.appName != 'Konqueror') {
 
             return false;
         });
-	});
+    });
 }
-//-->

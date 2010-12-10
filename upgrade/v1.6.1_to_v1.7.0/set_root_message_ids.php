@@ -23,7 +23,9 @@ foreach ($issues as $issue_id) {
             LIMIT 1";
     $res = DB_Helper::getInstance()->getOne($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);echo "</pre>";
+		echo "<pre>";
+		print_r($res);
+		echo "</pre>";
         exit;
     }
     if (empty($res)) {
@@ -39,7 +41,9 @@ foreach ($issues as $issue_id) {
                 iss_id = $issue_id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);echo "</pre>";
+		echo "<pre>";
+		print_r($res);
+		echo "</pre>";
         exit;
     }
 }

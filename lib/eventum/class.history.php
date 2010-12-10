@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.history.php 3868 2009-03-30 00:22:35Z glen $
-//
 
 
 /**
@@ -270,10 +267,10 @@ class History
                 "other"     =>  array()
             );
             if (count($res) > 0) {
-                if (isset($_POST['show_per_issue'])) {
+                if (isset($_REQUEST['show_per_issue'])) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
-                if (isset($_POST['separate_status_changed'])) {
+                if (isset($_REQUEST['separate_status_changed'])) {
                     self::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
                 }
                 foreach ($res as $index => $row) {
@@ -283,7 +280,7 @@ class History
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
-                    } elseif ((isset($_POST['separate_status_changed'])) && $row['only_stat_changed']) {
+                    } elseif ((isset($_REQUEST['separate_status_changed'])) && $row['only_stat_changed']) {
                         $data['status_changed'][] = $row;
                     } else {
                         $data['other'][] = $row;

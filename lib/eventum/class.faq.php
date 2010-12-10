@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.faq.php 3832 2009-02-10 07:21:46Z glen $
-//
 
 
 class FAQ
@@ -144,7 +141,7 @@ class FAQ
     function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
-        
+
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
@@ -398,7 +395,7 @@ class FAQ
 
 
     /**
-     * Returns an associative array with the list of faq entry 
+     * Returns an associative array with the list of faq entry
      * IDs and their respective ranking.
      *
      * @access  private

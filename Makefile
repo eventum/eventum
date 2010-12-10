@@ -14,6 +14,9 @@ install: install-eventum install-cli install-irc install-scm install-libs
 dist:
 	./release.sh
 
+phpcs:
+	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
+
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)

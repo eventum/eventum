@@ -5,7 +5,7 @@
           <script type="text/javascript">
           <!--
           var url = '{$smarty.server.PHP_SELF}';
-          var cno_id = '{$smarty.get.id}';
+          var cno_id = {$smarty.get.id|intval};
           {literal}
           function populateCustomerComboBox(f)
           {
@@ -28,10 +28,10 @@
           //-->
           </script>
           {/literal}
-          <form name="release_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+          <form name="release_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
           {if $smarty.get.cat == 'edit'}
           <input type="hidden" name="cat" value="update">
-          <input type="hidden" name="id" value="{$smarty.get.id}">
+          <input type="hidden" name="id" value="{$smarty.get.id|intval}">
           {else}
           <input type="hidden" name="cat" value="new">
           {/if}
@@ -70,7 +70,7 @@
               <b>{t}Project{/t}:</b>
             </td>
             <td bgcolor="{$light_color}">
-              <select name="project" class="default" onChange="javascript:populateCustomerComboBox(this.form);">
+              <select name="project" class="default" onChange="populateCustomerComboBox(this.form);">
                 <option value="-1">{t}Please choose an option{/t}</option>
                 {html_options options=$project_list selected=$info.cno_prj_id}
               </select>
@@ -134,10 +134,10 @@
               </script>
               {/literal}
               <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                 <input type="hidden" name="cat" value="delete">
                 <tr>
-                  <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                  <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                   <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Customer{/t}</b></td>
                   <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Note{/t}</b></td>
                 </tr>
@@ -161,7 +161,7 @@
                 {/section}
                 <tr>
                   <td bgcolor="{$cell_color}">
-                    <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                    <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                   </td>
                   <td colspan="3" bgcolor="{$cell_color}" align="center">
                     <input type="submit" value="{t}Delete{/t}" class="button">

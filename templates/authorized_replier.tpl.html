@@ -40,10 +40,10 @@ function removeOption(f, field_name)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <form name="replier_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        <form name="replier_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
         {if $smarty.get.cat == 'edit'}
         <input type="hidden" name="cat" value="update">
-        <input type="hidden" name="id" value="{$smarty.get.id}">
+        <input type="hidden" name="id" value="{$smarty.get.id|intval}">
         {else}
         <input type="hidden" name="cat" value="insert">
         {/if}
@@ -73,7 +73,7 @@ function removeOption(f, field_name)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="email" size="40" class="default" value="{$info.sub_email}">
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'replier_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'replier_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
@@ -111,7 +111,7 @@ function removeOption(f, field_name)
             </script>
             {/literal}
             <table border="0" width="100%" cellpadding="1" cellspacing="1">
-              <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="delete">
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
@@ -138,7 +138,7 @@ function removeOption(f, field_name)
               <tr>
                 <td colspan="3" bgcolor="{$cell_color}" align="center">
                   <input type="submit" value="{t}Remove Selected{/t}" class="button">
-                  <input type="button" value="{t}Close{/t}" class="button" onClick="javascript:closeAndRefresh();">
+                  <input type="button" value="{t}Close{/t}" class="button" onClick="closeAndRefresh();">
                 </td>
               </tr>
               {/if}

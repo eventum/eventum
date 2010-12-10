@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: validate.php 3868 2009-03-30 00:22:35Z glen $
-//
 
 require_once dirname(__FILE__) . '/../init.php';
 
@@ -44,25 +41,23 @@ exit;
 
 function validateIssueNumbers()
 {
-    $issues = @explode(',', $_REQUEST['values']);
-    if ($_REQUEST['check_project'] == 0) {
-        $check_project = false;
-    } else {
-        $check_project = true;
-    }
-
+    $issues = explode(',', $_REQUEST['values']);
+    $check_project = $_REQUEST['check_project'] != 0;
+    $exclude_issue = isset($_REQUEST['exclude_issue']) ? $_REQUEST['exclude_issue'] : null;
+    $exclude_duplicates = isset($_REQUEST['exclude_duplicates']) ? $_REQUEST['exclude_duplicates'] == 1 : false;
     $bad_issues = array();
-    if (count($issues) > 0) {
-        for ($i = 0; $i < count($issues); $i++) {
-            $issue_id = $issues[$i];
-            if ((($issue_id != '') && (!Issue::exists($issue_id, $check_project))) ||
-                ((isset($_REQUEST['exclude_issue'])) && ($_REQUEST['exclude_issue'] == $issue_id)) ||
-                ((isset($_REQUEST['exclude_duplicates'])) && ($_REQUEST['exclude_duplicates'] == 1) && (Issue::isDuplicate($issue_id) ))) {
-                $bad_issues[] = $issues[$i];
-            }
+
+    foreach ($issues as $issue_id) {
+        if (
+            ($issue_id != '' && !Issue::exists($issue_id, $check_project)) ||
+            ($exclude_issue == $issue_id) ||
+            ($exclude_duplicates && Issue::isDuplicate($issue_id))
+            ) {
+            $bad_issues[] = $issues_id;
         }
     }
-    if (count($bad_issues) > 0) {
+
+    if (count($bad_issues)) {
         return $_REQUEST['form_name'] . ':' . $_REQUEST['field_name'] . ':' . join(', ', $bad_issues);
     } else {
         return $_REQUEST['form_name'] . ':' . $_REQUEST['field_name'] . ':' . 'ok';

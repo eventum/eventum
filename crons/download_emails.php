@@ -26,10 +26,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: download_emails.php 3872 2009-04-13 20:51:59Z glen $
 
-ini_set("memory_limit", "1024M");
+// Set to almost 2Gigs, as 2048M overflows:
+// script tried to disable memory_limit by setting it to a negative value -2147483648 bytes which is not allowed
+ini_set("memory_limit", "2047M");
 
 require_once dirname(__FILE__).'/../init.php';
 

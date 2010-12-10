@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<ruleset name="Eventum">
+	<!--
+		 http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php
+	 -->
+	<description>Eventum coding standard.</description>
+
+	<!-- Exclude data dirs
+	-->
+	<exclude-pattern>*/templates_c/*</exclude-pattern>
+	<exclude-pattern>*/.bzr/*</exclude-pattern>
+	<exclude-pattern>*/docs/*</exclude-pattern>
+	<exclude-pattern>*/config/*.php</exclude-pattern>
+
+	<!-- External libs: we do not modify these to fit standards -->
+	<exclude-pattern>*/lib/Smarty/*</exclude-pattern>
+	<exclude-pattern>*/lib/jpgraph/*</exclude-pattern>
+	<exclude-pattern>*/lib/pear/*</exclude-pattern>
+	<exclude-pattern>*/lib/php-gettext/*</exclude-pattern>
+
+	<exclude-pattern>*.css</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+
+	<!-- Include some from all around the place
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	 -->
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+	<rule ref="Squiz.ControlStructures.LowercaseDeclaration" />
+
+	<rule ref="Generic.Formatting.DisallowMultipleStatements">
+	</rule>
+
+	<rule ref="Generic.CodeAnalysis.EmptyStatement">
+		<exclude-pattern>*/lib/eventum/smarty/function.calendar.php</exclude-pattern>
+	</rule>
+
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall">
+		<exclude-pattern>*/crons/check_reminders.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/associate.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/manage/column_display.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/reports/recent_activity.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/rpc/xmlrpc.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/scm_ping.php</exclude-pattern>
+		<exclude-pattern>*/htdocs/validate.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.attachment.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.custom_field.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.customer.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.draft.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.email_account.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.email_response.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.error_handler.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.faq.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.filter.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.group.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.history.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.impact_analysis.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.issue.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.language.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.link_filter.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.mail_helper.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.mail_queue.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.mime_helper.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.misc.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.monitor.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.news.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.note.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.notification.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.phone_support.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.project.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.reminder.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.reminder_action.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.reminder_condition.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.report.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.round_robin.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.routing.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.status.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.support.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.time_tracking.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.user.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.validation.php</exclude-pattern>
+		<exclude-pattern>*/lib/eventum/class.workflow.php</exclude-pattern>
+		<exclude-pattern>*/upgrade/v1.5_to_v1.5.1/database_changes.php</exclude-pattern>
+	</rule>
+
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
+	<rule ref="PEAR.Functions.ValidDefaultValue">
+	</rule>
+
+	<rule ref="Squiz.PHP.Eval"/>
+	<rule ref="Squiz.PHP.NonExecutableCode">
+	</rule>
+</ruleset>

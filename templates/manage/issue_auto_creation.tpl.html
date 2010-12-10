@@ -68,7 +68,7 @@
               //-->
               </script>
               {/literal}
-              <form name="auto_creation_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="auto_creation_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               <input type="hidden" name="cat" value="update">
               <input type="hidden" name="ema_id" value="{$ema_id}">
               <tr>
@@ -86,10 +86,10 @@
                   <b>{t}Auto-Creation of Issues{/t} *</b>
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="issue_auto_creation" value="enabled" {if $info.ema_issue_auto_creation == 'enabled'}checked{/if} onClick="javascript:disableFields(getForm('auto_creation_form'), false);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'issue_auto_creation', 0);disableFields(getForm('auto_creation_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="issue_auto_creation" value="disabled" {if $info.ema_issue_auto_creation == 'disabled'}checked{/if} onClick="javascript:disableFields(getForm('auto_creation_form'), true);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'issue_auto_creation', 1);disableFields(getForm('auto_creation_form'), true);">{t}Disabled{/t}</a>
+                  <input type="radio" name="issue_auto_creation" value="enabled" {if $info.ema_issue_auto_creation == 'enabled'}checked{/if} onClick="disableFields(getForm('auto_creation_form'), false);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('auto_creation_form', 'issue_auto_creation', 0);disableFields(getForm('auto_creation_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
+                  <input type="radio" name="issue_auto_creation" value="disabled" {if $info.ema_issue_auto_creation == 'disabled'}checked{/if} onClick="disableFields(getForm('auto_creation_form'), true);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('auto_creation_form', 'issue_auto_creation', 1);disableFields(getForm('auto_creation_form'), true);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               {if $uses_customer_integration}
@@ -99,9 +99,9 @@
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
                   <input type="radio" name="options[only_known_customers]" value="yes" {if $options.only_known_customers == 'yes'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'options[only_known_customers]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('auto_creation_form', 'options[only_known_customers]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="options[only_known_customers]" value="no" {if $options.only_known_customers == 'no'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'options[only_known_customers]', 1);">{t}No{/t}</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('auto_creation_form', 'options[only_known_customers]', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               {else}

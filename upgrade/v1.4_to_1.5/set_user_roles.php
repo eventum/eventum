@@ -26,7 +26,7 @@ foreach ($res as $usr_id => $role) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
-    
+
     // handle preferences
     $prefs = Prefs::get($usr_id);
     $receive_assigned_emails = @$prefs['receive_assigned_emails'];
@@ -37,7 +37,7 @@ foreach ($res as $usr_id => $role) {
     if (empty($receive_new_emails)) {
         $receive_new_emails = 0;
     }
-    
+
     $projects = Project::getAssocList($usr_id);
     $prefs['receive_new_emails'] = array();
     $prefs['receive_assigned_emails'] = array();

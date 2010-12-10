@@ -4,7 +4,7 @@
  * -------------------------------------------------------------
  * Type:     function
  * Name:     calendar
- * Purpose:  
+ * Purpose:
  * -------------------------------------------------------------
  */
 function _get_month_view($params)
@@ -184,13 +184,13 @@ function smarty_function_calendar($params, &$smarty)
 {
     $print_result = true;
     extract($params);
-    
+
     if ($view == "month") {
         $html_result = _get_month_view($params);
     } elseif ($view == "week") {
         $html_result = _get_week_view($params);
     }
-    
+
     if ($print_result) {
         print $html_result;
     } else {
@@ -199,5 +199,3 @@ function smarty_function_calendar($params, &$smarty)
 }
 
 /* vim: set expandtab: */
-
-?>

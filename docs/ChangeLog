@@ -1,16 +1,36 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version ???
+???, Version ??
+- Improve getCustomFieldWeeklyReport (merge request 31659)
+- Update Smarty 2.6.18 -> 2.6.26 (Elan Ruusamäe)
+- Put 'Release' in the 'The issue was updated by' e-mail (Robbert-Jan Roos)
+- Changed ereg to preg_match in template helper for compatability (Bryan)
+- Removed assignment by reference in db helper to prevent PHP warning (Bryan)
+- Fix problem with custom field validation (Bryan) [lp#628862]
+- Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
+- Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
+- Changed 'recieved' to 'received' (Robbert-Jan Roos)
+- XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
+- Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
+- Make attachment names linked in issue Initial Description (Elan Ruusamäe)
+- Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
+- Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
+- Rework Mail_Queue code to be memory efficent by fetching only one email a time to memory (Elan Ruusamäe)
+- Fix xmlrpc server missing global $XML_RPC_erruser (Elan Ruusamäe)
+- Add better xmlrpc client class and sample (Elan Ruusamäe)
+- Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
+- Support for configuring Monitor preferences (Elan Ruusamäe)
+
+
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)
 - Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
 - Allow customers to use the quick filters (Bryan)
-
 - Added basic auth support to Auth::checkAuthentication() (Bryan)
 
 
-???, Version 2.3
+2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)

@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.command_line.php 3823 2009-02-10 06:46:03Z glen $
-//
 
 require_once APP_INC_PATH . '/class.misc.php';
 require_once 'PEAR.php';
@@ -225,7 +222,8 @@ class Command_Line
                     if (count($customer['contacts']) > 0) {
                         $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'] .
                                 (empty($customer['contacts'][0]['phone']) ? '' : (' - ' . $customer['contacts'][0]['phone']));
-                        for ($i = 1; $i < count($customer['contacts']); $i++) {
+                        $ncontacts = count($customer['contacts']);
+                        for ($i = 1; $i < $ncontacts; $i++) {
                             $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'] .
                                 (empty($customer['contacts'][$i]['phone']) ? '' : (' - ' . $customer['contacts'][$i]['phone']));
                         }
@@ -448,7 +446,8 @@ class Command_Line
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
-        for ($i = 0; $i < count($projects); $i++) {
+        $nprojects = count($projects);
+        for ($i = 0; $i < $nprojects; $i++) {
             if ($details['iss_prj_id'] == $projects[$i]['id']) {
                 $found = 1;
                 break;
@@ -816,13 +815,14 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         if (count($projects) > 1) {
             // need to ask which project this person is asking about
             $prompt = "For which project do you want this action to apply to?\n";
-            for ($i = 0; $i < count($projects); $i++) {
+            $nprojects = count($projects);
+            for ($i = 0; $i < $nprojects; $i++) {
                 $prompt .= sprintf(" [%s] => %s\n", $projects[$i]['id'], $projects[$i]['title']);
             }
             $prompt .= "Please enter the number of the project";
             $project_id = Misc::prompt($prompt, false);
             $found = 0;
-            for ($i = 0; $i < count($projects); $i++) {
+            for ($i = 0; $i < $nprojects; $i++) {
                 if ($project_id == $projects[$i]['id']) {
                     $found = 1;
                     break;
@@ -918,7 +918,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             exit;
         }
         // since xml-rpc has issues, we have to base64 decode everything
-        for ($i = 0; $i < count($emails); $i++) {
+        $nemails = count($emails);
+        for ($i = 0; $i < $nemails; $i++) {
             foreach ($emails[$i] as $key => $val) {
                 $emails[$i][$key] = base64_decode($val);
             }
@@ -1010,7 +1011,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         $notes = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
-        for ($i = 0; $i < count($notes); $i++) {
+        $nnotes = count($notes);
+        for ($i = 0; $i < $nnotes; $i++) {
             foreach ($notes[$i] as $key => $val) {
                 $notes[$i][$key] = base64_decode($val);
             }
@@ -1212,7 +1214,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         $drafts = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
-        for ($i = 0; $i < count($drafts); $i++) {
+        $ndrafts = count($drafts);
+        for ($i = 0; $i < $ndrafts; $i++) {
             foreach ($drafts[$i] as $key => $val) {
                 $drafts[$i][$key] = base64_decode($val);
             }
@@ -1462,7 +1465,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         echo $firstRow . "\n" . $secondRow . "\n";
         // print out data
-        for ($i = 0; $i < count($data); $i++) {
+        $ndata = count($data);
+        for ($i = 0; $i < $ndata; $i++) {
             foreach ($format as $key => $column) {
                 echo sprintf("%-" . $column["width"] . "s", substr($data[$i][$key], 0, $column["width"])) . " ";
             }
@@ -1710,7 +1714,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             $item_num = sprintf("%2d.) ", ($command_num+1));
             $usage_text .= $item_num . "$script ";
             if (is_array($this_command["command"])) {
-                for ($i = 0; $i < count($this_command["command"]); $i++) {
+                $ncommands = count($this_command["command"]);
+                for ($i = 0; $i < $ncommands; $i++) {
                     if ($i != 0) {
                         $usage_text .= "     $script ";
                     }

@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: associate.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../init.php';
 
@@ -49,8 +47,8 @@ if (@$_POST['cat'] == 'associate') {
         }
         $tpl->assign("associate_result", $res);
     } else {
-        for ($i = 0; $i < count($_POST['item']); $i++) {
-            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($_POST['item'][$i]), $_POST['item'][$i]);
+        foreach ($_POST['item'] as $item) {
+            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($item), $item);
             // add the message body as a note
             $_POST['full_message'] = $email['seb_full_email'];
             $_POST['title'] = $email['sup_subject'];
@@ -60,9 +58,9 @@ if (@$_POST['cat'] == 'associate') {
             $res = Note::insert(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
-                list($_POST["from"]) = Support::getSender(array($_POST['item'][$i]));
+                list($_POST["from"]) = Support::getSender(array($item));
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'associated');
-                Support::removeEmail($_POST['item'][$i]);
+                Support::removeEmail($item);
             }
         }
         $tpl->assign("associate_result", $res);
@@ -76,9 +74,9 @@ if (@$_POST['cat'] == 'associate') {
         // check if the selected emails all have sender email addresses that are associated with the issue' customer
         $senders = Support::getSender($_GET['item']);
         $sender_emails = array();
-        for ($i = 0; $i < count($senders); $i++) {
-            $email = Mail_Helper::getEmailAddress($senders[$i]);
-            $sender_emails[$email] = $senders[$i];
+        foreach ($senders as $sender) {
+            $email = Mail_Helper::getEmailAddress($sender);
+            $sender_emails[$email] = $sender;
         }
         $customer_id = Issue::getCustomerID($_GET['issue_id']);
         if (!empty($customer_id)) {

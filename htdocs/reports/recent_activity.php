@@ -69,7 +69,7 @@ $tpl->assign(array(
 
 
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
-    
+
     if (count(@$_REQUEST["start"]) > 0 &&
             (@$_REQUEST["start"]["Year"] != 0) &&
             (@$_REQUEST["start"]["Month"] != 0) &&
@@ -82,7 +82,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             (@$_REQUEST["end"]["Day"] != 0)) {
         $end_date = join("-", $_POST["end"]);
     }
-    
+
     $data = array();
     if (in_array('phone', $_REQUEST['activity_types'])) {
         $sql = "SELECT
@@ -111,7 +111,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['phone'] = processResult($res, 'phs_created_date', 'phs_iss_id');
         }
     }
-    
+
     if (in_array('note', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note.*,
@@ -136,7 +136,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['note'] = processResult($res, 'not_created_date', 'not_iss_id');
         }
     }
-    
+
     if (in_array('email', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email.*,
@@ -154,13 +154,12 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('sup_date', 'sup_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
         }
     }
-    
+
     if (in_array('draft', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft.*,
@@ -177,24 +176,23 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
-            for ($i = 0; $i < count($data['draft']); $i++) {
-                if (!empty($data['draft'][$i]['emd_unknown_user'])) {
-                    $data['draft'][$i]['from'] = $data['draft'][$i]["emd_unknown_user"];
+            foreach ($data['draft'] as &$draft) {
+                if (!empty($draft['emd_unknown_user'])) {
+                    $draft['from'] = $draft["emd_unknown_user"];
                 } else {
-                    $data['draft'][$i]['from'] = User::getFromHeader($data['draft'][$i]['emd_usr_id']);
+                    $draft['from'] = User::getFromHeader($draft['emd_usr_id']);
                 }
-                list($data['draft'][$i]['to'], ) = Draft::getEmailRecipients($data['draft'][$i]['emd_id']);
-                if (empty($data['draft'][$i]['to'])) {
-                    $data['draft'][$i]['to'] = "Notification List";
+                list($draft['to'], ) = Draft::getEmailRecipients($draft['emd_id']);
+                if (empty($draft['to'])) {
+                    $draft['to'] = "Notification List";
                 }
             }
         }
     }
-    
+
     if (in_array('time', $_REQUEST['activity_types'])) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking.*,
@@ -217,16 +215,15 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['time'] = processResult($res, 'ttr_created_date', 'ttr_iss_id');
-            for ($i = 0; $i < count($data['time']); $i++) {
-                $data['time'][$i]['time_spent'] = Misc::getFormattedTime($data['time'][$i]['ttr_time_spent'], true);
+            foreach ($data['time'] as &$time) {
+                $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
             }
         }
     }
-    
+
     if ((empty($_REQUEST['developer'])) && (in_array('reminder', $_REQUEST['activity_types']))) {
         $sql = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history.*,
@@ -246,13 +243,12 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         $sql .= createWhereClause('rmh_created_date');
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
             $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
         }
     }
-    
+
     $tpl->assign(array(
         "unit"  =>  $_REQUEST['unit'],
         "amount"    =>  $_REQUEST['amount'],
@@ -267,7 +263,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
 function createWhereClause($date_field, $user_field = false)
 {
     GLOBAL $start_date, $end_date;
-    
+
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
         $sql .= "$date_field >= DATE_SUB('" . Date_Helper::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger($_REQUEST['amount']) . " " . Misc::escapeString($_REQUEST['unit']) . ")";
@@ -281,30 +277,29 @@ function createWhereClause($date_field, $user_field = false)
     return $sql;
 }
 
-function processResult($res, $date_field, $issue_field)
+function processResult($results, $date_field, $issue_field)
 {
-    GLOBAL $prj_id;
-    GLOBAL $usr_id;
-    
+    global $prj_id, $usr_id;
+
     $data = array();
-    for ($i = 0; $i < count($res); $i++) {
-        if (!Issue::canAccess($res[$i][$issue_field], $usr_id)) {
+    foreach ($results as &$res) {
+        if (!Issue::canAccess($res[$issue_field], $usr_id)) {
             continue;
         }
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
-            $res[$i]["customer"] = @$details['customer_name'];
+            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$issue_field]));
+            $res["customer"] = @$details['customer_name'];
         }
-        $res[$i]["date"] = Date_Helper::getFormattedDate($res[$i][$date_field], Date_Helper::getPreferredTimezone($usr_id));
+        $res["date"] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
         // need to decode From:, To: mail headers
-        if (isset($res[$i]["sup_from"])) {
-            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+        if (isset($res["sup_from"])) {
+            $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
         }
-        if (isset($res[$i]["sup_to"])) {
-            $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
+        if (isset($res["sup_to"])) {
+            $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
         }
 
-        $data[] = $res[$i];
+        $data[] = $res;
     }
     return $data;
 }

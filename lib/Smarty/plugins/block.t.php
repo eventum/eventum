@@ -1,16 +1,5 @@
 <?php
 /**
- * LGPL Disclaimer
- *
- * For the avoidance of doubt, except that if any license choice other
- * than GPL or LGPL is available it will apply instead, Sun elects to
- * use only the Lesser General Public License version 2.1 (LGPLv2) at
- * this time for any software where a choice of LGPL license versions
- * is made available with the language indicating that LGPLv2.1 or any
- * later version may be used, or where a choice of which version of the
- * LGPL is applied is otherwise unspecified.
- */
-/**
  * block.t.php - Smarty gettext block plugin
  *
  * ------------------------------------------------------------------------- *
@@ -37,7 +26,7 @@
  * @author	Sagi Bashari <sagi@boom.org.il>
  * @copyright 2004-2005 Sagi Bashari
  */
-
+ 
 /**
  * Replaces arguments in a string with their values.
  * Arguments are represented by % followed by their number.
@@ -53,7 +42,7 @@ function smarty_gettext_strarg($str)
 
 	for ($i=1; $i < func_num_args(); $i++) {
 		$arg = func_get_arg($i);
-
+		
 		if (is_array($arg)) {
 			foreach ($arg as $aarg) {
 				$tr['%'.++$p] = $aarg;
@@ -62,7 +51,7 @@ function smarty_gettext_strarg($str)
 			$tr['%'.++$p] = $arg;
 		}
 	}
-
+	
 	return strtr($str, $tr);
 }
 
@@ -71,7 +60,7 @@ function smarty_gettext_strarg($str)
  *
  * The block content is the text that should be translated.
  *
- * Any parameter that is sent to the function will be represented as %n in the translation text,
+ * Any parameter that is sent to the function will be represented as %n in the translation text, 
  * where n is 1 for the first parameter. The following parameters are reserved:
  *   - escape - sets escape mode:
  *       - 'html' for HTML escaping, this is the default.
@@ -84,30 +73,30 @@ function smarty_gettext_strarg($str)
 function smarty_block_t($params, $text, &$smarty)
 {
 	$text = stripslashes($text);
-
+	
 	// set escape mode
 	if (isset($params['escape'])) {
 		$escape = $params['escape'];
 		unset($params['escape']);
 	}
-
+	
 	// set plural version
 	if (isset($params['plural'])) {
 		$plural = $params['plural'];
 		unset($params['plural']);
-
+		
 		// set count
 		if (isset($params['count'])) {
 			$count = $params['count'];
 			unset($params['count']);
 		}
 	}
-
+	
 	// use plural if required parameters are set
 	if (isset($count) && isset($plural)) {
-		$text = ev_ngettext($text, $plural, $count);
+		$text = ngettext($text, $plural, $count);
 	} else { // use normal
-		$text = ev_gettext($text);
+		$text = gettext($text);
 	}
 
 	// run strarg if there are parameters
@@ -130,7 +119,7 @@ function smarty_block_t($params, $text, &$smarty)
 				break;
 		}
 	}
-
+	
 	return $text;
 }
 

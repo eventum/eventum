@@ -3054,11 +3054,21 @@ class Issue
                 } else if ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
-                        case 'ge': $cmp = '>='; break;
-                        case 'le': $cmp = '<='; break;
-                        case 'gt': $cmp = '>'; break;
-                        case 'lt': $cmp = '<'; break;
-                        default:   $cmp = '='; break;
+                    case 'ge':
+                        $cmp = '>=';
+                        break;
+                    case 'le':
+                        $cmp = '<=';
+                        break;
+                    case 'gt':
+                        $cmp = '>';
+                        break;
+                    case 'lt':
+                        $cmp = '<';
+                        break;
+                    default:
+                        $cmp = '=';
+                        break;
                     }
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";

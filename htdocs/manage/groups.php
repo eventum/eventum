@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: groups.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../../init.php';
 
@@ -64,8 +62,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } else {
         $show_customer = false;
     }
-    
-    
+
+
     $tpl->assign("user_options", $user_options);
     $tpl->assign("list", Group::getList());
     $tpl->assign("project_list", Project::getAll());

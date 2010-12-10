@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: preferences.php 3868 2009-03-30 00:22:35Z glen $
 
 // delay language init if we're saving language
 if (!empty($_POST['language'])) {

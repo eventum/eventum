@@ -193,10 +193,10 @@ function updateCustomFields(issue_id)
                 <td align="right" class="default" nowrap>
                   {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
                   {t}hide/show{/t}:
-                  [ <a class="link" title="{t}hide / show the quick search form{/t}" href="javascript:void(null);" onClick="javascript:toggleVisibility('filter_form');">{t}quick search{/t}</a> ]
-                  {if $current_role > $roles.reporter}[ <a class="link" title="{t}hide / show the advanced search form{/t}" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_filter_form');">{t}advanced search{/t}</a> ]{/if}
-                  {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('current_filters');"> {t}current filters{/t}</a> ]{/if}
-                  {if $current_role > $roles.developer}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('bulk_update');"> {t}bulk update tool{/t}</a> ]{/if}
+                  [ <a class="link" title="{t}hide / show the quick search form{/t}" href="javascript:void(null);" onClick="toggleVisibility('filter_form');">{t}quick search{/t}</a> ]
+                  {if $current_role > $roles.reporter}[ <a class="link" title="{t}hide / show the advanced search form{/t}" href="javascript:void(null);" onClick="toggleVisibility('custom_filter_form');">{t}advanced search{/t}</a> ]{/if}
+                  {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="toggleVisibility('current_filters');"> {t}current filters{/t}</a> ]{/if}
+                  {if $current_role > $roles.developer}[ <a class="link" href="javascript:void(null);" onClick="toggleVisibility('bulk_update');"> {t}bulk update tool{/t}</a> ]{/if}
                   {/if}
                 </td>
                 {/if}
@@ -207,7 +207,7 @@ function updateCustomFields(issue_id)
         <tr bgcolor="{$cell_color}">
           {if $current_role > $roles.developer}
           <td width="1%">
-            <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');toggleBulkUpdate();">
+            <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');toggleBulkUpdate();">
           </td>
           {/if}
           {foreach from=$columns item=column key=field_name}
@@ -229,7 +229,7 @@ function updateCustomFields(issue_id)
                   {if $sorting.images.iss_summary != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}" class="white_link"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
                 </td>
                 <td align="right">
-                  <span class="default_white">{t}Export Data:{/t}</span> <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="javascript:return downloadCSV();">
+                  <span class="default_white">{t}Export Data:{/t}</span> <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="return downloadCSV();">
                 </td>
               </tr>
             </table>
@@ -322,22 +322,22 @@ function updateCustomFields(issue_id)
               <tr>
                 <td width="30%" nowrap>
                   {if $current_role > $roles.developer}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
                 <td width="40%" align="center" nowrap>
                   <nobr>
-                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="javascript:setPage(0);">
-                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="javascript:setPage({$list_info.previous_page});">
-                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}" style="background: {$cell_color};" class="paging_input" onKeyPress="javascript:return checkPageField(event);">
-                  <input name="go" type="button" value="{t}Go{/t}" class="shortcut" onClick="javascript:goPage(this.form, this.form.page.value);">
-                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="javascript:setPage({$list_info.next_page});">
-                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="javascript:setPage({$list_info.last_page});">
+                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="setPage(0);">
+                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="setPage({$list_info.previous_page});">
+                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}" style="background: {$cell_color};" class="paging_input" onKeyPress="return checkPageField(event);">
+                  <input name="go" type="button" value="{t}Go{/t}" class="shortcut" onClick="goPage(this.form, this.form.page.value);">
+                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="setPage({$list_info.next_page});">
+                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="setPage({$list_info.last_page});">
                   </nobr>
                 </td>
                 <td nowrap>
                   <span class="default_white">{t}Rows per Page:{/t}</span>
-                  <select name="page_size" class="default" onChange="javascript:resizePager(this.form);">
+                  <select name="page_size" class="default" onChange="resizePager(this.form);">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>
                     <option value="25" {if $options.rows == 25}selected{/if}>25</option>
@@ -345,10 +345,10 @@ function updateCustomFields(issue_id)
                     <option value="100" {if $options.rows == 100}selected{/if}>100</option>
                     <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
                   </select>
-                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="javascript:resizePager(this.form);">
+                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="resizePager(this.form);">
                 </td>
                 <td width="30%" class="default_white" align="right">
-                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $options.hide_closed}checked{/if} onClick="javascript:hideClosed(this.form);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>&nbsp;
+                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $options.hide_closed}checked{/if} onClick="hideClosed(this.form);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>&nbsp;
                 </td>
               </tr>
             </table>

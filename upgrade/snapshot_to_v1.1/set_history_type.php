@@ -339,7 +339,8 @@ function update($his_id, $match)
                 his_id = $his_id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);
+		echo "<pre>";
+		print_r($res);
         exit(1);
     }
 }

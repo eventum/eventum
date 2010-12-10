@@ -25,9 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.report.php 3868 2009-03-30 00:22:35Z glen $
-//
 
 require_once 'Math/Stats.php';
 
@@ -462,7 +459,7 @@ class Report
 
 
     /**
-     * Returns data on when support emails are sent/recieved.
+     * Returns data on when support emails are sent/received.
      *
      * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
@@ -595,7 +592,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date, $end_date, $list = false, $interval = '', $assignee = false)
+    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -798,50 +795,43 @@ class Report
                     SUM(ttr_time_spent) ttr_time_spent_sum,
                     iss_summary,
                     iss_customer_id,
-                    iss_private,
-                    fld_id
+                    iss_private
                ";
-
 
             if ($per_user) {
                 $sql .= ', usr_full_name ';
             }
             $sql .= "
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,";
 
             if ($per_user) {
                     $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user, ";
             }
 
-            if (count($options) > 0) {
-                $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,";
-            }
             $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "' AND
-                        fld_id = icf_fld_id AND
                        	ttr_iss_id = iss_id AND
                   		";
-            if (count($options) > 0) {
-                $sql .=
-                        " cfo_id = icf_value AND";
-            }
             if ($per_user) {
                  $sql .= " usr_id = ttr_usr_id AND ";
             }
             $sql .= "
-                        icf_iss_id = iss_id AND
-                        isu_iss_id = iss_id AND
-                        icf_fld_id = $fld_id";
+                        ttr_iss_id = iss_id
+                        ";
             if (count($options) > 0) {
-                $sql .= " AND
-                        cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
+            $sql .= " AND (
+                SELECT
+                    count(*)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field a
+                WHERE
+                    a.icf_fld_id = $fld_id AND
+                    a.icf_value IN('" . join("','", Misc::escapeString(array_keys($options))) . "') AND
+                    a.icf_iss_id = ttr_iss_id
+                ) > 0";
             }
             if ($per_user) {
                 $sql .= "
@@ -859,7 +849,7 @@ class Report
             return array();
         } else {
         	for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
+                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
                 $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
             }
             return $res;

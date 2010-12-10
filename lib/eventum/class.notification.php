@@ -618,7 +618,7 @@ class Notification
             $diffs[] = '-' . ev_gettext('Category') . ': ' . Category::getTitle($old["iss_prc_id"]);
             $diffs[] = '+' . ev_gettext('Category') . ': ' . Category::getTitle($new["category"]);
         }
-        if ((@$new["keep"] == "no") && ($old["iss_pre_id"] != $new["release"])) {
+        if (isset($new["release"]) && ($old["iss_pre_id"] != $new["release"])) {
             $diffs[] = '-' . ev_gettext('Release') . ': ' . Release::getTitle($old["iss_pre_id"]);
             $diffs[] = '+' . ev_gettext('Release') . ': ' . Release::getTitle($new["release"]);
         }

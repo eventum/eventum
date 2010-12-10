@@ -23,7 +23,7 @@
     <br />
     {if not $current_user_prefs.close_popup_windows}
     <center>
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
     </center>
     {/if}
 {else}
@@ -51,7 +51,7 @@ function validateUpload(f)
         <tr>
           <td colspan="2" class="default"><b>{t}Add New Files{/t}:</b></td>
         </tr>
-        <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateUpload');">
+        <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateUpload');">
         <input type="hidden" name="cat" value="upload_file">
         <input type="hidden" name="issue_id" value="{$issue_id}">
         <tr>
@@ -88,7 +88,7 @@ function validateUpload(f)
                       <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
                     </tr>
                     <tr>
-                      <td class="small_default"><b>{t}Note: The current maximum allowed upload file size is{/t} {$max_attachment_size}</b></td>
+                      <td class="small_default"><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></td>
                     </tr>
                   </table>
                 </td>

@@ -24,19 +24,23 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: xmlrpc_client.php 3823 2009-02-10 06:46:03Z glen $
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once 'class.Eventum_RPC.php';
 
-$client = new XML_RPC_Client("/rpc/xmlrpc.php", "rabbit.impleo.net", 80);
+$client = new Eventum_RPC();
+$client->setURL("http://rabbit.impleo.net/rpc/xmlrpc.php");
+$client->setCredentials("user", "password");
 $client->setDebug(true);
-$params = array(
-    new XML_RPC_Value(5, "int"),
-    new XML_RPC_Value("Testando pelo XML-RPC", "string"),
-    new XML_RPC_Value("descrição iria aqui", "string")
-);
-$msg = new XML_RPC_Message("addIssue", $params);
-$result = $client->send($msg);
-var_dump($result);
+$id = 64;
+
+try {
+    $result = $client->getIssueDetails((int )$id);
+} catch (Eventum_RPC_Exception $e) {
+    echo $e->getMessage(), "\n";
+    echo $e->getTraceAsString(), "\n";
+    exit(1);
+}
+
+print_r($result);

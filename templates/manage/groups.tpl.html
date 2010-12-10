@@ -50,10 +50,10 @@ function checkDelete(f)
     <tr>
         <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-                <form name="group_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                <form name="group_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
                 {if $smarty.get.cat == 'edit'}
                 <input type="hidden" name="cat" value="update">
-                <input type="hidden" name="id" value="{$smarty.get.id}">
+                <input type="hidden" name="id" value="{$smarty.get.id|intval}">
                 {else}
                 <input type="hidden" name="cat" value="new">
                 {/if}
@@ -115,7 +115,7 @@ function checkDelete(f)
                         <b>{t}Users:{/t} *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
-                        <select name="users[]" multiple size="6" class="default" onChange="javascript:showSelections('group_form', 'users[]');">
+                        <select name="users[]" multiple size="6" class="default" onChange="showSelections('group_form', 'users[]');">
                             {html_options options=$user_options selected=$info.users}
                         </select>
                         {include file="error_icon.tpl.html" field="users[]"}
@@ -160,9 +160,9 @@ function checkDelete(f)
                 <tr>
                     <td colspan="2">
                         <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                            <form name="delete_group" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                            <form name="delete_group" onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                             <tr>
-                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Name{/t}</b></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Description{/t}</b></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Manager{/t}</b></td>
@@ -199,7 +199,7 @@ function checkDelete(f)
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td width="4" bgcolor="{$cell_color}" align="center">
-                                                <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                                                <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                                                 <input type="hidden" name="cat" value="delete">
                                             </td>
                                             <td colspan="4" bgcolor="{$cell_color}" align="center">

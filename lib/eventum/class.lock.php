@@ -26,9 +26,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.lock.php 3881 2009-05-29 09:21:05Z glen $
-//
 
 class Lock
 {
@@ -57,7 +54,7 @@ class Lock
 
 
     /**
-     * Removes the process file to allow other instances of this 
+     * Removes the process file to allow other instances of this
      * script to run.
      *
      * @access  public
@@ -74,7 +71,7 @@ class Lock
 
 
     /**
-     * Returns the full path to the file that keeps the process 
+     * Returns the full path to the file that keeps the process
      * ID of the running script.
      *
      * @access  private

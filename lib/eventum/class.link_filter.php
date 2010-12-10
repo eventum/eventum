@@ -25,14 +25,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: class.link_filter.php 3868 2009-03-30 00:22:35Z glen $
-//
-
 
 /**
  * Class to handle parsing content for links.
- * 
+ *
  * @author  Bryan Alsdorf <bryan@mysql.com>
  * @version 1.0
  */
@@ -40,7 +36,7 @@ class Link_Filter
 {
     /**
      * Returns information about a specific link filter.
-     * 
+     *
      * @access  public
      * @param   integer $lfi_id The ID of the link filter to return info about.
      * @return  array An array of information.
@@ -83,7 +79,7 @@ class Link_Filter
 
     /**
      * Lists the link filters currently in the system.
-     * 
+     *
      * @return array An array of information.
      */
     function getList()
@@ -130,7 +126,7 @@ class Link_Filter
 
     /**
      * Inserts a new link filter into the database.
-     * 
+     *
      * @return integer 1 if insert was successful, -1 otherwise
      */
     function insert()
@@ -177,7 +173,7 @@ class Link_Filter
 
     /**
      * Removes link filters from the database
-     * 
+     *
      * @return integer 1 if delete was successful, -1 otherwise.
      */
     function remove()
@@ -206,7 +202,7 @@ class Link_Filter
 
     /**
      * Updates link filter information.
-     * 
+     *
      * @return integer 1 if insert was successful, -1 otherwise
      */
     function update()
@@ -257,7 +253,7 @@ class Link_Filter
 
     /**
      * Processes text through all link filters.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   string $text The text to process
@@ -266,26 +262,28 @@ class Link_Filter
      */
     function processText($prj_id, $text, $class = "link")
     {
-        
+
         // process issue link seperatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
-        $text = self::processIssueSpecificLinks($text);
-        
-        $filters = self::getFilters($prj_id);
-        
-        if (count($filters) > 0) {
-            foreach ($filters as $filter) {
-                $text = preg_replace('/' . $filter[0] . '/i', $filter[1], $text);
+
+        $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
+        foreach ((array )$filters as $filter) {
+            list($pattern, $replacement) = $filter;
+            // if replacement may be a callback, provided by workflow
+            if (is_callable($replacement)) {
+                $text = preg_replace_callback($pattern, $replacement, $text);
+            } else {
+                $text = preg_replace($pattern, $replacement, $text);
             }
         }
-        
+
         return $text;
     }
 
 
     /**
      * Callback function to be used from template class.
-     * 
+     *
      * @access  public
      * @param   string $text The text to process
      * @return  string the processed text.
@@ -295,27 +293,75 @@ class Link_Filter
         return self::processText(Auth::getCurrentProject(), $text);
     }
 
+    /**
+     * Callback function to be used from template class.
+     *
+     * @access  public
+     * @param   string $text The text to process
+     * @param   integer $issue_id The ID of the issue from where attachment list is taken
+     * @return  string the processed text.
+     */
+    function activateAttachmentLinks($text, $issue_id)
+    {
+        // build list of files to replace, so duplicate matches will always
+        // take last matching filename.
+        $files = array();
+        foreach (Attachment::getList($issue_id) as $attachment) {
+            foreach ($attachment['files'] as $file) {
+                // TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+                $title = ev_gettext('download file (%1$s - %2$s)', $file['iaf_filename'], $file['iaf_filesize']);
+                $link = sprintf('<a class="link" title="%s" href="download.php?cat=attachment&id=%d">%s</a>',
+                    htmlspecialchars($title), htmlspecialchars($file['iaf_id']),
+                    htmlspecialchars($file['iaf_filename'])
+                );
+                $files[$file['iaf_filename']] = $link;
+            }
+        }
+
+        foreach ($files as $file => $link) {
+            // we use attachment prefix, so we don't accidentally match already processed urls
+            $text = preg_replace("/attachment:?\s*\Q$file\E\b/", $link, $text);
+        }
+        return $text;
+    }
+
 
     /**
      * Returns an array of patterns and replacements.
-     * 
+     *
+     * @access  private
+     * @return  array An array of patterns and replacements
+     */
+    private static function getFilters()
+    {
+        // link eventum issue ids
+        $patterns = array(
+            array('/issue:?\s\#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
+        );
+        return $patterns;
+    }
+
+
+    /**
+     * Returns an array of patterns and replacements.
+     *
      * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
-    function getFilters($prj_id)
+    private static function getFiltersByProject($prj_id)
     {
         static $filters;
 
         $prj_id = Misc::escapeInteger($prj_id);
-        
+
         // poor man's caching system
         if (!empty($filters[$prj_id])) {
             return $filters[$prj_id];
         }
 
         $stmt = "SELECT
-                    lfi_pattern,
+                    CONCAT('/', lfi_pattern, '/i'),
                     lfi_replacement
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter,
@@ -330,12 +376,12 @@ class Link_Filter
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            $filters[$prj_id] = $res;
-            return $res;
         }
-    }
 
+        $filters[$prj_id] = $res;
+
+        return $res;
+    }
 
     /**
      * Method used as a callback with the regular expression code that parses
@@ -345,31 +391,16 @@ class Link_Filter
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */
-    function callbackIssueLinks($matches)
+    private static function LinkFilter_issues($matches)
     {
         // check if the issue is still open
-        if (Issue::isClosed($matches[5])) {
+        if (Issue::isClosed($matches['issue_id'])) {
             $class = 'closed_link';
         } else {
             $class = 'link';
         }
-        $issue_title = Issue::getTitle($matches[5]);
-        return "<a title=\"issue " . $matches[5] . " - $issue_title\" class=\"" . $class . "\" href=\"view.php?id=" . $matches[5] . "\">" . $matches[1] . $matches[2] . $matches[3] . $matches[4] . $matches[5] . "</a>";
-    }
-
-
-    /**
-     * Method used to parse the given string for references to issues in the
-     * system, and creating links to those if any are found.
-     *
-     * @access  private
-     * @param   string $text The text to search against
-     * @param   string $class The CSS class to use on the actual links
-     * @return  string The parsed string
-     */
-    function processIssueSpecificLinks($text, $class = "link")
-    {
-        $text = preg_replace_callback("/(issue)(:)?(\s)(\#)?(\d+)/i", array('Link_Filter', 'callbackIssueLinks'), $text);
-        return $text;
+        $issue_title = Issue::getTitle($matches['issue_id']);
+        $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
+        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
     }
 }

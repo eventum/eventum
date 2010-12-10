@@ -1,4 +1,4 @@
-<?
+<?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -26,8 +26,6 @@
 // | Authors: Raul Raat <raul.raat@delfi.ee>                              |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: update.php 3868 2009-03-30 00:22:35Z raul $
 
 require_once dirname(__FILE__) . '/../../init.php';
 

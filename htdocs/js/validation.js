@@ -1,7 +1,3 @@
-/*
- * @(#) $Id: validation.js 3682 2008-07-28 20:05:00Z balsdorf $
- */
-
 last_issue_number_validation_value = '';
 function validateIssueNumberField(baseURL, form_name, field_name, options)
 {
@@ -261,22 +257,24 @@ function checkCustomFields(f)
         var info = custom_fields_info[i];
         var field = $('#custom_field_' + info.id);
 
-        if (((field.val().length < 1) || (field.val() == -1)) && (field.parent().parent().css('display') == 'none')) {
+        if (((field.val() == null || field.val().length < 1) || 
+                (field.val() == -1)) && 
+                (field.parent().parent().css('display') == 'none')) {
             continue;
         }
 
         if (info.required == 1) {
             if (info.type == 'combo') {
-                if (getSelectedOption(f, field.attr('name')) == '-1') {
-                    errors[errors.length] = new Option(info.title, field.val());
+                if (field.val() == '' || getSelectedOption(f, field.attr('name')) == '-1') {
+                    errors[errors.length] = new Option(info.title, field.attr('name'));
                 }
             } else if (info.type == 'multiple') {
                 if (!hasOneSelected(f, field.attr('name'))) {
-                    errors[errors.length] = new Option(info.title, field.val());
+                    errors[errors.length] = new Option(info.title, field.attr('name'));
                 }
             } else {
                 if (isWhitespace(field.val())) {
-                    errors[errors.length] = new Option(info.title, field.val());
+                    errors[errors.length] = new Option(info.title, field.attr('name'));
                 }
             }
         }

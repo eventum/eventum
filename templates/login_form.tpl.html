@@ -17,7 +17,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<form name="login_form" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
+<form name="login_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
 <input type="hidden" name="cat" value="login">
 <input type="hidden" name="url" value="{$smarty.get.url|escape:"html"}">
 <table align="center" width="400" border="0" cellspacing="0" cellpadding="1" bgcolor="#FFFFFF">

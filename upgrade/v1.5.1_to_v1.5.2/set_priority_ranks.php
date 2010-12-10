@@ -16,7 +16,7 @@ if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
-    
+
 $rank = 1;
 $last_prj_id = 0;
 foreach ($res as $id => $prj_id) {

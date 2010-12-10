@@ -21,10 +21,10 @@
           <td width="200" class="default" NOWRAP>
             <input type="radio" name="report_type" value="recent" class="default" {if $smarty.request.report_type!='range'}checked{/if} onClick="changeType('recent');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('recent_activity', 'report_type', 0);changeType('recent');">{t}Recent{/t}</a>&nbsp;
+                            onClick="checkRadio('recent_activity', 'report_type', 0);changeType('recent');">{t}Recent{/t}</a>&nbsp;
             <input type="radio" name="report_type" value="range" {if $smarty.request.report_type=='range'}CHECKED{/if} onClick="changeType('range');">
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('recent_activity', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
+                            onClick="checkRadio('recent_activity', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
           </td>
         </tr>
         <tr>

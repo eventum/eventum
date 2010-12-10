@@ -25,8 +25,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: rss.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../init.php';
 
@@ -166,7 +164,8 @@ echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title><?php echo htmlspecialchars($setup['tool_caption']); ?> - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
+    <title><?php echo htmlspecialchars($setup['tool_caption']); ?>
+    - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
     <link><?php echo APP_BASE_URL; ?></link>
     <description>List of issues</description>
 <?php foreach($issues as $issue) { ?>

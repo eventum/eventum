@@ -138,7 +138,7 @@ function closeIssue(issue_id)
 {/if}
 
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form onSubmit="javascript:return validateForm(this);" name="update_form" method="post" action="update.php">
+<form onSubmit="return validateForm(this);" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="issue_id" value="{$issue.iss_id}">
 <input type="hidden" name="resolution" value="{$issue.iss_res_id}">
@@ -159,10 +159,10 @@ function closeIssue(issue_id)
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
-            [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="javascript:openAuthorizedReplier({$smarty.get.id});">{t}Edit Authorized Replier List{/t}</a> ]
-            [ <a class="link" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">{t}Edit Notification List{/t}</a> ]
+            [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
+            [ <a class="link" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
             {/if}
-            [ <a class="link" href="javascript:void(null);" onClick="javascript:openHistory({$smarty.get.id});">{t}History of Changes{/t}</a> ]
+            [ <a class="link" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
           </td>
         </tr>
         <tr>
@@ -288,19 +288,19 @@ function closeIssue(issue_id)
           </td>
           <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2" {/if}bgcolor="{$light_color}">
             {if $issue.has_inactive_users}
-            <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 0);">{t}Keep Current Assignments:{/t} {$issue.assignments}</a>
+            <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'keep_assignments', 0);">{t}Keep Current Assignments:{/t} {$issue.assignments}</a>
             <br />
-            <input type="radio" name="keep_assignments" value="no"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 1);">{t}Change Assignments:{/t}</a> </span><br />
+            <input type="radio" name="keep_assignments" value="no"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'keep_assignments', 1);">{t}Change Assignments:{/t}</a> </span><br />
             {else}
             <input type="hidden" name="keep_assignments" value="no">
             {/if}
-            <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple class="default" name="assignments[]" onChange="javascript:showSelections('update_form', 'assignments[]');">
+            <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple class="default" name="assignments[]" onChange="showSelections('update_form', 'assignments[]');">
               {if $issue.has_inactive_users}
               {html_options options=$users}
               {else}
               {html_options options=$users selected=$issue.assigned_users}
               {/if}
-            </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="javascript:clearSelectedOptions(getFormElement(this.form, 'assignments[]'));showSelections('update_form', 'assignments[]');"><br />
+            </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="clearSelectedOptions(getFormElement(this.form, 'assignments[]'));showSelections('update_form', 'assignments[]');"><br />
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="assignments[]" callbacks="new Array('showSelections(\'update_form\', \'assignments[]\')')"}
             <div class="default" id="selection_assignments[]">{if $issue.assignments}{t}Current Selections:{/t} {$issue.assignments}{/if}</div>
           </td>
@@ -381,9 +381,9 @@ function closeIssue(issue_id)
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             <input type="radio" name="private" value="1" {if $issue.iss_private}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 0);">{t}Yes{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'private', 0);">{t}Yes{/t}</a>
             <input type="radio" name="private" value="0" {if not $issue.iss_private}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 1);">{t}No{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'private', 1);">{t}No{/t}</a>
           </td>
         </tr>
         {else}
@@ -396,9 +396,9 @@ function closeIssue(issue_id)
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             <input type="radio" name="trigger_reminders" value="1" {if $issue.iss_trigger_reminders}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 0);">{t}Yes{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'trigger_reminders', 0);">{t}Yes{/t}</a>
             <input type="radio" name="trigger_reminders" value="0" {if not $issue.iss_trigger_reminders}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 1);">{t}No{/t}</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'trigger_reminders', 1);">{t}No{/t}</a>
           </td>
         </tr>
         {else}
@@ -415,10 +415,10 @@ function closeIssue(issue_id)
               <tr>
                 <td align="center">
                   <input class="button" type="submit" value="{t}Update{/t}">&nbsp;
-                  <input class="button" type="button" value="{t}Cancel Update{/t}" onClick="javascript:history.go(-1);">&nbsp;
+                  <input class="button" type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">&nbsp;
                   <input class="button" type="reset" value="{t}Reset{/t}">
                   {if (not $issue.sta_is_closed) and $current_role > $roles.customer}
-                  &nbsp;<input class="button" type="button" value="{t}Close Issue{/t}" onClick="javascript:closeIssue({$issue.iss_id});">
+                  &nbsp;<input class="button" type="button" value="{t}Close Issue{/t}" onClick="closeIssue({$issue.iss_id});">
                   {/if}
                 </td>
               </tr>

@@ -125,7 +125,7 @@ function runCustomFilter(f)
           </td>
           <td rowspan="2" align="center" width="100">
             <input class="button" type="submit" value="{t}Search{/t}"><br /><br />
-            <input class="button" type="button" value="{t}Clear Filters{/t}" onClick="javascript:clearFilters(this.form);">
+            <input class="button" type="button" value="{t}Clear Filters{/t}" onClick="clearFilters(this.form);">
           </td>
         </tr>
         <tr>
@@ -189,7 +189,7 @@ function runCustomFilter(f)
           </td>
           <td align="right">
             <span class="default">{t}Saved Searches{/t}:</span>
-            <select name="custom_filter" class="default" onChange="javascript:runCustomFilter(this.form);">
+            <select name="custom_filter" class="default" onChange="runCustomFilter(this.form);">
               <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
               {html_options options=$custom}
             </select>
