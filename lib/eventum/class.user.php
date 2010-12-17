@@ -1102,6 +1102,7 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
+                    usr_grp_id,
                     usr_preferences
                  ) VALUES (
                     NULL,
@@ -1110,6 +1111,7 @@ class User
                     '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
+                    '" . Misc::escapeString($_POST["grp_id"]) . "',
                     '" . Misc::escapeString($prefs) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);

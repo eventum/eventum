@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Add better xmlrpc client class and sample (Elan Ruusamäe)
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
 - Support for configuring Monitor preferences (Elan Ruusamäe)
+- Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)
