@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-11 15:16+0000\n"
+"PO-Revision-Date: 2010-12-17 15:49+0000\n"
 "Last-Translator: Lilylnx Cosin <lilylnx@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2010-12-12 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-12-18 05:07+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1849,6 +1849,8 @@ msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
+"Hiển thị số bình quân của các vấn đề, email người phát triển và email khách "
+"hàng của mỗi vấn đề theo mức hỗ trợ"
 
 #: lib/eventum/class.customer_stats_report.php:699
 #: lib/eventum/class.customer_stats_report.php:708
@@ -2092,49 +2094,49 @@ msgstr "Các địa chỉ email để gửi lỗi đến:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Information To:"
-msgstr ""
+msgstr "Các địa chỉ email dùng để gửi thông tin:"
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
 msgid "Email Alias"
-msgstr ""
+msgstr "Bí danh thư điện thử"
 
 #: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
-msgstr ""
+msgstr "Khóa Email"
 
 #: lib/eventum/class.customer_stats_report.php:730
 msgid "Email Counts"
-msgstr ""
+msgstr "Số thư điện tử"
 
 #: templates/manage/general.tpl.html
 msgid "Email Draft Interface:"
-msgstr ""
+msgstr "Mẫu thư nháp:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Error Logging System:"
-msgstr ""
+msgstr "Hệ thống ghi nhận lỗi email:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Integration Feature:"
-msgstr ""
+msgstr "Chức năng tích hợp email:"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Email List:"
-msgstr ""
+msgstr "Danh sách email:"
 
 #: lib/eventum/class.help.php:114 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
-msgstr ""
+msgstr "Thông báo thư điện tử"
 
 #: templates/manage/general.tpl.html
 msgid "Email Recipient Type Flag:"
-msgstr ""
+msgstr "Đánh dấu người nhận email:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Reminder System Status Information:"
-msgstr ""
+msgstr "Thông tin trạng thái hệ thống nhắc nhở email:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Routing Interface:"
@@ -2142,15 +2144,15 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Email Signature"
-msgstr ""
+msgstr "Chữ ký thư điện tử"
 
 #: templates/manage/general.tpl.html
 msgid "Email Spell Checker:"
-msgstr ""
+msgstr "Kiểm tra chính tả email:"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Email Time Spent"
-msgstr ""
+msgstr "Thời gian gửi email"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Email Workload by Time of day"
@@ -2167,17 +2169,17 @@ msgstr ""
 #: lib/eventum/class.support.php:2569
 #, php-format
 msgid "Email from '%1$s' blocked"
-msgstr ""
+msgstr "Đã khóa thư gửi từ ‘%1$s’"
 
 #: lib/eventum/class.draft.php:161
 #, php-format
 msgid "Email message draft updated by %1$s"
-msgstr ""
+msgstr "Tin nhắn email nháp cập nhật bởi %1$s"
 
 #: lib/eventum/class.draft.php:117
 #, php-format
 msgid "Email message saved as a draft by %1$s"
-msgstr ""
+msgstr "Tin nhắn email được lưu nháp bởi %1$s"
 
 #: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
 #, php-format
@@ -2187,114 +2189,118 @@ msgstr ""
 #: templates/convert_note.tpl.html
 msgid ""
 "Email will be re-sent from original sender, including any attachments."
-msgstr ""
+msgstr "Email sẽ được gửi lại từ người gửi gốc, gồm cả đính kèm."
 
 #: templates/convert_note.tpl.html
 msgid ""
 "Email will be re-sent from your name, NOT original sender's, and without any "
 "attachments."
 msgstr ""
+"Email sẽ được gửi từ tên của bạn, KHÔNG phải người gửi gốc, và không có các "
+"đính kèm."
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
-msgstr ""
+msgstr "Các thư điện tử"
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
-msgstr ""
+msgstr "Các email được liên kết"
 
 #: templates/notification.tpl.html
 msgid "Emails are Received or Sent"
-msgstr ""
+msgstr "Các email được nhận và gửi"
 
 #: templates/help/notifications.tpl.html
 msgid "Emails are associated to existing issues"
-msgstr ""
+msgstr "Các email được liên kết đến vấn đề đang tồn tại"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Customers"
-msgstr ""
+msgstr "Các email khách hàng"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Staff"
-msgstr ""
+msgstr "Các email đội ngũ"
 
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
-msgstr ""
+msgstr "Không có tiêu đề"
 
 #: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
-msgstr ""
+msgstr "Đã cho phép"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "End"
-msgstr ""
+msgstr "Kết thúc"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "End date"
-msgstr ""
+msgstr "Ngày kết thúc"
 
 #: templates/add_time_tracking.tpl.html
 msgid "End time in the future."
-msgstr ""
+msgstr "Thời gian kết thúc trong tương lai"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
-msgstr ""
+msgstr "Kết thúc"
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
-msgstr ""
+msgstr "Nhập phân tích tác động"
 
 #: templates/setup.tpl.html
 msgid "Enter the details below:"
-msgstr ""
+msgstr "Nhập chi tiết ở bên dưới"
 
 #: templates/phone_support.tpl.html
 msgid "Entered By"
-msgstr ""
+msgstr "Được nhập bởi"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Equals"
-msgstr ""
+msgstr "Bằng"
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
-msgstr ""
+msgstr "Lỗi"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Error: An error occurred while trying to run your query."
-msgstr ""
+msgstr "Lỗi: một lỗi xảy ra khi thực thi câu truy vấn của bạn."
 
 #: templates/forgot_password.tpl.html
 msgid "Error: No user account was found matching the entered email address."
 msgstr ""
+"Lỗi: Không có tài khoản người dùng được tìm thấy phù hợp với địa chỉ email "
+"đã nhập."
 
 #: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
 #: lib/eventum/class.routing.php:382
 msgid "Error: Please configure the email address domain."
-msgstr ""
+msgstr "Lỗi: Hãy cấu hình tên miền địa chỉ email."
 
 #: lib/eventum/class.routing.php:61 lib/eventum/class.routing.php:263
 #: lib/eventum/class.routing.php:379
 msgid "Error: Please configure the email address prefix."
-msgstr ""
+msgstr "Lỗi: Hãy cấu hình tiền tố địa chỉ email."
 
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
-msgstr ""
+msgstr "LỗiL Hãy cung cấp ID tài khoản email."
 
 #: templates/forgot_password.tpl.html
 msgid "Error: Please provide your email address."
-msgstr ""
+msgstr "Lỗi: Hãy cung cấp địa chỉ email của bạn."
 
 #: lib/eventum/class.routing.php:70
 msgid ""
@@ -2306,18 +2312,20 @@ msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
 msgstr ""
+"Lỗi: Địa chỉ email được chỉ định đã được liên kết với một người dùng trong "
+"hệ thống."
 
 #: lib/eventum/class.routing.php:376
 msgid "Error: The email draft interface is disabled."
-msgstr ""
+msgstr "Lỗi: Mẫu giao diện cho email nháp đã vô hiệu hóa."
 
 #: lib/eventum/class.routing.php:49
 msgid "Error: The email message was empty"
-msgstr ""
+msgstr "Lỗi: Tin nhắn email rỗng"
 
 #: lib/eventum/class.routing.php:249 lib/eventum/class.routing.php:365
 msgid "Error: The email message was empty."
-msgstr ""
+msgstr "Lỗi: Tin nhắn email rỗng."
 
 #: lib/eventum/class.routing.php:58
 msgid "Error: The email routing interface is disabled."
@@ -2329,15 +2337,15 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Error: The issue #%1 could not be found"
-msgstr ""
+msgstr "Lỗi: Vấn đề #%1 không thể tìm thấy"
 
 #: templates/view.tpl.html
 msgid "Error: The issue #%1 could not be found."
-msgstr ""
+msgstr "Lỗi: Vấn đề #%1 không thể tìm thấy."
 
 #: templates/update.tpl.html
 msgid "Error: The issue could not be found."
-msgstr ""
+msgstr "Lỗi: Vấn đề không thể được tìm thấy."
 
 #: lib/eventum/class.routing.php:100 lib/eventum/class.routing.php:105
 #: lib/eventum/class.routing.php:398
@@ -2354,38 +2362,41 @@ msgstr ""
 
 #: templates/faq.tpl.html
 msgid "Error: You are not allowed to view the requested FAQ entry."
-msgstr ""
+msgstr "Lỗi: Bạn không được phép xem mục FAQ được yêu cầu."
 
 #: templates/forgot_password.tpl.html
 msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
+"Lỗi: Trạng thái người dùng của bạn hiện tại là không hoạt động. Hãy liên hệ "
+"với người quản trị hệ thống để biết thêm thông tin."
 
 #: templates/notification.tpl.html
 msgid ""
 "Error: the given email address is not allowed to be added to the "
 "notification list."
 msgstr ""
+"Lỗi: Địa chỉ email được cho không được phép thêm vào danh sách thông báo."
 
 #: templates/popup.tpl.html
 msgid "Error: the issue is already unassigned."
-msgstr ""
+msgstr "Lỗi: Vấn đề chưa được phân công."
 
 #: templates/popup.tpl.html
 msgid "Error: you are already authorized to send emails in this issue."
-msgstr ""
+msgstr "Lỗi: Bạn đã được phân quyền để gửi email trong vấn đề này."
 
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
-msgstr ""
+msgstr "Thời gian phát triển dự kiến"
 
 #: lib/eventum/class.notification.php:638
 #: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1101
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
-msgstr ""
+msgstr "Thời gian phát triển dự kiến"
 
 #: templates/new.tpl.html
 msgid "Estimated Dev. Time (only numbers)"
@@ -2393,11 +2404,11 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Estimated Dev. Time:"
-msgstr ""
+msgstr "Thời gian phát triển dự kiến:"
 
 #: templates/reports/tree.tpl.html
 msgid "Estimated Development Time"
-msgstr ""
+msgstr "Thời gian phát triển dự kiến:"
 
 #: lib/eventum/class.help.php:82
 #: templates/help/report_estimated_dev_time.tpl.html
@@ -2410,15 +2421,15 @@ msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
-msgstr ""
+msgstr "Thời gian dự kiện (giờ)"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
-msgstr ""
+msgstr "Eventum Emails"
 
 #: templates/setup.tpl.html
 msgid "Eventum Installation"
-msgstr ""
+msgstr "Cài đặt Eventum"
 
 #: templates/header.tpl.html
 msgid "Eventum Issues search"
