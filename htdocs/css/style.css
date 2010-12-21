@@ -184,3 +184,95 @@ div.app_messages {
     font-size: 70%;
     padding: 2px;
 }
+
+
+/**
+ * NEW CSS
+ */
+ 
+/* Bordered Table */
+table.bordered {
+    border: 1px solid #255282;
+    background: #FFFFFF;  
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: .7em;
+}
+
+table.bordered td {
+    background: #FFFFFF;
+    padding: .3em;
+}
+
+table.bordered tr.header {
+    background: #DDDDDD;
+    font-weight: bold;
+    text-align: left;
+}
+
+table.bordered td.header {
+    background: #556B82;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding-left: 2px
+}
+
+table.bordered tr.header td {
+    background: #DDDDDD;
+}
+
+table.bordered td.message {
+    background: #556B82;
+    text-align: center;
+    color: #FFFF00;
+    font-weight: bold;
+    padding: 3px;
+}
+
+table.bordered tr.footer td {
+    text-align: center;
+    background: #255282;
+    color: #FFFFFF;
+}
+
+table.bordered td.label {
+    font-weight: bold;
+}
+
+
+table.bordered th {
+    background: #255282;
+    color: #FFFFFF;
+    padding: .3em;
+    font-weight: bold;
+}
+
+table.bordered th.left {
+    text-align: left;
+}
+
+table.bordered th input {
+    font-weight: normal;
+}
+
+table.bordered th.label {
+    background: #255282;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: right;
+    padding-right: 5px;
+}
+
+table.bordered.internal td.label {
+    background: #9C494B;
+    color: #FFFFFF;
+}
+
+table.bordered td.label.internal {
+    background: #9C494B !important;
+    color: #FFFFFF;
+}
+
+/* don't pad left cell if there is a table inside */
+table.bordered td > table {
+    padding-left: 0px;
+}
