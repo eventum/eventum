@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-08 02:25+0000\n"
+"PO-Revision-Date: 2010-12-29 07:15+0000\n"
 "Last-Translator: Fitoschido <Unknown>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-12-09 04:59+0000\n"
+"X-Launchpad-Export-Date: 2010-12-30 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Language: es\n"
 
@@ -71,12 +71,12 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
-"Las categorías 'Note Discussion', 'Email Discussion' y 'Telephone "
-"Discussion' son requeridas por Eventum y no pueden ser eliminadas."
+"Las categorías «Note Discussion», «Email Discussion» y «Telephone "
+"Discussion» son requeridas por Eventum y no pueden eliminarse."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr "(Todos los Casos)"
+msgstr "(Todos los casos)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -88,12 +88,11 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "(Casos Abiertos)"
+msgstr "(Casos abiertos)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
-"(Este DEBE contener una dirección de correo real, ej. \"%1\" o \"%2\")"
+msgstr "(Esto DEBE contener una dirección de correo real, ej. «%1» o «%2»)"
 
 # También podría dejarse "De" o el "From" original.
 #: templates/manage/general.tpl.html
@@ -103,19 +102,18 @@ msgstr ""
 "(Se incluirá en la dirección de origen de todos los correos enviados por "
 "Eventum)"
 
-# Puede eliminarse el "Éste" sin perder el sentido de la frase...
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
-"(Éste se incluirá en la dirección de origen de todas las notas enviadas por "
+"(Esto se incluirá en la dirección de origen de todas las notas enviadas por "
 "Eventum)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
-"(Consejo: puertos por omisión son 110 para servidores POP3 y 143 para "
-"servidores IMAP)"
+"(Consejo: los puertos predeterminados son 110 para servidores POP3 y 143 "
+"para servidores IMAP)"
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
@@ -123,11 +121,11 @@ msgstr "(archivado)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr "(por defecto %1)"
+msgstr "(lo predeterminado es %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr "(carpeta por omisión es INBOX)"
+msgstr "(la carpeta predeterminada es INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
@@ -136,13 +134,13 @@ msgstr "(ej. %1)"
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
-"(mantener tecla 'ALT' y presionar '3' una vez) - para acceder al cuadro "
-"'Buscar'"
+"(mantener tecla «Alt» y presionar «3» una vez) - para acceder al cuadro "
+"«Buscar»"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
-"(mantener tecla 'ALT' y presionar '4' una vez) - para acceder al cuadro 'Ir'"
+"(mantener tecla «Alt» y presionar «4» una vez) - para acceder al cuadro «Ir»"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -170,7 +168,7 @@ msgstr "(abreviación de tres letras)"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr "-- Seleccione Uno --"
+msgstr "-- Seleccione uno --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -178,16 +176,16 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
-"<b>NOTA:</b> El email <b>NO</b> será enviado a la lista de notificación, si "
-"es que ha sido escogida esta opción. Esto es muy útil para descargar una "
-"serie de emails en un caso ya existente."
+"<b>NOTA:</b> El correo electrónico <b>NO</b> será enviado a la lista de "
+"notificación, si es que ha escogido esta opción. Esto es muy útil para "
+"descargar una serie de correos en un caso ya existente."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
-"<b>NOTA:</b> El email será difundido a toda la lista de notificación, "
+"<b>NOTA:</b> El correo será difundido a toda la lista de notificación, "
 "incluyendo cualquier cliente, si es que esta opción ha sido escogida."
 
 #: templates/associate.tpl.html
@@ -195,7 +193,7 @@ msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
-"<b>NOTA:</b> El email será guardado como una nota y enviado sólo a los "
+"<b>NOTA:</b> El correo se guardará como una nota y enviado sólo a los "
 "usuarios del personal."
 
 #: templates/notifications/new.tpl.text
@@ -249,11 +247,11 @@ msgstr "Abreviación:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr "Creación de Cuenta"
+msgstr "Creación de cuenta"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr "Responsable de Cuenta"
+msgstr "Responsable de cuenta"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
@@ -262,11 +260,11 @@ msgstr "Responsable de Cuenta:"
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr "Preferencias de Cuenta"
+msgstr "Preferencias de la cuenta"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr "Registro de Cuenta"
+msgstr "Registro de cuenta"
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -276,11 +274,11 @@ msgstr "Acción"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Tipo de Acción"
+msgstr "Tipo de acción"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr "Tipo de Acción:"
+msgstr "Tipo de acción:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -295,7 +293,7 @@ msgid ""
 msgstr ""
 "Las acciones son cualquier evento que aparezca en el historial de un caso, "
 "como por ejemplo un usuario o un desarrollador que actualizan un caso, subir "
-"un archivo, enviar un email, etc."
+"un archivo, enviar un correo, etc."
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
@@ -304,20 +302,20 @@ msgstr "Activo"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr "Tipo de Actividad"
+msgstr "Tipo de actividad"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr "Actividad en el Pasado"
+msgstr "Actividad en el pasado"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr "Agregar"
+msgstr "Añadir"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Agregar / Editar Categorías"
+msgstr "Añadir/editar categorías"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
@@ -325,7 +323,7 @@ msgstr "Agregar / Editar Categorías de Soporte Telefónico"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr "Agregar / Editar Prioridades"
+msgstr "Añadir/editar prioridades"
 
 # ¿existe alguna traducción adecuada para releases?
 #: templates/manage/manage.tpl.html
@@ -334,7 +332,7 @@ msgstr "Agregar / Editar Releases"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr "Agregar Acción"
+msgstr "Añadir acción"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -342,11 +340,11 @@ msgstr "Agregar Contestador Autorizado"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr "Agregar Condición"
+msgstr "Añadir condición"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr "Agregar Firma"
+msgstr "Añadir firma"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
@@ -354,31 +352,31 @@ msgstr "¿Agregar Destinatarios Extra a la Lista de Notificaciones?"
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr "Agregar Archivos"
+msgstr "Añadir archivos"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
-msgstr "Agregarme a la lista de asignación."
+msgstr "Añadirme a la lista de asignación."
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr "Agregar Nuevos Archivos"
+msgstr "Añadir archivos nuevos"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr "Agregar Nuevo Requerimiento"
+msgstr "Añadir requerimiento nuevo"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr "Agregar Llamada Telefonica"
+msgstr "Añadir llamada telefónica"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr "Agregar Registro Telefónico"
+msgstr "Añadir registro telefónico"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr "Agregar Suscripción"
+msgstr "Añadir suscripción"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
@@ -391,7 +389,7 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr "¿Agregar remitente a la lista de contestadores autorizados?"
+msgstr "¿Añadir remitente a la lista de contestadores autorizados?"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
@@ -407,12 +405,12 @@ msgstr "Administrador"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr "Opciones Avanzadas"
+msgstr "Opciones avanzadas"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr "Búsqueda Avanzada"
+msgstr "Búsqueda avanzada"
 
 #: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
@@ -443,7 +441,7 @@ msgstr "Consulta de Alerta"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr "Razón de Alerta"
+msgstr "Razón de alerta"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -9510,6 +9508,12 @@ msgstr "año"
 #~ msgid "Note: The current maximum allowed upload file size is"
 #~ msgstr "Nota: El tamaño máximo permitido para subir archivos es de"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Error: Por favor, especifique su dirección de email."
+
+#~ msgid "Search Results"
+#~ msgstr "Resultados de la Búsqueda"
+
 #~ msgid "issues found"
 #~ msgstr "casos encontrados"
 
@@ -9519,17 +9523,70 @@ msgstr "año"
 #~ msgid "Port:"
 #~ msgstr "Puerto:"
 
+#~ msgid "IMAP Folder:"
+#~ msgstr "Carpeta IMAP:"
+
 #~ msgid "Username:"
 #~ msgstr "Usuario:"
+
+#~ msgid "Advanced Options:"
+#~ msgstr "Opciones Avanzadas:"
+
+# NO ES "Cuenta basada" sino "Ruteo Basado"... - GP
+# Corrección "ruteo" por "enrutamiento" - NH
+#~ msgid ""
+#~ "Use account for non-subject based email/note/draft routing.\n"
+#~ "                    <b> Note: </b>If you check this, you cannot leave a copy "
+#~ "of messages on the server.</a>"
+#~ msgstr ""
+#~ "Usar cuenta para el enrutamiento de email/nota/borrador no basado en el "
+#~ "asunto.\n"
+#~ "                    <b> Nota: </b>Si selecciona esto, no puede dejar una "
+#~ "copia de los mensajes en el servidor.</a>"
 
 #~ msgid "Notification Options"
 #~ msgstr "Opciones de Notificación"
 
+#~ msgid "This issue was just closed by"
+#~ msgstr "El caso acaba de ser cerrado por"
+
 #~ msgid " with the message"
 #~ msgstr " con el mensaje"
 
+#~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Para agregar más información a este caso, simplemente responda este correo."
+
+#~ msgid ""
+#~ " Warning: Some type and interval options, combined with large <br />date "
+#~ "ranges can produce extremely large graphs."
+#~ msgstr ""
+#~ " Advertencia: Algunas opciones de tipo e intervalos, combinadas con rangos "
+#~ "de fechas <br />extensos pueden producir gráficos extremadamente grandes."
+
 #~ msgid "Details:"
 #~ msgstr "Detalles:"
+
+#~ msgid "Server Hostname:"
+#~ msgstr "Nombre de Host del Servidor:"
+
+#~ msgid "Eventum Relative URL:"
+#~ msgstr "URL Relativa de Eventum:"
+
+#~ msgid "MySQL Server Hostname:"
+#~ msgstr "Nombre de Host del Servidor MySQL:"
+
+#~ msgid "MySQL Database:"
+#~ msgstr "Base de Datos MySQL:"
+
+#~ msgid "MySQL Table Prefix:"
+#~ msgstr "Prefijo Tabla MySQL:"
+
+#~ msgid "MySQL Username:"
+#~ msgstr "Usuario MySQL:"
 
 #~ msgid "ERROR: Almost no free disk space left (percentage left"
 #~ msgstr "ERROR: Casi no queda espacio libre en disco (porcentaje restante"
@@ -9913,6 +9970,13 @@ msgstr "año"
 
 #~ msgid "Reported"
 #~ msgstr "Reportado"
+
+#~ msgid ""
+#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+#~ "server."
+#~ msgstr ""
+#~ "<b>Nota:</b>Si selecciona esto, no puede dejar una copia de los mensajes en "
+#~ "el servidor."
 
 #~ msgid ""
 #~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
