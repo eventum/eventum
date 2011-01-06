@@ -254,9 +254,11 @@ $().ready(function() {
             <b>{t}Priority:{/t}</b>
           </td>
           <td {if $current_role < $roles.standard_user}rowspan="2"{/if} bgcolor="{$light_color}">
+            {if $priorities|@count > 0}
             <select class="default" name="priority">
               {html_options options=$priorities selected=$issue.iss_pri_id}
             </select>
+            {/if}
           </td>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Update Date:{/t}</b>
