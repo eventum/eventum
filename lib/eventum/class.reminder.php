@@ -998,6 +998,11 @@ class Reminder
                     iss_id
                  FROM
                     " . APP_TABLE_PREFIX . "issue";
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ",
+                    issue_product_version";
+        }
         $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
