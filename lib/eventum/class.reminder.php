@@ -338,7 +338,7 @@ class Reminder
                     rer_support_level_id
                  ) VALUES (
                     " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeString($support_level_id) . "
+                    '" . Misc::escapeString($support_level_id) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
