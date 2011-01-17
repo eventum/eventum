@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-05 13:03+0000\n"
-"Last-Translator: kievlyanin <Unknown>\n"
+"PO-Revision-Date: 2011-01-16 09:57+0000\n"
+"Last-Translator: Pavel Pavlov <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-12-06 04:51+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-17 04:52+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -122,7 +122,7 @@ msgstr "(архивировано)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(Первоначально %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -491,6 +491,9 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Разрешается просмотр всех запросов для всех проектов, связанных с этим "
+"пользователем; Разрешается создавать новые запросы и отправлять сообщения на "
+"существующие проблемы."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -840,7 +843,7 @@ msgstr "Статьи"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Например"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1177,7 +1180,7 @@ msgstr "По уровню поддержки"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
-msgstr ""
+msgstr "Частота"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED OUT"
@@ -1258,15 +1261,15 @@ msgstr "Изменение типа поля может привести к по
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Проверить свободное место"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Проверить IRC-бота"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Проверить пути"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1298,7 +1301,7 @@ msgstr "Очистить"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
-msgstr ""
+msgstr "Очистить дату"
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
@@ -1656,7 +1659,7 @@ msgstr "Настройка страницы просмотра запросов"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr ""
+msgstr "Индивидуальные параметры мониторинга"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -2045,7 +2048,7 @@ msgstr "Email"
 #: htdocs/view_email.php:48
 #, php-format
 msgid "Email #%1$s: %2$s"
-msgstr ""
+msgstr "Email #%1$s: %2$s"
 
 #: lib/eventum/class.support.php:1502
 #, php-format
@@ -2092,7 +2095,7 @@ msgstr "Адреса эл.почты на которые отправлять и
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
 msgid "Email Alias"
-msgstr ""
+msgstr "Псевдонимы Email"
 
 #: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
@@ -2431,11 +2434,11 @@ msgstr "Установка системы Eventum"
 
 #: templates/header.tpl.html
 msgid "Eventum Issues search"
-msgstr ""
+msgstr "Eventum поиск проблем"
 
 #: templates/setup.tpl.html
 msgid "Eventum Relative URL"
-msgstr ""
+msgstr "Eventum относительные URL"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
@@ -2492,7 +2495,7 @@ msgstr "Существующие запуси внутреннего FAQ:"
 
 #: templates/emails.tpl.html
 msgid "Existing Issue"
-msgstr ""
+msgstr "Существующие проблемы"
 
 #: templates/manage/reminders.tpl.html
 msgid "Existing Issue Reminders"
@@ -2637,7 +2640,7 @@ msgstr "Исправить орфографические ошибки"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Например"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2707,7 +2710,7 @@ msgstr "Вернуться назад"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
-msgstr ""
+msgstr "Статистика в графиках"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
@@ -2721,7 +2724,7 @@ msgstr "Больше или равно"
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "Greater than %1$s"
-msgstr ""
+msgstr "Старше %1$s"
 
 #: htdocs/list.php:88 lib/eventum/class.display_column.php:186
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
@@ -2866,7 +2869,7 @@ msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAP каталог"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -3070,17 +3073,17 @@ msgstr "Пустой"
 #: lib/eventum/class.filter.php:633
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
-msgstr ""
+msgstr "Между %1$s-%2$s-%3$s и %4$s-%5$s-%6$s"
 
 #: lib/eventum/class.filter.php:637
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Старше, чем %1$s-%2$s-%3$s"
 
 #: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Раньше, чем %1$s-%2$s-%3$s"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3096,7 +3099,7 @@ msgstr "Запрос #"
 #: htdocs/view.php:57
 #, php-format
 msgid "Issue #%1$s Details"
-msgstr ""
+msgstr "Детали проблемы #%1$s"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issue Count"
@@ -3150,7 +3153,7 @@ msgstr "Запрос закрыт"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issues Created Between"
-msgstr ""
+msgstr "Вопросы созданные между"
 
 #: templates/help/notifications.tpl.html templates/manage/general.tpl.html
 msgid "Issues are Closed"
@@ -3190,7 +3193,7 @@ msgstr "Запросов в CSC"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Issues with only status changed"
-msgstr ""
+msgstr "Проблемы только с измененным статусом"
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -3332,7 +3335,7 @@ msgstr "Просмотр / Поиск запросов"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
-msgstr ""
+msgstr "Страница Log"
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
@@ -3525,7 +3528,7 @@ msgstr "Понедельник"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Настройки мониторинга"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -3564,11 +3567,11 @@ msgstr "Пароль MySQL:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "Сервер MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
-msgstr ""
+msgstr "Префикс таблиц"
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
@@ -3716,7 +3719,7 @@ msgstr "Действия не найдены."
 
 #: templates/manage/email_alias.tpl.html
 msgid "No aliases could be found."
-msgstr ""
+msgstr "Псевдонимы не найдены"
 
 #: templates/support_emails.tpl.html
 msgid "No associated emails could be found."
@@ -3966,7 +3969,7 @@ msgstr "Список уведомлений:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
-msgstr ""
+msgstr "Параметры уведомлений для проблемы #%1"
 
 #: lib/eventum/class.notification.php:2006
 #, php-format
@@ -3990,7 +3993,7 @@ msgstr "Запись ('%1$s') списка уведомлений обновле
 
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
-msgstr ""
+msgstr "Уведомить автора?"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
@@ -3998,7 +4001,7 @@ msgstr "Кол-во дней"
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
-msgstr ""
+msgstr "ОК: ошибок не найдено"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4075,7 +4078,7 @@ msgstr "Опции диаграммы"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Options:"
-msgstr ""
+msgstr "Параметры:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -4157,7 +4160,7 @@ msgstr "POP3, с TLS (self-signed)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Раздел:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4310,7 +4313,7 @@ msgstr "Пожалуйста, назначьте пользователей дл
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Выберите"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4375,13 +4378,15 @@ msgstr "Пожлуйста, укажите одну из опций ниже:"
 
 #: templates/list.tpl.html
 msgid "Please choose new values for the selected issues"
-msgstr ""
+msgstr "Выберите новые значения для выделенных проблем"
 
 #: templates/associate.tpl.html
 msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
+"Пожалуйста, выберите одно из действий для применения к выбранному сообщению "
+"эл.почты"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
@@ -4529,7 +4534,7 @@ msgstr ""
 
 #: templates/manage/email_alias.tpl.html
 msgid "Please choose which aliases need to be removed."
-msgstr ""
+msgstr "Пожалуйста, выберите псевдонимы которые нужно удалить."
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be associated."
@@ -8993,6 +8998,12 @@ msgstr "год"
 #~ msgid "(only technical contacts listed on your contract)"
 #~ msgstr "(перечислены только технические контакты в списке контактов)"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Ошибка: Пожалуйста, укажите ваш адрес эл.почты."
+
+#~ msgid "Search Results"
+#~ msgstr "Результаты поиска"
+
 #~ msgid "issues found"
 #~ msgstr "запрос(а,ов) найдено"
 
@@ -9002,17 +9013,54 @@ msgstr "год"
 #~ msgid "Port:"
 #~ msgstr "Порт:"
 
+#~ msgid "IMAP Folder:"
+#~ msgstr "Директория IMAP:"
+
 #~ msgid "Username:"
 #~ msgstr "Имя пользователя:"
 
+#~ msgid "Advanced Options:"
+#~ msgstr "Дополнительные настройки:"
+
+#~ msgid ""
+#~ "Use account for non-subject based email/note/draft routing.\n"
+#~ "                    <b> Note: </b>If you check this, you cannot leave a copy "
+#~ "of messages on the server.</a>"
+#~ msgstr ""
+#~ "Использовать учетную запись для маршрутизации письма/примечания/черновика не "
+#~ "по заголовку.\n"
+#~ "                    <b> Примечание: </b>Если вы укажите эту возможность, вы "
+#~ "не сможете оставлять копии сообщений на сервере.</a>"
+
 #~ msgid "Notification Options"
 #~ msgstr "Настройки уведомлений"
+
+#~ msgid "This issue was just closed by"
+#~ msgstr "Этот запрос был только что закрыт пользователем"
 
 #~ msgid " with the message"
 #~ msgstr " с сообщением"
 
 #~ msgid "Details:"
 #~ msgstr "Детали:"
+
+#~ msgid "Server Hostname:"
+#~ msgstr "Имя хоста сервера:"
+
+#~ msgid "Eventum Relative URL:"
+#~ msgstr "Относительный URL системы Eventum:"
+
+#~ msgid "MySQL Server Hostname:"
+#~ msgstr "Имя хоста сервера MySQL:"
+
+#~ msgid "MySQL Database:"
+#~ msgstr "База данных MySQL:"
+
+#~ msgid "MySQL Table Prefix:"
+#~ msgstr "Префикс таблиц MySQL:"
+
+#~ msgid "MySQL Username:"
+#~ msgstr "Имя пользователя MySQL:"
 
 #~ msgid "ERROR: Almost no free disk space left (percentage left"
 #~ msgstr ""
@@ -9227,6 +9275,20 @@ msgstr "год"
 
 #~ msgid "select this contact"
 #~ msgstr "выбрать этот контакт"
+
+#~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Для дополнения запроса просто ответьте на это письмо."
+
+#~ msgid ""
+#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+#~ "server."
+#~ msgstr ""
+#~ "<b>Внимание!</b> Если это включить, вы не сможете сохранять на сервере копии "
+#~ "отправленных писем."
 
 #~ msgid ""
 #~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
