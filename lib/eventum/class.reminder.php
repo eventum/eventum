@@ -540,10 +540,10 @@ class Reminder
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_products
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
                  WHERE
                     rpr_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
                  WHERE
