@@ -1001,12 +1001,11 @@ class Mail_Helper
      */
     function getMessageID($headers, $body)
     {
-        // try to parse out actual message-id header
-        if (preg_match('/^Message-ID:(.+)/mi', $headers, $matches)) {
-            $msgid = trim($matches[1]);
-            if ($msgid) {
-                return $msgid;
-            }
+        $full_email = $headers. "\n\n";
+        $structure = Mime_Helper::decode($full_email);
+
+        if (!empty($structure->headers['message-id'])) {
+            return $structure->headers['message-id'];
         }
 
         // no match, calculate hash to make fake message ID
