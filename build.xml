@@ -4,6 +4,9 @@
 	<property name="dir.src" value="." />
 	<property name="dir.test" value="${dir.src}/tests" />
 
+	<!-- show jslint warnings -->
+	<property name="jslint.warnings" value="true" />
+
 	<!-- all targets -->
 	<target name="all" depends="phplint,test"
 		description="Exectute all targets.">
@@ -17,6 +20,19 @@
 				<include name="**/*.php" />
 			</fileset>
 		</phplint>
+	</target>
+
+	<!-- jslint -->
+	<target name="jslint" description="Run JSLint.">
+		<echo msg="Checking syntax with JSlint" />
+		<jsllint haltonfailure="true" showwarnings="${jslint.warnings}">
+			<fileset dir="${dir.src}/htdocs/js">
+				<include name="**/*.js" />
+				<!-- skip external libs -->
+				<exclude name="**/jquery/*.js" />
+				<exclude name="dtree.js" />
+			</fileset>
+		</jsllint>
 	</target>
 
 	<!-- test -->
