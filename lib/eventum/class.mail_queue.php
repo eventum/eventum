@@ -153,24 +153,32 @@ class Mail_Queue
      */
     function send($status, $limit)
     {
-        // get list of emails to send
-        $emails = self::_getList($status, $limit);
-        // foreach email
-        for ($i = 0; $i < count($emails); $i++) {
+        // foreach email, we use retrieve one email details a time to avoid
+        // running out of memory.
+        foreach (self::_getList($status, $limit) as $maq_id) {
+            $email = self::_getEntry($maq_id);
+            if (empty($email)) {
+                // skip on error
+                continue;
+            }
+
             $current_status = $status;
-            if ($emails[$i]['maq_type'] == 'error') {
+            if ($email['maq_type'] == 'error') {
                 $current_status = 'error';
             }
-            $result = self::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body'], $current_status);
+            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $current_status);
+
             if (PEAR::isError($result)) {
                 $details = $result->getMessage() . "/" . $result->getDebugInfo();
-                self::_saveLog($emails[$i]['id'], 'error', $details);
-            } else {
-                self::_saveLog($emails[$i]['id'], 'sent', '');
-                if ($emails[$i]['save_copy']) {
-                    // send a copy of this email to eventum_sent@
-                    Mail_Helper::saveEmailInformation($emails[$i]);
-                }
+                echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
+                self::_saveStatusLog($email['id'], 'error', $details);
+                continue;
+            }
+
+            self::_saveStatusLog($email['id'], 'sent', '');
+            if ($email['save_copy']) {
+                // send a copy of this email to eventum_sent@
+                Mail_Helper::saveOutgoingEmailCopy($email);
             }
         }
     }
@@ -186,7 +194,7 @@ class Mail_Queue
      * @param   string $status The status of this message
      * @return  true, or a PEAR_Error object
      */
-    function _sendEmail($recipient, $text_headers, $body, $status)
+    private function _sendEmail($recipient, $text_headers, &$body, $status)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
         $_headers = self::_getHeaders($text_headers, $body);
@@ -205,25 +213,28 @@ class Mail_Queue
             }
             $headers[$header_names[$lowercase_name]] = $value;
         }
+
         // remove any Reply-To:/Return-Path: values from outgoing messages
         unset($headers['Reply-To']);
         unset($headers['Return-Path']);
+
         // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
         if (in_array('Mime-Version', array_keys($headers))) {
             unset($headers['Mime-Version']);
             $headers['MIME-Version'] = '1.0';
         }
+
         $mail =& Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down
             $msg = $res->getMessage();
-            $cant_notify = (($status == 'error') || (strstr($msg , 'unable to connect to smtp server')) || (stristr($msg, 'Failed to connect to') !== false));
+            $cant_notify = ($status == 'error' || strstr($msg , 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
             Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
             return $res;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
 
@@ -236,7 +247,7 @@ class Mail_Queue
      * @param   string $body The full body of this message
      * @return  array The list of headers
      */
-    function _getHeaders($text_headers, $body)
+    private function _getHeaders($text_headers, &$body)
     {
         $message = $text_headers . "\n\n" . $body;
         $structure = Mime_Helper::decode($message, FALSE, FALSE);
@@ -245,14 +256,42 @@ class Mail_Queue
 
 
     /**
-     * Retrieves the list of queued email messages, given a status.
+     * Retrieves the list of queued email messages ids, given a status.
      *
      * @access  private
      * @param   string $status The status of the messages
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    function _getList($status, $limit = 50)
+    private function _getList($status, $limit = 50)
+    {
+        $sql = "SELECT
+                    maq_id id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 WHERE
+                    maq_status='$status'
+                 ORDER BY
+                    maq_id ASC
+                 LIMIT
+                    0, $limit";
+        $res = DB_Helper::getInstance()->getCol($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+
+        return $res;
+    }
+
+    /**
+     * Retrieves queued email by maq_id.
+     *
+     * @access  private
+     * @param   integer $maq_id ID of queue entry
+     * @return  array The queued email message
+     */
+    private function _getEntry($maq_id)
     {
         $stmt = "SELECT
                     maq_id id,
@@ -266,24 +305,20 @@ class Mail_Queue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
-                    maq_status='$status'
-                 ORDER BY
-                    maq_id ASC
-                 LIMIT
-                    0, $limit";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+                    maq_id=$maq_id";
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
     /**
      * Saves a log entry about the attempt, successful or otherwise, to send the
-     * queued email message.
+     * queued email message. Also updates maq_status of $maq_id to $status.
      *
      * @access  private
      * @param   integer $maq_id The queued email message ID
@@ -291,7 +326,7 @@ class Mail_Queue
      * @param   string $server_message The full message from the SMTP server, in case of an error
      * @return  boolean
      */
-    function _saveLog($maq_id, $status, $server_message)
+    private function _saveStatusLog($maq_id, $status, $server_message)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue_log
@@ -310,16 +345,16 @@ class Mail_Queue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
-                     SET
-                        maq_status='" . Misc::escapeString($status) . "'
-                     WHERE
-                        maq_id=$maq_id";
-            DB_Helper::getInstance()->query($stmt);
-            return true;
         }
+
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 SET
+                    maq_status='" . Misc::escapeString($status) . "'
+                 WHERE
+                    maq_id=$maq_id";
+        DB_Helper::getInstance()->query($stmt);
+        return true;
     }
 
     /**

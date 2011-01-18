@@ -287,11 +287,38 @@ class Misc
             return "$bytes bytes";
         } elseif (($bytes > $kb) && ($bytes <= $mb)) {
             $kbytes = $bytes / 1024;
-            return sprintf("%.1f", round($kbytes, 1)) . " Kb";
+            return sprintf("%.1f", round($kbytes, 1)) . " KiB";
         } else {
             $mbytes = ($bytes / 1024) / 1024;
-            return sprintf("%.1f", round($mbytes, 1)) . " Mb";
+            return sprintf("%.1f", round($mbytes, 1)) . " MiB";
         }
+    }
+
+    /**
+     * Method used to parse a size with qualifier to bytes.
+     *
+     * The available options are K (for Kilobytes), M (for Megabytes) and G
+     * (for Gigabytes; available since PHP 5.1.0).
+     *
+     * @access  public
+     * @param   string  $val The size to format
+     * @return  integer size in bytes
+     */
+    function return_bytes($val)
+    {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch ($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+
+        return $val;
     }
 
 

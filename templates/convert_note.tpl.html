@@ -64,15 +64,15 @@ function disableAR(flag)
       <table width="100%" cellspacing="0" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>{t}Convert Note To Email{/t}</b>
+            <B>{t}Convert Note To Email{/t}</b>
           </td>
         </tr>
         <tr>
           <td bgcolor="{$dark_color}" align="right">
-            <input type="radio" name="target" value="draft" checked onClick="disableAR(true);">
+            <input type="radio" name="target" value="draft" checked onClick="disableAR(true)" id="convert_note_from_target_draft">
           </td>
           <td class="default" bgcolor="{$dark_color}">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('convert_note_form', 'target', 0);disableAR(true);">{t}Convert to Draft and Save For Later Editing{/t}</a></b>
+            <label for="convert_note_from_target_draft"><b>{t}Convert to Draft and Save For Later Editing{/t}</b></label>
           </td>
         </tr>
         <tr>
@@ -83,10 +83,10 @@ function disableAR(flag)
         </tr>
         <tr>
           <td bgcolor="{$dark_color}" align="right" valign="top">
-            <input type="radio" name="target" value="email" onClick="disableAR(false);">
+            <input type="radio" name="target" value="email" onClick="disableAR(false)" id="convert_note_from_target_email">
           </td>
           <td bgcolor="{$dark_color}" class="default">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('convert_note_form', 'target', 1);disableAR(false);">{t}Convert to Email and Send Now{/t}</a></b>
+            <label for="convert_note_from_target_email"><b>{t}Convert to Email and Send Now{/t}</b></label>
           </td>
         </tr>
         <tr>

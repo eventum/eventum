@@ -636,20 +636,21 @@ class Mail_Helper
      * @access  public
      * @param   array $email The email to save.
      */
-    function saveEmailInformation($email)
+    function saveOutgoingEmailCopy(&$email)
     {
-        static $subjects = array();
-
-        $hdrs = $email['headers'];
-        $body = $email['body'];
-        $issue_id = $email['maq_iss_id'];
-        $sender_usr_id = $email['maq_usr_id'];
-
-        // do we really want to save every outgoing email?
+        // check early: do we really want to save every outgoing email?
         $setup = Setup::load();
-        if ((@$setup['smtp']['save_outgoing_email'] != 'yes') || (empty($setup['smtp']['save_address']))) {
+        $save_outgoing_email = !empty($setup['smtp']['save_outgoing_email']) && $setup['smtp']['save_outgoing_email'] == 'yes';
+        if (!$save_outgoing_email || empty($setup['smtp']['save_address'])) {
             return false;
         }
+
+        static $subjects = array();
+
+        $hdrs = &$email['headers'];
+        $body = &$email['body'];
+        $issue_id = $email['maq_iss_id'];
+        $sender_usr_id = $email['maq_usr_id'];
 
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
@@ -1000,16 +1001,17 @@ class Mail_Helper
      */
     function getMessageID($headers, $body)
     {
-        // try to parse out actual message-id header
-        if (preg_match('/^Message-ID: (.*)/mi', $headers, $matches)) {
-            return trim($matches[1]);
-        } else {
-            // no match, calculate hash to make fake message ID
-            $first = base_convert(md5($headers), 10, 36);
-            $second = base_convert(md5($body), 10, 36);
-            return "<eventum.md5." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+        $full_email = $headers. "\n\n";
+        $structure = Mime_Helper::decode($full_email);
+
+        if (!empty($structure->headers['message-id'])) {
+            return $structure->headers['message-id'];
         }
 
+        // no match, calculate hash to make fake message ID
+        $first = base_convert(md5($headers), 10, 36);
+        $second = base_convert(md5($body), 10, 36);
+        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
 

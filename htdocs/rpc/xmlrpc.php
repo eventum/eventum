@@ -31,7 +31,9 @@ require_once 'XML/RPC/Server.php';
 
 function authenticate($email, $password)
 {
-    // XXX: THe role check shouldn't be hardcoded for project 1
+    global $XML_RPC_erruser;
+
+    // XXX: The role check shouldn't be hardcoded for project 1
     if ((!Auth::isCorrectPassword($email, $password)) || (User::getRoleByUser(User::getUserIDByEmail($email), 1) <= User::getRoleID("Customer"))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role");
     } else {
@@ -54,19 +56,22 @@ function getDeveloperList($p)
 
     $res = Project::getRemoteAssocList();
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no projects setup for remote invocation");
     }
     // check if this project allows remote invocation
     if (!in_array($prj_id, array_keys($res))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "This project does not allow remote invocation");
     }
 
     $res = Project::getAddressBookAssocList($prj_id);
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no users associated with the given project");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $getSimpleIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -84,7 +89,9 @@ function getSimpleIssueDetails($p)
     $details = Issue::getDetails($issue_id);
     if (empty($details)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
+        global $XML_RPC_erruser;
     }
+
     return new XML_RPC_Response(new XML_RPC_Value(array(
                 "summary"     => new XML_RPC_Value($details['iss_summary']),
                 "customer"    => new XML_RPC_Value(@$details['customer_info']['customer_name']),
@@ -110,22 +117,23 @@ function getOpenIssues($p)
     $status_id = Status::getStatusID($status);
     $usr_id = User::getUserIDByEmail($email);
 
-    $res = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
+    $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
 
-    if (empty($res)) {
+    if (empty($results)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no open issues");
-    } else {
-        $structs = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $structs[] = new XML_RPC_Value(array(
-                "issue_id"   => new XML_RPC_Value($res[$i]['iss_id'], "int"),
-                "summary"    => new XML_RPC_Value($res[$i]['iss_summary']),
-                'assigned_users'    => new XML_RPC_Value($res[$i]['assigned_users']),
-                'status'     => new XML_RPC_Value($res[$i]['sta_title'])
-            ), "struct");
-        }
-        return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
     }
+
+    $structs = array();
+    foreach ($results as $res) {
+        $structs[] = new XML_RPC_Value(array(
+            "issue_id"   => new XML_RPC_Value($res['iss_id'], "int"),
+            "summary"    => new XML_RPC_Value($res['iss_summary']),
+            'assigned_users'    => new XML_RPC_Value($res['assigned_users']),
+            'status'     => new XML_RPC_Value($res['sta_title'])
+        ), "struct");
+    }
+    return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
 }
 
 $isValidLogin_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
@@ -157,17 +165,18 @@ function getUserAssignedProjects($p)
     $usr_id = User::getUserIDByEmail($email);
     $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You are not assigned to any projects at this moment");
-    } else {
-        $structs = array();
-        foreach ($res as $prj_id => $prj_title) {
-            $structs[] = new XML_RPC_Value(array(
-                "id"   => new XML_RPC_Value($prj_id, "int"),
-                "title"    => new XML_RPC_Value($prj_title)
-            ), "struct");
-        }
-        return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
     }
+
+    $structs = array();
+    foreach ($res as $prj_id => $prj_title) {
+        $structs[] = new XML_RPC_Value(array(
+            "id"   => new XML_RPC_Value($prj_id, "int"),
+            "title"    => new XML_RPC_Value($prj_title)
+        ), "struct");
+    }
+    return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
 }
 
 $getIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -192,12 +201,13 @@ function getIssueDetails($p)
         }
     }
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
-    } else {
-        // remove some naughty fields
-        unset($res['iss_original_description']);
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+
+    // remove some naughty fields
+    unset($res['iss_original_description']);
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $getTimeTrackingCategories_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String));
@@ -211,10 +221,10 @@ function getTimeTrackingCategories($p)
     }
     $res = Time_Tracking::getAssocCategories();
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No time tracking categories could be found");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $recordTimeWorked_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int));
@@ -234,10 +244,11 @@ function recordTimeWorked($p)
     $usr_id = User::getUserIDByEmail($email);
     $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not record the time tracking entry");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $setIssueStatus_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
@@ -255,10 +266,11 @@ function setIssueStatus($p)
     $usr_id = User::getUserIDByEmail($email);
     $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set the status to issue #$issue_id");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $assignIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
@@ -279,20 +291,24 @@ function assignIssue($p)
     $usr_id = User::getUserIDByEmail($email);
     $assignee = User::getUserIDByEmail($developer);
     if (empty($assignee)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not find a user with email '$developer'");
     }
+
     // check if the assignee is even allowed to be in the given project
     $projects = Project::getRemoteAssocListByUser($assignee);
     if (!in_array($project_id, array_keys($projects))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The selected developer is not permitted in the project associated with issue #$issue_id");
     }
 
     $res = Issue::remoteAssign($issue_id, $usr_id, $assignee);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not assign issue #$issue_id to $developer");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $takeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
@@ -312,6 +328,7 @@ function takeIssue($p)
     // check if issue currently is un-assigned
     $current_assignees = Issue::getAssignedUsers($issue_id);
     if (count($current_assignees) > 0) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue is currently assigned to " . join(',', $current_assignees));
     }
 
@@ -320,19 +337,22 @@ function takeIssue($p)
     // check if the assignee is even allowed to be in the given project
     $projects = Project::getRemoteAssocListByUser($usr_id);
     if (!in_array($project_id, array_keys($projects))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The selected developer is not permitted in the project associated with issue #$issue_id");
     }
 
     $res = Issue::remoteAssign($issue_id, $usr_id, $usr_id);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not assign issue #$issue_id to $email");
-    } else {
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
-        if ($res == -1) {
-           return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set status for issue #$issue_id");
-        }
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    
     }
+
+    $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
+    if ($res == -1) {
+       return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set status for issue #$issue_id");
+    }
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $addAuthorizedReplier_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
@@ -356,21 +376,24 @@ function addAuthorizedReplier($p)
         // check if the assignee is even allowed to be in the given project
         $projects = Project::getRemoteAssocListByUser($replier_usr_id);
         if (!in_array($project_id, array_keys($projects))) {
+            global $XML_RPC_erruser;
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The given user is not permitted in the project associated with issue #$issue_id");
         }
     }
 
     // check if user is already authorized
     if (Authorized_Replier::isAuthorizedReplier($issue_id, $new_replier)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The given user is already an authorized replier on issue #$issue_id");
     }
 
     $res = Authorized_Replier::remoteAddAuthorizedReplier($issue_id, $usr_id, $new_replier);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not add '$new_replier' as an authorized replier to issue #$issue_id");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $getFileList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -387,10 +410,11 @@ function getFileList($p)
 
     $res = Attachment::getList($issue_id);
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No files could be found");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $getFile_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -406,11 +430,12 @@ function getFile($p)
 
     $res = Attachment::getDetails($file_id);
     if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The requested file could not be found");
-    } else {
-        $res['iaf_file'] = base64_encode($res['iaf_file']);
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+
+    $res['iaf_file'] = base64_encode($res['iaf_file']);
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $lookupCustomer_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
@@ -428,6 +453,7 @@ function lookupCustomer($p)
 
     $possible_fields = array('email', 'support', 'customer');
     if (!in_array($field, $possible_fields)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Unknown field type '$field'");
     }
 
@@ -435,11 +461,12 @@ function lookupCustomer($p)
     // only customers should be able to use this page
     $role_id = User::getRoleByUser($usr_id, $prj_id);
     if ($role_id < User::getRoleID('Developer')) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You don't have the appropriate permissions to lookup customer information");
-    } else {
-        $res = Customer::lookup($prj_id, $field, $value);
-        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
+
+    $res = Customer::lookup($prj_id, $field, $value);
+    return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
 $closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean, $XML_RPC_String));
@@ -463,14 +490,15 @@ function closeIssue($p)
 
     $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
     if ($res == -1) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not close issue #$issue_id");
+    }
+
+    $prj_id = Issue::getProjectID($issue_id);
+    if (Customer::hasCustomerIntegration($prj_id) && Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
+        return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
     } else {
-        $prj_id = Issue::getProjectID($issue_id);
-        if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
-            return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
-        } else {
-            return new XML_RPC_Response(XML_RPC_Encode('OK'));
-        }
+        return new XML_RPC_Response(XML_RPC_Encode('OK'));
     }
 }
 
@@ -519,10 +547,10 @@ function getEmailListing($p)
 
     // since xml-rpc has issues, lets base64 encode everything
     if (is_array($emails)) {
-        for ($i = 0; $i < count($emails); $i++) {
-            unset($emails[$i]["seb_body"]);
-            foreach ($emails[$i] as $key => $val) {
-                $emails[$i][$key] = base64_encode($val);
+        foreach ($emails as &$email) {
+            unset($email["seb_body"]);
+            foreach ($email as $key => $val) {
+                $email[$key] = base64_encode($val);
             }
         }
     }
@@ -544,6 +572,7 @@ function getEmail($p)
 
     // get requested email
     if ((count($email) < 1) || (!is_array($email))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Email #" . $email_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
@@ -567,9 +596,9 @@ function getNoteListing($p)
     $notes = Note::getListing($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
-    for ($i = 0; $i < count($notes); $i++) {
-        foreach ($notes[$i] as $key => $val) {
-            $notes[$i][$key] = base64_encode($val);
+    foreach ($notes as &$note) {
+        foreach ($note as $key => $val) {
+            $note[$key] = base64_encode($val);
         }
     }
     return new XML_RPC_Response(XML_RPC_Encode($notes));
@@ -588,7 +617,8 @@ function getNote($p)
     $note_id = XML_RPC_decode($p->getParam(3));
     $note = Note::getNoteBySequence($issue_id, $note_id);
 
-    if ((count($note) < 1) || (!is_array($note))) {
+    if (count($note) < 1 || !is_array($note)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Note #" . $note_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
@@ -614,11 +644,12 @@ function convertNote($p)
 
     createFakeCookie($email, Issue::getProjectID($issue_id));
     $res = Note::convertNote($note_id, $target, $authorize_sender);
-    if ($res) {
-        return new XML_RPC_Response(XML_RPC_Encode("OK"));
-    } else {
+    if (empty($res)) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error converting note");
     }
+
+    return new XML_RPC_Response(XML_RPC_Encode("OK"));
 }
 
 $mayChangeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -721,6 +752,7 @@ function timeClock($p)
     if ($res == 1) {
         return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked " . $action . ".\n"));
     } else {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error clocking " . $action . ".\n");
     }
 }
@@ -740,9 +772,9 @@ function getDraftListing($p)
     $drafts = Draft::getList($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
-    for ($i = 0; $i < count($drafts); $i++) {
-        foreach ($drafts[$i] as $key => $val) {
-            $drafts[$i][$key] = base64_encode($val);
+    foreach ($drafts as &$draft) {
+        foreach ($draft as $key => $val) {
+            $draft[$key] = base64_encode($val);
         }
     }
     return new XML_RPC_Response(XML_RPC_Encode($drafts));
@@ -762,6 +794,7 @@ function getDraft($p)
     $draft = Draft::getDraftBySequence($issue_id, $draft_id);
 
     if ((count($draft) < 1) || (!is_array($draft))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
     }
     if (empty($draft['to'])) {
@@ -790,12 +823,14 @@ function sendDraft($p)
     createFakeCookie($email, Issue::getProjectID($issue_id));
 
     if ((count($draft) < 1) || (!is_array($draft))) {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
     }
     $res = Draft::send($draft["emd_id"]);
     if ($res == 1) {
         return new XML_RPC_Response(XML_RPC_Encode("Draft #" . $draft_id . " sent successfully.\n"));
     } else {
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error sending Draft #" . $draft_id . "\n");
     }
 }
@@ -820,12 +855,15 @@ function redeemIssue($p)
 
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
     } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
         // check if is per incident contract
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     } else {
         // check if incidents are remaining
+        global $XML_RPC_erruser;
         foreach ($types as $type_id) {
             if (Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
                 return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already marked as redeemed incident of type " . $all_types[$type_id]);
@@ -838,6 +876,7 @@ function redeemIssue($p)
     foreach ($types as $type_id) {
         $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
         if ($res == -1) {
+            global $XML_RPC_erruser;
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as redeemed.");
         }
     }
@@ -863,12 +902,15 @@ function unredeemIssue($p)
 
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
     } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
         // check if is per incident contract
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     } else {
         // check if incidents are remaining
+        global $XML_RPC_erruser;
         foreach ($types as $type_id) {
             if (!Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
                 return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is not marked as redeemed incident of type " . $all_types[$type_id]);
@@ -879,6 +921,7 @@ function unredeemIssue($p)
     foreach ($types as $type_id) {
         $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
         if ($res == -1) {
+            global $XML_RPC_erruser;
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as unredeemed.");
         }
     }
@@ -903,9 +946,11 @@ function getIncidentTypes($p)
 
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
     } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
         // check if is per incident contract
+        global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     }
 

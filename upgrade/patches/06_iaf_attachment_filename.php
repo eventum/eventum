@@ -28,7 +28,7 @@ if (PEAR::isError($res)) {
 
 foreach ($res as $idx => $row) {
 	list($type, $ext) = explode('/', $row['iaf_filetype']);
-	$iaf_filename = sprintf(ev_gettext('Untitled.%s'), $ext);
+	$iaf_filename = ev_gettext('Untitled.%s', $ext);
 
 	db_query("UPDATE %TABLE_PREFIX%issue_attachment_file ".
 		"SET iaf_filename='". DB_Helper::escapeString($iaf_filename). "' ".

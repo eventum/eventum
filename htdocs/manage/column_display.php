@@ -70,7 +70,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     // generate ranks
     $ranks = array();
-    for ($i = 1; $i <= count($available_ordered); $i++) {
+    $navailable_ordered = count($available_ordered);
+    for ($i = 1; $i <= $navailable_ordered; $i++) {
         $ranks[$i] = $i;
     }
 

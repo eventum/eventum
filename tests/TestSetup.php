@@ -3,8 +3,8 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
+// +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,24 +23,8 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
-require_once 'class.Eventum_RPC.php';
-
-$client = new Eventum_RPC();
-$client->setURL("http://rabbit.impleo.net/rpc/xmlrpc.php");
-$client->setCredentials("user", "password");
-$client->setDebug(true);
-$id = 64;
-
-try {
-    $result = $client->getIssueDetails((int )$id);
-} catch (Eventum_RPC_Exception $e) {
-    echo $e->getMessage(), "\n";
-    echo $e->getTraceAsString(), "\n";
-    exit(1);
-}
-
-print_r($result);
+/*
+ * Setup autoload for tests.
+ */
+require_once dirname(__FILE__).'/../init.php';

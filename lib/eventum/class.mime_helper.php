@@ -254,11 +254,16 @@ class Mime_Helper
     public static function encodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_encode')) {
+            // avoid any wrapping by specifying line length long enough
+            // "test" -> 4
+            // ": =?ISO-8859-1?B?dGVzdA==?=" -> 27
+            // 3 +2 +10      +3 +7     + 3
+            $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
+
             $params = array(
                 "input-charset" => APP_CHARSET,
                 "output-charset" => APP_CHARSET,
-                // avoid any wrapping
-                "line-length" => strlen($string) * 4,
+                "line-length" => $line_length,
             );
             $string = iconv_mime_encode("", $string, $params);
             return substr($string, 2);
@@ -314,7 +319,7 @@ class Mime_Helper
         );
 
         $string = str_replace('=', '=3D', $string);
-        $string = str_replace(self::$qpKeys, self::$qpReplaceValues, $string);
+        $string = str_replace($qpKeys, $qpReplaceValues, $string);
         return rtrim($string);
     }
 
@@ -660,7 +665,7 @@ class Mime_Helper
             if (empty($mime_part_filename)) {
                 $ext = $mime_part->ctype_secondary;
                 // TRANSLATORS: filename for inline image attachments, where %s is file extension
-                $mime_part_filename = sprintf(ev_gettext('Untitled.%s'), $ext);
+                $mime_part_filename = ev_gettext('Untitled.%s', $ext);
             }
         } else {
             if ((!in_array($content_type, self::_getInvalidContentTypes())) &&
