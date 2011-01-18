@@ -84,7 +84,7 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $msgid = $this->object->getMessageID($headers, $body);
         $this->assertEquals($msgid, '<msgid>', 'msg-id header with newline');
 
-        $headers = "Message-ID:\n\t<msgid>\nX-Other_header: x";
+        $headers = "X-Some-header:y\r\nMessage-ID:\n\t<msgid>\nX-Other_header: x";
         $body = 'body';
         $msgid = $this->object->getMessageID($headers, $body);
         $this->assertEquals($msgid, '<msgid>', 'msg-id header with newline, following next header');
