@@ -11,7 +11,7 @@
 
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
-	<echo msg="Checking syntax with PHP lint" />
+		<echo msg="Checking syntax with PHP lint" />
 		<phplint haltonfailure="true">
 			<fileset dir="${dir.src}">
 				<include name="**/*.php" />
@@ -20,9 +20,9 @@
 	</target>
 
 	<!-- test -->
-	<target name="test"
-		description="Run unit tests.">
-		<phpunit haltonfailure="true">
+	<target name="test" description="Run unit tests.">
+		<echo msg="Run PHPUnit tests" />
+		<phpunit haltonerror="true" haltonfailure="true" printsummary="true">
 			<formatter usefile="false" type="plain" />
 			<batchtest>
 				<fileset dir="${dir.test}">
