@@ -1002,15 +1002,17 @@ class Mail_Helper
     function getMessageID($headers, $body)
     {
         // try to parse out actual message-id header
-        if (preg_match('/^Message-ID: (.*)/mi', $headers, $matches)) {
-            return trim($matches[1]);
-        } else {
-            // no match, calculate hash to make fake message ID
-            $first = base_convert(md5($headers), 10, 36);
-            $second = base_convert(md5($body), 10, 36);
-            return "<eventum.md5." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+        if (preg_match('/^Message-ID:(.+)/mi', $headers, $matches)) {
+            $msgid = trim($matches[1]);
+            if ($msgid) {
+                return $msgid;
+            }
         }
 
+        // no match, calculate hash to make fake message ID
+        $first = base_convert(md5($headers), 10, 36);
+        $second = base_convert(md5($body), 10, 36);
+        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
 
