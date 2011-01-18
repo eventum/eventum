@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-07 15:03+0300\n"
-"PO-Revision-Date: 2010-11-12 14:48+0000\n"
+"POT-Creation-Date: 2010-12-02 16:48+0200\n"
+"PO-Revision-Date: 2011-01-08 18:06+0000\n"
 "Last-Translator: Jens Maucher <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-11-13 04:58+0000\n"
+"X-Launchpad-Export-Date: 2011-01-09 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -111,9 +111,13 @@ msgstr ""
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Tipp: Standard Port für POP3: 110 und IMAP: 143)"
 
-#: lib/eventum/class.template_helper.php:172
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(Archiviert)"
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -1081,11 +1085,11 @@ msgstr "Angehängte e-Mails"
 msgid "Attached Files"
 msgstr "Angehängte Dateien"
 
-#: lib/eventum/class.support.php:1452
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
 msgstr "Anhang basierend auf einer Bemerkung"
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
 msgstr "Anhang basierend auf einer Bemerkung"
 
@@ -1348,6 +1352,18 @@ msgstr "Felder ändern"
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
 msgstr "Das Ändern der Feldtypen kann zu Datenverlust führen"
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1737,6 +1753,10 @@ msgstr "Kunden"
 msgid "Customize Issue Listing Screen"
 msgstr "Vorgangsliste anpassen"
 
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr "Tägliche Tipps:"
@@ -1905,9 +1925,10 @@ msgstr "Wussten Sie schon?"
 msgid "Diff Page:"
 msgstr "Diff URL:"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr "Deaktiviert"
 
@@ -1974,28 +1995,26 @@ msgstr "Kopien"
 msgid "E-mail about issue update was sent to"
 msgstr "e-Mail bzgl. Vorgangsaktualisierung wurde gesendet an"
 
-#: lib/eventum/class.monitor.php:83
-msgid "ERROR: Almost no free disk space left (percentage left"
+#: lib/eventum/class.monitor.php:72
+#, php-format
+msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
-"FEHLER: Fast kein freier Festplattenplatz mehr vorhanden (Prozent verfügbar"
 
-#: lib/eventum/class.monitor.php:171
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
-msgstr ""
-"FEHLER: Konnte nicht mit der mysql Datenbank verbinden. Detailierte "
-"Fehlermeldung:"
-
-#: lib/eventum/class.monitor.php:269
+#: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "FEHLER: Konnte IRC Bot pid nicht in der Prozessliste finde"
 
-#: lib/eventum/class.monitor.php:142
+#: lib/eventum/class.monitor.php:238
+#, php-format
+msgid "ERROR: Could not find required table \"%s\""
+msgstr ""
+
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "FEHLER: Verzeichnis wurde nicht gefunden(Pfad: %1$s)"
 
-#: lib/eventum/class.monitor.php:148
+#: lib/eventum/class.monitor.php:146
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -2004,11 +2023,12 @@ msgstr ""
 "FEHLER: Abweichung in Verzeichnisrechten (Pfad: %1$s, momentane Rechte: "
 "%2$s, korrekte Rechte: %3$s)"
 
-#: lib/eventum/class.monitor.php:104
-msgid "ERROR: File could not be found (path"
-msgstr "Fehler: Dateeei konnt nicht gefunden werden (Pfad"
+#: lib/eventum/class.monitor.php:97
+#, php-format
+msgid "ERROR: File could not be found (path: %s)"
+msgstr ""
 
-#: lib/eventum/class.monitor.php:113
+#: lib/eventum/class.monitor.php:108
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
@@ -2017,42 +2037,49 @@ msgstr ""
 "FEHLER: Abweichung in Dateigruppe (Pfad: %1$s, momentane Gruppe: %2$s, "
 "korrekte Gruppe: %3$s)"
 
-#: lib/eventum/class.monitor.php:110
+#: lib/eventum/class.monitor.php:104
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:118
+#: lib/eventum/class.monitor.php:114
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:122
+#: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:87
-msgid "ERROR: Free disk space left is getting very low (percentage left"
+#: lib/eventum/class.monitor.php:76
+#, php-format
+msgid ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
 "FEHLER: Das System hat keine entsprechenden Erlaubnisse, die "
 "Konfigurationsdatei im Einstellungsverzeichnis zu aktualisieren"
+
+#: lib/eventum/class.monitor.php:54
+#, php-format
+msgid "ERROR: There is a total of %d queued emails with errors."
+msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -2111,12 +2138,12 @@ msgstr "e-Mail"
 msgid "Email #%1$s: %2$s"
 msgstr "Email #%1$s: %2$s"
 
-#: lib/eventum/class.support.php:1504
+#: lib/eventum/class.support.php:1502
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1847
+#: lib/eventum/class.support.php:1845
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2224,7 +2251,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr "e-Mail nach Zeitraum"
 
-#: lib/eventum/class.support.php:2571
+#: lib/eventum/class.support.php:2569
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2285,9 +2312,10 @@ msgstr "e-Mails nach Mitarbeitern"
 msgid "Empty Subject Header"
 msgstr "Kein Betreff"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr "Aktiviert"
 
@@ -3562,6 +3590,10 @@ msgstr "Module / Verzeichnis"
 msgid "Monday"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr "Monat"
@@ -3693,7 +3725,7 @@ msgstr "Nächste Nachricht"
 msgid "Next Note"
 msgstr "Nächste Notiz"
 
-#: lib/eventum/class.misc.php:693 templates/close.tpl.html
+#: lib/eventum/class.misc.php:720 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -4000,8 +4032,8 @@ msgid "Notification List:"
 msgstr "Benachrichtigungsliste:"
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
-msgstr "Benachrichtigungsoptionen"
+msgid "Notification Options for Issue #%1"
+msgstr ""
 
 #: lib/eventum/class.notification.php:2006
 #, php-format
@@ -4030,6 +4062,10 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
 msgstr "Anzahl Tage"
+
+#: crons/monitor.php:101
+msgid "OK: No errors found"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4143,7 +4179,7 @@ msgstr "Absender Adresse für ausgehende e-Mails"
 msgid "Outgoing Email Sender Name"
 msgstr "Absender Name für ausgehende e-Mails"
 
-#: lib/eventum/class.support.php:2205
+#: lib/eventum/class.support.php:2203
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Ausgehende eMail gesendet von %1$s"
@@ -4183,6 +4219,10 @@ msgstr "POP3, mit TLS"
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
 msgstr "POP3, mit TLS (selbst signiert)"
+
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
+msgstr ""
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4601,13 +4641,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -5085,6 +5125,10 @@ msgstr ""
 #: templates/signup.tpl.html
 msgid "Please enter your password."
 msgstr "Bitte geben Sie ihr Passwort ein."
+
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
+msgstr ""
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
@@ -5803,8 +5847,8 @@ msgstr "Ihr Browser muss Cookies und JavaScript unterstützen."
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -6801,7 +6845,7 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 "Vielen Dank, die ausgewählten Anforderungen wurden erfolgreich gelöscht."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 "Vielen Dank, die Installationsinformationen wurden erfolgreich gespeichert."
@@ -7700,8 +7744,12 @@ msgstr "Vorgang entziehen"
 msgid "Unavailable - Users may NOT use this release"
 msgstr "Nicht verfügbar - für Benutzer nicht verwendbar"
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr ""
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:663
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7833,6 +7881,7 @@ msgstr "Round Robin Eintrag aktualisieren"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Aktualisierungsinstallation"
 
@@ -8187,6 +8236,14 @@ msgstr "Wöchentlich"
 msgid "Weekly Report"
 msgstr "Wöchentlicher Report"
 
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
+msgstr ""
+
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
 msgstr "Feld erweitern"
@@ -8237,7 +8294,7 @@ msgstr "Auslastung nach Tageszeit"
 msgid "Workload by time period"
 msgstr "Arbeitsbelastung im Zeitraum"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:691
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8505,6 +8562,12 @@ msgstr "WT"
 msgid "download file"
 msgstr "Datei laden"
 
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
+msgstr ""
+
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
 msgstr "bearbeite die Liste der authorisierten Personen für diesen Vorgang"
@@ -8531,7 +8594,7 @@ msgstr "Fehler Bedingung entdeckt"
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "first"
-msgstr ""
+msgstr "erster"
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
@@ -8626,7 +8689,7 @@ msgstr "wird neben dem Feld angezeigt"
 
 #: templates/navigation.tpl.html
 msgid "keywords"
-msgstr ""
+msgstr "Schlagworte"
 
 #: templates/add_phone_entry.tpl.html
 msgid "last name"
@@ -8729,7 +8792,7 @@ msgstr "oder"
 
 #: templates/setup.tpl.html
 msgid "page"
-msgstr ""
+msgstr "Seite"
 
 #: templates/lookup_field.tpl.html
 msgid "paste or start typing here"
@@ -9016,14 +9079,29 @@ msgstr "Jahr"
 #~ msgid "(only technical contacts listed on your contract)"
 #~ msgstr "(nur technische Kontakte in Ihrem Vertrag gelistet)"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Fehler: Bitte geben Sie Ihre e-Mail Adresse an."
+
+#~ msgid "Search Results"
+#~ msgstr "Suchergebnisse"
+
 #~ msgid "issues found"
 #~ msgstr "gefundene Vorgänge"
 
 #~ msgid "shown"
 #~ msgstr "gezeigt"
 
+#~ msgid "Notification Options"
+#~ msgstr "Benachrichtigungsoptionen"
+
+#~ msgid "This issue was just closed by"
+#~ msgstr "Diser Vorgang wurde geschlossen von"
+
 #~ msgid " with the message"
 #~ msgstr " mit dieser Nachricht"
+
+#~ msgid "ERROR: File could not be found (path"
+#~ msgstr "Fehler: Dateeei konnt nicht gefunden werden (Pfad"
 
 #~ msgid "Port:"
 #~ msgstr "Port:"
@@ -9390,9 +9468,34 @@ msgstr "Jahr"
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"
 
 #~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Um weitere Informationen zu diesem Ticket hinzuzufügen, antworten Sie "
+#~ "einfach auf diese E-Mail"
+
+#~ msgid ""
+#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+#~ "server."
+#~ msgstr ""
+#~ "<b>Hinweis:</b> Wenn Sie dies ankreuzen, können Sie keine Kopie der "
+#~ "Nachrichten auf dem Server belaßen."
+
+#~ msgid ""
 #~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
 #~ "emails are properly sent when creating new users/projects."
 #~ msgstr ""
 #~ "<b>Hinweis:</b> Die SMTP-Konfiguration (ausgehende e-Mails) ist "
 #~ "erforderlich, um zu gewährleisten, daß e-Mails ordnungsgemäß versendet "
 #~ "werden beim Anlegen von neuen Benutzern/Projekten."
+
+#~ msgid "ERROR: Almost no free disk space left (percentage left"
+#~ msgstr ""
+#~ "FEHLER: Fast kein freier Festplattenplatz mehr vorhanden (Prozent verfügbar"
+
+#~ msgid ""
+#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
+#~ msgstr ""
+#~ "FEHLER: Konnte nicht mit der mysql Datenbank verbinden. Detailierte "
+#~ "Fehlermeldung:"
