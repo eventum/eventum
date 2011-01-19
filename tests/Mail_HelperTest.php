@@ -89,4 +89,42 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $msgid = $this->object->getMessageID($headers, $body);
         $this->assertEquals($msgid, '<msgid>', 'msg-id header with newline, following next header');
     }
+
+    public function testRemoveExcessReSubjectOnly()
+    {
+        $subject = 'subject';
+        $res = $this->object->RemoveExcessRe($subject);
+        $this->assertEquals($res, 'subject', 'no reply prefix');
+
+        $subject = 're: subject';
+        $res = $this->object->RemoveExcessRe($subject);
+        $this->assertEquals($res, 're: subject', 're: once');
+
+        $subject = 're: re: subject';
+        $res = $this->object->RemoveExcessRe($subject);
+        $this->assertEquals($res, 'Re: subject', 're: twice');
+
+        $subject = 're[2]: re: subject';
+        $res = $this->object->RemoveExcessRe($subject);
+        $this->assertEquals($res, 'Re: subject', 're[2]: with squares');
+    }
+
+    public function testRemoveExcessReIssueId()
+    {
+        $subject = '[#123] subject';
+        $res = $this->object->RemoveExcessRe($subject, true);
+        $this->assertEquals($res, 'subject', 'no reply prefix');
+
+        $subject = 're: [#123] subject';
+        $res = $this->object->RemoveExcessRe($subject, true);
+        $this->assertEquals($res, 're: subject', 're: once');
+
+        $subject = 're: re: [#123] subject';
+        $res = $this->object->RemoveExcessRe($subject, true);
+        $this->assertEquals($res, 'Re: subject', 're: twice');
+
+        $subject = 're[2]: [#123] re: subject';
+        $res = $this->object->RemoveExcessRe($subject, true);
+        $this->assertEquals($res, 'Re: subject', 're[2]: with squares');
+    }
 }

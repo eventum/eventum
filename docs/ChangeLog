@@ -22,6 +22,7 @@ Eventum Issue Tracking System
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
 - Support for configuring Monitor preferences (Elan Ruusamäe)
 - Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
+- Allow translating 'Re: ' in email subjects (Elan Ruusamäe)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

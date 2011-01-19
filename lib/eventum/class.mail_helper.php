@@ -92,9 +92,13 @@ class Mail_Helper
         if ($remove_issue_id) {
             $subject = trim(preg_replace("/\[#\d+\] {0,1}/", '', $subject));
         }
+        // XXX: this works in most cases,
+        // probably the reply prefixes should be configrable per Eventum install
         $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
-            $subject = preg_replace($re_pattern, '$1Re: $5', $subject);
+            // TRANSLATORS: %1 = email subject
+            $re_format = '$1'.ev_gettext('Re: %1$s', '$5');
+            $subject = preg_replace($re_pattern, $re_format, $subject);
             return self::removeExcessRe($subject);
         } else {
             return $subject;
