@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-02 16:48+0200\n"
+"POT-Creation-Date: 2011-01-19 12:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,7 +185,7 @@ msgstr ""
 msgid "ADDED"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
 
@@ -1986,7 +1986,7 @@ msgstr ""
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1845
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2094,7 +2094,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2569
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -3901,7 +3901,7 @@ msgstr ""
 msgid "Only for Known Customers?"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -3991,7 +3991,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2203
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -5246,6 +5246,20 @@ msgstr ""
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
+msgstr ""
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
@@ -7382,7 +7396,7 @@ msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:663
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7680,7 +7694,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -7732,7 +7746,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
