@@ -92,7 +92,7 @@ class Mail_Helper
         if ($remove_issue_id) {
             $subject = trim(preg_replace("/\[#\d+\] {0,1}/", '', $subject));
         }
-        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Îòâåò|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
+        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
             $subject = preg_replace($re_pattern, '$1Re: $5', $subject);
             return self::removeExcessRe($subject);
