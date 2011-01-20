@@ -276,7 +276,7 @@ class Abstract_Workflow_Backend
 
 
     /**
-     * Determines if the address should should be emailed.
+     * Determines if the address should be emailed.
      *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
