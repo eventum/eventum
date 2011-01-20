@@ -46,7 +46,11 @@ foreach ($default as $action) {
 }
 $tpl->assign("default_actions", $res);
 
-if (@$_POST["cat"] == "insert") {
+if (@$_GET['cat'] == "selfnotify") {
+    $usr_email = User::getEmail($usr_id);
+    $res = Notification::subscribeEmail($usr_id, $issue_id, $usr_email, $default);
+    $tpl->assign("insert_result", $res);
+} elseif (@$_POST["cat"] == "insert") {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
     $tpl->assign("insert_result", $res);
 } elseif (@$_GET["cat"] == "edit") {
