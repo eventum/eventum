@@ -83,7 +83,7 @@ h4 {
 .white_link#white_link {
   text-decoration : none;
 }
-.link {
+.link, a {
   color: #000000;
   text-decoration: underline;
 }
@@ -275,4 +275,15 @@ table.bordered td.label.internal {
 /* don't pad left cell if there is a table inside */
 table.bordered td > table {
     padding-left: 0px;
+}
+
+table.spaced {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: .7em;
+    border-collapse: collapse;
+}
+
+
+table.spaced td {
+    border: 1px solid #FFFFFF;
 }
