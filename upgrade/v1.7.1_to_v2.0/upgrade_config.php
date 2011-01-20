@@ -1,7 +1,7 @@
 <?php
 // upgrade the config.inc.php file
 
-define('APP_PATH', realpath(dirname(__FILE__) . '/../../../') . '/');
+define('APP_PATH', realpath(dirname(__FILE__) . '/../../') . '/');
 define('APP_CONFIG_PATH', APP_PATH . '/config/');
 
 if (!is_writable(APP_PATH . '/config/')) {
@@ -20,7 +20,7 @@ if (copy(APP_PATH . "/config.inc.php", $backup_file) == false) {
 // read old file and parse out needed values
 $old_config = file_get_contents(APP_PATH . "/config.inc.php");
 
-$config_contents = implode("", file(APP_PATH . "/setup/config.php"));
+$config_contents = implode("", file(APP_PATH . "/htdocs/setup/config.php"));
 $config_contents = str_replace("%{APP_SQL_DBHOST}%", get_old_value('APP_SQL_DBHOST'), $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBNAME}%", get_old_value('APP_SQL_DBNAME'), $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBUSER}%", get_old_value('APP_SQL_DBUSER'), $config_contents);

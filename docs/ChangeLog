@@ -22,6 +22,8 @@ Eventum Issue Tracking System
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
 - Support for configuring Monitor preferences (Elan Ruusamäe)
 - Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
+- Allow translating 'Re: ' in email subjects (Elan Ruusamäe)
+- Add 'Subscribe Me' button to issue details screen for quickly add user itself to default notification options (Elan Ruusamäe)
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)

@@ -1790,6 +1790,32 @@ class Notification
         }
     }
 
+    /**
+     * Returns if the specified user is notified in this issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The id of the issue.
+     * @param   integer $usr_id The user to check. 
+     * @return  boolean If the specified user is notified in the issue.
+     */
+    function isUserNotified($issue_id, $usr_id)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_iss_id=" . Misc::escapeInteger($issue_id) ." AND
+                    sub_usr_id=" . Misc::escapeInteger($usr_id);
+
+        $res = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        }
+
+        return $res > 0;
+    }
 
     /**
      * Method used to remove all subscriptions associated with a given

@@ -326,7 +326,7 @@ class Abstract_Workflow_Backend
      * @param   string $email The email address to check
      * @return  boolean True if the note should be added, false otherwise
      */
-    function canSendNote($prj_id, $issue_id, $email)
+    function canSendNote($prj_id, $issue_id, $email, $structure)
     {
         return null;
     }
@@ -358,6 +358,21 @@ class Abstract_Workflow_Backend
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
     function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    {
+        return null;
+    }
+
+
+    /**
+     * Called before inserting a note. If it returns false the rest of the note code
+     * will not be executed. Return null to continue as normal (possibly with changed $data)
+     *
+     * @param   integer $prj_id
+     * @param   integer $issue_id
+     * @param   array   $data
+     * @return  mixed   Null by default, false if the note should not be inserted
+     */
+    public function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
     {
         return null;
     }

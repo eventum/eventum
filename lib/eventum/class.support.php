@@ -1593,7 +1593,8 @@ class Support
             $res["timestamp"] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
             $res["sup_date"] = Date_Helper::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
-            $res['reply_subject'] = Mail_Helper::removeExcessRe('Re: ' . $res["sup_subject"], true);
+            // TRANSLATORS: %1 = email subject
+            $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res["sup_subject"]), true);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
 

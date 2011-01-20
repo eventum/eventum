@@ -338,7 +338,7 @@ class Reminder
                     rer_support_level_id
                  ) VALUES (
                     " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($support_level_id) . "
+                    '" . Misc::escapeString($support_level_id) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -540,10 +540,10 @@ class Reminder
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_products
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
                  WHERE
                     rpr_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
                  WHERE
@@ -998,6 +998,11 @@ class Reminder
                     iss_id
                  FROM
                     " . APP_TABLE_PREFIX . "issue";
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ",
+                    issue_product_version";
+        }
         $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);

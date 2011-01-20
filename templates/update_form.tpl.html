@@ -81,6 +81,12 @@ function openNotification(issue_id)
     var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
     popupWin.focus();
 }
+function selfNotification(issue_id)
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
+    popupWin.focus();
+}
 function openAuthorizedReplier(issue_id)
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -254,9 +260,11 @@ $().ready(function() {
             <b>{t}Priority:{/t}</b>
           </td>
           <td {if $current_role < $roles.standard_user}rowspan="2"{/if} bgcolor="{$light_color}">
+            {if $priorities|@count > 0}
             <select class="default" name="priority">
               {html_options options=$priorities selected=$issue.iss_pri_id}
             </select>
+            {/if}
           </td>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Update Date:{/t}</b>

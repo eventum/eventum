@@ -127,7 +127,7 @@ function getMailQueue($id)
     }
     $res = Mail_Queue::getEntry($id);
     if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n" . $res["maq_body"])));
+        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n\n" . $res["maq_body"])));
     } else {
         return $res["maq_body"];
     }

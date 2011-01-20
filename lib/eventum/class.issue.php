@@ -876,7 +876,8 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
-            $res['reply_subject'] = 'Re: [#' . $issue_id . '] ' . $res["sup_subject"];
+            // TRANSLATORS: %1 = issue_id, %2 = issue summary
+            $res['reply_subject'] = ev_gettext('Re: [%1$s] %2$s', $issue_id, $res["sup_subject"]);
             $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
             return $res;
         }
@@ -1650,13 +1651,13 @@ class Issue
             if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
                 $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $_POST['expected_resolution_date']);
             }
-            if ($current["iss_prc_id"] != $_POST["category"]) {
+            if (isset($_POST["category"]) && $current["iss_prc_id"] != $_POST["category"]) {
                 $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($_POST["category"]));
             }
             if ($current["iss_pre_id"] != $_POST["release"]) {
                 $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($_POST["release"]));
             }
-            if ($current["iss_pri_id"] != $_POST["priority"]) {
+            if (isset($_POST["priority"]) && $current["iss_pri_id"] != $_POST["priority"]) {
                 $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
                 Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
             }

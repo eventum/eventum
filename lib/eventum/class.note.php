@@ -317,12 +317,20 @@ class Note
     function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
+        $prj_id = Issue::getProjectID($issue_id);
 
         if (@$_POST['add_extra_recipients'] != 'yes') {
             $note_cc = array();
         } else {
             $note_cc = $_POST['note_cc'];
         }
+
+        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $unknown_user, $_POST);
+        if ($workflow !== null) {
+            // cancel insert of note
+            return $workflow;
+        }
+
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
@@ -405,7 +413,7 @@ class Note
                 } else {
                     Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
                 }
-                Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing, $new_note_id);
+                Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $closing, $new_note_id);
             }
             // need to return the new note id here so it can
             // be re-used to associate internal-only attachments

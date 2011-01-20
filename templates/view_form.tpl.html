@@ -15,6 +15,12 @@ function openNotification(issue_id)
     var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
     popupWin.focus();
 }
+function selfNotification(issue_id)
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
+    popupWin.focus();
+}
 function openAuthorizedReplier(issue_id)
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -370,11 +376,11 @@ function collapseDescription()
                 {if $current_role > $roles.customer}
                 <td nowrap>
                   {if $is_user_assigned == 1}
-                  {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
-                  <input class="button" type="button" value="{t}Unassign Issue{/t}" onClick="unassign({$issue.iss_id});">&nbsp;
-                  {/if}
+                    {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
+                      <input class="button" type="button" value="{t}Unassign Issue{/t}" onClick="unassign({$issue.iss_id});">&nbsp;
+                    {/if}
                   {else}
-                  <input class="button" type="button" value="{t}Assign Issue To Myself{/t}" onClick="selfAssign({$issue.iss_id});">&nbsp;
+                    <input class="button" type="button" value="{t}Assign Issue To Myself{/t}" onClick="selfAssign({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
                 {/if}
@@ -414,7 +420,10 @@ function collapseDescription()
               <tr>
                 <td width="50%">
                   {if $is_user_authorized != 1}
-                  <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
+                    <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
+                  {/if}
+                  {if $is_user_notified != 1}
+                    <input type="button" value="{t}Add Me To Notification{/t}" class="button" onClick="selfNotification({$issue.iss_id});">
                   {/if}
                   {if $issue.customer_info.is_per_incident}
                     <input type="button" value="{t}Edit Incident Redemption{/t}" class="button" onClick="editIncidentRedemption({$issue.iss_id});">

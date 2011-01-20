@@ -286,7 +286,7 @@ class Routing
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) &&
-                ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email)))) {
+                ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
             return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
 
