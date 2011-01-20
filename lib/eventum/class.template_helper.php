@@ -59,6 +59,7 @@ class Template_Helper
         $this->smarty->register_modifier("activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
         $this->smarty->register_modifier("formatCustomValue", array('Custom_Field', 'formatValue'));
         $this->smarty->register_modifier("bool", array('Misc', 'getBooleanDisplayValue'));
+        $this->smarty->register_modifier("format_date", array('Date_Helper', 'getFormattedDate'));
     }
 
 

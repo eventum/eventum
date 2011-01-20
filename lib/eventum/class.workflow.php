@@ -520,13 +520,13 @@ class Workflow
      * @param   string $email The email address to check
      * @return  boolean True if the note should be added, false otherwise
      */
-    function canSendNote($prj_id, $issue_id, $email)
+    function canSendNote($prj_id, $issue_id, $email, $structure)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->canSendNote($prj_id, $issue_id, $email);
+        return $backend->canSendNote($prj_id, $issue_id, $email, $structure);
     }
 
 
@@ -568,6 +568,25 @@ class Workflow
         }
         $backend =& self::_getBackend($prj_id);
         return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email, $structure);
+    }
+
+
+    /**
+     * Called before inserting a note. If it returns false the rest of the note code
+     * will not be executed. Return null to continue as normal (possibly with changed $data)
+     *
+     * @param   integer $prj_id
+     * @param   integer $issue_id
+     * @param   array   $data
+     * @return  mixed   Null by default, false if the note should not be inserted
+     */
+    public function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend =& self::_getBackend($prj_id);
+        return $backend->preNoteInsert($prj_id, $issue_id, $unknown_user, $data);
     }
 
 
