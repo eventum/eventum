@@ -81,6 +81,12 @@ function openNotification(issue_id)
     var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
     popupWin.focus();
 }
+function selfNotification(issue_id)
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
+    popupWin.focus();
+}
 function openAuthorizedReplier(issue_id)
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';

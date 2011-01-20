@@ -63,6 +63,7 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
+        'br' => 'Breton',
         'ca' => 'Catalan',
         'cs' => 'Czech',
         'da_DK' => 'Danish',
@@ -77,6 +78,7 @@ class Language
         'fo' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
+        'id' => 'Indonesian',
         'it_IT' => 'Italian',
         'ja' => 'Japanese',
         'ko' => 'Korean',
@@ -95,6 +97,7 @@ class Language
         'tr' => 'Turkish',
         'uk' => 'Ukrainian',
         'ur' => 'Urdu',
+        'vi' => 'Vietnamese',
         'zh_CN' => 'Chinese (Simplified)',
     );
 

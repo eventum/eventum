@@ -310,7 +310,7 @@ class Link_Filter
             foreach ($attachment['files'] as $file) {
                 // TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
                 $title = ev_gettext('download file (%1$s - %2$s)', $file['iaf_filename'], $file['iaf_filesize']);
-                $link = sprintf('<a class="link" title="%s" href="download.php?cat=attachment&id=%d">%s</a>',
+                $link = sprintf('<a class="link" target="_blank" title="%s" href="download.php?cat=attachment&id=%d">%s</a>',
                     htmlspecialchars($title), htmlspecialchars($file['iaf_id']),
                     htmlspecialchars($file['iaf_filename'])
                 );

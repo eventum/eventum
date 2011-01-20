@@ -250,6 +250,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'notes'              => Note::getListing($issue_id),
                     'is_user_assigned'   => Issue::isAssignedToUser($issue_id, $usr_id),
                     'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
+                    'is_user_notified'   => Notification::isUserNotified($issue_id, $usr_id),
                     'phone_entries'      => Phone_Support::getListing($issue_id),
                     'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
                     'checkins'           => SCM::getCheckinList($issue_id),

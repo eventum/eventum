@@ -62,13 +62,19 @@ php database_changes.php
 - Upgrading from version 1.7.1 to 2.0:
 ----------------------------------------
 
+This upgrade will move some configuration files to the new config/
+directory. To let the scripts locate the old configuration copy the
+files config.inc.php, setup.conf.php and include/private_key.php
+to /path-to-eventum/ and /path-to-eventum/include, respectively.
+The latter directory needs to be created with mkdir first.
+
 cd /path-to-eventum/upgrade/v1.7.1_to_v2.0/
 php upgrade_config.php
 php database_changes.php
 
 If you had the IRC bot configured you will have to copy your old
 config from misc/irc/bot.php to config/irc_config.php. An example
-config file is located in setup/irc_config.php
+config file is located in htdocs/setup/irc_config.php
 
 - Upgrading from version 1.7.0 to 1.7.1:
 ----------------------------------------

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-08 11:44+0300\n"
-"PO-Revision-Date: 2010-09-11 08:33+0000\n"
-"Last-Translator: denis <Unknown>\n"
+"POT-Creation-Date: 2010-11-18 12:00+0200\n"
+"PO-Revision-Date: 2010-11-17 22:57+0000\n"
+"Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-09-12 05:01+0000\n"
+"X-Launchpad-Export-Date: 2010-11-19 04:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -114,7 +114,7 @@ msgstr ""
 "(Astuce : les ports par défaut sont 110 pour les serveurs POP3 et 143 pour "
 "les serveurs IMAP)"
 
-#: lib/eventum/class.template_helper.php:172
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(archivé)"
 
@@ -4146,8 +4146,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
-#: templates/notifications/new_user.tpl.text
-#: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
+#: templates/notifications/new_user.tpl.text templates/setup.tpl.html
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -7493,8 +7492,12 @@ msgstr ""
 msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr ""
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:663
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7910,6 +7913,12 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
+"We received a message from %1 and created an issue from it. Since you were a "
+"recipient of the original message, we are sending you the issue details."
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
@@ -8240,6 +8249,12 @@ msgstr ""
 #: templates/attachments.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "download file"
+msgstr ""
+
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html

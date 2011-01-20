@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="eventum" default="all" basedir=".">
+	<property name="project.name" value="${phing.project.name}" />
+	<property name="dir.src" value="." />
+	<property name="dir.test" value="${dir.src}/tests" />
+
+	<!-- show jslint warnings -->
+	<property name="jslint.warnings" value="true" />
+
+	<!-- all targets -->
+	<target name="all" depends="phplint,test"
+		description="Exectute all targets.">
+	</target>
+
+	<!-- phplint -->
+	<target name="phplint" description="Run PHP Lint.">
+		<echo msg="Checking syntax with PHP lint" />
+		<phplint haltonfailure="true">
+			<fileset dir="${dir.src}">
+				<include name="**/*.php" />
+			</fileset>
+		</phplint>
+	</target>
+
+	<!-- jslint -->
+	<target name="jslint" description="Run JSLint.">
+		<echo msg="Checking syntax with JSlint" />
+		<jsllint haltonfailure="true" showwarnings="${jslint.warnings}">
+			<fileset dir="${dir.src}/htdocs/js">
+				<include name="**/*.js" />
+				<!-- skip external libs -->
+				<exclude name="**/jquery/*.js" />
+				<exclude name="dtree.js" />
+			</fileset>
+		</jsllint>
+	</target>
+
+	<!-- test -->
+	<target name="test" description="Run unit tests.">
+		<echo msg="Run PHPUnit tests" />
+		<phpunit haltonerror="true" haltonfailure="true" printsummary="true">
+			<formatter usefile="false" type="plain" />
+			<batchtest>
+				<fileset dir="${dir.test}">
+					<include name="**/*Test.php" />
+				</fileset>
+			</batchtest>
+		</phpunit>
+	</target>
+</project>
