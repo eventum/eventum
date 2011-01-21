@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-02 16:48+0200\n"
+"POT-Creation-Date: 2011-01-19 12:35+0200\n"
 "PO-Revision-Date: 2011-01-14 14:36+0000\n"
 "Last-Translator: alessandro rossignoli <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-15 06:04+0000\n"
+"X-Launchpad-Export-Date: 2011-01-20 04:56+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -202,7 +202,7 @@ msgstr "Un nuovo utente è stato appena creato per te nel sistema."
 msgid "ADDED"
 msgstr "AGGIUNTO"
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "AVVISO: la risposta sarà inviata all'elenco notifiche."
 
@@ -2087,7 +2087,7 @@ msgstr "Email #%1$s: %2$s"
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (oggetto: '%1$s') associata da %2$s"
 
-#: lib/eventum/class.support.php:1845
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (oggetto: '%1$s') dissociata da %2$s"
@@ -2195,7 +2195,7 @@ msgstr "Email per Periodo di Temp"
 msgid "Email by time period"
 msgstr "Email per periodo di tempo"
 
-#: lib/eventum/class.support.php:2569
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email da '%1$s' bloccata"
@@ -4057,7 +4057,7 @@ msgstr "Scarica solo messaggi non letti"
 msgid "Only for Known Customers?"
 msgstr "Solo per clienti conosciuti?"
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4151,7 +4151,7 @@ msgstr "Indirizzo mittente email in uscita"
 msgid "Outgoing Email Sender Name"
 msgstr "Nome mittente email in uscita"
 
-#: lib/eventum/class.support.php:2203
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email in uscita inviata da %1$s"
@@ -5459,6 +5459,20 @@ msgid ""
 msgstr ""
 "Ridirezionamento della finestra principale alla pagina dei report "
 "segnalazioni. Questa finestra sarà chiusa automaticamente."
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [%1$s] %2$s"
+msgstr ""
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -7671,7 +7685,7 @@ msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:663
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7977,7 +7991,7 @@ msgstr ""
 "ATTENZIONE: La conversione di questa nota in email invierà l'email a tutti i "
 "clienti indicati nell'elenco notifiche di questa segnalazione."
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "ATTENZIONE: se rispondi, aggiungi prima te stesso all'elenco dei "
@@ -8045,7 +8059,7 @@ msgstr ""
 "Se desideri che tutti gli utenti ricevano il messaggio ora, clicca su OK.\n"
 "Altrimenti, per tornare alla finestra di modifica, premi ANNULLA."
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
