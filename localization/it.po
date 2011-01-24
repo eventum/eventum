@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-01-14 14:36+0000\n"
-"Last-Translator: alessandro rossignoli <Unknown>\n"
+"PO-Revision-Date: 2011-01-23 16:26+0000\n"
+"Last-Translator: Federico Culloca <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
+"X-Launchpad-Export-Date: 2011-01-24 04:56+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -1297,7 +1297,7 @@ msgstr "Cambiare la tipologia del campo puo far perdere informazioni"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Controlla spazio su disco"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
@@ -1941,6 +1941,7 @@ msgstr "Un E-mail relativa agli aggiornamenti sul problema è stata spedita a"
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
+"ERRORE: Spazio libero su disco quasi esaurito (percentuale rimanente: %.2f%%)"
 
 #: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -1949,7 +1950,7 @@ msgstr "ERRORE: pid dell'IRC bot non trovato nell'elenco processi."
 #: lib/eventum/class.monitor.php:238
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "ERRORE: Impossibile trovare la tabella richiesta \"%s\""
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
@@ -1968,7 +1969,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:97
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "ERRORE: File non trovato(percorso: %s)"
 
 #: lib/eventum/class.monitor.php:108
 #, php-format
@@ -2009,6 +2010,7 @@ msgstr ""
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"ERRORE: Spazio su disco rimanente molto basso (percentuale rimanente %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -2023,6 +2025,8 @@ msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
+"ERRORE: Il sistema non possiede i permessi necessari per aggiornare il file "
+"di configurazione nella cartella di installazione"
 
 #: lib/eventum/class.monitor.php:54
 #, php-format
