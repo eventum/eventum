@@ -151,6 +151,9 @@ class Mime_Helper
                         $text = str_replace('='.$value, chr(hexdec($value)), $text);
                     break;
             }
+            if (!empty($charset)) {
+                $text = iconv($charset, APP_CHARSET, $text);
+            }
             $input = str_replace($encoded, $text, $input);
         }
         return $input;
