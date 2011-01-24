@@ -668,34 +668,49 @@ class User
      */
     function getDetails($usr_id)
     {
+        $res = self::getDetailsAssoc(array($usr_id));
+        return reset($res);
+    }
+
+    /**
+     * Method used to get the account details of a list users.
+     *
+     * @param   array $usr_ids The user ID
+     * @return  array List of accounts with account details
+     */
+    public function getDetailsAssoc($usr_ids)
+    {
         static $returns;
+        $key = md5(serialize($usr_ids));
 
-        if (!empty($returns[$usr_id])) {
-            return $returns[$usr_id];
+        if (empty($returns[$key])) {
+            $stmt = "SELECT
+                        *
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                     WHERE
+                        usr_id IN (" . implode(', ', Misc::escapeInteger($usr_ids)) . ")";
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return null;
+            }
+
+            foreach ($res as $usr_id => &$row) {
+                // FIXME: maybe PEAR has some "fill NULL" mode?
+                if (!isset($row['usr_grp_id'])) {
+                    $row['usr_grp_id'] = null;
+                }
+
+                $row['group'] = Group::getName($row['usr_grp_id']);
+                $roles = Project::getAssocList($usr_id, false, true);
+                $row['projects'] = array_keys($roles);
+                $row['roles'] = $roles;
+            }
+            $returns[$key] = $res;
         }
 
-        $stmt = "SELECT
-                    *
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return null;
-        }
-
-        // do not fill empty projects, roles, groups for inexistent users
-        if (!empty($res)) {
-            $roles =  Project::getAssocList($usr_id, false, true);
-            $res['projects'] = @array_keys($roles);
-            $res['roles'] = $roles;
-            $res['group'] = Group::getName($res['usr_grp_id']);
-        }
-
-        $returns[$usr_id] = $res;
-        return $res;
+        return $returns[$key];
     }
 
 
