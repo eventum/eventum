@@ -107,6 +107,11 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $subject = 're[2]: re: subject';
         $res = $this->object->RemoveExcessRe($subject);
         $this->assertEquals($res, 'Re: subject', 're[2]: with squares');
+
+        // Italian
+        $subject = 'RIF: rif: Rif.: subject';
+        $res = $this->object->RemoveExcessRe($subject);
+        $this->assertEquals($res, 'Re: subject', 'RIF/rif prefix');
     }
 
     public function testRemoveExcessReIssueId()
