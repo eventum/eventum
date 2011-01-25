@@ -27,4 +27,11 @@
 /*
  * Setup autoload for tests.
  */
+
+// check that init.php won't redirect us to setup page
+$config = dirname(__FILE__) . '/../config/config.php';
+if (!file_exists($config) || !filesize($config)) {
+    throw new Exception("ERROR: config/config.php not present, tests will not run");
+}
+
 require_once dirname(__FILE__).'/../init.php';
