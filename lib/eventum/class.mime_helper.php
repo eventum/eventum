@@ -122,10 +122,10 @@ class Mime_Helper
         return $str;
     }
 
-
     /**
      * Method used to fix the encoding of MIME based strings.
      *
+     * @todo    replace with iconv_mime_decode or similar call
      * @access  public
      * @param   string $input The string to be fixed
      * @return  string The fixed string
@@ -150,6 +150,9 @@ class Mime_Helper
                     foreach($matches[1] as $value)
                         $text = str_replace('='.$value, chr(hexdec($value)), $text);
                     break;
+            }
+            if (!empty($charset)) {
+                $text = iconv($charset, APP_CHARSET, $text);
             }
             $input = str_replace($encoded, $text, $input);
         }

@@ -82,4 +82,19 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
         echo "Klaar\n";
 */
     }
+     
+    public function testFixEncoding()
+    {
+        // iconv test from php manual
+        $string = '=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=';
+        $exp = 'Prüfung Prüfung';
+        $res = $this->object->fixEncoding($string);
+        $this->assertEquals($exp, $res);
+
+        // test that result is returned to APP_CHARSET
+        $string = '=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=';
+        $exp = 'Jäägermeister';
+        $res = $this->object->fixEncoding($string);
+        $this->assertEquals($exp, $res);
+    }
 }
