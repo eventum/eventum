@@ -317,16 +317,25 @@ class Time_Tracking
             return 0;
         } else {
             $total_time_spent = 0;
+            $total_time_by_user = array();
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
                 $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
                 $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
 
+                $add = isset($total_time_by_user[$res[$i]['usr_full_name']]) ? $total_time_by_user[$res[$i]['usr_full_name']] : 0;
+                $total_time_by_user[$res[$i]['usr_full_name']] = $add + $res[$i]['ttr_time_spent'];
+
                 $total_time_spent += $res[$i]["ttr_time_spent"];
             }
+            arsort($total_time_by_user);
+            foreach ($total_time_by_user as $k => $i) {
+                $total_time_by_user[$k] = Misc::getFormattedTime($i);
+            }
             return array(
-                "total_time_spent" => Misc::getFormattedTime($total_time_spent),
-                "list"             => $res
+                "total_time_spent"         => Misc::getFormattedTime($total_time_spent),
+                "total_time_spent_by_user" => $total_time_by_user,
+                "list"                     => $res
             );
         }
     }
