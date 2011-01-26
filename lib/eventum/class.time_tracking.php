@@ -333,9 +333,9 @@ class Time_Tracking
                 $ttr_time_spent = Misc::getFormattedTime($ttr_time_spent);
             }
             return array(
-                "total_time_spent"         => Misc::getFormattedTime($total_time_spent),
-                "total_time_spent_by_user" => $total_time_by_user,
-                "list"                     => $res
+                "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
+                "total_time_by_user" => $total_time_by_user,
+                "list"               => $res
             );
         }
     }
