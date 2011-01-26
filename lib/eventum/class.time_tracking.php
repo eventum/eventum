@@ -329,8 +329,8 @@ class Time_Tracking
                 $total_time_spent += $res[$i]["ttr_time_spent"];
             }
             arsort($total_time_by_user);
-            foreach ($total_time_by_user as $k => $i) {
-                $total_time_by_user[$k] = Misc::getFormattedTime($i);
+            foreach ($total_time_by_user as $usr_full_name => &$ttr_time_spent) {
+                $ttr_time_spent = Misc::getFormattedTime($ttr_time_spent);
             }
             return array(
                 "total_time_spent"         => Misc::getFormattedTime($total_time_spent),
