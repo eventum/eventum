@@ -106,7 +106,7 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res, 're: once');
 
         $subject = 're: re: subject';
-        $exp = 're: subject';
+        $exp = 'Re: subject';
         $res = $this->object->RemoveExcessRe($subject);
         $this->assertEquals($exp, $res, 're: twice');
 
