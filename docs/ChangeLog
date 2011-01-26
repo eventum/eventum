@@ -24,7 +24,7 @@ Eventum Issue Tracking System
 - Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
 - Allow translating 'Re: ' in email subjects (Elan Ruusamäe)
 - Add 'Subscribe Me' button to issue details screen for quickly add user itself to default notification options (Elan Ruusamäe)
-- Respect charset when processing Mime_Helper::fixEncoding, [merge req#47336]
+- Fix charset when processing Mime_Helper::fixEncoding (replaced by decodeQuotedPrintable)
 - Recognize Italian reply prefix in mail subject (Harri Porten)
 
 2010-08-19, Version 2.3
