@@ -26,6 +26,7 @@ Eventum Issue Tracking System
 - Add 'Subscribe Me' button to issue details screen for quickly add user itself to default notification options (Elan Ruusamäe)
 - Fix charset when processing Mime_Helper::fixEncoding (replaced by decodeQuotedPrintable)
 - Recognize Italian reply prefix in mail subject (Harri Porten)
+- Show summary of users time tracking if there are more than one user timetracking record (Raul Raat)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)

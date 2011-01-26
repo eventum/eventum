@@ -317,16 +317,30 @@ class Time_Tracking
             return 0;
         } else {
             $total_time_spent = 0;
+            $total_time_by_user = array();
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
                 $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
                 $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
 
+                if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
+                   $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+                } else {
+                    $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
+                        'usr_full_name' => $res[$i]['usr_full_name'],
+                        'time_spent'    => $res[$i]['ttr_time_spent']
+                    );
+                }
                 $total_time_spent += $res[$i]["ttr_time_spent"];
             }
+            usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
+            foreach ($total_time_by_user as &$item) {
+                $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
+            }
             return array(
-                "total_time_spent" => Misc::getFormattedTime($total_time_spent),
-                "list"             => $res
+                "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
+                "total_time_by_user" => $total_time_by_user,
+                "list"               => $res
             );
         }
     }
