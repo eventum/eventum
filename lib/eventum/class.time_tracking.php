@@ -323,14 +323,19 @@ class Time_Tracking
                 $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
                 $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
 
-                $add = isset($total_time_by_user[$res[$i]['usr_full_name']]) ? $total_time_by_user[$res[$i]['usr_full_name']] : 0;
-                $total_time_by_user[$res[$i]['usr_full_name']] = $add + $res[$i]['ttr_time_spent'];
-
+                if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
+                   $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+                } else {
+                    $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
+                        'usr_full_name' => $res[$i]['usr_full_name'],
+                        'time_spent'    => $res[$i]['ttr_time_spent']
+                    );
+                }
                 $total_time_spent += $res[$i]["ttr_time_spent"];
             }
-            arsort($total_time_by_user);
-            foreach ($total_time_by_user as $usr_full_name => &$ttr_time_spent) {
-                $ttr_time_spent = Misc::getFormattedTime($ttr_time_spent);
+            usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
+            foreach ($total_time_by_user as &$item) {
+                $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
             }
             return array(
                 "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
