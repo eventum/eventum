@@ -28,10 +28,18 @@
  * Setup autoload for tests.
  */
 
-// check that init.php won't redirect us to setup page
-$config = dirname(__FILE__) . '/../config/config.php';
-if (!file_exists($config) || !filesize($config)) {
-    throw new Exception("ERROR: config/config.php not present, tests will not run");
-}
+// we init paths ourselves like init.php does, to be independant and not 
+// needing actual config being present.
+define('APP_PATH', realpath(dirname(__FILE__).'/..'));
+define('APP_CONFIG_PATH', APP_PATH . '/config');
+define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+define('APP_INC_PATH', APP_PATH . '/lib/eventum');
+define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
+define('APP_SYSTEM_USER_ID', 1);
+define('APP_CHARSET', 'utf-8');
+define('APP_DEFAULT_LOCALE', 'en_US');
 
-require_once dirname(__FILE__).'/../init.php';
+require_once APP_INC_PATH . '/autoload.php';
+
+// this setups ev_gettext wrappers
+Language::setup();
