@@ -58,8 +58,9 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
     public function testEncodeQuotedPrintable()
     {
         $string = "61.jpg";
-        $qp = $this->object->encodeQuotedPrintable($string);
-        $this->assertEquals($qp, '=?utf-8?B?NjEuanBn?=', 'do not overflow');
+        $exp = '=?utf-8?B?NjEuanBn?=';
+        $res = $this->object->encodeQuotedPrintable($string);
+        $this->assertEquals($exp, $res, 'do not overflow');
 
 /*
         // avoid any wrapping by specifying line length long enough
