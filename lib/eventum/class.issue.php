@@ -2416,25 +2416,25 @@ class Issue
             'rows'           => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
             'pagerRow'       => self::getParam('pagerRow'),
             'hide_closed'    => $hide_closed,
-            "sort_by"        => $sort_by ? $sort_by : "pri_rank",
-            "sort_order"     => $sort_order ? $sort_order : "ASC",
+            "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
+            "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
             "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
-            'search_type'    => $search_type,
-            'users'          => self::getParam('users'),
-            'status'         => self::getParam('status'),
-            'priority'       => self::getParam('priority'),
-            'category'       => self::getParam('category'),
-            'customer_email' => self::getParam('customer_email'),
+            'search_type'    => Misc::stripHTML($search_type),
+            'users'          => Misc::escapeInteger(self::getParam('users')),
+            'status'         => Misc::escapeInteger(self::getParam('status')),
+            'priority'       => Misc::escapeInteger(self::getParam('priority')),
+            'category'       => Misc::escapeInteger(self::getParam('category')),
+            'customer_email' => Misc::stripHTML(self::getParam('customer_email')),
             // advanced search form
-            'show_authorized_issues'        => self::getParam('show_authorized_issues'),
-            'show_notification_list_issues' => self::getParam('show_notification_list_issues'),
-            'reporter'       => self::getParam('reporter'),
+            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues')),
+            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues')),
+            'reporter'       => Misc::escapeInteger(self::getParam('reporter')),
             // other fields
-            'release'        => self::getParam('release'),
+            'release'        => Misc::escapeInteger(self::getParam('release')),
             // custom fields
-            'custom_field'   => $custom_field
+            'custom_field'   => Misc::stripHTML($custom_field)
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
@@ -2445,7 +2445,7 @@ class Issue
             'closed_date'
         );
         foreach ($date_fields as $field_name) {
-            $field = self::getParam($field_name);
+            $field = Misc::stripHTML(self::getParam($field_name));
             if (empty($field)) {
                 continue;
             }
@@ -2456,7 +2456,7 @@ class Issue
                 );
             } else {
                 $end_field_name = $field_name . '_end';
-                $end_field = self::getParam($end_field_name);
+                $end_field = Misc::stripHTML(self::getParam($end_field_name));
                 @$cookie[$field_name] = array(
                     'past_hour'   => $field['past_hour'],
                     'Year'        => $field['Year'],

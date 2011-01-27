@@ -400,6 +400,26 @@ class Misc
 
 
     /**
+     * Method used to strip HTML from a string or array
+     *
+     * @access  public
+     * @param   string $str The original string or array
+     * @return  string The escaped (or not) string
+     */
+    function stripHTML($input)
+    {
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = self::stripHTML($value);
+            }
+        } else {
+            $input = filter_var($input, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+        return $input;
+    }
+
+
+    /**
      * Method used to prepare a set of fields and values for a boolean search
      *
      * @access  public
