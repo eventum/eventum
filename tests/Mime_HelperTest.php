@@ -60,7 +60,7 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
         echo "Klaar\n";
 */
     }
-     
+
     public function testDecodeQuotedPrintable()
     {
         // iconv test from php manual
@@ -75,7 +75,7 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
         $res = Mime_Helper::decodeQuotedPrintable($string);
         $this->assertEquals($exp, $res);
     }
-     
+
     /**
      * Method used to properly quote the sender of a given email address.
      *
@@ -85,10 +85,14 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testQuoteSender()
     {
-        $string = '<email@example.org>';
-        $exp = 'email@example.org';
-        $res = Mime_Helper::quoteSender($string);
-        $this->assertEquals($exp, $res);
+        $test_data = array(
+            '<email@example.org>'   =>  'email@example.org',
+            'John Doe <email@example.org>'   =>  '"John Doe" <email@example.org>',
+        );
+        foreach ($test_data as $string => $exp) {
+            $res = Mime_Helper::quoteSender($string);
+            $this->assertEquals($exp, $res);
+        }
     }
 
     /**
@@ -100,9 +104,13 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
      */
     function testRemoveQuotes()
     {
-        $string = '<email@example.org>';
-        $exp = 'email@example.org';
-        $res = Mime_Helper::removeQuotes($string);
-        $this->assertEquals($exp, $res);
+        $test_data = array(
+            '<email@example.org>'   =>  'email@example.org',
+            '"John Doe" <email@example.org>'   =>  'John Doe <email@example.org>',
+        );
+        foreach ($test_data as $string => $exp) {
+            $res = Mime_Helper::removeQuotes($string);
+            $this->assertEquals($exp, $res);
+        }
     }
 }
