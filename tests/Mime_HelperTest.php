@@ -75,4 +75,34 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
         $res = Mime_Helper::decodeQuotedPrintable($string);
         $this->assertEquals($exp, $res);
     }
+     
+    /**
+     * Method used to properly quote the sender of a given email address.
+     *
+     * @access  public
+     * @param   string $address The full email address
+     * @return  string The properly quoted email address
+     */
+    public function testQuoteSender()
+    {
+        $string = '<email@example.org>';
+        $exp = 'email@example.org';
+        $res = Mime_Helper::quoteSender($string);
+        $this->assertEquals($exp, $res);
+    }
+
+    /**
+     * Method used to remove any unnecessary quoting from an email address.
+     *
+     * @access  public
+     * @param   string $address The full email address
+     * @return  string The email address without quotes
+     */
+    function testRemoveQuotes()
+    {
+        $string = '<email@example.org>';
+        $exp = 'email@example.org';
+        $res = Mime_Helper::removeQuotes($string);
+        $this->assertEquals($exp, $res);
+    }
 }
