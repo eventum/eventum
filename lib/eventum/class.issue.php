@@ -2418,7 +2418,7 @@ class Issue
             'hide_closed'    => $hide_closed,
             "sort_by"        => $sort_by ? $sort_by : "pri_rank",
             "sort_order"     => $sort_order ? $sort_order : "ASC",
-            "customer_id"    => self::getParam('customer_id'),
+            "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
             'search_type'    => $search_type,
