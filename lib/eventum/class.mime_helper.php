@@ -140,11 +140,15 @@ class Mime_Helper
     function quoteSender($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part . ' ' . $second_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part . ' ' . $second_part;
+            }
         }
         return $address;
     }
@@ -160,10 +164,14 @@ class Mime_Helper
     function removeQuotes($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part;
+            }
         }
         if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);

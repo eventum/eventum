@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Fix charset when processing Mime_Helper::fixEncoding (replaced by decodeQuotedPrintable)
 - Recognize Italian reply prefix in mail subject (Harri Porten)
 - Show summary of users time tracking if there are more than one user timetracking record (Raul Raat)
+- Fixed bug with quoting email addresses when they are surrounded by < > (Bryan Alsdorf)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
