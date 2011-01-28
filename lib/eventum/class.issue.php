@@ -2413,8 +2413,8 @@ class Issue
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = array(
-            'rows'           => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
-            'pagerRow'       => self::getParam('pagerRow'),
+            'rows'           => Misc::escapeInteger($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
+            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow')),
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
