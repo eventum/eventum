@@ -61,19 +61,24 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
 */
     }
 
-    public function testDecodeQuotedPrintable()
+    /**
+     * @dataProvider dataDecodeQuotedPrintable
+     */
+    public function testDecodeQuotedPrintable($str, $exp)
     {
-        // iconv test from php manual
-        $string = '=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=';
-        $exp = 'Prüfung Prüfung';
-        $res = Mime_Helper::decodeQuotedPrintable($string);
+        $res = Mime_Helper::decodeQuotedPrintable($str);
         $this->assertEquals($exp, $res);
+    }
 
-        // test that result is returned to APP_CHARSET
-        $string = '=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=';
-        $exp = 'Jäägermeister';
-        $res = Mime_Helper::decodeQuotedPrintable($string);
-        $this->assertEquals($exp, $res);
+    public function dataDecodeQuotedPrintable()
+    {
+        return array(
+            // iconv test from php manual
+            array('=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=', 'Prüfung Prüfung'),
+
+            // test that result is returned to APP_CHARSET
+            array('=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=', 'Jäägermeister'),
+        );
     }
 
     /**
