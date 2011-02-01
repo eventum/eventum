@@ -78,6 +78,10 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
 
             // test that result is returned to APP_CHARSET
             array('=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=', 'Jäägermeister'),
+
+            // bug
+            array('Subject: =?iso-8859-15?Q?n=FC=FCd_ei_t=F6=F6ta_adminni_publish_nupp_?=', 'Subject: nüüd ei tööta adminni publish nupp '),
+            array('Subject: nüüd ei tööta adminni publish nupp ', 'Subject: nüüd ei tööta adminni publish nupp '),
         );
     }
 
