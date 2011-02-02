@@ -2566,7 +2566,7 @@ class Issue
      * @param   integer $prj_id The current project ID
      * @param   array $options The search parameters
      * @param   integer $current_row The current page number
-     * @param   integer $max The maximum number of rows per page
+     * @param   integer $max The maximum number of rows per page. 'ALL' for unlimited.
      * @return  array The list of issues to be displayed
      */
     function getListing($prj_id, $options, $current_row = 0, $max = 5)
