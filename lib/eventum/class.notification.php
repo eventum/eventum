@@ -919,7 +919,8 @@ class Notification
         for ($i = 0; $i < count($emails); $i++) {
 
             $can_access = true;
-            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]));
+            $email_address = Mail_Helper::getEmailAddress($emails[$i]);
+            $recipient_usr_id = User::getUserIDByEmail($email_address);
             if (!empty($recipient_usr_id)) {
                 if (!Issue::canAccess($issue_id, $recipient_usr_id)) {
                     $can_access = false;
@@ -941,6 +942,11 @@ class Notification
             if ($can_access != true) {
                 continue;
             }
+
+            if (!Workflow::shouldEmailAddress(Issue::getProjectID($issue_id), $email_address, $issue_id, $type)) {
+                continue;
+            }
+
 
             // change the current locale
             if (!empty($recipient_usr_id)) {
@@ -1795,7 +1801,7 @@ class Notification
      *
      * @access  public
      * @param   integer $issue_id The id of the issue.
-     * @param   integer $usr_id The user to check. 
+     * @param   integer $usr_id The user to check.
      * @return  boolean If the specified user is notified in the issue.
      */
     function isUserNotified($issue_id, $usr_id)
