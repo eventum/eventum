@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-19 12:35+0200\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: 2011-01-08 18:06+0000\n"
 "Last-Translator: Jens Maucher <Unknown>\n"
 "Language-Team: German\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-20 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -347,6 +347,10 @@ msgstr "Weitere Empfäger zur Benachrichtigungsliste hinzufügen?"
 #: templates/new.tpl.html
 msgid "Add Files"
 msgstr "Neue Dateien hinzufügen"
+
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -4035,22 +4039,22 @@ msgstr "Benachrichtigungsliste:"
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Eintrag in der Benachrichtigungsliste (%1$s) von  %2$s hinzugefügt"
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Eintrag in der Benachrichtigungsliste (%1$s) von %2$s entfernt"
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Eintrag in der Benachrichtigungsliste ('%1$s') von %2$s hinzugefügt"
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Eintrag in der Benachrichtigungsliste ('%1$s') von %2$s aktualisiert"
@@ -5527,7 +5531,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
 #: lib/eventum/class.issue.php:826
 #, php-format
-msgid "Re: [%1$s] %2$s"
+msgid "Re: [#%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
