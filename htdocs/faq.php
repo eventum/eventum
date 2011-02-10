@@ -46,7 +46,7 @@ if (!Customer::hasCustomerIntegration($prj_id)) {
     } else {
         if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
             // show all FAQ entries
-            $support_level_id = -1;
+            $support_level_ids = array();
         } else {
             $customer_id = User::getCustomerID(Auth::getUserID());
             $details = Customer::getDetails($prj_id, $customer_id);
