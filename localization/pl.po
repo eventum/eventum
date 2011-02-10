@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-19 12:35+0200\n"
-"PO-Revision-Date: 2010-04-22 07:54+0000\n"
-"Last-Translator: Bartosz Kaszubowski <gosimek@gmail.com>\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
+"PO-Revision-Date: 2011-01-21 20:26+0000\n"
+"Last-Translator: NIXin <bart8472@gmail.com>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2011-01-20 04:57+0000\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:56+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -27,8 +27,8 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Jeżeli chcesz poznać szczegóły lub zmodyfikować tę informację - kliknij na "
-"podany URL"
+"Jeżeli chcesz poznać szczegóły lub zmodyfikować to zgłoszenie - kliknij na "
+"następujący link"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -42,12 +42,12 @@ msgstr "% ukończenia"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "Pole %1"
 
 #: lib/eventum/class.filter.php:670
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "Grupa %1$s"
 
 #: lib/eventum/class.filter.php:599
 #, php-format
@@ -64,6 +64,8 @@ msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"%2 temu"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -73,7 +75,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Wszystkie zgłoszenia)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -85,7 +87,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "(Kwestie Otwarte)"
+msgstr "(Zgłoszenia otwarte)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -157,7 +159,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Wybierz --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -180,11 +182,11 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr "Nowe zgłoszenie zostało właśnie stworzone i przypisane do ciebie."
+msgstr "Nowe zgłoszenie zostało właśnie stworzone i przypisane do Ciebie."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr ""
+msgstr "Nowe zgłoszenie zostało właśnie stworzone."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
@@ -217,15 +219,15 @@ msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "I / LUB"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr ""
+msgstr "Skrót"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Skrót:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
@@ -233,11 +235,11 @@ msgstr "Tworzenie konta"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr "Menadżer Kont"
+msgstr "Menadżer kont"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr "Menadżer Kont:"
+msgstr "Menadżer kont:"
 
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
@@ -277,7 +279,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "Włączony"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -294,35 +296,35 @@ msgstr "Dodaj"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Dodaj / Edytuj kategorie"
+msgstr "Dodaj / edytuj kategorie"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr ""
+msgstr "Dodaj / zmień kategorie wsparcia telefonicznego"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr ""
+msgstr "Dodaj / zmień priorytety"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr ""
+msgstr "Dodaj / zmień wydania"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "Dodaj czynność"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
-msgstr ""
+msgstr "Dodaj osobę upoważnioną do odpowiedzi"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Dodaj warunek"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr "Dodaj podpis do wiadomości"
+msgstr "Dodaj podpis"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
@@ -332,9 +334,13 @@ msgstr ""
 msgid "Add Files"
 msgstr "Dodaj pliki"
 
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr "Dodaj mnie do osób powiadamianych"
+
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
-msgstr ""
+msgstr "Dodaj mnie do przypisanych."
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
@@ -342,7 +348,7 @@ msgstr "Dodaj nowe pliki"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr "Dodaje nowe wymaganie"
+msgstr "Dodaj nowe wymaganie"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
@@ -382,7 +388,7 @@ msgstr "Administrator"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Opcje zaawansowane"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -448,7 +454,7 @@ msgstr "Wszystko"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "Wszystkie zgłoszenia"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -770,11 +776,11 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Anonymous Reporting"
-msgstr ""
+msgstr "Anonimowe zgłaszania"
 
 #: templates/manage/manage.tpl.html
 msgid "Anonymous Reporting Options"
-msgstr ""
+msgstr "Opcje anonimowego zgłaszania"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting of New Issues"
@@ -782,7 +788,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
-msgstr ""
+msgstr "Anonimowe zgłaszania:"
 
 #: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
@@ -973,15 +979,15 @@ msgstr "Załączniki:"
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
-msgstr ""
+msgstr "Upoważnieni do odpowiedzi"
 
 #: templates/update_form.tpl.html
 msgid "Authorized Repliers:"
-msgstr ""
+msgstr "Upoważnieni do odpowiedzi:"
 
 #: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
-msgstr "Uprawniony do wysyłania maili"
+msgstr "Upoważniony do wysyłania maili"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -1065,7 +1071,7 @@ msgstr "Wróć"
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
 msgid "Back to Login Form"
-msgstr "Powrót do formularze logowania"
+msgstr "Wróć do formularza logowania"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Back to Reminder Action List"
@@ -1089,7 +1095,8 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
-msgstr "Na podstawie wszystkich zgłoszeń zapisanych do teraz w Eventum."
+msgstr ""
+"Na podstawie wszystkich zgłoszeń dodanych do dnia dzisiejszego włącznie."
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Based on all open issue in Eventum for <b>%1</b>."
@@ -1121,11 +1128,11 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr "Aktualizuj zbiorczo"
+msgstr "Hurtowa aktualizacja"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
-msgstr "Aktualizuj zbiorczo"
+msgstr "Narzędzie hurtowej aktualizacji"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Customer"
@@ -1141,11 +1148,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
-msgstr ""
+msgstr "W TRAKCIE PRACY"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED OUT"
-msgstr ""
+msgstr "NIE PRACUJĘ"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call From"
@@ -1169,7 +1176,7 @@ msgstr "Anuluj aktualizację"
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
-msgstr ""
+msgstr "Szablonowe odpowiedzi"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
@@ -1283,11 +1290,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Clock In"
-msgstr ""
+msgstr "Zacznij pracę"
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
-msgstr ""
+msgstr "Skończ pracę"
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1435,7 +1442,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
-msgstr ""
+msgstr "Dodaj szablonową odpowiedź"
 
 #: templates/manage/faq.tpl.html
 msgid "Create FAQ Entry"
@@ -1455,7 +1462,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
-msgstr "Utwórz nowe Zgłoszenie."
+msgstr "Dodawanie nowego zgłoszenia"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
@@ -1520,7 +1527,7 @@ msgstr ""
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
 msgid "Current Project"
-msgstr "Aktualnie otwarty projekt"
+msgstr "Aktywny projekt"
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
 msgid "Current Project:"
@@ -1588,7 +1595,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
-msgstr ""
+msgstr "Backend systemu integracji klienta"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
@@ -1688,7 +1695,7 @@ msgstr "Dni"
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Days and Hours Since"
-msgstr "Dni i godzin od"
+msgstr "Dni i godziny od"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Dear"
@@ -1940,7 +1947,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
-msgstr ""
+msgstr "Zmień upoważnionych do odpowiadania"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Categories"
@@ -2102,11 +2109,11 @@ msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:50
 msgid "Email by Time Period"
-msgstr ""
+msgstr "Email wg czasowej ramy"
 
 #: templates/reports/tree.tpl.html
 msgid "Email by time period"
-msgstr "Emaili wg okresów czasowych"
+msgstr "Emaili wg czasowych ram"
 
 #: lib/eventum/class.support.php:2570
 #, php-format
@@ -2141,7 +2148,7 @@ msgstr ""
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
-msgstr "emaili"
+msgstr "Wszystkie emaile"
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
@@ -2161,7 +2168,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Staff"
-msgstr ""
+msgstr "Emaile wg pracowników"
 
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
@@ -2386,11 +2393,11 @@ msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Existing Authorized Repliers for this Issue"
-msgstr ""
+msgstr "Osoby aktualnie upoważnione do odpowiedzi"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Existing Canned Email Responses:"
-msgstr ""
+msgstr "Dostępne szablonowe odpowiedzi:"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
@@ -2556,7 +2563,7 @@ msgstr "Filtruj po dacie doręczenia:"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
-msgstr ""
+msgstr "Pierwsza odpowiedź pracownika"
 
 #: lib/eventum/class.filter.php:754
 msgid "First Response Date"
@@ -2564,7 +2571,7 @@ msgstr "Czas pierwszej odpowiedzi"
 
 #: templates/adv_search.tpl.html
 msgid "First Response by Staff"
-msgstr ""
+msgstr "Pierwsza odpowiedź pracownika"
 
 #: templates/spell_check.tpl.html
 msgid "Fix Spelling"
@@ -2586,11 +2593,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
-msgstr "Od"
+msgstr "Nadawca"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr "Od:"
+msgstr "Nadawca:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2632,7 +2639,7 @@ msgstr "Wyszukiwanie globalne"
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"
-msgstr "Idź"
+msgstr "Przejdź"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
@@ -2647,7 +2654,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Greater Than"
-msgstr "Większe od"
+msgstr "Większe niż"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
@@ -2721,7 +2728,7 @@ msgstr ""
 #: lib/eventum/class.filter.php:776 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
-msgstr "Ukryj zamknięte sprawy"
+msgstr "Ukryj zamknięte zgłoszenia"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "History of Changes"
@@ -2761,7 +2768,7 @@ msgstr "Mimo to pojawiły się następujące problemy:"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
-msgstr "Zapomniałem swojego hasła"
+msgstr "Zapomniałem hasło"
 
 #: templates/manage/reminders.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -2889,6 +2896,8 @@ msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
+"Aby %1 działało, musisz włączyć obsługę ciasteczek w przeglądarce. Proszę "
+"zaloguj się ponownie, akceptując wszystkie ciasteczka."
 
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
@@ -2925,12 +2934,7 @@ msgstr ""
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
-msgstr ""
-"Opis problemu.\n"
-"\n"
-"Opisz rodzaj problemu, ścieżkę postępowania, która\n"
-"doprowadziła do wystąpienia problemu, jaki rezultat był oczekiwany\n"
-"a co zamiast tego się wydarzyło."
+msgstr "Wstępny opis zgłoszenia"
 
 #: templates/impact_analysis.tpl.html
 msgid "Initial Impact Analysis"
@@ -2951,7 +2955,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
-msgstr ""
+msgstr "Wewnętrzne FAQ"
 
 #: templates/manage/general.tpl.html
 msgid "Internal Note Routing Interface:"
@@ -3076,19 +3080,19 @@ msgstr "Zgłoszenia wg przypisanych osób"
 
 #: htdocs/stats_chart.php:76 templates/main.tpl.html
 msgid "Issues by Category"
-msgstr "Zgłoszenia wg Kategorii"
+msgstr "Zgłoszenia wg kategorii"
 
 #: htdocs/stats_chart.php:70 templates/main.tpl.html
 msgid "Issues by Priority"
-msgstr "Zgłoszenia wg Priorytetu"
+msgstr "Zgłoszenia wg priorytetu"
 
 #: htdocs/stats_chart.php:67 templates/main.tpl.html
 msgid "Issues by Release"
-msgstr ""
+msgstr "Zgłoszeń wg wydań"
 
 #: htdocs/stats_chart.php:55 templates/main.tpl.html
 msgid "Issues by Status"
-msgstr "Zgłoszenia wg Statusu"
+msgstr "Zgłoszenia wg statusu"
 
 #: templates/reports/tree.tpl.html
 msgid "Issues by User"
@@ -3123,7 +3127,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Keep form open to report another issue"
-msgstr "Zachowaj formularz otwarty by utworzyć kolejne zgłoszenie"
+msgstr "Powróć do formularza po zatwierdzeniu, by dodać kolejne zgłoszenie"
 
 #: lib/eventum/class.filter.php:715 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -3161,7 +3165,7 @@ msgstr "Czas ostatniej odpowiedzi"
 
 #: templates/adv_search.tpl.html
 msgid "Last Response by Staff"
-msgstr ""
+msgstr "Ostatnia odpowiedź pracownika"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -3192,7 +3196,7 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Less Than"
-msgstr "Mniejsze od"
+msgstr "Mniejsze niż"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
@@ -3245,7 +3249,7 @@ msgstr ""
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
 msgid "Login"
-msgstr ""
+msgstr "Zaloguj"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Login Time Spent"
@@ -3257,7 +3261,7 @@ msgstr "Wyloguj"
 
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
-msgstr "Log kolejki emaili"
+msgstr "Dziennik kolejki email"
 
 #: templates/mail_queue.tpl.html
 msgid "Mail Queue for Issue #%1"
@@ -3269,97 +3273,97 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Canned Email Responses"
-msgstr ""
+msgstr "Konfiguracja szablonowych odpowiedzi"
 
 #: templates/manage/categories.tpl.html
 msgid "Manage Categories"
-msgstr ""
+msgstr "Konfiguracja kategorii"
 
 #: templates/manage/column_display.tpl.html
 msgid "Manage Columns to Display"
-msgstr ""
+msgstr "Konfiguracja wyświetlanych kolumn"
 
 #: templates/manage/custom_fields.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Custom Fields"
-msgstr ""
+msgstr "Konfiguracja dodatkowych pól"
 
 #: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
-msgstr ""
+msgstr "Konfiguracja menadżerów kont użytkowników"
 
 #: templates/manage/customer_notes.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Quick Notes"
-msgstr ""
+msgstr "Konfiguracja notatek użytkowników"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Email Accounts"
-msgstr ""
+msgstr "Konfiguracja kont e-mail"
 
 #: templates/manage/groups.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Groups"
-msgstr ""
+msgstr "Konfiguracja grup"
 
 #: templates/manage/faq.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Internal FAQ"
-msgstr ""
+msgstr "Zarządzaj wewnętrznym FAQ"
 
 #: templates/manage/manage.tpl.html templates/manage/reminders.tpl.html
 msgid "Manage Issue Reminders"
-msgstr ""
+msgstr "Konfiguracja przypomnień"
 
 #: templates/manage/manage.tpl.html templates/manage/resolution.tpl.html
 msgid "Manage Issue Resolutions"
-msgstr "Zarządzaj rozwiązaniami problemów"
+msgstr "Konfiguracja rozwiązań zgłoszeń"
 
 #: templates/manage/link_filters.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Link Filters"
-msgstr ""
+msgstr "Konfiguracja filtrów połączeniowych"
 
 #: templates/manage/manage.tpl.html templates/manage/news.tpl.html
 msgid "Manage News"
-msgstr ""
+msgstr "Zarządzaj aktualnościami"
 
 #: templates/manage/phone_categories.tpl.html
 msgid "Manage Phone Support Categories"
-msgstr ""
+msgstr "Konfiguracja kategorii wsparcia telefonicznego"
 
 #: templates/manage/priorities.tpl.html
 msgid "Manage Priorities"
-msgstr ""
+msgstr "Konfiguracja priorytetów"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Manage Projects"
-msgstr "Zarządzaj projektami."
+msgstr "Konfiguracja projektów"
 
 #: templates/manage/releases.tpl.html
 msgid "Manage Releases"
-msgstr ""
+msgstr "Konfiguracja projektów"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Manage Reminder Actions"
-msgstr ""
+msgstr "Konfiguracja akcji przypomnień"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Manage Reminder Conditions"
-msgstr ""
+msgstr "Konfiguracja warunków przypomnień"
 
 #: templates/manage/manage.tpl.html templates/manage/round_robin.tpl.html
 msgid "Manage Round Robin Assignments"
-msgstr ""
+msgstr "Konfiguracja zadań karuzelowych"
 
 #: templates/manage/manage.tpl.html templates/manage/statuses.tpl.html
 msgid "Manage Statuses"
-msgstr ""
+msgstr "Konfiguracja statusów"
 
 #: templates/manage/manage.tpl.html templates/manage/time_tracking.tpl.html
 msgid "Manage Time Tracking Categories"
-msgstr ""
+msgstr "Zarządzaj kategoriami śledzenia czasu"
 
 #: templates/manage/manage.tpl.html templates/manage/users.tpl.html
 msgid "Manage Users"
-msgstr ""
+msgstr "Zarządzaj użytkownikami"
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
@@ -3367,7 +3371,7 @@ msgstr "Menedżer"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Menadżer:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3551,7 +3555,7 @@ msgstr "Następne"
 
 #: templates/view_form.tpl.html
 msgid "Next Issue"
-msgstr ""
+msgstr "Następne zgłoszenie"
 
 #: templates/view_email.tpl.html
 msgid "Next Message"
@@ -3631,11 +3635,11 @@ msgstr "Żadne załączniki nie zostały znalezione."
 
 #: templates/authorized_replier.tpl.html
 msgid "No authorized repliers could be found."
-msgstr ""
+msgstr "Brak osób upoważnionych do odpowiedzi."
 
 #: templates/manage/email_responses.tpl.html
 msgid "No canned email responses could be found."
-msgstr ""
+msgstr "Brak szablonowych odpowiedzi"
 
 #: templates/manage/categories.tpl.html
 msgid "No categories could be found."
@@ -3871,22 +3875,22 @@ msgstr "Lista powiadamianych:"
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Wpis w liście powiadomień (%1$s) dodany przez %2$s"
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Wpis w liście powiadomień (%1$s) usunięty przez %2$s"
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Wpis w liście powiadomień (%1$s) dodany przez %2$s"
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Wpis w liście powiadomień (%1$s) uaktualniony przez %2$s"
@@ -3939,7 +3943,7 @@ msgstr "Otwarte zgłoszenie wg przypisania"
 
 #: templates/reports/tree.tpl.html
 msgid "Open Issues By Reporter"
-msgstr "Otwarte zgłoszenia wg Zgłaszających"
+msgstr "Otwarte zgłoszenia wg zgłaszających"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 #: templates/new.tpl.html
@@ -4736,7 +4740,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title for this email response."
-msgstr ""
+msgstr "Podaj tytuł tej odpowiedzi email."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the title for this issue resolution."
@@ -4761,7 +4765,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title for this new email response."
-msgstr ""
+msgstr "Podaj tytuł dla tej nowej odpowiedzi email."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the title for this new issue resolution."
@@ -4842,7 +4846,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title of this email response."
-msgstr ""
+msgstr "Podaj tytuł tej odpowiedzi email."
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the title of this news entry."
@@ -4953,7 +4957,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select a backend"
-msgstr ""
+msgstr "Proszę o wybranie backendu"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please select a valid date for when the phone call took place."
@@ -4993,7 +4997,7 @@ msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Please select at least one of the authorized repliers."
-msgstr ""
+msgstr "Wybierz przynajmniej jedną upoważnioną do odpowiedzi osobę."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -5014,7 +5018,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please select at least one of the email responses."
-msgstr ""
+msgstr "Proszę wybierz przynajmniej jedną z odpowiedzi."
 
 #: templates/manage/groups.tpl.html
 msgid "Please select at least one of the groups."
@@ -5145,7 +5149,7 @@ msgstr "Poprzednie"
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
-msgstr ""
+msgstr "poprzednie zgłoszenie"
 
 #: templates/view_email.tpl.html
 msgid "Previous Message"
@@ -5291,7 +5295,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
 #: lib/eventum/class.issue.php:826
 #, php-format
-msgid "Re: [%1$s] %2$s"
+msgid "Re: [#%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
@@ -5320,7 +5324,7 @@ msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
-msgstr ""
+msgstr "Otrzymany"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent"
@@ -5581,7 +5585,7 @@ msgstr "Raporty"
 
 #: templates/forgot_password.tpl.html
 msgid "Request a Password"
-msgstr "Zapomniałem hasła"
+msgstr "Zresetuj hasło"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Required Field"
@@ -5606,7 +5610,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Requires support for cookies and javascript in your browser"
-msgstr "Wymaga wspierania przez twoją przeglądarkę ciasteczek i javascript'u"
+msgstr "Przeglądarka musi obsługiwać ciasteczka i JavaScript"
 
 #: templates/adv_search.tpl.html templates/authorized_replier.tpl.html
 #: templates/bulk_update.tpl.html templates/manage/account_managers.tpl.html
@@ -5642,7 +5646,7 @@ msgstr "Rozwiązanie"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Response Body:"
-msgstr ""
+msgstr "Treść odpowiedzi:"
 
 #: templates/removed_emails.tpl.html
 msgid "Restore Emails"
@@ -5808,7 +5812,7 @@ msgstr "Wybierz projekt"
 
 #: templates/bulk_update.tpl.html
 msgid "Select closed status to close issue"
-msgstr ""
+msgstr "Wybierz rodzaj zamkniętego statusu"
 
 #: templates/send.tpl.html templates/support_emails.tpl.html
 msgid "Send Email"
@@ -5824,7 +5828,7 @@ msgstr "Czy wysłać powiadomienie gdy zgłoszenie zostanie zamknięte?"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
 msgid "Send Notification To"
-msgstr ""
+msgstr "Wyślij powiadomienia do"
 
 #: templates/attached_emails.tpl.html templates/emails.tpl.html
 #: templates/setup.tpl.html
@@ -5857,7 +5861,7 @@ msgstr "Ustaw"
 
 #: templates/bulk_update.tpl.html
 msgid "Set Close Message"
-msgstr ""
+msgstr "Dodaj wiadomość zamykającą zgłoszenie"
 
 #: templates/manage/field_display.tpl.html
 msgid "Set Display Preferences"
@@ -5925,7 +5929,7 @@ msgstr "Pokazuje wszystkie otwarte zgłoszenia starsze niż "
 
 #: templates/view_form.tpl.html
 msgid "Signup as Authorized Replier"
-msgstr "Zarejestruj się by móc odpowiadać na to zgłoszenie"
+msgstr "Dodaj się do listy upoważnionych do odpowiedzi na to zgłoszenie"
 
 #: templates/login_form.tpl.html
 msgid "Signup for an Account"
@@ -6029,11 +6033,11 @@ msgstr "Sprawdź pisownię"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Staff"
-msgstr ""
+msgstr "Pracownicy"
 
 #: templates/update_form.tpl.html
 msgid "Staff:"
-msgstr "Zespół"
+msgstr "Pracownicy:"
 
 #: templates/reports/tree.tpl.html
 msgid "Stalled Issues"
@@ -6360,11 +6364,11 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was added successfully."
-msgstr ""
+msgstr "Dziękuję! Odpowiedź email została dodana. :-)"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was updated successfully."
-msgstr ""
+msgstr "Dziękuję! Odpowiedź email została zaktualizowana. :-)"
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was queued to be sent successfully."
@@ -6644,7 +6648,7 @@ msgstr "Dziękuję, zostałeś wylogowany z %1"
 
 #: templates/clock_status.tpl.html
 msgid "Thank you, your account clocked-in status was changed successfully."
-msgstr ""
+msgstr "Wskaźnik rozpoczęcia pracy został zaktualizowany."
 
 #: templates/signup.tpl.html
 msgid ""
@@ -6751,6 +6755,9 @@ msgid ""
 "happened, steps to reproduce the problem/issue and what you expected to "
 "happen instead."
 msgstr ""
+"Opisz rodzaj problemu, ścieżkę postępowania, która doprowadziła do "
+"wystąpienia problemu, jaki rezultat był oczekiwany, a co zamiast tego się "
+"wydarzyło."
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -7106,8 +7113,8 @@ msgstr ""
 #: templates/notifications/updated.tpl.text
 msgid "This is an automated message sent at your request from %1"
 msgstr ""
-"To jest automatyczna wiadomość wysłana z  %1\n"
-"Proszę na nią NIE odpowiadać."
+"To jest automatyczna wiadomość wysłana z %1\r\n"
+"Proszę na nią nie odpowiadać."
 
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -7116,7 +7123,7 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "This is an automated message sent from %1"
-msgstr ""
+msgstr "To jest automatyczna wiadomość wysłana z %1"
 
 #: templates/redeem_incident.tpl.html
 msgid "This issue already has been marked as redeemed"
@@ -7322,6 +7329,8 @@ msgstr "Do"
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
+"By dodać więcej informacji do tego zgłoszenia, po prostu odpowiedz na ten "
+"email."
 
 #: templates/help/email_blocking.tpl.html
 msgid ""
@@ -7494,7 +7503,7 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Update Email Response"
-msgstr ""
+msgstr "Zaktualizuj odpowiedź email"
 
 #: templates/manage/faq.tpl.html
 msgid "Update FAQ Entry"
@@ -7613,7 +7622,7 @@ msgstr ""
 
 #: templates/attachments.tpl.html templates/file_upload.tpl.html
 msgid "Upload File"
-msgstr "Wgraj plik"
+msgstr "Wyślij plik"
 
 #: templates/preferences.tpl.html
 msgid "Upload New Signature"
@@ -7626,7 +7635,7 @@ msgstr "Przykłady użycia"
 
 #: templates/send.tpl.html
 msgid "Use Canned Response"
-msgstr ""
+msgstr "Użyj odpowiedzi szablonowej"
 
 #: templates/setup.tpl.html
 msgid "Use a Separate MySQL User for Normal Eventum Use"
@@ -7744,6 +7753,8 @@ msgstr ""
 #: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
+"UWAGA: Jeśli chcesz odpowiedzieć, najpierw dodaj siebie do listy osób "
+"upoważnionych do odpowiedzi."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7871,6 +7882,9 @@ msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
+"Otrzymaliśmy od Ciebie wiadomość i dla Twojej wygody stworzyliśmy numeryczne "
+"zgłoszenie, dzięki któremu nasi pracownicy będą mogli zidentyfikować Twoją "
+"wiadomość."
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -7927,7 +7941,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Workflow Backend"
-msgstr ""
+msgstr "Backend obiegu pracy (workflow)"
 
 #: templates/reports/tree.tpl.html
 msgid "Workload By Date Range"
@@ -8069,7 +8083,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Your session has expired. Please login again to continue."
-msgstr ""
+msgstr "Twoja sesja wygasła. Proszę, zaloguj się ponownie."
 
 #: templates/notifications/updated_account.tpl.text
 msgid "Your user account has been updated in %1"
@@ -8135,11 +8149,11 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "bulk update tool"
-msgstr "narzędzie zbiorczej aktualizacji"
+msgstr "narzędzie hurtowej aktualizacji"
 
 #: templates/navigation.tpl.html
 msgid "change your account clocked-in status"
-msgstr ""
+msgstr "Zmień wskaźnik rozpoczęcia pracy"
 
 #: templates/notification.tpl.html
 msgid "click to edit"
@@ -8151,7 +8165,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "create a new issue"
-msgstr "utwórz nowe zgłoszenie"
+msgstr "dodaj nowe zgłoszenie"
 
 #: templates/quick_filter_form.tpl.html
 msgid "create advanced searches"
@@ -8216,7 +8230,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
-msgstr ""
+msgstr "edytuj listę osób upoważnionych do odpowiedzi w tym zgłoszeniu"
 
 #: templates/view_form.tpl.html
 msgid "edit the notification list for this issue"
@@ -8315,7 +8329,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "internal faq"
-msgstr ""
+msgstr "wewnętrzne FAQ"
 
 #: templates/notification.tpl.html
 msgid "is neither a known staff member or customer technical contact."
@@ -8418,7 +8432,7 @@ msgstr "mnie, nie przypisane i mojej grupy"
 
 #: templates/view_form.tpl.html
 msgid "next issue on your current active filter"
-msgstr ""
+msgstr "następne zgłoszenie w Twoim aktywnym filtrze"
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""

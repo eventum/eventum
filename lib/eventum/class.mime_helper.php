@@ -140,11 +140,15 @@ class Mime_Helper
     function quoteSender($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part . ' ' . $second_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part . ' ' . $second_part;
+            }
         }
         return $address;
     }
@@ -160,10 +164,14 @@ class Mime_Helper
     function removeQuotes($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part;
+            }
         }
         if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);
@@ -307,16 +315,40 @@ class Mime_Helper
     public static function decodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_decode')) {
+            // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
+            // ideally this should be needed, but we have places where we call this function twice.
+            // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
+            // TODO: use self::isQuotedPrintable if it is improved
+            if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
+                return $string;
+            }
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
         }
 
-        // this part likely is pointless as to fully work it needs iconv extension as well.
-        while (preg_match("/=\?(?P<charset>.*?)\?Q\?(?P<string>.*?)\?=/i", $string, $matches)) {
-            $string = quoted_printable_decode($matches['string']);
-            if (function_exists('iconv')) {
-                $string = iconv($matches['charset'], APP_CHARSET, $string);
+        // this part does not function properly if iconv extension is missing
+        // +=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=
+        preg_match_all("/(?P<before>.*?)=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=(?P<after>.*?)/i", $string, $matches, PREG_SET_ORDER);
+        $string = '';
+        foreach ($matches as $m) {
+            $string .= $m['before'];
+            switch (strtolower($m['scheme'])) {
+            case 'q':
+                $s = quoted_printable_decode($m['string']);
+                $s = str_replace('_', ' ', $s);
+                break;
+            case 'b':
+                $s = base64_decode($m['string']);
+                break;
+            default:
+                // unknown, leave undecoded
+                $s = $m['string'];
             }
-            $string = str_replace('_', ' ', $string);
+            if (function_exists('iconv')) {
+                $string .= iconv($m['charset'], APP_CHARSET, $s);
+            } else {
+                $string .= $s;
+            }
+            $string .= $m['after'];
         }
         return $string;
     }
@@ -324,8 +356,9 @@ class Mime_Helper
 
     /**
      * Returns if a specified string contains a quoted printable address.
+     * TODO: make it support any parameter not just email address
      *
-     * @param   string $address The address
+     * @param   string $address The email address
      * @return  boolean If the address is quoted printable encoded.
      */
     function isQuotedPrintable($address)

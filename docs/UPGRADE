@@ -12,15 +12,16 @@ IMPORTANT:
 When upgrading to a new version of Eventum, please follow these
 instructions:
 
-- Upgrading from version 2.2 to 2.3:
+- Upgrading from version 2.2 to 2.3 or updating 2.3 to 2.3.1:
 ----------------------------------------
 1) Move your current copy of Eventum to a new directory.
 2) Extract the new Eventum files to a directory.
 3) Copy the contents of your old eventum/config/ directory to
    /path-to-eventum/config/
-4) Copy your old workflow API and customer API files to
-   /path-to-eventum/lib/eventum/workflow/ and
-   /path-to-eventum/lib/eventum/customer/ respectively.
+4) Copy your old workflow API and customer API, custom field files to
+   /path-to-eventum/lib/eventum/workflow/,
+   /path-to-eventum/lib/eventum/customer/ and
+   /path-to-eventum/lib/eventum/custom_field/ respectively.
 5) Point your webserver to /path-to-eventum/htdocs/
 6) Run the upgrade scripts described below from the command line.
 
