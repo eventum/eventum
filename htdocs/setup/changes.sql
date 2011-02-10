@@ -720,3 +720,6 @@ CREATE TABLE `reminder_product` (
   rpr_pro_id INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY(rpr_id)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE faq_support_level CHANGE fsl_support_level_id fsl_support_level_id varchar(50) NOT NULL;

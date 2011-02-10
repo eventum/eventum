@@ -240,7 +240,7 @@ class FAQ
                     fsl_support_level_id
                  ) VALUES (
                     " . Misc::escapeInteger($faq_id) . ",
-                    " . Misc::escapeInteger($support_level_id) . "
+                    '" . Misc::escapeString($support_level_id) . "'
                  )";
         DB_Helper::getInstance()->query($stmt);
     }
