@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-02-09 04:52+0000\n"
+"PO-Revision-Date: 2011-02-10 02:38+0000\n"
 "Last-Translator: françois gonenc <francois.gonenc@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-02-09 04:57+0000\n"
+"X-Launchpad-Export-Date: 2011-02-10 04:37+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -91,7 +91,7 @@ msgstr "Çözüm bekleyen sorunlar"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr "(Bu gerçek bir email adresi içermeli, yani \"%1\" yada \"%2\")"
+msgstr "(Bu gerçek bir email adresi içermeli, örnek \"%1\" yada \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
