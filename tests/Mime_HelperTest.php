@@ -97,5 +97,11 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
         $exp = 'Jäägermeister';
         $res = $this->object->decodeQuotedPrintable($string);
         $this->assertEquals($exp, $res);
+
+        // different charsets inside one string
+        $string = '=?ISO-8859-1?q?M=FCller=2C?= ACME =?US-ASCII?q?Corp=2E?=';
+        $exp = 'Müller, ACME Corp.';
+        $res = $this->object->decodeQuotedPrintable($string);
+        $this->assertEquals($exp, $res);
     }
 }
