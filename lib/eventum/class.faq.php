@@ -33,15 +33,18 @@ class FAQ
      * Returns the list of FAQ entries associated to a given support level.
      *
      * @access  public
-     * @param   integer $support_level_id The support level ID
+     * @param   array $support_level_ids The support level IDs
      * @return  array The list of FAQ entries
      */
-    function getListBySupportLevel($support_level_id)
+    function getListBySupportLevel($support_level_ids)
     {
-        $support_level_id = Misc::escapeString($support_level_id);
+        if (!is_array($support_level_ids)) {
+            $support_level_ids = array($support_level_ids);
+        }
+        $support_level_ids = Misc::escapeString($support_level_ids);
         $prj_id = Auth::getCurrentProject();
 
-        if ($support_level_id == -1) {
+        if (count($support_level_ids) == 0) {
             $stmt = "SELECT
                         *
                      FROM
@@ -58,8 +61,10 @@ class FAQ
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                      WHERE
                         faq_id=fsl_faq_id AND
-                        fsl_support_level_id='$support_level_id' AND
+                        fsl_support_level_id IN('" . join("', '", $support_level_ids) . "') AND
                         faq_prj_id = $prj_id
+                     GROUP BY
+                        faq_id
                      ORDER BY
                         faq_rank ASC";
         }
@@ -266,6 +271,9 @@ class FAQ
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            if ($res == NULL) {
+                return "";
+            }
             if (Customer::doesBackendUseSupportLevels($res['faq_prj_id'])) {
                 // get all of the support level associations here as well
                 $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
