@@ -74,14 +74,14 @@ if [ ! -f pear.clean ]; then
 	rm -rf data/Mail_Mime
 
 	# Mail
-	rm Mail/mock.php
-	rm Mail/smtpmx.php
+	rm -f Mail/mock.php
+	rm -f Mail/smtpmx.php
 
 	# Math_Stats
-	rm -r Math/examples
+	rm -rf Math/examples
 
 	# XML_RPC
-	rm XML/RPC/Dump.php
+	rm -f XML/RPC/Dump.php
 
 	# PEAR
 	rm -rf data/PEAR
