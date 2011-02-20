@@ -21,7 +21,7 @@ define('CACHE_DIR', '/tmp/jpgraph_cache/');
 // The URL relative name where the cache can be found, i.e
 // under what HTTP directory can the cache be found. Normally
 // you would probably assign an alias in apache configuration
-// for the cache directory. 
+// for the cache directory.
 define('APACHE_CACHE_DIR', '/jpgraph_cache/');
 
 // Directory for TTF fonts. Must end with '/'

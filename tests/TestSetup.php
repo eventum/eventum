@@ -28,7 +28,7 @@
  * Setup autoload for tests.
  */
 
-// we init paths ourselves like init.php does, to be independant and not 
+// we init paths ourselves like init.php does, to be independant and not
 // needing actual config being present.
 define('APP_PATH', realpath(dirname(__FILE__).'/..'));
 define('APP_CONFIG_PATH', APP_PATH . '/config');

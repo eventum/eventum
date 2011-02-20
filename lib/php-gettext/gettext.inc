@@ -373,5 +373,3 @@ if (!function_exists('gettext')) {
         return _dcngettext($domain, $single, $plural, $number, $category);
     }
 }
-
-?>

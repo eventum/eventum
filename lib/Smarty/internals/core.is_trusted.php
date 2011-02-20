@@ -43,5 +43,3 @@ function smarty_core_is_trusted($params, &$smarty)
 }
 
 /* vim: set expandtab: */
-
-?>

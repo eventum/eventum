@@ -864,7 +864,7 @@ class DB
          * defined, and means that we deal with strings and array in the same
          * manner. */
         $dsnArray = DB::parseDSN($dsn);
-        
+
         if ($hidePassword) {
             $dsnArray['password'] = 'PASSWORD';
         }
@@ -874,7 +874,7 @@ class DB
         if (is_string($dsn) && strpos($dsn, 'tcp') === false && $dsnArray['protocol'] == 'tcp') {
             $dsnArray['protocol'] = false;
         }
-        
+
         // Now we just have to construct the actual string. This is ugly.
         $dsnString = $dsnArray['phptype'];
         if ($dsnArray['dbsyntax']) {
@@ -897,7 +897,7 @@ class DB
             $dsnString .= ':'.$dsnArray['port'];
         }
         $dsnString .= '/'.$dsnArray['database'];
-        
+
         /* Option handling. Unfortunately, parseDSN simply places options into
          * the top-level array, so we'll first get rid of the fields defined by
          * DB and see what's left. */
@@ -924,7 +924,7 @@ class DB
 
         return $dsnString;
     }
-    
+
     // }}}
 }
 
@@ -1485,5 +1485,3 @@ class DB_row
  * c-basic-offset: 4
  * End:
  */
-
-?>

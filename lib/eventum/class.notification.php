@@ -1785,7 +1785,7 @@ class Notification
      *
      * @access  public
      * @param   integer $issue_id The id of the issue.
-     * @param   integer $usr_id The user to check. 
+     * @param   integer $usr_id The user to check.
      * @return  boolean If the specified user is notified in the issue.
      */
     function isUserNotified($issue_id, $usr_id)
