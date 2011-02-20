@@ -1,38 +1,38 @@
 <?php
-// +-----------------------------------------------------------------------+ 
-// | Copyright (c) 2002-2003 Richard Heyes                                 | 
-// | All rights reserved.                                                  | 
-// |                                                                       | 
-// | Redistribution and use in source and binary forms, with or without    | 
-// | modification, are permitted provided that the following conditions    | 
-// | are met:                                                              | 
-// |                                                                       | 
-// | o Redistributions of source code must retain the above copyright      | 
-// |   notice, this list of conditions and the following disclaimer.       | 
-// | o Redistributions in binary form must reproduce the above copyright   | 
-// |   notice, this list of conditions and the following disclaimer in the | 
-// |   documentation and/or other materials provided with the distribution.| 
-// | o The names of the authors may not be used to endorse or promote      | 
-// |   products derived from this software without specific prior written  | 
-// |   permission.                                                         | 
-// |                                                                       | 
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   | 
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     | 
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR | 
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  | 
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, | 
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      | 
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, | 
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY | 
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   | 
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE | 
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  | 
-// |                                                                       | 
-// +-----------------------------------------------------------------------+ 
-// | Author: Richard Heyes <richard@php.net>                               | 
-// +-----------------------------------------------------------------------+ 
-// 
-// $Id: DigestMD5.php,v 1.8 2006/03/22 05:20:11 amistry Exp $
+// +-----------------------------------------------------------------------+
+// | Copyright (c) 2002-2003 Richard Heyes                                 |
+// | All rights reserved.                                                  |
+// |                                                                       |
+// | Redistribution and use in source and binary forms, with or without    |
+// | modification, are permitted provided that the following conditions    |
+// | are met:                                                              |
+// |                                                                       |
+// | o Redistributions of source code must retain the above copyright      |
+// |   notice, this list of conditions and the following disclaimer.       |
+// | o Redistributions in binary form must reproduce the above copyright   |
+// |   notice, this list of conditions and the following disclaimer in the |
+// |   documentation and/or other materials provided with the distribution.|
+// | o The names of the authors may not be used to endorse or promote      |
+// |   products derived from this software without specific prior written  |
+// |   permission.                                                         |
+// |                                                                       |
+// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+// |                                                                       |
+// +-----------------------------------------------------------------------+
+// | Author: Richard Heyes <richard@php.net>                               |
+// +-----------------------------------------------------------------------+
+//
+// $Id: DigestMD5.php 294702 2010-02-07 16:03:55Z cweiske $
 
 /**
 * Implmentation of DIGEST-MD5 SASL mechanism
@@ -51,7 +51,7 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
     * Provides the (main) client response for DIGEST-MD5
     * requires a few extra parameters than the other
     * mechanisms, which are unavoidable.
-    * 
+    *
     * @param  string $authcid   Authentication id (username)
     * @param  string $pass      Password
     * @param  string $challenge The digest challenge sent by the server
@@ -66,7 +66,7 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
         $challenge = $this->_parseChallenge($challenge);
         $authzid_string = '';
         if ($authzid != '') {
-            $authzid_string = ',authzid="' . $authzid . '"'; 
+            $authzid_string = ',authzid="' . $authzid . '"';
         }
 
         if (!empty($challenge)) {
@@ -84,7 +84,7 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
             return PEAR::raiseError('Invalid digest challenge');
         }
     }
-    
+
     /**
     * Parses and verifies the digest challenge*
     *
@@ -158,7 +158,7 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
     * @param  string $authzid    Authorization id
     * @return string             The response= part of the digest response
     * @access private
-    */    
+    */
     function _getResponseValue($authcid, $pass, $realm, $nonce, $cnonce, $digest_uri, $authzid = '')
     {
         if ($authzid == '') {
@@ -178,21 +178,19 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
     */
     function _getCnonce()
     {
-        if (file_exists('/dev/urandom') && $fd = @fopen('/dev/urandom', 'r')) {
+        if (@file_exists('/dev/urandom') && $fd = @fopen('/dev/urandom', 'r')) {
             return base64_encode(fread($fd, 32));
 
-        } elseif (file_exists('/dev/random') && $fd = @fopen('/dev/random', 'r')) {
+        } elseif (@file_exists('/dev/random') && $fd = @fopen('/dev/random', 'r')) {
             return base64_encode(fread($fd, 32));
 
         } else {
             $str = '';
-            mt_srand((double)microtime()*10000000);
             for ($i=0; $i<32; $i++) {
                 $str .= chr(mt_rand(0, 255));
             }
-            
+
             return base64_encode($str);
         }
     }
 }
-?>

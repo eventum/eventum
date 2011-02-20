@@ -10,7 +10,7 @@ that it needs to work properly:
 - JpGraph 1.5.3 (last GPL version)
 - Smarty 2.6.18 (http://smarty.php.net)
 - PEAR packages:
-   Auth_SASL 1.0.2
+   Auth_SASL 1.0.4
    DB 1.7.13
    Date 1.4.7
    HTTP 1.4.0
