@@ -22,6 +22,7 @@ that it needs to work properly:
    Net_SMTP 1.5.0
    Net_SmartIRC 1.0.2
    Net_Socket 1.0.10
+   Net_UserAgent_Detect 2.5.2
    Net_URL 1.0.15
    PEAR 1.6.2
    Text_Diff 0.3.1

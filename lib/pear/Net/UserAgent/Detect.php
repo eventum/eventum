@@ -18,7 +18,7 @@
 // |          Jason Rust <jrust@php.net>                                  |
 // +----------------------------------------------------------------------+
 
-// $Id: Detect.php,v 1.26 2007/09/19 21:31:54 jrust Exp $
+// $Id: Detect.php 298049 2010-04-15 18:16:24Z jrust $
 
 // }}}
 // {{{ constants
@@ -67,18 +67,18 @@ class Net_UserAgent_Detect {
     /**
      * To be used in place of the contructor to return only open instance.
      *
-     * @access public 
+     * @access public
      * @return object Net_UserAgent_Detect instance
      */
-    function &singleton($in_userAgent = null, $in_detect = null) 
+    function &singleton($in_userAgent = null, $in_detect = null)
     {
         static $instance;
-       
-        if (!isset($instance)) { 
-            $instance = new Net_UserAgent_Detect($in_userAgent, $in_detect); 
+
+        if (!isset($instance)) {
+            $instance = new Net_UserAgent_Detect($in_userAgent, $in_detect);
         }
-        
-        return $instance; 
+
+        return $instance;
     }
 
     // }}}
@@ -96,8 +96,8 @@ class Net_UserAgent_Detect {
      * this class statically then set all the parameters using th
      * setOption()
      *
-     * @param  string $in_userAgent (optional) User agent override.  
-     * @param  mixed $in_detect (optional) The level of checking to do. 
+     * @param  string $in_userAgent (optional) User agent override.
+     * @param  mixed $in_detect (optional) The level of checking to do.
      *
      * @access public
      * @return void
@@ -122,12 +122,12 @@ class Net_UserAgent_Detect {
         // Array that stores all of the flags for the vendor and version
         // of the different browsers
         $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
-        $browser = array_flip(array('ns', 'ns2', 'ns3', 'ns4', 'ns4up', 'nav', 'ns6', 'belowns6', 'ns6up', 'firefox', 'firefox0.x', 'firefox1.x', 'firefox1.5', 'firefox2.x', 'gecko', 'ie', 'ie3', 'ie4', 'ie4up', 'ie5', 'ie5_5', 'ie5up', 'ie6', 'belowie6', 'ie6up', 'ie7', 'ie7up', 'opera', 'opera2', 'opera3', 'opera4', 'opera5', 'opera6', 'opera7', 'opera8', 'opera9', 'opera5up', 'opera6up', 'opera7up', 'belowopera8', 'opera8up', 'opera9up', 'aol', 'aol3', 'aol4', 'aol5', 'aol6', 'aol7', 'aol8', 'webtv', 'aoltv', 'tvnavigator', 'hotjava', 'hotjava3', 'hotjava3up', 'konq', 'safari', 'netgem', 'webdav', 'icab'));
-        
+        $browser = array_flip(array('ns', 'ns2', 'ns3', 'ns4', 'ns4up', 'nav', 'ns6', 'belowns6', 'ns6up', 'firefox', 'firefox0.x', 'firefox1.x', 'firefox1.5', 'firefox2.x', 'firefox3.x', 'gecko', 'ie', 'ie3', 'ie4', 'ie4up', 'ie5', 'ie5_5', 'ie5up', 'ie6', 'belowie6', 'ie6up', 'ie7', 'ie7up', 'ie8', 'ie8tr', 'ie8up', 'ie9', 'ie9up', 'opera', 'opera2', 'opera3', 'opera4', 'opera5', 'opera6', 'opera7', 'opera8', 'opera9', 'opera5up', 'opera6up', 'opera7up', 'belowopera8', 'opera8up', 'opera9up', 'aol', 'aol3', 'aol4', 'aol5', 'aol6', 'aol7', 'aol8', 'webtv', 'aoltv', 'tvnavigator', 'hotjava', 'hotjava3', 'hotjava3up', 'konq', 'safari', 'safari_mobile', 'chrome', 'netgem', 'webdav', 'icab'));
+
         // Array that stores all of the flags for the operating systems,
         // and in some cases the versions of those operating systems (windows)
         $os = &Net_UserAgent_Detect::_getStaticProperty('os');
-        $os = array_flip(array('win', 'win95', 'win16', 'win31', 'win9x', 'win98', 'wince', 'winme', 'win2k', 'winxp', 'winnt', 'win2003', 'os2', 'mac', 'mac68k', 'macppc', 'linux', 'unix', 'vms', 'sun', 'sun4', 'sun5', 'suni86', 'irix', 'irix5', 'irix6', 'hpux', 'hpux9', 'hpux10', 'aix', 'aix1', 'aix2', 'aix3', 'aix4', 'sco', 'unixware', 'mpras', 'reliant', 'dec', 'sinix', 'freebsd', 'bsd'));
+        $os = array_flip(array('win', 'win95', 'win16', 'win31', 'win9x', 'win98', 'wince', 'winme', 'win2k', 'winxp', 'winnt', 'win2003', 'vista', 'win7', 'os2', 'mac', 'mactiger', 'macleopard', 'macsnowleopard', 'mac68k', 'macppc', 'iphone', 'linux', 'unix', 'vms', 'sun', 'sun4', 'sun5', 'suni86', 'irix', 'irix5', 'irix6', 'hpux', 'hpux9', 'hpux10', 'aix', 'aix1', 'aix2', 'aix3', 'aix4', 'sco', 'unixware', 'mpras', 'reliant', 'dec', 'sinix', 'freebsd', 'bsd'));
 
         // Array which stores known issues with the given client that can
         // be used for on the fly tweaking so that the client may recieve
@@ -200,13 +200,13 @@ class Net_UserAgent_Detect {
         // figure out what we need to look for
         $detectOptions = array(NET_USERAGENT_DETECT_BROWSER,
                 NET_USERAGENT_DETECT_OS, NET_USERAGENT_DETECT_FEATURES,
-                NET_USERAGENT_DETECT_QUIRKS, NET_USERAGENT_DETECT_ACCEPT, 
+                NET_USERAGENT_DETECT_QUIRKS, NET_USERAGENT_DETECT_ACCEPT,
                 NET_USERAGENT_DETECT_ALL);
         $detect = is_null($in_detect) ? NET_USERAGENT_DETECT_ALL : $in_detect;
         settype($detect, 'array');
         foreach($detectOptions as $option) {
             if (in_array($option, $detect)) {
-                $detectFlags[$option] = true; 
+                $detectFlags[$option] = true;
             }
             else {
                 $detectFlags[$option] = false;
@@ -225,11 +225,14 @@ class Net_UserAgent_Detect {
         }
 
         $version = $majorVersion . $subVersion;
-    
+
         // Browser type
         if ($detectFlags[NET_USERAGENT_DETECT_ALL] || $detectFlags[NET_USERAGENT_DETECT_BROWSER]) {
             $browser['webdav']  = ($agt == 'microsoft data access internet publishing provider dav' || $agt == 'microsoft data access internet publishing provider protocol discovery');
-            $browser['konq']    = $browser['safari'] = (strpos($agt, 'konqueror') !== false || strpos($agt, 'safari') !== false);
+            $browser['konq'] = (strpos($agt, 'konqueror') !== false ||  strpos($agt, 'safari') !== false );
+            $browser['safari'] = (strpos($agt, 'safari') !== false);
+            $browser['chrome'] = (strpos($agt, 'chrome') !== false);
+            $browser['safari_mobile'] = (strpos($agt, 'safari') !== false && strpos($agt, 'mobile') !== false );
             $browser['text']    = strpos($agt, 'links') !== false || strpos($agt, 'lynx') !== false || strpos($agt, 'w3m') !== false;
             $browser['ns']      = strpos($agt, 'mozilla') !== false && !(strpos($agt, 'spoofer') !== false) && !(strpos($agt, 'compatible') !== false) && !(strpos($agt, 'hotjava') !== false) && !(strpos($agt, 'opera') !== false) && !(strpos($agt, 'webtv') !== false) ? 1 : 0;
             $browser['netgem']  = strpos($agt, 'netgem') !== false;
@@ -248,6 +251,7 @@ class Net_UserAgent_Detect {
             $browser['firefox1.x'] = $browser['firefox'] && strpos($agt, 'firefox/1.') !== false;
             $browser['firefox1.5'] = $browser['firefox'] && strpos($agt, 'firefox/1.5') !== false;
             $browser['firefox2.x'] = $browser['firefox'] && strpos($agt, 'firefox/2.') !== false;
+            $browser['firefox3.x'] = $browser['firefox'] && strpos($agt, 'firefox/3.') !== false;
             $browser['ie']      = strpos($agt, 'msie') !== false && !(strpos($agt, 'opera') !== false);
             $browser['ie3']     = $browser['ie'] && $majorVersion < 4;
             $browser['ie4']     = $browser['ie'] && $majorVersion == 4 && (strpos($agt, 'msie 4') !== false);
@@ -258,8 +262,13 @@ class Net_UserAgent_Detect {
             $browser['ie5_5up'] = $browser['ie5up'] && !$browser['ie5'];
             $browser['ie6']     = strpos($agt, 'msie 6') !== false;
             $browser['ie6up']   = $browser['ie5up'] && !$browser['ie5'] && !$browser['ie5_5'];
-            $browser['ie7']     = strpos($agt, 'msie 7') !== false;
-            $browser['ie7up']   = $browser['ie6up'] && !$browser['ie6'];
+            $browser['ie7'] = strpos($agt, 'msie 7') && !strpos($agt,'trident/4');
+            $browser['ie7up']   = $browser['ie6up'] && (!$browser['ie6'] || $browser['ie7']);
+            $browser['ie8tr'] = strpos($agt, 'msie 7') && strpos($agt,'trident/4') !== false;
+            $browser['ie8'] = strpos($agt, 'msie 8') !== false;
+            $browser['ie8up'] = $browser['ie7up'] && (!$browser['ie7'] || $browser['ie8']);
+            $browser['ie9'] = strpos($agt, 'msie 9') !== false;
+            $browser['ie9up'] = $browser['ie8up'] && (!$browser['ie8'] || $browser['ie9']);
             $browser['belowie6']= $browser['ie'] && !$browser['ie6up'];
             $browser['opera']   = strpos($agt, 'opera') !== false;
             $browser['opera2']  = strpos($agt, 'opera 2') !== false || strpos($agt, 'opera/2') !== false;
@@ -283,15 +292,15 @@ class Net_UserAgent_Detect {
             $browser['aol6']  = strpos($agt, 'aol 6') !== false;
             $browser['aol7']  = strpos($agt, 'aol 7') !== false || strpos($agt, 'aol7') !== false;
             $browser['aol8']  = strpos($agt, 'aol 8') !== false || strpos($agt, 'aol8') !== false;
-            $browser['webtv'] = strpos($agt, 'webtv') !== false; 
-            $browser['aoltv'] = $browser['tvnavigator'] = strpos($agt, 'navio') !== false || strpos($agt, 'navio_aoltv') !== false; 
+            $browser['webtv'] = strpos($agt, 'webtv') !== false;
+            $browser['aoltv'] = $browser['tvnavigator'] = strpos($agt, 'navio') !== false || strpos($agt, 'navio_aoltv') !== false;
             $browser['hotjava'] = strpos($agt, 'hotjava') !== false;
             $browser['hotjava3'] = $browser['hotjava'] && $majorVersion == 3;
             $browser['hotjava3up'] = $browser['hotjava'] && $majorVersion >= 3;
             $browser['iemobile'] = strpos($agt, 'iemobile') !== false || strpos($agt, 'windows ce') !== false && (strpos($agt, 'ppc') !== false || strpos($agt, 'smartphone') !== false);
         }
 
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] ||
             ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
             // Javascript Check
             if ($browser['ns2'] || $browser['ie3']) {
@@ -320,12 +329,12 @@ class Net_UserAgent_Detect {
                 Net_UserAgent_Detect::setFeature('javascript', 1.5);
             }
         }
-        
+
         /** OS Check **/
         if ($detectFlags[NET_USERAGENT_DETECT_ALL] || $detectFlags[NET_USERAGENT_DETECT_OS]) {
             $os['win']   = strpos($agt, 'win') !== false || strpos($agt, '16bit') !== false;
             $os['win95'] = strpos($agt, 'win95') !== false || strpos($agt, 'windows 95') !== false;
-            $os['win16'] = strpos($agt, 'win16') !== false || strpos($agt, '16bit') !== false || strpos($agt, 'windows 3.1') !== false || strpos($agt, 'windows 16-bit') !== false;  
+            $os['win16'] = strpos($agt, 'win16') !== false || strpos($agt, '16bit') !== false || strpos($agt, 'windows 3.1') !== false || strpos($agt, 'windows 16-bit') !== false;
             $os['win31'] = strpos($agt, 'windows 3.1') !== false || strpos($agt, 'win16') !== false || strpos($agt, 'windows 16-bit') !== false;
             $os['winme'] = strpos($agt, 'win 9x 4.90') !== false;
             $os['wince'] = strpos($agt, 'windows ce') !== false;
@@ -336,10 +345,16 @@ class Net_UserAgent_Detect {
             $os['win9x'] = $os['win95'] || $os['win98'];
             $os['winnt'] = (strpos($agt, 'winnt') !== false || strpos($agt, 'windows nt') !== false) && strpos($agt, 'windows nt 5') === false;
             $os['win32'] = $os['win95'] || $os['winnt'] || $os['win98'] || $majorVersion >= 4 && strpos($agt, 'win32') !== false || strpos($agt, '32bit') !== false;
+            $os['vista'] = strpos($agt, 'windows nt 6.0') !== false;
+            $os['win7'] = strpos($agt, 'windows nt 6.1') !== false;
             $os['os2']   = strpos($agt, 'os/2') !== false || strpos($agt, 'ibm-webexplorer') !== false;
             $os['mac']   = strpos($agt, 'mac') !== false;
+            $os['mactiger'] = $os['mac'] && (strpos($agt, '10.4') !== false || strpos($agt, '10_4') !== false);
+            $os['macleopard'] = $os['mac'] && (strpos($agt, '10.5') !== false || strpos($agt, '10_5') !== false);
+            $os['macsnowleopard'] = $os['mac'] && (strpos($agt, '10.6') !== false || strpos($agt, '10_6') !== false);
             $os['mac68k']   = $os['mac'] && (strpos($agt, '68k') !== false || strpos($agt, '68000') !== false);
             $os['macppc']   = $os['mac'] && (strpos($agt, 'ppc') !== false || strpos($agt, 'powerpc') !== false);
+            $os['iphone']   = strpos($agt, 'iphone') !== false;
             $os['sun']      = strpos($agt, 'sunos') !== false;
             $os['sun4']     = strpos($agt, 'sunos 4') !== false;
             $os['sun5']     = strpos($agt, 'sunos 5') !== false;
@@ -357,8 +372,8 @@ class Net_UserAgent_Detect {
             $os['aix4']     = strpos($agt, 'aix 4') !== false;
             $os['linux']    = strpos($agt, 'inux') !== false;
             $os['sco']      = strpos($agt, 'sco') !== false || strpos($agt, 'unix_sv') !== false;
-            $os['unixware'] = strpos($agt, 'unix_system_v') !== false; 
-            $os['mpras']    = strpos($agt, 'ncr') !== false; 
+            $os['unixware'] = strpos($agt, 'unix_system_v') !== false;
+            $os['mpras']    = strpos($agt, 'ncr') !== false;
             $os['reliant']  = strpos($agt, 'reliant') !== false;
             $os['dec']      = strpos($agt, 'dec') !== false || strpos($agt, 'osf1') !== false || strpos($agt, 'dec_alpha') !== false || strpos($agt, 'alphaserver') !== false || strpos($agt, 'ultrix') !== false || strpos($agt, 'alphastation') !== false;
             $os['sinix']    = strpos($agt, 'sinix') !== false;
@@ -369,7 +384,7 @@ class Net_UserAgent_Detect {
         }
 
         // Setup the quirks
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] ||
             ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_QUIRKS])) {
             if ($browser['konq']) {
                 Net_UserAgent_Detect::setQuirk('empty_file_input_value');
@@ -395,17 +410,16 @@ class Net_UserAgent_Detect {
                 Net_UserAgent_Detect::setQuirk('popups_disabled');
                 Net_UserAgent_Detect::setQuirk('must_cache_forms');
             }
-            
+
             if ($browser['nav'] && $subVersion < .79) {
                 Net_UserAgent_Detect::setQuirk('nested_table_render_bug');
             }
         }
-            
+
         // Set features
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] ||
             ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
-            if ($browser['gecko']) {
-                preg_match(';gecko/([\d]+)\b;i', $agt, $matches);
+            if ($browser['gecko'] && preg_match(';gecko/([\d]+)\b;i', $agt, $matches)) {
                 Net_UserAgent_Detect::setFeature('gecko', $matches[1]);
             }
 
@@ -443,12 +457,12 @@ class Net_UserAgent_Detect {
 
             $encodings = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT_ENCODING'), 0, strpos(getenv('HTTP_ACCEPT_ENCODING') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
             Net_UserAgent_Detect::setAcceptType((array) $encodings, 'encoding');
-            
+
             $charsets = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT_CHARSET'), 0, strpos(getenv('HTTP_ACCEPT_CHARSET') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
             Net_UserAgent_Detect::setAcceptType((array) $charsets, 'charset');
         }
     }
-    
+
     // }}}
     // {{{ setOption()
 
@@ -540,6 +554,9 @@ class Net_UserAgent_Detect {
                     'ie5up'    => 'Microsoft Internet Explorer 5.x',
                     'ie6up'    => 'Microsoft Internet Explorer 6.x',
                     'ie7up'    => 'Microsoft Internet Explorer 7.x',
+                    'ie8up'    => 'Microsoft Internet Explorer 8.x',
+                    'ie8tr'    => 'Microsoft Internet Explorer 8.x (Compatibility View)',
+                    'ie9up'    => 'Microsoft Internet Explorer 9.x',
                     'opera4'   => 'Opera 4.x',
                     'opera5up' => 'Opera 5.x',
                     'nav'      => 'Netscape Navigator',
@@ -549,7 +566,11 @@ class Net_UserAgent_Detect {
                     'firefox1.x' => 'Firefox 1.x',
                     'firefox1.5' => 'Firefox 1.5',
                     'firefox2.x' => 'Firefox 2.x',
-                    'konq'     => 'Konqueror/Safari',
+                    'firefox3.x' => 'Firefox 3.x',
+                    'konq'     => 'Konqueror',
+                    'safari'   => 'Safari',
+                    'safari_mobile'     => 'Safari Mobile',
+                    'chrome'   => 'Google Chrome',
                     'netgem'   => 'Netgem/iPlayer');
         }
 
@@ -566,7 +587,7 @@ class Net_UserAgent_Detect {
             $leadingIdentifier = &Net_UserAgent_Detect::_getStaticProperty('leadingIdentifier');
             $vendorString = $leadingIdentifier;
         }
-        
+
         return $vendorString;
     }
 
@@ -621,7 +642,7 @@ class Net_UserAgent_Detect {
         $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
         return !empty($browser['ns4up']);
     }
-    
+
     // }}}
     // {{{ isOS()
 
@@ -695,7 +716,14 @@ class Net_UserAgent_Detect {
                    'winnt' => 'Microsoft Windows NT',
                    'winxp' => 'Microsoft Windows XP',
                    'win2003' => 'Microsoft Windows 2003',
+                   'vista' => 'Microsoft Windows Vista',
+                   'win7' => 'Microsoft Windows 7',
                    'mac'   => 'Macintosh',
+                   'mactiger' => 'OS X Tiger (10.4)',
+                   'macleopard' => 'OS X Leopard (10.5)',
+                   'macsnowleopard' => 'OS X Snow Leopard (10.6)',
+                   'iphone' => 'iPhone',
+                   'os2' => 'OS/2',
                    'unix'  => 'Linux/Unix');
         }
 
@@ -731,7 +759,7 @@ class Net_UserAgent_Detect {
     function setQuirk($in_quirk, $in_hasQuirk = true)
     {
         $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
-        $hasQuirk = !empty($in_hasQuirk); 
+        $hasQuirk = !empty($in_hasQuirk);
         $quirks[strtolower($in_quirk)] = $hasQuirk;
     }
 
@@ -754,7 +782,7 @@ class Net_UserAgent_Detect {
     {
         return (bool) Net_UserAgent_Detect::getQuirk($in_quirk);
     }
-    
+
     // }}}
     // {{{ getQuirk()
 
@@ -774,7 +802,7 @@ class Net_UserAgent_Detect {
     {
         Net_UserAgent_Detect::detect();
         $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
-        return isset($quirks[strtolower($in_quirk)]) ? $quirks[strtolower($in_quirk)] : null; 
+        return isset($quirks[strtolower($in_quirk)]) ? $quirks[strtolower($in_quirk)] : null;
     }
 
     // }}}
@@ -818,7 +846,7 @@ class Net_UserAgent_Detect {
     {
         return (bool) Net_UserAgent_Detect::getFeature($in_feature);
     }
-    
+
     // }}}
     // {{{ getFeature()
 
@@ -838,7 +866,7 @@ class Net_UserAgent_Detect {
     {
         Net_UserAgent_Detect::detect();
         $features = &Net_UserAgent_Detect::_getStaticProperty('features');
-        return isset($features[strtolower($in_feature)]) ? $features[strtolower($in_feature)] : null; 
+        return isset($features[strtolower($in_feature)]) ? $features[strtolower($in_feature)] : null;
     }
 
     // }}}
@@ -964,4 +992,3 @@ class Net_UserAgent_Detect {
 
     // }}}
 }
-?>
