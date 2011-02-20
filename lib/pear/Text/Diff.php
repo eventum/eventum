@@ -1,21 +1,18 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff.php,v 1.23 2007/10/28 04:58:35 chuck Exp $
- *
- * Text_Diff
- *
  * General API for generating and formatting diffs - the differences between
  * two sequences of strings.
  *
- * The original PHP version of this code was written by Geoffrey
- * T. Dairiki <dairiki@dairiki.org>, and is used/adapted with his
- * permission.
+ * The original PHP version of this code was written by Geoffrey T. Dairiki
+ * <dairiki@dairiki.org>, and is used/adapted with his permission.
+ *
+ * $Horde: framework/Text_Diff/Diff.php,v 1.11.2.12 2009/01/06 15:23:41 jan Exp $
  *
  * Copyright 2004 Geoffrey T. Dairiki <dairiki@dairiki.org>
- * Copyright 2004-2007 The Horde Project (http://www.horde.org/)
+ * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
@@ -65,6 +62,46 @@ class Text_Diff {
     function getDiff()
     {
         return $this->_edits;
+    }
+
+    /**
+     * returns the number of new (added) lines in a given diff.
+     *
+     * @since Text_Diff 1.1.0
+     * @since Horde 3.2
+     *
+     * @return integer The number of new lines
+     */
+    function countAddedLines()
+    {
+        $count = 0;
+        foreach ($this->_edits as $edit) {
+            if (is_a($edit, 'Text_Diff_Op_add') ||
+                is_a($edit, 'Text_Diff_Op_change')) {
+                $count += $edit->nfinal();
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * Returns the number of deleted (removed) lines in a given diff.
+     *
+     * @since Text_Diff 1.1.0
+     * @since Horde 3.2
+     *
+     * @return integer The number of deleted lines
+     */
+    function countDeletedLines()
+    {
+        $count = 0;
+        foreach ($this->_edits as $edit) {
+            if (is_a($edit, 'Text_Diff_Op_delete') ||
+                is_a($edit, 'Text_Diff_Op_change')) {
+                $count += $edit->norig();
+            }
+        }
+        return $count;
     }
 
     /**
@@ -249,8 +286,6 @@ class Text_Diff {
 }
 
 /**
- * $Horde: framework/Text_Diff/Diff.php,v 1.23 2007/10/28 04:58:35 chuck Exp $
- *
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */

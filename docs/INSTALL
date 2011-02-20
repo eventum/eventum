@@ -25,7 +25,7 @@ that it needs to work properly:
    Net_UserAgent_Detect 2.5.2
    Net_URL 1.0.15
    PEAR 1.9.1
-   Text_Diff 0.3.1
+   Text_Diff 1.1.1
    XML_RPC 1.5.1
 - dTree 2.0.5 (http://www.destroydrop.com/javascript/tree/)
 - dynCalendar.js (http://www.phpguru.org/dyncalendar.html)

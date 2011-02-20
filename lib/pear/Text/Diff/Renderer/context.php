@@ -1,15 +1,15 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Renderer/context.php,v 1.2 2007/10/28 04:58:36 chuck Exp $
- *
  * "Context" diff renderer.
  *
  * This class renders the diff in classic "context diff" format.
  *
- * Copyright 2004-2007 The Horde Project (http://www.horde.org/)
+ * $Horde: framework/Text_Diff/Diff/Renderer/context.php,v 1.3.2.4 2009/01/06 15:23:42 jan Exp $
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @package Text_Diff
  */
