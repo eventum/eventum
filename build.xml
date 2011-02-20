@@ -12,13 +12,22 @@
 		description="Exectute all targets.">
 	</target>
 
+	<!-- filesets -->
+	<fileset id="phpsource" dir="${dir.src}">
+		<include name="**/*.php" />
+	</fileset>
+	<fileset id="jssource" dir="${dir.src}/htdocs/js">
+		<include name="**/*.js" />
+		<!-- skip external libs -->
+		<exclude name="**/jquery/*.js" />
+		<exclude name="dtree.js" />
+	</fileset>
+
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
 		<echo msg="Checking syntax with PHP lint" />
 		<phplint haltonfailure="true">
-			<fileset dir="${dir.src}">
-				<include name="**/*.php" />
-			</fileset>
+			<fileset refid="phpsource" />
 		</phplint>
 	</target>
 
@@ -26,12 +35,7 @@
 	<target name="jslint" description="Run JSLint.">
 		<echo msg="Checking syntax with JSlint" />
 		<jsllint haltonfailure="true" showwarnings="${jslint.warnings}">
-			<fileset dir="${dir.src}/htdocs/js">
-				<include name="**/*.js" />
-				<!-- skip external libs -->
-				<exclude name="**/jquery/*.js" />
-				<exclude name="dtree.js" />
-			</fileset>
+			<fileset refid="jssource" />
 		</jsllint>
 	</target>
 
