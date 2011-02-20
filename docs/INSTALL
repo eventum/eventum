@@ -21,7 +21,7 @@ that it needs to work properly:
    Net_POP3 1.3.8
    Net_SMTP 1.5.0
    Net_SmartIRC 1.0.2
-   Net_Socket 1.0.8
+   Net_Socket 1.0.10
    Net_URL 1.0.15
    PEAR 1.6.2
    Text_Diff 0.3.1
