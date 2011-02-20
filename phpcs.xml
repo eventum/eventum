@@ -5,22 +5,6 @@
 	 -->
 	<description>Eventum coding standard.</description>
 
-	<!-- Exclude data dirs
-	-->
-	<exclude-pattern>*/templates_c/*</exclude-pattern>
-	<exclude-pattern>*/.bzr/*</exclude-pattern>
-	<exclude-pattern>*/docs/*</exclude-pattern>
-	<exclude-pattern>*/config/*.php</exclude-pattern>
-
-	<!-- External libs: we do not modify these to fit standards -->
-	<exclude-pattern>*/lib/Smarty/*</exclude-pattern>
-	<exclude-pattern>*/lib/jpgraph/*</exclude-pattern>
-	<exclude-pattern>*/lib/pear/*</exclude-pattern>
-	<exclude-pattern>*/lib/php-gettext/*</exclude-pattern>
-
-	<exclude-pattern>*.css</exclude-pattern>
-	<exclude-pattern>*.js</exclude-pattern>
-
 	<!-- Include some from all around the place
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
 	 -->

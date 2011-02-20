@@ -15,15 +15,21 @@
 	<!-- filesets -->
 	<fileset id="phpsource" dir="${dir.src}">
 		<include name="**/*.php" />
-		<exclude name="cli/lib/pear/**" />
-		<exclude name="lib/pear/**" />
-		<exclude name="lib/Smarty/**" />
-		<exclude name="lib/jpgraph/**" />
-		<exclude name="lib/php-gettext/**" />
+
+		<!-- Exclude data dirs -->
+		<exclude name=".bzr/**" />
+		<exclude name="config/**" />
 		<exclude name="docs/**" />
 		<exclude name="templates_c/**" />
-		<exclude name="config/**" />
+
+		<!-- External libs: we do not modify these to fit standards -->
+		<exclude name="cli/lib/pear/**" />
+		<exclude name="lib/Smarty/**" />
+		<exclude name="lib/jpgraph/**" />
+		<exclude name="lib/pear/**" />
+		<exclude name="lib/php-gettext/**" />
 	</fileset>
+
 	<fileset id="jssource" dir="${dir.src}/htdocs/js">
 		<include name="**/*.js" />
 		<!-- skip external libs -->
