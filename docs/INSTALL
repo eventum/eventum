@@ -18,7 +18,7 @@ that it needs to work properly:
    Mail_Mime 1.5.2
    Mail_mimeDecode 1.5.5
    Math_Stats 0.8.5
-   Net_POP3 1.3.6
+   Net_POP3 1.3.8
    Net_SMTP 1.2.10
    Net_Socket 1.0.8
    Net_URL 1.0.15
