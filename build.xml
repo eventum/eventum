@@ -15,6 +15,14 @@
 	<!-- filesets -->
 	<fileset id="phpsource" dir="${dir.src}">
 		<include name="**/*.php" />
+		<exclude name="cli/lib/pear/**" />
+		<exclude name="lib/pear/**" />
+		<exclude name="lib/Smarty/**" />
+		<exclude name="lib/jpgraph/**" />
+		<exclude name="lib/php-gettext/**" />
+		<exclude name="docs/**" />
+		<exclude name="templates_c/**" />
+		<exclude name="config/**" />
 	</fileset>
 	<fileset id="jssource" dir="${dir.src}/htdocs/js">
 		<include name="**/*.js" />
@@ -37,6 +45,15 @@
 		<jsllint haltonfailure="true" showwarnings="${jslint.warnings}">
 			<fileset refid="jssource" />
 		</jsllint>
+	</target>
+
+	<!-- PHP CodeSniffer -->
+	<target name="phpcs" description="Generate PHPCS Report.">
+		<echo msg="Running PHP Code Sniffer Task" />
+		<phpcodesniffer standard="${dir.src}/phpcs.xml" showsniffs="true" showwarnings="true" haltonerror="yes">
+			<fileset refid="phpsource" />
+			<formatter type="default" usefile="false"/>
+		</phpcodesniffer>
 	</target>
 
 	<!-- test -->
