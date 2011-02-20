@@ -100,5 +100,12 @@ if [ ! -f pear.clean ]; then
 	done
 
 	test -d data && rmdir data
+
+	# here's shell oneliner to remove ?> from all files which have it on their last line:
+	find -name '*.php' | xargs -r sed -i -e '${/^?>$/d}'
+	# sometimes if you are hit by this problem, you need to kill last empty line first:
+	find -name '*.php' | xargs -r sed -i -e '${/^$/d}'
+	# and as well can remove trailing spaces/tabs:
+	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
 	cd -
 fi
