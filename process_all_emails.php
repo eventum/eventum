@@ -31,7 +31,7 @@ require_once 'init.php';
 $full_message = Misc::getInput();
 
 $structure = Mime_Helper::decode($full_message, false, true);
-
+print_r($structure->headers);
 // TODO: Actually use values from config
 
 // since this is all hacked up anyway, let's hardcode the values

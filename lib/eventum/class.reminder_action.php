@@ -691,7 +691,13 @@ class Reminder_Action
             if (Reminder::isDebug()) {
                 echo "  - Processing IRC notification\n";
             }
-            $irc_notice = "Issue #$issue_id (Priority: " . $data['pri_title'];
+            $irc_notice = "Issue #$issue_id (";
+            if (!empty($data['pri_title'])) {
+                $irc_notice .= "Priority: " . $data['pri_title'];
+            }
+            if (!empty($data['sev_title'])) {
+                $irc_notice .= "Severity: " . $data['sev_title'];
+            }
             // also add information about the assignee, if any
             $assignment = Issue::getAssignedUsers($issue_id);
             if (count($assignment) > 0) {
@@ -700,7 +706,7 @@ class Reminder_Action
             if (!empty($data['iss_grp_id'])) {
                 $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
             }
-            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered";
+            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
             Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id);
         }
         $setup = Setup::load();
