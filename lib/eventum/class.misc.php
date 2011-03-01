@@ -526,7 +526,7 @@ class Misc
      */
     function activateLinks($text, $class = "link")
     {
-        $range = '[-\w+@=?.%/:&;~|,#]+';
+        $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
         // Bryan Alsdorf <bryan@askmonty.org>
         $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
