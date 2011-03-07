@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-03-01 19:17+0000\n"
-"Last-Translator: jwerner <Unknown>\n"
+"PO-Revision-Date: 2011-03-06 17:54+0000\n"
+"Last-Translator: Marcel Schmücker <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-03-02 04:39+0000\n"
+"X-Launchpad-Export-Date: 2011-03-07 04:50+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -117,7 +117,7 @@ msgstr "(Archiviert)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(default %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -2365,7 +2365,7 @@ msgstr "Eingetragen von"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Equals"
-msgstr ""
+msgstr "Entspricht"
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
@@ -2742,7 +2742,7 @@ msgstr "Rechtschreibfehler korrigieren"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Zum Beispiel"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2821,12 +2821,12 @@ msgstr "größer als"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Größer oder Gleich"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "Greater than %1$s"
-msgstr ""
+msgstr "Größer als %1$s"
 
 #: htdocs/list.php:88 lib/eventum/class.display_column.php:186
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
@@ -2948,7 +2948,7 @@ msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAP Ordner"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -3149,17 +3149,17 @@ msgstr "Is Null"
 #: lib/eventum/class.filter.php:633
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
-msgstr ""
+msgstr "Ist zwischen %1$s-%2$s-%3$s UND %4$s-%5$s-%6$s"
 
 #: lib/eventum/class.filter.php:637
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Ist größer als %1$s-%2$s-%3$s"
 
 #: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Ist kleiner als %1$s-%2$s-%3$s"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3367,12 +3367,12 @@ msgstr "kleiner als"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
-msgstr ""
+msgstr "Kleiner oder Gleich"
 
 #: lib/eventum/class.filter.php:608
 #, php-format
 msgid "Less than %1$s"
-msgstr ""
+msgstr "Kleiner als %1$s"
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
@@ -3538,7 +3538,7 @@ msgstr "Manager"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Verwalter:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3600,7 +3600,7 @@ msgstr "Module / Verzeichnis"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
-msgstr ""
+msgstr "Montag"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
@@ -3635,7 +3635,7 @@ msgstr "Meine Zuweisungen"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr ""
+msgstr "MySQL Datenbank"
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
@@ -3651,7 +3651,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "MySQL-Benutzername"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3682,11 +3682,11 @@ msgstr "Name"
 
 #: templates/manage/groups.tpl.html
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: templates/manage/email_alias.tpl.html
 msgid "New Alias"
-msgstr ""
+msgstr "Neuer Alias"
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
@@ -4077,7 +4077,7 @@ msgstr "Anzahl Tage"
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
-msgstr ""
+msgstr "OK: Keine Fehler gefunden"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4152,7 +4152,7 @@ msgstr "Darzustellende Optionen"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Options:"
-msgstr ""
+msgstr "Optionen:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -4234,7 +4234,7 @@ msgstr "POP3, mit TLS (selbst signiert)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Partition:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4386,7 +4386,7 @@ msgstr "Bitte weisen Sie die User für dieses Projekt zu."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Bitte wählen Sie"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -5167,7 +5167,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Bitte geben Sie ihr Passwort an."
 
 #: templates/help/main.tpl.html
 msgid ""
