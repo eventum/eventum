@@ -703,7 +703,7 @@ class User
                 }
 
                 $row['group'] = Group::getName($row['usr_grp_id']);
-                $roles = Project::getAssocList($usr_id, false, true);
+                $roles = Project::getAssocList($row['usr_id'], false, true);
                 $row['projects'] = array_keys($roles);
                 $row['roles'] = $roles;
             }
