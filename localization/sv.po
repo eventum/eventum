@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2010-07-14 18:48+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2011-03-22 14:56+0000\n"
+"Last-Translator: Fredrik Kilegran <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:57+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-23 04:37+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1257,7 +1257,7 @@ msgstr "Kontrollera stavning"
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
-msgstr ""
+msgstr "Utcheckningssida:"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1298,11 +1298,11 @@ msgstr "Klicka för att expandera."
 
 #: templates/navigation.tpl.html
 msgid "Clock In"
-msgstr ""
+msgstr "Klocka in"
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
-msgstr ""
+msgstr "Klocka ut"
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1328,7 +1328,7 @@ msgstr "Stäng fönster"
 
 #: lib/eventum/class.notification.php:816
 msgid "Closed"
-msgstr ""
+msgstr "Stängt"
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
@@ -1690,11 +1690,11 @@ msgstr "Dag"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
-msgstr ""
+msgstr "Dag i månaden"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Week"
-msgstr ""
+msgstr "Dag i veckan"
 
 #: lib/eventum/class.customer_stats_report.php:704
 msgid "Days"
@@ -1703,11 +1703,11 @@ msgstr "Dagar"
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Days and Hours Since"
-msgstr ""
+msgstr "Dagar och timmar sedan"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Dear"
-msgstr ""
+msgstr "Kära"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -1782,7 +1782,7 @@ msgstr "Beskrivning:"
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
-msgstr ""
+msgstr "Detaljer"
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -1808,7 +1808,7 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
-msgstr ""
+msgstr "Inaktiverad"
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
@@ -1876,21 +1876,21 @@ msgstr ""
 #: lib/eventum/class.monitor.php:72
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
-msgstr ""
+msgstr "ERROR: Nästan slut på ledigt diskutrymme (Procent ledigt: %.2f%%)"
 
 #: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
-msgstr ""
+msgstr "ERROR: Kunde inte hitta IRC-botens pid från processlistan."
 
 #: lib/eventum/class.monitor.php:238
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "ERROR: Kunde inte hitta den krävda tabellen \"%s\""
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
-msgstr ""
+msgstr "ERROR: Mappen kunde inte hittas (sökväg: %1$s)"
 
 #: lib/eventum/class.monitor.php:146
 #, php-format
@@ -1898,11 +1898,13 @@ msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
+"ERROR: Mappens behörighet felaktig (sökväg: %1$s; nuvarande behörighet: "
+"%2$s; korrekt behörighet: %3$s)"
 
 #: lib/eventum/class.monitor.php:97
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "ERROR: Filen kunde inte hittas (sökväg: %s)"
 
 #: lib/eventum/class.monitor.php:108
 #, php-format
