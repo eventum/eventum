@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2010-11-17 22:57+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2011-03-24 17:41+0000\n"
+"Last-Translator: Clément Bourdon <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-25 04:41+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -120,7 +120,7 @@ msgstr "(archivé)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(1% par défaut)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -1233,10 +1233,12 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html
 msgid "Blue values indicate value is lower than the aggregate one."
 msgstr ""
+"Les valeurs en bleu indiquent que la valeur est inférieure à la valeur "
+"globale."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Boilerplate:"
-msgstr ""
+msgstr "Passe-partout:"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -1321,7 +1323,7 @@ msgstr "Copie à (CC)"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
-msgstr ""
+msgstr "Changer les attributions de:"
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
@@ -1342,15 +1344,15 @@ msgstr ""
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Vérifiez l'espace disque:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Vérifiez le Bot IRC:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Vérifiez les chemins:"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1477,7 +1479,7 @@ msgstr "Commentaires :"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
-msgstr ""
+msgstr "Message de validation"
 
 #: templates/view_form.tpl.html
 msgid "Complete Details"
@@ -1535,7 +1537,7 @@ msgstr "Créer un compte"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Create Account Manager"
-msgstr ""
+msgstr "Créer un gestionnaire de compte"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -1573,7 +1575,7 @@ msgstr "Créer un problème"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Créer un filtre de liens"
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
@@ -1581,7 +1583,7 @@ msgstr "Créer un nouveau problème"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
-msgstr ""
+msgstr "Créer une entrée de nouvelles"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Create Note"
@@ -1609,11 +1611,11 @@ msgstr "Créer une résolution"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Create Round Robin Entry"
-msgstr ""
+msgstr "Créer une règle d'ordonnancement"
 
 #: templates/manage/statuses.tpl.html
 msgid "Create Status"
-msgstr ""
+msgstr "Créer un statut"
 
 #: templates/manage/users.tpl.html
 msgid "Create User"
@@ -1635,7 +1637,7 @@ msgstr "Date de création"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Créer un nouveau rappel"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
@@ -1655,7 +1657,7 @@ msgstr "Sellections en cours:"
 
 #: templates/current_filters.tpl.html
 msgid "Current filters:"
-msgstr ""
+msgstr "Filtres courants"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
@@ -1668,12 +1670,12 @@ msgstr "Champs personnalisés"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
-msgstr ""
+msgstr "Rapport des champs personnalisés"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields Weekly Report"
-msgstr ""
+msgstr "Rapport hebdomadaire des champs personnalisés"
 
 #: lib/eventum/class.custom_field.php:311
 #, php-format
@@ -1697,16 +1699,18 @@ msgstr "Client"
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
-msgstr ""
+msgstr "Contrat client"
 
 #: lib/eventum/class.customer_stats_report.php:728
 msgid "Customer Counts"
-msgstr ""
+msgstr "Comptes client"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
+"Identité du client  (par exemple: \"Example Inc.\", \"johndoe@example.com\", "
+"12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
@@ -1718,11 +1722,11 @@ msgstr "Numéro de téléphone du client"
 
 #: templates/reports/tree.tpl.html
 msgid "Customer Profile Stats"
-msgstr ""
+msgstr "Situé dans templates/manage/projects.tpl.html"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customer Stats Report"
-msgstr ""
+msgstr "Rapport des statistiques client"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Customer:"
@@ -1736,15 +1740,15 @@ msgstr "Clients"
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
-msgstr ""
+msgstr "Personnaliser l'écran Liste émission"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr ""
+msgstr "Personnaliser les paramètres de surveillance"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
-msgstr ""
+msgstr "Conseils du jour:"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1775,7 +1779,7 @@ msgstr "Plage de date"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Date Triggered"
-msgstr ""
+msgstr "Date Déclenchée"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Date issue was opened - Date issue was closed for all closed issues."
@@ -1787,7 +1791,7 @@ msgstr "Date d'appel"
 
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
-msgstr ""
+msgstr "Situé dans templates/reports/customer_stats.tpl.html"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
@@ -1808,7 +1812,7 @@ msgstr "Jours"
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Days and Hours Since"
-msgstr ""
+msgstr "Jours et heures Depuis"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Dear"
@@ -1821,7 +1825,7 @@ msgstr "Catégorie par défaut :"
 
 #: templates/manage/general.tpl.html
 msgid "Default Options for Notifications:"
-msgstr ""
+msgstr "Options par défaut pour les notifications:"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -1870,11 +1874,11 @@ msgstr "Décroissant"
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
 msgid "Description Field"
-msgstr ""
+msgstr "Champ Description"
 
 #: templates/view_form.tpl.html
 msgid "Description is currently collapsed"
@@ -1882,12 +1886,12 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
 msgid "Description:"
-msgstr ""
+msgstr "Description :"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
-msgstr ""
+msgstr "Détails"
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
@@ -1906,7 +1910,7 @@ msgstr "Le saviez vous ?"
 
 #: templates/manage/general.tpl.html
 msgid "Diff Page:"
-msgstr ""
+msgstr "Page de différences"
 
 #: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
@@ -1917,11 +1921,11 @@ msgstr "Désactivé"
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
-msgstr ""
+msgstr "Dissocier sélectionnés"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Display on List Issues Page"
-msgstr ""
+msgstr "Afficher sur la Page de la liste des questions"
 
 #: lib/eventum/class.customer_stats_report.php:690
 msgid ""
@@ -1940,7 +1944,7 @@ msgstr "Voulez-vous continuer ?"
 
 #: templates/view_email.tpl.html
 msgid "Download Raw Email"
-msgstr ""
+msgstr "Télécharger Email brut"
 
 #: templates/manage/general.tpl.html
 msgid "Draft Address Prefix:"
@@ -1976,12 +1980,13 @@ msgstr "Copies"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
-msgstr ""
+msgstr "E-mail au sujet de la mise à jour de la question a été envoyée à"
 
 #: lib/eventum/class.monitor.php:72
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
+"ERREUR: presque plus d'espace libre sur le disque (en pourcentage: %.2f%%)"
 
 #: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -2050,6 +2055,8 @@ msgstr ""
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"ERREUR: L'espace disque libre devient très faible (pourcentage restant: "
+"%.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -2071,6 +2078,7 @@ msgstr ""
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
+"ERREUR: Il ya un total de %d e-mails en file d'attente avec des erreurs."
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
