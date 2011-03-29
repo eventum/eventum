@@ -639,7 +639,7 @@ class Custom_Field
                     } elseif ($row['fld_type'] == 'multiple') {
                         // check whether this field is already in the array
                         $found = 0;
-                        foreach ($fileds as $y => $field) {
+                        foreach ($fields as $y => $field) {
                             if ($field['fld_id'] == $row['fld_id']) {
                                 $found = 1;
                                 $found_index = $y;
