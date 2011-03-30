@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-02-26 14:57+0000\n"
-"Last-Translator: yosergio64 <Unknown>\n"
+"PO-Revision-Date: 2011-03-29 22:55+0000\n"
+"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-02-27 04:40+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-03-30 04:38+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 "Language: es\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -2842,7 +2842,7 @@ msgstr "Mayores Que"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
-msgstr "Mayor o Igual"
+msgstr "Mayor o igual"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
