@@ -387,8 +387,8 @@ class Attachment
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $files = array();
-        $nfiles = $_FILES["attachment"]["name"];
-        for ($i = 0; $i < $nfile; $i++) {
+        $nfiles = count($_FILES["attachment"]["name"]);
+        for ($i = 0; $i < $nfiles; $i++) {
             $filename = @$_FILES["attachment"]["name"][$i];
             if (empty($filename)) {
                 continue;
