@@ -13,7 +13,6 @@ that it needs to work properly:
    Auth_SASL 1.0.4
    DB 1.7.13
    Date 1.4.7
-   HTTP 1.4.0
    Mail 1.2.0
    Mail_Mime 1.5.2
    Mail_mimeDecode 1.5.5
