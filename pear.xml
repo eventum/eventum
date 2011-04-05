@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!-- vim:ft=ant -->
+<project name="pear" default="make" basedir=".">
+
+	<property name="dir.build" value="build"/>
+	<property name="dir.test" value="${dir.src}/tests"/>
+
+	<target name="cleanup">
+		<delete dir="${dir.build}"/>
+	</target>
+
+	<target name="prepare" depends="cleanup">
+		<mkdir dir="${dir.build}"/>
+	</target>
+
+	<target name="export" depends="prepare">
+		<echo msg="Exporting Eventum files"/>
+		<delete dir="${dir.build}/${name}"/>
+		<!-- track: http://www.phing.info/trac/ticket/567 -->
+		<exec dir="${dir.src}" checkreturn="true" escape="false" passthru="true"
+			command="bzr export ${dir.build}/${name}"
+		/>
+
+		<!-- tidy up -->
+		<exec dir="${dir.build}/${name}" checkreturn="true" escape="false" passthru="true"
+			command="
+			./dyncontent-chksum.pl;
+
+			make -C localization install localedir=.;
+			rm -f localization/{tsmarty2c,*.mo};
+			touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log};
+			chmod -R a+rX .;
+			chmod -R a+rwX templates_c locks logs config;
+			rm -f release.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl;
+			rm -f build.xml;
+			"
+		/>
+		<!-- cleanup -->
+		<delete dir="${dir.build}/${name}/tests"/>
+		<delete file="${dir.build}/${name}/build.xml"/>
+
+		<delete>
+			<fileset dir="${dir.build}/${name}/localization">
+				<include name="*.po" />
+				<include name="*.pot" />
+				<include name="Makefile" />
+			</fileset>
+		</delete>
+
+		<!-- not bundling, handled by deps -->
+		<delete dir="${dir.build}/${name}/lib/pear"/>
+		<delete dir="${dir.build}/${name}/lib/Smarty"/>
+		<delete dir="${dir.build}/${name}/cli/lib/pear"/>
+		<delete dir="${dir.build}/${name}/cli/lib/pear"/>
+	</target>
+
+	<taskdef classname="phing.tasks.ext.d51PearPkg2Task" name="d51pearpkg2"/>
+	<target name="build" depends="export">
+		<d51pearpkg2 dir="${dir.build}" baseinstalldir="/">
+			<name>${name}</name>
+			<summary>Eventum Issue / Bug tracking system</summary>
+			<!-- fake channel for now -->
+			<channel>pear.php.net</channel>
+			<description>
+				<!--        Don't exceed this width         -->
+				Eventum is a user-friendly and flexible issue
+				tracking system that can be used by a support
+				department to track incoming technical support
+				requests, or by a software development team to
+				quickly organize tasks and bugs. Eventum is
+				used by the MySQL AB Technical Support team,
+				and has allowed us to dramatically improve our
+				response times.
+			</description>
+			
+			<lead user="glen" name="Elan Ruusamäe" email="glen@delfi.ee"/>
+			<license>LGPL</license>
+			
+			<version release="${version}" api="${version}"/>
+			<stability release="stable" api="stable"/>
+			
+			<dependencies>
+				<php minimum_version="5.1.2"/>
+				<pear minimum_version="1.6.0"/>
+				<package name="PEAR" channel="pear.php.net" minimum_version="1.9.1"/>
+				<package name="smarty" channel="pear-smarty.googlecode.com/svn" minimum_version="2.6.0" type="optional"/>
+				<package name="Auth_SASL" channel="pear.php.net" minimum_version="1.0.4" type="optional"/>
+				<package name="DB" channel="pear.php.net" minimum_version="1.7.13"/>
+				<package name="Date" channel="pear.php.net" minimum_version="1.4.7"/>
+				<package name="Mail" channel="pear.php.net" minimum_version="1.2.0"/>
+				<package name="Mail_Mime" channel="pear.php.net" minimum_version="1.5.2"/>
+				<package name="Mail_mimeDecode" channel="pear.php.net" minimum_version="1.5.1"/>
+				<package name="Net_POP3" channel="pear.php.net" minimum_version="1.3.8" type="optional"/>
+				<package name="Net_SMTP" channel="pear.php.net" minimum_version="1.4.2"/>
+				<package name="Net_SmartIRC" channel="pear.php.net" minimum_version="1.0.1"/>
+				<package name="Net_Socket" channel="pear.php.net" minimum_version="1.0.9"/>
+				<package name="Net_UserAgent_Detect" channel="pear.php.net" minimum_version="2.5.2"/>
+				<package name="Net_URL" channel="pear.php.net" minimum_version="1.0.15"/>
+				<package name="Text_Diff" channel="pear.php.net" minimum_version="1.1.1"/>
+				<package name="XML_RPC" channel="pear.php.net" minimum_version="1.5.4"/>
+			</dependencies>
+
+			<changelog version="2.3.1" date="2011-02-10" license="GPL">
+				See docs/Changelog for details
+			</changelog>
+		</d51pearpkg2>
+	</target>
+
+	<target name="make" depends="build">
+		<echo msg="Creating PEAR archive file for Eventum"/>
+		<!-- it needs just renamed -->
+		<delete dir="${dir.build}/${name}-${version}"/>
+		<mkdir dir="${dir.build}/${name}-${version}"/>
+		<copy todir="${dir.build}/${name}-${version}" preservelastmodified="true">
+			<fileset dir="${dir.build}/${name}">
+				<include name="*/**"/>
+			</fileset>
+		</copy>
+		<delete dir="${dir.build}/${name}"/>
+
+		<delete file="${name}-${version}.tgz"/>
+		<tar compression="gzip" destfile="${name}-${version}.tgz" basedir="${dir.build}"/>
+	</target>
+</project>

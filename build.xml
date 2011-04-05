@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project name="eventum" default="all" basedir=".">
-	<property name="project.name" value="${phing.project.name}" />
+	<property name="name" value="${phing.project.name}" />
+	<property name="version" value="2.3.1" />
 	<property name="dir.src" value="." />
 	<property name="dir.test" value="${dir.src}/tests" />
 
@@ -73,5 +74,14 @@
 				</fileset>
 			</batchtest>
 		</phpunit>
+	</target>
+
+	<import file="pear.xml"/>
+	<target name="pear" description="Create PEAR package.">
+		<echo msg="Creating PEAR package"/>
+		<phingcall target="make">
+			<property name="name" value="${name}" />
+			<property name="version" value="${version}" />
+		</phingcall>
 	</target>
 </project>
