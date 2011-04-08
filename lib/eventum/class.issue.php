@@ -598,11 +598,10 @@ class Issue
     /**
      * Returns the current issue priority
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      * @return  integer The priority
      */
-    function getPriority($issue_id)
+    public static function getPriority($issue_id)
     {
         $sql = "SELECT
                     iss_pri_id
@@ -3224,11 +3223,10 @@ class Issue
      * Method used to get the full list of user IDs assigned to a specific
      * issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of user IDs
      */
-    function getAssignedUserIDs($issue_id)
+    public static function getAssignedUserIDs($issue_id)
     {
         $stmt = "SELECT
                     usr_id
@@ -3419,12 +3417,11 @@ class Issue
     /**
      * Method used to get the details for a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   boolean $force_refresh If the cache should not be used.
      * @return  array The details for the specified issue
      */
-    function getDetails($issue_id, $force_refresh = false)
+    public static function getDetails($issue_id, $force_refresh = false)
     {
         static $returns;
 

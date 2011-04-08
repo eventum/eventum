@@ -59,7 +59,7 @@ class Auth
      * @param   string $type Whether it was a successful login or not
      * @param   string $extra The reason for not being a successful login
      */
-    function saveLoginAttempt($email, $type, $extra = false)
+    public static function saveLoginAttempt($email, $type, $extra = false)
     {
         $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
         if ($type == 'success') {
@@ -260,11 +260,10 @@ class Auth
      * Method used to get the unserialized contents of the specified cookie
      * name.
      *
-     * @access  public
      * @param   string $cookie_name The name of the cookie to check for
      * @return  array The unserialized contents of the cookie
      */
-    function getCookieInfo($cookie_name)
+    public static function getCookieInfo($cookie_name)
     {
         $cookie = @$_COOKIE[$cookie_name];
         return unserialize(base64_decode($cookie));
@@ -274,11 +273,10 @@ class Auth
     /**
      * Method used to check whether a cookie is valid or not.
      *
-     * @access  public
      * @param   array $cookie The unserialized contents of the cookie
      * @return  boolean
      */
-    function isValidCookie($cookie)
+    public static function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
                ($cookie["hash"] != md5(self::privateKey() . md5($cookie["login_time"]) . $cookie["email"]))) {
@@ -410,10 +408,9 @@ class Auth
     /**
      * Gets the current user ID.
      *
-     * @access  public
      * @return  integer The ID of the user
      */
-    function getUserID()
+    public static function getUserID()
     {
         $info = self::getCookieInfo(APP_COOKIE);
         if (empty($info)) {
@@ -427,10 +424,9 @@ class Auth
     /**
      * Gets the current selected project from the project cookie.
      *
-     * @access  public
      * @return  integer The project ID
      */
-    function getCurrentProject()
+    public static function getCurrentProject()
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie)) {
@@ -466,10 +462,9 @@ class Auth
     /**
      * Gets the current role in the current project.
      *
-     * @access  public
      * @return  integer The current role ID
      */
-    function getCurrentRole()
+    public static function getCurrentRole()
     {
         $prj_id = self::getCurrentProject();
         $usr_id = self::getUserID();
@@ -531,11 +526,10 @@ class Auth
     /**
      * Hashes the password according to APP_HASH_TYPE constant
      *
-     * @access  public
      * @param   string $password The plain text password
      * @return  string The hashed password
      */
-    function hashPassword($password)
+    public static function hashPassword($password)
     {
         if (APP_HASH_TYPE == 'MD5-64') {
             return base64_encode(pack('H*',md5($password)));

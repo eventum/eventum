@@ -60,7 +60,6 @@ class History
     /**
      * Method used to log the changes made against a specific issue.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user.
      * @param   integer $htt_id The type ID of this history event.
@@ -68,7 +67,7 @@ class History
      * @param   boolean $hide If this history item should be hidden.
      * @return  void
      */
-    function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
@@ -163,11 +162,10 @@ class History
     /**
      * Returns the id for the history type based on name.
      *
-     * @access  public
      * @param   string The name of the history type
      * @return  integer The id of this type.
      */
-    function getTypeID($name)
+    public static function getTypeID($name)
     {
         static $returns;
 
@@ -408,14 +406,13 @@ class History
      * Fills a result set with a flag indicating if this issue only had it's status
      * changed in the given time period.
      *
-     * @access  public
      * @param   array $res User issues
      * @param   integer $usr_id The ID of the user this report is for.
      * @param   integer $start The timestamp of the beginning of the report.
      * @param   integer $end The timestamp of the end of this report.
      * @return  boolean True if only status changed else false
      */
-    function fillStatusChangedOnlyIssues(&$res, $usr_id, $start, $end) {
+    public static function fillStatusChangedOnlyIssues(&$res, $usr_id, $start, $end) {
 
         $issue_ids = array();
         for ($i = 0; $i < count($res); $i++) {

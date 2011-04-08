@@ -102,6 +102,7 @@ class Draft
         $stmt .= ")";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
@@ -220,13 +221,12 @@ class Draft
      * Method used to associate a recipient with a given email
      * draft response.
      *
-     * @access  public
      * @param   integer $emd_id The email draft ID
      * @param   string $email The recipient's email address
      * @param   boolean $is_cc Whether this recipient is in the Cc list for the given draft
      * @return  boolean
      */
-    function addEmailRecipient($emd_id, $email, $is_cc)
+    public static function addEmailRecipient($emd_id, $email, $is_cc)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         if (!$is_cc) {
@@ -248,6 +248,7 @@ class Draft
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
@@ -274,6 +275,7 @@ class Draft
                     emd_id=$emd_id";
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {

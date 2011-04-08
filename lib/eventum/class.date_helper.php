@@ -124,10 +124,9 @@ class Date_Helper
      *                                        (DATE_FORMAT_UNIXTIME).
      *
      * @return   Object Date in GMT timezone
-     * @access   public
      * @see      new Date()
      */
-    function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
+    public static function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
     {
         $dt = new Date();
         $dt->toUTC();
@@ -220,10 +219,9 @@ class Date_Helper
     /**
      * Method used to get the current date in the GMT timezone.
      *
-     * @access  public
      * @return  string The current GMT date in DATE_FORMAT_ISO format.
      */
-    function getCurrentDateGMT()
+    public static function getCurrentDateGMT()
     {
         return gmdate('Y-m-d H:i:s');
     }
@@ -248,11 +246,11 @@ class Date_Helper
      * Method used to get the proper short name for a given date.
      *
      * @access  public
-     * @param   object $date The Date object
+     * @param   Date $date The Date object
      * @return  string The timezone short name
      * @note    PEAR Date 1.5.0 Includes this method itself.
      */
-    function getTimezoneShortName($date)
+    public static function getTimezoneShortName($date)
     {
         if ($date->inDaylightTime()) {
             return $date->tz->getDSTShortName();
@@ -281,12 +279,11 @@ class Date_Helper
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
      *
-     * @access  public
      * @param   string $ts The date timestamp to be formatted
      * @param   string $timezone The timezone name
      * @return  string
      */
-    function getFormattedDate($ts, $timezone = FALSE)
+    public static function getFormattedDate($ts, $timezone = FALSE)
     {
         if ($timezone === FALSE) {
             $timezone = self::getPreferredTimezone();
@@ -326,11 +323,10 @@ class Date_Helper
     /**
      * Method used to get the timezone preferred by the user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The timezone preferred by the user
      */
-    function getPreferredTimezone($usr_id = FALSE)
+    public static function getPreferredTimezone($usr_id = FALSE)
     {
         if ($usr_id === FALSE) {
             $usr_id = Auth::getUserID();
@@ -350,10 +346,9 @@ class Date_Helper
     /**
      * Method used to get the application default timezone.
      *
-     * @access  public
      * @return  string The default timezone
      */
-    function getDefaultTimezone()
+    public static function getDefaultTimezone()
     {
         return APP_DEFAULT_TIMEZONE;
     }
@@ -451,11 +446,10 @@ class Date_Helper
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
-     * @access  private
      * @param   integer $start The start date of the week.
      * @return  array An array usable as an option in getWeekOptions.
      */
-    function formatWeekOption($start)
+    private static function formatWeekOption($start)
     {
         $value_format = "Y-m-d";
         $display_format = "M jS";

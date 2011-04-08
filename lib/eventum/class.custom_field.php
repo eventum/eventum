@@ -1380,11 +1380,10 @@ class Custom_Field
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project.
      * @return  array An array of custom field names.
      */
-    function getFieldsToBeListed($prj_id)
+    public static function getFieldsToBeListed($prj_id)
     {
         $sql = "SELECT
                     fld_id,
