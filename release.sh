@@ -4,7 +4,7 @@ set -x
 app=eventum
 rc=dev # development version
 #rc=RC1 # release candidate
-rc= # release
+#rc= # release
 dir=$app
 
 # checkout
