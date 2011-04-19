@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-03-14 22:36+0000\n"
-"Last-Translator: Ewout <Unknown>\n"
+"PO-Revision-Date: 2011-04-18 14:19+0000\n"
+"Last-Translator: Berty <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-03-15 04:56+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-04-19 04:51+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -32,7 +32,7 @@ msgstr ""
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -45,7 +45,7 @@ msgstr "%1veld"
 #: lib/eventum/class.filter.php:670
 #, php-format
 msgid "%1$s Group"
-msgstr ""
+msgstr "%1$s groep"
 
 #: lib/eventum/class.filter.php:599
 #, php-format
@@ -55,19 +55,23 @@ msgstr ""
 #: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or less"
-msgstr ""
+msgstr "%1$s of minder"
 
 #: templates/list.tpl.html
 msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"%2 geleden"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"'Notities discussie', 'Email discussie' en 'Telefoon discussie' categorieën "
+"zijn vereist door Eventum en kunnen niet worden gewist."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -127,6 +131,8 @@ msgstr "(bv. %1)"
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
+"(Hou 'ALT' ingedrukt en druk op '3' tegelijkertijd) - om toegang te krijgen "
+"tot het 'Zoek' veld"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
@@ -178,6 +184,8 @@ msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
+"<b>OPMERKING:</b> E-mail zal opgeslagen worden als een notitie en enkel "
+"verstuurd worden naar medewerkers"
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -274,6 +282,9 @@ msgid ""
 "user or a developer updating an issue, uploading a file, sending an email, "
 "etc."
 msgstr ""
+"Acties zijn gebeurtenissen die voorkomen tijdens het bestaan van een "
+"onderwerp, zoals een gebruiker of een ontwikkelaar die een onderwerp update, "
+"bestand upload, e-mail verstuurd, enz."
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
@@ -335,7 +346,7 @@ msgstr "Bestanden"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Voeg mij toe aan verwittigingslijst"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -477,6 +488,8 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Sta toe alle onderwerpen te bekijken van deze gebruiker; Sta toe om nieuwe "
+"onderwerpen te creëren en e-mails te versturen over bestaande onderwerpen."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
