@@ -1694,7 +1694,7 @@ class Issue
             if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
                 $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
             }
-            if (count($product_changes) > 0) {
+            if (isset($_POST['product']) && count($product_changes) > 0) {
                 $updated_fields['Product'] = join('; ', $product_changes);
             }
             if (count($updated_fields) > 0) {
