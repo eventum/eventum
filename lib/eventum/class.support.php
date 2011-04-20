@@ -1582,8 +1582,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id=" . Misc::escapeInteger($sup_id) . " AND
-                    sup_ema_id=" . Misc::escapeInteger($ema_id);
+                    sup_id=" . Misc::escapeInteger($sup_id);
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1746,6 +1745,7 @@ class Support
                     sup_to,
                     sup_cc,
                     sup_date,
+                    UNIX_TIMESTAMP(sup_date) as date_ts,
                     sup_subject,
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
@@ -2080,7 +2080,7 @@ class Support
         $message_id = Mail_Helper::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = self::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
-                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, $_FILES["attachment"]);
+                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, @$_FILES["attachment"]);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
@@ -2170,7 +2170,7 @@ class Support
             'subject'        => @$_POST['subject'],
             'body'           => $_POST['message'],
             'full_email'     => $full_email,
-            'has_attachment' => $_FILES['attachment'] && !empty($_FILES['attachment']['name'][0]) ? 1 : 0
+            'has_attachment' => @$_FILES['attachment'] && !empty($_FILES['attachment']['name'][0]) ? 1 : 0
         );
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {

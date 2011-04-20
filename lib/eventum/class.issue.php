@@ -877,7 +877,7 @@ class Issue
             return '';
         } else {
             // TRANSLATORS: %1 = issue_id, %2 = issue summary
-            $res['reply_subject'] = ev_gettext('Re: [%1$s] %2$s', $issue_id, $res["sup_subject"]);
+            $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', $issue_id, $res["sup_subject"]);
             $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
             return $res;
         }
