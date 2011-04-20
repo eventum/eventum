@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-09-08 11:44+0300\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: 2010-09-08 12:26+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2010-09-09 04:49+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:57+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -109,9 +109,13 @@ msgstr ""
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(зазвичай порт 110 для РОР3 серверів, і порт 143 для ІМАР)"
 
-#: lib/eventum/class.template_helper.php:172
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(заархівовано)"
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -200,7 +204,7 @@ msgstr "В системі тількищо був створений новий 
 msgid "ADDED"
 msgstr "Додано"
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "ІНФОРМАЦІЯ: Ваша відповідь буде надіслано по списку повідомлень."
 
@@ -336,6 +340,10 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
+msgstr ""
+
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
 msgstr ""
 
 #: templates/self_assign.tpl.html
@@ -960,11 +968,11 @@ msgstr ""
 msgid "Attached Files"
 msgstr ""
 
-#: lib/eventum/class.support.php:1452
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
 msgstr ""
 
@@ -1224,6 +1232,18 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -1610,6 +1630,10 @@ msgstr ""
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr ""
@@ -1776,9 +1800,10 @@ msgstr ""
 msgid "Diff Page:"
 msgstr ""
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr ""
 
@@ -1845,75 +1870,84 @@ msgstr ""
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:83
-msgid "ERROR: Almost no free disk space left (percentage left"
+#: lib/eventum/class.monitor.php:72
+#, php-format
+msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:171
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
-msgstr ""
-
-#: lib/eventum/class.monitor.php:269
+#: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr ""
 
-#: lib/eventum/class.monitor.php:142
+#: lib/eventum/class.monitor.php:238
+#, php-format
+msgid "ERROR: Could not find required table \"%s\""
+msgstr ""
+
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:148
+#: lib/eventum/class.monitor.php:146
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:104
-msgid "ERROR: File could not be found (path"
+#: lib/eventum/class.monitor.php:97
+#, php-format
+msgid "ERROR: File could not be found (path: %s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:113
+#: lib/eventum/class.monitor.php:108
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:110
+#: lib/eventum/class.monitor.php:104
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:118
+#: lib/eventum/class.monitor.php:114
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:122
+#: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:87
-msgid "ERROR: Free disk space left is getting very low (percentage left"
+#: lib/eventum/class.monitor.php:76
+#, php-format
+msgid ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
+msgstr ""
+
+#: lib/eventum/class.monitor.php:54
+#, php-format
+msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
@@ -1973,12 +2007,12 @@ msgstr ""
 msgid "Email #%1$s: %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1504
+#: lib/eventum/class.support.php:1502
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1847
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2086,7 +2120,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2571
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2145,9 +2179,10 @@ msgstr ""
 msgid "Empty Subject Header"
 msgstr ""
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr ""
 
@@ -3401,6 +3436,10 @@ msgstr ""
 msgid "Monday"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr ""
@@ -3527,7 +3566,7 @@ msgstr ""
 msgid "Next Note"
 msgstr ""
 
-#: lib/eventum/class.misc.php:693 templates/close.tpl.html
+#: lib/eventum/class.misc.php:720 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3834,25 +3873,25 @@ msgid "Notification List:"
 msgstr ""
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
+msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -3863,6 +3902,10 @@ msgstr ""
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
+msgstr ""
+
+#: crons/monitor.php:101
+msgid "OK: No errors found"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html
@@ -3885,7 +3928,7 @@ msgstr ""
 msgid "Only for Known Customers?"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -3975,7 +4018,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2205
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -4014,6 +4057,10 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
 msgstr ""
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
@@ -4396,13 +4443,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4857,6 +4904,10 @@ msgstr ""
 msgid "Please enter your password."
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
 "Please indicate whether the SMTP server requires authentication or not."
@@ -5229,6 +5280,20 @@ msgid ""
 "closed automatically."
 msgstr ""
 
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [#%1$s] %2$s"
+msgstr ""
+
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
 msgstr ""
@@ -5554,8 +5619,8 @@ msgstr ""
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -6515,7 +6580,7 @@ msgstr ""
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 
@@ -7360,8 +7425,12 @@ msgstr ""
 msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr ""
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7493,6 +7562,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr ""
 
@@ -7658,7 +7728,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -7711,7 +7781,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -7777,6 +7847,12 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
+"We received a message from %1 and created an issue from it. Since you were a "
+"recipient of the original message, we are sending you the issue details."
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
@@ -7798,6 +7874,14 @@ msgstr ""
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
 msgstr ""
 
 #: templates/resize_textarea.tpl.html
@@ -7850,7 +7934,7 @@ msgstr ""
 msgid "Workload by time period"
 msgstr ""
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:691
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8107,6 +8191,12 @@ msgstr ""
 #: templates/attachments.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "download file"
+msgstr ""
+
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html

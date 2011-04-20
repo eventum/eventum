@@ -241,14 +241,13 @@ class Misc
      * Method used to simulate array_map()'s functionality in a deeply nested
      * array. The PHP built-in function does not allow that.
      *
-     * @access  public
      * @param   array $in_array The array to run the function against
      * @param   string $in_func The function to run
      * @param   array $in_args The array of arguments to pass to the function
      * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
-    function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
+    public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
     {
        // fix people from messing up the index of the value
        if ($in_index < 1) {
@@ -363,10 +362,10 @@ class Misc
      * Method used to escape a string before using it in a query.
      *
      * @access  public
-     * @param   string $str The original string
+     * @param   string|array $input The original string
      * @return  string The escaped (or not) string
      */
-    function escapeString($input)
+    public static function escapeString($input)
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
@@ -382,11 +381,10 @@ class Misc
     /**
      * Accepts a value and cleans it to only contain numeric values
      *
-     * @access  public
      * @param   mixed $input The original input.
      * @return  integer The input converted to an integer
      */
-    function escapeInteger($input)
+    public static function escapeInteger($input)
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
@@ -394,6 +392,25 @@ class Misc
             }
         } else {
             settype($input, 'integer');
+        }
+        return $input;
+    }
+
+
+    /**
+     * Method used to strip HTML from a string or array
+     *
+     * @param   string $str The original string or array
+     * @return  string The escaped (or not) string
+     */
+    public static function stripHTML($input)
+    {
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = self::stripHTML($value);
+            }
+        } else {
+            $input = filter_var($input, FILTER_SANITIZE_SPECIAL_CHARS);
         }
         return $input;
     }
@@ -421,11 +438,10 @@ class Misc
     /**
      * Method used to get a random file from the 'daily tips' directory.
      *
-     * @access  public
      * @param   object $tpl The template object
      * @return  string Random filename
      */
-    function getRandomTip($tpl)
+    public static function getRandomTip($tpl)
     {
         $tpl_dir = $tpl->smarty->template_dir;
         if (is_array($tpl_dir)) {
@@ -452,7 +468,7 @@ class Misc
      * @param   string $directory The path to list the files from
      * @return  array The list of files
      */
-    function getFileList($directory)
+    public static function getFileList($directory)
     {
         $files = array();
         $dir = @opendir($directory);
@@ -510,7 +526,7 @@ class Misc
      */
     function activateLinks($text, $class = "link")
     {
-        $range = '[-\w+@=?.%/:&;~|,#]+';
+        $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
         // Bryan Alsdorf <bryan@askmonty.org>
         $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
@@ -690,11 +706,10 @@ class Misc
     /**
      * Base 64 encodes all elements of an array.
      *
-     * @access  public
      * @param   array $values The values to encode
      * @return  array The array of encoded values.
      */
-    function base64encode($values)
+    public static function base64encode($values)
     {
         foreach ($values as $key => $value) {
             if (is_array($value)) {
@@ -743,7 +758,7 @@ class Misc
     }
 
 
-    function setMessage($msg, $is_error = false)
+    function setMessage($msg)
     {
         self::$messages[] = $msg;
     }

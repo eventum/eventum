@@ -88,8 +88,8 @@ function getSimpleIssueDetails($p)
 
     $details = Issue::getDetails($issue_id);
     if (empty($details)) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
         global $XML_RPC_erruser;
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
     }
 
     return new XML_RPC_Response(new XML_RPC_Value(array(
@@ -345,7 +345,7 @@ function takeIssue($p)
     if ($res == -1) {
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not assign issue #$issue_id to $email");
-    
+
     }
 
     $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");

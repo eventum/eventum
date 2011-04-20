@@ -1,15 +1,16 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Engine/xdiff.php,v 1.3 2007/09/25 21:59:46 chuck Exp $
+ * Class used internally by Diff to actually compute the diffs.
  *
- * Class used internally by Diff to actually compute the diffs.  This class
- * uses the xdiff PECL package (http://pecl.php.net/package/xdiff) to compute
- * the differences between the two input arrays.
+ * This class uses the xdiff PECL package (http://pecl.php.net/package/xdiff)
+ * to compute the differences between the two input arrays.
  *
- * Copyright 2004-2007 The Horde Project (http://www.horde.org/)
+ * $Horde: framework/Text_Diff/Diff/Engine/xdiff.php,v 1.4.2.5 2009/07/24 13:06:24 jan Exp $
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * Copyright 2004-2009 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @author  Jon Parise <jon@horde.org>
  * @package Text_Diff
@@ -41,6 +42,9 @@ class Text_Diff_Engine_xdiff {
          * valid, albeit a little less descriptive and efficient. */
         $edits = array();
         foreach ($diff as $line) {
+            if (!strlen($line)) {
+                continue;
+            }
             switch ($line[0]) {
             case ' ':
                 $edits[] = &new Text_Diff_Op_copy(array(substr($line, 1)));

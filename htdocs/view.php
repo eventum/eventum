@@ -256,6 +256,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'checkins'           => SCM::getCheckinList($issue_id),
                     'time_categories'    => Time_Tracking::getAssocCategories(),
                     'time_entries'       => $time_entries['list'],
+                    'total_time_by_user' => $time_entries['total_time_by_user'],
                     'total_time_spent'   => $time_entries['total_time_spent'],
                     'impacts'            => Impact_Analysis::getListing($issue_id),
                     'statuses'           => $statuses,

@@ -1888,4 +1888,3 @@ function XML_RPC_encode($php_val)
  * c-hanging-comment-ender-p: nil
  * End:
  */
-

@@ -52,7 +52,7 @@
  * @author     Sean Coates <sean@php.net>
  * @copyright  2003-2006 PEAR <pear-group@php.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version    CVS: $Id: mimeDecode.php,v 1.48 2006/12/03 13:43:33 cipri Exp $
+ * @version    CVS: $Id: mimeDecode.php 305875 2010-12-01 07:17:10Z alan_k $
  * @link       http://pear.php.net/package/Mail_mime
  */
 
@@ -148,6 +148,15 @@ class Mail_mimeDecode extends PEAR
     var $_decode_headers;
 
     /**
+     * Flag to determine whether to include attached messages
+     * as body in the returned object. Depends on $_include_bodies
+     *
+     * @var    boolean
+     * @access private
+     */
+    var $_rfc822_bodies;
+
+    /**
      * Constructor.
      *
      * Sets up the object, initialise the variables, and splits and
@@ -165,6 +174,7 @@ class Mail_mimeDecode extends PEAR
         $this->_body           = $body;
         $this->_decode_bodies  = false;
         $this->_include_bodies = true;
+        $this->_rfc822_bodies  = false;
     }
 
     /**
@@ -187,7 +197,7 @@ class Mail_mimeDecode extends PEAR
     function decode($params = null)
     {
         // determine if this method has been called statically
-        $isStatic = !(isset($this) && get_class($this) == __CLASS__);
+        $isStatic = empty($this) || !is_a($this, __CLASS__);
 
         // Have we been called statically?
 	// If so, create an object and pass details to that.
@@ -208,6 +218,8 @@ class Mail_mimeDecode extends PEAR
 	                             $params['decode_bodies']  : false;
             $this->_decode_headers = isset($params['decode_headers']) ?
 	                             $params['decode_headers'] : false;
+            $this->_rfc822_bodies  = isset($params['rfc_822bodies']) ?
+	                             $params['rfc_822bodies']  : false;
 
             $structure = $this->_decode($this->_header, $this->_body);
             if ($structure === false) {
@@ -235,6 +247,7 @@ class Mail_mimeDecode extends PEAR
         $headers = $this->_parseHeaders($headers);
 
         foreach ($headers as $value) {
+            $value['value'] = $this->_decode_headers ? $this->_decodeHeader($value['value']) : $value['value'];
             if (isset($return->headers[strtolower($value['name'])]) AND !is_array($return->headers[strtolower($value['name'])])) {
                 $return->headers[strtolower($value['name'])]   = array($return->headers[strtolower($value['name'])]);
                 $return->headers[strtolower($value['name'])][] = $value['value'];
@@ -247,8 +260,8 @@ class Mail_mimeDecode extends PEAR
             }
         }
 
-        reset($headers);
-        while (list($key, $value) = each($headers)) {
+
+        foreach ($headers as $key => $value) {
             $headers[$key]['name'] = strtolower($headers[$key]['name']);
             switch ($headers[$key]['name']) {
 
@@ -261,7 +274,7 @@ class Mail_mimeDecode extends PEAR
                     }
 
                     if (isset($content_type['other'])) {
-                        while (list($p_name, $p_value) = each($content_type['other'])) {
+                        foreach($content_type['other'] as $p_name => $p_value) {
                             $return->ctype_parameters[$p_name] = $p_value;
                         }
                     }
@@ -271,7 +284,7 @@ class Mail_mimeDecode extends PEAR
                     $content_disposition = $this->_parseHeaderValue($headers[$key]['value']);
                     $return->disposition   = $content_disposition['value'];
                     if (isset($content_disposition['other'])) {
-                        while (list($p_name, $p_value) = each($content_disposition['other'])) {
+                        foreach($content_disposition['other'] as $p_name => $p_value) {
                             $return->d_parameters[$p_name] = $p_value;
                         }
                     }
@@ -303,6 +316,7 @@ class Mail_mimeDecode extends PEAR
                 case 'multipart/alternative':
                 case 'multipart/related':
                 case 'multipart/mixed':
+                case 'application/vnd.wap.multipart.related':
                     if(!isset($content_type['other']['boundary'])){
                         $this->_error = 'No boundary found for ' . $content_type['value'] . ' part';
                         return false;
@@ -321,6 +335,10 @@ class Mail_mimeDecode extends PEAR
                     break;
 
                 case 'message/rfc822':
+					if ($this->_rfc822_bodies) {
+						$encoding = isset($content_transfer_encoding) ? $content_transfer_encoding['value'] : '7bit';
+						$return->body = ($this->_decode_bodies ? $this->_decodeBody($body, $encoding) : $body);
+					}
                     $obj = new Mail_mimeDecode($body);
                     $return->parts[] = $obj->decode(array('include_bodies' => $this->_include_bodies,
 					                                      'decode_bodies'  => $this->_decode_bodies,
@@ -401,6 +419,11 @@ class Mail_mimeDecode extends PEAR
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
             return array($match[1], $match[2]);
         }
+        // bug #17325 - empty bodies are allowed. - we just check that at least one line
+        // of headers exist..
+        if (count(explode("\n",$input))) {
+            return array($input, '');
+        }
         $this->_error = 'Could not split header and body';
         return false;
     }
@@ -419,7 +442,12 @@ class Mail_mimeDecode extends PEAR
         if ($input !== '') {
             // Unfold the input
             $input   = preg_replace("/\r?\n/", "\r\n", $input);
+            //#7065 - wrapping.. with encoded stuff.. - probably not needed,
+            // wrapping space should only get removed if the trailing item on previous line is a
+            // encoded character
+            $input   = preg_replace("/=\r\n(\t| )+/", '=', $input);
             $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+
             $headers = explode("\r\n", trim($input));
 
             foreach ($headers as $value) {
@@ -430,7 +458,7 @@ class Mail_mimeDecode extends PEAR
 
                 $return[] = array(
                                   'name'  => $hdr_name,
-                                  'value' => $this->_decode_headers ? $this->_decodeHeader($hdr_value) : $hdr_value
+                                  'value' =>  $hdr_value
                                  );
             }
         } else {
@@ -454,41 +482,161 @@ class Mail_mimeDecode extends PEAR
     function _parseHeaderValue($input)
     {
 
-        if (($pos = strpos($input, ';')) !== false) {
-
-            $return['value'] = trim(substr($input, 0, $pos));
-            $input = trim(substr($input, $pos+1));
-
-            if (strlen($input) > 0) {
-
-                // This splits on a semi-colon, if there's no preceeding backslash
-                // Now works with quoted values; had to glue the \; breaks in PHP
-                // the regex is already bordering on incomprehensible
-                $splitRegex = '/([^;\'"]*[\'"]([^\'"]*([^\'"]*)*)[\'"][^;\'"]*|([^;]+))(;|$)/';
-                preg_match_all($splitRegex, $input, $matches);
-                $parameters = array();
-                for ($i=0; $i<count($matches[0]); $i++) {
-                    $param = $matches[0][$i];
-                    while (substr($param, -2) == '\;') {
-                        $param .= $matches[0][++$i];
-                    }
-                    $parameters[] = $param;
-                }
-
-                for ($i = 0; $i < count($parameters); $i++) {
-                    $param_name  = trim(substr($parameters[$i], 0, $pos = strpos($parameters[$i], '=')), "'\";\t\\ ");
-                    $param_value = trim(str_replace('\;', ';', substr($parameters[$i], $pos + 1)), "'\";\t\\ ");
-                    if ($param_value[0] == '"') {
-                        $param_value = substr($param_value, 1, -1);
-                    }
-                    $return['other'][$param_name] = $param_value;
-                    $return['other'][strtolower($param_name)] = $param_value;
-                }
-            }
-        } else {
+        if (($pos = strpos($input, ';')) === false) {
+            $input = $this->_decode_headers ? $this->_decodeHeader($input) : $input;
             $return['value'] = trim($input);
+            return $return;
         }
 
+
+
+        $value = substr($input, 0, $pos);
+        $value = $this->_decode_headers ? $this->_decodeHeader($value) : $value;
+        $return['value'] = trim($value);
+        $input = trim(substr($input, $pos+1));
+
+        if (!strlen($input) > 0) {
+            return $return;
+        }
+        // at this point input contains xxxx=".....";zzzz="...."
+        // since we are dealing with quoted strings, we need to handle this properly..
+        $i = 0;
+        $l = strlen($input);
+        $key = '';
+        $val = false; // our string - including quotes..
+        $q = false; // in quote..
+        $lq = ''; // last quote..
+
+        while ($i < $l) {
+
+            $c = $input[$i];
+            //var_dump(array('i'=>$i,'c'=>$c,'q'=>$q, 'lq'=>$lq, 'key'=>$key, 'val' =>$val));
+
+            $escaped = false;
+            if ($c == '\\') {
+                $i++;
+                if ($i == $l-1) { // end of string.
+                    break;
+                }
+                $escaped = true;
+                $c = $input[$i];
+            }
+
+
+            // state - in key..
+            if ($val === false) {
+                if (!$escaped && $c == '=') {
+                    $val = '';
+                    $key = trim($key);
+                    $i++;
+                    continue;
+                }
+                if (!$escaped && $c == ';') {
+                    if ($key) { // a key without a value..
+                        $key= trim($key);
+                        $return['other'][$key] = '';
+                        $return['other'][strtolower($key)] = '';
+                    }
+                    $key = '';
+                }
+                $key .= $c;
+                $i++;
+                continue;
+            }
+
+            // state - in value.. (as $val is set..)
+
+            if ($q === false) {
+                // not in quote yet.
+                if ((!strlen($val) || $lq !== false) && $c == ' ' ||  $c == "\t") {
+                    $i++;
+                    continue; // skip leading spaces after '=' or after '"'
+                }
+                if (!$escaped && ($c == '"' || $c == "'")) {
+                    // start quoted area..
+                    $q = $c;
+                    // in theory should not happen raw text in value part..
+                    // but we will handle it as a merged part of the string..
+                    $val = !strlen(trim($val)) ? '' : trim($val);
+                    $i++;
+                    continue;
+                }
+                // got end....
+                if (!$escaped && $c == ';') {
+
+                    $val = trim($val);
+                    $added = false;
+                    if (preg_match('/\*[0-9]+$/', $key)) {
+                        // this is the extended aaa*0=...;aaa*1=.... code
+                        // it assumes the pieces arrive in order, and are valid...
+                        $key = preg_replace('/\*[0-9]+$/', '', $key);
+                        if (isset($return['other'][$key])) {
+                            $return['other'][$key] .= $val;
+                            if (strtolower($key) != $key) {
+                                $return['other'][strtolower($key)] .= $val;
+                            }
+                            $added = true;
+                        }
+                        // continue and use standard setters..
+                    }
+                    if (!$added) {
+                        $return['other'][$key] = $val;
+                        $return['other'][strtolower($key)] = $val;
+                    }
+                    $val = false;
+                    $key = '';
+                    $lq = false;
+                    $i++;
+                    continue;
+                }
+
+                $val .= $c;
+                $i++;
+                continue;
+            }
+
+            // state - in quote..
+            if (!$escaped && $c == $q) {  // potential exit state..
+
+                // end of quoted string..
+                $lq = $q;
+                $q = false;
+                $i++;
+                continue;
+            }
+
+            // normal char inside of quoted string..
+            $val.= $c;
+            $i++;
+        }
+
+        // do we have anything left..
+        if (strlen(trim($key)) || $val !== false) {
+
+            $val = trim($val);
+            $added = false;
+            if ($val !== false && preg_match('/\*[0-9]+$/', $key)) {
+                // no dupes due to our crazy regexp.
+                $key = preg_replace('/\*[0-9]+$/', '', $key);
+                if (isset($return['other'][$key])) {
+                    $return['other'][$key] .= $val;
+                    if (strtolower($key) != $key) {
+                        $return['other'][strtolower($key)] .= $val;
+                    }
+                    $added = true;
+                }
+                // continue and use standard setters..
+            }
+            if (!$added) {
+                $return['other'][$key] = $val;
+                $return['other'][strtolower($key)] = $val;
+            }
+        }
+        // decode values.
+        foreach($return['other'] as $key =>$val) {
+            $return['other'][$key] = $this->_decode_headers ? $this->_decodeHeader($val) : $val;
+        }
+       //print_r($return);
         return $return;
     }
 
@@ -510,13 +658,19 @@ class Mail_mimeDecode extends PEAR
         if ($boundary == $bs_check) {
             $boundary = $bs_possible;
         }
+        $tmp = preg_split("/--".preg_quote($boundary, '/')."((?=\s)|--)/", $input);
 
-        $tmp = explode('--' . $boundary, $input);
-
-        for ($i = 1; $i < count($tmp) - 1; $i++) {
-            $parts[] = $tmp[$i];
+        $len = count($tmp) -1;
+        for ($i = 1; $i < $len; $i++) {
+            if (strlen(trim($tmp[$i]))) {
+                $parts[] = $tmp[$i];
+            }
         }
 
+        // add the last part on if it does not end with the 'closing indicator'
+        if (!empty($tmp[$len]) && strlen(trim($tmp[$len])) && $tmp[$len][0] != '-') {
+            $parts[] = $tmp[$len];
+        }
         return $parts;
     }
 
@@ -719,7 +873,7 @@ class Mail_mimeDecode extends PEAR
                 case "to":
                 case "cc":
                 case "bcc":
-                    $to = ",".$item['value'];
+                    $to .= ",".$item['value'];
                 default:
                    break;
             }

@@ -3,7 +3,7 @@ set -e
 set -x
 app=eventum
 rc=dev # development version
-#rc=RC3 # release candidate
+#rc=RC1 # release candidate
 #rc= # release
 dir=$app
 
@@ -59,6 +59,7 @@ mv $dir $app-$version
 tar -czf $app-$version$rc.tar.gz $app-$version
 rm -rf $app-$version
 md5sum -b $app-$version$rc.tar.gz > $app-$version$rc.tar.gz.md5
+chmod a+r $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 
 if [ -x dropin ]; then
 	./dropin $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5

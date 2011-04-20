@@ -35,11 +35,13 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-$pagerRow = Issue::getParam('pagerRow');
+$pagerRow = Misc::escapeInteger(Issue::getParam('pagerRow'));
 if (empty($pagerRow)) {
     $pagerRow = 0;
 }
+
 $rows = Issue::getParam('rows');
+$rows = ($rows == 'ALL') ? $rows : Misc::escapeInteger($rows);
 if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
 }

@@ -1,15 +1,16 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Engine/shell.php,v 1.5 2007/09/26 16:09:54 jan Exp $
+ * Class used internally by Diff to actually compute the diffs.
  *
- * Class used internally by Diff to actually compute the diffs.  This
- * class uses the Unix `diff` program via shell_exec to compute the
+ * This class uses the Unix `diff` program via shell_exec to compute the
  * differences between the two input arrays.
  *
- * Copyright 2007 The Horde Project (http://www.horde.org/)
+ * $Horde: framework/Text_Diff/Diff/Engine/shell.php,v 1.6.2.4 2009/01/06 15:23:41 jan Exp $
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @author  Milian Wolff <mail@milianw.de>
  * @package Text_Diff

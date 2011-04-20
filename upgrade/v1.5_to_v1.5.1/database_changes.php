@@ -27,7 +27,8 @@ if (PEAR::isError($res)) {
     exit(1);
 }
 $columns = $res;
-for ($i = 0; $i < count($columns); $i++) {
+$ncolumns = count($columns);
+for ($i = 0; $i < $ncolumns; $i++) {
     if ($columns[$i]['Field'] == 'iss_pri_id') {
         // check if the db change was already made or not
         if ($columns[$i]['Type'] != 'smallint(3)') {
@@ -44,7 +45,8 @@ if (PEAR::isError($res)) {
     exit(1);
 }
 $columns = $res;
-for ($i = 0; $i < count($columns); $i++) {
+$ncolumns = count($columns);
+for ($i = 0; $i < $ncolumns; $i++) {
     if ($columns[$i]['Field'] == 'pri_id') {
         // check if the db change was already made or not
         if ($columns[$i]['Type'] != 'smallint(3) unsigned') {

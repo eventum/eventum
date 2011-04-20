@@ -1,7 +1,10 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version ??
+2011-??-??, Version ???
+- remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
+
+2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
 - Update Smarty 2.6.18 -> 2.6.26 (Elan Ruusamäe)
 - Put 'Release' in the 'The issue was updated by' e-mail (Robbert-Jan Roos)
@@ -24,6 +27,11 @@ Eventum Issue Tracking System
 - Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
 - Allow translating 'Re: ' in email subjects (Elan Ruusamäe)
 - Add 'Subscribe Me' button to issue details screen for quickly add user itself to default notification options (Elan Ruusamäe)
+- Fix charset when processing Mime_Helper::fixEncoding (replaced by decodeQuotedPrintable)
+- Recognize Italian reply prefix in mail subject (Harri Porten)
+- Show summary of users time tracking if there are more than one user timetracking record (Raul Raat)
+- Fixed bug with quoting email addresses when they are surrounded by < > (Bryan Alsdorf)
+- Fixed XSS vulnerabilities in advisory ZSL-2011-4989 (Bryan, Elan Ruusamäe) [lp#706385]
 
 - Made workflow class also look in /local/workflow/ for backends (Bryan)
 - Set SQL_MODE to '' in setup (Bryan)

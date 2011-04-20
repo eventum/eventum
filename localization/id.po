@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-12-02 16:48+0200\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: 2011-01-13 08:49+0000\n"
 "Last-Translator: Abdul Munif Hanafi <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-01-14 05:52+0000\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -199,7 +199,7 @@ msgstr ""
 msgid "ADDED"
 msgstr "DITAMBAHKAN"
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "LAPORAN: balasan Anda akan dikirim ke daftar pemberitahuan."
 
@@ -336,6 +336,10 @@ msgstr ""
 #: templates/new.tpl.html
 msgid "Add Files"
 msgstr "Tambah Berkas"
+
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -2003,7 +2007,7 @@ msgstr ""
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1845
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2111,7 +2115,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2569
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -3867,22 +3871,22 @@ msgstr ""
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -3919,7 +3923,7 @@ msgstr ""
 msgid "Only for Known Customers?"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4009,7 +4013,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2203
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -5269,6 +5273,20 @@ msgstr ""
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
+msgstr ""
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [#%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
@@ -7407,7 +7425,7 @@ msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:663
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7705,7 +7723,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -7758,7 +7776,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."

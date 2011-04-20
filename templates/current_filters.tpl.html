@@ -8,7 +8,7 @@
           <td class="default">
             {t}Current filters:{/t}&nbsp;
             {foreach from=$active_filters name=active_filters key=filter_name item=filter_value}
-              <b>{$filter_name}</b>: {$filter_value}{if !$smarty.foreach.active_filters.last}; {/if}
+              <b>{$filter_name}</b>: {$filter_value|escape:"html"}{if !$smarty.foreach.active_filters.last}; {/if}
             {foreachelse}
               <i>{t}None{/t}</i>
             {/foreach}

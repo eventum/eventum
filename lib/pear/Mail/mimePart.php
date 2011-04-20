@@ -24,8 +24,8 @@
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution.
- * - Neither the name of the authors, nor the names of its contributors 
- *   may be used to endorse or promote products derived from this 
+ * - Neither the name of the authors, nor the names of its contributors
+ *   may be used to endorse or promote products derived from this
  *   software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -186,8 +186,8 @@ class Mail_mimePart {
             $headers['Content-Type'] = $contentType['type'];
             if (isset($contentType['name'])) {
                 $headers['Content-Type'] .= ';' . MAIL_MIMEPART_CRLF;
-                $headers['Content-Type'] .= $this->_buildHeaderParam('name', $contentType['name'], 
-                                                isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII', 
+                $headers['Content-Type'] .= $this->_buildHeaderParam('name', $contentType['name'],
+                                                isset($contentType['charset']) ? $contentType['charset'] : 'US-ASCII',
                                                 isset($contentType['language']) ? $contentType['language'] : NULL);
             } elseif (isset($contentType['charset'])) {
                 $headers['Content-Type'] .= "; charset=\"{$contentType['charset']}\"";
@@ -199,15 +199,15 @@ class Mail_mimePart {
             $headers['Content-Disposition'] = $contentDisp['disp'];
             if (isset($contentDisp['filename'])) {
                 $headers['Content-Disposition'] .= ';' . MAIL_MIMEPART_CRLF;
-                $headers['Content-Disposition'] .= $this->_buildHeaderParam('filename', $contentDisp['filename'], 
-                                                isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII', 
+                $headers['Content-Disposition'] .= $this->_buildHeaderParam('filename', $contentDisp['filename'],
+                                                isset($contentDisp['charset']) ? $contentDisp['charset'] : 'US-ASCII',
                                                 isset($contentDisp['language']) ? $contentDisp['language'] : NULL);
             }
         }
-        
-        
-        
-        
+
+
+
+
         // Default content-type
         if (!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'text/plain';
@@ -254,8 +254,8 @@ class Mail_mimePart {
                 $subparts[] = implode(MAIL_MIMEPART_CRLF, $headers) . MAIL_MIMEPART_CRLF . MAIL_MIMEPART_CRLF . $tmp['body'] . MAIL_MIMEPART_CRLF;
             }
 
-            $encoded['body'] = '--' . $boundary . MAIL_MIMEPART_CRLF . 
-                               rtrim(implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts), MAIL_MIMEPART_CRLF) . MAIL_MIMEPART_CRLF . 
+            $encoded['body'] = '--' . $boundary . MAIL_MIMEPART_CRLF .
+                               rtrim(implode('--' . $boundary . MAIL_MIMEPART_CRLF , $subparts), MAIL_MIMEPART_CRLF) . MAIL_MIMEPART_CRLF .
                                '--' . $boundary.'--' . MAIL_MIMEPART_CRLF;
 
         } else {

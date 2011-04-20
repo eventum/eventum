@@ -40,8 +40,8 @@ ini_set('memory_limit', '128M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define('APP_URL', 'http://www.mysql.com/products/eventum/');
-define('APP_VERSION', '2.3');
+define('APP_URL', 'https://launchpad.net/eventum/');
+define('APP_VERSION', '2.3.1');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));

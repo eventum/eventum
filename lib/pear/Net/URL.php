@@ -148,8 +148,8 @@ class Net_URL
             /**
             * Figure out host/port
             */
-            if (!empty($HTTP_SERVER_VARS['HTTP_HOST']) && 
-                preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches)) 
+            if (!empty($HTTP_SERVER_VARS['HTTP_HOST']) &&
+                preg_match('/^(.*)(:([0-9]+))?$/U', $HTTP_SERVER_VARS['HTTP_HOST'], $matches))
             {
                 $host = $matches[1];
                 if (!empty($matches[3])) {
@@ -482,4 +482,3 @@ class Net_URL
     }
 
 }
-?>

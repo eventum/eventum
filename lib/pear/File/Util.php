@@ -186,9 +186,9 @@ class File_Util
     }
 
     /**
-     * Checks for a file's existence, taking the current include path 
+     * Checks for a file's existence, taking the current include path
      * into consideration
-     * 
+     *
      * This method can be called statically
      * (e.g., File_Util::isIncludable('config.php'))
      *
@@ -196,7 +196,7 @@ class File_Util
      * @param string $sep the directory separator (optional)
      * @return string the includable path
      * @access public
-     * @static     
+     * @static
      */
     function isIncludable($file, $sep = DIRECTORY_SEPARATOR)
     {
@@ -210,7 +210,7 @@ class File_Util
         }
         return NULL;
     }
-    
+
     /**
      * Get path relative to another path
      *
@@ -478,5 +478,3 @@ class File_Util
         return $filename .'.'. $to;
     }
 }
-
-?>

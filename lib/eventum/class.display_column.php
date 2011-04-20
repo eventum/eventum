@@ -166,7 +166,7 @@ class Display_Column
      * @param   string $page The name of the page
      * @return  array An array of columns
      */
-    function getAllColumns($page)
+    public static function getAllColumns($page)
     {
         $columns = array(
             "list_issues"   =>  array(
@@ -291,7 +291,7 @@ class Display_Column
      *
      * @param   integer $prj_id The ID of the project.
      */
-    function setupNewProject($prj_id)
+    public static function setupNewProject($prj_id)
     {
         $page = 'list_issues';
         $columns = self::getAllColumns($page);

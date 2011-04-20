@@ -408,37 +408,37 @@ class Custom_Field
             if (count($res) == 0) {
                 return array();
             } else {
-                for ($i = 0; $i < count($res); $i++) {
+                foreach ($res as &$row) {
                     // check if this has a dynamic field custom backend
-                    $backend = self::getBackend($res[$i]['fld_id']);
+                    $backend = self::getBackend($row['fld_id']);
                     if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
-                        $res[$i]['dynamic_options'] = $backend->getStructuredData();
-                        $res[$i]['controlling_field_id'] = $backend->getDOMid();
-                        $res[$i]['controlling_field_name'] = $backend->getControllingCustomFieldName();
-                        $res[$i]['hide_when_no_options'] = $backend->hideWhenNoOptions();
-                        $res[$i]['lookup_method'] = $backend->lookupMethod();
+                        $row['dynamic_options'] = $backend->getStructuredData();
+                        $row['controlling_field_id'] = $backend->getDOMid();
+                        $row['controlling_field_name'] = $backend->getControllingCustomFieldName();
+                        $row['hide_when_no_options'] = $backend->hideWhenNoOptions();
+                        $row['lookup_method'] = $backend->lookupMethod();
                     }
                     // check if the backend implements "isRequired"
                     if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
-                        $res[$i]['fld_report_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'report');
-                        $res[$i]['fld_anonymous_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'anonymous');
-                        $res[$i]['fld_close_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'close');
+                        $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
+                        $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
+                        $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
                     }
                     if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
-                        $res[$i]['validation_js'] = $backend->getValidationJS($res[$i]['fld_id'], $form_type);
+                        $row['validation_js'] = $backend->getValidationJS($row['fld_id'], $form_type);
                     } else {
-                        $res[$i]['validation_js'] = '';
+                        $row['validation_js'] = '';
                     }
 
 
-                    $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"], false, false, $form_type);
+                    $row["field_options"] = self::getOptions($row["fld_id"], false, false, $form_type);
 
                     // get the default value (if one exists)
-                    $backend = self::getBackend($res[$i]["fld_id"]);
+                    $backend = self::getBackend($row["fld_id"]);
                     if ((is_object($backend)) && (method_exists($backend, 'getDefaultValue'))) {
-                        $res[$i]['default_value'] = $backend->getDefaultValue($res[$i]['fld_id']);
+                        $row['default_value'] = $backend->getDefaultValue($row['fld_id']);
                     } else {
-                        $res[$i]['default_value'] = '';
+                        $row['default_value'] = '';
                     }
                 }
                 return $res;
@@ -622,48 +622,48 @@ class Custom_Field
                 return array();
             } else {
                 $fields = array();
-                for ($i = 0; $i < count($res); $i++) {
-                    if ($res[$i]["fld_type"] == "combo") {
-                        $res[$i]["selected_cfo_id"] = $res[$i]["value"];
-                        $res[$i]["original_value"] = $res[$i]["value"];
-                        $res[$i]["value"] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                        $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"], false, $iss_id);
+                foreach ($res as &$row) {
+                    if ($row["fld_type"] == "combo") {
+                        $row["selected_cfo_id"] = $row["value"];
+                        $row["original_value"] = $row["value"];
+                        $row["value"] = self::getOptionValue($row["fld_id"], $row["value"]);
+                        $row["field_options"] = self::getOptions($row["fld_id"], false, $iss_id);
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                        if ((!empty($res[$i]['original_value'])) && (!isset($res[$i]['field_options'][$res[$i]['original_value']]))) {
-                            $res[$i]['field_options'][$res[$i]['original_value']] = self::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
+                        if ((!empty($row['original_value'])) && (!isset($row['field_options'][$row['original_value']]))) {
+                            $row['field_options'][$row['original_value']] = self::getOptionValue($row['fld_id'], $row['original_value']);
                         }
 
-                        $fields[] = $res[$i];
+                        $fields[] = $row;
 
-                    } elseif ($res[$i]['fld_type'] == 'multiple') {
+                    } elseif ($row['fld_type'] == 'multiple') {
                         // check whether this field is already in the array
                         $found = 0;
-                        for ($y = 0; $y < count($fields); $y++) {
-                            if ($fields[$y]['fld_id'] == $res[$i]['fld_id']) {
+                        foreach ($fields as $y => $field) {
+                            if ($field['fld_id'] == $row['fld_id']) {
                                 $found = 1;
                                 $found_index = $y;
                             }
                         }
-                        $original_value = $res[$i]['value'];
+                        $original_value = $row['value'];
                         if (!$found) {
-                            $res[$i]["selected_cfo_id"] = array($res[$i]["value"]);
-                            $res[$i]["value"] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                            $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
-                            $fields[] = $res[$i];
+                            $row["selected_cfo_id"] = array($row["value"]);
+                            $row["value"] = self::getOptionValue($row["fld_id"], $row["value"]);
+                            $row["field_options"] = self::getOptions($row["fld_id"]);
+                            $fields[] = $row;
                             $found_index = count($fields) - 1;
                         } else {
-                            $fields[$found_index]['value'] .= ', ' . self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                            $fields[$found_index]['selected_cfo_id'][] = $res[$i]["value"];
+                            $fields[$found_index]['value'] .= ', ' . self::getOptionValue($row["fld_id"], $row["value"]);
+                            $fields[$found_index]['selected_cfo_id'][] = $row["value"];
                         }
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                         if (!in_array($original_value, $fields[$found_index]['field_options'])) {
-                            $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($res[$i]['fld_id'], $original_value);
+                            $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($row['fld_id'], $original_value);
                         }
                     } else {
-                        $res[$i]['value'] = $res[$i][self::getDBValueFieldNameByType($res[$i]['fld_type'])];
-                        $fields[] = $res[$i];
+                        $row['value'] = $row[self::getDBValueFieldNameByType($row['fld_type'])];
+                        $fields[] = $row;
                     }
                 }
                 foreach ($fields as $key => $field) {
@@ -856,8 +856,8 @@ class Custom_Field
                 }
             }
             // add the project associations!
-            for ($i = 0; $i < count($_POST["projects"]); $i++) {
-                self::associateProject($_POST["projects"][$i], $new_id);
+            foreach ($_POST["projects"] as $prj_id) {
+                self::associateProject($prj_id, $new_id);
             }
             return 1;
         }
@@ -913,17 +913,17 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["projects"] = @implode(", ", array_values(self::getAssociatedProjects($res[$i]["fld_id"])));
-                if (($res[$i]["fld_type"] == "combo") || ($res[$i]["fld_type"] == "multiple")) {
-                    if (!empty($res[$i]['fld_backend'])) {
-                        $res[$i]["field_options"] = implode(", ", array_values(self::getOptions($res[$i]["fld_id"])));
+            foreach ($res as &$row) {
+                $row["projects"] = @implode(", ", array_values(self::getAssociatedProjects($row["fld_id"])));
+                if (($row["fld_type"] == "combo") || ($row["fld_type"] == "multiple")) {
+                    if (!empty($row['fld_backend'])) {
+                        $row["field_options"] = implode(", ", array_values(self::getOptions($row["fld_id"])));
                     }
                 }
-                if (!empty($res[$i]['fld_backend'])) {
-                    $res[$i]['field_options'] = 'Backend: ' . self::getBackendName($res[$i]['fld_backend']);
+                if (!empty($row['fld_backend'])) {
+                    $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
                 }
-                $res[$i]['min_role_name'] = User::getRole($res[$i]['fld_min_role']);
+                $row['min_role_name'] = User::getRole($row['fld_min_role']);
             }
             return $res;
         }
@@ -1211,8 +1211,8 @@ class Custom_Field
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                for ($i = 0; $i < count($_POST["projects"]); $i++) {
-                    self::associateProject($_POST["projects"][$i], $_POST["id"]);
+                foreach ($_POST["projects"] as $prj_id) {
+                    self::associateProject($prj_id, $_POST["id"]);
                 }
             }
             return 1;
@@ -1380,11 +1380,10 @@ class Custom_Field
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project.
      * @return  array An array of custom field names.
      */
-    function getFieldsToBeListed($prj_id)
+    public static function getFieldsToBeListed($prj_id)
     {
         $sql = "SELECT
                     fld_id,
@@ -1466,15 +1465,15 @@ class Custom_Field
             return '';
         } else {
             $values = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if (($res[$i]["fld_type"] == "combo") || ($res[$i]['fld_type'] == 'multiple')) {
+            foreach ($res as $row) {
+                if ($row["fld_type"] == "combo" || $row['fld_type'] == 'multiple') {
                     if ($raw) {
-                        $values[] = $res[$i]['value'];
+                        $values[] = $row['value'];
                     } else {
-                        $values[] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                        $values[] = self::getOptionValue($row["fld_id"], $row["value"]);
                     }
                 } else {
-                    $values[] = $res[$i]['value'];
+                    $values[] = $row['value'];
                 }
             }
             if ($raw) {
@@ -1513,26 +1512,28 @@ class Custom_Field
         $direction = $_REQUEST['direction'];
         // get array of all fields and current ranks
         $fields = self::getList();
-        for ($i = 0;$i < count($fields); $i++) {
-            if ($fields[$i]['fld_id'] == $fld_id) {
-                // this is the field we want to mess with
-                if ((($i == 0) && ($direction == -1)) ||
-                    ((($i+1) == count($fields)) && ($direction == +1))) {
-                    // trying to move first entry lower or last entry higher will not work
-                    break;
-                }
-
-                $target_index = ($i + $direction);
-                $target_row = $fields[$target_index];
-                if (empty($target_row)) {
-                    break;
-                }
-                // update this entry
-                self::setRank($fld_id, $target_row['fld_rank']);
-
-                // update field we stole this rank from
-                self::setRank($target_row['fld_id'], $fields[$i]['fld_rank']);
+        foreach ($fields as $i => $field) {
+            if ($field['fld_id'] != $fld_id) {
+                continue;
             }
+
+            // this is the field we want to mess with
+            if ((($i == 0) && ($direction == -1)) ||
+                ((($i+1) == count($fields)) && ($direction == +1))) {
+                // trying to move first entry lower or last entry higher will not work
+                break;
+            }
+
+            $target_index = ($i + $direction);
+            $target_row = $fields[$target_index];
+            if (empty($target_row)) {
+                break;
+            }
+            // update this entry
+            self::setRank($fld_id, $target_row['fld_rank']);
+
+            // update field we stole this rank from
+            self::setRank($target_row['fld_id'], $field['fld_rank']);
         }
 
         // re-order everything starting from 1
@@ -1579,14 +1580,14 @@ class Custom_Field
      */
     function getBackendList()
     {
+        $list = array();
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
-        $list = array();
-        for ($i = 0; $i < count($files); $i++) {
+        foreach ($files as $file) {
             // make sure we only list the backends
-            if (preg_match('/^class\.(.*)\.php$/', $files[$i])) {
+            if (preg_match('/^class\.(.*)\.php$/', $file)) {
                 // display a prettyfied backend name in the admin section
-                $list[$files[$i]] = self::getBackendName($files[$i]);
+                $list[$file] = self::getBackendName($file);
             }
         }
         return $list;

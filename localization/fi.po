@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-10 00:16+0300\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: 2010-08-19 20:38+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-08-20 03:40+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "X-Poedit-Country: FINLAND\n"
 "X-Poedit-Language: Finnish\n"
 
@@ -32,7 +32,7 @@ msgstr ""
 "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
-#: htdocs/view.php:76
+#: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -45,17 +45,17 @@ msgstr "% Valmiina"
 msgid "%1 Field"
 msgstr ""
 
-#: lib/eventum/class.filter.php:673
+#: lib/eventum/class.filter.php:670
 #, php-format
 msgid "%1$s Group"
 msgstr ""
 
-#: lib/eventum/class.filter.php:602
+#: lib/eventum/class.filter.php:599
 #, php-format
 msgid "%1$s or greater"
 msgstr ""
 
-#: lib/eventum/class.filter.php:605
+#: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or less"
 msgstr ""
@@ -110,9 +110,13 @@ msgstr ""
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr "(Vinkki: Oletusportit ovat 110 POP3:lle ja 143 IMAP:lle)"
 
-#: lib/eventum/class.template_helper.php:175
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(arkistoitu)"
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -193,7 +197,7 @@ msgstr "Uusi käyttäjä lisättiin juuri järjestelmään."
 msgid "ADDED"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "TIEDOTUS: Vastauksesi lähetetään muistutuslistalle."
 
@@ -238,7 +242,7 @@ msgstr "Asiakaspäällikkö"
 msgid "Account Manager:"
 msgstr "Asiakaspäällikkö:"
 
-#: lib/eventum/class.help.php:113 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
 msgstr "Tilin asetukset"
@@ -331,6 +335,10 @@ msgstr "Lisätäänkö ylimääräiset vastaanottajat muistutuslistaan?"
 msgid "Add Files"
 msgstr "Lisää tiedostoja"
 
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr ""
+
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
 msgstr "Lisää itseni"
@@ -388,7 +396,7 @@ msgstr ""
 msgid "Advanced Search"
 msgstr "Kehittynyt haku"
 
-#: lib/eventum/class.help.php:105 templates/help/adv_search.tpl.html
+#: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Kehittynyt haku / Hakujen luonti"
@@ -397,7 +405,7 @@ msgstr "Kehittynyt haku / Hakujen luonti"
 msgid "After Sender Name"
 msgstr "Lähettäjän nimen jälkeen"
 
-#: lib/eventum/class.customer_stats_report.php:191
+#: lib/eventum/class.customer_stats_report.php:188
 msgid "Aggregate"
 msgstr "Kokonaissumma"
 
@@ -786,7 +794,7 @@ msgstr "Uusien vikailmoitusten anonyymiraportointi"
 msgid "Anonymous Reporting:"
 msgstr "Anonyymi raportointi:"
 
-#: htdocs/adv_search.php:50 htdocs/list.php:78 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "Kaikki"
 
@@ -831,7 +839,7 @@ msgstr "Määrättävät käyttäjät"
 msgid "Assignable Users:"
 msgstr "Määrättävät käyttäjät:"
 
-#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:723
+#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
 msgstr "Määrätty"
@@ -878,7 +886,7 @@ msgstr "Määrätty"
 msgid "Assignee:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -886,7 +894,7 @@ msgstr ""
 msgid "Assignment"
 msgstr "Tehtävä"
 
-#: lib/eventum/class.help.php:69 templates/help/report_assignment.tpl.html
+#: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
 msgstr "Tehtäväkenttä"
 
@@ -909,7 +917,7 @@ msgstr "Liitä"
 msgid "Associate Email Message to Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.help.php:109 templates/emails.tpl.html
+#: lib/eventum/class.help.php:106 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
 #: templates/navigation.tpl.html
 msgid "Associate Emails"
@@ -956,11 +964,11 @@ msgstr "Liitetyt sähköpostiviestit"
 msgid "Attached Files"
 msgstr "Liitetyt tiedostot"
 
-#: lib/eventum/class.support.php:1452
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
 msgstr "Liite tuli viestistä"
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
 msgstr "Liite tuli sähköpostista"
 
@@ -981,7 +989,7 @@ msgstr "Oikeutetut vastaajat"
 msgid "Authorized Repliers:"
 msgstr "Oikeutetut vastaajat:"
 
-#: lib/eventum/class.filter.php:783 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
 msgstr "Valtuutettu lähettämään sähköpostia"
 
@@ -1043,15 +1051,15 @@ msgstr ""
 msgid "Avg"
 msgstr "Keskiarvo"
 
-#: lib/eventum/class.customer_stats_report.php:692
+#: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
 msgstr "Keskimääräinen työmäärä per asiakas tukitasoittain"
 
-#: lib/eventum/class.customer_stats_report.php:701
+#: lib/eventum/class.customer_stats_report.php:698
 msgid "Avg and Median Time to Close by Support Level"
 msgstr "Keskim.- ja mediaaniaika sulkemiseen tukitasoittain"
 
-#: lib/eventum/class.customer_stats_report.php:710
+#: lib/eventum/class.customer_stats_report.php:707
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr "Keskim.- ja mediaaniaika ensimmäiseen vastaukseen tukitasoittain"
 
@@ -1183,9 +1191,9 @@ msgstr "Vastauspohjat"
 msgid "Categories and Statuses"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:728
+#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1097
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1196,7 +1204,7 @@ msgstr ""
 msgid "Category"
 msgstr "Kategoria"
 
-#: lib/eventum/class.help.php:61 templates/help/report_category.tpl.html
+#: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
 msgid "Category Field"
 msgstr "Kategoriakenttä"
 
@@ -1226,6 +1234,18 @@ msgstr "Muutetut kentät"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -1315,7 +1335,7 @@ msgstr "Suljettu"
 msgid "Closed Context ?"
 msgstr "Suljettu konteksti?"
 
-#: lib/eventum/class.filter.php:762
+#: lib/eventum/class.filter.php:759
 msgid "Closed Date"
 msgstr "Sulkemispäivämäärä"
 
@@ -1503,7 +1523,7 @@ msgstr "Luo käyttäjä ja oikeudet"
 msgid "Created"
 msgstr "Luotu"
 
-#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
+#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:739
 msgid "Created Date"
 msgstr "Luomispäivämäärä"
 
@@ -1549,13 +1569,13 @@ msgstr "Lisäkenttien raportti"
 msgid "Custom Fields Weekly Report"
 msgstr ""
 
-#: lib/eventum/class.custom_field.php:314
+#: lib/eventum/class.custom_field.php:311
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr "Lisäkenttä päivitetty (%1$s) päivittäjänä %2$s"
 
-#: lib/eventum/class.customer_stats_report.php:667
-#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
+#: lib/eventum/class.customer_stats_report.php:664
+#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1573,7 +1593,7 @@ msgstr "Asiakas"
 msgid "Customer Contract"
 msgstr "Asiakassopimus"
 
-#: lib/eventum/class.customer_stats_report.php:731
+#: lib/eventum/class.customer_stats_report.php:728
 msgid "Customer Counts"
 msgstr "Asiakaslaskuri"
 
@@ -1608,11 +1628,15 @@ msgstr "Asiakas:"
 msgid "Customers"
 msgstr "Asiakkaat"
 
-#: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html
+#: lib/eventum/class.help.php:138 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
 msgstr "Muokkaa vikailmoitusten luettelointisivua"
+
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1675,7 +1699,7 @@ msgstr "Kuukauden päivä"
 msgid "Day of Week"
 msgstr "Viikonpäivä"
 
-#: lib/eventum/class.customer_stats_report.php:707
+#: lib/eventum/class.customer_stats_report.php:704
 msgid "Days"
 msgstr "Päivää"
 
@@ -1746,7 +1770,7 @@ msgstr "Laskeva"
 msgid "Description"
 msgstr "Selitys"
 
-#: lib/eventum/class.help.php:81 templates/help/report_description.tpl.html
+#: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
 msgid "Description Field"
 msgstr "Selityskenttä"
 
@@ -1782,9 +1806,10 @@ msgstr "Tiesitkö?"
 msgid "Diff Page:"
 msgstr "Diff-sivu:"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr "Pois"
 
@@ -1796,7 +1821,7 @@ msgstr "Poista valittujen liitäntä"
 msgid "Display on List Issues Page"
 msgstr "Näytä luetteloi vikailmoitukset sivulla"
 
-#: lib/eventum/class.customer_stats_report.php:693
+#: lib/eventum/class.customer_stats_report.php:690
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
@@ -1805,8 +1830,8 @@ msgstr ""
 "sähköpostiviestien määrän ja asiakkaan sähköpostiviestien määrän per "
 "vikailmoitus tukitasoittain"
 
-#: lib/eventum/class.customer_stats_report.php:702
-#: lib/eventum/class.customer_stats_report.php:711
+#: lib/eventum/class.customer_stats_report.php:699
+#: lib/eventum/class.customer_stats_report.php:708
 msgid "Displays time stats"
 msgstr "Näytä aikatilastot"
 
@@ -1854,26 +1879,26 @@ msgstr "Kaksoiskappaleet"
 msgid "E-mail about issue update was sent to"
 msgstr "Sähköposti koskien vikailmoituksen päivitystä lähetettiin henkilölle"
 
-#: lib/eventum/class.monitor.php:86
-msgid "ERROR: Almost no free disk space left (percentage left"
-msgstr "VIRHE: Kovalevytila melkein lopussa (prosenttia jäljellä"
-
-#: lib/eventum/class.monitor.php:174
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
+#: lib/eventum/class.monitor.php:72
+#, php-format
+msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
-"VIRHE: Ei pystynyt yhdistämään mysql-tietokantaan. Tarkempi virheilmoitus:"
 
-#: lib/eventum/class.monitor.php:272
+#: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "VIRHE: Ei löytänyt IRC-botin PID:iä prosessilistasta."
 
-#: lib/eventum/class.monitor.php:145
+#: lib/eventum/class.monitor.php:238
+#, php-format
+msgid "ERROR: Could not find required table \"%s\""
+msgstr ""
+
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "VIRHE: Kansiota ei löytynyt (Polku: %1$s)"
 
-#: lib/eventum/class.monitor.php:151
+#: lib/eventum/class.monitor.php:146
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -1882,11 +1907,12 @@ msgstr ""
 "VIRHE: Kansion oikeusristiriita (Polku: %1$s; Nykyiset oikeudet: %2$s; "
 "Oikeat oikeudet: %3$s)"
 
-#: lib/eventum/class.monitor.php:107
-msgid "ERROR: File could not be found (path"
-msgstr "VIRHE: Tiedostoa ei löytynyt (polku"
+#: lib/eventum/class.monitor.php:97
+#, php-format
+msgid "ERROR: File could not be found (path: %s)"
+msgstr ""
 
-#: lib/eventum/class.monitor.php:116
+#: lib/eventum/class.monitor.php:108
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
@@ -1895,7 +1921,7 @@ msgstr ""
 "VIRHE: Tiedoston ryhmäristiriita (Polku: %1$s; Nykyinen ryhmä: %2$s; Oikea "
 "ryhmä: %3$s)"
 
-#: lib/eventum/class.monitor.php:113
+#: lib/eventum/class.monitor.php:104
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
@@ -1904,7 +1930,7 @@ msgstr ""
 "VIRHE: Tiedoston omistusristiriita (Polku: %1$s; Nykyinen omistaja: %2$s; "
 "Oikea omistaja: %3$s)"
 
-#: lib/eventum/class.monitor.php:121
+#: lib/eventum/class.monitor.php:114
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
@@ -1913,26 +1939,33 @@ msgstr ""
 "VIRHE: Tiedoston oikeusristiriita (Polku: %1$s; Nykyiset oikeudet: %2$s; "
 "Oikeat oikeudet: %3$s)"
 
-#: lib/eventum/class.monitor.php:125
+#: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 "VIRHE: Tiedoston kokoristiriita (Polku: %1$s; Nykyinen tiedostokoko: %2$s)"
 
-#: lib/eventum/class.monitor.php:90
-msgid "ERROR: Free disk space left is getting very low (percentage left"
-msgstr "VIRHE: Vapaan kovalevytilan määrä alhainen (prosenttia jäljellä"
+#: lib/eventum/class.monitor.php:76
+#, php-format
+msgid ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
+msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
+msgstr ""
+
+#: lib/eventum/class.monitor.php:54
+#, php-format
+msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
@@ -1943,13 +1976,13 @@ msgstr "Muokkaa oikeutettujen vastaajien listaa"
 msgid "Edit Categories"
 msgstr "Muokkaa kategorioita"
 
-#: lib/eventum/class.help.php:137 templates/help/column_display.tpl.html
+#: lib/eventum/class.help.php:134 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
 msgstr "Muokataan näytettäviä sarakkeita"
 
-#: lib/eventum/class.help.php:133 templates/help/field_display.tpl.html
+#: lib/eventum/class.help.php:130 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
@@ -1987,17 +2020,17 @@ msgstr "Muokkaa allekirjoitusta"
 msgid "Email"
 msgstr "Sähköposti"
 
-#: htdocs/view_email.php:50
+#: htdocs/view_email.php:48
 #, php-format
 msgid "Email #%1$s: %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1504
+#: lib/eventum/class.support.php:1502
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 
-#: lib/eventum/class.support.php:1847
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
@@ -2039,12 +2072,12 @@ msgstr "Sähköpostiosoite, johon tiedot lähetetään:"
 msgid "Email Alias"
 msgstr ""
 
-#: lib/eventum/class.help.php:125 templates/help/email_blocking.tpl.html
+#: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
 msgstr "Sähköpostiviestien esto"
 
-#: lib/eventum/class.customer_stats_report.php:733
+#: lib/eventum/class.customer_stats_report.php:730
 msgid "Email Counts"
 msgstr "Sähköpostilaskuri"
 
@@ -2064,7 +2097,7 @@ msgstr "Sähköpostin integrointi:"
 msgid "Email List:"
 msgstr "Sähköpostilista:"
 
-#: lib/eventum/class.help.php:117 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:114 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
 msgstr "Sähköpostimuistutukset"
@@ -2097,7 +2130,7 @@ msgstr "Sähköpostiaikaa käytetty"
 msgid "Email Workload by Time of day"
 msgstr "Sähköpostin työmäärä vuorokaudenajan mukaan"
 
-#: htdocs/reports/workload_time_period_graph.php:52
+#: htdocs/reports/workload_time_period_graph.php:50
 msgid "Email by Time Period"
 msgstr "Sähköpostit aikajaksoittain"
 
@@ -2105,7 +2138,7 @@ msgstr "Sähköpostit aikajaksoittain"
 msgid "Email by time period"
 msgstr "Sähköpostit aikajaksoittain"
 
-#: lib/eventum/class.support.php:2571
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"
@@ -2166,9 +2199,10 @@ msgstr "Sähköpostiviestejä henkilökunnan mukaan"
 msgid "Empty Subject Header"
 msgstr "Tyhjennä aihe-kenttä"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr "Päällä"
 
@@ -2334,7 +2368,7 @@ msgid "Est Dev Time"
 msgstr "Arvioitu kehitys aika"
 
 #: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1104
+#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1101
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2352,7 +2386,7 @@ msgstr "Oletettu keh. aika:"
 msgid "Estimated Development Time"
 msgstr "Arvoitu kehitysaika"
 
-#: lib/eventum/class.help.php:85
+#: lib/eventum/class.help.php:82
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid "Estimated Development Time Field"
 msgstr "Arvioitu kehitysaika kenttä"
@@ -2516,7 +2550,7 @@ msgstr "Vie Exceliin"
 msgid "Extra Note Recipients:"
 msgstr "Viestin lisävastaanottajat:"
 
-#: lib/eventum/class.reminder_condition.php:216
+#: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr "Kenttä"
@@ -2537,7 +2571,7 @@ msgstr "Kenttä grafiikaksi"
 msgid "Field:"
 msgstr "Kenttä:"
 
-#: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
 msgid "File"
 msgstr "Tiedosto"
 
@@ -2567,7 +2601,7 @@ msgstr "Suodata saapumispäivän mukaan:"
 msgid "First Response By Staff"
 msgstr "Ensimmäinen henkilökunnan vastaus"
 
-#: lib/eventum/class.filter.php:757
+#: lib/eventum/class.filter.php:754
 msgid "First Response Date"
 msgstr "Ensimmäisen vastauksen päivämäärä"
 
@@ -2662,13 +2696,13 @@ msgstr "Suurempi kuin"
 msgid "Greater or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:608
+#: lib/eventum/class.filter.php:605
 #, php-format
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1105 templates/manage/users.tpl.html
+#: htdocs/list.php:88 lib/eventum/class.display_column.php:186
+#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -2741,7 +2775,7 @@ msgstr ""
 msgid "Help"
 msgstr "Apua"
 
-#: lib/eventum/class.help.php:53
+#: lib/eventum/class.help.php:50
 msgid "Help Topics"
 msgstr "Ohje-aiheet"
 
@@ -2749,7 +2783,7 @@ msgstr "Ohje-aiheet"
 msgid "Hide Associated Emails"
 msgstr "Piilota liitetyt sähköpostiviestit"
 
-#: lib/eventum/class.filter.php:779 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:776 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
 msgstr "Piilota suljetut vikailmoitukset"
@@ -2782,7 +2816,7 @@ msgstr "Koneen nimi"
 msgid "Hostname:"
 msgstr "Koneen nimi:"
 
-#: lib/eventum/class.customer_stats_report.php:716
+#: lib/eventum/class.customer_stats_report.php:713
 msgid "Hours"
 msgstr "Tuntia"
 
@@ -2891,12 +2925,12 @@ msgstr "Vaikutus-<br />analyysi"
 msgid "Impact Analysis"
 msgstr "Vaikutusanalyysi"
 
-#: lib/eventum/class.impact_analysis.php:200
+#: lib/eventum/class.impact_analysis.php:197
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr "Vaikutusanalyysi poistajana %1$s"
 
-#: lib/eventum/class.impact_analysis.php:166
+#: lib/eventum/class.impact_analysis.php:163
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr "Vaikutusanalyysi lähettäjänä %1$s"
@@ -2905,7 +2939,7 @@ msgstr "Vaikutusanalyysi lähettäjänä %1$s"
 msgid "Important Notices"
 msgstr "Tärkeät ilmoitukset"
 
-#: lib/eventum/class.filter.php:787 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:784 templates/adv_search.tpl.html
 msgid "In Notification List"
 msgstr "Muistutuslistassa"
 
@@ -2913,7 +2947,7 @@ msgstr "Muistutuslistassa"
 msgid "In Past"
 msgstr "Menneisyydessä"
 
-#: lib/eventum/class.filter.php:629
+#: lib/eventum/class.filter.php:626
 #, php-format
 msgid "In Past %1$s hours"
 msgstr ""
@@ -2947,7 +2981,7 @@ msgstr ""
 msgid "Include expired contracts"
 msgstr "Sisällytä loppuneet sopimukset"
 
-#: lib/eventum/class.customer_stats_report.php:685
+#: lib/eventum/class.customer_stats_report.php:682
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -2971,7 +3005,7 @@ msgstr "Alkuperäinen vaikutusanalyysi"
 msgid "Initial Status for New Issues"
 msgstr "Oletustila uudelle vikailmoitukselle"
 
-#: lib/eventum/class.help.php:97 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:94 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
 msgstr "Asennusohjeet"
@@ -3000,7 +3034,7 @@ msgstr "Sisäiset käyttäjät"
 msgid "Interval"
 msgstr "Väliaika"
 
-#: lib/eventum/class.filter.php:632
+#: lib/eventum/class.filter.php:629
 msgid "Is NULL"
 msgstr "On määrittämätön"
 
@@ -3008,17 +3042,17 @@ msgstr "On määrittämätön"
 msgid "Is Null"
 msgstr "On määrittelemätön"
 
-#: lib/eventum/class.filter.php:636
+#: lib/eventum/class.filter.php:633
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:640
+#: lib/eventum/class.filter.php:637
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:643
+#: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
@@ -3034,7 +3068,7 @@ msgid "Issue #"
 msgstr "Vikailmoitus #"
 
 #. TRANSLATORS: %1 = issue id
-#: htdocs/view.php:59
+#: htdocs/view.php:57
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -3043,7 +3077,7 @@ msgstr ""
 msgid "Issue Count"
 msgstr "Vikailmoituksia löytynyt"
 
-#: lib/eventum/class.customer_stats_report.php:732
+#: lib/eventum/class.customer_stats_report.php:729
 msgid "Issue Counts"
 msgstr "Vikailmoituslaskuri"
 
@@ -3101,23 +3135,23 @@ msgstr "Vikailmoitukset on suljettu"
 msgid "Issues are Updated"
 msgstr "Vikailmoitukset on päivitetty"
 
-#: htdocs/stats_chart.php:75
+#: htdocs/stats_chart.php:73
 msgid "Issues by Assignment"
 msgstr "Vikailmoitukset määrätyn mukaan"
 
-#: htdocs/stats_chart.php:78 templates/main.tpl.html
+#: htdocs/stats_chart.php:76 templates/main.tpl.html
 msgid "Issues by Category"
 msgstr "Vikailmoitukset kategorian mukaan"
 
-#: htdocs/stats_chart.php:72 templates/main.tpl.html
+#: htdocs/stats_chart.php:70 templates/main.tpl.html
 msgid "Issues by Priority"
 msgstr "Vikailmoitukset prioriteetin mukaan"
 
-#: htdocs/stats_chart.php:69 templates/main.tpl.html
+#: htdocs/stats_chart.php:67 templates/main.tpl.html
 msgid "Issues by Release"
 msgstr "Vikailmoitukset julkaisun mukaan"
 
-#: htdocs/stats_chart.php:57 templates/main.tpl.html
+#: htdocs/stats_chart.php:55 templates/main.tpl.html
 msgid "Issues by Status"
 msgstr "Vikailmoitukset tilan mukaan"
 
@@ -3158,7 +3192,7 @@ msgstr "Pidä nykyiset tehtävät:"
 msgid "Keep form open to report another issue"
 msgstr "Pidä lomake avoinna uuden vikailmoituksen luomista varten"
 
-#: lib/eventum/class.filter.php:718 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:715 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Keyword(s)"
 msgstr "Avainsana(t)"
@@ -3188,7 +3222,7 @@ msgstr "Viimeisin lähtevä sähköposti"
 msgid "Last Response"
 msgstr "Viimeinen vastaus"
 
-#: lib/eventum/class.filter.php:752
+#: lib/eventum/class.filter.php:749
 msgid "Last Response Date"
 msgstr "Viimeisen vastauksen päivämäärä"
 
@@ -3231,7 +3265,7 @@ msgstr "Pienempi kuin"
 msgid "Less or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:611
+#: lib/eventum/class.filter.php:608
 #, php-format
 msgid "Less than %1$s"
 msgstr ""
@@ -3244,7 +3278,7 @@ msgstr "Tasot:"
 msgid "Line"
 msgstr "Linja"
 
-#: lib/eventum/class.help.php:129 templates/help/link_filters.tpl.html
+#: lib/eventum/class.help.php:126 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
 msgstr "Linkkisuodattimia"
@@ -3266,7 +3300,7 @@ msgstr "Listaa vikailmoitukset"
 msgid "List Removed Emails"
 msgstr "Luetteloi poistetut sähköpostiviestit"
 
-#: lib/eventum/class.help.php:101 templates/help/list.tpl.html
+#: lib/eventum/class.help.php:98 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
 msgstr "Luetteloi / Etsii vikailmoituksia"
@@ -3464,6 +3498,10 @@ msgstr "Moduuli / Kansio"
 msgid "Monday"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr "Kuukausi"
@@ -3569,7 +3607,7 @@ msgstr "Uusi tila vikailmoitukselle"
 msgid "New User information"
 msgstr "Uuden käyttäjän tiedot"
 
-#: lib/eventum/class.impact_analysis.php:75
+#: lib/eventum/class.impact_analysis.php:72
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr "Uusi vaatimus lähettäjänä %1$s"
@@ -3578,7 +3616,7 @@ msgstr "Uusi vaatimus lähettäjänä %1$s"
 msgid "News and Announcements"
 msgstr "Uutisia ja ilmoituksia"
 
-#: lib/eventum/class.pager.php:124 templates/post.tpl.html
+#: lib/eventum/class.pager.php:121 templates/post.tpl.html
 msgid "Next"
 msgstr "Seuraava"
 
@@ -3594,7 +3632,7 @@ msgstr "Seuraava viesti"
 msgid "Next Note"
 msgstr "Seuraava viesti"
 
-#: lib/eventum/class.misc.php:693 templates/close.tpl.html
+#: lib/eventum/class.misc.php:720 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3690,8 +3728,8 @@ msgstr "Ehtoja ei löytynyt."
 msgid "No custom fields could be found."
 msgstr "Lisäkenttiä ei löytynyt."
 
-#: htdocs/reports/custom_fields.php:55
-#: htdocs/reports/custom_fields_weekly.php:54
+#: htdocs/reports/custom_fields.php:53
+#: htdocs/reports/custom_fields_weekly.php:52
 msgid "No custom fields for this project"
 msgstr "Lisäkenttiä ei ole tälle projektille."
 
@@ -3724,7 +3762,7 @@ msgstr "Sähköpostiviestejä ei löytynyt."
 msgid "No entries could be found."
 msgstr "Merkintöjä ei löytynyt."
 
-#: lib/eventum/class.reminder_action.php:595
+#: lib/eventum/class.reminder_action.php:592
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr "Yhtään ryhmää ei ole liitetty vikailmoitukseen %1$s"
@@ -3874,11 +3912,7 @@ msgstr ""
 "sähköpostiisii, jonka vahvistamisen jälkeen uusi salasanasi aktivoidaan ja "
 "lähetetään sinulle."
 
-#: templates/file_upload.tpl.html
-msgid "Note: The current maximum allowed upload file size is"
-msgstr ""
-
-#: templates/new.tpl.html
+#: templates/file_upload.tpl.html templates/new.tpl.html
 msgid "Note: The current maximum allowed upload file size is %1"
 msgstr "Huomio: Suurin sallittu siirretyn tiedoston koko on %1"
 
@@ -3910,25 +3944,25 @@ msgid "Notification List:"
 msgstr "Ilmoituslista:"
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
-msgstr "Muistutusvaihtoehdot"
+msgid "Notification Options for Issue #%1"
+msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) lisääjänä %2$s"
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) poistajana %2$s"
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') lisääjänä %2$s"
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') päivittäjänä %2$s"
@@ -3940,6 +3974,10 @@ msgstr "Ilmoita lähettäjälle?"
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
 msgstr "Päivien lukumäärä"
+
+#: crons/monitor.php:101
+msgid "OK: No errors found"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -3961,7 +3999,7 @@ msgstr "Lataa ainoastaan lukemattomat viestit"
 msgid "Only for Known Customers?"
 msgstr "Ainoastaan tunnetuille asiakkaille?"
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4055,7 +4093,7 @@ msgstr "Uloslähtevän sähköpostin lähettäjän osoite"
 msgid "Outgoing Email Sender Name"
 msgstr "Sähköpostin lähettäjän nimi"
 
-#: lib/eventum/class.support.php:2205
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
@@ -4095,6 +4133,10 @@ msgstr "POP3 TLS:llä"
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
 msgstr "POP3 TLS:llä (oma allekirjoitus)"
+
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
+msgstr ""
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4143,7 +4185,7 @@ msgstr "Valmisprosentti pitää olla väliltä 0 - 100"
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:605
+#: lib/eventum/class.reminder_action.php:602
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr "Suoritetaan toiminto %1$s vikailmoitukseen # %2$s"
@@ -4160,12 +4202,12 @@ msgstr "Puhelut"
 msgid "Phone Number"
 msgstr "Puhelinnumero"
 
-#: lib/eventum/class.phone_support.php:406
+#: lib/eventum/class.phone_support.php:403
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr "Puhelintukimerkintä poistajana %1$s"
 
-#: lib/eventum/class.phone_support.php:347
+#: lib/eventum/class.phone_support.php:344
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr "Puhelintukimerkintä lisääjänä %1$s"
@@ -4488,13 +4530,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4952,6 +4994,10 @@ msgstr "Uudessa salasanassasi pitää olla vähintään 6 merkkiä."
 msgid "Please enter your password."
 msgstr "Syötä salasanasi."
 
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
 "Please indicate whether the SMTP server requires authentication or not."
@@ -5188,7 +5234,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Asetukset"
 
-#: lib/eventum/class.pager.php:123
+#: lib/eventum/class.pager.php:120
 msgid "Previous"
 msgstr "Edellinen"
 
@@ -5208,9 +5254,9 @@ msgstr "Edellinen viesti"
 msgid "Primary Technical Account Manager"
 msgstr "Ensisijainen tekninen asiakaspäällikkö"
 
-#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:713
+#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
 #: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1101
+#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1098
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5222,7 +5268,7 @@ msgstr "Ensisijainen tekninen asiakaspäällikkö"
 msgid "Priority"
 msgstr "Prioriteetti"
 
-#: lib/eventum/class.help.php:65 templates/help/report_priority.tpl.html
+#: lib/eventum/class.help.php:62 templates/help/report_priority.tpl.html
 msgid "Priority Field"
 msgstr "Prioriteettikenttä"
 
@@ -5230,7 +5276,7 @@ msgstr "Prioriteettikenttä"
 msgid "Priority:"
 msgstr "Prioriteetti:"
 
-#: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr "Yksityinen"
@@ -5239,7 +5285,7 @@ msgstr "Yksityinen"
 msgid "Private:"
 msgstr "Yksityinen:"
 
-#: lib/eventum/class.reminder_action.php:589
+#: lib/eventum/class.reminder_action.php:586
 msgid "Processing Group Leader notification"
 msgstr "Käsitellään ryhmänjohtajan muistutuksia"
 
@@ -5330,6 +5376,20 @@ msgid ""
 msgstr ""
 "Uudelleenohjataan isäntä-ikkuna vikailmoituksen ilmoittamissivulle. Tämä "
 "ikkuna suljetaan automaattisesti."
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [#%1$s] %2$s"
+msgstr ""
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -5472,7 +5532,7 @@ msgstr "Päivitysnopeus vikailmoitusten luettelointisivulle"
 msgid "Register"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
+#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
 #: lib/eventum/class.notification.php:622
 #: lib/eventum/class.notification.php:623 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
@@ -5489,7 +5549,7 @@ msgid ""
 "prevent anyone else from changing your existing Eventum configuration."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:754
+#: lib/eventum/class.reminder_action.php:751
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
@@ -5499,7 +5559,7 @@ msgstr "Muistutus"
 msgid "Reminder Alert"
 msgstr "Muistutushälytys"
 
-#: lib/eventum/class.reminder_action.php:794
+#: lib/eventum/class.reminder_action.php:791
 msgid "Reminder Not Triggered"
 msgstr "Muistutusta ei ole laukaistu"
 
@@ -5600,7 +5660,7 @@ msgstr "Luo vikailmoitus"
 msgid "Reported By"
 msgstr "Ilmoittanut"
 
-#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:795
+#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:792
 #: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
 #: templates/view_form.tpl.html
 msgid "Reporter"
@@ -5610,7 +5670,7 @@ msgstr "Ilmoittaja"
 msgid "Reporter:"
 msgstr "Ilmoittaja:"
 
-#: lib/eventum/class.help.php:57
+#: lib/eventum/class.help.php:54
 msgid "Reporting Issues"
 msgstr "Vikailmoitusten ilmoitus"
 
@@ -5662,8 +5722,8 @@ msgstr "Vaatii tukea evästeille ja javascriptille selaimessasi"
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -5703,7 +5763,7 @@ msgstr "Esikatsele SQL-haku"
 msgid "Role"
 msgstr "Rooli"
 
-#: lib/eventum/class.filter.php:767 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:764 templates/adv_search.tpl.html
 msgid "Rows Per Page"
 msgstr "Rivejä per sivu"
 
@@ -5719,16 +5779,16 @@ msgstr "Suorita haku"
 msgid "SCM <br />Integration:"
 msgstr "SCM <br />integraatio:"
 
-#: lib/eventum/class.scm.php:217
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 
-#: lib/eventum/class.scm.php:96
+#: lib/eventum/class.scm.php:93
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr "SCM:n sisäänkirjaukset poistajana %1$s"
 
-#: lib/eventum/class.help.php:89 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:86 templates/help/main.tpl.html
 #: templates/help/scm_integration.tpl.html
 msgid "SCM Integration"
 msgstr "SCM integraatio"
@@ -5795,12 +5855,12 @@ msgstr "Tallenna luonnokseksi"
 msgid "Saved Searches"
 msgstr "Tallennetut haut"
 
-#: lib/eventum/class.project.php:1103 templates/new.tpl.html
+#: lib/eventum/class.project.php:1100 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr "Suunniteltu julkaisu"
 
-#: lib/eventum/class.help.php:73 templates/help/report_release.tpl.html
+#: lib/eventum/class.help.php:70 templates/help/report_release.tpl.html
 msgid "Scheduled Release Field"
 msgstr "Suunniteltu julkaisu kenttä"
 
@@ -5829,7 +5889,7 @@ msgstr ""
 msgid "Search Title"
 msgstr "Haun otsikko"
 
-#: lib/eventum/class.filter.php:791
+#: lib/eventum/class.filter.php:788
 msgid "Search Type"
 msgstr "Haun tyyppi"
 
@@ -5841,7 +5901,7 @@ msgstr "Näytettävät osat"
 msgid "Segregate Reporter"
 msgstr "Erittele raportoijat"
 
-#: lib/eventum/class.help.php:145 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:142 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Segregate Reporters"
 msgstr "Erittele raportoijat"
@@ -6059,11 +6119,11 @@ msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr ""
 "Sinulla ei ole tarvittavia oikeuksia vikailmoituksen tarkastelemiseen."
 
-#: lib/eventum/class.filter.php:771 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:768 templates/adv_search.tpl.html
 msgid "Sort By"
 msgstr "Järjestä"
 
-#: lib/eventum/class.filter.php:775 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:772 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
@@ -6114,7 +6174,7 @@ msgstr "Aloitusaika tulevaisuudessa."
 msgid "Stats"
 msgstr "Tilastot"
 
-#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:733
+#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
 #: lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
@@ -6211,7 +6271,7 @@ msgstr "Ehdotukset:"
 msgid "Summary"
 msgstr "Yhteenveto"
 
-#: lib/eventum/class.help.php:77 templates/help/report_summary.tpl.html
+#: lib/eventum/class.help.php:74 templates/help/report_summary.tpl.html
 msgid "Summary Field"
 msgstr "Yhteenvetokenttä"
 
@@ -6223,7 +6283,7 @@ msgstr "Yhteenveto:"
 msgid "Sunday"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:669
+#: lib/eventum/class.customer_stats_report.php:666
 #: lib/eventum/class.display_column.php:212
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -6637,7 +6697,7 @@ msgstr "Kiitos, valittu vikailmoitus päivitettiin onnistuneesti."
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Kiitos, valitut vaatimukset poistettiin onnistuneesti."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Kiitos, asetukset tallennettiin onnistuneesti."
 
@@ -7316,7 +7376,7 @@ msgstr "Aikaa käytetty"
 msgid "Time Spent:"
 msgstr "Aikaa käytetty:"
 
-#: lib/eventum/class.customer_stats_report.php:734
+#: lib/eventum/class.customer_stats_report.php:731
 msgid "Time Statistics"
 msgstr "Aikatilastot"
 
@@ -7328,13 +7388,13 @@ msgstr "Aika sulkemiseen"
 msgid "Time To First Response"
 msgstr "Aikaa ensimmäiseen vastaukseen"
 
-#: lib/eventum/class.customer_stats_report.php:735
+#: lib/eventum/class.customer_stats_report.php:732
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr "Ajanseuranta"
 
-#: lib/eventum/class.phone_support.php:333
+#: lib/eventum/class.phone_support.php:330
 msgid "Time entry inserted from phone call."
 msgstr "Aikamerkintä puhelusta."
 
@@ -7350,17 +7410,17 @@ msgstr ""
 msgid "Time tracking category"
 msgstr "Ajanseurantakategoria"
 
-#: lib/eventum/class.time_tracking.php:398
+#: lib/eventum/class.time_tracking.php:395
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr "Ajanseurantamerkinnän poistaja %1$s"
 
-#: lib/eventum/class.time_tracking.php:448
+#: lib/eventum/class.time_tracking.php:445
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr "Ajanseurantamerkinnän lisääjä %1$s"
 
-#: lib/eventum/class.time_tracking.php:491
+#: lib/eventum/class.time_tracking.php:488
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Etänä lisätty ajanseurantamerkintä lisääjänä %1$s"
@@ -7470,7 +7530,7 @@ msgstr "Puhelut yhteensä"
 msgid "Total Time Spent"
 msgstr "Käytetty kokonaisaika"
 
-#: lib/eventum/class.customer_stats_report.php:684
+#: lib/eventum/class.customer_stats_report.php:681
 msgid "Total Workload by Support Level"
 msgstr "Kokonais työmäärä tukitasoittain"
 
@@ -7516,8 +7576,12 @@ msgstr "Merkitse vikailmoitus määräämättömäksi"
 msgid "Unavailable - Users may NOT use this release"
 msgstr "Saatamattomissa - Käyttäjät EIVÄT voi käyttää tätä julkaisua"
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr ""
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7590,7 +7654,7 @@ msgstr "Päivitä vikailmoitus"
 msgid "Update Issue #%1"
 msgstr "Päivitä vikailmoitus #%1"
 
-#: htdocs/update.php:67
+#: htdocs/update.php:65
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Päivitä vikailmoitus #%1$s"
@@ -7649,6 +7713,7 @@ msgstr "Päivitä kiertovuorottelu"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Päivitä asetukset"
 
@@ -7676,7 +7741,7 @@ msgstr "Päivitä arvot"
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: lib/eventum/class.filter.php:747
+#: lib/eventum/class.filter.php:744
 msgid "Updated Date"
 msgstr "Päivityspäivämäärä"
 
@@ -7692,7 +7757,7 @@ msgstr "Upload File"
 msgid "Upload New Signature"
 msgstr "Siirrä uusi allekirjoitus"
 
-#: lib/eventum/class.help.php:93 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
 msgid "Usage Examples"
 msgstr "Käyttöesimerkki"
@@ -7723,7 +7788,7 @@ msgstr "Käyttäjä"
 msgid "User Details"
 msgstr "Käyttäjän yksityiskohdat"
 
-#: lib/eventum/class.help.php:149 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:146 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
 msgid "User Permission Levels"
 msgstr "Käyttäjän oikeustasot"
@@ -7789,7 +7854,7 @@ msgstr "Katsoja"
 msgid "Viewing Emails (%1 email found)"
 msgstr ""
 
-#: lib/eventum/class.help.php:121 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:118 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
 msgid "Viewing Issues"
 msgstr "Näytetään vikailmoituksia"
@@ -7822,7 +7887,7 @@ msgstr ""
 "VAROITUS: Tämän viestin muuntamien sähköpostiviestiksi lähettää sähköpostin "
 "kaikille asiakkaille, jotka ovat tämän vikailmoituksen muistutuslistassa."
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "VAROITUS: Jos vastaat, lisää itsesi oikeutettujen vastaajien listaan ensin."
@@ -7886,7 +7951,7 @@ msgstr ""
 "Jos haluat, että kaikki saavat viestisi nyt, paina OK.\n"
 "Muuten palaa muokkaus-ikkunaan painamalla CANCEL."
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -7967,6 +8032,12 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
+"We received a message from %1 and created an issue from it. Since you were a "
+"recipient of the original message, we are sending you the issue details."
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
@@ -7991,6 +8062,14 @@ msgstr "Viikottainen"
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
 msgstr "Viikottainen raportti"
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
+msgstr ""
 
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
@@ -8030,7 +8109,7 @@ msgstr "Työmäärä tietyllä aikavälillä"
 msgid "Workload by Date Range Report"
 msgstr "Työmäärä tietyllä aikavälillä raportti"
 
-#: htdocs/reports/workload_time_period_graph.php:56
+#: htdocs/reports/workload_time_period_graph.php:54
 msgid "Workload by Time Period"
 msgstr "Työmäärä aikajaksoittain"
 
@@ -8042,7 +8121,7 @@ msgstr "Työmäärä vuorokaudenajan mukaan"
 msgid "Workload by time period"
 msgstr "Työmäärä aikajaksoittain"
 
-#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8199,7 +8278,7 @@ msgstr ""
 "[Komentokehote]$ cvs -q commit -m \"Lisätään lomakkeen tarkistusta, kuten "
 "pyydettiin (vikailmoitus: 13)\" form.php"
 
-#: htdocs/reports/workload_time_period_graph.php:57
+#: htdocs/reports/workload_time_period_graph.php:55
 msgid "actions"
 msgstr "toiminnot"
 
@@ -8303,6 +8382,12 @@ msgstr "vkpv"
 msgid "download file"
 msgstr "lataa tiedosto"
 
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
+msgstr ""
+
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
 msgstr "Muokkaa tämän vikailmoituksen oikeutettuja vastaajia"
@@ -8315,7 +8400,7 @@ msgstr "muokkaa vikailmoituksen ilmoituslistaa"
 msgid "edit this custom search"
 msgstr "muokkaa luotua hakua"
 
-#: htdocs/reports/workload_time_period_graph.php:53
+#: htdocs/reports/workload_time_period_graph.php:51
 msgid "emails"
 msgstr "sähköpostit"
 
@@ -8388,7 +8473,7 @@ msgstr "piilota / näytä pikahaku"
 msgid "hide/show"
 msgstr "piilota/näytä"
 
-#: lib/eventum/class.reminder_condition.php:222 templates/adv_search.tpl.html
+#: lib/eventum/class.reminder_condition.php:219 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
 msgstr "tuntia"
@@ -8491,18 +8576,18 @@ msgstr "siirrää kenttää ylös"
 msgid "must be a valid email address"
 msgstr "täytyy olla kelvollinen sähköpostiosoite"
 
-#: htdocs/adv_search.php:58 htdocs/list.php:85
-#: lib/eventum/class.filter.php:669
+#: htdocs/adv_search.php:56 htdocs/list.php:83
+#: lib/eventum/class.filter.php:666
 msgid "myself and my group"
 msgstr "Minä ja ryhmäni"
 
-#: htdocs/adv_search.php:52 htdocs/list.php:80
-#: lib/eventum/class.filter.php:667
+#: htdocs/adv_search.php:50 htdocs/list.php:78
+#: lib/eventum/class.filter.php:664
 msgid "myself and un-assigned"
 msgstr "minulle ja määräämättömille"
 
-#: htdocs/adv_search.php:59 htdocs/list.php:86
-#: lib/eventum/class.filter.php:671
+#: htdocs/adv_search.php:57 htdocs/list.php:84
+#: lib/eventum/class.filter.php:668
 msgid "myself, un-assigned and my group"
 msgstr "minulle, määräämättömille ja ryhmälleni"
 
@@ -8636,8 +8721,8 @@ msgstr "tämä näkyy muistutusviestien alareunassa"
 msgid "to access this page."
 msgstr ""
 
-#: htdocs/adv_search.php:51 htdocs/list.php:79
-#: lib/eventum/class.filter.php:665
+#: htdocs/adv_search.php:49 htdocs/list.php:77
+#: lib/eventum/class.filter.php:662
 msgid "un-assigned"
 msgstr "määräämättömät"
 
@@ -8815,14 +8900,47 @@ msgstr "vuosi"
 #~ msgid "(only technical contacts listed on your contract)"
 #~ msgstr "(ainoastaan tekniset kontaktit on listattu sopimuksessasi)"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Virhe: Anna sähköpostiosoitteesi."
+
+#~ msgid "Search Results"
+#~ msgstr "Hakutulokset"
+
 #~ msgid "issues found"
 #~ msgstr "vikailmoitusta löytynyt"
 
 #~ msgid "shown"
 #~ msgstr "näytetty"
 
+#~ msgid "Notification Options"
+#~ msgstr "Muistutusvaihtoehdot"
+
+#~ msgid "This issue was just closed by"
+#~ msgstr "Tämän vikailmoituksen juuri sulki"
+
 #~ msgid " with the message"
 #~ msgstr " viestillä"
+
+#~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Lisätäksesi tietoa tähän vikailmoitukseen, vastaa tähän sähköpostiin"
+
+#~ msgid "ERROR: Almost no free disk space left (percentage left"
+#~ msgstr "VIRHE: Kovalevytila melkein lopussa (prosenttia jäljellä"
+
+#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
+#~ msgstr "VIRHE: Vapaan kovalevytilan määrä alhainen (prosenttia jäljellä"
+
+#~ msgid "ERROR: File could not be found (path"
+#~ msgstr "VIRHE: Tiedostoa ei löytynyt (polku"
+
+#~ msgid ""
+#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
+#~ msgstr ""
+#~ "VIRHE: Ei pystynyt yhdistämään mysql-tietokantaan. Tarkempi virheilmoitus:"
 
 #~ msgid "Port:"
 #~ msgstr "Portti:"

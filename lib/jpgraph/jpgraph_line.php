@@ -13,9 +13,9 @@
 
 //===================================================
 // CLASS Value
-// Description: 
+// Description:
 //===================================================
-class DisplayValue {    
+class DisplayValue {
     var $show=false,$format="%d",$angle=0;
     var $ff=FF_FONT1,$fs=FS_NORMAL,$fsize=10;
     var $color="navy",$margin=3;
@@ -47,7 +47,7 @@ class DisplayValue {
 
 //===================================================
 // CLASS LinePlot
-// Description: 
+// Description:
 //===================================================
 class LinePlot extends Plot{
     var $filled=false;
@@ -66,31 +66,31 @@ class LinePlot extends Plot{
 	$this->value = new DisplayValue();
     }
 //---------------
-// PUBLIC METHODS	
+// PUBLIC METHODS
 
     // Set style, filled or open
     function SetFilled($f=true) {
 	$this->filled=$f;
     }
-	
+
     function SetStyle($s) {
 	$this->line_style=$s;
     }
-	
+
     function SetStepStyle($f=true) {
 	$this->step_style = $f;
     }
-	
+
     function SetColor($c) {
 	parent::SetColor($c);
 	$this->mark->SetColor($this->color);
     }
-	
+
     function SetFillColor($c,$f=true) {
 	$this->fill_color=$c;
 	$this->filled=$f;
     }
-	
+
     function Legend(&$graph) {
 	if( $this->legend!="" ) {
 	    if( $this->filled ) {
@@ -100,13 +100,13 @@ class LinePlot extends Plot{
 		$graph->legend->Add($this->legend,
 		$this->color,$this->mark,$this->line_style);
 	    }
-	}	
+	}
     }
-	
+
     function SetCenter($c=true) {
 	$this->center=$c;
-    }	
-	
+    }
+
     // Gets called before any axis are stroked
     function PreStrokeAdjust(&$graph) {
 	if( $this->center ) {
@@ -116,10 +116,10 @@ class LinePlot extends Plot{
 	    $a=0; $b=0;
 	}
 	$graph->xaxis->scale->ticks->SetXLabelOffset($a);
-	$graph->SetTextScaleOff($b);						
+	$graph->SetTextScaleOff($b);
 	$graph->xaxis->scale->ticks->SupressMinorTickMarks();
     }
-	
+
     function Stroke(&$img,&$xscale,&$yscale) {
 	$numpoints=count($this->coords[0]);
 	if( isset($this->coords[1]) ) {
@@ -130,7 +130,7 @@ class LinePlot extends Plot{
 	    else
 		$exist_x = true;
 	}
-	else 
+	else
 	    $exist_x = false;
 
 	if( $exist_x )
@@ -140,7 +140,7 @@ class LinePlot extends Plot{
 
 	$img->SetStartPoint($xscale->Translate($xs),
 	                    $yscale->Translate($this->coords[0][0]));
-		
+
 	if( $this->filled ) {
 	    $cord[] = $xscale->Translate($xs);
 	    $cord[] = $yscale->Translate($yscale->GetMinVal());
@@ -149,7 +149,7 @@ class LinePlot extends Plot{
 	$cord[] = $yscale->Translate($this->coords[0][0]);
 	$yt_old = $yscale->Translate($this->coords[0][0]);
 	$img->SetColor($this->color);
-	$img->SetLineWeight($this->weight);	
+	$img->SetLineWeight($this->weight);
 	$img->SetLineStyle($this->line_style);
 	for( $pnts=1; $pnts<$numpoints; ++$pnts) {
 	    if( $exist_x ) $x=$this->coords[1][$pnts];
@@ -164,19 +164,19 @@ class LinePlot extends Plot{
 	    }
 	    else {
 		$y=$this->coords[0][$pnts];
-		if( is_numeric($y) || (is_string($y) && $y != "-") ) { 		 			
+		if( is_numeric($y) || (is_string($y) && $y != "-") ) {
 		    $tmp1=$this->coords[0][$pnts];
-		    $tmp2=$this->coords[0][$pnts-1]; 		 			
-		    if( is_numeric($tmp1)  && (is_numeric($tmp2) || $tmp2=="-" ) ) { 
+		    $tmp2=$this->coords[0][$pnts-1];
+		    if( is_numeric($tmp1)  && (is_numeric($tmp2) || $tmp2=="-" ) ) {
 			$img->StyleLineTo($xt,$yt);
-		    } 
+		    }
 		    else {
 			$img->SetStartPoint($xt,$yt);
 		    }
 		}
 	    }
 	    $yt_old = $yt;
-	    if( $this->value->show) 
+	    if( $this->value->show)
 	    {
 		$sval=sprintf($this->value->format,$this->coords[0][$pnts]);
 		$txt = new Text($sval,$xt,$yt-$this->value->margin);
@@ -186,11 +186,11 @@ class LinePlot extends Plot{
 		$txt->SetColor($this->value->color);
 		$txt->Stroke($img);
 	    }
-	}	
+	}
 	if( $this->filled ) {
 	    $cord[] = $xt;
-	    $cord[] = $yscale->Translate($yscale->GetMinVal());					
-	    $img->SetColor($this->fill_color);	
+	    $cord[] = $yscale->Translate($yscale->GetMinVal());
+	    $img->SetColor($this->fill_color);
 	    $img->FilledPolygon($cord);
 	    $img->SetColor($this->color);
 	    $img->Polygon($cord);
@@ -203,13 +203,13 @@ class LinePlot extends Plot{
 	}
     }
 //---------------
-// PRIVATE METHODS	
+// PRIVATE METHODS
 } // Class
 
 
 //===================================================
 // CLASS AccLinePlot
-// Description: 
+// Description:
 //===================================================
 class AccLinePlot extends Plot {
     var $plots=null,$nbrplots=0,$numpoints=0;
@@ -218,16 +218,16 @@ class AccLinePlot extends Plot {
     function AccLinePlot($plots) {
 	$this->plots = $plots;
 	$this->nbrplots = count($plots);
-	$this->numpoints = $plots[0]->numpoints;		
+	$this->numpoints = $plots[0]->numpoints;
     }
 
 //---------------
-// PUBLIC METHODS	
+// PUBLIC METHODS
     function Legend(&$graph) {
 	foreach( $this->plots as $p )
 	    $p->Legend($graph);
     }
-	
+
     function Max() {
 	$accymax=0;
 	list($xmax,$dummy) = $this->plots[0]->Max();
@@ -246,7 +246,7 @@ class AccLinePlot extends Plot {
 	    $xmin=Min($xmin,$xm);
 	    $ymin=Min($ymin,$ym);
 	}
-	return array($xmin,$ymin);	
+	return array($xmin,$ymin);
     }
 
     // To avoid duplicate of line drawing code here we just
@@ -260,10 +260,10 @@ class AccLinePlot extends Plot {
 	// Allocate array
 	$coords[$this->nbrplots][$this->numpoints]=0;
 	for($i=0; $i<$this->numpoints; $i++) {
-	    $coords[0][$i]=$this->plots[0]->coords[0][$i]; 
+	    $coords[0][$i]=$this->plots[0]->coords[0][$i];
 	    $accy=$coords[0][$i];
 	    for($j=1; $j<$this->nbrplots; ++$j ) {
-		$coords[$j][$i] = $this->plots[$j]->coords[0][$i]+$accy; 
+		$coords[$j][$i] = $this->plots[$j]->coords[0][$i]+$accy;
 		$accy = $coords[$j][$i];
 	    }
 	}
@@ -274,7 +274,7 @@ class AccLinePlot extends Plot {
 		$p->coords[0][$i]=$coords[$j][$i];
 	    }
 	    $p->Stroke($img,$xscale,$yscale);
-	    for( $i=0; $i<$this->numpoints; ++$i) 
+	    for( $i=0; $i<$this->numpoints; ++$i)
 		$p->coords[0][$i]=$tmp[$i];
 	    $p->coords[0][]=$tmp;
 	}
@@ -282,4 +282,3 @@ class AccLinePlot extends Plot {
 } // Class
 
 /* EOF */
-?>

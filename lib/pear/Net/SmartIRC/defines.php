@@ -1,14 +1,14 @@
 <?php
 /**
- * $Id: defines.php,v 1.9.2.1 2003/07/22 15:32:18 meebey Exp $
- * $Revision: 1.9.2.1 $
+ * $Id: defines.php 162248 2004-06-28 17:35:55Z meebey $
+ * $Revision: 162248 $
  * $Author: meebey $
- * $Date: 2003/07/22 15:32:18 $
+ * $Date: 2004-06-29 03:05:55 +0930 (Tue, 29 Jun 2004) $
  *
- * Copyright (c) 2002-2003 Mirco "MEEBEY" Bauer <mail@meebey.net> <http://www.meebey.net>
- * 
- * Full LGPL License: <http://www.meebey.net/lgpl.txt>
- * 
+ * Copyright (c) 2002-2004 Mirco Bauer <meebey@meebey.net> <http://www.meebey.net>
+ *
+ * Full LGPL License: <http://www.gnu.org/licenses/lgpl.txt>
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -28,7 +28,7 @@
 define('SMARTIRC_CRLF',      "\r\n");
 define('SMARTIRC_UNUSED',    '*');
 define('SMARTIRC_STDOUT',        0);
-define('SMARTIRC_FILE',	         1);
+define('SMARTIRC_FILE',          1);
 define('SMARTIRC_SYSLOG',        2);
 define('SMARTIRC_BROWSEROUT',    3);
 define('SMARTIRC_NONE',          4);
@@ -52,7 +52,8 @@ define('SMARTIRC_DEBUG_CHANNELSYNCING',   256);
 define('SMARTIRC_DEBUG_MODULES',          512);
 define('SMARTIRC_DEBUG_USERSYNCING',      1024);
 define('SMARTIRC_DEBUG_MESSAGEPARSER',    2048);
-define('SMARTIRC_DEBUG_ALL',              4095);
+define('SMARTIRC_DEBUG_DCC',              4096);
+define('SMARTIRC_DEBUG_ALL',              8191);
 define('SMARTIRC_TYPE_UNKNOWN',        1);
 define('SMARTIRC_TYPE_CHANNEL',        2);
 define('SMARTIRC_TYPE_QUERY',          4);
@@ -83,6 +84,7 @@ define('SMARTIRC_TYPE_USERMODE',       67108864);
 define('SMARTIRC_TYPE_CHANNELMODE',    134217728);
 define('SMARTIRC_TYPE_CTCP_REQUEST',   268435456);
 define('SMARTIRC_TYPE_CTCP_REPLY',     536870912);
+//define('SMARTIRC_TYPE_DCC',            536870912);
 define('SMARTIRC_TYPE_ALL',            1073741823);
 
 $SMARTIRC_replycodes = array(
@@ -231,4 +233,3 @@ foreach ($SMARTIRC_replycodes as $key => $value) {
     define('SMARTIRC_'.$key, $value);
     $SMARTIRC_nreplycodes[$value] = $key;
 }
-?>

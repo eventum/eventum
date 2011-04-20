@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-19 12:35+0200\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -321,6 +321,10 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
+msgstr ""
+
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
 msgstr ""
 
 #: templates/self_assign.tpl.html
@@ -3849,22 +3853,22 @@ msgstr ""
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -5259,7 +5263,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
 #: lib/eventum/class.issue.php:826
 #, php-format
-msgid "Re: [%1$s] %2$s"
+msgid "Re: [#%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html

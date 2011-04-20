@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-02 16:48+0200\n"
-"PO-Revision-Date: 2010-12-13 12:30+0000\n"
-"Last-Translator: millemiglia <dnieper650@gmail.com>\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
+"PO-Revision-Date: 2011-01-26 04:20+0000\n"
+"Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-27 04:38+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -212,7 +212,7 @@ msgstr "Um novo usuário foi criado para você no sistema."
 msgid "ADDED"
 msgstr "ADICIONADO"
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "INFORMAÇÃO: Sua resposta será enviada para a lista de notificação."
 
@@ -352,6 +352,10 @@ msgstr "Adicionar Destinatários Extras à Lista de Notificação?"
 #: templates/new.tpl.html
 msgid "Add Files"
 msgstr "Adicionar Arquivos"
+
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr "Adicionar-me à Lista de Notificação"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -2083,7 +2087,7 @@ msgstr "Email #%1$s: %2$s"
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (assunto: '%1$s') associado por %2$s"
 
-#: lib/eventum/class.support.php:1845
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (assunto: '%1$s') desassociado por %2$s"
@@ -2191,7 +2195,7 @@ msgstr "Email por Período de Tempo"
 msgid "Email by time period"
 msgstr "Email por período de tempo"
 
-#: lib/eventum/class.support.php:2569
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"
@@ -4043,22 +4047,22 @@ msgstr "Lista de Notificação:"
 msgid "Notification Options for Issue #%1"
 msgstr "Opções de Notificação para Expedir #%1"
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) adicionada por %2$s"
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) excluída por %2$s"
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') adicionada por %2$s"
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') atualizada por %2$s"
@@ -4099,7 +4103,7 @@ msgstr "Somente Baixar Mensagens Não Lidas"
 msgid "Only for Known Customers?"
 msgstr "Somente para Clientes Conhecidos?"
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4193,7 +4197,7 @@ msgstr "Endereço do Remetente dos Emails Saintes"
 msgid "Outgoing Email Sender Name"
 msgstr "Nome do Remetente dos Emails Saintes"
 
-#: lib/eventum/class.support.php:2203
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email sainte enviado por %1$s"
@@ -5564,6 +5568,20 @@ msgid ""
 msgstr ""
 "Redirecionando a janela pai para a página de abertura de chamado. Esta "
 "janela será fechada automaticamente."
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr "Res: %1$s"
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [#%1$s] %2$s"
+msgstr "Res: [#%1$s] %2$s"
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -7938,7 +7956,7 @@ msgid "Untitled"
 msgstr "Sem nome"
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:663
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -8246,7 +8264,7 @@ msgstr ""
 "AVISO: Converter esta nota em um email enviará esse email para quaisquer "
 "clientes que possam estar listados na lista de notificação do chamado."
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "AVISO: Se estiver respondendo, adicione-se primeiro à lista de Autorizados a "
@@ -8319,7 +8337,7 @@ msgstr ""
 "OK.\n"
 "Caso contrário, para retornar à janela de edição, pressione Cancelar."
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -9312,6 +9330,12 @@ msgstr "ano"
 #~ msgid "Note: The current maximum allowed upload file size is"
 #~ msgstr "Nota: O tamanho máximo permitido no momento para arquivos enviados é"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Erro: Por favor informe seu endereço de email."
+
+#~ msgid "Search Results"
+#~ msgstr "Resultados da Busca"
+
 #~ msgid "issues found"
 #~ msgstr "chamado(s) encontrado(s)"
 
@@ -9321,8 +9345,18 @@ msgstr "ano"
 #~ msgid "Notification Options"
 #~ msgstr "Opções de Notificação"
 
+#~ msgid "This issue was just closed by"
+#~ msgstr "O chamado acaba de ser fechado por"
+
 #~ msgid " with the message"
 #~ msgstr " com a mensagem"
+
+#~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Para adicionar mais informações ao chamado, simplesmente responda este email."
 
 #~ msgid "ERROR: Almost no free disk space left (percentage left"
 #~ msgstr "ERRO: Quase sem espaço livre no disco (porcentagem livre"
@@ -9516,6 +9550,13 @@ msgstr "ano"
 #~ msgstr ""
 #~ "A nota selecionada não existe. <br />\n"
 #~ "      Ela pode ter sido convertida em um email."
+
+#~ msgid ""
+#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
+#~ "server."
+#~ msgstr ""
+#~ "<b>Nota:</b> Se você marcar esta opção, não poderá deixar uma cópia das "
+#~ "mensagens no servidor."
 
 #~ msgid ""
 #~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "

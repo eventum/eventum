@@ -64,11 +64,10 @@ class Customer
      * Returns the customer backend class file associated with the given
      * project ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  string The customer backend class filename
      */
-    function _getBackendNameByProject($prj_id)
+    private static function _getBackendNameByProject($prj_id)
     {
         static $backends;
 
@@ -85,6 +84,7 @@ class Customer
                     prj_id";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
@@ -98,11 +98,10 @@ class Customer
      * Includes the appropriate customer backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @access  private
      * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @return  Abstract_Customer_Backend
      */
-    function &_getBackend($prj_id)
+    private static function &_getBackend($prj_id)
     {
         static $setup_backends;
 
@@ -133,11 +132,10 @@ class Customer
      * Checks whether the given project ID is setup to use customer integration
      * or not.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function hasCustomerIntegration($prj_id)
+    public static function hasCustomerIntegration($prj_id)
     {
         $backend = self::_getBackendNameByProject($prj_id);
         if (empty($backend)) {
@@ -149,7 +147,7 @@ class Customer
 
 
     // XXX: put documentation here
-    function getBackendImplementationName($prj_id)
+    public static function getBackendImplementationName($prj_id)
     {
         if (!self::hasCustomerIntegration($prj_id)) {
             return '';
@@ -181,13 +179,12 @@ class Customer
      * Returns the contract status associated with the given customer ID.
      * Possible return values are 'active', 'in_grace_period' and 'expired'.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  string The contract status
      */
-    function getContractStatus($prj_id, $customer_id, $contract_id = false)
+    public static function getContractStatus($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& self::_getBackend($prj_id);
         return $backend->getContractStatus($customer_id, $contract_id);
@@ -229,14 +226,13 @@ class Customer
     /**
      * Method used to get the details of the given customer.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
      * @param   boolean $force_refresh If the cache should not be used.
      * @param   integer $contract_id The contract ID
      * @return  array The customer details
      */
-    function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false)
+    public static function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false)
     {
         $backend =& self::_getBackend($prj_id);
         return $backend->getDetails($customer_id, $force_refresh, $contract_id);
@@ -322,12 +318,11 @@ class Customer
     /**
      * Marks an issue as a redeemed incident.
      * @see /docs/Customer_API.html
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   integer $incident_type The type of incident
      */
-    function flagIncident($prj_id, $issue_id, $incident_type)
+    public static function flagIncident($prj_id, $issue_id, $incident_type)
     {
         $backend =& self::_getBackend($prj_id);
         return $backend->flagIncident($issue_id, $incident_type);
@@ -465,11 +460,10 @@ class Customer
     /**
      * Method used to get the customer names for the given customer id.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  string The customer name
      */
-    function getTitle($prj_id, $customer_id)
+    public static function getTitle($prj_id, $customer_id)
     {
         $backend =& self::_getBackend($prj_id);
         if ($backend === FALSE) {
@@ -490,6 +484,7 @@ class Customer
      */
     function getTitles($prj_id, $customer_ids)
     {
+	    // TODO: this or backend prototype mismatches
         $backend =& self::_getBackend($prj_id);
         return $backend->getTitles($customer_ids);
     }
@@ -705,11 +700,10 @@ class Customer
     /**
      * Returns an array of support levels grouped together.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array an array of support levels.
      */
-    function getGroupedSupportLevels($prj_id)
+    public static function getGroupedSupportLevels($prj_id)
     {
         $backend =& self::_getBackend($prj_id);
         return $backend->getGroupedSupportLevels($prj_id);
@@ -1085,6 +1079,7 @@ class Customer
                     cam_usr_id=usr_id";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {

@@ -39,15 +39,22 @@ require_once 'DB.php';
 class DB_Helper
 {
     /**
-     * @access public
+     * @var DB_Helper $instance
      */
     private static $instance;
-    function getInstance() {
+
+	/**
+	 * @static
+	 * @return DB_common
+	 */
+    public static function getInstance() {
         if (!self::$instance) {
             self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
+	            /** @var $e PEAR_Error */
                 Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
+	            /** @global $error_type  */
                 $error_type = "db";
                 require_once APP_PATH . "/htdocs/offline.php";
                 exit(1);
@@ -56,6 +63,7 @@ class DB_Helper
         return self::$instance->dbh;
     }
 
+	/** @var DB_common */
     private $dbh;
     /**
      * Connects to the database and creates a data dictionary array to be used

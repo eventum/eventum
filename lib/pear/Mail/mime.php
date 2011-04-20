@@ -23,8 +23,8 @@
  * - Redistributions in binary form must reproduce the above copyright
  *   notice, this list of conditions and the following disclaimer in the
  *   documentation and/or other materials provided with the distribution.
- * - Neither the name of the authors, nor the names of its contributors 
- *   may be used to endorse or promote products derived from this 
+ * - Neither the name of the authors, nor the names of its contributors
+ *   may be used to endorse or promote products derived from this
  *   software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -314,7 +314,7 @@ class Mail_mime
      *                             Defaults to true
      * @param string $encoding    The type of encoding to use.
      *                             Defaults to base64.
-     *                             Possible values: 7bit, 8bit, base64, 
+     *                             Possible values: 7bit, 8bit, base64,
      *                             or quoted-printable.
      * @param string $disposition The content-disposition of this file
      *                             Defaults to attachment.
@@ -463,7 +463,7 @@ class Mail_mime
     {
         $params                 = array();
         $params['content_type'] = 'multipart/mixed';
-        
+
         //Create empty multipart/mixed Mail_mimePart object to return
         $ret = new Mail_mimePart('', $params);
         return $ret;
@@ -530,10 +530,10 @@ class Mail_mime
         $params['disposition']  = 'inline';
         $params['dfilename']    = $value['name'];
         $params['cid']          = $value['cid'];
-        
+
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
-    
+
     }
 
     /**
@@ -560,7 +560,7 @@ class Mail_mime
             $params['location'] = $value['location'];
         }
         $params['content_type'] = $value['c_type'];
-        $params['disposition']  = isset($value['disposition']) ? 
+        $params['disposition']  = isset($value['disposition']) ?
                                   $value['disposition'] : 'attachment';
         $ret = $obj->addSubpart($value['body'], $params);
         return $ret;
@@ -570,9 +570,9 @@ class Mail_mime
      * Returns the complete e-mail, ready to send using an alternative
      * mail delivery method. Note that only the mailpart that is made
      * with Mail_Mime is created. This means that,
-     * YOU WILL HAVE NO TO: HEADERS UNLESS YOU SET IT YOURSELF 
+     * YOU WILL HAVE NO TO: HEADERS UNLESS YOU SET IT YOURSELF
      * using the $xtra_headers parameter!
-     * 
+     *
      * @param string $separation   The separation etween these two parts.
      * @param array  $build_params The Build parameters passed to the
      *                             &get() function. See &get for more info.
@@ -585,9 +585,9 @@ class Mail_mime
      * @access public
      */
     function getMessage(
-                        $separation   = null, 
-                        $build_params = null, 
-                        $xtra_headers = null, 
+                        $separation   = null,
+                        $build_params = null,
+                        $xtra_headers = null,
                         $overwrite    = false
                        )
     {
@@ -607,7 +607,7 @@ class Mail_mime
      *
      * @param array $build_params Build parameters that change the way the email
      *                             is built. Should be associative. Can contain:
-     *                head_encoding  -  What encoding to use for the headers. 
+     *                head_encoding  -  What encoding to use for the headers.
      *                                  Options: quoted-printable or base64
      *                                  Default is quoted-printable
      *                text_encoding  -  What encoding to use for plain text
@@ -638,7 +638,7 @@ class Mail_mime
                 $this->_build_params[$key] = $value;
             }
         }
-        
+
         if (isset($this->_headers['From'])){
             $domain = @strstr($this->_headers['From'],'@');
             //Bug #11381: Illegal characters in domain ID
@@ -648,7 +648,7 @@ class Mail_mime
                 $this->_html_images[$i]['cid'] = $this->_html_images[$i]['cid'] . $domain;
             }
         }
-        
+
         if (count($this->_html_images) AND isset($this->_htmlbody)) {
             foreach ($this->_html_images as $key => $value) {
                 $regex   = array();
@@ -662,7 +662,7 @@ class Mail_mime
                 $rep[] = 'url(\1cid:' . $value['cid'] . '\2)';
 
                 $this->_htmlbody = preg_replace($regex, $rep, $this->_htmlbody);
-                $this->_html_images[$key]['name'] = 
+                $this->_html_images[$key]['name'] =
                     basename($this->_html_images[$key]['name']);
             }
         }
@@ -753,7 +753,7 @@ class Mail_mime
 
         if (isset($message)) {
             $output = $message->encode();
-            
+
             $this->_headers = array_merge($this->_headers,
                                           $output['headers']);
             $body = $output['body'];
@@ -773,7 +773,7 @@ class Mail_mime
      * @param array $xtra_headers Assoc array with any extra headers.
      *                             Optional.
      * @param bool  $overwrite    Overwrite already existing headers.
-     * 
+     *
      * @return array Assoc array with the mime headers
      * @access public
      */
@@ -809,7 +809,7 @@ class Mail_mime
     function txtHeaders($xtra_headers = null, $overwrite = false)
     {
         $headers = $this->headers($xtra_headers, $overwrite);
-        
+
         $ret = '';
         foreach ($headers as $key => $val) {
             $ret .= "$key: $val" . MAIL_MIME_CRLF;
@@ -880,10 +880,10 @@ class Mail_mime
     }
 
     /**
-     * Since the PHP send function requires you to specifiy 
+     * Since the PHP send function requires you to specifiy
      * recipients (To: header) separately from the other
      * headers, the To: header is not properly encoded.
-     * To fix this, you can use this public method to 
+     * To fix this, you can use this public method to
      * encode your recipients before sending to the send
      * function
      *
@@ -910,7 +910,7 @@ class Mail_mime
      */
     function _encodeHeaders($input, $params = array())
     {
-        
+
         $build_params = $this->_build_params;
         while (list($key, $value) = each($params)) {
             $build_params[$key] = $value;
@@ -918,11 +918,11 @@ class Mail_mime
         //$hdr_name: Name of the heaer
         //$hdr_value: Full line of header value.
         //$hdr_value_out: The recombined $hdr_val-atoms, or the encoded string.
-                
-        $useIconv = true;        
+
+        $useIconv = true;
         if (isset($build_params['ignore-iconv'])) {
             $useIconv = !$build_params['ignore-iconv'];
-        }            
+        }
         foreach ($input as $hdr_name => $hdr_value) {
             if (preg_match('#([\x80-\xFF]){1}#', $hdr_value)) {
                 if (function_exists('iconv_mime_encode') && $useIconv) {
@@ -936,17 +936,17 @@ class Mail_mime
                     $imePrefs['output-charset'] = $build_params['head_charset'];
                     $imePrefs['line-length'] = 74;
                     $imePrefs['line-break-chars'] = "\r\n"; //Specified in RFC2047
-                    
+
                     $hdr_value = iconv_mime_encode($hdr_name, $hdr_value, $imePrefs);
                     $hdr_value = preg_replace("#^{$hdr_name}\:\ #", "", $hdr_value);
                 } elseif ($build_params['head_encoding'] == 'base64') {
                     //Base64 encoding has been selected.
                     //Base64 encode the entire string
                     $hdr_value = base64_encode($hdr_value);
-                    
-                    //Generate the header using the specified params and dynamicly 
+
+                    //Generate the header using the specified params and dynamicly
                     //determine the maximum length of such strings.
-                    //75 is the value specified in the RFC. The first -2 is there so 
+                    //75 is the value specified in the RFC. The first -2 is there so
                     //the later regexp doesn't break any of the translated chars.
                     //The -2 on the first line-regexp is to compensate for the ": "
                     //between the header-name and the header value
@@ -959,7 +959,7 @@ class Mail_mime
                     //we can get must be rounded down.
                     $maxLength = $maxLength - ($maxLength % 4);
                     $maxLength1stLine = $maxLength1stLine - ($maxLength1stLine % 4);
-                    
+
                     $cutpoint = $maxLength1stLine;
                     $hdr_value_out = $hdr_value;
                     $output = "";
@@ -968,8 +968,8 @@ class Mail_mime
                         $part = substr($hdr_value_out, 0, $cutpoint);
                         $hdr_value_out = substr($hdr_value_out, $cutpoint);
                         $cutpoint = $maxLength;
-                        //RFC 2047 specifies that any split header should 
-                        //be seperated by a CRLF SPACE. 
+                        //RFC 2047 specifies that any split header should
+                        //be seperated by a CRLF SPACE.
                         if ($output) {
                             $output .=  "\r\n ";
                         }
@@ -981,9 +981,9 @@ class Mail_mime
 
                     //Fix for Bug #10298, Ota Mares <om@viazenetti.de>
                     //Check if there is a double quote at beginning or end of
-                    //the string to prevent that an open or closing quote gets 
+                    //the string to prevent that an open or closing quote gets
                     //ignored because it is encapsuled by an encoding pre/suffix.
-                    //Remove the double quote and set the specific prefix or 
+                    //Remove the double quote and set the specific prefix or
                     //suffix variable so that we can concat the encoded string and
                     //the double quotes back together to get the intended string.
                     $quotePrefix = $quoteSuffix = '';
@@ -995,10 +995,10 @@ class Mail_mime
                         $hdr_value = substr($hdr_value, 0, -1);
                         $quoteSuffix = '"';
                     }
-                    
-                    //Generate the header using the specified params and dynamicly 
+
+                    //Generate the header using the specified params and dynamicly
                     //determine the maximum length of such strings.
-                    //75 is the value specified in the RFC. The -2 is there so 
+                    //75 is the value specified in the RFC. The -2 is there so
                     //the later regexp doesn't break any of the translated chars.
                     //The -2 on the first line-regexp is to compensate for the ": "
                     //between the header-name and the header value
@@ -1007,12 +1007,12 @@ class Mail_mime
                     $maxLength = 75 - strlen($prefix . $suffix) - 2 - 1;
                     $maxLength1stLine = $maxLength - strlen($hdr_name) - 2;
                     $maxLength = $maxLength - 1;
-                    
+
                     //Replace all special characters used by the encoder.
                     $search  = array('=',   '_',   '?',   ' ');
                     $replace = array('=3D', '=5F', '=3F', '_');
                     $hdr_value = str_replace($search, $replace, $hdr_value);
-                    
+
                     //Replace all extended characters (\x80-xFF) with their
                     //ASCII values.
                     $hdr_value = preg_replace('#([\x80-\xFF])#e',
@@ -1026,7 +1026,7 @@ class Mail_mime
                     //Fix for Bug #10298, Ota Mares <om@viazenetti.de>
                     //Concat the double quotes and encoded string together
                     $hdr_value = $quotePrefix . $hdr_value . $quoteSuffix;
-                    
+
 
                     $hdr_value_out = $hdr_value;
                     $realMax = $maxLength1stLine + strlen($prefix . $suffix);
@@ -1038,11 +1038,11 @@ class Mail_mime
                             //Split translated string at every $maxLength
                             //But make sure not to break any translated chars.
                             $found = preg_match($reg, $hdr_value_out, $matches);
-                            
+
                             //After this first line, we need to use a different
                             //regexp for the first line.
                             $reg = $reg2nd;
-                            
+
                             //Save the found part and encapsulate it in the
                             //prefix & suffix. Then remove the part from the
                             //$hdr_value_out variable.
@@ -1054,8 +1054,8 @@ class Mail_mime
                                 $part = $hdr_value_out;
                                 $hdr_value_out = "";
                             }
-                            
-                            //RFC 2047 specifies that any split header should 
+
+                            //RFC 2047 specifies that any split header should
                             //be seperated by a CRLF SPACE
                             if ($output) {
                                 $output .=  "\r\n ";
@@ -1090,6 +1090,6 @@ class Mail_mime
         }
     }
 
-    
+
 
 } // End of class

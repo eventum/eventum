@@ -375,12 +375,11 @@ class Project
      * Method used to remove all project/user associations for a given
      * set of projects.
      *
-     * @access  public
      * @param   array $ids The project IDs
      * @param   array $users_to_not_remove Users that should not be removed
      * @return  boolean
      */
-    function removeUserByProjects($ids, $users_to_not_remove = false)
+    public static function removeUserByProjects($ids, $users_to_not_remove = false)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -608,7 +607,7 @@ class Project
      * @param   boolean $include_extra If extra data should be included.
      * @return  array The list of projects
      */
-    function getAssocList($usr_id, $force_refresh = false, $include_extra = false)
+    public static function getAssocList($usr_id, $force_refresh = false, $include_extra = false)
     {
         static $returns;
 

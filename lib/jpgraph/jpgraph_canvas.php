@@ -17,7 +17,7 @@
 // might be used together with the basic Image drawing
 // primitives. Useful to auickoly produce some arbitrary
 // graphic which benefits from all the functionality in the
-// graph liek caching for example. 
+// graph liek caching for example.
 //===================================================
 class CanvasGraph extends Graph {
 //---------------
@@ -27,7 +27,7 @@ class CanvasGraph extends Graph {
     }
 
 //---------------
-// PUBLIC METHODS	
+// PUBLIC METHODS
 
     // Method description
     function Stroke($aStrokeFileName="") {
@@ -35,10 +35,9 @@ class CanvasGraph extends Graph {
 	    for($i=0; $i<count($this->texts); ++$i) {
 		$this->texts[$i]->Stroke($this->img);
 	    }
-	}				
-	// Stream the generated picture					
-	$this->cache->PutAndStream($this->img,$this->cache_name,$this->inline,$aStrokeFileName);	
+	}
+	// Stream the generated picture
+	$this->cache->PutAndStream($this->img,$this->cache_name,$this->inline,$aStrokeFileName);
     }
 } // Class
 /* EOF */
-?>

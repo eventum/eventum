@@ -177,11 +177,10 @@ class User
      * Method used to get the customer contact ID associated with
      * the given user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer The customer contact ID
      */
-    function getCustomerContactID($usr_id)
+    public static function getCustomerContactID($usr_id)
     {
         $stmt = "SELECT
                     usr_customer_contact_id
@@ -411,12 +410,11 @@ class User
     /**
      * Method used to lookup the user ID of a given email address.
      *
-     * @access  public
      * @param   string $email The email address associated with the user account
      * @param   boolean $check_aliases If user aliases should be checked as well.
      * @return  integer The user ID
      */
-    function getUserIDByEmail($email, $check_aliases = false)
+    public static function getUserIDByEmail($email, $check_aliases = false)
     {
         static $returns;
 
@@ -608,11 +606,10 @@ class User
     /**
      * Method used to get the role ID for a specific role title.
      *
-     * @access  public
      * @param   string $role_title The role title
      * @return  integer The role ID
      */
-    function getRoleID($role_title)
+    public static function getRoleID($role_title)
     {
         foreach (self::$roles as $role_id => $role) {
             if (strtolower($role) == strtolower($role_title)) {
@@ -668,34 +665,49 @@ class User
      */
     function getDetails($usr_id)
     {
+        $res = self::getDetailsAssoc(array($usr_id));
+        return reset($res);
+    }
+
+    /**
+     * Method used to get the account details of a list users.
+     *
+     * @param   array $usr_ids The user ID
+     * @return  array List of accounts with account details
+     */
+    public static function getDetailsAssoc($usr_ids)
+    {
         static $returns;
+        $key = md5(serialize($usr_ids));
 
-        if (!empty($returns[$usr_id])) {
-            return $returns[$usr_id];
+        if (empty($returns[$key])) {
+            $stmt = "SELECT
+                        *
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                     WHERE
+                        usr_id IN (" . implode(', ', Misc::escapeInteger($usr_ids)) . ")";
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return null;
+            }
+
+            foreach ($res as $usr_id => &$row) {
+                // FIXME: maybe PEAR has some "fill NULL" mode?
+                if (!isset($row['usr_grp_id'])) {
+                    $row['usr_grp_id'] = null;
+                }
+
+                $row['group'] = Group::getName($row['usr_grp_id']);
+                $roles = Project::getAssocList($row['usr_id'], false, true);
+                $row['projects'] = array_keys($roles);
+                $row['roles'] = $roles;
+            }
+            $returns[$key] = $res;
         }
 
-        $stmt = "SELECT
-                    *
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return null;
-        }
-
-        // do not fill empty projects, roles, groups for inexistent users
-        if (!empty($res)) {
-            $roles =  Project::getAssocList($usr_id, false, true);
-            $res['projects'] = @array_keys($roles);
-            $res['roles'] = $roles;
-            $res['group'] = Group::getName($res['usr_grp_id']);
-        }
-
-        $returns[$usr_id] = $res;
-        return $res;
+        return $returns[$key];
     }
 
 
@@ -851,11 +863,10 @@ class User
     /**
      * Returns the status of the user associated with the given email address.
      *
-     * @access  public
      * @param   string $email The email address
      * @return  string The user status
      */
-    function getStatusByEmail($email)
+    public static function getStatusByEmail($email)
     {
         static $returns;
 
@@ -1241,11 +1252,10 @@ class User
      * Method used to get the full name and email for the specified
      * user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  array The email and full name
      */
-    function getNameEmail($usr_id)
+    public static function getNameEmail($usr_id)
     {
         static $returns;
 
@@ -1262,6 +1272,7 @@ class User
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
@@ -1275,11 +1286,10 @@ class User
      * Method used to get the appropriate 'From' header for a
      * specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The formatted 'From' header
      */
-    function getFromHeader($usr_id)
+    public static function getFromHeader($usr_id)
     {
         $info = self::getNameEmail($usr_id);
         return $info["usr_full_name"] . " <" . $info["usr_email"] . ">";
@@ -1304,6 +1314,7 @@ class User
                     usr_clocked_in=1";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         } else {
@@ -1328,6 +1339,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1351,6 +1363,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1375,6 +1388,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1409,6 +1423,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1430,6 +1445,7 @@ class User
                         usr_id = $usr_id";
             $res = DB_Helper::getInstance()->getOne($sql);
             if (PEAR::isError($res)) {
+	            /** @var $res PEAR_Error */
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return APP_DEFAULT_LOCALE;
             } else {
@@ -1453,6 +1469,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1470,6 +1487,7 @@ class User
                     ual_usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
@@ -1496,6 +1514,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1512,6 +1531,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1519,7 +1539,7 @@ class User
     }
 
 
-    function getUserIDByAlias($email)
+    public static function getUserIDByAlias($email)
     {
         $sql = "SELECT
                     ual_usr_id
@@ -1529,6 +1549,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         }

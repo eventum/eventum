@@ -87,14 +87,14 @@ class Mail_Helper
      * @param   boolean $remove_issue_id If the issue ID should be removed
      * @return  string The subject line with the extra occurrences removed from it
      */
-    function removeExcessRe($subject, $remove_issue_id = false)
+    public static function removeExcessRe($subject, $remove_issue_id = false)
     {
         if ($remove_issue_id) {
             $subject = trim(preg_replace("/\[#\d+\] {0,1}/", '', $subject));
         }
         // XXX: this works in most cases,
         // probably the reply prefixes should be configrable per Eventum install
-        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
+        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww]|[Rr][Ii][Ff]\.?)(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
             // TRANSLATORS: %1 = email subject
             $re_format = '$1'.ev_gettext('Re: %1$s', '$5');
@@ -255,11 +255,10 @@ class Mail_Helper
      * Method used to get the email address portion of a given
      * recipient information.
      *
-     * @access  public
      * @param   string $address The email address value
      * @return  string The email address
      */
-    function getEmailAddress($address)
+    public static function getEmailAddress($address)
     {
         $address = Mime_Helper::encodeAddress($address);
         $info = self::getAddressInfo($address);
@@ -444,11 +443,10 @@ class Mail_Helper
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
-     * @access  public
      * @param   string $str The body of the email
      * @return  string The body of the email, without the warning message
      */
-    function stripWarningMessage($str)
+    public static function stripWarningMessage($str)
     {
         $str = str_replace(self::getWarningMessage('allowed'), '', $str);
         $str = str_replace(self::getWarningMessage('blocked'), '', $str);
@@ -461,11 +459,10 @@ class Mail_Helper
      * issue emails to alert the recipient that he can (or not) send emails to
      * the issue notification list.
      *
-     * @access  public
      * @param   string $type Whether the warning message is of an allowed recipient or not
      * @return  string The warning message
      */
-    function getWarningMessage($type)
+    public static function getWarningMessage($type)
     {
         if ($type == 'allowed') {
             $str = ev_gettext("ADVISORY: Your reply will be sent to the notification list.");
@@ -1003,7 +1000,7 @@ class Mail_Helper
      * @param   string $headers The message headers
      * @param   string $body The message body
      */
-    function getMessageID($headers, $body)
+    public static function getMessageID($headers, $body)
     {
         $full_email = $headers. "\n\n";
         $structure = Mime_Helper::decode($full_email);

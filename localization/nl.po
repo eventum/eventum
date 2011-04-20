@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-10 00:16+0300\n"
+"POT-Creation-Date: 2011-01-21 14:43+0200\n"
 "PO-Revision-Date: 2010-06-09 11:42+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2010-06-10 03:37+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:54+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -29,7 +29,7 @@ msgstr ""
 "Bezoek de volgende hyperlink om de melding te bekijken"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
-#: htdocs/view.php:76
+#: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
@@ -42,17 +42,17 @@ msgstr "% voltooid"
 msgid "%1 Field"
 msgstr ""
 
-#: lib/eventum/class.filter.php:673
+#: lib/eventum/class.filter.php:670
 #, php-format
 msgid "%1$s Group"
 msgstr ""
 
-#: lib/eventum/class.filter.php:602
+#: lib/eventum/class.filter.php:599
 #, php-format
 msgid "%1$s or greater"
 msgstr ""
 
-#: lib/eventum/class.filter.php:605
+#: lib/eventum/class.filter.php:602
 #, php-format
 msgid "%1$s or less"
 msgstr ""
@@ -108,9 +108,13 @@ msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 "Tip: Standaardpoorten zijn 110 voor POP3-servers en 143 voor IMAP-servers."
 
-#: lib/eventum/class.template_helper.php:175
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr "(Gearchiveerd)"
+
+#: templates/manage/monitor.tpl.html
+msgid "(default %1)"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -191,7 +195,7 @@ msgstr "Er is een gebruiker aangemaakt in het systeem"
 msgid "ADDED"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:467
+#: lib/eventum/class.mail_helper.php:471
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "Let op: Uw antwoord wordt verzonden naar de notificatielijst."
 
@@ -236,7 +240,7 @@ msgstr "Relatiebeheerder"
 msgid "Account Manager:"
 msgstr "Relatiebeheerder:"
 
-#: lib/eventum/class.help.php:113 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
 msgstr "Gebruikersinstellingen"
@@ -329,6 +333,10 @@ msgstr "Extra geadresseerden toevoegen aan de notificatielijst?"
 msgid "Add Files"
 msgstr "Bestanden"
 
+#: templates/view_form.tpl.html
+msgid "Add Me To Notification"
+msgstr ""
+
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
 msgstr "Mij toevoegen aan de lijst met behandelaars."
@@ -386,7 +394,7 @@ msgstr ""
 msgid "Advanced Search"
 msgstr "Uitgebreid zoeken"
 
-#: lib/eventum/class.help.php:105 templates/help/adv_search.tpl.html
+#: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Geavanceerd zoeken / Eigen filters instellen"
@@ -395,7 +403,7 @@ msgstr "Geavanceerd zoeken / Eigen filters instellen"
 msgid "After Sender Name"
 msgstr "Achter naam afzender"
 
-#: lib/eventum/class.customer_stats_report.php:191
+#: lib/eventum/class.customer_stats_report.php:188
 msgid "Aggregate"
 msgstr "Gegroepeerd"
 
@@ -822,7 +830,7 @@ msgstr "Anomiem rapporteren van nieuwe meldingen"
 msgid "Anonymous Reporting:"
 msgstr "Anoniem rapporteren"
 
-#: htdocs/adv_search.php:50 htdocs/list.php:78 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "--"
 
@@ -867,7 +875,7 @@ msgstr "Toewijsbare gebruikers"
 msgid "Assignable Users:"
 msgstr "Toewijsbare gebruikers"
 
-#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:723
+#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
 msgstr "Toegewezen"
@@ -914,7 +922,7 @@ msgstr "Behandelaar"
 msgid "Assignee:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -922,7 +930,7 @@ msgstr ""
 msgid "Assignment"
 msgstr "In behandeling bij"
 
-#: lib/eventum/class.help.php:69 templates/help/report_assignment.tpl.html
+#: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
 msgstr "Toewijzing"
 
@@ -945,7 +953,7 @@ msgstr "Koppelen"
 msgid "Associate Email Message to Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.help.php:109 templates/emails.tpl.html
+#: lib/eventum/class.help.php:106 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
 #: templates/navigation.tpl.html
 msgid "Associate Emails"
@@ -992,11 +1000,11 @@ msgstr "Gekoppelde berichten"
 msgid "Attached Files"
 msgstr "Gekoppelde bestanden"
 
-#: lib/eventum/class.support.php:1452
+#: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
 msgstr "Bijlage van notitie"
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
 msgstr "Bijlage van bericht"
 
@@ -1017,7 +1025,7 @@ msgstr "Gemachtigd om de melding te beantwoorden"
 msgid "Authorized Repliers:"
 msgstr "Bevoegde antwoorders:"
 
-#: lib/eventum/class.filter.php:783 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
 msgstr "geautoriseerd ben voor het sturen van berichten"
 
@@ -1076,15 +1084,15 @@ msgstr ""
 msgid "Avg"
 msgstr "Gemiddelde"
 
-#: lib/eventum/class.customer_stats_report.php:692
+#: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
 msgstr "Gemiddelde werkbelasting per relatie per support level."
 
-#: lib/eventum/class.customer_stats_report.php:701
+#: lib/eventum/class.customer_stats_report.php:698
 msgid "Avg and Median Time to Close by Support Level"
 msgstr "Gemiddelde en mediaan-tijd tot sluiting melding per support level."
 
-#: lib/eventum/class.customer_stats_report.php:710
+#: lib/eventum/class.customer_stats_report.php:707
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr "Gemiddelde en mediaan-tijd tot dfe eerste reactie per support level"
 
@@ -1213,9 +1221,9 @@ msgstr "Standaardantwoorden"
 msgid "Categories and Statuses"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:728
+#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1097
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1226,7 +1234,7 @@ msgstr ""
 msgid "Category"
 msgstr "Categorie"
 
-#: lib/eventum/class.help.php:61 templates/help/report_category.tpl.html
+#: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
 msgid "Category Field"
 msgstr "Categorie"
 
@@ -1256,6 +1264,18 @@ msgstr "Gewijzigde velden"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Disk Space:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check IRC Bot:"
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Check Paths:"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -1345,7 +1365,7 @@ msgstr "Afgesloten"
 msgid "Closed Context ?"
 msgstr "Afgesloten onderwerp?"
 
-#: lib/eventum/class.filter.php:762
+#: lib/eventum/class.filter.php:759
 msgid "Closed Date"
 msgstr "Afgesloten op"
 
@@ -1533,7 +1553,7 @@ msgstr ""
 msgid "Created"
 msgstr "Gemaakt"
 
-#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:742
+#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:739
 msgid "Created Date"
 msgstr "Aangemaakt op"
 
@@ -1579,13 +1599,13 @@ msgstr "Rapport gedefinieerd veld"
 msgid "Custom Fields Weekly Report"
 msgstr ""
 
-#: lib/eventum/class.custom_field.php:314
+#: lib/eventum/class.custom_field.php:311
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr "Gedefinieerd veld op (%1$s door %2$s bijgewerkt"
 
-#: lib/eventum/class.customer_stats_report.php:667
-#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:799
+#: lib/eventum/class.customer_stats_report.php:664
+#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1603,7 +1623,7 @@ msgstr "Relatie"
 msgid "Customer Contract"
 msgstr "Contract relatie"
 
-#: lib/eventum/class.customer_stats_report.php:731
+#: lib/eventum/class.customer_stats_report.php:728
 msgid "Customer Counts"
 msgstr "Aantallen relaties"
 
@@ -1636,11 +1656,15 @@ msgstr "Relatie:"
 msgid "Customers"
 msgstr "Relaties"
 
-#: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html
+#: lib/eventum/class.help.php:138 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
 msgstr "Overzicht aanpassen"
+
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1703,7 +1727,7 @@ msgstr "Dag van de maand"
 msgid "Day of Week"
 msgstr "Dag van de week"
 
-#: lib/eventum/class.customer_stats_report.php:707
+#: lib/eventum/class.customer_stats_report.php:704
 msgid "Days"
 msgstr "Dagen"
 
@@ -1774,7 +1798,7 @@ msgstr "Aflopend"
 msgid "Description"
 msgstr "Omschrijving"
 
-#: lib/eventum/class.help.php:81 templates/help/report_description.tpl.html
+#: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
 msgid "Description Field"
 msgstr "Omschrijving"
 
@@ -1810,9 +1834,10 @@ msgstr "Wist u dat"
 msgid "Diff Page:"
 msgstr "Verschillenpagina:"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
@@ -1824,7 +1849,7 @@ msgstr "Selectie verwijderen"
 msgid "Display on List Issues Page"
 msgstr "Op meldingenlijst tonen"
 
-#: lib/eventum/class.customer_stats_report.php:693
+#: lib/eventum/class.customer_stats_report.php:690
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
@@ -1832,8 +1857,8 @@ msgstr ""
 "Toont het gemiddeld aantal meldingen, emails van ontwikkelaars, en emails "
 "van relaties per melding per support level."
 
-#: lib/eventum/class.customer_stats_report.php:702
-#: lib/eventum/class.customer_stats_report.php:711
+#: lib/eventum/class.customer_stats_report.php:699
+#: lib/eventum/class.customer_stats_report.php:708
 msgid "Displays time stats"
 msgstr "Toont tijdsstatistieken"
 
@@ -1881,26 +1906,26 @@ msgstr "Duplicaten"
 msgid "E-mail about issue update was sent to"
 msgstr "Het bericht dat de melding gesloten werd is gezonden naar"
 
-#: lib/eventum/class.monitor.php:86
-msgid "ERROR: Almost no free disk space left (percentage left"
-msgstr "Fout: Bijna geen schijfruimte meer beschikbaar (percentage vrij"
-
-#: lib/eventum/class.monitor.php:174
-msgid ""
-"ERROR: Could not connect to the mysql database. Detailed error message:"
+#: lib/eventum/class.monitor.php:72
+#, php-format
+msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
-"Fout: Kon niet verbinden met de mysql-database. Gedetailleerde foutmelding:"
 
-#: lib/eventum/class.monitor.php:272
+#: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "Fout: Kon Proces-ID van de IRC-bot niet vinden in de processenlijst."
 
-#: lib/eventum/class.monitor.php:145
+#: lib/eventum/class.monitor.php:238
+#, php-format
+msgid "ERROR: Could not find required table \"%s\""
+msgstr ""
+
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "Fout: Map %1$s niet gevonden."
 
-#: lib/eventum/class.monitor.php:151
+#: lib/eventum/class.monitor.php:146
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -1909,11 +1934,12 @@ msgstr ""
 "Fout: Map en machtiging komen niet overeen. Pad: %1$s; huidige machtiging: "
 "%2$s; juiste machtiging: %3$s)"
 
-#: lib/eventum/class.monitor.php:107
-msgid "ERROR: File could not be found (path"
-msgstr "Fout: Bestand niet gevonden (pad"
+#: lib/eventum/class.monitor.php:97
+#, php-format
+msgid "ERROR: File could not be found (path: %s)"
+msgstr ""
 
-#: lib/eventum/class.monitor.php:116
+#: lib/eventum/class.monitor.php:108
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
@@ -1922,7 +1948,7 @@ msgstr ""
 "Fout: Bestand en groep passen niet bij elkaar (pad: %1$s; huidige groep: "
 "%2$s; Juiste groep: %3$s)"
 
-#: lib/eventum/class.monitor.php:113
+#: lib/eventum/class.monitor.php:104
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
@@ -1931,7 +1957,7 @@ msgstr ""
 "Fout: Bestand en eigenaar passen niet bij elkaar (pad: %1$s; huidige "
 "eigenaar: %2$s; Juiste eigenaar: %3$s)"
 
-#: lib/eventum/class.monitor.php:121
+#: lib/eventum/class.monitor.php:114
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
@@ -1940,26 +1966,33 @@ msgstr ""
 "Fout: Bestand en machtiging komen niet overeen (pad: %1$s; huidige "
 "machtiging: %2$s; juiste machtiging: %3$s)"
 
-#: lib/eventum/class.monitor.php:125
+#: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 "Fout: Ongeldige bestandsgrootte (pad: %1$s; huidige bestandsgrootte: %2$s)"
 
-#: lib/eventum/class.monitor.php:90
-msgid "ERROR: Free disk space left is getting very low (percentage left"
-msgstr "Fout: Schijfruimte raakt bijna op (percentage vrij"
+#: lib/eventum/class.monitor.php:76
+#, php-format
+msgid ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
+msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
+msgstr ""
+
+#: lib/eventum/class.monitor.php:54
+#, php-format
+msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
@@ -1970,13 +2003,13 @@ msgstr "Beantwoorderslijst bewerken"
 msgid "Edit Categories"
 msgstr "Categorieën bewerken"
 
-#: lib/eventum/class.help.php:137 templates/help/column_display.tpl.html
+#: lib/eventum/class.help.php:134 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
 msgstr "Weergave van de kolommen bewerken"
 
-#: lib/eventum/class.help.php:133 templates/help/field_display.tpl.html
+#: lib/eventum/class.help.php:130 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
@@ -2014,17 +2047,17 @@ msgstr "Handtekening bewerken."
 msgid "Email"
 msgstr "Email"
 
-#: htdocs/view_email.php:50
+#: htdocs/view_email.php:48
 #, php-format
 msgid "Email #%1$s: %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1504
+#: lib/eventum/class.support.php:1502
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 
-#: lib/eventum/class.support.php:1847
+#: lib/eventum/class.support.php:1846
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
@@ -2066,12 +2099,12 @@ msgstr "Emailadressen waar de informatie naartoe gestuurd moet worden"
 msgid "Email Alias"
 msgstr ""
 
-#: lib/eventum/class.help.php:125 templates/help/email_blocking.tpl.html
+#: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
 msgstr "Berichten blokkeren"
 
-#: lib/eventum/class.customer_stats_report.php:733
+#: lib/eventum/class.customer_stats_report.php:730
 msgid "Email Counts"
 msgstr "Aantallen emails"
 
@@ -2091,7 +2124,7 @@ msgstr "Emailintegratiefunctie:"
 msgid "Email List:"
 msgstr "Berichtenlijst:"
 
-#: lib/eventum/class.help.php:117 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:114 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
 msgstr "Notificaties"
@@ -2124,7 +2157,7 @@ msgstr "Tijd besteed aan berichten"
 msgid "Email Workload by Time of day"
 msgstr "Berichtenverdeling per dag"
 
-#: htdocs/reports/workload_time_period_graph.php:52
+#: htdocs/reports/workload_time_period_graph.php:50
 msgid "Email by Time Period"
 msgstr "Berichten per tijdvak"
 
@@ -2132,7 +2165,7 @@ msgstr "Berichten per tijdvak"
 msgid "Email by time period"
 msgstr "Berichten per tijdvak"
 
-#: lib/eventum/class.support.php:2571
+#: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"
@@ -2193,9 +2226,10 @@ msgstr "Emails naar staf"
 msgid "Empty Subject Header"
 msgstr "(Geen onderwerp)"
 
-#: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
+#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/projects.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
 msgstr "Ingeschakeld"
 
@@ -2361,7 +2395,7 @@ msgid "Est Dev Time"
 msgstr "Geschatte ontwikkeltijd"
 
 #: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1104
+#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1101
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2379,7 +2413,7 @@ msgstr "Geschatte verwerkingstijd:"
 msgid "Estimated Development Time"
 msgstr "Geschatte verwerkingstijd"
 
-#: lib/eventum/class.help.php:85
+#: lib/eventum/class.help.php:82
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid "Estimated Development Time Field"
 msgstr "Geschatte verwerkingstijd"
@@ -2543,7 +2577,7 @@ msgstr "Exporteren naar Microsoft Excel"
 msgid "Extra Note Recipients:"
 msgstr "Extra geadresseerden:"
 
-#: lib/eventum/class.reminder_condition.php:216
+#: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr "Veld"
@@ -2564,7 +2598,7 @@ msgstr "Rapport naar grafiek"
 msgid "Field:"
 msgstr "Veld:"
 
-#: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
 msgid "File"
 msgstr "Bestand"
 
@@ -2594,7 +2628,7 @@ msgstr "Filteren op datum van binnenkomst:"
 msgid "First Response By Staff"
 msgstr "Eerste reactie"
 
-#: lib/eventum/class.filter.php:757
+#: lib/eventum/class.filter.php:754
 msgid "First Response Date"
 msgstr "Eerste reactiedatum"
 
@@ -2689,13 +2723,13 @@ msgstr "Na"
 msgid "Greater or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:608
+#: lib/eventum/class.filter.php:605
 #, php-format
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1105 templates/manage/users.tpl.html
+#: htdocs/list.php:88 lib/eventum/class.display_column.php:186
+#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -2768,7 +2802,7 @@ msgstr ""
 msgid "Help"
 msgstr "Help"
 
-#: lib/eventum/class.help.php:53
+#: lib/eventum/class.help.php:50
 msgid "Help Topics"
 msgstr "Help-onderwerpen"
 
@@ -2776,7 +2810,7 @@ msgstr "Help-onderwerpen"
 msgid "Hide Associated Emails"
 msgstr "Gekoppelde berichten verbergen"
 
-#: lib/eventum/class.filter.php:779 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:776 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
 msgstr "Verberg gesloten meldingen"
@@ -2809,7 +2843,7 @@ msgstr "Hostnaam"
 msgid "Hostname:"
 msgstr "Hostnaam"
 
-#: lib/eventum/class.customer_stats_report.php:716
+#: lib/eventum/class.customer_stats_report.php:713
 msgid "Hours"
 msgstr "Uur"
 
@@ -2920,12 +2954,12 @@ msgstr "Impact-<br/>analyse"
 msgid "Impact Analysis"
 msgstr "Impactanalyse"
 
-#: lib/eventum/class.impact_analysis.php:200
+#: lib/eventum/class.impact_analysis.php:197
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr "Impactanalyse verwijderd door %1$s"
 
-#: lib/eventum/class.impact_analysis.php:166
+#: lib/eventum/class.impact_analysis.php:163
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr "Impactanalyse aangemeld door %1$s"
@@ -2934,7 +2968,7 @@ msgstr "Impactanalyse aangemeld door %1$s"
 msgid "Important Notices"
 msgstr "Belangrijke opmerkingen"
 
-#: lib/eventum/class.filter.php:787 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:784 templates/adv_search.tpl.html
 msgid "In Notification List"
 msgstr "op de notificatielijst sta"
 
@@ -2942,7 +2976,7 @@ msgstr "op de notificatielijst sta"
 msgid "In Past"
 msgstr "In de afgelopen"
 
-#: lib/eventum/class.filter.php:629
+#: lib/eventum/class.filter.php:626
 #, php-format
 msgid "In Past %1$s hours"
 msgstr ""
@@ -2976,7 +3010,7 @@ msgstr ""
 msgid "Include expired contracts"
 msgstr "Verlopen contracten ook invoegen"
 
-#: lib/eventum/class.customer_stats_report.php:685
+#: lib/eventum/class.customer_stats_report.php:682
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -3000,7 +3034,7 @@ msgstr "Initiële impactanalyse"
 msgid "Initial Status for New Issues"
 msgstr "Initiële status voor nieuwe meldingen"
 
-#: lib/eventum/class.help.php:97 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:94 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
 msgstr "Installatie instructies"
@@ -3029,7 +3063,7 @@ msgstr "Interne gebruikers"
 msgid "Interval"
 msgstr "Interval"
 
-#: lib/eventum/class.filter.php:632
+#: lib/eventum/class.filter.php:629
 msgid "Is NULL"
 msgstr "LEEG"
 
@@ -3037,17 +3071,17 @@ msgstr "LEEG"
 msgid "Is Null"
 msgstr "Zonder waarde"
 
-#: lib/eventum/class.filter.php:636
+#: lib/eventum/class.filter.php:633
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:640
+#: lib/eventum/class.filter.php:637
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:643
+#: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
@@ -3063,7 +3097,7 @@ msgid "Issue #"
 msgstr "Melding #"
 
 #. TRANSLATORS: %1 = issue id
-#: htdocs/view.php:59
+#: htdocs/view.php:57
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
@@ -3072,7 +3106,7 @@ msgstr ""
 msgid "Issue Count"
 msgstr "Aantal meldingen"
 
-#: lib/eventum/class.customer_stats_report.php:732
+#: lib/eventum/class.customer_stats_report.php:729
 msgid "Issue Counts"
 msgstr "Aantallen meldingen"
 
@@ -3130,23 +3164,23 @@ msgstr "Meldingen gesloten"
 msgid "Issues are Updated"
 msgstr "Meidlingen bijgewerkt"
 
-#: htdocs/stats_chart.php:75
+#: htdocs/stats_chart.php:73
 msgid "Issues by Assignment"
 msgstr "Toewijzing"
 
-#: htdocs/stats_chart.php:78 templates/main.tpl.html
+#: htdocs/stats_chart.php:76 templates/main.tpl.html
 msgid "Issues by Category"
 msgstr "Categorie"
 
-#: htdocs/stats_chart.php:72 templates/main.tpl.html
+#: htdocs/stats_chart.php:70 templates/main.tpl.html
 msgid "Issues by Priority"
 msgstr "Prioriteit"
 
-#: htdocs/stats_chart.php:69 templates/main.tpl.html
+#: htdocs/stats_chart.php:67 templates/main.tpl.html
 msgid "Issues by Release"
 msgstr "Fase"
 
-#: htdocs/stats_chart.php:57 templates/main.tpl.html
+#: htdocs/stats_chart.php:55 templates/main.tpl.html
 msgid "Issues by Status"
 msgstr "Status"
 
@@ -3187,7 +3221,7 @@ msgstr "Huidige opdrachten behouden:"
 msgid "Keep form open to report another issue"
 msgstr "Formulier openhouden om nog een melding in te voeren"
 
-#: lib/eventum/class.filter.php:718 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:715 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Keyword(s)"
 msgstr "Zoekwoord(en)"
@@ -3217,7 +3251,7 @@ msgstr "Laatste uitgaande boodschap"
 msgid "Last Response"
 msgstr "Laatste actie"
 
-#: lib/eventum/class.filter.php:752
+#: lib/eventum/class.filter.php:749
 msgid "Last Response Date"
 msgstr "Laatste reactiedatum"
 
@@ -3260,7 +3294,7 @@ msgstr "Voor"
 msgid "Less or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:611
+#: lib/eventum/class.filter.php:608
 #, php-format
 msgid "Less than %1$s"
 msgstr ""
@@ -3273,7 +3307,7 @@ msgstr "Niveaus:"
 msgid "Line"
 msgstr "Regel"
 
-#: lib/eventum/class.help.php:129 templates/help/link_filters.tpl.html
+#: lib/eventum/class.help.php:126 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
 msgstr "Linkfilters"
@@ -3295,7 +3329,7 @@ msgstr "Overzicht tonen"
 msgid "List Removed Emails"
 msgstr "Verwijderde berichten tonen"
 
-#: lib/eventum/class.help.php:101 templates/help/list.tpl.html
+#: lib/eventum/class.help.php:98 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
 msgstr "Vastleggen/zoeken meldingen"
@@ -3493,6 +3527,10 @@ msgstr "Module / Map"
 msgid "Monday"
 msgstr ""
 
+#: templates/manage/monitor.tpl.html
+msgid "Monitor Setup"
+msgstr ""
+
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
 msgstr "Maand"
@@ -3596,7 +3634,7 @@ msgstr "Nieuwe status voor melding"
 msgid "New User information"
 msgstr "Nieuw gebruikersgegevens"
 
-#: lib/eventum/class.impact_analysis.php:75
+#: lib/eventum/class.impact_analysis.php:72
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr "Nieuwe eis aangemeld door %1$s"
@@ -3605,7 +3643,7 @@ msgstr "Nieuwe eis aangemeld door %1$s"
 msgid "News and Announcements"
 msgstr "Nieuws en aankondigingen"
 
-#: lib/eventum/class.pager.php:124 templates/post.tpl.html
+#: lib/eventum/class.pager.php:121 templates/post.tpl.html
 msgid "Next"
 msgstr "Volgende"
 
@@ -3621,7 +3659,7 @@ msgstr "Volgende boodschap"
 msgid "Next Note"
 msgstr "Volgende nototie"
 
-#: lib/eventum/class.misc.php:693 templates/close.tpl.html
+#: lib/eventum/class.misc.php:720 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3717,8 +3755,8 @@ msgstr "Geen voorwaarden gevonden."
 msgid "No custom fields could be found."
 msgstr "Geen extra velden gevonden."
 
-#: htdocs/reports/custom_fields.php:55
-#: htdocs/reports/custom_fields_weekly.php:54
+#: htdocs/reports/custom_fields.php:53
+#: htdocs/reports/custom_fields_weekly.php:52
 msgid "No custom fields for this project"
 msgstr "Geen gedefinieerde velden voor dit project"
 
@@ -3751,7 +3789,7 @@ msgstr "Geen berichten gevonden."
 msgid "No entries could be found."
 msgstr "Niets gevonden."
 
-#: lib/eventum/class.reminder_action.php:595
+#: lib/eventum/class.reminder_action.php:592
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr "Geen groep gekoppeld aan melding %1$s"
@@ -3901,11 +3939,7 @@ msgstr ""
 "hoe u dient te bevestigen waarna het wachtwoord wordt geactiveerd en "
 "verzonden per email."
 
-#: templates/file_upload.tpl.html
-msgid "Note: The current maximum allowed upload file size is"
-msgstr ""
-
-#: templates/new.tpl.html
+#: templates/file_upload.tpl.html templates/new.tpl.html
 msgid "Note: The current maximum allowed upload file size is %1"
 msgstr "Let op: bestand(en) mogen niet groter zijn dan %1"
 
@@ -3937,25 +3971,25 @@ msgid "Notification List:"
 msgstr "Notificatielijst:"
 
 #: templates/notification.tpl.html
-msgid "Notification Options"
-msgstr "Notificatieinstellingen"
+msgid "Notification Options for Issue #%1"
+msgstr ""
 
-#: lib/eventum/class.notification.php:2006
+#: lib/eventum/class.notification.php:2032
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Invoer notificatielijst (%1$s) toegeovoegd door %2$s"
 
-#: lib/eventum/class.notification.php:1846
+#: lib/eventum/class.notification.php:1872
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Invoer notificatielijst (%1$s) verwijderd door %2$s"
 
-#: lib/eventum/class.notification.php:2092
+#: lib/eventum/class.notification.php:2118
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Invoer notificatielijst ('%1$s') toegevoegd door %2$s"
 
-#: lib/eventum/class.notification.php:2188
+#: lib/eventum/class.notification.php:2214
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Invoer notificatielijst (%1$s) bijgewerkt door %2$s"
@@ -3967,6 +4001,10 @@ msgstr "Afzender informeren?"
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
 msgstr "Aantal dagen"
+
+#: crons/monitor.php:101
+msgid "OK: No errors found"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -3988,7 +4026,7 @@ msgstr "Alleen ongelezen berichten downloaden"
 msgid "Only for Known Customers?"
 msgstr "Alleen voor bekende relaties?"
 
-#: lib/eventum/class.mail_helper.php:115
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4080,7 +4118,7 @@ msgstr "Afzender e-mail adres"
 msgid "Outgoing Email Sender Name"
 msgstr "Afzender naam"
 
-#: lib/eventum/class.support.php:2205
+#: lib/eventum/class.support.php:2204
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
@@ -4120,6 +4158,10 @@ msgstr "POP3 met TLS"
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
 msgstr "POP3 met TLS (zelf ondertekend)"
+
+#: templates/manage/monitor.tpl.html
+msgid "Partition:"
+msgstr ""
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4168,7 +4210,7 @@ msgstr "Het voltooiingspercentage moet tussen 0 en 100 liggen."
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:605
+#: lib/eventum/class.reminder_action.php:602
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr "Actie %1$s voor melding %2$s aan het uitvoeren"
@@ -4185,12 +4227,12 @@ msgstr "Telefoongesprekken"
 msgid "Phone Number"
 msgstr "Telefoonnummer"
 
-#: lib/eventum/class.phone_support.php:406
+#: lib/eventum/class.phone_support.php:403
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr "Telefoongesprek verwijderd door %1$s"
 
-#: lib/eventum/class.phone_support.php:347
+#: lib/eventum/class.phone_support.php:344
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr "Telefoongesprek ingevoerd door %1$s"
@@ -4526,13 +4568,13 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4996,6 +5038,10 @@ msgstr "Voer uw nieuwe wachtwoord in (tenminste zes tekens)."
 msgid "Please enter your password."
 msgstr "Voer uw wachtwoord in."
 
+#: templates/manage/monitor.tpl.html
+msgid "Please fill proper partition path"
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
 "Please indicate whether the SMTP server requires authentication or not."
@@ -5238,7 +5284,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Instellingen"
 
-#: lib/eventum/class.pager.php:123
+#: lib/eventum/class.pager.php:120
 msgid "Previous"
 msgstr "Vorige"
 
@@ -5258,9 +5304,9 @@ msgstr "Vorige notitie"
 msgid "Primary Technical Account Manager"
 msgstr "Primaire technische contactpersoon"
 
-#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:713
+#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
 #: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1101
+#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1098
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5272,7 +5318,7 @@ msgstr "Primaire technische contactpersoon"
 msgid "Priority"
 msgstr "Prioriteit"
 
-#: lib/eventum/class.help.php:65 templates/help/report_priority.tpl.html
+#: lib/eventum/class.help.php:62 templates/help/report_priority.tpl.html
 msgid "Priority Field"
 msgstr "Prioriteiten"
 
@@ -5280,7 +5326,7 @@ msgstr "Prioriteiten"
 msgid "Priority:"
 msgstr "Prioriteit:"
 
-#: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr "Privé"
@@ -5289,7 +5335,7 @@ msgstr "Privé"
 msgid "Private:"
 msgstr "Privé:"
 
-#: lib/eventum/class.reminder_action.php:589
+#: lib/eventum/class.reminder_action.php:586
 msgid "Processing Group Leader notification"
 msgstr "Groeplsleidernotificatie aan het verwerken"
 
@@ -5379,6 +5425,20 @@ msgid ""
 "closed automatically."
 msgstr ""
 "U wordt doorgestuurd naar het meldingsformulier. Dit scherm sluit automatisch"
+
+#. TRANSLATORS: %1 = issue summary
+#. TRANSLATORS: %1 = email subject
+#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
+#: lib/eventum/class.support.php:1598
+#, php-format
+msgid "Re: %1$s"
+msgstr ""
+
+#. TRANSLATORS: %1 = issue_id, %2 = issue summary
+#: lib/eventum/class.issue.php:826
+#, php-format
+msgid "Re: [#%1$s] %2$s"
+msgstr ""
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -5521,7 +5581,7 @@ msgstr "Verversingssnelheid meldingenoverzicht."
 msgid "Register"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:738
+#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
 #: lib/eventum/class.notification.php:622
 #: lib/eventum/class.notification.php:623 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
@@ -5538,7 +5598,7 @@ msgid ""
 "prevent anyone else from changing your existing Eventum configuration."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:754
+#: lib/eventum/class.reminder_action.php:751
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
@@ -5548,7 +5608,7 @@ msgstr "Herinnering"
 msgid "Reminder Alert"
 msgstr "Herinnering"
 
-#: lib/eventum/class.reminder_action.php:794
+#: lib/eventum/class.reminder_action.php:791
 msgid "Reminder Not Triggered"
 msgstr "Melding automatisch"
 
@@ -5649,7 +5709,7 @@ msgstr "Melding invoeren"
 msgid "Reported By"
 msgstr "Gemeld door"
 
-#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:795
+#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:792
 #: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
 #: templates/view_form.tpl.html
 msgid "Reporter"
@@ -5659,7 +5719,7 @@ msgstr "Afkomstig van"
 msgid "Reporter:"
 msgstr "Gemeld door:"
 
-#: lib/eventum/class.help.php:57
+#: lib/eventum/class.help.php:54
 msgid "Reporting Issues"
 msgstr "Meldingen rapporteren"
 
@@ -5711,8 +5771,8 @@ msgstr "Cookies en javascript ondesteuning van uw browser is vereist"
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
-#: templates/manage/phone_categories.tpl.html
+#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -5752,7 +5812,7 @@ msgstr "Zoeklijst SQL nakijken"
 msgid "Role"
 msgstr "Rol"
 
-#: lib/eventum/class.filter.php:767 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:764 templates/adv_search.tpl.html
 msgid "Rows Per Page"
 msgstr "Rijen per pagina"
 
@@ -5768,16 +5828,16 @@ msgstr "Zoekopdracht uitvoeren"
 msgid "SCM <br />Integration:"
 msgstr "SCM <br/> integratie:"
 
-#: lib/eventum/class.scm.php:217
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Binnenkomende controles SCM toegeovegd door SCM-gebruiker '"
 
-#: lib/eventum/class.scm.php:96
+#: lib/eventum/class.scm.php:93
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr "Binnenkomende controles SCM verwijderd door %1$s"
 
-#: lib/eventum/class.help.php:89 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:86 templates/help/main.tpl.html
 #: templates/help/scm_integration.tpl.html
 msgid "SCM Integration"
 msgstr "SCM-Integratie"
@@ -5843,12 +5903,12 @@ msgstr "Concept opslaan"
 msgid "Saved Searches"
 msgstr "Opgeslagen zoekopdrachten"
 
-#: lib/eventum/class.project.php:1103 templates/new.tpl.html
+#: lib/eventum/class.project.php:1100 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr "Fase"
 
-#: lib/eventum/class.help.php:73 templates/help/report_release.tpl.html
+#: lib/eventum/class.help.php:70 templates/help/report_release.tpl.html
 msgid "Scheduled Release Field"
 msgstr "Planning opleverdatum"
 
@@ -5877,7 +5937,7 @@ msgstr ""
 msgid "Search Title"
 msgstr "Zoektitel"
 
-#: lib/eventum/class.filter.php:791
+#: lib/eventum/class.filter.php:788
 msgid "Search Type"
 msgstr "Zoeken op"
 
@@ -5889,7 +5949,7 @@ msgstr "Te tonen secties"
 msgid "Segregate Reporter"
 msgstr "Melder uitlplitsen"
 
-#: lib/eventum/class.help.php:145 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:142 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Segregate Reporters"
 msgstr "Melders isoleren"
@@ -6105,11 +6165,11 @@ msgstr ""
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr "U heeft niet de juiste machtigingen om deze melding te bekijken."
 
-#: lib/eventum/class.filter.php:771 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:768 templates/adv_search.tpl.html
 msgid "Sort By"
 msgstr "Sorteren op"
 
-#: lib/eventum/class.filter.php:775 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:772 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
@@ -6160,7 +6220,7 @@ msgstr "Aanvangstijd ligt in de toekomst"
 msgid "Stats"
 msgstr "Statistieken"
 
-#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:733
+#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
 #: lib/eventum/class.notification.php:630
 #: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
@@ -6257,7 +6317,7 @@ msgstr "Suggesties:"
 msgid "Summary"
 msgstr "Titel"
 
-#: lib/eventum/class.help.php:77 templates/help/report_summary.tpl.html
+#: lib/eventum/class.help.php:74 templates/help/report_summary.tpl.html
 msgid "Summary Field"
 msgstr "Samenvatting"
 
@@ -6269,7 +6329,7 @@ msgstr "Titel:"
 msgid "Sunday"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:669
+#: lib/eventum/class.customer_stats_report.php:666
 #: lib/eventum/class.display_column.php:212
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -6678,7 +6738,7 @@ msgstr "De geselecteerde meldingen zijn bijgewerkt."
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr "De geselecteerde eisen zijn verwijderd."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Dank u, de setup-informatie is opgeslagen."
 
@@ -7367,7 +7427,7 @@ msgstr "Duur"
 msgid "Time Spent:"
 msgstr "Gespendeerde tijd:"
 
-#: lib/eventum/class.customer_stats_report.php:734
+#: lib/eventum/class.customer_stats_report.php:731
 msgid "Time Statistics"
 msgstr "Tijdsstatistieken"
 
@@ -7379,13 +7439,13 @@ msgstr "Sluitngstijd"
 msgid "Time To First Response"
 msgstr "Tijd tot de eerste reactie"
 
-#: lib/eventum/class.customer_stats_report.php:735
+#: lib/eventum/class.customer_stats_report.php:732
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr "Tijdregistratie"
 
-#: lib/eventum/class.phone_support.php:333
+#: lib/eventum/class.phone_support.php:330
 msgid "Time entry inserted from phone call."
 msgstr "Tijd telefoongepsrek."
 
@@ -7401,17 +7461,17 @@ msgstr ""
 msgid "Time tracking category"
 msgstr "Tijdregistratiecategorie"
 
-#: lib/eventum/class.time_tracking.php:398
+#: lib/eventum/class.time_tracking.php:395
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr "Tijdregistratie verwijderd door %1$s"
 
-#: lib/eventum/class.time_tracking.php:448
+#: lib/eventum/class.time_tracking.php:445
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr "Tijdregistratie ingevoerd door %1$s"
 
-#: lib/eventum/class.time_tracking.php:491
+#: lib/eventum/class.time_tracking.php:488
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Tijdregistratie op afstand ingevoerd door %1$s"
@@ -7521,7 +7581,7 @@ msgstr "Telefoongesprekken"
 msgid "Total Time Spent"
 msgstr "Totaal"
 
-#: lib/eventum/class.customer_stats_report.php:684
+#: lib/eventum/class.customer_stats_report.php:681
 msgid "Total Workload by Support Level"
 msgstr "Totale werkbelasting per support level"
 
@@ -7568,8 +7628,12 @@ msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 "Niet beschikbaar->Gebruikers kunnen geen meldingen toekennen aan deze fase"
 
+#: lib/eventum/class.attachment.php:78
+msgid "Untitled"
+msgstr ""
+
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:587
+#: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7642,7 +7706,7 @@ msgstr "Melding bijwerken"
 msgid "Update Issue #%1"
 msgstr "Melding %1 bijwerken"
 
-#: htdocs/update.php:67
+#: htdocs/update.php:65
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Melding %1$s bewerken"
@@ -7701,6 +7765,7 @@ msgstr "Beurtelingse taak bijwerken"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Setup bijwerken"
 
@@ -7728,7 +7793,7 @@ msgstr "Waarden bijwerken"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
-#: lib/eventum/class.filter.php:747
+#: lib/eventum/class.filter.php:744
 msgid "Updated Date"
 msgstr "Bijgewerkt op"
 
@@ -7744,7 +7809,7 @@ msgstr "Bestand uploaden"
 msgid "Upload New Signature"
 msgstr "Nieuwe handtekening uploaden"
 
-#: lib/eventum/class.help.php:93 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
 msgid "Usage Examples"
 msgstr "Voorbeelden van toepassingen"
@@ -7775,7 +7840,7 @@ msgstr "Gebruiker"
 msgid "User Details"
 msgstr "Gebruikersgegevens"
 
-#: lib/eventum/class.help.php:149 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:146 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
 msgid "User Permission Levels"
 msgstr "Toegangsniveau's van gebruikers"
@@ -7841,7 +7906,7 @@ msgstr "Raadplegen"
 msgid "Viewing Emails (%1 email found)"
 msgstr ""
 
-#: lib/eventum/class.help.php:121 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:118 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
 msgid "Viewing Issues"
 msgstr "Meldingen"
@@ -7876,7 +7941,7 @@ msgstr ""
 "verstuurd naar alle relaties die in de notificatielijst van het bericht "
 "staan."
 
-#: lib/eventum/class.mail_helper.php:469
+#: lib/eventum/class.mail_helper.php:473
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "Waarschuwing: Als u wilt antwoorden, voeg uzelf dan eerst toe aan de lijst "
@@ -7943,7 +8008,7 @@ msgstr ""
 "Als u wilt dat de gebruikers uw email nú ontvangen, kies dan OK.\n"
 "Kies anders 'Annuleren' om terug te keren naar het bewerkscherm."
 
-#: lib/eventum/class.mail_helper.php:114
+#: lib/eventum/class.mail_helper.php:118
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8025,6 +8090,12 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
+"We received a message from %1 and created an issue from it. Since you were a "
+"recipient of the original message, we are sending you the issue details."
+msgstr ""
+
+#: templates/notifications/new_auto_created_issue.tpl.text
+msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
@@ -8049,6 +8120,14 @@ msgstr "Wekelijkse"
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
 msgstr "Weekrapport"
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check if IRC Bot is running."
+msgstr ""
+
+#: templates/manage/monitor.tpl.html
+msgid "Whether to check permissions of directories and config files."
+msgstr ""
 
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
@@ -8088,7 +8167,7 @@ msgstr "Werkzaamheden per periode"
 msgid "Workload by Date Range Report"
 msgstr "Werkzaamheden per periode"
 
-#: htdocs/reports/workload_time_period_graph.php:56
+#: htdocs/reports/workload_time_period_graph.php:54
 msgid "Workload by Time Period"
 msgstr "werkzaamheden per uur van de dag"
 
@@ -8100,7 +8179,7 @@ msgstr "Werkverdeling"
 msgid "Workload by time period"
 msgstr "Werkverdeling per tijdvak"
 
-#: lib/eventum/class.filter.php:679 lib/eventum/class.misc.php:691
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8260,7 +8339,7 @@ msgstr ""
 "[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
 "13)\" form.php"
 
-#: htdocs/reports/workload_time_period_graph.php:57
+#: htdocs/reports/workload_time_period_graph.php:55
 msgid "actions"
 msgstr "acties"
 
@@ -8364,6 +8443,12 @@ msgstr "dvw"
 msgid "download file"
 msgstr "bestand downloaden"
 
+#. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
+#: lib/eventum/class.link_filter.php:312
+#, php-format
+msgid "download file (%1$s - %2$s)"
+msgstr ""
+
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
 msgstr "de lijst met bevoegde antwoorders voor deze melding bijwerken"
@@ -8376,7 +8461,7 @@ msgstr "de notificatielijst voor deze melding bewerken"
 msgid "edit this custom search"
 msgstr "Opgeslagen zoekopdracht bewerken"
 
-#: htdocs/reports/workload_time_period_graph.php:53
+#: htdocs/reports/workload_time_period_graph.php:51
 msgid "emails"
 msgstr "berichten"
 
@@ -8448,7 +8533,7 @@ msgstr "toon / verberg de snelzoekfunctie"
 msgid "hide/show"
 msgstr "tonen/verbergen"
 
-#: lib/eventum/class.reminder_condition.php:222 templates/adv_search.tpl.html
+#: lib/eventum/class.reminder_condition.php:219 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
 msgstr "uur"
@@ -8553,18 +8638,18 @@ msgstr "Veld omhoog"
 msgid "must be a valid email address"
 msgstr ""
 
-#: htdocs/adv_search.php:58 htdocs/list.php:85
-#: lib/eventum/class.filter.php:669
+#: htdocs/adv_search.php:56 htdocs/list.php:83
+#: lib/eventum/class.filter.php:666
 msgid "myself and my group"
 msgstr "mijzelf en mijn groep"
 
-#: htdocs/adv_search.php:52 htdocs/list.php:80
-#: lib/eventum/class.filter.php:667
+#: htdocs/adv_search.php:50 htdocs/list.php:78
+#: lib/eventum/class.filter.php:664
 msgid "myself and un-assigned"
 msgstr "niet toegewezen/toegewezen aan mijzelf"
 
-#: htdocs/adv_search.php:59 htdocs/list.php:86
-#: lib/eventum/class.filter.php:671
+#: htdocs/adv_search.php:57 htdocs/list.php:84
+#: lib/eventum/class.filter.php:668
 msgid "myself, un-assigned and my group"
 msgstr "niet toegewezen, mijzelf en mijn groep"
 
@@ -8698,8 +8783,8 @@ msgstr "die verschijnt onderaan herinneringsberichten"
 msgid "to access this page."
 msgstr ""
 
-#: htdocs/adv_search.php:51 htdocs/list.php:79
-#: lib/eventum/class.filter.php:665
+#: htdocs/adv_search.php:49 htdocs/list.php:77
+#: lib/eventum/class.filter.php:662
 msgid "un-assigned"
 msgstr "niet-toegewezen"
 
@@ -8877,14 +8962,47 @@ msgstr "jaar"
 #~ msgid "(only technical contacts listed on your contract)"
 #~ msgstr "(Alleen technische contacten conform  het contract)"
 
+#~ msgid " Error: Please provide your email address."
+#~ msgstr " Fout: Geef een geldig emailadres."
+
+#~ msgid "Search Results"
+#~ msgstr "Zoekresultaat"
+
 #~ msgid "issues found"
 #~ msgstr "meldingen gevonden"
 
 #~ msgid "shown"
 #~ msgstr "zichtbaar"
 
+#~ msgid "Notification Options"
+#~ msgstr "Notificatieinstellingen"
+
+#~ msgid "This issue was just closed by"
+#~ msgstr "De melding is zojuist gesloten door"
+
 #~ msgid " with the message"
 #~ msgstr " met het bericht"
+
+#~ msgid ""
+#~ "\n"
+#~ "To add more information to this issue, simply reply to this email."
+#~ msgstr ""
+#~ "\n"
+#~ "Beantwoord dit bericht om commentaar over deze melding toe te voegen."
+
+#~ msgid "ERROR: Almost no free disk space left (percentage left"
+#~ msgstr "Fout: Bijna geen schijfruimte meer beschikbaar (percentage vrij"
+
+#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
+#~ msgstr "Fout: Schijfruimte raakt bijna op (percentage vrij"
+
+#~ msgid "ERROR: File could not be found (path"
+#~ msgstr "Fout: Bestand niet gevonden (pad"
+
+#~ msgid ""
+#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
+#~ msgstr ""
+#~ "Fout: Kon niet verbinden met de mysql-database. Gedetailleerde foutmelding:"
 
 #~ msgid "Port:"
 #~ msgstr "Poort:"

@@ -809,10 +809,9 @@ class Reminder
     /**
      * Method used to get the full list of reminders.
      *
-     * @access  public
      * @return  array The list of reminders
      */
-    function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     *

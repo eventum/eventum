@@ -57,11 +57,10 @@ class Workflow
     /**
      * Returns the name of the workflow backend for the specified project.
      *
-     * @access  public
      * @param   integer $prj_id The id of the project to lookup.
      * @return  string The name of the customer backend.
      */
-    function _getBackendNameByProject($prj_id)
+    private static function _getBackendNameByProject($prj_id)
     {
         static $backends;
 
@@ -78,6 +77,7 @@ class Workflow
                     prj_id";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
@@ -91,11 +91,10 @@ class Workflow
      * Includes the appropriate workflow backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @return  Abstract_Workflow_Backend
      */
-    function &_getBackend($prj_id)
+    public static function &_getBackend($prj_id)
     {
         static $setup_backends;
 
@@ -123,11 +122,10 @@ class Workflow
      * Checks whether the given project ID is setup to use workflow integration
      * or not.
      *
-     * @access  public
      * @param   integer integer $prj_id The project ID
      * @return  boolean
      */
-    function hasWorkflowIntegration($prj_id)
+    public static function hasWorkflowIntegration($prj_id)
     {
         $backend = self::_getBackendNameByProject($prj_id);
         if (empty($backend)) {
@@ -404,7 +402,7 @@ class Workflow
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
      */
-    function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;

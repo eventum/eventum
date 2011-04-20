@@ -29,27 +29,27 @@ class ErrorPlot extends Plot {
 // PUBLIC METHODS
     function SetCenter($c=true) {
 	$this->center=$c;
-    }	
-	
+    }
+
     // Gets called before any axis are stroked
     function PreStrokeAdjust(&$graph) {
 	if( $this->center ) {
 	    $a=0.5; $b=0.5;
-	    ++$this->numpoints;			
+	    ++$this->numpoints;
 	} else {
 	    $a=0; $b=0;
 	}
 	$graph->xaxis->scale->ticks->SetXLabelOffset($a);
-	$graph->SetTextScaleOff($b);						
+	$graph->SetTextScaleOff($b);
 	$graph->xaxis->scale->ticks->SupressMinorTickMarks();
     }
-	
+
     // Method description
     function Stroke(&$img,&$xscale,&$yscale) {
 	$numpoints=count($this->coords[0])/2;
 	$img->SetColor($this->color);
-	$img->SetLineWeight($this->weight);	
-		
+	$img->SetLineWeight($this->weight);
+
 	for( $i=0; $i<$numpoints; ++$i) {
 	    $xt = $xscale->Translate($i);
 	    $yt1 = $yscale->Translate($this->coords[0][$i*2]);
@@ -57,7 +57,7 @@ class ErrorPlot extends Plot {
 	    $img->Line($xt,$yt1,$xt,$yt2);
 	    $img->Line($xt-$this->errwidth,$yt1,$xt+$this->errwidth,$yt1);
 	    $img->Line($xt-$this->errwidth,$yt2,$xt+$this->errwidth,$yt2);
-	}			
+	}
 	return true;
     }
 } // Class
@@ -76,7 +76,7 @@ class ErrorLinePlot extends ErrorPlot {
 	// Calculate line coordinates as the average of the error limits
 	for($i=0; $i<count($datay); $i+=2 ) {
 	    $ly[]=($datay[$i]+$datay[$i+1])/2;
-	}		
+	}
 	$this->line=new LinePlot($ly);
     }
 
@@ -87,7 +87,7 @@ class ErrorLinePlot extends ErrorPlot {
 	    $graph->legend->Add($this->legend,$this->color);
 	$this->line->Legend($graph);
     }
-			
+
     function Stroke(&$img,&$xscale,&$yscale) {
 	parent::Stroke($img,$xscale,$yscale);
 	$this->line->Stroke($img,$xscale,$yscale);
@@ -95,4 +95,3 @@ class ErrorLinePlot extends ErrorPlot {
 } // Class
 
 /* EOF */
-?>

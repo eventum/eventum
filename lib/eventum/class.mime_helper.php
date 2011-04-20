@@ -122,56 +122,32 @@ class Mime_Helper
         return $str;
     }
 
-
     /**
-     * Method used to fix the encoding of MIME based strings.
-     *
-     * @access  public
-     * @param   string $input The string to be fixed
-     * @return  string The fixed string
+     * @deprecated  use decodeQuotedPrintable
      */
     function fixEncoding($input)
     {
-        // Remove white space between encoded-words
-        $input = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '\1=?', $input);
-        // For each encoded-word...
-        while (preg_match('/(=\?([^?]+)\?(q|b)\?([^?]*)\?=)/i', $input, $matches)) {
-            $encoded  = $matches[1];
-            $charset  = $matches[2];
-            $encoding = $matches[3];
-            $text     = $matches[4];
-            switch (strtolower($encoding)) {
-                case 'b':
-                    $text = base64_decode($text);
-                    break;
-                case 'q':
-                    $text = str_replace('_', ' ', $text);
-                    preg_match_all('/=([a-f0-9]{2})/i', $text, $matches);
-                    foreach($matches[1] as $value)
-                        $text = str_replace('='.$value, chr(hexdec($value)), $text);
-                    break;
-            }
-            $input = str_replace($encoded, $text, $input);
-        }
-        return $input;
+        return self::decodeQuotedPrintable($input);
     }
-
 
     /**
      * Method used to properly quote the sender of a given email address.
      *
-     * @access  public
      * @param   string $address The full email address
      * @return  string The properly quoted email address
      */
-    function quoteSender($address)
+    public static function quoteSender($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part . ' ' . $second_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part . ' ' . $second_part;
+            }
         }
         return $address;
     }
@@ -180,22 +156,25 @@ class Mime_Helper
     /**
      * Method used to remove any unnecessary quoting from an email address.
      *
-     * @access  public
      * @param   string $address The full email address
      * @return  string The email address without quotes
      */
-    function removeQuotes($address)
+    public static function removeQuotes($address)
     {
         if (strstr($address, '<')) {
-            $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $second_part = substr($address, strrpos($address, '<'));
-            $address = $first_part;
+            if (substr($address, 0, 1) == '<') {
+                return substr($address, 1, -1);
+            } else {
+                $address = stripslashes($address);
+                $first_part = substr($address, 0, strrpos($address, '<') - 1);
+                $second_part = substr($address, strrpos($address, '<'));
+                $address = $first_part;
+            }
         }
         if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);
         }
-        if (!empty($second_part)) {
+        if (isset($second_part) && !empty($second_part)) {
             $address .= ' ' . $second_part;
         }
         return $address;
@@ -205,11 +184,10 @@ class Mime_Helper
     /**
      * Method used to properly encode an email address.
      *
-     * @access  public
      * @param   string $address The full email address
      * @return  string The properly encoded email address
      */
-    function encodeAddress($address)
+    public static function encodeAddress($address)
     {
         $address = self::removeQuotes($address);
         if (self::is8bit($address)) {
@@ -334,16 +312,40 @@ class Mime_Helper
     public static function decodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_decode')) {
+            // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
+            // ideally this should be needed, but we have places where we call this function twice.
+            // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
+            // TODO: use self::isQuotedPrintable if it is improved
+            if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
+                return $string;
+            }
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
         }
 
-        // this part likely is pointless as to fully work it needs iconv extension as well.
-        while (preg_match("/=\?(?P<charset>.*?)\?Q\?(?P<string>.*?)\?=/i", $string, $matches)) {
-            $string = quoted_printable_decode($matches['string']);
-            if (function_exists('iconv')) {
-                $string = iconv($matches['charset'], APP_CHARSET, $string);
+        // this part does not function properly if iconv extension is missing
+        // +=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=
+        preg_match_all("/(?P<before>.*?)=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=(?P<after>.*?)/i", $string, $matches, PREG_SET_ORDER);
+        $string = '';
+        foreach ($matches as $m) {
+            $string .= $m['before'];
+            switch (strtolower($m['scheme'])) {
+            case 'q':
+                $s = quoted_printable_decode($m['string']);
+                $s = str_replace('_', ' ', $s);
+                break;
+            case 'b':
+                $s = base64_decode($m['string']);
+                break;
+            default:
+                // unknown, leave undecoded
+                $s = $m['string'];
             }
-            $string = str_replace('_', ' ', $string);
+            if (function_exists('iconv')) {
+                $string .= iconv($m['charset'], APP_CHARSET, $s);
+            } else {
+                $string .= $s;
+            }
+            $string .= $m['after'];
         }
         return $string;
     }
@@ -351,8 +353,9 @@ class Mime_Helper
 
     /**
      * Returns if a specified string contains a quoted printable address.
+     * TODO: make it support any parameter not just email address
      *
-     * @param   string $address The address
+     * @param   string $address The email address
      * @return  boolean If the address is quoted printable encoded.
      */
     function isQuotedPrintable($address)
@@ -368,13 +371,10 @@ class Mime_Helper
     /**
      * Determine if a string contains 8-bit characters.
      *
-     * @access public
-     *
      * @param string $string  The string to check.
-     *
      * @return boolean  True if it does, false if it doesn't.
      */
-    function is8bit($string)
+    public static function is8bit($string)
     {
         if (is_string($string) && preg_match('/[\x80-\xff]+/', $string)) {
             return true;
@@ -397,15 +397,12 @@ class Mime_Helper
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
      *
-     * @access public
-     *
      * @param string $text     The text to encode.
      * @param string $charset  (optional) The character set of the text.
-     *
      * @return string  The text, encoded only if it contains non-ASCII
      *                 characters.
      */
-    function encode($text, $charset = APP_CHARSET)
+    public static function encode($text, $charset = APP_CHARSET)
     {
         /* Return if nothing needs to be encoded. */
         if (!self::is8bit($text)) {
@@ -437,15 +434,12 @@ class Mime_Helper
     /**
      * Internal recursive function to RFC 2047 encode a string.
      *
-     * @access private
-     *
      * @param string $text     The text to encode.
      * @param string $charset  The character set of the text.
-     *
      * @return string  The text, encoded only if it contains non-ASCII
      *                 characters.
      */
-    function _encode($text, $charset)
+    private static function _encode($text, $charset)
     {
         $char_len = strlen($charset);
         $txt_len = strlen($text) * 2;
@@ -507,18 +501,19 @@ class Mime_Helper
      */
     function getHeaderNames($input)
     {
-        if ($input !== '') {
-            // Unfold the input
-            $input   = preg_replace("/\r?\n/", "\r\n", $input);
-            $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
-            $headers = explode("\r\n", trim($input));
-            foreach ($headers as $value) {
-                $hdr_name = substr($value, 0, $pos = strpos($value, ':'));
-                $return[strtolower($hdr_name)] = $hdr_name;
-            }
-        } else {
-            $return = array();
+        if ($input === '') {
+	        return array();
         }
+
+		$return = array();
+		// Unfold the input
+		$input   = preg_replace("/\r?\n/", "\r\n", $input);
+		$input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+		$headers = explode("\r\n", trim($input));
+		foreach ($headers as $value) {
+			$hdr_name = substr($value, 0, strpos($value, ':'));
+			$return[strtolower($hdr_name)] = $hdr_name;
+		}
         return $return;
     }
 
@@ -529,12 +524,11 @@ class Mime_Helper
      * Outlook sends out with several attachments with the same name
      * when you embed several inline screenshots in the message
      *
-     * @access  public
      * @param   array $list The nested array of mime parts
      * @param   string $filename The filename to search for
      * @return  string The unique attachment name
      */
-    function getAttachmentName(&$list, $filename)
+    public static function getAttachmentName(&$list, $filename)
     {
         if (@in_array($filename, array_values($list))) {
             // check if the filename even has an extension...
@@ -621,7 +615,7 @@ class Mime_Helper
     }
 
 
-    function _getAttachmentDetails(&$mime_part, $return_body = false, $return_filename = false, $return_cid = false)
+    private static function _getAttachmentDetails(&$mime_part, $return_body = false, $return_filename = false, $return_cid = false)
     {
         $attachments = array();
         if (isset($mime_part->parts)) {
@@ -732,7 +726,7 @@ class Mime_Helper
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
-    function decode(&$message, $include_bodies = false, $decode_bodies = true)
+    public static function decode(&$message, $include_bodies = false, $decode_bodies = true)
     {
         // need to fix a pretty annoying bug where if the 'boundary' part of a
         // content-type header is split into another line, the PEAR library would
@@ -773,7 +767,7 @@ class Mime_Helper
      * @param   string $source_charset
      * @return  string The converted string
      */
-    function convertString($string, $source_charset)
+    private static function convertString($string, $source_charset)
     {
         if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
             return $string;
@@ -787,12 +781,11 @@ class Mime_Helper
      * Method used to parse the decoded object structure of a MIME
      * message into something more manageable.
      *
-     * @access  public
      * @param   object $obj The decoded object structure of the MIME message
      * @param   array $parts The parsed parts of the MIME message
      * @return  void
      */
-    function parse_output($obj, &$parts)
+    public static function parse_output($obj, &$parts)
     {
         if (!empty($obj->parts)) {
             for ($i = 0; $i < count($obj->parts); $i++) {

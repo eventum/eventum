@@ -3,53 +3,16 @@
 	<!--
 		 http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php
 	 -->
-	<description>Eventum coding standard.</description>
-
-	<!-- Exclude data dirs
-	-->
-	<exclude-pattern>*/templates_c/*</exclude-pattern>
-	<exclude-pattern>*/.bzr/*</exclude-pattern>
-	<exclude-pattern>*/docs/*</exclude-pattern>
-	<exclude-pattern>*/config/*.php</exclude-pattern>
-
-	<!-- External libs: we do not modify these to fit standards -->
-	<exclude-pattern>*/lib/Smarty/*</exclude-pattern>
-	<exclude-pattern>*/lib/jpgraph/*</exclude-pattern>
-	<exclude-pattern>*/lib/pear/*</exclude-pattern>
-	<exclude-pattern>*/lib/php-gettext/*</exclude-pattern>
-
-	<exclude-pattern>*.css</exclude-pattern>
-	<exclude-pattern>*.js</exclude-pattern>
+	<description>Eventum coding standard</description>
 
 	<!-- Include some from all around the place
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
 	 -->
-	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
-
-	<rule ref="Squiz.ControlStructures.LowercaseDeclaration" />
-
-	<rule ref="Generic.Formatting.DisallowMultipleStatements">
-	</rule>
-
 	<rule ref="Generic.CodeAnalysis.EmptyStatement">
 		<exclude-pattern>*/lib/eventum/smarty/function.calendar.php</exclude-pattern>
 	</rule>
-
-	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
-	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
-	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
-	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall">
-		<exclude-pattern>*/crons/check_reminders.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/associate.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/manage/column_display.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/reports/recent_activity.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/rpc/xmlrpc.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/scm_ping.php</exclude-pattern>
-		<exclude-pattern>*/htdocs/validate.php</exclude-pattern>
-		<exclude-pattern>*/lib/eventum/class.attachment.php</exclude-pattern>
-		<exclude-pattern>*/lib/eventum/class.custom_field.php</exclude-pattern>
 		<exclude-pattern>*/lib/eventum/class.customer.php</exclude-pattern>
 		<exclude-pattern>*/lib/eventum/class.draft.php</exclude-pattern>
 		<exclude-pattern>*/lib/eventum/class.email_account.php</exclude-pattern>
@@ -85,14 +48,16 @@
 		<exclude-pattern>*/lib/eventum/class.user.php</exclude-pattern>
 		<exclude-pattern>*/lib/eventum/class.validation.php</exclude-pattern>
 		<exclude-pattern>*/lib/eventum/class.workflow.php</exclude-pattern>
-		<exclude-pattern>*/upgrade/v1.5_to_v1.5.1/database_changes.php</exclude-pattern>
 	</rule>
-
+	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+	<rule ref="Generic.Formatting.DisallowMultipleStatements" />
 	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
-
-	<rule ref="PEAR.Functions.ValidDefaultValue">
-	</rule>
-
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
+	<rule ref="PEAR.Functions.ValidDefaultValue" />
+	<rule ref="Squiz.ControlStructures.LowercaseDeclaration" />
 	<rule ref="Squiz.PHP.Eval"/>
 	<rule ref="Squiz.PHP.NonExecutableCode">
 	</rule>

@@ -72,11 +72,10 @@ class Prefs
     /**
      * Method used to get the preferences set by a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  array The preferences
      */
-    public function get($usr_id)
+    public static function get($usr_id)
     {
         static $returns;
 
