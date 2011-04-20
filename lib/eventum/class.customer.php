@@ -994,6 +994,26 @@ class Customer
 
 
     /**
+     * Returns if the specified customer / contract has the specified feature
+     *
+     * @param   integer $prj_id The project ID
+     * @param   string  $customer_id
+     * @param   string  $contract_id
+     * @param   string  $feature
+     * @return  boolean True if the contract has the feature, false otherwise.
+     */
+    function hasFeature($prj_id, $customer_id, $contract_id, $feature)
+    {
+        $backend =& self::_getBackend($prj_id);
+        if (method_exists($backend, 'hasFeature')) {
+            return $backend->hasFeature($customer_id, $contract_id, $feature);
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Performs needed checks to see if a contact can login. Performs some default
      * checks if the backend does not implement checks
      *

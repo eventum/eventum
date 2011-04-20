@@ -48,6 +48,7 @@ Eventum Issue Tracking System
 - Added 'Product' field. Eventually multiple products per issue will be supported (Bryan)
 - Added Workflow::canSendNote() method (Bryan)
 - Call Workflow::shouldEmailAddress() from Notification::notifySubscribers() (Bryan)
+- Added "hasFeature" to Customer backend (Bryan Alsdorf)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
