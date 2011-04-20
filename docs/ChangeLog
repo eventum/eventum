@@ -2,7 +2,8 @@ Eventum Issue Tracking System
 =============================
 
 2011-??-??, Version ???
-- remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
+- Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
+- Separate search methods to new Search class (Elan Ruusamäe)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

@@ -192,7 +192,7 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getCustomerTitlesByIssues($prj_id, &$result)
     {
@@ -208,7 +208,7 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getSupportLevelsByIssues($prj_id, &$result)
     {

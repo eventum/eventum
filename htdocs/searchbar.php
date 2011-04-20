@@ -54,7 +54,7 @@ $tpl->assign("categories", Category::getAssocList($prj_id));
 
 $tpl->assign("custom", Filter::getListing($prj_id));
 
-$options = Issue::saveSearchParams();
+$options = Search::saveSearchParams();
 $tpl->assign("options", $options);
 
 $tpl->displayTemplate();
