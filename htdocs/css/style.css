@@ -287,3 +287,7 @@ table.spaced {
 table.spaced td {
     border: 1px solid #FFFFFF;
 }
+
+label {
+    font-weight: bold;
+}
