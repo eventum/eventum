@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-03-22 14:56+0000\n"
-"Last-Translator: Fredrik Kilegran <Unknown>\n"
+"PO-Revision-Date: 2011-05-01 12:12+0000\n"
+"Last-Translator: N Ankar <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-03-23 04:37+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-05-02 04:37+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -108,7 +108,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
-msgstr ""
+msgstr "(Tips: standardportar för POP3 är 110 och 143 för IMAP)"
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
@@ -259,15 +259,15 @@ msgstr "Skaffa konto"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr ""
+msgstr "Åtgärd"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Åtgärdstyp"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Åtgärdstyp:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -284,7 +284,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -317,7 +317,7 @@ msgstr "Lägg till / Redigera Utgåva"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "Lägg till åtgärd"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -325,7 +325,7 @@ msgstr "Lägg till behörig besvarare"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Lägg till villkor"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -393,7 +393,7 @@ msgstr "Administratör"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Avancerade alternativ"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -403,7 +403,7 @@ msgstr "Avancerad sök"
 #: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
-msgstr ""
+msgstr "Utökad sökning / Skapa anpassad sökning"
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
@@ -522,32 +522,32 @@ msgstr "Ett fel upptäcktes"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr ""
+msgstr "Ett fel uppstod när FAQ-posten skulle läggas till"
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr ""
+msgstr "Ett fel uppstod när den nya Kontoansvarige skulle läggas till."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr ""
+msgstr "Ett fel uppstod när det nya kontot skulle läggas till."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr ""
+msgstr "Ett fel uppstod när den nya åtgärden skulle läggas till."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr ""
+msgstr "Ett fel uppstod när den nya kategorin skulle läggas till."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr ""
+msgstr "Ett fel uppstod när det nya villkoret skulle läggas till."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
+msgstr "Ett fel uppstod när det nya användarfältet skulle läggas till."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
@@ -563,11 +563,11 @@ msgstr ""
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr ""
+msgstr "Ett fel uppstod när den nya ärendelösningen skulle läggas till."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
-msgstr ""
+msgstr "Ett fel uppstod när det nya länkfiltret skulle läggas till."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
@@ -575,11 +575,11 @@ msgstr "Ett fel uppstod vid försök att lägga till en ny notering."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr ""
+msgstr "Ett fel uppstod när den nya prioritetsposten skulle läggas till."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr ""
+msgstr "Ett fel uppstod när det nya projektet skulle läggas till."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
@@ -620,7 +620,7 @@ msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
-msgstr ""
+msgstr "Ett fel uppstod när länkfiltret skulle raderas."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
@@ -649,19 +649,19 @@ msgstr "Ett fel uppstod när din databasfråga ställdes."
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
-msgstr ""
+msgstr "Ett fel uppstod när de aktiva kolumnerna skulle sparas."
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
-msgstr ""
+msgstr "Ett fel uppstod när fältvisningen skulle uppdateras."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
-msgstr ""
+msgstr "Ett fel uppstod när FAQ-posten skulle uppdateras."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
-msgstr ""
+msgstr "Ett fel uppstod när kontoinformationen skulle uppdateras."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
