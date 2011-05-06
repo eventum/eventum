@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-04-18 14:19+0000\n"
-"Last-Translator: Berty <Unknown>\n"
+"PO-Revision-Date: 2011-05-05 20:21+0000\n"
+"Last-Translator: gvandenbosch <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-04-19 04:51+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-05-06 04:36+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -50,7 +50,7 @@ msgstr "%1$s groep"
 #: lib/eventum/class.filter.php:599
 #, php-format
 msgid "%1$s or greater"
-msgstr ""
+msgstr "%1$s of groter"
 
 #: lib/eventum/class.filter.php:602
 #, php-format
@@ -131,12 +131,14 @@ msgstr "(bv. %1)"
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
-"(Hou 'ALT' ingedrukt en druk op '3' tegelijkertijd) - om toegang te krijgen "
-"tot het 'Zoek' veld"
+"(Houd 'ALT' ingedrukt en druk tegerlijkertijd op '3') - om toegang te "
+"krijgen tot het 'Zoek' veld"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
+"(Houdt 'ALT' ingedrukt en druk tegerlijkertijd op '4') - om toegang te "
+"krijgen tot het 'Ga' veld"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -172,12 +174,17 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
+"<b>OPMERKING:</b> E-mail zal <b>NOT</b> verstuurd worden naar de "
+"verwittigingslijst als deze optie wordt gekozen. Dit is handig om een aantal "
+"e-mails te herladen binnen een bestaande versie."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
+"<b>OPMERKING:</b> E-mail zal verstuurd wordt naar de hele "
+"verwittigingslijst, inclusief alle klanten, als deze optie gekozen wordt."
 
 #: templates/associate.tpl.html
 msgid ""
@@ -933,7 +940,7 @@ msgstr "Behandelaar"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Toegewezene:"
 
 #: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -1065,7 +1072,7 @@ msgstr "Handtekening automatisch toevoegen aan web-based emails."
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
-msgstr ""
+msgstr "Automatische conformatie popup vensters sluiten?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
@@ -1081,7 +1088,7 @@ msgstr "Beschikbare talen"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Beschikbare gerelateerde onderwerpen"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1285,15 +1292,15 @@ msgstr ""
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Controleer IRC Bot"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Controleer paden"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
-msgstr ""
+msgstr "Controleer rechten"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
@@ -1794,7 +1801,7 @@ msgstr "Verwijderen"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr ""
+msgstr "Verwijder Alias"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
