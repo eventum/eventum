@@ -188,14 +188,14 @@ function setSignature(f)
             <b>{t}Send Notification To{/t}:</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
+            <input id="notification_internal" type="radio" name="notification_list" value="internal" onchange="toggleNotificationList()">
             <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"}) ({t}Will save as a note{/t})</label><br />
-            <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
+            <input id="notification_all" type="radio" name="notification_list" checked value="all" onchange="toggleNotificationList()">
             <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"}) ({t}Will save as email{/t})</label>
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white" id="reason_cell">
+          <td width="160" bgcolor="{$cell_color}" class="default_white" id="reason_cell">
             <b>{t}Reason for closing issue{/t}: *</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
