@@ -101,7 +101,7 @@ class Customer
      * @param   integer $prj_id The project ID
      * @return  Abstract_Customer_Backend
      */
-    private static function &_getBackend($prj_id)
+    public static function &_getBackend($prj_id)
     {
         static $setup_backends;
 
