@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-05-24 04:33+0000\n"
+"PO-Revision-Date: 2011-05-24 04:35+0000\n"
 "Last-Translator: rao hai <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-05-24 04:34+0000\n"
+"X-Launchpad-Export-Date: 2011-05-25 04:39+0000\n"
 "X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -421,7 +421,7 @@ msgstr "警报查询"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr ""
+msgstr "警告理由"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -447,7 +447,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
@@ -455,7 +455,7 @@ msgstr "所有问题"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "所有文本 (电子邮件、注释等)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
