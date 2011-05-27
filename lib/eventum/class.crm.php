@@ -95,7 +95,7 @@ abstract class CRM
      * @param   integer $email
      * @return  Contact A contact object
      */
-    abstract public function getContactByEmail($email);
+    abstract public function &getContactByEmail($email);
 
 
     /**
@@ -104,7 +104,7 @@ abstract class CRM
      * @param   integer $contact_id
      * @return  Contact A contact object
      */
-    abstract public function getContact($contact_id);
+    abstract public function &getContact($contact_id);
 
     /**
      * Returns the name of the backend.
