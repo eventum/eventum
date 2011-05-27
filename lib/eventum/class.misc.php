@@ -382,7 +382,7 @@ class Misc
      * Accepts a value and cleans it to only contain numeric values
      *
      * @param   mixed $input The original input.
-     * @return  integer The input converted to an integer
+     * @return  mixed The input converted to an integer
      */
     public static function escapeInteger($input)
     {
