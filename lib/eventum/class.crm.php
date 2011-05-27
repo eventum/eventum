@@ -86,7 +86,7 @@ abstract class CRM
      * @param   integer $contract_id A contract id
      * @return  Contract A contract object
      */
-    abstract public function getContract($contract_id);
+    abstract public function &getContract($contract_id);
     
 
     /**
