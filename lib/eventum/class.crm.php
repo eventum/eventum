@@ -77,7 +77,7 @@ abstract class CRM
      * @param   integer $customer_id A customer id or array of ids
      * @return  CRM_Customer A customer object or an array of customer objects
      */
-    abstract public function getCustomer($customer_id);
+    abstract public function &getCustomer($customer_id);
 
 
     /**
