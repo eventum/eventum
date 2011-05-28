@@ -107,7 +107,9 @@ class DB_Helper
      */
     public static function get_last_insert_id()
     {
-        return mysql_insert_id(self::getInstance()->connection);
+        $stmt = "SELECT last_insert_id()";
+        $res = (integer)DB_Helper::getInstance()->getOne($stmt);
+        return $res;
     }
 
     /**
