@@ -1747,7 +1747,7 @@ class Custom_Field
 
     public function getDBValueFieldSQL()
     {
-        return "(IF(fld_type = 'date', icf_value_date, IF(fld_type = 'integer', icf_value_integer, icf_value)))";
+        return "(CASE WHEN fld_type = 'date' THEN icf_value_date ELSE WHEN fld_type = 'integer' THEN icf_value_integer ELSE icf_value END)";
     }
 
     /**
