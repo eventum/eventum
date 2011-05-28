@@ -119,11 +119,13 @@ class DB_Helper
      */
     public static function escapeString($str, $add_quotes = false)
     {
+        $res = self::getInstance()->escapeSimple($str);
+
         if ($add_quotes) {
-            return "'". mysql_real_escape_string($str, self::getInstance()->connection) . "'";
+            $res = "'". $res . "'";
         }
 
-        return mysql_real_escape_string($str, self::getInstance()->connection);
+        return $res;
     }
 
     /**
