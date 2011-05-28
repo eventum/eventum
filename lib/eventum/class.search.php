@@ -265,7 +265,7 @@ class Search
                     iss_last_internal_action_date,
                     iss_last_internal_action_type,
                     " . Issue::getLastActionFields() . ",
-                    IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type,
+                    CASE WHEN iss_last_internal_action_date > iss_last_public_action_date THEN 'internal' ELSE 'public' END AS action_type,
                     iss_private,
                     usr_full_name,
                     iss_percent_complete,
