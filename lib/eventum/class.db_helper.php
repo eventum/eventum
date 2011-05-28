@@ -82,18 +82,39 @@ class DB_Helper
             'username' => APP_SQL_DBUSER,
             'password' => APP_SQL_DBPASS
         );
-        // if we are using some non-standard mysql port, pass that value in the dsn
-        if ((defined('APP_SQL_DBPORT')) && (APP_SQL_DBPORT != 3306)) {
-            $dsn['port'] = APP_SQL_DBPORT;
+
+        // DBTYPE specific dsn settings
+        switch (APP_SQL_DBTYPE) {
+            case 'mysql':
+            case 'mysqli':
+                // if we are using some non-standard mysql port, pass that value in the dsn
+                if (defined('APP_SQL_DBPORT') && (APP_SQL_DBPORT != 3306)) {
+                    $dsn['port'] = APP_SQL_DBPORT;
+                }
+                break;
+            default:
+                if (defined('APP_SQL_DBPORT')) {
+                    $dsn['port'] = APP_SQL_DBPORT;
+                }
+                break;
         }
 
         $this->dbh = DB::connect($dsn);
         if (PEAR::isError($this->dbh)) {
             return;
         }
-        $this->dbh->query("SET SQL_MODE = ''");
-        if (Language::isUTF8()) {
-            $this->dbh->query("SET NAMES utf8");
+
+        // DBTYPE specific session setup commands
+        switch (APP_SQL_DBTYPE) {
+            case 'mysql':
+            case 'mysqli':
+                $this->dbh->query("SET SQL_MODE = ''");
+                if (Language::isUTF8()) {
+                    $this->dbh->query("SET NAMES utf8");
+                }
+                break;
+            default:
+                break;
         }
     }
 
