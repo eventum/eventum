@@ -428,7 +428,7 @@ class Email_Account
                  WHERE
                     ema_prj_id=" . Misc::escapeInteger($prj_id) . "
                  LIMIT
-                    0, 1";
+                    1 OFFSET 0";
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

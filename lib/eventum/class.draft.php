@@ -397,7 +397,7 @@ class Draft
                     emd_status = 'pending'
                 ORDER BY
                     emd_id ASC
-                LIMIT " . ($sequence - 1) . ", 1";
+                LIMIT 1 OFFSET " . ($sequence - 1);
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
