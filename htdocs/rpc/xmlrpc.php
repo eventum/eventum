@@ -139,6 +139,8 @@ function getOpenIssues($p)
 $isValidLogin_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
 function isValidLogin($p)
 {
+    global $XML_RPC_String;
+
     $email = XML_RPC_decode($p->getParam(0));
     $password = XML_RPC_decode($p->getParam(1));
 
