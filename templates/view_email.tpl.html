@@ -106,7 +106,7 @@ setTimeout('closeAndRefresh()', 2000);
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>{t}View Email Details{/t}{if $issue_id} ({t}Associated with Issue{/t} #{$issue_id}){/if}</b>
+            <b>{t}View Email Details{/t}{if $issue_id} ({t}Associated with Issue{/t} <a href="view.php?id={$issue_id}">#{$issue_id}</a>){/if}</b>
           </td>
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
