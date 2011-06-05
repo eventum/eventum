@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-05-28 13:10+0000\n"
-"Last-Translator: Hartmut Holzgraefe <hartmut@php.net>\n"
+"PO-Revision-Date: 2011-06-04 14:43+0000\n"
+"Last-Translator: vulpecula <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-05-29 04:37+0000\n"
+"X-Launchpad-Export-Date: 2011-06-05 04:36+0000\n"
 "X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -24,8 +24,8 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Um weitere Informationen zu dieser Ticket zu sehen oder diese zu "
-"aktualisieren, besuchen Sie bitte die folgende URL"
+"Um weitere Informationen zu dieser Ausgabe zu sehen oder diese zu "
+"aktualisieren, besuchen Sie bitte die folgende URL."
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -2266,7 +2266,7 @@ msgstr "e-Mail nach Zeitraum"
 #: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
-msgstr ""
+msgstr "Email von '%1$s' blockiert"
 
 #: lib/eventum/class.draft.php:161
 #, php-format
