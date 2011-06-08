@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 - remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
+- Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

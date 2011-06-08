@@ -101,13 +101,19 @@ class Auth
                 Session::init($anon_usr_id);
             } else {
                 // check for valid HTTP_BASIC params
-                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) &&
-                        Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-                    $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
-                    $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                    self::createFakeCookie($usr_id, $prj_id);
-                    self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
-                    self::setCurrentProject($prj_id, true);
+                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                    if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                        $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
+                        $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
+                        self::createFakeCookie($usr_id, $prj_id);
+                        self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                        self::setCurrentProject($prj_id, true);
+                    } else {
+                        header('WWW-Authenticate: Basic realm="Eventum"');
+                        header('HTTP/1.0 401 Unauthorized');
+                        echo "Login Failed";
+                        return;
+                    }
                 } else {
                     self::redirect($failed_url, $is_popup);
                 }
