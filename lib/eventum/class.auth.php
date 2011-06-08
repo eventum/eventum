@@ -406,7 +406,7 @@ class Auth
      * @param   string $password The password of the user to check for
      * @return  boolean
      */
-    function isCorrectPassword($email, $password)
+    public static function isCorrectPassword($email, $password)
     {
         $usr_id = User::getUserIDByEmail($email, true);
         $user = User::getDetails($usr_id);
