@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-05-03 02:36+0000\n"
-"Last-Translator: Niclas Ankar <Unknown>\n"
+"PO-Revision-Date: 2011-06-18 18:11+0000\n"
+"Last-Translator: N Ankar <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-05-04 04:37+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-06-19 04:38+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -100,11 +100,14 @@ msgstr ""
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
+"(Detta inkluderas i adressen för alla e-postmeddelanden som skickas av "
+"Eventum)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
+"(Detta inkluderas i adressen för alla anteckningar som skickas av Eventum)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
@@ -396,7 +399,7 @@ msgstr "Administratör"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr "Avancerade alternativ"
+msgstr "Avancerade inställningar"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
@@ -483,6 +486,8 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Tillåts se alla ärenden inom projekt associerade med användaren; Tillåts "
+"skapa nya ärenden och skicka e-postmeddelanden på befintliga ärenden."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -892,7 +897,7 @@ msgstr "Tilldelad:"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Tilldelad"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
@@ -913,7 +918,7 @@ msgstr ""
 #: lib/eventum/class.notification.php:609
 #: lib/eventum/class.notification.php:610
 msgid "Assignment List"
-msgstr ""
+msgstr "Tilldelningslista"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -927,7 +932,7 @@ msgstr "Associera"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Koppla e-postmeddelande till ärende nummer %1"
 
 #: lib/eventum/class.help.php:106 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
@@ -1012,7 +1017,7 @@ msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
-msgstr ""
+msgstr "Automatiserade ärenden"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
@@ -1036,7 +1041,7 @@ msgstr "Tillgänglig - Användare kan använda den här utgåvan"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
-msgstr ""
+msgstr "Tillgängliga hjälprubriker"
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
@@ -1256,7 +1261,7 @@ msgstr "Bevaka sökvägar:"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
-msgstr ""
+msgstr "Kontrollera rättigheter"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
@@ -1305,11 +1310,11 @@ msgstr "Klicka för att expandera."
 
 #: templates/navigation.tpl.html
 msgid "Clock In"
-msgstr "Klocka in"
+msgstr "Stämpla in"
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
-msgstr "Klocka ut"
+msgstr "Stämpla ut"
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1343,7 +1348,7 @@ msgstr ""
 
 #: lib/eventum/class.filter.php:759
 msgid "Closed Date"
-msgstr ""
+msgstr "Stängningsdatum"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
@@ -1391,7 +1396,7 @@ msgstr "Inställningar"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
-msgstr ""
+msgstr "Konfigurationsparametrar"
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
@@ -1429,7 +1434,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
-msgstr ""
+msgstr "Antal:"
 
 #: templates/manage/email_accounts.tpl.html templates/signup.tpl.html
 msgid "Create Account"
@@ -1447,7 +1452,7 @@ msgstr "Skapa kategori"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Create Custom Field"
-msgstr ""
+msgstr "Skapa anpassat fält"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
