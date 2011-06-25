@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-05-17 08:33+0000\n"
-"Last-Translator: Tarık VARDAR <tarikvardar@windowslive.com>\n"
+"PO-Revision-Date: 2011-06-24 13:33+0000\n"
+"Last-Translator: Hasan Tayyar BEŞİK <sacrosancttayyar@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-05-18 04:38+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-06-25 04:59+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -669,7 +669,7 @@ msgstr "Ekran ayarlarını güncellemeye çalışırken bir hata oluştu"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
-msgstr ""
+msgstr "SSS bilgisi güncellenirken bir hata oluştu."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
@@ -687,11 +687,11 @@ msgstr ""
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
-msgstr ""
+msgstr "Kategori bilgisi güncellenirken bir hata oluştu."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
-msgstr ""
+msgstr "Durum bilgisi güncellenirken bir hata oluştu."
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
@@ -816,7 +816,7 @@ msgstr ""
 
 #: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
-msgstr ""
+msgstr "Herhangi"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
@@ -832,7 +832,7 @@ msgstr "Alanlar"
 
 #: templates/email_filter_form.tpl.html
 msgid "Arrival Date:"
-msgstr ""
+msgstr "Varış tarihi"
 
 #: templates/faq.tpl.html
 msgid "Article Entries"
@@ -845,7 +845,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "Artan"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
@@ -862,7 +862,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr ""
+msgstr "Atanan"
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
@@ -875,16 +875,16 @@ msgstr ""
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
 msgid "Assigned Projects"
-msgstr ""
+msgstr "Atanmış Projeler"
 
 #: templates/manage/users.tpl.html
 msgid "Assigned Projects and Roles"
-msgstr ""
+msgstr "Atanmış proje ve roller"
 
 #: templates/manage/general.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Assigned Projects:"
-msgstr ""
+msgstr "Atanmış Projeler"
 
 #: templates/manage/general.tpl.html
 msgid "Assigned Role:"
@@ -896,15 +896,15 @@ msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
-msgstr ""
+msgstr "AtananÇ"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Atayan"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Atayan"
 
 #: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -912,7 +912,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr ""
+msgstr "Atama"
 
 #: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
@@ -921,17 +921,17 @@ msgstr ""
 #: lib/eventum/class.notification.php:609
 #: lib/eventum/class.notification.php:610
 msgid "Assignment List"
-msgstr ""
+msgstr "Atama Listesi"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/update_form.tpl.html
 msgid "Assignment:"
-msgstr ""
+msgstr "Atama"
 
 #: templates/emails.tpl.html
 msgid "Associate"
-msgstr ""
+msgstr "İlişkilendir"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
@@ -945,7 +945,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Associated"
-msgstr ""
+msgstr "İlişkilendirilmiş"
 
 #: templates/support_emails.tpl.html
 msgid "Associated Emails"
@@ -974,15 +974,15 @@ msgstr ""
 
 #: templates/post.tpl.html
 msgid "Attach Files"
-msgstr ""
+msgstr "Dosya Ekle"
 
 #: templates/attached_emails.tpl.html
 msgid "Attached Emails"
-msgstr ""
+msgstr "Ekli Emailler"
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr ""
+msgstr "Ekli Dosyalar"
 
 #: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
@@ -1066,7 +1066,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr ""
+msgstr "Ortalama"
 
 #: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
@@ -1086,7 +1086,7 @@ msgstr ""
 
 #: lib/eventum/class.notification.php:956
 msgid "BLOCKED"
-msgstr ""
+msgstr "ENGELLENMİŞ"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
@@ -1095,7 +1095,7 @@ msgstr "Geri"
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
 msgid "Back to Login Form"
-msgstr ""
+msgstr "Giriş Formuna Geri Dön"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Back to Reminder Action List"
@@ -1103,7 +1103,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Back to Reminder List"
-msgstr ""
+msgstr "Hatırlatıcı Listesine Geri Dön"
 
 #: templates/attachments.tpl.html templates/checkins.tpl.html
 #: templates/custom_fields.tpl.html templates/email_drafts.tpl.html
@@ -1252,11 +1252,11 @@ msgstr ""
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Disk Alanını Kontrol Et"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "IRC Bot'unu kontrol et"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
@@ -1268,7 +1268,7 @@ msgstr "İzinleri Denetle"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
-msgstr ""
+msgstr "Yazım Denetimi Yap"
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
@@ -1355,7 +1355,7 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Kapatılan mesajlar"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
@@ -1403,7 +1403,7 @@ msgstr "Yapılandırma Parametreleri"
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Yeni şifreyi onaylayın"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1509,7 +1509,7 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Hatırlatıcı Oluştur"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"

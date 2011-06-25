@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-05-24 04:35+0000\n"
-"Last-Translator: rao hai <Unknown>\n"
+"PO-Revision-Date: 2011-06-25 02:07+0000\n"
+"Last-Translator: ceeback <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-05-25 04:39+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-06-25 04:59+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -25,7 +25,7 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"请访问下面的 URL 就可以查看此问题的详情或者更新它。"
+"要查看此问题的更多细节，或更新它，请访问以下网址"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -78,7 +78,7 @@ msgstr "（所有问题）"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "通过 'Address Hostname' 来 改变域"
+msgstr "备用域名指向“地址主机名”"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -95,7 +95,7 @@ msgstr "<b>必须</b> 包含一个有效的 email 地址，例如 \"%1\"或 \"%2
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
-msgstr "这将包含在由Eventum发送的所有 Email 地址里面"
+msgstr "这将出现在由Eventum发出的所有邮件的发信人地址里。"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -365,7 +365,7 @@ msgstr "添加时间条目"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr ""
+msgstr "将未知收件人添加到问题的通知名单"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
@@ -6715,7 +6715,7 @@ msgstr "以上命令将检出并创建你需要用到的CVSROOT目录。下一�
 msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
-msgstr ""
+msgstr "目前的项目没有客户集成，因此本报告不能查看。"
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -6783,7 +6783,7 @@ msgid ""
 "compatible with pretty much any SCM system, such as CVS. When entering the "
 "required information for the checkout page and diff page input fields, use "
 "the following placeholders:"
-msgstr ""
+msgstr "集成按如下方式执行，它几乎和所有源码控制系统兼容，比如CVS。当在检出页面和差异页面输入区域输入要求的信息时，使用以下占位符："
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -8511,7 +8511,7 @@ msgstr "这将决定触发动作的次序"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will show up on the bottom of the reminder messages"
-msgstr ""
+msgstr "这将显示在提示信息的底部"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
