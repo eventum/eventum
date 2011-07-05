@@ -1,22 +1,22 @@
-# Danish translation for eventum
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Haitian; Haitian Creole translation for eventum
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the eventum package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-02-20 21:12+0000\n"
-"Last-Translator: Simon-Shlomo Poil <simon.shlomo@poil.dk>\n"
-"Language-Team: Danish <da@li.org>\n"
+"PO-Revision-Date: 2011-05-10 13:44+0000\n"
+"Last-Translator: boracasli <Unknown>\n"
+"Language-Team: Haitian; Haitian Creole <ht@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-02-21 04:52+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:38+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -24,6 +24,8 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
+"\n"
+"Pou wè tout detay sa ticket oswa yo mete a jou, itilize lyen ki apre a"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -33,16 +35,16 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
-msgstr "% Færdig"
+msgstr "Konplè pou %"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 jaden"
 
 #: lib/eventum/class.filter.php:670
 #, php-format
 msgid "%1$s Group"
-msgstr "%1$s Gruppe"
+msgstr ""
 
 #: lib/eventum/class.filter.php:599
 #, php-format
@@ -65,10 +67,12 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"Yo nan kategori \"Diskisyon nòt, \" \"Diskisyon imèl\" ak \"Diskisyon "
+"telefòn\" yo nesesè pou Eventum ak p'ap ka ka efase."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Tout tickets)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -76,7 +80,7 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr "(GMT)"
+msgstr ""
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
@@ -85,7 +89,6 @@ msgstr ""
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
-"(SKAL indeholde en eksisterende email adresse, f.eks., \"%1\" eller \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -103,7 +106,7 @@ msgstr ""
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
-msgstr "(Arkiveret)"
+msgstr ""
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
@@ -127,7 +130,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr "(i timer, tak)"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -151,7 +154,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr "-- Vælg en --"
+msgstr ""
 
 #: templates/associate.tpl.html
 msgid ""
@@ -199,27 +202,27 @@ msgstr ""
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr "ALLE"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr "ALT-3"
+msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr "ALT-4"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr "OG / ELLER"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr "Forkortelse"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr "Forkortelse:"
+msgstr ""
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
@@ -236,7 +239,7 @@ msgstr ""
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr "Kontoindstillinger"
+msgstr ""
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
@@ -246,20 +249,20 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr "Handling"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr "Handlingstype"
+msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr "Handlingstype:"
+msgstr ""
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr "Handlinger"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -271,11 +274,11 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr "Aktiv"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr "Aktivitetstype"
+msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
@@ -284,7 +287,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr "Tilføj"
+msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
@@ -304,7 +307,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr "Tilføj handling"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
@@ -312,7 +315,7 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr "Tilføj betingelse"
+msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -324,7 +327,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr "Tilføj filer"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
@@ -336,7 +339,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr "Tilføj nye filer"
+msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
@@ -372,20 +375,20 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr "Administration"
+msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr "Administrator"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr "Avancerede indstillinger"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr "Avanceret søgning"
+msgstr ""
 
 #: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
@@ -442,7 +445,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr "Alle"
+msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
@@ -784,11 +787,11 @@ msgstr ""
 
 #: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
 msgid "Any"
-msgstr "Alle"
+msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr "Arkiverede"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
@@ -830,7 +833,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr "Tildelt"
+msgstr ""
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
@@ -880,7 +883,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr "Opgave"
+msgstr ""
 
 #: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
@@ -950,7 +953,7 @@ msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr "Vedhæftede filer"
+msgstr ""
 
 #: lib/eventum/class.support.php:1450
 msgid "Attachment originated from a note"
@@ -963,11 +966,11 @@ msgstr ""
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
 msgid "Attachments"
-msgstr "Bilag"
+msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "Attachments:"
-msgstr "Bilag:"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
@@ -1016,7 +1019,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
-msgstr "Tilgængelige sprog"
+msgstr ""
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
@@ -1058,7 +1061,7 @@ msgstr ""
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
-msgstr "Tilbage"
+msgstr ""
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
@@ -1119,7 +1122,7 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr "Masseopdatering"
+msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
@@ -1159,11 +1162,11 @@ msgstr ""
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Cancel"
-msgstr "Annullér"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Cancel Update"
-msgstr "Afbryd opdatering"
+msgstr ""
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
@@ -1184,7 +1187,7 @@ msgstr ""
 #: templates/reports/workload_date_range.tpl.html
 #: templates/time_tracking.tpl.html templates/view_form.tpl.html
 msgid "Category"
-msgstr "Kategori"
+msgstr ""
 
 #: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
 msgid "Category Field"
@@ -1192,11 +1195,11 @@ msgstr ""
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
-msgstr "Kategori:"
+msgstr ""
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr "Cc"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
@@ -1204,7 +1207,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
-msgstr "Ændre adgangskode"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Change Status To"
@@ -1236,7 +1239,7 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
-msgstr "Stavekontrol"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
@@ -1256,11 +1259,11 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
-msgstr "Ryd"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
-msgstr "Ryd dato"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
@@ -1273,7 +1276,7 @@ msgstr ""
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/post_note.tpl.html templates/update_form.tpl.html
 msgid "Clear Selections"
-msgstr "Ryd markeringer"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Click to expand."
@@ -1293,11 +1296,11 @@ msgstr ""
 #: templates/removed_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_headers.tpl.html templates/view_note.tpl.html
 msgid "Close"
-msgstr "Luk"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Close Form"
-msgstr "Luk formular"
+msgstr ""
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
@@ -1307,11 +1310,11 @@ msgstr ""
 #: templates/associate.tpl.html templates/faq.tpl.html
 #: templates/help/banner.tpl.html
 msgid "Close Window"
-msgstr "Luk vindue"
+msgstr ""
 
 #: lib/eventum/class.notification.php:816
 msgid "Closed"
-msgstr "Lukket"
+msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"

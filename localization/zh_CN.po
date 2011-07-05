@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2010-12-26 14:53+0000\n"
-"Last-Translator: medalet <Unknown>\n"
+"PO-Revision-Date: 2011-06-25 02:07+0000\n"
+"Last-Translator: ceeback <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:58+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-06-26 04:36+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -25,7 +25,7 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"请访问下面的 URL 就可以查看此问题的详情或者更新它。"
+"要查看此问题的更多细节，或更新它，请访问以下网址"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -78,7 +78,7 @@ msgstr "（所有问题）"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "通过 'Address Hostname' 来 改变域"
+msgstr "备用域名指向“地址主机名”"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -90,12 +90,12 @@ msgstr "开放问题"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr "必须包含一个有效的 email 地址，例如 \"%1\"或 \"%2\""
+msgstr "<b>必须</b> 包含一个有效的 email 地址，例如 \"%1\"或 \"%2\""
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
-msgstr "这将包含在由Eventum发送的所有 Email 地址里面"
+msgstr "这将出现在由Eventum发出的所有邮件的发信人地址里。"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -104,27 +104,27 @@ msgstr "这将出现在由Eventum发出的所有备注的发信人地址里。"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
-msgstr "提示： POP3 的默认端口是 110，IMAP的是 143"
+msgstr "(提示： POP3 的默认端口是 110，IMAP的是 143)"
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
-msgstr "已存档的"
+msgstr "(已存档的)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr "默认为%1"
+msgstr "(默认为%1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr "默认目录是收件箱"
+msgstr "(默认目录是收件箱)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr "例如：%1"
+msgstr "(例如：%1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
-msgstr "同时按下 'Alt' 和 3 以访问 搜索"
+msgstr "(同时按下 'Alt' 和 3) 以访问 '搜索'"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
@@ -236,12 +236,12 @@ msgstr "项目管理员"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr ""
+msgstr "项目管理员"
 
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr ""
+msgstr "账户首选项"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
@@ -251,20 +251,20 @@ msgstr "账户注册"
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr ""
+msgstr "行为"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "行为类型"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "行为类型"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr ""
+msgstr "行为"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -276,7 +276,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "生效"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -297,47 +297,47 @@ msgstr "添加/编辑 分类"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr ""
+msgstr "添加 / 编辑 电话支持分类"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr ""
+msgstr "添加 / 编辑 优先级"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr ""
+msgstr "添加 / 编辑 发布"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "添加动作"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
-msgstr ""
+msgstr "添加授权的回复人"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "添加条件"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr ""
+msgstr "添加电子邮件签名"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr ""
+msgstr "添加更多的收件人到通知列表中吗？"
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr ""
+msgstr "添加文件"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "把自己添加到通知"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
-msgstr ""
+msgstr "添加自己到受让人列表中"
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
@@ -349,27 +349,27 @@ msgstr "添加新需求"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "添加电话"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
+msgstr "添加电话条目"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr ""
+msgstr "添加订阅"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr ""
+msgstr "添加时间条目"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr ""
+msgstr "将未知收件人添加到问题的通知名单"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
+msgstr "把发送者添加到授权的回复者名单吗？"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
@@ -377,25 +377,25 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr ""
+msgstr "管理"
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr ""
+msgstr "管理员"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "进阶选项"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr ""
+msgstr "高级搜索"
 
 #: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
-msgstr ""
+msgstr "高级搜索 / 创建自定义查询"
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
@@ -407,7 +407,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
-msgstr ""
+msgstr "警报组负责人："
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert IRC:"
@@ -416,12 +416,12 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Query"
-msgstr ""
+msgstr "警报查询"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr ""
+msgstr "警告理由"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -447,7 +447,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
@@ -455,7 +455,7 @@ msgstr "所有问题"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "所有文本 (电子邮件、注释等)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -6715,7 +6715,7 @@ msgstr "以上命令将检出并创建你需要用到的CVSROOT目录。下一�
 msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
-msgstr ""
+msgstr "目前的项目没有客户集成，因此本报告不能查看。"
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -6783,7 +6783,7 @@ msgid ""
 "compatible with pretty much any SCM system, such as CVS. When entering the "
 "required information for the checkout page and diff page input fields, use "
 "the following placeholders:"
-msgstr ""
+msgstr "集成按如下方式执行，它几乎和所有源码控制系统兼容，比如CVS。当在检出页面和差异页面输入区域输入要求的信息时，使用以下占位符："
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -8511,7 +8511,7 @@ msgstr "这将决定触发动作的次序"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will show up on the bottom of the reminder messages"
-msgstr ""
+msgstr "这将显示在提示信息的底部"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
