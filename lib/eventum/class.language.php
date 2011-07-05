@@ -77,6 +77,8 @@ class Language
         'fo' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
+        'ht' => 'Haitian',
+        'hu' => 'Hungarion',
         'id' => 'Indonesian',
         'it_IT' => 'Italian',
         'ja' => 'Japanese',
