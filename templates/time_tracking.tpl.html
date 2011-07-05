@@ -64,6 +64,14 @@ function addTimeEntry()
                 <td class="default">{$time_entries[i].ttr_summary}</td>
               </tr>
               {if $smarty.section.i.last}
+                {if count($total_time_by_user) > 1}
+                  {foreach from=$total_time_by_user item=item}
+                  <tr>
+                    <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right" width="30%">{$item.usr_full_name}:</td>
+                    <td bgcolor="{$dark_color}" colspan="3" class="default" width="70%">{$item.time_spent}</td>
+                  </tr>
+                  {/foreach}
+                {/if}
               <tr>
                 <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right" width="30%">{t}Total Time Spent{/t}:</td>
                 <td bgcolor="{$dark_color}" colspan="3" class="default" width="70%">{$total_time_spent}</td>

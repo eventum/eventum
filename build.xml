@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project name="eventum" default="all" basedir=".">
-	<property name="project.name" value="${phing.project.name}" />
+	<property name="name" value="${phing.project.name}" />
+	<property name="version" value="2.3.1" />
 	<property name="dir.src" value="." />
 	<property name="dir.test" value="${dir.src}/tests" />
 
@@ -12,13 +13,36 @@
 		description="Exectute all targets.">
 	</target>
 
+	<!-- filesets -->
+	<fileset id="phpsource" dir="${dir.src}">
+		<include name="**/*.php" />
+
+		<!-- Exclude data dirs -->
+		<exclude name=".bzr/**" />
+		<exclude name="config/**" />
+		<exclude name="docs/**" />
+		<exclude name="templates_c/**" />
+
+		<!-- External libs: we do not modify these to fit standards -->
+		<exclude name="cli/lib/pear/**" />
+		<exclude name="lib/Smarty/**" />
+		<exclude name="lib/jpgraph/**" />
+		<exclude name="lib/pear/**" />
+		<exclude name="lib/php-gettext/**" />
+	</fileset>
+
+	<fileset id="jssource" dir="${dir.src}/htdocs/js">
+		<include name="**/*.js" />
+		<!-- skip external libs -->
+		<exclude name="**/jquery/*.js" />
+		<exclude name="dtree.js" />
+	</fileset>
+
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
 		<echo msg="Checking syntax with PHP lint" />
 		<phplint haltonfailure="true">
-			<fileset dir="${dir.src}">
-				<include name="**/*.php" />
-			</fileset>
+			<fileset refid="phpsource" />
 		</phplint>
 	</target>
 
@@ -26,13 +50,17 @@
 	<target name="jslint" description="Run JSLint.">
 		<echo msg="Checking syntax with JSlint" />
 		<jsllint haltonfailure="true" showwarnings="${jslint.warnings}">
-			<fileset dir="${dir.src}/htdocs/js">
-				<include name="**/*.js" />
-				<!-- skip external libs -->
-				<exclude name="**/jquery/*.js" />
-				<exclude name="dtree.js" />
-			</fileset>
+			<fileset refid="jssource" />
 		</jsllint>
+	</target>
+
+	<!-- PHP CodeSniffer -->
+	<target name="phpcs" description="Generate PHPCS Report.">
+		<echo msg="Running PHP Code Sniffer Task" />
+		<phpcodesniffer standard="${dir.src}/phpcs.xml" showsniffs="true" showwarnings="true" haltonerror="yes">
+			<fileset refid="phpsource" />
+			<formatter type="default" usefile="false"/>
+		</phpcodesniffer>
 	</target>
 
 	<!-- test -->
@@ -46,5 +74,14 @@
 				</fileset>
 			</batchtest>
 		</phpunit>
+	</target>
+
+	<import file="pear.xml"/>
+	<target name="pear" description="Create PEAR package.">
+		<echo msg="Creating PEAR package"/>
+		<phingcall target="make">
+			<property name="name" value="${name}" />
+			<property name="version" value="${version}" />
+		</phingcall>
 	</target>
 </project>

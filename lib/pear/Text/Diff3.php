@@ -1,13 +1,13 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff3.php,v 1.5 2007/10/28 04:58:35 chuck Exp $
- *
  * A class for computing three way diffs.
  *
- * Copyright 2007 The Horde Project (http://www.horde.org/)
+ * $Horde: framework/Text_Diff/Diff3.php,v 1.2.10.7 2009/01/06 15:23:41 jan Exp $
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * Copyright 2007-2009 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @package Text_Diff
  * @since   0.3.0

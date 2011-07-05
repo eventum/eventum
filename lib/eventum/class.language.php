@@ -43,10 +43,9 @@ class Language
     /**
      * Method used to set application default locale.
      *
-     * @access  public
      * @return  void
      */
-    function setup()
+    public static function setup()
     {
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
@@ -78,6 +77,8 @@ class Language
         'fo' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
+        'ht' => 'Haitian',
+        'hu' => 'Hungarion',
         'id' => 'Indonesian',
         'it_IT' => 'Italian',
         'ja' => 'Japanese',
@@ -158,7 +159,7 @@ class Language
      * @access  public
      * @return  boolean
      */
-	function set($locale)
+	public static function set($locale)
     {
 		// XXX do not append charset to en_US locale
 		if ($locale != 'en_US') {
@@ -189,7 +190,7 @@ class Language
     }
 
 
-    function restore()
+    public static function restore()
     {
 		$locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
 		self::set($locale);

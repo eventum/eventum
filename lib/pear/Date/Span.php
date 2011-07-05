@@ -1080,4 +1080,3 @@ class Date_Span
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>

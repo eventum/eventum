@@ -10,21 +10,22 @@ that it needs to work properly:
 - JpGraph 1.5.3 (last GPL version)
 - Smarty 2.6.18 (http://smarty.php.net)
 - PEAR packages:
-   Auth_SASL 1.0.2
+   Auth_SASL 1.0.4
    DB 1.7.13
    Date 1.4.7
-   HTTP 1.4.0
-   Mail 1.1.14
+   Mail 1.2.0
    Mail_Mime 1.5.2
-   Mail_mimeDecode 1.5.0
-   Net_DIME 0.3
-   Net_POP3 1.3.6
-   Net_SMTP 1.2.10
-   Net_Socket 1.0.8
+   Mail_mimeDecode 1.5.5
+   Math_Stats 0.8.5
+   Net_POP3 1.3.8
+   Net_SMTP 1.5.0
+   Net_SmartIRC 1.0.2
+   Net_Socket 1.0.10
+   Net_UserAgent_Detect 2.5.2
    Net_URL 1.0.15
-   PEAR 1.6.2
-   Text_Diff 0.3.1
-   XML_RPC 1.5.1
+   PEAR 1.9.1
+   Text_Diff 1.1.1
+   XML_RPC 1.5.4
 - dTree 2.0.5 (http://www.destroydrop.com/javascript/tree/)
 - dynCalendar.js (http://www.phpguru.org/dyncalendar.html)
 - overLIB 3.5.1 (http://www.bosrup.com/web/overlib/)

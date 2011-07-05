@@ -81,9 +81,9 @@ if (@$_POST["cat"] == "post_note") {
     }
 }
 if (empty($reply_subject)) {
-    $reply_subject = 'Re: ' . $details['iss_summary'];
+    // TRANSLATORS: %1 = issue summary
+    $reply_subject = ev_gettext('Re: %1$s', $details['iss_summary']);
 }
-
 
 $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),

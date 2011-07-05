@@ -169,7 +169,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      *
      * @access  public
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getCustomerTitlesByIssues(&$result)
     {
@@ -188,7 +188,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      *
      * @access  public
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getSupportLevelsByIssues(&$result)
     {

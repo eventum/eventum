@@ -134,7 +134,7 @@ class gettext_reader {
    * Loads the translation tables from the MO file into the cache
    * If caching is enabled, also loads all strings into a cache
    * to speed up translation lookups
-   * 
+   *
    * @access private
    */
   function load_tables() {
@@ -394,5 +394,3 @@ class gettext_reader {
   }
 
 }
-
-?>

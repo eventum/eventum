@@ -149,7 +149,7 @@ $options = array(
     'custom_field'  => $filter['cst_custom_field'],
     'search_type'   => $filter['cst_search_type']
 );
-$issues = Issue::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
+$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
 $issues = $issues['list'];
 $project_title = Project::getName($filter['cst_prj_id']);
 Issue::getDescriptionByIssues($issues);

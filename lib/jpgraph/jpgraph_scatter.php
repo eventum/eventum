@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*=======================================================================
 // File:	JPGRAPH_SCATTER.PHP
 // Description: Scatter (and impuls) plot extension for JpGraph
@@ -30,7 +30,7 @@ class ScatterPlot extends Plot {
     }
 
 //---------------
-// PUBLIC METHODS	
+// PUBLIC METHODS
     function SetImpuls($f=true) {
 	$this->impuls = $f;
     }
@@ -53,7 +53,7 @@ class ScatterPlot extends Plot {
 		$xt = $xscale->Translate($this->coords[1][$i]);
 	    else
 		$xt = $xscale->Translate($i);
-	    $yt = $yscale->Translate($this->coords[0][$i]);	
+	    $yt = $yscale->Translate($this->coords[0][$i]);
 	    if( $this->linkpoints && isset($yt_old) ) {
 		$img->SetColor($this->linkpointcolor);
 		$img->SetLineWeight($this->linkpointweight);
@@ -64,19 +64,18 @@ class ScatterPlot extends Plot {
 		$img->SetLineWeight($this->weight);
 		$img->Line($xt,$yzero,$xt,$yt);
 	    }
-	    $this->mark->Stroke($img,$xt,$yt);	
+	    $this->mark->Stroke($img,$xt,$yt);
 	    $xt_old = $xt;
 	    $yt_old = $yt;
 	}
     }
-	
+
     // Framework function
     function Legend(&$aGraph) {
 	if( $this->legend != "" ) {
-	    $aGraph->legend->Add($this->legend,$this->mark->fill_color);		
+	    $aGraph->legend->Add($this->legend,$this->mark->fill_color);
 	}
-    }	
-	
+    }
+
 } // Class
 /* EOF */
-?>

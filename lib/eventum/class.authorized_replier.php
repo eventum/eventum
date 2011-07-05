@@ -135,12 +135,11 @@ class Authorized_Replier
     /**
      * Adds the specified email address to the list of authorized users.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email of the user.
      * @param   boolean $add_history If this should be logged.
      */
-    function manualInsert($issue_id, $email, $add_history = true)
+    public static function manualInsert($issue_id, $email, $add_history = true)
     {
         if (self::isAuthorizedReplier($issue_id, $email)) {
             return -1;
@@ -228,12 +227,11 @@ class Authorized_Replier
     /**
      * Returns if the specified user is authorized to reply to this issue.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string  $email The email address to check.
      * @return  boolean If the specified user is allowed to reply to the issue.
      */
-    function isAuthorizedReplier($issue_id, $email)
+    public static function isAuthorizedReplier($issue_id, $email)
     {
         // XXX: Add caching
 

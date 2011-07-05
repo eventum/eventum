@@ -472,7 +472,7 @@ class DB_common extends PEAR
     function quoteBoolean($boolean) {
         return $boolean ? '1' : '0';
     }
-     
+
     // }}}
     // {{{ quoteFloat()
 
@@ -488,7 +488,7 @@ class DB_common extends PEAR
     function quoteFloat($float) {
         return "'".$this->escapeSimple(str_replace(',', '.', strval(floatval($float))))."'";
     }
-     
+
     // }}}
     // {{{ escapeSimple()
 
@@ -2253,5 +2253,3 @@ class DB_common extends PEAR
  * c-basic-offset: 4
  * End:
  */
-
-?>

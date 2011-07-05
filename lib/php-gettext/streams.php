@@ -162,6 +162,3 @@ class CachedFileReader extends StringReader {
     }
   }
 };
-
-
-?>

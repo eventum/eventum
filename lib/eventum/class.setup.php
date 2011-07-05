@@ -41,11 +41,10 @@ class Setup
     /**
      * Method used to load the setup options for the application.
      *
-     * @access  public
      * @param   boolean $force If the data should be forced to be loaded again.
      * @return  array The system-wide preferences
      */
-    function load($force = false)
+    public static function load($force = false)
     {
         static $setup;
         if (empty($setup) || $force == true) {
@@ -94,10 +93,9 @@ class Setup
     /**
      * Method used to get the system-wide defaults.
      *
-     * @access  public
      * @return  string array of the default preferences
      */
-    public function getDefaults()
+    public static function getDefaults()
     {
         $defaults = array(
             'monitor' => array(

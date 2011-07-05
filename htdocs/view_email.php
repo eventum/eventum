@@ -45,7 +45,8 @@ $email['seb_body'] = str_replace("&amp;nbsp;", "&nbsp;", $email['seb_body']);
 $tpl->bulkAssign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,
-    'extra_title'     => ev_gettext('Email #%1$s: %2$s', $_GET['id'], $email['sup_subject']),
+    // TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
+    'extra_title'     => ev_gettext('Issue #%1$s Email #%3$s: %2$s', $issue_id, $email['sup_subject'], $_GET['id']),
     'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true),
     'recipients'      =>  Mail_Queue::getMessageRecipients(array('customer_email', 'other_email'), $_GET["id"]),
 ));

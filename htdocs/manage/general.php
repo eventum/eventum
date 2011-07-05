@@ -55,8 +55,8 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup["files"] = $_POST["files"];
         $setup["smtp"] = $_POST["smtp"];
         $setup["scm_integration"] = $_POST["scm_integration"];
-        $setup["checkout_url"] = $_POST["checkout_url"];
-        $setup["diff_url"] = $_POST["diff_url"];
+        $setup["checkout_url"] = isset($_POST["checkout_url"]) ? $_POST["checkout_url"] : null;
+        $setup["diff_url"] = isset($_POST["diff_url"]) ? $_POST["diff_url"] : null;
         $setup["scm_log_url"] = $_POST["scm_log_url"];
         $setup["open_signup"] = $_POST["open_signup"];
         $setup["accounts_projects"] = isset($_POST["accounts_projects"]) ? $_POST["accounts_projects"] : null;

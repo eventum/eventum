@@ -1,7 +1,5 @@
 <?php
 /**
- * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.4 2007/09/25 21:59:46 chuck Exp $
- *
  * Parses unified or context diffs output from eg. the diff utility.
  *
  * Example:
@@ -12,11 +10,13 @@
  * echo $renderer->render($diff);
  * </code>
  *
- * Copyright 2005 Örjan Persson <o@42mm.org>
- * Copyright 2005-2007 The Horde Project (http://www.horde.org/)
+ * $Horde: framework/Text_Diff/Diff/Engine/string.php,v 1.5.2.7 2009/07/24 13:04:43 jan Exp $
  *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * Copyright 2005 Örjan Persson <o@42mm.org>
+ * Copyright 2005-2009 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you did
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @author  Örjan Persson <o@42mm.org>
  * @package Text_Diff
@@ -39,6 +39,19 @@ class Text_Diff_Engine_string {
      */
     function diff($diff, $mode = 'autodetect')
     {
+        // Detect line breaks.
+        $lnbr = "\n";
+        if (strpos($diff, "\r\n") !== false) {
+            $lnbr = "\r\n";
+        } elseif (strpos($diff, "\r") !== false) {
+            $lnbr = "\r";
+        }
+
+        // Make sure we have a line break at the EOF.
+        if (substr($diff, -strlen($lnbr)) != $lnbr) {
+            $diff .= $lnbr;
+        }
+
         if ($mode != 'autodetect' && $mode != 'context' && $mode != 'unified') {
             return PEAR::raiseError('Type of diff is unsupported');
         }
@@ -48,17 +61,20 @@ class Text_Diff_Engine_string {
             $unified = strpos($diff, '---');
             if ($context === $unified) {
                 return PEAR::raiseError('Type of diff could not be detected');
-            } elseif ($context === false || $context === false) {
+            } elseif ($context === false || $unified === false) {
                 $mode = $context !== false ? 'context' : 'unified';
             } else {
                 $mode = $context < $unified ? 'context' : 'unified';
             }
         }
 
-        // split by new line and remove the diff header
-        $diff = explode("\n", $diff);
-        array_shift($diff);
-        array_shift($diff);
+        // Split by new line and remove the diff header, if there is one.
+        $diff = explode($lnbr, $diff);
+        if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
+            ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
+            array_shift($diff);
+            array_shift($diff);
+        }
 
         if ($mode == 'context') {
             return $this->parseContextDiff($diff);
@@ -85,7 +101,7 @@ class Text_Diff_Engine_string {
                 do {
                     $diff1[] = substr($diff[$i], 1);
                 } while (++$i < $end && substr($diff[$i], 0, 1) == ' ');
-                $edits[] = &new Text_Diff_Op_copy($diff1);
+                $edits[] = new Text_Diff_Op_copy($diff1);
                 break;
 
             case '+':
@@ -93,7 +109,7 @@ class Text_Diff_Engine_string {
                 do {
                     $diff1[] = substr($diff[$i], 1);
                 } while (++$i < $end && substr($diff[$i], 0, 1) == '+');
-                $edits[] = &new Text_Diff_Op_add($diff1);
+                $edits[] = new Text_Diff_Op_add($diff1);
                 break;
 
             case '-':
@@ -107,9 +123,9 @@ class Text_Diff_Engine_string {
                     $diff2[] = substr($diff[$i++], 1);
                 }
                 if (count($diff2) == 0) {
-                    $edits[] = &new Text_Diff_Op_delete($diff1);
+                    $edits[] = new Text_Diff_Op_delete($diff1);
                 } else {
-                    $edits[] = &new Text_Diff_Op_change($diff1, $diff2);
+                    $edits[] = new Text_Diff_Op_change($diff1, $diff2);
                 }
                 break;
 
@@ -175,7 +191,7 @@ class Text_Diff_Engine_string {
                 $array[] = substr($diff[$j++], 2);
             }
             if (count($array) > 0) {
-                $edits[] = &new Text_Diff_Op_copy($array);
+                $edits[] = new Text_Diff_Op_copy($array);
             }
 
             if ($i < $max_i) {
@@ -189,21 +205,21 @@ class Text_Diff_Engine_string {
                             $diff2[] = substr($diff[$j++], 2);
                         }
                     } while (++$i < $max_i && substr($diff[$i], 0, 1) == '!');
-                    $edits[] = &new Text_Diff_Op_change($diff1, $diff2);
+                    $edits[] = new Text_Diff_Op_change($diff1, $diff2);
                     break;
 
                 case '+':
                     do {
                         $diff1[] = substr($diff[$i], 2);
                     } while (++$i < $max_i && substr($diff[$i], 0, 1) == '+');
-                    $edits[] = &new Text_Diff_Op_add($diff1);
+                    $edits[] = new Text_Diff_Op_add($diff1);
                     break;
 
                 case '-':
                     do {
                         $diff1[] = substr($diff[$i], 2);
                     } while (++$i < $max_i && substr($diff[$i], 0, 1) == '-');
-                    $edits[] = &new Text_Diff_Op_delete($diff1);
+                    $edits[] = new Text_Diff_Op_delete($diff1);
                     break;
                 }
             }
@@ -215,14 +231,14 @@ class Text_Diff_Engine_string {
                     do {
                         $diff2[] = substr($diff[$j++], 2);
                     } while ($j < $max_j && substr($diff[$j], 0, 1) == '+');
-                    $edits[] = &new Text_Diff_Op_add($diff2);
+                    $edits[] = new Text_Diff_Op_add($diff2);
                     break;
 
                 case '-':
                     do {
                         $diff2[] = substr($diff[$j++], 2);
                     } while ($j < $max_j && substr($diff[$j], 0, 1) == '-');
-                    $edits[] = &new Text_Diff_Op_delete($diff2);
+                    $edits[] = new Text_Diff_Op_delete($diff2);
                     break;
                 }
             }

@@ -306,12 +306,12 @@ class Attachment
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["iaf_filesize"] = Misc::formatFileSize($res[$i]["iaf_filesize"]);
-            }
-            return $res;
         }
+
+        foreach ($res as &$row) {
+            $row["iaf_filesize"] = Misc::formatFileSize($row["iaf_filesize"]);
+        }
+        return $res;
     }
 
 
@@ -353,19 +353,19 @@ class Attachment
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["iat_description"])));
-                $res[$i]["files"] = self::getFileList($res[$i]["iat_id"]);
-                $res[$i]["iat_created_date"] = Date_Helper::getFormattedDate($res[$i]["iat_created_date"]);
-
-                // if there is an unknown user, user that instead of the user_full_name
-                if (!empty($res[$i]["iat_unknown_user"])) {
-                    $res[$i]["usr_full_name"] = $res[$i]["iat_unknown_user"];
-                }
-            }
-            return $res;
         }
+
+        foreach ($res as &$row) {
+            $row["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row["iat_description"])));
+            $row["files"] = self::getFileList($row["iat_id"]);
+            $row["iat_created_date"] = Date_Helper::getFormattedDate($row["iat_created_date"]);
+
+            // if there is an unknown user, user that instead of the user_full_name
+            if (!empty($row["iat_unknown_user"])) {
+                $row["usr_full_name"] = $row["iat_unknown_user"];
+            }
+        }
+        return $res;
     }
 
 
@@ -387,7 +387,8 @@ class Attachment
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $files = array();
-        for ($i = 0; $i < count($_FILES["attachment"]["name"]); $i++) {
+        $nfiles = count($_FILES["attachment"]["name"]);
+        for ($i = 0; $i < $nfiles; $i++) {
             $filename = @$_FILES["attachment"]["name"][$i];
             if (empty($filename)) {
                 continue;

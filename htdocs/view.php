@@ -78,7 +78,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
             $tpl->assign("auth_customer", 'denied');
         } else {
-            $options = Issue::saveSearchParams();
+            $options = Search::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);
 
             // check if scheduled release should be displayed
@@ -145,11 +145,13 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'notes'              => Note::getListing($issue_id),
                     'is_user_assigned'   => Issue::isAssignedToUser($issue_id, $usr_id),
                     'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
+                    'is_user_notified'   => Notification::isUserNotified($issue_id, $usr_id),
                     'phone_entries'      => Phone_Support::getListing($issue_id),
                     'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
                     'checkins'           => SCM::getCheckinList($issue_id),
                     'time_categories'    => Time_Tracking::getAssocCategories(),
                     'time_entries'       => $time_entries['list'],
+                    'total_time_by_user' => $time_entries['total_time_by_user'],
                     'total_time_spent'   => $time_entries['total_time_spent'],
                     'impacts'            => Impact_Analysis::getListing($issue_id),
                     'statuses'           => $statuses,
