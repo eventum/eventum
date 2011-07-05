@@ -642,6 +642,10 @@ class Notification
             $diffs[] = '-' . ev_gettext('Summary') . ': ' . $old['iss_summary'];
             $diffs[] = '+' . ev_gettext('Summary') . ': ' . $new['summary'];
         }
+        if (isset($new["percent_complete"]) && $old["iss_original_percent_complete"] != $new["percent_complete"]) {
+            $diffs[] = '-' . ev_gettext('Percent complete') . ': ' . $old['iss_original_percent_complete'];
+            $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percent_complete'];
+        }
         if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
             // need real diff engine here
             require_once 'Text/Diff.php';

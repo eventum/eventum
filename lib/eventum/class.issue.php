@@ -1615,6 +1615,11 @@ class Issue
             if ($current["iss_summary"] != $_POST["summary"]) {
                 $updated_fields["Summary"] = '';
             }
+
+            if ($current["iss_original_percent_complete"] != $_POST["percent_complete"]) {
+                $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"],$_POST["percent_complete"]);
+            }
+
             if ($current["iss_description"] != $_POST["description"]) {
                 $updated_fields["Description"] = '';
             }
@@ -2860,6 +2865,7 @@ class Issue
                     }
                 }
                 $res['iss_original_description'] = $res["iss_description"];
+                $res['iss_original_percent_complete'] = $res["iss_percent_complete"];
                 if (!strstr($_SERVER["PHP_SELF"], 'update.php')) {
                     $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
                     $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
