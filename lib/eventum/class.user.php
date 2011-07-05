@@ -1102,6 +1102,7 @@ class User
             $projects[] = $prj_id;
         }
         $prefs = serialize(Prefs::getDefaults($projects));
+        $usr_grp_id = empty($_POST["grp_id"]) ? "NULL" : "'" . Misc::escapeInteger($_POST["grp_id"]) . "'";
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1120,7 +1121,7 @@ class User
                     '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
-                    '" . Misc::escapeString($_POST["grp_id"]) . "',
+                    $usr_grp_id,
                     '" . Misc::escapeString($prefs) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
