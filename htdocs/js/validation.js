@@ -95,7 +95,6 @@ function isWhitespace(s)
 
 function isEmail(s)
 {
-	return true;
     // email text field.
     var sLength = s.length;
     var denied_chars = new Array(" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|");
