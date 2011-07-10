@@ -105,7 +105,7 @@ function hideClosed(hide_closed)
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$users}
                     <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name}</a></td>
+                      <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name|escape:html}</a></td>
                       <td align="right" class="default">{$users[i].total_open_items}{if !$hide_closed} / {$users[i].total_closed_items}{/if}</td>
                     </tr>
                     {sectionelse}

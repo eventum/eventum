@@ -1,4 +1,4 @@
-{$data.user.usr_full_name} {if $data.group_name != ''}[{$data.group_name}] {/if}{if $report_type == 'weekly'}{t}Weekly{/t} {/if}{t}Report{/t} {$data.start} - {$data.end}
+{$data.user.usr_full_name|escape:html} {if $data.group_name != ''}[{$data.group_name}] {/if}{if $report_type == 'weekly'}{t}Weekly{/t} {/if}{t}Report{/t} {$data.start} - {$data.end}
 
 {$application_title} {t}issues worked on{/t}:
 

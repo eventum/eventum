@@ -124,13 +124,13 @@ class History
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["his_created_date"] = Date_Helper::getFormattedDate($res[$i]["his_created_date"]);
-                $res[$i]["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), Mime_Helper::fixEncoding($res[$i]["his_summary"]));
-            }
-            return $res;
         }
+
+        foreach ($res as &$row) {
+            $row["his_created_date"] = Date_Helper::getFormattedDate($row["his_created_date"]);
+            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"])));
+        }
+        return $res;
     }
 
 

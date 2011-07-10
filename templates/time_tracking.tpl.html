@@ -56,7 +56,7 @@ function addTimeEntry()
                 <td class="default" align="center">{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$time_entries[i].ttr_created_date}</td>
                 <td class="default" nowrap>
-                  {$time_entries[i].usr_full_name}
+                  {$time_entries[i].usr_full_name|escape:html}
                   {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">{$time_entries[i].formatted_time}</td>
@@ -67,7 +67,7 @@ function addTimeEntry()
                 {if count($total_time_by_user) > 1}
                   {foreach from=$total_time_by_user item=item}
                   <tr>
-                    <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right" width="30%">{$item.usr_full_name}:</td>
+                    <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right" width="30%">{$item.usr_full_name|escape:html}:</td>
                     <td bgcolor="{$dark_color}" colspan="3" class="default" width="70%">{$item.time_spent}</td>
                   </tr>
                   {/foreach}

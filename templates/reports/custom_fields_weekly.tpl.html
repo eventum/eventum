@@ -203,7 +203,7 @@ setOptions('{$custom_field}', false);
           <td class="default" bgcolor="{$row_color}">{if $smarty.post.time_in_min == 1}{$row.ttr_time_spent_sum}{else}{$row.ttr_time_spent_sum_formatted}{/if}</td>
           <td class="default" bgcolor="{$row_color}">{$row.field_value}</td>
           {if $per_user}
-              <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+              <td class="default" bgcolor="{$row_color}">{$row.usr_full_name:escape:html}</td>
           {/if}
         </tr>
         {foreachelse}

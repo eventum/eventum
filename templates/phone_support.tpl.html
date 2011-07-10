@@ -60,7 +60,7 @@ function addPhoneCall()
                 <td class="default" nowrap>{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$phone_entries[i].phs_created_date}</td>
                 <td class="default">
-                    {$phone_entries[i].usr_full_name}
+                    {$phone_entries[i].usr_full_name|escape:html}
                     {if $current_user_id == $phone_entries[i].phs_usr_id}
                       [ <a class="link" href="javascript:void(null);" onClick="deletePhoneEntry({$phone_entries[i].phs_id});">{t}delete{/t}</a> ]
                     {/if}

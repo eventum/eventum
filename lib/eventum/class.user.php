@@ -970,20 +970,21 @@ class User
      */
     function updateFullName($usr_id)
     {
+        $full_name = trim(strip_tags($_POST["full_name"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "'
+                    usr_full_name='" . Misc::escapeString($full_name) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Notification::notifyUserAccount($usr_id);
-            return 1;
         }
+
+        Notification::notifyUserAccount($usr_id);
+        return 1;
     }
 
 
