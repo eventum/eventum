@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Separate search methods to new Search class (Elan Ruusamäe)
 - fix new users are creation groups (group id was 0, should be NULL) bug #806083
 - fix XSS in user full name (bug #721785)
+- fix location of block.t.php Smarty plugin for setup script (bug #809182)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
