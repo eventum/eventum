@@ -117,6 +117,7 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
 require_once APP_SMARTY_PATH . '/Smarty.class.php';
 
 $tpl = new Smarty();
+$tpl->plugins_dir  = array(APP_INC_PATH . '/smarty', 'plugins');
 $tpl->template_dir = APP_TPL_PATH;
 $tpl->compile_dir = APP_TPL_COMPILE_PATH;
 $tpl->config_dir = '';
