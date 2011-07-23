@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-05 15:23+0300\n"
-"PO-Revision-Date: 2011-03-29 22:55+0000\n"
-"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
+"PO-Revision-Date: 2011-07-22 07:17+0000\n"
+"Last-Translator: Ramón Calderón <Unknown>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-07-06 04:39+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-07-23 04:58+0000\n"
+"X-Generator: Launchpad (build 13405)\n"
 "Language: es\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -4369,7 +4369,7 @@ msgstr "Pendiente"
 #: lib/eventum/class.notification.php:646
 #: lib/eventum/class.notification.php:647
 msgid "Percent complete"
-msgstr ""
+msgstr "Porcentaje completado"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
