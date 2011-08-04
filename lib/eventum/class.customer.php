@@ -624,12 +624,13 @@ class Customer
      * @param   integer $prj_id The project ID
      * @param   string $field The field that we are trying to search against
      * @param   string $value The value that we are searching for
+     * @param   array  $options An array of options for search
      * @return  array The list of customers
      */
-    function lookup($prj_id, $field, $value)
+    function lookup($prj_id, $field, $value, $options=array())
     {
         $backend =& self::_getBackend($prj_id);
-        return $backend->lookup($field, $value);
+        return $backend->lookup($field, $value, $options);
     }
 
 
