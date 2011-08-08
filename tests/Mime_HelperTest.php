@@ -88,6 +88,7 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
 
             // thunderbird test
             array('Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem=3F?=', 'Subject: Kas Teie tahate teada, millele kulutate raha kõige rohkem?'),
+            array('Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??=', 'Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??='),
         );
     }
 
