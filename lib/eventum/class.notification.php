@@ -1108,8 +1108,10 @@ class Notification
         self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
+        // generate new Message-ID
+        $message_id = Mail_Helper::generateMessageID();
         $headers = array(
-            "Message-ID"    =>  $data['iss_root_message_id']
+            "Message-ID" => $message_id
         );
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
