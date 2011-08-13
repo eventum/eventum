@@ -32,9 +32,9 @@ that it needs to work properly:
 - A few other small javascript libraries
 
 Anyway, all you should have to do is place the Eventum files in a directory,
-point your webserver to that /path-to-eventum/htdocs/. Open it up with your and
-Eventum should redirect you to the installation screen, and it will try to guess
-some of required parameters, like path in the server and etc.
+point your webserver to that /path-to-eventum/htdocs/. Open it up with your
+browser and Eventum should redirect you to the installation screen, and it will
+try to guess some of required parameters, like path in the server and etc.
 
   http://yourserver.com/eventum/
 
