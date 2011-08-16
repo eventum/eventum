@@ -629,7 +629,7 @@ class Issue
         $issue_id = Misc::escapeInteger($issue_id);
         $sev_id = Misc::escapeInteger($sev_id);
 
-        if ($pri_id != self::getSeverity($issue_id)) {
+        if ($sev_id != self::getSeverity($issue_id)) {
             $sql = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     SET
@@ -3134,7 +3134,7 @@ class Issue
                         Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
                     }
                 }
-                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($issue_id), false);
+                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
                 $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
             }
