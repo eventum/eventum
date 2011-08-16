@@ -294,10 +294,13 @@ class Notification
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
             if (!empty($email)) {
-                // don't send the email to the same person who sent it
-                if ((($sender_usr_id != false) && (!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"])) ||
-                        (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email)) {
-                    continue;
+                // don't send the email to the same person who sent it unless they want it
+                if ($sender_usr_id != false) {
+                    $prefs = Prefs::get($sender_usr_id);
+                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) && ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
+                            (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
+                        continue;
+                    }
                 }
                 $emails[] = $email;
             }
@@ -1073,8 +1076,8 @@ class Notification
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
-            if ((!empty($res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id])) &&
-            (@$res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            if ((!empty($res[$i]['usr_preferences']['receive_assigned_email'][$prj_id])) &&
+            (@$res[$i]['usr_preferences']['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
@@ -1518,8 +1521,8 @@ class Notification
                 continue;
             }
             $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (isset($prefs["receive_assigned_emails"][$prj_id])) &&
-                    ($prefs["receive_assigned_emails"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
+            if ((!empty($prefs)) && (isset($prefs["receive_assigned_email"][$prj_id])) &&
+                    ($prefs["receive_assigned_email"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }
