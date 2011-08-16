@@ -10,15 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-05 15:23+0300\n"
-"PO-Revision-Date: 2011-06-18 18:11+0000\n"
-"Last-Translator: N Ankar <Unknown>\n"
+"PO-Revision-Date: 2011-08-15 09:00+0000\n"
+"Last-Translator: Stefan Norin <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-07-06 04:39+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-08-16 04:35+0000\n"
+"X-Generator: Launchpad (build 13687)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1049,7 +1048,7 @@ msgstr "Tillgängliga språk"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Tillgängliga relaterade ämnen"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1508,7 +1507,7 @@ msgstr "Skapa utgåva"
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Skapa Påminnelse"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
@@ -1542,7 +1541,7 @@ msgstr "Skapad datum"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Skapar Ny Påminnelse"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
@@ -1997,7 +1996,7 @@ msgstr "Redigera notifieringslistan"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
-msgstr ""
+msgstr "Redigera Alternativ"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
@@ -8831,205 +8830,3 @@ msgstr "vecka"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "år"
-
-#~ msgid " Error: Please provide your email address."
-#~ msgstr " Fel: var vänlig ange din e-postadress."
-
-#~ msgid "Search Results"
-#~ msgstr "Sökresultat"
-
-#~ msgid "issues found"
-#~ msgstr "ärenden hittade"
-
-#~ msgid "shown"
-#~ msgstr "visade"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#~ msgid "Username:"
-#~ msgstr "Användarnamn:"
-
-#~ msgid "Notification Options"
-#~ msgstr "Notifieringsalternativ"
-
-#~ msgid "Details:"
-#~ msgstr "Detaljer:"
-
-#~ msgid "Server Hostname:"
-#~ msgstr "Värdnamn för server:"
-
-#~ msgid "Eventum Relative URL:"
-#~ msgstr "Eventums relativa URL:"
-
-#~ msgid "MySQL Server Hostname:"
-#~ msgstr "Värdnman för MySQL-server :"
-
-#~ msgid "MySQL Database:"
-#~ msgstr "MySQL databas:"
-
-#~ msgid "MySQL Table Prefix:"
-#~ msgstr "MySQL Tabellprefix:"
-
-#~ msgid "MySQL Username:"
-#~ msgstr "MySQL Användarnamn:"
-
-#~ msgid "Page generated in %1 seconds"
-#~ msgstr "Sidan tog %1 sekunder att generera"
-
-#~ msgid "queries"
-#~ msgstr "frågor"
-
-#~ msgid "Benchmark Statistics"
-#~ msgstr "Prestandatest, statistik"
-
-#~ msgid "Keep Form Open"
-#~ msgstr "Behåll formulär öppet"
-
-#~ msgid "Rows Per Page:"
-#~ msgstr "Rader per sida:"
-
-#~ msgid "Sort Order:"
-#~ msgstr "Sorteringsordning:"
-
-#~ msgid "Resolution:"
-#~ msgstr "Lösning:"
-
-#~ msgid ""
-#~ "The provided trial account email address could not be\n"
-#~ "            found. Please contact the local Technical Support staff for\n"
-#~ "            further assistance."
-#~ msgstr ""
-#~ "Det tillhandahållna utvärderingskontots e-postadress\n"
-#~ "             kunde inte hittas. Vänligen kontakta support\n"
-#~ "             för ytterligare info."
-
-#~ msgid "Fulltext"
-#~ msgstr "Fulltext"
-
-#~ msgid "Please select an issue"
-#~ msgstr "Var vänlig välj ett ärende"
-
-#~ msgid "lookup issues by their summaries"
-#~ msgstr "sök upp ärenden efter deras sammanfattningar"
-
-#~ msgid "IN"
-#~ msgstr "IN"
-
-#~ msgid "OUT"
-#~ msgstr "UT"
-
-#~ msgid "Out"
-#~ msgstr "Ut"
-
-#~ msgid "In"
-#~ msgstr "In"
-
-#~ msgid "yes"
-#~ msgstr "ja"
-
-#~ msgid "no"
-#~ msgstr "nej"
-
-#~ msgid "Note: "
-#~ msgstr "Notering: "
-
-#~ msgid ""
-#~ "Thank you, the issue was closed successfully. Please choose from one of the "
-#~ "options below:"
-#~ msgstr ""
-#~ "Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
-#~ "alternativ:"
-
-#~ msgid "Please choose the new status for this issue."
-#~ msgstr "Vänligen välj ny status för ärendet."
-
-#~ msgid "Please enter the reason for closing this issue."
-#~ msgstr "Vänligen ange orska till att äredet stängs."
-
-#~ msgid "Success!"
-#~ msgstr "Lyckades!"
-
-#~ msgid "Email Address: admin@example.com (literally)"
-#~ msgstr "E-postadress: admin@example.com"
-
-#~ msgid "Password: admin"
-#~ msgstr "Lösenord: admin"
-
-#~ msgid "Create Database"
-#~ msgstr "Skapa databas"
-
-#~ msgid "No custom field could be found."
-#~ msgstr "Inga anpassade fält hittades."
-
-#~ msgid "Remember Login"
-#~ msgstr "Kom ihåg inloggning"
-
-#~ msgid ""
-#~ "Please enter the full path in the server of this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange den fullständiga sökvägen i servern för den här installationen "
-#~ "av Eventum."
-
-#~ msgid ""
-#~ "You are running PHP version %1.\n"
-#~ "While all effort has been made to ensure eventum works correctly with\n"
-#~ "PHP 5 and greater, it has not been thoroughly tested and may not work "
-#~ "properly."
-#~ msgstr ""
-#~ "Du använder PHP-versonen %1.\n"
-#~ "Även om mycket tid och kraft har lagts på att få Eventum at fungera med PHP "
-#~ "5 eller senare så har det inte testats fullt ut och det kan hända att det "
-#~ "inte fungerar."
-
-#~ msgid "Please report any problems you find to eventum-users@lists.mysql.com."
-#~ msgstr ""
-#~ "Vänligen rappportera eventuella fel i installationen till eventum-"
-#~ "users@lists.mysql.com."
-
-#~ msgid "Return to Issue"
-#~ msgstr "Återgå till ärendet"
-
-#~ msgid "(hold ctrl to select multiple options)"
-#~ msgstr "(Håll ner ctrl för att välja flera alternativ)"
-
-#~ msgid "Company Name"
-#~ msgstr "Företagsnamn"
-
-#~ msgid "First Name"
-#~ msgstr "Förnamn"
-
-#~ msgid "Last Name"
-#~ msgstr "Efternamn"
-
-#~ msgid "Support Type"
-#~ msgstr "Supporttyp"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "För att lägga till mer information i detta ärende behöver du bara svara på e-"
-#~ "postmeddelandet."
-
-#~ msgid ""
-#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-#~ "server."
-#~ msgstr ""
-#~ "<b>Notering:</b> Om du markerar denna kan du inte lämna en kopia av "
-#~ "meddelandet på servern."
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Notering:</b> Konfigurationen för SMTP (utgående e-post) behövs för att "
-#~ "försäkra sig om att e-post sänds på korrekt sätt när nya användare/projekt "
-#~ "skapas."
-
-#~ msgid "(only technical contacts listed on your contract)"
-#~ msgstr "(enbart tekniska kontakter listade på ditt kontrakt)"
-
-#~ msgid "Add Primary Contact to Notification List? *"
-#~ msgstr "Lägg Till Primär Kontakt till Notefieringslista? *"

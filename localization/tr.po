@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-05 15:23+0300\n"
-"PO-Revision-Date: 2011-06-24 13:33+0000\n"
-"Last-Translator: Hasan Tayyar BEŞİK <sacrosancttayyar@gmail.com>\n"
+"PO-Revision-Date: 2011-08-16 01:00+0000\n"
+"Last-Translator: Soysal Tan <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2011-07-06 04:39+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-08-16 04:35+0000\n"
+"X-Generator: Launchpad (build 13687)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -79,7 +78,7 @@ msgstr "(Bütün sorunlar)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "'Hostname Adresi' ni gösteren alternatif domainler"
+msgstr "Barınma adresini gösteren alternatif isim sunucuları"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -87,7 +86,7 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "Çözüm bekleyen sorunlar"
+msgstr "Aktif sorunlar"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -127,7 +126,7 @@ msgstr "(Öntanımlı klasör GELEN KUTUSU)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr "(örneğin %1)"
+msgstr "örnek olarak"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
@@ -201,11 +200,11 @@ msgstr "Bir yeni sorun az önce eklendi ve siz görevlendirildiniz."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr "Bir yeni sorun az önce sisteme eklendi."
+msgstr "Sistemde az önce yeni bir sorun oluştu."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "Bir yeni kullanıcı az önce sizin için sistemde oluşturuldu."
+msgstr "Sizin için sistemde yeni bir kullanıcı oluşturuldu"
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -213,7 +212,7 @@ msgstr "EKLENDİ"
 
 #: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
-msgstr "UYARI: Cevabınız bildirim listesine gönderilecektir."
+msgstr "BİLGİ:Yanıtınız bildirim listesine gönderilecektir."
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
@@ -263,7 +262,7 @@ msgstr "Hesap Tercihleri"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr "Hesap oluştur"
+msgstr "Hesap Oluşturma"
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -297,7 +296,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr "Aktif"
+msgstr "Etkin"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -8627,19 +8626,3 @@ msgstr "hafta"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "Yıl"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "Bu soruna bilgi eklemek için bu E-Mail'i cevaplandırın"
-
-#~ msgid "Company Name"
-#~ msgstr "Firma Adı"
-
-#~ msgid "Edit"
-#~ msgstr "Düzenle"
-
-#~ msgid "Expired"
-#~ msgstr "Süresi doldu"
