@@ -141,7 +141,7 @@ function setSignature(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>{t}Close Issue{/t}</b> ({t}Issue ID{/t}: {$issue_id})
+            <b>{t}Close Issue{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}" class="link">{$issue_id}</a>)
           </td>
         </tr>
         <tr>
@@ -199,7 +199,7 @@ function setSignature(f)
             <b>{t}Reason for closing issue{/t}: *</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <textarea name="reason" rows="8" style="width: 97%">{if $current_user_prefs.auto_append_sig == 'yes'}
+            <textarea name="reason" rows="8" style="width: 97%">{if $current_user_prefs.auto_append_email_sig == 'yes'}
 
 
 {$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
@@ -249,7 +249,7 @@ function setSignature(f)
               <tr>
                 <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
                 <td width="100%" align="center"><input class="button" type="submit" value="{t}Close Issue{/t}"></td>
-                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_sig != 'yes'}
+                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 'yes'}
                 <td class="default_white" align="right" width="150">
                   <nobr>
                   <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">

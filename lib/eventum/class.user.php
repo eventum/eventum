@@ -971,20 +971,21 @@ class User
      */
     public static function updateFullName($usr_id)
     {
+        $full_name = trim(strip_tags($_POST["full_name"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "'
+                    usr_full_name='" . Misc::escapeString($full_name) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Notification::notifyUserAccount($usr_id);
-            return 1;
         }
+
+        Notification::notifyUserAccount($usr_id);
+        return 1;
     }
 
 
@@ -1103,6 +1104,7 @@ class User
             $projects[] = $prj_id;
         }
         $prefs = serialize(Prefs::getDefaults($projects));
+        $group_id = !empty($_POST["grp_id"]) ? Misc::escapeInteger($_POST["grp_id"]) : 'NULL';
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1121,7 +1123,7 @@ class User
                     '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
-                    '" . Misc::escapeString($_POST["grp_id"]) . "',
+                    $group_id,
                     '" . Misc::escapeString($prefs) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);

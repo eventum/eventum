@@ -294,10 +294,13 @@ class Notification
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
             if (!empty($email)) {
-                // don't send the email to the same person who sent it
-                if ((($sender_usr_id != false) && (!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"])) ||
-                        (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email)) {
-                    continue;
+                // don't send the email to the same person who sent it unless they want it
+                if ($sender_usr_id != false) {
+                    $prefs = Prefs::get($sender_usr_id);
+                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) && ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
+                            (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
+                        continue;
+                    }
                 }
                 $emails[] = $email;
             }
@@ -650,6 +653,10 @@ class Notification
         if (isset($new["summary"]) && $old["iss_summary"] != $new["summary"]) {
             $diffs[] = '-' . ev_gettext('Summary') . ': ' . $old['iss_summary'];
             $diffs[] = '+' . ev_gettext('Summary') . ': ' . $new['summary'];
+        }
+        if (isset($new["percent_complete"]) && $old["iss_original_percent_complete"] != $new["percent_complete"]) {
+            $diffs[] = '-' . ev_gettext('Percent complete') . ': ' . $old['iss_original_percent_complete'];
+            $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percent_complete'];
         }
         if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
             // need real diff engine here
@@ -1084,8 +1091,8 @@ class Notification
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
-            if ((!empty($res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id])) &&
-            (@$res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            if ((!empty($res[$i]['usr_preferences']['receive_assigned_email'][$prj_id])) &&
+            (@$res[$i]['usr_preferences']['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
@@ -1120,8 +1127,10 @@ class Notification
 //        self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
+        // generate new Message-ID
+        $message_id = Mail_Helper::generateMessageID();
         $headers = array(
-            "Message-ID"    =>  $data['iss_root_message_id']
+            "Message-ID" => $message_id
         );
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
@@ -1528,8 +1537,8 @@ class Notification
                 continue;
             }
             $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (isset($prefs["receive_assigned_emails"][$prj_id])) &&
-                    ($prefs["receive_assigned_emails"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
+            if ((!empty($prefs)) && (isset($prefs["receive_assigned_email"][$prj_id])) &&
+                    ($prefs["receive_assigned_email"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }

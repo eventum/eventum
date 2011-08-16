@@ -42,7 +42,11 @@ function viewNote(id)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>{t}View Note Details{/t}{if $issue_id} ({t}Associated with Issue{/t} #{$issue_id}){/if}</b>
+			{if $issue_id}
+			<b>{t escape=no 1=$issue_id}View Note Details (Associated with Issue <a href="{$rel_url}view.php?id=%1" class="link">#%1</a>){/t}</b>
+			{else}
+            <b>{t}View Note Details{/t}</b>
+			{/if}
           </td>
         </tr>
         {if $next != "" || $previous != ""}

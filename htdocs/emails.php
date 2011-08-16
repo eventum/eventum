@@ -59,7 +59,7 @@ $tpl->assign("issues", Issue::getColList());
 $tpl->assign("accounts", Email_Account::getAssocList(Auth::getCurrentProject()));
 
 $prefs = Prefs::get(Auth::getUserID());
-$tpl->assign("refresh_rate", $prefs['emails_refresh_rate'] * 60);
+$tpl->assign("refresh_rate", $prefs['email_refresh_rate'] * 60);
 $tpl->assign("refresh_page", "emails.php");
 
 $tpl->displayTemplate();

@@ -286,7 +286,7 @@ $().ready(function() {
             <b>{t}Reporter:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            {$issue.reporter}
+            {$issue.reporter|escape:html}
           </td>
         </tr>
         {if $current_role > $roles.customer}

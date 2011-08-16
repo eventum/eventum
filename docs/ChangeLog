@@ -2,7 +2,14 @@ Eventum Issue Tracking System
 =============================
 
 2011-??-??, Version ???
-- remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
+- Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
+- Separate search methods to new Search class (Elan Ruusamäe)
+- fix new users are creation groups (group id was 0, should be NULL) bug #806083
+- fix XSS in user full name (bug #721785)
+- fix location of block.t.php Smarty plugin for setup script (bug #809182)
+- generate new Message-Id to auto-generated emails, instead of reusing original (bug #722862)
+- Moved user preferences to a separate table (Bryan)
+- Added preference to allow users to get copies of their own emails (Bryan)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)

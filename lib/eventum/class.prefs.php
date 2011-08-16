@@ -44,25 +44,26 @@ class Prefs
      * @param   array $projects An array of projects this user will have access too.
      * @return  string array of the default preferences
      */
-    public function getDefaults($projects = null)
+    public static function getDefaults($projects = null)
     {
         $prefs = array(
-            'receive_assigned_emails' => array(),
+            'receive_assigned_email'  => array(),
             'receive_new_emails'      => array(),
             'timezone'                => Date_Helper::getDefaultTimezone(),
             'week_firstday'           => Date_Helper::getDefaultWeekday(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
-            'emails_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
+            'email_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',
-            'auto_append_sig'         => 'no',
+            'auto_append_email_sig'         => 'no',
             'auto_append_note_sig'    => 'no',
             'close_popup_windows'     => 0,
         );
 
         if (is_array($projects)) {
             foreach ($projects as $prj_id) {
-                $prefs['receive_assigned_emails'][$prj_id] = APP_DEFAULT_ASSIGNED_EMAILS;
-                $prefs['receive_new_emails'][$prj_id] = APP_DEFAULT_NEW_EMAILS;
+                $prefs['receive_assigned_email'][$prj_id] = APP_DEFAULT_ASSIGNED_EMAILS;
+                $prefs['receive_new_issue_email'][$prj_id] = APP_DEFAULT_NEW_EMAILS;
+                $prefs['receive_copy_of_own_action'][$prj_id] = APP_DEFAULT_COPY_OF_OWN_ACTION;
             }
         }
         return $prefs;
@@ -85,39 +86,61 @@ class Prefs
             return $returns[$usr_id];
         }
 
-        $stmt = "SELECT
-                    usr_preferences
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_id=$usr_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
+        $sql = "SELECT
+                    upr_timezone as timezone,
+                    upr_list_refresh_rate as list_refresh_rate,
+                    upr_email_refresh_rate as email_refresh_rate,
+                    upr_email_signature as email_signature,
+                    upr_auto_append_email_sig as auto_append_email_sig,
+                    upr_auto_append_note_sig as auto_append_note_sig,
+                    upr_auto_close_popup_window as close_popup_windows
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_preference
+                WHERE
+                    upr_usr_id=$usr_id";
+        $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return null;
-        }
+            return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+        } else {
+            $returns[$usr_id] = $res;
+            $returns[$usr_id]['receive_assigned_email'] = array();
+            $returns[$usr_id]['receive_new_emails'] = array();
+            $returns[$usr_id]['receive_copy_of_own_action'] = array();
 
-        if ($res) {
-            // for empty row there's nothing to unserialize
-            $res = unserialize($res);
-        }
+            // check for the refresh rate variables, and use the default values if appropriate
+            if (empty($returns[$usr_id]['list_refresh_rate'])) {
+                $returns[$usr_id]['list_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
+            }
+            if (empty($returns[$usr_id]['email_refresh_rate'])) {
+                $returns[$usr_id]['email_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
+            }
 
-        // get projects list for user
-        $projects = array();
-        foreach (Project::getAssocList($usr_id) as $prj_id => $prj_title) {
-            $projects[] = $prj_id;
-        }
 
-        // merge fetched user prefs with system defaults
-        $defaults = self::getDefaults($projects);
-        if (empty($res)) {
-            // array_merge wants arguments as arrays
-            $res = array();
-        }
-        $res = array_merge($defaults, $res);
+            // get per project preferences
+            $sql = "SELECT
+                        upp_prj_id as prj_id,
+                        upp_receive_assigned_email as receive_assigned_email,
+                        upp_receive_new_issue_email as receive_new_issue_email,
+                        upp_receive_copy_of_own_action as receive_copy_of_own_action
+                    FROM
+                        " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_project_preference
+                    WHERE
+                        upp_usr_id = $usr_id";
+            $res = DB_Helper::getInstance()->getAssoc($sql, true, array(), DB_FETCHMODE_ASSOC);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return $returns[$usr_id];
+            }
 
-        // cache and return
-        return $returns[$usr_id] = $res;
+            foreach ($res as $prj_id => $project_prefs) {
+                $returns[$usr_id]['receive_assigned_email'][$prj_id] = $project_prefs['receive_assigned_email'];
+                $returns[$usr_id]['receive_new_issue_email'][$prj_id] = $project_prefs['receive_new_issue_email'];
+                $returns[$usr_id]['receive_copy_of_own_action'][$prj_id] = $project_prefs['receive_copy_of_own_action'];
+            }
+
+            return $returns[$usr_id];
+        }
     }
 
 
@@ -126,39 +149,49 @@ class Prefs
      *
      * @access  public
      * @param   integer $usr_id The user ID
+     * @param   array   $preferences An array of preferences
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function set($usr_id)
+    public function set($usr_id, $preferences)
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
-        if (!empty($_FILES["file_signature"]["name"])) {
-            $_POST['signature'] = file_get_contents($_FILES["file_signature"]["tmp_name"]);
+        if (!empty($_FILES['file_signature']['name'])) {
+            $preferences['email_signature'] = Misc::getFileContents($_FILES['file_signature']['tmp_name']);
         }
 
-        $data = serialize(array(
-            'close_popup_windows'     => $_POST['close_popup_windows'],
-            'week_firstday'           => $_POST['week_firstday'] == 1 ? 1 : 0,
-            'receive_assigned_emails' => $_POST['receive_assigned_emails'],
-            'receive_new_emails'      => @$_POST['receive_new_emails'],
-            'timezone'                => $_POST['timezone'],
-            'list_refresh_rate'       => $_POST['list_refresh_rate'],
-            'emails_refresh_rate'     => $_POST['emails_refresh_rate'],
-            'email_signature'         => @$_POST['signature'],
-            'auto_append_sig'         => @$_POST['auto_append_sig'],
-            'auto_append_note_sig'    => @$_POST['auto_append_note_sig']
-        ));
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 SET
-                    usr_preferences='" . Misc::escapeString($data) . "'
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
+        $sql = "REPLACE INTO
+                    " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_preference
+                SET
+                    upr_usr_id = " . Misc::escapeInteger($usr_id) . ",
+                    upr_timezone = '" . Misc::escapeString(@$preferences['timezone']) . "',
+                    upr_list_refresh_rate = '" . Misc::escapeInteger(@$preferences['list_refresh_rate']) . "',
+                    upr_email_refresh_rate = '" . Misc::escapeInteger(@$preferences['email_refresh_rate']) . "',
+                    upr_email_signature = '" . Misc::escapeString(@$preferences['email_signature']) . "',
+                    upr_auto_append_email_sig = '" . Misc::escapeInteger(@$preferences['auto_append_email_sig']) . "',
+                    upr_auto_append_note_sig = '" . Misc::escapeInteger(@$preferences['auto_append_note_sig']) . "',
+                    upr_auto_close_popup_window = '" . Misc::escapeInteger(@$preferences['close_popup_windows']) . "'";
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
+
+        $projects = Project::getAssocList($usr_id);
+        foreach ($projects as $prj_id => $project_name) {
+            $sql = "REPLACE INTO
+                        " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_project_preference
+                    SET
+                        upp_usr_id = $usr_id,
+                        upp_prj_id = $prj_id,
+                        upp_receive_assigned_email = '" . @Misc::escapeInteger($preferences['receive_assigned_email'][$prj_id]) . "',
+                        upp_receive_new_issue_email = '" . @Misc::escapeInteger($preferences['receive_new_issue_email'][$prj_id]) . "',
+                        upp_receive_copy_of_own_action = '" . @Misc::escapeInteger($preferences['receive_copy_of_own_action'][$prj_id]) . "'";
+            $res = DB_Helper::getInstance()->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            }
+        }
+        return 1;
     }
 }

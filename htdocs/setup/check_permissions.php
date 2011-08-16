@@ -35,7 +35,7 @@ check_file("Setup File", APP_SETUP_FILE, "The setup file should be both readable
     mark this file as 'read only' if you want.", "rw");
 
 echo "</table>
-<p class=\"default\">Once you are done setting permissions, you should remove or restrict access to this setup directory (" . APP_PATH . "setup/).</p>
+<p class=\"default\">Once you are done setting permissions, you should remove or restrict access to this setup directory (" . APP_PATH . "/setup/).</p>
 </body>
 </html>";
 

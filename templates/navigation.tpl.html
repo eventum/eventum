@@ -86,7 +86,7 @@
           </form>
           {/if}
           <td width="50%" nowrap bgcolor="{$light_color}" class="default">
-            <b>{$current_role_name}: {$current_full_name}{if $current_role > $roles.standard_user} [{if $is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]{/if}</b>
+            <b>{$current_role_name}: {$current_full_name|escape:html}{if $current_role > $roles.standard_user} [{if $is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]{/if}</b>
             {strip}
             ({if $is_anon_user}
               <a target="_top" href="{$rel_url}signup.php" class="link">{t}Register{/t}</a>

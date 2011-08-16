@@ -46,9 +46,8 @@ class Customer
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
             // make sure we only list the customer backends
-            if (preg_match('/^class\./', $files[$i])) {
+            if (preg_match('/^class\.(.*)\.php$/', $files[$i], $matches)) {
                 // display a prettyfied backend name in the admin section
-                preg_match('/class\.(.*)\.php/', $files[$i], $matches);
                 if ($matches[1] == "abstract_customer_backend") {
                     continue;
                 }
@@ -198,7 +197,7 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getCustomerTitlesByIssues($prj_id, &$result)
     {
@@ -214,7 +213,7 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @see     Search::getListing()
      */
     function getSupportLevelsByIssues($prj_id, &$result)
     {

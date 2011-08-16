@@ -35,12 +35,12 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-$pagerRow = Misc::escapeInteger(Issue::getParam('pagerRow'));
+$pagerRow = Misc::escapeInteger(Search::getParam('pagerRow'));
 if (empty($pagerRow)) {
     $pagerRow = 0;
 }
 
-$rows = Issue::getParam('rows');
+$rows = Search::getParam('rows');
 $rows = ($rows == 'ALL') ? $rows : Misc::escapeInteger($rows);
 if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
@@ -67,9 +67,9 @@ if (isset($_REQUEST['view'])) {
     }
 }
 
-$options = Issue::saveSearchParams();
+$options = Search::saveSearchParams();
 $tpl->assign("options", $options);
-$tpl->assign("sorting", Issue::getSortingInfo($options));
+$tpl->assign("sorting", Search::getSortingInfo($options));
 
 // generate options for assign list. If there are groups and user is above a customer, include groups
 $groups = Group::getAssocList($prj_id);
@@ -92,7 +92,7 @@ if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"
 }
 $assign_options += $users;
 
-$list = Issue::getListing($prj_id, $options, $pagerRow, $rows);
+$list = Search::getListing($prj_id, $options, $pagerRow, $rows);
 $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
 $tpl->assign("csv_data", base64_encode(@$list["csv"]));

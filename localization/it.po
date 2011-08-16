@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-01-23 16:26+0000\n"
-"Last-Translator: Federico Culloca <Unknown>\n"
+"PO-Revision-Date: 2011-05-11 07:55+0000\n"
+"Last-Translator: Guybrush88 <Unknown>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-24 04:56+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-05-12 04:36+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -119,7 +119,7 @@ msgstr "(archiviato)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(predefinito %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -345,7 +345,7 @@ msgstr "Aggiungi files"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Aggiungimi alle notifiche"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -941,7 +941,7 @@ msgstr "Assegnazione:"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Assegnatario"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
@@ -1095,7 +1095,7 @@ msgstr "Linguaggi disponibili"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Argomenti correlati disponibili"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1329,7 +1329,7 @@ msgstr "Seleziona una parola errata"
 
 #: templates/help/scm_integration.tpl.html
 msgid "Chora CVS viewer"
-msgstr ""
+msgstr "Visualizzatore di CVS Chora"
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
@@ -2414,6 +2414,8 @@ msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
+"Errore: lo stato del tuo utente è inattivo. Contatta l'amministratore di "
+"sistema per ulteriori informazioni"
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2691,6 +2693,11 @@ msgid ""
 "\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
 "category or release fields when reporting a new issue."
 msgstr ""
+"Questa pagina consente di controllare dinamicamente quali campi vengono "
+"visualizzati agli utenti di un certo ruolo minimo. Per esempio, si può fare "
+"in modo che solo gli utenti con il ruolo \"<i>utente standard </i>\" (e "
+"ruoli di grado maggiore) possano impostare la categoria o il rilascio quando "
+"creano nuove segnalazioni."
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
@@ -3021,7 +3028,7 @@ msgstr "In passato"
 #: lib/eventum/class.filter.php:626
 #, php-format
 msgid "In Past %1$s hours"
-msgstr ""
+msgstr "Nelle ultime %1$s ore"
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -3032,6 +3039,7 @@ msgstr ""
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
 msgstr ""
+"Per controllare se i tuoi permessi sono configurati correttamente visita la"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -3039,6 +3047,9 @@ msgid ""
 "configure email accounts to make the software download the email messages "
 "from the appropriate POP3/IMAP server."
 msgstr ""
+"Per fare questo, però, l'amministratore del sistema deve configurare un "
+"account email per permettere al software di scaricare le email dal server "
+"POP3/IMAP."
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
@@ -3236,7 +3247,7 @@ msgstr "Segnalazioni in CSC"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Issues with only status changed"
-msgstr ""
+msgstr "Solo problemi con lo status cambiato"
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -3378,7 +3389,7 @@ msgstr "Elencazione / Ricerca segnalazioni"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
-msgstr ""
+msgstr "Pagina di registro:"
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
@@ -3571,7 +3582,7 @@ msgstr "Lunedì"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Installazione monitor"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -3583,6 +3594,10 @@ msgid ""
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
+"La maggior parte delle volte gli utenti eseguiranno query di uso frequente "
+"sul database delle segnalazioni, e questa caratteristica è perfetta per "
+"queste situazioni, si crea una query personalizzata in questa pagina e la si "
+"esegue nell'Elenco segnalazioni."
 
 #: templates/update_form.tpl.html
 msgid "Move"
@@ -3610,15 +3625,15 @@ msgstr "Password MySQL:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "Nome host del server MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
-msgstr ""
+msgstr "Prefisso della tabella MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "Nome utente MySQL"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3977,6 +3992,10 @@ msgid ""
 "confirmation message will be sent to your email address and after confirming "
 "it the new password will be then activated and sent to you."
 msgstr ""
+"Nota: Inserisci il tuo indirizzo email e una nuova password casuale sarà "
+"creata e assegnata al tuo account. Per ragioni di sicurezza una richiesta di "
+"conferma sarà inviata al tuo indirizzo email e, dopo averlo confermato, la "
+"nuova password sarà attivata e ti sarà inviata."
 
 #: templates/file_upload.tpl.html templates/new.tpl.html
 msgid "Note: The current maximum allowed upload file size is %1"
@@ -4043,7 +4062,7 @@ msgstr "Numero di giorni"
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
-msgstr ""
+msgstr "OK: Nessun errore trovato"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4202,7 +4221,7 @@ msgstr "POP3, with TLS (self-signed)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Partizione:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4229,7 +4248,7 @@ msgstr "Pattern"
 
 #: templates/help/link_filters.tpl.html
 msgid "Pattern: \"%1\""
-msgstr ""
+msgstr "Schema: \"%1\""
 
 #: templates/main.tpl.html
 msgid "Pending"
@@ -5105,11 +5124,11 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Please provide your email address."
-msgstr ""
+msgstr "Per piacere fornisci il tuo indirizzo e-mail."
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Per piacere fornisci la tua password."
 
 #: templates/help/main.tpl.html
 msgid ""

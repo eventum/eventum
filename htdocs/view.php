@@ -79,7 +79,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
             $tpl->assign("auth_customer", 'denied');
         } else {
-            $options = Issue::saveSearchParams();
+            $options = Search::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);
 
             $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);

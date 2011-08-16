@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-01-08 18:06+0000\n"
-"Last-Translator: Jens Maucher <Unknown>\n"
+"PO-Revision-Date: 2011-06-04 14:43+0000\n"
+"Last-Translator: vulpecula <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:55+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-06-05 04:36+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -24,8 +24,8 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Um weitere Informationen zu dieser Ticket zu sehen oder diese zu "
-"aktualisieren, besuchen Sie bitte die folgende URL"
+"Um weitere Informationen zu dieser Ausgabe zu sehen oder diese zu "
+"aktualisieren, besuchen Sie bitte die folgende URL."
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
 #: htdocs/view.php:74
@@ -117,7 +117,7 @@ msgstr "(Archiviert)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(default %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -350,7 +350,7 @@ msgstr "Neue Dateien hinzufügen"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Füge mich zu den Benachrichtigungen hinzu"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -945,7 +945,7 @@ msgstr "Artikel Einträge"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Zum Beispiel, benutze die"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1359,15 +1359,15 @@ msgstr "Das Ändern der Feldtypen kann zu Datenverlust führen"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Überprüfe Plattenplatz:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Überprüfe den Chat-Roboter"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Überprüfe Pfade:"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1759,7 +1759,7 @@ msgstr "Vorgangsliste anpassen"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr ""
+msgstr "Anpassen der Monitoring-Parameter"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1949,6 +1949,8 @@ msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
+"Zeigt die durchschnittliche Anzahl der Vorgänge, Entwickleremails und "
+"Kundenemails pro Vorgang durch den \"Support Level\""
 
 #: lib/eventum/class.customer_stats_report.php:699
 #: lib/eventum/class.customer_stats_report.php:708
@@ -2002,7 +2004,7 @@ msgstr "e-Mail bzgl. Vorgangsaktualisierung wurde gesendet an"
 #: lib/eventum/class.monitor.php:72
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
-msgstr ""
+msgstr "FEHLER: Fast kein freier Speciherplatz mehr (noch %.2f%% Prozent)"
 
 #: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -2011,7 +2013,7 @@ msgstr "FEHLER: Konnte IRC Bot pid nicht in der Prozessliste finde"
 #: lib/eventum/class.monitor.php:238
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "FEHLER: Angefragte Tabelle \"%s\" konnte nicht gefunden werden"
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
@@ -2030,7 +2032,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:97
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "FEHLER: Datei konnte nicht gefunden werden (Pfad: %s)"
 
 #: lib/eventum/class.monitor.php:108
 #, php-format
@@ -2047,6 +2049,8 @@ msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
+"FEHLER: Besitzer der Datei stimmen nicht überein (Pfad: %1$s; derzeitiger "
+"Besitzer: %2$s; korrekter Besitzer: %3$s)"
 
 #: lib/eventum/class.monitor.php:114
 #, php-format
@@ -2054,17 +2058,21 @@ msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
+"FEHLER: Dateirechte stimmen nicht überein (Pfad: %1$s; derzeitige Rechte: "
+"%2$s; korrekte Rechte: %3$s)"
 
 #: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
+"FEHLER: Dateigröße stimmt nciht überein (Pfad: %1$s; derzeitige Dateigröße: "
+"%2$s)"
 
 #: lib/eventum/class.monitor.php:76
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
-msgstr ""
+msgstr "FEHLER: Fast kein freier Speciherplatz mehr (noch %.2f%% Prozent)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -2258,7 +2266,7 @@ msgstr "e-Mail nach Zeitraum"
 #: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
-msgstr ""
+msgstr "Email von '%1$s' blockiert"
 
 #: lib/eventum/class.draft.php:161
 #, php-format
@@ -2336,7 +2344,7 @@ msgstr "Ende Datum"
 
 #: templates/add_time_tracking.tpl.html
 msgid "End time in the future."
-msgstr ""
+msgstr "Endzeitpunkit in der Zukunft."
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -2357,7 +2365,7 @@ msgstr "Eingetragen von"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Equals"
-msgstr ""
+msgstr "Entspricht"
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
@@ -2463,6 +2471,9 @@ msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
+"Fehler: Ihr Benutzerstatus ist zur Zeit auf \"inaktiv\" gesetzt. Für weitere "
+"Informationen setzen Sie sich bitte mit Ihrem Systemadministrator in "
+"Verbindung."
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2734,7 +2745,7 @@ msgstr "Rechtschreibfehler korrigieren"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Zum Beispiel"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2804,7 +2815,7 @@ msgstr "Zurück"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
-msgstr ""
+msgstr "Grafische Auswertungen"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
@@ -2813,12 +2824,12 @@ msgstr "größer als"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Größer oder Gleich"
 
 #: lib/eventum/class.filter.php:605
 #, php-format
 msgid "Greater than %1$s"
-msgstr ""
+msgstr "Größer als %1$s"
 
 #: htdocs/list.php:88 lib/eventum/class.display_column.php:186
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
@@ -2940,7 +2951,7 @@ msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAP Ordner"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -3046,7 +3057,7 @@ msgstr "Vergangenheit"
 #: lib/eventum/class.filter.php:626
 #, php-format
 msgid "In Past %1$s hours"
-msgstr ""
+msgstr "In den letzten %1$s Stunden"
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -3141,17 +3152,17 @@ msgstr "Is Null"
 #: lib/eventum/class.filter.php:633
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
-msgstr ""
+msgstr "Ist zwischen %1$s-%2$s-%3$s UND %4$s-%5$s-%6$s"
 
 #: lib/eventum/class.filter.php:637
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Ist größer als %1$s-%2$s-%3$s"
 
 #: lib/eventum/class.filter.php:640
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Ist kleiner als %1$s-%2$s-%3$s"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -3270,7 +3281,7 @@ msgstr "Vorgang/Kunden zutreffende Kriterien"
 
 #: templates/view_note.tpl.html
 msgid "It could have been converted to an email."
-msgstr ""
+msgstr "Es könnte zu einer E-Mail umgewandelt worden sein."
 
 #: templates/manage/projects.tpl.html
 msgid ""
@@ -3359,12 +3370,12 @@ msgstr "kleiner als"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
-msgstr ""
+msgstr "Kleiner oder Gleich"
 
 #: lib/eventum/class.filter.php:608
 #, php-format
 msgid "Less than %1$s"
-msgstr ""
+msgstr "Kleiner als %1$s"
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
@@ -3530,7 +3541,7 @@ msgstr "Manager"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Verwalter:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3592,7 +3603,7 @@ msgstr "Module / Verzeichnis"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
-msgstr ""
+msgstr "Montag"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
@@ -3627,7 +3638,7 @@ msgstr "Meine Zuweisungen"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr ""
+msgstr "MySQL Datenbank"
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
@@ -3635,7 +3646,7 @@ msgstr "MySQL Passwort:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "MySQL Server Hostname"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
@@ -3643,7 +3654,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "MySQL-Benutzername"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -3674,11 +3685,11 @@ msgstr "Name"
 
 #: templates/manage/groups.tpl.html
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: templates/manage/email_alias.tpl.html
 msgid "New Alias"
-msgstr ""
+msgstr "Neuer Alias"
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
@@ -4061,7 +4072,7 @@ msgstr "Eintrag in der Benachrichtigungsliste ('%1$s') von %2$s aktualisiert"
 
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
-msgstr ""
+msgstr "Sender benachrichtigen?"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
@@ -4069,7 +4080,7 @@ msgstr "Anzahl Tage"
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
-msgstr ""
+msgstr "OK: Keine Fehler gefunden"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4144,7 +4155,7 @@ msgstr "Darzustellende Optionen"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Options:"
-msgstr ""
+msgstr "Optionen:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
@@ -4226,7 +4237,7 @@ msgstr "POP3, mit TLS (selbst signiert)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Partition:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4253,7 +4264,7 @@ msgstr "Suchmuster"
 
 #: templates/help/link_filters.tpl.html
 msgid "Pattern: \"%1\""
-msgstr ""
+msgstr "Muster: \"%1\""
 
 #: templates/main.tpl.html
 msgid "Pending"
@@ -4274,6 +4285,8 @@ msgstr "Prozent komplett sollte zwischen 0 und 100 liegen"
 #: templates/reports/custom_fields.tpl.html
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
+"Wegen möglicher Rundungsfehler addieren sich die Przentangaben nicht "
+"unbedingt zu genau 100% auf."
 
 #: lib/eventum/class.reminder_action.php:602
 #, php-format
@@ -4295,12 +4308,12 @@ msgstr "Telefonnummer"
 #: lib/eventum/class.phone_support.php:403
 #, php-format
 msgid "Phone Support entry removed by %1$s"
-msgstr ""
+msgstr "Telefonsupport-Eintrag von %1$s entfernt"
 
 #: lib/eventum/class.phone_support.php:344
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
-msgstr ""
+msgstr "Telefonsupport-Eintrag von %1$s hinzugefürt"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Phone Time Spent"
@@ -4378,7 +4391,7 @@ msgstr "Bitte weisen Sie die User für dieses Projekt zu."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Bitte wählen Sie"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
@@ -4434,7 +4447,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Please choose from one of the options below"
-msgstr ""
+msgstr "Bitte wählen Sie eine der nachfolgenden Optionen"
 
 #: templates/new.tpl.html
 msgid "Please choose from one of the options below:"
@@ -4639,11 +4652,15 @@ msgstr "Bitte bestätigen Sie mit OK."
 #: templates/send.tpl.html
 msgid "Please contact the administrator of this application for assistance."
 msgstr ""
+"Bitte wenden Sie sich für Unterstützung an den Administrator dieser "
+"Applikation."
 
 #: templates/send.tpl.html
 msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
+"Bitte wenden Sie sich für weitere Unterstützung an den Administrator dieser "
+"Applikation."
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -5155,11 +5172,11 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Please provide your email address."
-msgstr ""
+msgstr "Bitte geben Sie Ihre E-Mail-Adresse an."
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Bitte geben Sie ihr Passwort an."
 
 #: templates/help/main.tpl.html
 msgid ""
@@ -5450,7 +5467,7 @@ msgstr "Projektleiter"
 
 #: templates/update_form.tpl.html
 msgid "Project automatically switched to '%1' from '%2'."
-msgstr ""
+msgstr "Projekt automatisch von \"%2\" auf \"%1\" umgestellt."
 
 #: templates/manage/projects.tpl.html
 msgid "Project mail aliases"
@@ -5490,7 +5507,7 @@ msgstr "Schnellsuche"
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
-msgstr ""
+msgstr "ENTFERNT"
 
 #: templates/adv_search.tpl.html
 msgid "RSS feed for this custom search"
@@ -5526,13 +5543,13 @@ msgstr ""
 #: lib/eventum/class.support.php:1598
 #, php-format
 msgid "Re: %1$s"
-msgstr ""
+msgstr "Re: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
 #: lib/eventum/class.issue.php:826
 #, php-format
 msgid "Re: [#%1$s] %2$s"
-msgstr ""
+msgstr "Re: [#%1$s] %2$s"
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -5673,7 +5690,7 @@ msgstr "Aktualisierungsinterval für die Vorgangs Übersichtsseite"
 
 #: templates/navigation.tpl.html
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
 #: lib/eventum/class.notification.php:622
@@ -5983,7 +6000,7 @@ msgstr "Anruf speichern"
 
 #: templates/adv_search.tpl.html
 msgid "Save Search"
-msgstr ""
+msgstr "Suche speichern"
 
 #: templates/manage/general.tpl.html
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
@@ -6095,7 +6112,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Server Hostname"
-msgstr ""
+msgstr "Hostname des Servers"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
@@ -6147,11 +6164,11 @@ msgstr "Zeige Vorgänge ohne Reaktion zwischen"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
-msgstr ""
+msgstr "Priorität anzeigen"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Status"
-msgstr ""
+msgstr "Status anzeigen"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
@@ -6204,7 +6221,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Sorry, an error happened while trying to run your query"
-msgstr ""
+msgstr "Beim Versuch Ihre Abfrage auszuführen ist ein Fehler aufgetreten."
 
 #: templates/duplicate.tpl.html templates/update_form.tpl.html
 msgid "Sorry, an error happened while trying to run your query."
@@ -6259,6 +6276,7 @@ msgstr ""
 #: templates/update.tpl.html
 msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr ""
+"Sie haben leider nicht die nötigen Rechte um dieses Issue zu aktualisieren."
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
@@ -6314,7 +6332,7 @@ msgstr "Installation beginnen"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Start time in the future."
-msgstr ""
+msgstr "Anfangszeit in der Zukunft."
 
 #: templates/navigation.tpl.html
 msgid "Stats"
@@ -6427,7 +6445,7 @@ msgstr "Zusammenfassung:"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
-msgstr ""
+msgstr "Sonntag"
 
 #: lib/eventum/class.customer_stats_report.php:666
 #: lib/eventum/class.display_column.php:212
@@ -7048,6 +7066,8 @@ msgstr ""
 msgid ""
 "The email address / password combination could not be found in the system."
 msgstr ""
+"Die E-Mail-Adress- / Passwort-Kombination konnte in unserem System nicht "
+"gefunden werden."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
@@ -7531,6 +7551,8 @@ msgid ""
 "This user requires permission to create and drop tables in the specified "
 "database."
 msgstr ""
+"Dieser Benutzer benötigt das Recht Tabellen in der angegebenen Datenbank "
+"anzulegen und zu löschen."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7540,7 +7562,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Time Category"
-msgstr ""
+msgstr "Zeitkategorie"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Time Period"
@@ -7585,11 +7607,11 @@ msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Time spent as minutes"
-msgstr ""
+msgstr "Zeitaufwand in Minuten"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Time spent per user"
-msgstr ""
+msgstr "Zeitaufwand je Benutzer"
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
@@ -7764,14 +7786,14 @@ msgstr "Nicht verfügbar - für Benutzer nicht verwendbar"
 
 #: lib/eventum/class.attachment.php:78
 msgid "Untitled"
-msgstr ""
+msgstr "Ohne Titel"
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
 #: lib/eventum/class.mime_helper.php:668
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
-msgstr ""
+msgstr "Ohne Titel. %s"
 
 #: templates/custom_fields.tpl.html templates/impact_analysis.tpl.html
 #: templates/update_form.tpl.html
@@ -7963,7 +7985,7 @@ msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "Use the following shortcuts"
-msgstr ""
+msgstr "Benutze die folgenden Abkürzungen"
 
 #: templates/checkins.tpl.html templates/notes.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -8007,7 +8029,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Users:"
-msgstr ""
+msgstr "Benutzer:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Using CSC"
@@ -8172,7 +8194,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Warning"
-msgstr ""
+msgstr "Warnung"
 
 #: templates/update_form.tpl.html
 msgid ""
@@ -8243,7 +8265,7 @@ msgstr "Woche"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Week starts on:"
-msgstr ""
+msgstr "Wochen starten am:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
@@ -8409,6 +8431,9 @@ msgid ""
 "all of the software will adjust the dates displayed in the system "
 "accordingly."
 msgstr ""
+"Sie können in diesem Formular auch die passende Zeitzohne für Ihren "
+"Aufenthaltsort einstellen. Alle von dieser Software angezeigten Zeitangaben "
+"werden dann entsprechend angepasst."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -8478,7 +8503,7 @@ msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:55
 msgid "actions"
-msgstr ""
+msgstr "Aktionen"
 
 #: templates/list.tpl.html
 msgid "advanced search"
@@ -8549,11 +8574,11 @@ msgstr "löschen"
 
 #: templates/attachments.tpl.html
 msgid "delete attachment"
-msgstr ""
+msgstr "Dateianhang löschen"
 
 #: templates/attachments.tpl.html
 msgid "delete file"
-msgstr ""
+msgstr "Datei löschen"
 
 #: templates/adv_search.tpl.html
 msgid "descending"
@@ -8600,7 +8625,7 @@ msgstr "benutzerspezifische Suche verändern"
 
 #: htdocs/reports/workload_time_period_graph.php:51
 msgid "emails"
-msgstr ""
+msgstr "E-Mails"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "enter a new option above"
@@ -8719,7 +8744,7 @@ msgstr "Keine Eingabe, um das bestehende Passwort zu erhalten"
 
 #: templates/manage/users.tpl.html
 msgid "list all email aliases"
-msgstr ""
+msgstr "Alle Email-Adressen anzeigen"
 
 #: templates/navigation.tpl.html
 msgid "list all issues assigned to you"
@@ -8916,7 +8941,7 @@ msgstr "wird am Ende jeder Erinnerungsnachricht angezeigt"
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
 msgid "to access this page."
-msgstr ""
+msgstr "um auf diese Seite zuzugreifen."
 
 #: htdocs/adv_search.php:49 htdocs/list.php:77
 #: lib/eventum/class.filter.php:662

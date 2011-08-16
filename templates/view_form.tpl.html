@@ -228,7 +228,7 @@ function collapseDescription()
           </td>
         </tr>
         {/if}
-        
+
         {if $columns[0]|@count < $columns[1]|@count}
             {assign var=row_count value=$columns[1]|@count}
             {math equation="(x - y) + 1" assign=col_0_last_rowspan x=$columns[1]|@count y=$columns[0]|@count}
@@ -246,7 +246,7 @@ function collapseDescription()
           <td width="50%" bgcolor="{if $columns[0][row].data_bgcolor != '' }{$columns[0][row].data_bgcolor}{else}{$light_color}{/if}" class="default"
             {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
             {if $columns[0][row].tpl_block == 'reporter'}
-                <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter}</a>
+                <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter|escape:html}</a>
             {elseif $columns[0][row].tpl_block == 'product'}
                 {$issue.products[0].product}
                 {$issue.products[0].version}

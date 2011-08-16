@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2010-04-29 17:24+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2011-06-03 21:46+0000\n"
+"Last-Translator: Michal Sittek <exxxo45@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:54+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-06-04 04:54+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -138,7 +138,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
+msgstr "(doslovně)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
-msgstr ""
+msgstr "(oddělte více adres čárkami)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
@@ -158,7 +158,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "--Vyberte jeden --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -181,15 +181,15 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "Nový problém byl vytvořen a přiřazen k vám."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr ""
+msgstr "Nový problém byl právě vytvořen v systému."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr ""
+msgstr "V systému byl pro vás právě vytvořen nový uživatel."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -226,11 +226,11 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Zkratka:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Vytvoření účtu"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
@@ -243,7 +243,7 @@ msgstr ""
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr ""
+msgstr "Nastavení účtu"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
@@ -331,7 +331,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr ""
+msgstr "Přidat soubory"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
@@ -343,7 +343,7 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr ""
+msgstr "Přidat nové soubory"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
@@ -379,11 +379,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr ""
+msgstr "Správa"
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr ""
+msgstr "Správce"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
