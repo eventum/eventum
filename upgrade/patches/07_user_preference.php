@@ -4,6 +4,7 @@ db_query("CREATE TABLE %TABLE_PREFIX%user_preference
 (
     upr_usr_id int(11) unsigned NOT NULL,
     upr_timezone varchar(100) NOT NULL,
+    upr_week_firstday tinyint(1) NOT NULL DEFAULT 0,
     upr_list_refresh_rate int(5) DEFAULT 5,
     upr_email_refresh_rate int(5) DEFAULT 5,
     upr_email_signature longtext,
