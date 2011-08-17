@@ -148,7 +148,8 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}">
             <select name="new_status" class="default">
-              {html_options options=$statuses selected=$current_issue_status}
+              <option value=""></option>
+              {html_options options=$statuses}
             </select>
           </td>
         </tr>
