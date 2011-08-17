@@ -2608,4 +2608,39 @@ class Support
             }
         }
     }
+
+
+    /**
+     * Returns the sequential number of the specified email ID.
+     *
+     * @param   integer $sup_id The email ID
+     * @return  integer The sequence number of the email
+     */
+    public static function getSequenceByID($sup_id)
+    {
+        if (empty($sup_id)) {
+            return '';
+        }
+        $res = DB_Helper::getInstance()->query("SET @sup_seq = 0");
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        }
+        $issue_id = Support::getIssueFromEmail($sup_id);
+        $sql = "SELECT
+                	sup_id,
+                	@sup_seq := @sup_seq+1
+                FROM
+                	" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                WHERE
+                	sup_iss_id = " . $issue_id . "
+                ORDER BY
+                    sup_id ASC";
+        $res = DB_Helper::getInstance()->getAssoc($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        }
+        return @$res[$sup_id];
+    }
 }

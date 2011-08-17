@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - generate new Message-Id to auto-generated emails, instead of reusing original (bug #722862)
 - Moved user preferences to a separate table (Bryan)
 - Added preference to allow users to get copies of their own emails (Bryan)
+- Changed view email window to display sequential email ID instead of raw ID (Bryan)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
