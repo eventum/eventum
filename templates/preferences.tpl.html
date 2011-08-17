@@ -243,8 +243,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_new_emails[{$prj_id}]" {if $user_prefs.receive_new_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_new_emails[{$prj_id}]" {if not $user_prefs.receive_new_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 1);">{t}No{/t}</a>
+            &nbsp;<input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_issue_email[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_issue_email[{$prj_id}]', 1);">{t}No{/t}</a>
           </td>
           {/foreach}
         </tr>

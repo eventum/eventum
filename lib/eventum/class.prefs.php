@@ -105,7 +105,7 @@ class Prefs
         } else {
             $returns[$usr_id] = $res;
             $returns[$usr_id]['receive_assigned_email'] = array();
-            $returns[$usr_id]['receive_new_emails'] = array();
+            $returns[$usr_id]['receive_new_issue_email'] = array();
             $returns[$usr_id]['receive_copy_of_own_action'] = array();
 
             // check for the refresh rate variables, and use the default values if appropriate
