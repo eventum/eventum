@@ -62,15 +62,23 @@ class Attachment
      *
      * This method never returns to caller.
      *
-     * @access  public
      * @param   string $data The binary data of this file download
      * @param   string $filename The filename
      * @param   integer $filesize The size of this file
-     * @param   string $filetype The mimetype of this file
+     * @param   string $mimetype The mimetype of this file
+     * @param   boolean $force_inline If the file should be forced to render in the browser
      * @return  void
      */
-    function outputDownload(&$data, $filename, $filesize, $mimetype)
+    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline=false)
     {
+        if ($force_inline == true) {
+            header('Content-Type: text/plain');
+            header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
+            header("Content-Length: " . $filesize);
+            print $data;
+            exit;
+        }
+
         if (empty($mimetype)) {
             $mimetype = "application/octet-stream";
         }

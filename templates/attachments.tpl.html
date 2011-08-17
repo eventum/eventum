@@ -65,6 +65,7 @@ function uploadFile(issue_id)
                   {section name="y" loop=$files[i].files}
                   <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$rel_url}images/file.gif" border="0"></a>
                   <a class="link" title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
+                  <a class="link" title="{t}view{/t} ({$files[i].files[y].iaf_filename|escape:"html"}" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}&force_inline=1">view</a>
                   {if $current_user_id == $files[i].iat_usr_id OR $current_role >= $roles.manager}<a class="link" title="{t}delete file{/t}" href="javascript:void(null);" onClick="deleteAttachmentFile({$files[i].files[y].iaf_id});">{t}delete{/t}</a>{/if}
                   <br />
                   {/section}
