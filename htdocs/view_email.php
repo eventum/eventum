@@ -46,7 +46,8 @@ $tpl->bulkAssign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,
     // TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
-    'extra_title'     => ev_gettext('Issue #%1$s Email #%3$s: %2$s', $issue_id, $email['sup_subject'], $_GET['id']),
+    'extra_title'     => ev_gettext('Issue #%1$s Email #%3$s: %2$s', $issue_id, $email['sup_subject'],
+                                    Support::getSequenceByID($_GET['id'])),
     'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true),
     'recipients'      =>  Mail_Queue::getMessageRecipients(array('customer_email', 'other_email'), $_GET["id"]),
 ));
