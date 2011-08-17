@@ -35,7 +35,7 @@ function postInternalNote(issue_id)
 }
 function replyNote(note_id, issue_id)
 {
-    var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=600,height=700,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote_'+ issue_id, features);
     noteWin.focus();
 }
