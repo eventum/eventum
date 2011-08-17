@@ -265,7 +265,7 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>;
+            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
             <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
