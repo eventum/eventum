@@ -211,7 +211,7 @@ function validateAccount(f)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
-            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>
             <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
@@ -243,8 +243,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_issue_email[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_issue_email[{$prj_id}]', 1);">{t}No{/t}</a>
+            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
         </tr>
@@ -254,8 +254,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_assigned_email[{$prj_id}]" {if $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_email[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_assigned_email[{$prj_id}]" {if not $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_email[{$prj_id}]', 1);">{t}No{/t}</a>
+            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
+            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if not $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
         </tr>
@@ -265,8 +265,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_copy_of_own_action[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_copy_of_own_action[{$prj_id}]', 1);">{t}No{/t}</a>
+            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>;
+            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
         </tr>
@@ -312,10 +312,10 @@ function validateAccount(f)
               </tr>
               <tr>
                 <td class="default" colspan="2">
-                  <input type="checkbox" name="auto_append_email_sig" value="yes" {if $user_prefs.auto_append_email_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_email_sig');">{t}Automatically append email signature when composing web based emails{/t}</a><br />
-                  <input type="checkbox" name="auto_append_note_sig" value="yes" {if $user_prefs.auto_append_note_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_note_sig');">{t}Automatically append email signature when composing internal notes{/t}</a>
+                  <label><input type="checkbox" name="auto_append_email_sig" value="1" {if $user_prefs.auto_append_email_sig == '1'}checked{/if}>
+                    {t}Automatically append email signature when composing web based emails{/t}</label><br />
+                  <label><input type="checkbox" name="auto_append_note_sig" value="1" {if $user_prefs.auto_append_note_sig == '1'}checked{/if}>
+                    {t}Automatically append email signature when composing internal notes{/t}</label>
                 </td>
               </tr>
             </table>

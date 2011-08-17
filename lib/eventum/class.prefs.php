@@ -88,6 +88,7 @@ class Prefs
 
         $sql = "SELECT
                     upr_timezone as timezone,
+                    upr_week_firstday as week_firstday,
                     upr_list_refresh_rate as list_refresh_rate,
                     upr_email_refresh_rate as email_refresh_rate,
                     upr_email_signature as email_signature,
@@ -164,6 +165,7 @@ class Prefs
                 SET
                     upr_usr_id = " . Misc::escapeInteger($usr_id) . ",
                     upr_timezone = '" . Misc::escapeString(@$preferences['timezone']) . "',
+                    upr_week_firstday = '" . Misc::escapeString(@$preferences['week_firstday']) . "',
                     upr_list_refresh_rate = '" . Misc::escapeInteger(@$preferences['list_refresh_rate']) . "',
                     upr_email_refresh_rate = '" . Misc::escapeInteger(@$preferences['email_refresh_rate']) . "',
                     upr_email_signature = '" . Misc::escapeString(@$preferences['email_signature']) . "',
