@@ -33,8 +33,8 @@ $sql = "SELECT
             usr_id DESC";
 $res = db_getall($sql);
 if (PEAR::isError($res)) {
-    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-    return false;
+    echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    exit(1);
 }
 
 foreach ($res as $row) {

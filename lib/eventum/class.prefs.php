@@ -157,7 +157,7 @@ class Prefs
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
         if (!empty($_FILES['file_signature']['name'])) {
-            $preferences['email_signature'] = Misc::getFileContents($_FILES['file_signature']['tmp_name']);
+            $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
         }
 
         $sql = "REPLACE INTO

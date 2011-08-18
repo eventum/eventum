@@ -249,7 +249,7 @@ function setSignature(f)
               {html_options options=$canned_responses}
             </select>&nbsp;<input type="button" class="shortcut" value="{t}Use Canned Response{/t}" onClick="setResponseBody(this.form);"><br />
             {/if}
-            <textarea name="message" rows="15" style="width: 97%" {if $read_only == 1}readonly{/if}>{$email.seb_body|escape:"html"}{if $current_user_prefs.auto_append_email_sig == 'yes' && $body_has_sig_already != 1}
+            <textarea name="message" rows="15" style="width: 97%" {if $read_only == 1}readonly{/if}>{$email.seb_body|escape:"html"}{if $current_user_prefs.auto_append_email_sig == 1 && $body_has_sig_already != 1}
 
 
 {$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
@@ -305,7 +305,7 @@ function setSignature(f)
                   <input class="button" type="button" value="{t}Check Spelling{/t}" onClick="checkSpelling('send_email_form', 'message');">
                 </td>
                 {/if}
-                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 'yes'}
+                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
                 <td class="default_white" align="right" width="150">
                   <nobr>
                   <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
