@@ -251,7 +251,8 @@ class Search
                     usr_full_name,
                     iss_percent_complete,
                     iss_dev_time,
-                    iss_expected_resolution_date
+                    iss_expected_resolution_date,
+                    sev_title
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
@@ -330,6 +331,10 @@ class Search
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  ON
