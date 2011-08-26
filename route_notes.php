@@ -30,7 +30,7 @@
 ini_set('memory_limit', '1024M');
 require_once 'init.php';
 
-$full_message = Misc::getInput();
+$full_message = stream_get_contents(STDIN);
 $return = Routing::route_notes($full_message);
 if (is_array($return)) {
     echo $return[1];

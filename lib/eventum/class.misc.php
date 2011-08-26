@@ -121,7 +121,6 @@ class Misc
         }
     }
 
-
     /**
      * Method used to get the standard input.
      *
