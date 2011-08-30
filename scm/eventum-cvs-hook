@@ -53,7 +53,7 @@ if (in_array($msg, array('- Imported sources', '- New directory'))) {
 }
 
 // get the full commit message
-$input = getInput();
+$input = stream_get_contents(STDIN);
 $commit_msg = rtrim(substr($input, strpos($input, 'Log Message:') + strlen('Log Message:') + 1));
 
 // now parse the list of modified files
@@ -107,19 +107,6 @@ if (count($matches[1]) > 0) {
     foreach (explode("\n", trim($data)) as $line) {
         echo "$PROGRAM: $line\n";
     }
-}
-
-/**
-  * Read STDIN until EOF.
-  *
-  * @return string STDIN that was read.
-  */
-function getInput() {
-    $buffer = '';
-    while (!feof(STDIN)) {
-        $buffer .= fgets(STDIN);
-    }
-    return $buffer;
 }
 
 /**

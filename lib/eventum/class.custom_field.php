@@ -1402,9 +1402,9 @@ class Custom_Field
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 

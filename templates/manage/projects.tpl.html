@@ -290,7 +290,7 @@
                       <td width="30%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].usr_full_name}</td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].usr_full_name|escape:html}</td>
                       <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].prj_status|capitalize}</td>
                       <td width="30%" bgcolor="{$row_color}" nowrap class="default">
                         <ul>

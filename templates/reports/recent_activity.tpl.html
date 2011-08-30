@@ -148,7 +148,7 @@ changeType('{$smarty.request.report_type}');
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
           {/if}
           <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
           <td class="default" bgcolor="{$row_color}">{$row.phs_type}</td>
           <td class="default" bgcolor="{$row_color}">{$row.phc_title}</td>
           <td class="default" bgcolor="{$row_color}">{$row.phs_description|nl2br}</td>
@@ -197,7 +197,7 @@ changeType('{$smarty.request.report_type}');
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
           {/if}
           <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
           <td class="default" bgcolor="{$row_color}">{$row.not_title|nl2br}</td>
         </tr>
         {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$row.not_id colspan="6"}
@@ -353,7 +353,7 @@ changeType('{$smarty.request.report_type}');
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
           {/if}
           <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
           <td class="default" bgcolor="{$row_color}">{$row.time_spent}</td>
           <td class="default" bgcolor="{$row_color}">{$row.ttc_title}</td>
           <td class="default" bgcolor="{$row_color}">{$row.ttr_summary|nl2br}</td>

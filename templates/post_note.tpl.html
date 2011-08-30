@@ -108,7 +108,7 @@ function setSignature(f)
         </tr>
         <tr>
           <td bgcolor="{$light_color}" colspan="2">
-            <textarea name="note" rows="16" style="width: 97%">{$note.not_body|escape:"html"}{if $current_user_prefs.auto_append_note_sig == 'yes'}
+            <textarea name="note" rows="16" style="width: 97%">{$note.not_body|escape:"html"}{if $current_user_prefs.auto_append_note_sig == 1}
 
 
 {$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>

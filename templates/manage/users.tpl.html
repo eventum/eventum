@@ -117,7 +117,7 @@
                   <b>{t}Full Name{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" name="full_name" size="40" class="default" value="{$info.usr_full_name}">
+                  <input type="text" name="full_name" size="40" class="default" value="{$info.usr_full_name|escape:html}">
                   {include file="error_icon.tpl.html" field="full_name"}
                 </td>
               </tr>

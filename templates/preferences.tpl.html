@@ -211,7 +211,7 @@ function validateAccount(f)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
-            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>
             <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
@@ -243,8 +243,8 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_new_emails[{$prj_id}]" {if $user_prefs.receive_new_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_new_emails[{$prj_id}]" {if not $user_prefs.receive_new_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 1);">{t}No{/t}</a>
+            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
         </tr>
@@ -254,14 +254,25 @@ function validateAccount(f)
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            &nbsp;<input type="radio" name="receive_assigned_emails[{$prj_id}]" {if $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_assigned_emails[{$prj_id}]" {if not $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 1);">{t}No{/t}</a>
+            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
+            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if not $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
+          </td>
+          {/foreach}
+        </tr>
+        <tr>
+          <td width="190" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Receive notifications for your own actions?{/t}</b>
+          </td>
+          {foreach from=$assigned_projects key=prj_id item=project_info}
+          <td bgcolor="{$light_color}" class="default">
+            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
+            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0">{t}No{/t}</label>
           </td>
           {/foreach}
         </tr>
         {else}
         <input type="hidden" name="close_popup_windows" value="0">
-        <input type="hidden" name="receive_assigned_emails" value="0">
+        <input type="hidden" name="receive_assigned_email" value="0">
         <input type="hidden" name="receive_new_emails" value="0">
         {/if}
         <tr>
@@ -279,7 +290,7 @@ function validateAccount(f)
             <b>{t}Refresh Rate for Email Listing Page{/t}:</b>
           </td>
           <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <input type="text" size="10" class="default" name="emails_refresh_rate" value="{$user_prefs.emails_refresh_rate|escape:"html"}">
+            <input type="text" size="10" class="default" name="email_refresh_rate" value="{$user_prefs.email_refresh_rate|escape:"html"}">
             <span class="small_default"><i>({t}in minutes{/t})</i></span>
           </td>
         </tr>
@@ -292,7 +303,7 @@ function validateAccount(f)
               <tr>
                 <td class="default" colspan="2">
                   {t}Edit Signature{/t}:<br />
-                  <textarea name="signature" style="width: 97%" rows="10">{$user_prefs.email_signature}</textarea>
+                  <textarea name="email_signature" style="width: 97%" rows="10">{$user_prefs.email_signature}</textarea>
                 </td>
               </tr>
               <tr>
@@ -301,10 +312,10 @@ function validateAccount(f)
               </tr>
               <tr>
                 <td class="default" colspan="2">
-                  <input type="checkbox" name="auto_append_sig" value="yes" {if $user_prefs.auto_append_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_sig');">{t}Automatically append email signature when composing web based emails{/t}</a><br />
-                  <input type="checkbox" name="auto_append_note_sig" value="yes" {if $user_prefs.auto_append_note_sig == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('account_prefs_form', 'auto_append_note_sig');">{t}Automatically append email signature when composing internal notes{/t}</a>
+                  <label><input type="checkbox" name="auto_append_email_sig" value="1" {if $user_prefs.auto_append_email_sig == '1'}checked{/if}>
+                    {t}Automatically append email signature when composing web based emails{/t}</label><br />
+                  <label><input type="checkbox" name="auto_append_note_sig" value="1" {if $user_prefs.auto_append_note_sig == '1'}checked{/if}>
+                    {t}Automatically append email signature when composing internal notes{/t}</label>
                 </td>
               </tr>
             </table>
@@ -320,7 +331,7 @@ function validateAccount(f)
           </td>
         </tr>
         {else}
-        <input type="hidden" name="emails_refresh_rate" value="10">
+        <input type="hidden" name="email_refresh_rate" value="10">
         {/if}
         <tr>
           <td colspan="{math equation="2 + x" x=$assigned_projects|@count}" bgcolor="{$cell_color}" align="center">
