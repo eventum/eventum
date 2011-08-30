@@ -271,7 +271,7 @@ class Search
                     continue;
                 }
                 if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeInteger($search_value);
+                    $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
                     }
@@ -604,11 +604,12 @@ class Search
                 }
 
                 if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeInteger($search_value);
+                    $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
+                        $cfo_id = Misc::escapeString($cfo_id);
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_iss_id = iss_id";
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = $cfo_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
