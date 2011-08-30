@@ -18,6 +18,7 @@ LINGUAS.php: $(wildcard *.po) Makefile
 	for po in $(wildcard *.po); do \
 		code=$$(basename $$po .po); \
 		lang=$$(sed -ne 's/"Language-Team: \(.*\)/\1/p' $$po | sed -e 's, <.*,,;s,\\n.*,,'); \
+		echo "\t// TRANSLATORS: Translation of $$lang language in preferences dropdown"; \
 		echo "\t'$$code' => _('$$lang'),"; \
 	done; \
 	echo ');'
