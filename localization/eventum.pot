@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 21:59+0300\n"
+"POT-Creation-Date: 2011-08-30 22:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1111,6 +1111,14 @@ msgstr ""
 msgid "Boilerplate:"
 msgstr ""
 
+#: localization/LINGUAS.php:30
+msgid "Brasiliant Portugese"
+msgstr ""
+
+#: localization/LINGUAS.php:3
+msgid "Breton"
+msgstr ""
+
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
 msgstr ""
@@ -1161,6 +1169,10 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
+msgstr ""
+
+#: localization/LINGUAS.php:4
+msgid "Catalan"
 msgstr ""
 
 #: templates/reports/tree.tpl.html
@@ -1234,6 +1246,10 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
+msgstr ""
+
+#: localization/LINGUAS.php:40
+msgid "Chinese (Simplified)"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
@@ -1612,8 +1628,16 @@ msgstr ""
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
+#: localization/LINGUAS.php:5
+msgid "Czech"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
+msgstr ""
+
+#: localization/LINGUAS.php:6
+msgid "Danish"
 msgstr ""
 
 #: templates/offline.tpl.html templates/offline.tpl.text
@@ -1842,6 +1866,10 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Duplicates"
+msgstr ""
+
+#: localization/LINGUAS.php:26
+msgid "Dutch"
 msgstr ""
 
 #: templates/close.tpl.html templates/update_form.tpl.html
@@ -2178,6 +2206,18 @@ msgstr ""
 msgid "End:"
 msgstr ""
 
+#: localization/LINGUAS.php:8
+msgid "English (Australia)"
+msgstr ""
+
+#: localization/LINGUAS.php:9
+msgid "English (Canada)"
+msgstr ""
+
+#: localization/LINGUAS.php:10
+msgid "English (United Kingdom)"
+msgstr ""
+
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
 msgstr ""
@@ -2304,6 +2344,10 @@ msgstr ""
 msgid "Error: you are already authorized to send emails in this issue."
 msgstr ""
 
+#: localization/LINGUAS.php:11
+msgid "Esperanto"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr ""
@@ -2338,6 +2382,10 @@ msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
+msgstr ""
+
+#: localization/LINGUAS.php:13
+msgid "Estonian"
 msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
@@ -2491,6 +2539,10 @@ msgstr ""
 msgid "Extra Note Recipients:"
 msgstr ""
 
+#: localization/LINGUAS.php:15
+msgid "Faroese"
+msgstr ""
+
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
@@ -2538,6 +2590,10 @@ msgstr ""
 msgid "Filter by Arrival Date:"
 msgstr ""
 
+#: localization/LINGUAS.php:14
+msgid "Finnish"
+msgstr ""
+
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
 msgstr ""
@@ -2563,6 +2619,10 @@ msgid ""
 "For example, you could use this page so that only users of the role "
 "\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
 "category or release fields when reporting a new issue."
+msgstr ""
+
+#: localization/LINGUAS.php:16
+msgid "French"
 msgstr ""
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
@@ -2604,6 +2664,10 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
+msgstr ""
+
+#: localization/LINGUAS.php:7
+msgid "German"
 msgstr ""
 
 #: templates/notification.tpl.html
@@ -2657,8 +2721,16 @@ msgstr ""
 msgid "Group:"
 msgstr ""
 
+#: localization/LINGUAS.php:18
+msgid "Haitian; Haitian Creole"
+msgstr ""
+
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
+msgstr ""
+
+#: localization/LINGUAS.php:17
+msgid "Hebrew"
 msgstr ""
 
 #: templates/notifications/visitor_account.tpl.text
@@ -2741,6 +2813,10 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
+msgstr ""
+
+#: localization/LINGUAS.php:19
+msgid "Hungarian"
 msgstr ""
 
 #: templates/login_form.tpl.html
@@ -2903,6 +2979,10 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Incoming"
+msgstr ""
+
+#: localization/LINGUAS.php:20
+msgid "Indonesian"
 msgstr ""
 
 #: templates/new.tpl.html templates/view_form.tpl.html
@@ -3100,6 +3180,14 @@ msgid ""
 "attachments,netc), so please click OK to confirm."
 msgstr ""
 
+#: localization/LINGUAS.php:21
+msgid "Italian"
+msgstr ""
+
+#: localization/LINGUAS.php:22
+msgid "Japanese"
+msgstr ""
+
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
 msgstr ""
@@ -3115,6 +3203,10 @@ msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Keyword(s):"
+msgstr ""
+
+#: localization/LINGUAS.php:23
+msgid "Korean"
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
@@ -3162,6 +3254,10 @@ msgstr ""
 
 #: templates/faq.tpl.html
 msgid "Last updated"
+msgstr ""
+
+#: localization/LINGUAS.php:25
+msgid "Latvian"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -3219,6 +3315,10 @@ msgstr ""
 #: lib/eventum/class.help.php:98 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
+msgstr ""
+
+#: localization/LINGUAS.php:24
+msgid "Lithuanian"
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -3884,6 +3984,10 @@ msgstr ""
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
+msgstr ""
+
+#: localization/LINGUAS.php:27
+msgid "Occitan (post 1500)"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html
@@ -5088,9 +5192,17 @@ msgid ""
 "field."
 msgstr ""
 
+#: localization/LINGUAS.php:28
+msgid "Polish"
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
+msgstr ""
+
+#: localization/LINGUAS.php:29
+msgid "Portuguese"
 msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
@@ -5654,6 +5766,10 @@ msgstr ""
 msgid "Run Search"
 msgstr ""
 
+#: localization/LINGUAS.php:31
+msgid "Russian"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
 msgstr ""
@@ -5927,6 +6043,10 @@ msgid ""
 "coming from the database."
 msgstr ""
 
+#: localization/LINGUAS.php:32
+msgid "Sinhalese"
+msgstr ""
+
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
 msgstr ""
@@ -6002,6 +6122,10 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
+msgstr ""
+
+#: localization/LINGUAS.php:12
+msgid "Spanish"
 msgstr ""
 
 #: templates/spell_check.tpl.html
@@ -6174,6 +6298,10 @@ msgstr ""
 msgid "Support Options"
 msgstr ""
 
+#: localization/LINGUAS.php:33
+msgid "Swedish"
+msgstr ""
+
 #: templates/navigation.tpl.html
 msgid "Switch"
 msgstr ""
@@ -6183,6 +6311,10 @@ msgid ""
 "System users may subscribe to the actions above for specific issues when "
 "they report new issues or by visiting the issue details screen and "
 "subscribing manually by using the 'Edit Notification List' link."
+msgstr ""
+
+#: localization/LINGUAS.php:34
+msgid "Tamil"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
@@ -6211,6 +6343,10 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
+msgstr ""
+
+#: localization/LINGUAS.php:35
+msgid "Thai"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -7376,6 +7512,10 @@ msgstr ""
 msgid "Triggered Reminder"
 msgstr ""
 
+#: localization/LINGUAS.php:36
+msgid "Turkish"
+msgstr ""
+
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -7395,6 +7535,10 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "URL"
+msgstr ""
+
+#: localization/LINGUAS.php:37
+msgid "Ukrainian"
 msgstr ""
 
 #: templates/view_form.tpl.html
@@ -7586,6 +7730,10 @@ msgstr ""
 msgid "Upload New Signature"
 msgstr ""
 
+#: localization/LINGUAS.php:38
+msgid "Urdu"
+msgstr ""
+
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
 msgid "Usage Examples"
@@ -7659,6 +7807,10 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value:"
+msgstr ""
+
+#: localization/LINGUAS.php:39
+msgid "Vietnamese"
 msgstr ""
 
 #: templates/view_email.tpl.html
