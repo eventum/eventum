@@ -29,8 +29,8 @@ install: $(MOFILES)
 	@for mo in $(MOFILES); do \
 		lang=$$(basename $$mo .mo); \
 		install -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		echo cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
-		cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		echo cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
 clean:
