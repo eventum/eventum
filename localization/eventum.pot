@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 22:00+0300\n"
+"POT-Creation-Date: 2011-08-30 22:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1111,11 +1111,13 @@ msgstr ""
 msgid "Boilerplate:"
 msgstr ""
 
-#: localization/LINGUAS.php:30
+#. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
+#: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
 msgstr ""
 
-#: localization/LINGUAS.php:3
+#. TRANSLATORS: Translation of Breton language in preferences dropdown
+#: localization/LINGUAS.php:4
 msgid "Breton"
 msgstr ""
 
@@ -1171,7 +1173,8 @@ msgstr ""
 msgid "Canned Responses"
 msgstr ""
 
-#: localization/LINGUAS.php:4
+#. TRANSLATORS: Translation of Catalan language in preferences dropdown
+#: localization/LINGUAS.php:6
 msgid "Catalan"
 msgstr ""
 
@@ -1248,7 +1251,8 @@ msgstr ""
 msgid "Checkout Page:"
 msgstr ""
 
-#: localization/LINGUAS.php:40
+#. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
+#: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
 msgstr ""
 
@@ -1628,7 +1632,8 @@ msgstr ""
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
-#: localization/LINGUAS.php:5
+#. TRANSLATORS: Translation of Czech language in preferences dropdown
+#: localization/LINGUAS.php:8
 msgid "Czech"
 msgstr ""
 
@@ -1636,7 +1641,8 @@ msgstr ""
 msgid "Daily Tips:"
 msgstr ""
 
-#: localization/LINGUAS.php:6
+#. TRANSLATORS: Translation of Danish language in preferences dropdown
+#: localization/LINGUAS.php:10
 msgid "Danish"
 msgstr ""
 
@@ -1868,7 +1874,8 @@ msgstr ""
 msgid "Duplicates"
 msgstr ""
 
-#: localization/LINGUAS.php:26
+#. TRANSLATORS: Translation of Dutch language in preferences dropdown
+#: localization/LINGUAS.php:50
 msgid "Dutch"
 msgstr ""
 
@@ -2206,15 +2213,18 @@ msgstr ""
 msgid "End:"
 msgstr ""
 
-#: localization/LINGUAS.php:8
+#. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
+#: localization/LINGUAS.php:14
 msgid "English (Australia)"
 msgstr ""
 
-#: localization/LINGUAS.php:9
+#. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
+#: localization/LINGUAS.php:16
 msgid "English (Canada)"
 msgstr ""
 
-#: localization/LINGUAS.php:10
+#. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
+#: localization/LINGUAS.php:18
 msgid "English (United Kingdom)"
 msgstr ""
 
@@ -2344,7 +2354,8 @@ msgstr ""
 msgid "Error: you are already authorized to send emails in this issue."
 msgstr ""
 
-#: localization/LINGUAS.php:11
+#. TRANSLATORS: Translation of Esperanto language in preferences dropdown
+#: localization/LINGUAS.php:20
 msgid "Esperanto"
 msgstr ""
 
@@ -2384,7 +2395,8 @@ msgstr ""
 msgid "Estimated time (Hours)"
 msgstr ""
 
-#: localization/LINGUAS.php:13
+#. TRANSLATORS: Translation of Estonian language in preferences dropdown
+#: localization/LINGUAS.php:24
 msgid "Estonian"
 msgstr ""
 
@@ -2539,7 +2551,8 @@ msgstr ""
 msgid "Extra Note Recipients:"
 msgstr ""
 
-#: localization/LINGUAS.php:15
+#. TRANSLATORS: Translation of Faroese language in preferences dropdown
+#: localization/LINGUAS.php:28
 msgid "Faroese"
 msgstr ""
 
@@ -2590,7 +2603,8 @@ msgstr ""
 msgid "Filter by Arrival Date:"
 msgstr ""
 
-#: localization/LINGUAS.php:14
+#. TRANSLATORS: Translation of Finnish language in preferences dropdown
+#: localization/LINGUAS.php:26
 msgid "Finnish"
 msgstr ""
 
@@ -2621,7 +2635,8 @@ msgid ""
 "category or release fields when reporting a new issue."
 msgstr ""
 
-#: localization/LINGUAS.php:16
+#. TRANSLATORS: Translation of French language in preferences dropdown
+#: localization/LINGUAS.php:30
 msgid "French"
 msgstr ""
 
@@ -2666,7 +2681,8 @@ msgstr ""
 msgid "Generate"
 msgstr ""
 
-#: localization/LINGUAS.php:7
+#. TRANSLATORS: Translation of German language in preferences dropdown
+#: localization/LINGUAS.php:12
 msgid "German"
 msgstr ""
 
@@ -2721,7 +2737,8 @@ msgstr ""
 msgid "Group:"
 msgstr ""
 
-#: localization/LINGUAS.php:18
+#. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
+#: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
 msgstr ""
 
@@ -2729,7 +2746,8 @@ msgstr ""
 msgid "Handler"
 msgstr ""
 
-#: localization/LINGUAS.php:17
+#. TRANSLATORS: Translation of Hebrew language in preferences dropdown
+#: localization/LINGUAS.php:32
 msgid "Hebrew"
 msgstr ""
 
@@ -2815,7 +2833,8 @@ msgstr ""
 msgid "However, the following errors were encountered:"
 msgstr ""
 
-#: localization/LINGUAS.php:19
+#. TRANSLATORS: Translation of Hungarian language in preferences dropdown
+#: localization/LINGUAS.php:36
 msgid "Hungarian"
 msgstr ""
 
@@ -2981,7 +3000,8 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: localization/LINGUAS.php:20
+#. TRANSLATORS: Translation of Indonesian language in preferences dropdown
+#: localization/LINGUAS.php:38
 msgid "Indonesian"
 msgstr ""
 
@@ -3180,11 +3200,13 @@ msgid ""
 "attachments,netc), so please click OK to confirm."
 msgstr ""
 
-#: localization/LINGUAS.php:21
+#. TRANSLATORS: Translation of Italian language in preferences dropdown
+#: localization/LINGUAS.php:40
 msgid "Italian"
 msgstr ""
 
-#: localization/LINGUAS.php:22
+#. TRANSLATORS: Translation of Japanese language in preferences dropdown
+#: localization/LINGUAS.php:42
 msgid "Japanese"
 msgstr ""
 
@@ -3205,7 +3227,8 @@ msgstr ""
 msgid "Keyword(s):"
 msgstr ""
 
-#: localization/LINGUAS.php:23
+#. TRANSLATORS: Translation of Korean language in preferences dropdown
+#: localization/LINGUAS.php:44
 msgid "Korean"
 msgstr ""
 
@@ -3256,7 +3279,8 @@ msgstr ""
 msgid "Last updated"
 msgstr ""
 
-#: localization/LINGUAS.php:25
+#. TRANSLATORS: Translation of Latvian language in preferences dropdown
+#: localization/LINGUAS.php:48
 msgid "Latvian"
 msgstr ""
 
@@ -3317,7 +3341,8 @@ msgstr ""
 msgid "Listing / Searching for Issues"
 msgstr ""
 
-#: localization/LINGUAS.php:24
+#. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
+#: localization/LINGUAS.php:46
 msgid "Lithuanian"
 msgstr ""
 
@@ -3986,7 +4011,8 @@ msgstr ""
 msgid "OK: No errors found"
 msgstr ""
 
-#: localization/LINGUAS.php:27
+#. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
+#: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
 msgstr ""
 
@@ -5192,7 +5218,8 @@ msgid ""
 "field."
 msgstr ""
 
-#: localization/LINGUAS.php:28
+#. TRANSLATORS: Translation of Polish language in preferences dropdown
+#: localization/LINGUAS.php:54
 msgid "Polish"
 msgstr ""
 
@@ -5201,7 +5228,8 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
-#: localization/LINGUAS.php:29
+#. TRANSLATORS: Translation of Portuguese language in preferences dropdown
+#: localization/LINGUAS.php:56
 msgid "Portuguese"
 msgstr ""
 
@@ -5766,7 +5794,8 @@ msgstr ""
 msgid "Run Search"
 msgstr ""
 
-#: localization/LINGUAS.php:31
+#. TRANSLATORS: Translation of Russian language in preferences dropdown
+#: localization/LINGUAS.php:60
 msgid "Russian"
 msgstr ""
 
@@ -6043,7 +6072,8 @@ msgid ""
 "coming from the database."
 msgstr ""
 
-#: localization/LINGUAS.php:32
+#. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
+#: localization/LINGUAS.php:62
 msgid "Sinhalese"
 msgstr ""
 
@@ -6124,7 +6154,8 @@ msgstr ""
 msgid "Sort Order"
 msgstr ""
 
-#: localization/LINGUAS.php:12
+#. TRANSLATORS: Translation of Spanish language in preferences dropdown
+#: localization/LINGUAS.php:22
 msgid "Spanish"
 msgstr ""
 
@@ -6298,7 +6329,8 @@ msgstr ""
 msgid "Support Options"
 msgstr ""
 
-#: localization/LINGUAS.php:33
+#. TRANSLATORS: Translation of Swedish language in preferences dropdown
+#: localization/LINGUAS.php:64
 msgid "Swedish"
 msgstr ""
 
@@ -6313,7 +6345,8 @@ msgid ""
 "subscribing manually by using the 'Edit Notification List' link."
 msgstr ""
 
-#: localization/LINGUAS.php:34
+#. TRANSLATORS: Translation of Tamil language in preferences dropdown
+#: localization/LINGUAS.php:66
 msgid "Tamil"
 msgstr ""
 
@@ -6345,7 +6378,8 @@ msgstr ""
 msgid "Textarea"
 msgstr ""
 
-#: localization/LINGUAS.php:35
+#. TRANSLATORS: Translation of Thai language in preferences dropdown
+#: localization/LINGUAS.php:68
 msgid "Thai"
 msgstr ""
 
@@ -7512,7 +7546,8 @@ msgstr ""
 msgid "Triggered Reminder"
 msgstr ""
 
-#: localization/LINGUAS.php:36
+#. TRANSLATORS: Translation of Turkish language in preferences dropdown
+#: localization/LINGUAS.php:70
 msgid "Turkish"
 msgstr ""
 
@@ -7537,7 +7572,8 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: localization/LINGUAS.php:37
+#. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
+#: localization/LINGUAS.php:72
 msgid "Ukrainian"
 msgstr ""
 
@@ -7730,7 +7766,8 @@ msgstr ""
 msgid "Upload New Signature"
 msgstr ""
 
-#: localization/LINGUAS.php:38
+#. TRANSLATORS: Translation of Urdu language in preferences dropdown
+#: localization/LINGUAS.php:74
 msgid "Urdu"
 msgstr ""
 
@@ -7809,7 +7846,8 @@ msgstr ""
 msgid "Value:"
 msgstr ""
 
-#: localization/LINGUAS.php:39
+#. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
+#: localization/LINGUAS.php:76
 msgid "Vietnamese"
 msgstr ""
 
