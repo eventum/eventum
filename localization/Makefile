@@ -11,6 +11,18 @@ all: $(MOFILES)
 %.mo: %.po
 	msgfmt --statistics $< -o $(subst .po,,$<).mo.tmp && mv $(subst .po,,$<).mo.tmp $(subst .po,,$<).mo
 
+LINGUAS.php: $(wildcard *.po) Makefile
+	exec 1> $@; \
+	echo '<?php'; \
+	echo '$$avail_langs = array('; \
+	for po in $(wildcard *.po); do \
+		code=$$(basename $$po .po); \
+		lang=$$(sed -ne 's/"Language-Team: \(.*\)/\1/p' $$po | sed -e 's, <.*,,;s,\\n.*,,'); \
+		echo "\t'$$code' => _('$$lang'),"; \
+	done; \
+	echo ');'
+	php -l $@
+
 install: $(MOFILES)
 	install -d $(DESTDIR)$(localedir)
 	@for mo in $(MOFILES); do \
