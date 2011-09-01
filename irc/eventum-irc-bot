@@ -57,10 +57,30 @@ if (!Lock::acquire('irc_bot')) {
 $auth = array();
 
 // map project_id => channel(s)
+
+// TODO: Map old config to new config
 $channels = array();
 foreach ($irc_channels as $proj => $chan) {
     $proj_id = Project::getID($proj);
-    $channels[$proj_id] = is_array($chan) ? $chan : array($chan);
+
+    // we need to map old configs with just channels to new config with categories as well
+    if (!is_array($chan)) {
+        // old config, one channel
+        $options = array(
+            $chan   =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT),
+        );
+    } elseif (isset($chan[0]) and !is_array($chan[0])) {
+        // old config with multiple channels
+        $options = array();
+        foreach ($chan as $individual_chan) {
+            $options[$individual_chan] = array(APP_EVENTUM_IRC_CATEGORY_DEFAULT);
+        }
+    } else {
+        // new format
+        $options = $chan;
+    }
+
+    $channels[$proj_id] = $options;
 }
 
 class Eventum_Bot
@@ -84,6 +104,21 @@ class Eventum_Bot
 
         if (in_array($nickname, array_keys($auth))) {
             return $auth[$nickname];
+        } else {
+            return '';
+        }
+    }
+
+
+    function _getNicknameByUser($usr_id)
+    {
+        global $auth;
+
+        $email = User::getEmail($usr_id);
+
+        $key = array_search($email, $auth);
+        if ($key) {
+            return $key;
         } else {
             return '';
         }
@@ -297,7 +332,9 @@ class Eventum_Bot
                     ino_id,
                     ino_iss_id,
                     ino_prj_id,
-                    ino_message
+                    ino_message,
+                    ino_target_usr_id,
+                    ino_category
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
                  LEFT JOIN
@@ -308,30 +345,49 @@ class Eventum_Bot
                     ino_status='pending'";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
+
+            if (empty($res[$i]['ino_category'])) {
+                $res[$i]['ino_category'] = APP_EVENTUM_IRC_CATEGORY_DEFAULT;
+            }
+
+            // check if this is a targeted message
+            if (!empty($res[$i]['ino_target_usr_id'])) {
+                $nick = $this->_getNicknameByUser($res[$i]['ino_target_usr_id']);
+                if (!empty($nick)) {
+                    $this->sendResponse($irc, $nick, $res[$i]['ino_message']);
+                }
+                $this->_markEventSent($res[$i]['ino_id']);
+                continue;
+            }
+
             $channels = $this->_getChannels($res[$i]['ino_prj_id']);
             if (count($channels) > 0) {
-                foreach ($channels as $channel) {
-                    if ($res[$i]['ino_iss_id'] > 0) {
-                        $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
-                    } elseif (substr($res[$i]['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
-                        $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'emails.php';
-                    }
+                foreach ($channels as $channel => $categories) {
+                    $message = $res[$i]['ino_message'];
                     if (count($this->_getProjectsForChannel($channel)) > 1) {
                         // if multiple projects display in the same channel, display project in message
-                        $res[$i]['ino_message'] = "[" . Project::getName($res[$i]['ino_prj_id']) . "] " . $res[$i]['ino_message'];
+                        $message = "[" . Project::getName($res[$i]['ino_prj_id']) . "] " . $message;
                     }
-                    $this->sendResponse($irc, $channel, $res[$i]['ino_message']);
+                    if (in_array($res[$i]['ino_category'], $categories)) {
+                        $this->sendResponse($irc, $channel, $message);
+                    }
                 }
-                // mark message as sent
-                $stmt = "UPDATE
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
-                         SET
-                            ino_status='sent'
-                         WHERE
-                            ino_id=" . $res[$i]['ino_id'];
-                DB_Helper::getInstance()->query($stmt);
+                $this->_markEventSent($res[$i]['ino_id']);
             }
         }
+    }
+
+
+    private function _markEventSent($ino_id)
+    {
+        // mark message as sent
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
+                 SET
+                    ino_status='sent'
+                 WHERE
+                    ino_id=" . $ino_id;
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -365,8 +421,10 @@ class Eventum_Bot
     function _joinChannels(&$irc)
     {
         global $channels;
-        foreach ($channels as $prj_id => $channel_list) {
-            $irc->join($channel_list);
+        foreach ($channels as $prj_id => $options) {
+            foreach ($options as $chan => $categories) {
+                $irc->join($chan);
+            }
         }
     }
 }
