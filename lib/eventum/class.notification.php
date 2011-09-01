@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-
 /**
  * Class to handle all of the business logic related to sending email
  * notifications on actions regarding the issues.
@@ -35,8 +34,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-
 class Notification
 {
     /**
@@ -293,11 +290,16 @@ class Notification
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
+
             if (!empty($email)) {
                 // don't send the email to the same person who sent it unless they want it
                 if ($sender_usr_id != false) {
                     $prefs = Prefs::get($sender_usr_id);
-                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) && ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
+                    if (!isset($prefs['receive_copy_of_own_action'][$prj_id])) {
+                        $prefs['receive_copy_of_own_action'][$prj_id] = 0;
+                    }
+                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
+                            ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
                             (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
                         continue;
                     }
@@ -1321,13 +1323,14 @@ class Notification
     /**
      * Method used to save the IRC notification message in the queue table.
      *
-     * @access  public
      * @param   integer $project_id The ID of the project.
      * @param   string  $notice The notification summary that should be displayed on IRC
-     * @param   integer $issue_id The issue ID
-     * @return  boolean
+     * @param   bool|integer $issue_id The issue ID
+     * @param   bool|integer $usr_id The ID of the user to notify
+     * @param   bool|string $category The category of this notification
+     * @return  bool
      */
-    public static function notifyIRC($project_id, $notice, $issue_id = false)
+    public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
@@ -1341,17 +1344,25 @@ class Notification
                     ino_prj_id,
                     ino_created_date,
                     ino_status,
-                    ino_message";
+                    ino_message,
+                    ino_category";
         if ($issue_id != false) {
             $stmt .= ",\n ino_iss_id";
+        }
+        if ($usr_id != false) {
+            $stmt .= ",\n ino_target_usr_id";
         }
         $stmt .= ") VALUES (
                     " . Misc::escapeInteger($project_id) . ",
                     '" . Date_Helper::getCurrentDateGMT() . "',
                     'pending',
-                    '" . Misc::escapeString($notice) . "'";
+                    '" . Misc::escapeString($notice) . "',
+                    '" . Misc::escapeString($category) . "'";
         if ($issue_id != false) {
             $stmt .= ",\n $issue_id";
+        }
+        if ($usr_id != false) {
+            $stmt .= ",\n " . Misc::escapeInteger($usr_id);
         }
         $stmt .= ")";
         $res = DB_Helper::getInstance()->query($stmt);

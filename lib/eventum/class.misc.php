@@ -109,7 +109,7 @@ class Misc
             echo " [required] -> ";
         }
         flush();
-        $input = trim(self::getInput(true));
+        $input = self::getInputLine();
         if (empty($input)) {
             if ($default_value === FALSE) {
                 die("ERROR: Required parameter was not provided!\n");
@@ -121,37 +121,16 @@ class Misc
         }
     }
 
-
     /**
-     * Method used to get the standard input.
+     * Method used to get a line from the standard input.
      *
      * @access  public
      * @return  string The standard input value
      */
-    function getInput($is_one_liner = FALSE)
+    private static function getInputLine()
     {
-        static $return;
-
-        if (!empty($return)) {
-            return $return;
-        }
-
-        $terminator = "\n";
-
-        $stdin = fopen("php://stdin", "r");
-        $input = '';
-        while (!feof($stdin)) {
-            $buffer = fgets($stdin, 256);
-            $input .= $buffer;
-            if (($is_one_liner) && (strstr($input, $terminator))) {
-                break;
-            }
-        }
-        fclose($stdin);
-        $return = $input;
-        return $input;
+        return trim(fgets(STDIN));
     }
-
 
     /**
      * Method used to check the spelling of a given text.

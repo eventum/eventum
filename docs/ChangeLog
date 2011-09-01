@@ -11,6 +11,9 @@ Eventum Issue Tracking System
 - Moved user preferences to a separate table (Bryan)
 - Added preference to allow users to get copies of their own emails (Bryan)
 - Changed view email window to display sequential email ID instead of raw ID (Bryan)
+- Minor fixes to get Custom Field to work whose key is stringual, r4363 (Elan Ruusamäe)
+- Update bundled jQuery to 1.6.2 (Elan Ruusamäe)
+- Added option to notify specific IRC users and categorize messages (Bryan Alsdorf)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)

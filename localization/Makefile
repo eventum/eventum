@@ -11,13 +11,26 @@ all: $(MOFILES)
 %.mo: %.po
 	msgfmt --statistics $< -o $(subst .po,,$<).mo.tmp && mv $(subst .po,,$<).mo.tmp $(subst .po,,$<).mo
 
+LINGUAS.php: $(wildcard *.po) Makefile
+	exec 1> $@; \
+	echo '<?php'; \
+	echo '$$avail_langs = array('; \
+	for po in $(wildcard *.po); do \
+		code=$$(basename $$po .po); \
+		lang=$$(sed -ne 's/"Language-Team: \(.*\)/\1/p' $$po | sed -e 's, <.*,,;s,\\n.*,,'); \
+		echo "\t// TRANSLATORS: Translation of $$lang language in preferences dropdown"; \
+		echo "\t'$$code' => _('$$lang'),"; \
+	done; \
+	echo ');'
+	php -l $@
+
 install: $(MOFILES)
 	install -d $(DESTDIR)$(localedir)
 	@for mo in $(MOFILES); do \
 		lang=$$(basename $$mo .mo); \
 		install -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		echo cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
-		cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		echo cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
 clean:

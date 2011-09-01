@@ -151,7 +151,7 @@
                         &nbsp;{$list[i].customer_title}
                       </td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cam_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name:escape:html}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cam_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name|escape:html}</a>
                       </td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].cam_type}

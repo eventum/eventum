@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2010-11-17 22:59+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"POT-Creation-Date: 2011-07-05 15:23+0300\n"
+"PO-Revision-Date: 2011-08-08 00:56+0000\n"
+"Last-Translator: Sohrab <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-01-22 04:58+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-08-09 04:51+0000\n"
+"X-Generator: Launchpad (build 13628)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -115,7 +114,7 @@ msgstr "(archived)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(default %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -203,7 +202,7 @@ msgstr "A new user was just created for you in the system."
 msgid "ADDED"
 msgstr "ADDED"
 
-#: lib/eventum/class.mail_helper.php:471
+#: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "ADVISORY: Your reply will be sent to the notification list."
 
@@ -346,7 +345,7 @@ msgstr "Add Files"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Add Me To Notification"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -832,7 +831,7 @@ msgstr "Anonymous Reporting of New Issues"
 msgid "Anonymous Reporting:"
 msgstr "Anonymous Reporting:"
 
-#: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:48 htdocs/list.php:78 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "Any"
 
@@ -924,7 +923,7 @@ msgstr "Assignee"
 msgid "Assignee:"
 msgstr "Assignee:"
 
-#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1098 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -1105,7 +1104,7 @@ msgstr "Avg and Median Time to First Response by Support Level"
 msgid "Avg/Med/Max Issues/Emails"
 msgstr "Avg/Med/Max Issues/E-mails"
 
-#: lib/eventum/class.notification.php:956
+#: lib/eventum/class.notification.php:960
 msgid "BLOCKED"
 msgstr "BLOCKED"
 
@@ -1228,7 +1227,7 @@ msgstr "Categories and Statuses"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1273,15 +1272,15 @@ msgstr "Changing field types can result in loss of data."
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Check Disk Space:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Check IRC Bot:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Check Paths:"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
@@ -1362,7 +1361,7 @@ msgstr "Close Issue"
 msgid "Close Window"
 msgstr "Close Window"
 
-#: lib/eventum/class.notification.php:816
+#: lib/eventum/class.notification.php:820
 msgid "Closed"
 msgstr "Closed"
 
@@ -1672,7 +1671,7 @@ msgstr "Customise Issue Listing Screen"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr ""
+msgstr "Customise Monitoring Parameters"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1915,7 +1914,7 @@ msgstr "E-mail about issue update was sent to"
 #: lib/eventum/class.monitor.php:72
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
-msgstr ""
+msgstr "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 
 #: lib/eventum/class.monitor.php:261
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -1924,7 +1923,7 @@ msgstr "ERROR: Could not find IRC bot pid from process list."
 #: lib/eventum/class.monitor.php:238
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "ERROR: Could not find required table \"%s\""
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
@@ -1943,7 +1942,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:97
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "ERROR: File could not be found (path: %s)"
 
 #: lib/eventum/class.monitor.php:108
 #, php-format
@@ -1982,6 +1981,7 @@ msgstr "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -2002,7 +2002,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:54
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
-msgstr ""
+msgstr "ERROR: There is a total of %d queued e-mails with errors."
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -2055,11 +2055,6 @@ msgstr "Edit Signature"
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "E-mail"
-
-#: htdocs/view_email.php:48
-#, php-format
-msgid "Email #%1$s: %2$s"
-msgstr "Email #%1$s: %2$s"
 
 #: lib/eventum/class.support.php:1502
 #, php-format
@@ -2179,12 +2174,12 @@ msgstr "E-mail by time period"
 msgid "Email from '%1$s' blocked"
 msgstr "E-mail from '%1$s' blocked"
 
-#: lib/eventum/class.draft.php:161
+#: lib/eventum/class.draft.php:162
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr "E-mail message draft updated by %1$s"
 
-#: lib/eventum/class.draft.php:117
+#: lib/eventum/class.draft.php:118
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr "E-mail message saved as a draft by %1$s"
@@ -2406,7 +2401,7 @@ msgid "Est Dev Time"
 msgstr "Est Dev Time"
 
 #: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1101
+#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2609,7 +2604,7 @@ msgstr "Field to Graph"
 msgid "Field:"
 msgstr "Field:"
 
-#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1102 templates/checkins.tpl.html
 msgid "File"
 msgstr "File"
 
@@ -2742,8 +2737,8 @@ msgstr "Greater or Equal"
 msgid "Greater than %1$s"
 msgstr "Greater than %1$s"
 
-#: htdocs/list.php:88 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
+#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
+#: lib/eventum/class.project.php:1101 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -3124,6 +3119,12 @@ msgstr "Issue #"
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr "Issue #%1$s Details"
+
+#. TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
+#: htdocs/view_email.php:49
+#, php-format
+msgid "Issue #%1$s Email #%3$s: %2$s"
+msgstr "Issue #%1$s E-mail #%3$s: %2$s"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issue Count"
@@ -3557,7 +3558,7 @@ msgstr "Monday"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Monitor Set-up"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -3649,7 +3650,7 @@ msgstr "New Alias"
 msgid "New Attachment"
 msgstr "New Attachment"
 
-#: lib/eventum/class.notification.php:1106 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1110 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "New Issue"
 
@@ -3665,7 +3666,7 @@ msgstr "New Password"
 msgid "New Status for Issue"
 msgstr "New Status for Issue"
 
-#: lib/eventum/class.notification.php:1445
+#: lib/eventum/class.notification.php:1449
 msgid "New User information"
 msgstr "New User information"
 
@@ -3694,7 +3695,7 @@ msgstr "Next Message"
 msgid "Next Note"
 msgstr "Next Note"
 
-#: lib/eventum/class.misc.php:720 templates/close.tpl.html
+#: lib/eventum/class.misc.php:735 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -4010,24 +4011,24 @@ msgstr "Notification List:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
-msgstr ""
+msgstr "Notification Options for Issue #%1"
 
-#: lib/eventum/class.notification.php:2032
+#: lib/eventum/class.notification.php:2036
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Notification list entry (%1$s) added by %2$s"
 
-#: lib/eventum/class.notification.php:1872
+#: lib/eventum/class.notification.php:1876
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Notification list entry (%1$s) removed by %2$s"
 
-#: lib/eventum/class.notification.php:2118
+#: lib/eventum/class.notification.php:2122
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Notification list entry ('%1$s') added by %2$s"
 
-#: lib/eventum/class.notification.php:2214
+#: lib/eventum/class.notification.php:2218
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Notification list entry ('%1$s') updated by %2$s"
@@ -4042,7 +4043,7 @@ msgstr "Number of Days"
 
 #: crons/monitor.php:101
 msgid "OK: No errors found"
-msgstr ""
+msgstr "OK: No errors found"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4205,7 +4206,7 @@ msgstr "POP3, with TLS (self-signed)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Partition:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
@@ -4237,6 +4238,11 @@ msgstr "Pattern: \"%1\""
 #: templates/main.tpl.html
 msgid "Pending"
 msgstr "Pending"
+
+#: lib/eventum/class.notification.php:646
+#: lib/eventum/class.notification.php:647
+msgid "Percent complete"
+msgstr "Percent complete"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -5094,7 +5100,7 @@ msgstr "Please enter your password."
 
 #: templates/manage/monitor.tpl.html
 msgid "Please fill proper partition path"
-msgstr ""
+msgstr "Please fill proper partition path"
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
@@ -5369,7 +5375,7 @@ msgstr "Primary Technical Account Manager"
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
 #: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1098
+#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5389,7 +5395,7 @@ msgstr "Priority Field"
 msgid "Priority:"
 msgstr "Priority:"
 
-#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1103 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr "Private"
@@ -5496,13 +5502,13 @@ msgstr ""
 #: lib/eventum/class.support.php:1598
 #, php-format
 msgid "Re: %1$s"
-msgstr ""
+msgstr "Re: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:826
+#: lib/eventum/class.issue.php:823
 #, php-format
 msgid "Re: [#%1$s] %2$s"
-msgstr ""
+msgstr "Re: [#%1$s] %2$s"
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
@@ -5972,7 +5978,7 @@ msgstr "Save as Draft"
 msgid "Saved Searches"
 msgstr "Saved Searches"
 
-#: lib/eventum/class.project.php:1100 templates/new.tpl.html
+#: lib/eventum/class.project.php:1099 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr "Scheduled Release"
@@ -7670,17 +7676,17 @@ msgstr "Time spent per user"
 msgid "Time tracking category"
 msgstr "Time tracking category"
 
-#: lib/eventum/class.time_tracking.php:395
+#: lib/eventum/class.time_tracking.php:409
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr "Time tracking entry removed by %1$s"
 
-#: lib/eventum/class.time_tracking.php:445
+#: lib/eventum/class.time_tracking.php:459
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr "Time tracking entry submitted by %1$s"
 
-#: lib/eventum/class.time_tracking.php:488
+#: lib/eventum/class.time_tracking.php:502
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Time tracking entry submitted remotely by %1$s"
@@ -7846,10 +7852,10 @@ msgstr "Unavailable - Users may NOT use this release"
 
 #: lib/eventum/class.attachment.php:78
 msgid "Untitled"
-msgstr ""
+msgstr "Untitled"
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:668
+#: lib/eventum/class.mime_helper.php:662
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -8005,7 +8011,7 @@ msgstr "Update Value"
 msgid "Update Values"
 msgstr "Update Values"
 
-#: lib/eventum/class.notification.php:686
+#: lib/eventum/class.notification.php:690
 msgid "Updated"
 msgstr "Updated"
 
@@ -8061,11 +8067,11 @@ msgstr "User Details"
 msgid "User Permission Levels"
 msgstr "User Permission Levels"
 
-#: lib/eventum/class.notification.php:1371
+#: lib/eventum/class.notification.php:1375
 msgid "User account information updated"
 msgstr "User account information updated"
 
-#: lib/eventum/class.notification.php:1408
+#: lib/eventum/class.notification.php:1412
 msgid "User account password changed"
 msgstr "User account password changed"
 
@@ -8155,7 +8161,7 @@ msgstr ""
 "WARNING: Converting this note to an e-mail will send the e-mail to any "
 "customers that may be listed in this issue's notification list."
 
-#: lib/eventum/class.mail_helper.php:473
+#: lib/eventum/class.mail_helper.php:470
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "WARNING: If replying, add yourself to Authorised Repliers list first."
@@ -8340,11 +8346,11 @@ msgstr "Weekly Report"
 
 #: templates/manage/monitor.tpl.html
 msgid "Whether to check if IRC Bot is running."
-msgstr ""
+msgstr "Whether to check if IRC Bot is running."
 
 #: templates/manage/monitor.tpl.html
 msgid "Whether to check permissions of directories and config files."
-msgstr ""
+msgstr "Whether to check permissions of directories and config files."
 
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
@@ -8398,7 +8404,7 @@ msgstr "Workload by Time of day"
 msgid "Workload by time period"
 msgstr "Workload by time period"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:733
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8527,7 +8533,7 @@ msgstr ""
 "You may also use 'bug' to specify the issue ID - whichever you are more "
 "comfortable with."
 
-#: lib/eventum/class.notification.php:1574
+#: lib/eventum/class.notification.php:1578
 msgid "Your User Account Details"
 msgstr "Your User Account Details"
 
@@ -8694,7 +8700,7 @@ msgstr "download file"
 #: lib/eventum/class.link_filter.php:312
 #, php-format
 msgid "download file (%1$s - %2$s)"
-msgstr ""
+msgstr "download file (%1$s - %2$s)"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
@@ -8883,17 +8889,17 @@ msgstr "move field up"
 msgid "must be a valid email address"
 msgstr "must be a valid e-mail address"
 
-#: htdocs/adv_search.php:56 htdocs/list.php:83
+#: htdocs/adv_search.php:56 htdocs/list.php:85
 #: lib/eventum/class.filter.php:666
 msgid "myself and my group"
 msgstr "myself and my group"
 
-#: htdocs/adv_search.php:50 htdocs/list.php:78
+#: htdocs/adv_search.php:50 htdocs/list.php:80
 #: lib/eventum/class.filter.php:664
 msgid "myself and un-assigned"
 msgstr "myself and un-assigned"
 
-#: htdocs/adv_search.php:57 htdocs/list.php:84
+#: htdocs/adv_search.php:57 htdocs/list.php:86
 #: lib/eventum/class.filter.php:668
 msgid "myself, un-assigned and my group"
 msgstr "myself, un-assigned and my group"
@@ -9028,7 +9034,7 @@ msgstr "this will show up on the bottom of the reminder messages"
 msgid "to access this page."
 msgstr "to access this page."
 
-#: htdocs/adv_search.php:49 htdocs/list.php:77
+#: htdocs/adv_search.php:49 htdocs/list.php:79
 #: lib/eventum/class.filter.php:662
 msgid "un-assigned"
 msgstr "un-assigned"
@@ -9104,158 +9110,3 @@ msgstr "week"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "year"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this e-mail."
-
-#~ msgid "(hold ctrl to select multiple options)"
-#~ msgstr "(hold ctrl to select multiple options)"
-
-#~ msgid "(only technical contacts listed on your contract)"
-#~ msgstr "(only technical contacts listed on your contract)"
-
-#~ msgid ""
-#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-#~ "server."
-#~ msgstr ""
-#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-#~ "server."
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure e-"
-#~ "mails are properly sent when creating new users/projects."
-
-#~ msgid "Add Primary Contact to Notification List? *"
-#~ msgstr "Add Primary Contact to Notification List? *"
-
-#~ msgid "Additional Contact Emails"
-#~ msgstr "Additional Contact E-mails"
-
-#~ msgid "Company Name"
-#~ msgstr "Company Name"
-
-#~ msgid "Contact"
-#~ msgstr "Contact"
-
-#~ msgid "Contact Email"
-#~ msgstr "Contact E-mail"
-
-#~ msgid "Contact Person"
-#~ msgstr "Contact Person"
-
-#~ msgid "Contact Person First Name"
-#~ msgstr "Contact Person First Name"
-
-#~ msgid "Contact Person Last Name"
-#~ msgstr "Contact Person Last Name"
-
-#~ msgid "Contact's Local Time"
-#~ msgstr "Contact's Local Time"
-
-#~ msgid "Contract #"
-#~ msgstr "Contract #"
-
-#~ msgid "Customer Details"
-#~ msgstr "Customer Details"
-
-#~ msgid "Customer ID"
-#~ msgstr "Customer ID"
-
-#~ msgid "Customer Lookup Tool"
-#~ msgstr "Customer Lookup Tool"
-
-#~ msgid "ERROR: Almost no free disk space left (percentage left"
-#~ msgstr "ERROR: Almost no free disk space left (percentage left"
-
-#~ msgid ""
-#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
-#~ msgstr ""
-#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
-
-#~ msgid "ERROR: File could not be found (path"
-#~ msgstr "ERROR: File could not be found (path"
-
-#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
-#~ msgstr "ERROR: Free disk space left is getting very low (percentage left"
-
-#~ msgid "Edit"
-#~ msgstr "Edit"
-
-#~ msgid "Example customer API front page"
-#~ msgstr "Example customer API front page"
-
-#~ msgid "Expiration Date"
-#~ msgstr "Expiration Date"
-
-#~ msgid "Expired"
-#~ msgstr "Expired"
-
-#~ msgid "Expired Customer"
-#~ msgstr "Expired Customer"
-
-#~ msgid "First Name"
-#~ msgstr "First Name"
-
-#~ msgid "Last Name"
-#~ msgstr "Last Name"
-
-#~ msgid "Lookup"
-#~ msgstr "Lookup"
-
-#~ msgid "Lookup Customer"
-#~ msgstr "Lookup Customer"
-
-#~ msgid "Maximum First Response Time"
-#~ msgstr "Maximum First Response Time"
-
-#~ msgid "No results could be found"
-#~ msgstr "No results could be found"
-
-#~ msgid "Note: The current maximum allowed upload file size is"
-#~ msgstr "Note: The current maximum allowed upload file size is"
-
-#~ msgid "Notes About Customer"
-#~ msgstr "Notes About Customer"
-
-#~ msgid "Notification Options"
-#~ msgstr "Notification Options"
-
-#~ msgid "Notify Customer About New Issue? *"
-#~ msgstr "Notify Customer About New Issue? *"
-
-#~ msgid "Quarantine explanation goes here..."
-#~ msgstr "Quarantine explanation goes here..."
-
-#~ msgid "Results"
-#~ msgstr "Results"
-
-#~ msgid "Sales Account Manager"
-#~ msgstr "Sales Account Manager"
-
-#~ msgid "Search Results"
-#~ msgstr "Search Results"
-
-#~ msgid "Support Expiration Date"
-#~ msgstr "Support Expiration Date"
-
-#~ msgid "Support Type"
-#~ msgstr "Support Type"
-
-#~ msgid "Time Until First Response Deadline"
-#~ msgstr "Time Until First Response Deadline"
-
-#~ msgid "issues found"
-#~ msgstr "issues found"
-
-#~ msgid "select this contact"
-#~ msgstr "select this contact"
-
-#~ msgid "shown"
-#~ msgstr "shown"

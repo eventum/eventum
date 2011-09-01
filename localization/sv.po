@@ -9,16 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-21 14:43+0200\n"
-"PO-Revision-Date: 2011-06-18 18:11+0000\n"
-"Last-Translator: N Ankar <Unknown>\n"
+"POT-Creation-Date: 2011-07-05 15:23+0300\n"
+"PO-Revision-Date: 2011-08-15 09:00+0000\n"
+"Last-Translator: Stefan Norin <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-06-19 04:38+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-08-16 04:35+0000\n"
+"X-Generator: Launchpad (build 13687)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -204,7 +203,7 @@ msgstr "En ny användare skapades just för dig i systemet."
 msgid "ADDED"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:471
+#: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
 
@@ -810,7 +809,7 @@ msgstr "Anonym rapportering av nya ärenden"
 msgid "Anonymous Reporting:"
 msgstr "Anonym rapportering:"
 
-#: htdocs/adv_search.php:48 htdocs/list.php:76 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:48 htdocs/list.php:78 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "Valfri"
 
@@ -903,7 +902,7 @@ msgstr "Tilldelad"
 msgid "Assignee:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1098 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -1049,7 +1048,7 @@ msgstr "Tillgängliga språk"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Tillgängliga relaterade ämnen"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1081,7 +1080,7 @@ msgstr ""
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: lib/eventum/class.notification.php:956
+#: lib/eventum/class.notification.php:960
 msgid "BLOCKED"
 msgstr "BLOCKERAD"
 
@@ -1204,7 +1203,7 @@ msgstr "Kategorier och statusnivåer"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1338,7 +1337,7 @@ msgstr "Stäng Ärende"
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: lib/eventum/class.notification.php:816
+#: lib/eventum/class.notification.php:820
 msgid "Closed"
 msgstr "Stängt"
 
@@ -1508,7 +1507,7 @@ msgstr "Skapa utgåva"
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Skapa Påminnelse"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
@@ -1542,7 +1541,7 @@ msgstr "Skapad datum"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Skapar Ny Påminnelse"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
@@ -1997,7 +1996,7 @@ msgstr "Redigera notifieringslistan"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
-msgstr ""
+msgstr "Redigera Alternativ"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
@@ -2018,11 +2017,6 @@ msgstr "Redigera signatur"
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "E-post"
-
-#: htdocs/view_email.php:48
-#, php-format
-msgid "Email #%1$s: %2$s"
-msgstr ""
 
 #: lib/eventum/class.support.php:1502
 #, php-format
@@ -2142,12 +2136,12 @@ msgstr ""
 msgid "Email from '%1$s' blocked"
 msgstr ""
 
-#: lib/eventum/class.draft.php:161
+#: lib/eventum/class.draft.php:162
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr ""
 
-#: lib/eventum/class.draft.php:117
+#: lib/eventum/class.draft.php:118
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr ""
@@ -2361,7 +2355,7 @@ msgid "Est Dev Time"
 msgstr "Beräknad behandlingstid"
 
 #: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1101
+#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2564,7 +2558,7 @@ msgstr ""
 msgid "Field:"
 msgstr "Fält:"
 
-#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1102 templates/checkins.tpl.html
 msgid "File"
 msgstr "Fil"
 
@@ -2694,8 +2688,8 @@ msgstr "Större än eller lika med"
 msgid "Greater than %1$s"
 msgstr "Större än %1$s"
 
-#: htdocs/list.php:88 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
+#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
+#: lib/eventum/class.project.php:1101 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -3054,6 +3048,12 @@ msgstr "Ärende #"
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr "Detaljer för ärende nummer %1$s"
+
+#. TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
+#: htdocs/view_email.php:49
+#, php-format
+msgid "Issue #%1$s Email #%3$s: %2$s"
+msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issue Count"
@@ -3575,7 +3575,7 @@ msgstr "Nytt alias"
 msgid "New Attachment"
 msgstr "Ny bilaga"
 
-#: lib/eventum/class.notification.php:1106 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1110 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
@@ -3591,7 +3591,7 @@ msgstr "Nytt lösenord"
 msgid "New Status for Issue"
 msgstr "Ny status för ärendet"
 
-#: lib/eventum/class.notification.php:1445
+#: lib/eventum/class.notification.php:1449
 msgid "New User information"
 msgstr "Ny användarinformation"
 
@@ -3620,7 +3620,7 @@ msgstr "Nästa meddelande"
 msgid "Next Note"
 msgstr "Nästa notering"
 
-#: lib/eventum/class.misc.php:720 templates/close.tpl.html
+#: lib/eventum/class.misc.php:735 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3936,22 +3936,22 @@ msgstr "Notifieringslista:"
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2032
+#: lib/eventum/class.notification.php:2036
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1872
+#: lib/eventum/class.notification.php:1876
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2118
+#: lib/eventum/class.notification.php:2122
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2214
+#: lib/eventum/class.notification.php:2218
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4155,6 +4155,11 @@ msgstr "Mönster: \"%1\""
 #: templates/main.tpl.html
 msgid "Pending"
 msgstr "Väntande"
+
+#: lib/eventum/class.notification.php:646
+#: lib/eventum/class.notification.php:647
+msgid "Percent complete"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -5246,7 +5251,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
 #: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1098
+#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5266,7 +5271,7 @@ msgstr "Prioritetsfält"
 msgid "Priority:"
 msgstr "Prioritetsnivå:"
 
-#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1103 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr "Privat"
@@ -5376,7 +5381,7 @@ msgid "Re: %1$s"
 msgstr "Sv: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:826
+#: lib/eventum/class.issue.php:823
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr "Sv: [#%1$s] %2$s"
@@ -5838,7 +5843,7 @@ msgstr "Spara som utkast"
 msgid "Saved Searches"
 msgstr "Sparade sökningar"
 
-#: lib/eventum/class.project.php:1100 templates/new.tpl.html
+#: lib/eventum/class.project.php:1099 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr "Planerad release"
@@ -7416,17 +7421,17 @@ msgstr "Tid per användare"
 msgid "Time tracking category"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:395
+#: lib/eventum/class.time_tracking.php:409
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:445
+#: lib/eventum/class.time_tracking.php:459
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:488
+#: lib/eventum/class.time_tracking.php:502
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
@@ -7586,7 +7591,7 @@ msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:668
+#: lib/eventum/class.mime_helper.php:662
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7742,7 +7747,7 @@ msgstr "Uppdatera värde"
 msgid "Update Values"
 msgstr "Updatera värden"
 
-#: lib/eventum/class.notification.php:686
+#: lib/eventum/class.notification.php:690
 msgid "Updated"
 msgstr "Uppdaterad"
 
@@ -7798,11 +7803,11 @@ msgstr "Användardetaljer"
 msgid "User Permission Levels"
 msgstr "Användarens rättigheter"
 
-#: lib/eventum/class.notification.php:1371
+#: lib/eventum/class.notification.php:1375
 msgid "User account information updated"
 msgstr "Användarkontot uppdaterat"
 
-#: lib/eventum/class.notification.php:1408
+#: lib/eventum/class.notification.php:1412
 msgid "User account password changed"
 msgstr ""
 
@@ -7894,7 +7899,7 @@ msgstr ""
 "skicka meddelandet till eventuella kunder som finns med i notifieringslistan "
 "för ärendet."
 
-#: lib/eventum/class.mail_helper.php:473
+#: lib/eventum/class.mail_helper.php:470
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "Varning: För att kunna svara måste du lägga till dig själv i listan över "
@@ -8131,7 +8136,7 @@ msgstr "Arbetsbelastning per tid på dagen"
 msgid "Workload by time period"
 msgstr "Arbetsbelastning per tidsintervall"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:718
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:733
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8253,7 +8258,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1574
+#: lib/eventum/class.notification.php:1578
 msgid "Your User Account Details"
 msgstr "Dina användardetaljer"
 
@@ -8606,17 +8611,17 @@ msgstr "Flytta fält uppåt"
 msgid "must be a valid email address"
 msgstr "måste vara en giltig e-postadress"
 
-#: htdocs/adv_search.php:56 htdocs/list.php:83
+#: htdocs/adv_search.php:56 htdocs/list.php:85
 #: lib/eventum/class.filter.php:666
 msgid "myself and my group"
 msgstr "Mina och min grupp"
 
-#: htdocs/adv_search.php:50 htdocs/list.php:78
+#: htdocs/adv_search.php:50 htdocs/list.php:80
 #: lib/eventum/class.filter.php:664
 msgid "myself and un-assigned"
 msgstr "Mina och ej tilldelade"
 
-#: htdocs/adv_search.php:57 htdocs/list.php:84
+#: htdocs/adv_search.php:57 htdocs/list.php:86
 #: lib/eventum/class.filter.php:668
 msgid "myself, un-assigned and my group"
 msgstr "Mina, ej tilldelade och min grupp"
@@ -8749,7 +8754,7 @@ msgstr "detta kommer att visas i underkanten på påminnelsemeddelanden"
 msgid "to access this page."
 msgstr "för att komma åt denna sida."
 
-#: htdocs/adv_search.php:49 htdocs/list.php:77
+#: htdocs/adv_search.php:49 htdocs/list.php:79
 #: lib/eventum/class.filter.php:662
 msgid "un-assigned"
 msgstr "Ej tilldelade"
@@ -8825,205 +8830,3 @@ msgstr "vecka"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "år"
-
-#~ msgid " Error: Please provide your email address."
-#~ msgstr " Fel: var vänlig ange din e-postadress."
-
-#~ msgid "Search Results"
-#~ msgstr "Sökresultat"
-
-#~ msgid "issues found"
-#~ msgstr "ärenden hittade"
-
-#~ msgid "shown"
-#~ msgstr "visade"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#~ msgid "Username:"
-#~ msgstr "Användarnamn:"
-
-#~ msgid "Notification Options"
-#~ msgstr "Notifieringsalternativ"
-
-#~ msgid "Details:"
-#~ msgstr "Detaljer:"
-
-#~ msgid "Server Hostname:"
-#~ msgstr "Värdnamn för server:"
-
-#~ msgid "Eventum Relative URL:"
-#~ msgstr "Eventums relativa URL:"
-
-#~ msgid "MySQL Server Hostname:"
-#~ msgstr "Värdnman för MySQL-server :"
-
-#~ msgid "MySQL Database:"
-#~ msgstr "MySQL databas:"
-
-#~ msgid "MySQL Table Prefix:"
-#~ msgstr "MySQL Tabellprefix:"
-
-#~ msgid "MySQL Username:"
-#~ msgstr "MySQL Användarnamn:"
-
-#~ msgid "Page generated in %1 seconds"
-#~ msgstr "Sidan tog %1 sekunder att generera"
-
-#~ msgid "queries"
-#~ msgstr "frågor"
-
-#~ msgid "Benchmark Statistics"
-#~ msgstr "Prestandatest, statistik"
-
-#~ msgid "Keep Form Open"
-#~ msgstr "Behåll formulär öppet"
-
-#~ msgid "Rows Per Page:"
-#~ msgstr "Rader per sida:"
-
-#~ msgid "Sort Order:"
-#~ msgstr "Sorteringsordning:"
-
-#~ msgid "Resolution:"
-#~ msgstr "Lösning:"
-
-#~ msgid ""
-#~ "The provided trial account email address could not be\n"
-#~ "            found. Please contact the local Technical Support staff for\n"
-#~ "            further assistance."
-#~ msgstr ""
-#~ "Det tillhandahållna utvärderingskontots e-postadress\n"
-#~ "             kunde inte hittas. Vänligen kontakta support\n"
-#~ "             för ytterligare info."
-
-#~ msgid "Fulltext"
-#~ msgstr "Fulltext"
-
-#~ msgid "Please select an issue"
-#~ msgstr "Var vänlig välj ett ärende"
-
-#~ msgid "lookup issues by their summaries"
-#~ msgstr "sök upp ärenden efter deras sammanfattningar"
-
-#~ msgid "IN"
-#~ msgstr "IN"
-
-#~ msgid "OUT"
-#~ msgstr "UT"
-
-#~ msgid "Out"
-#~ msgstr "Ut"
-
-#~ msgid "In"
-#~ msgstr "In"
-
-#~ msgid "yes"
-#~ msgstr "ja"
-
-#~ msgid "no"
-#~ msgstr "nej"
-
-#~ msgid "Note: "
-#~ msgstr "Notering: "
-
-#~ msgid ""
-#~ "Thank you, the issue was closed successfully. Please choose from one of the "
-#~ "options below:"
-#~ msgstr ""
-#~ "Tack så mycket, ärendet har avslutats. Vänligen välj ett av följande "
-#~ "alternativ:"
-
-#~ msgid "Please choose the new status for this issue."
-#~ msgstr "Vänligen välj ny status för ärendet."
-
-#~ msgid "Please enter the reason for closing this issue."
-#~ msgstr "Vänligen ange orska till att äredet stängs."
-
-#~ msgid "Success!"
-#~ msgstr "Lyckades!"
-
-#~ msgid "Email Address: admin@example.com (literally)"
-#~ msgstr "E-postadress: admin@example.com"
-
-#~ msgid "Password: admin"
-#~ msgstr "Lösenord: admin"
-
-#~ msgid "Create Database"
-#~ msgstr "Skapa databas"
-
-#~ msgid "No custom field could be found."
-#~ msgstr "Inga anpassade fält hittades."
-
-#~ msgid "Remember Login"
-#~ msgstr "Kom ihåg inloggning"
-
-#~ msgid ""
-#~ "Please enter the full path in the server of this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange den fullständiga sökvägen i servern för den här installationen "
-#~ "av Eventum."
-
-#~ msgid ""
-#~ "You are running PHP version %1.\n"
-#~ "While all effort has been made to ensure eventum works correctly with\n"
-#~ "PHP 5 and greater, it has not been thoroughly tested and may not work "
-#~ "properly."
-#~ msgstr ""
-#~ "Du använder PHP-versonen %1.\n"
-#~ "Även om mycket tid och kraft har lagts på att få Eventum at fungera med PHP "
-#~ "5 eller senare så har det inte testats fullt ut och det kan hända att det "
-#~ "inte fungerar."
-
-#~ msgid "Please report any problems you find to eventum-users@lists.mysql.com."
-#~ msgstr ""
-#~ "Vänligen rappportera eventuella fel i installationen till eventum-"
-#~ "users@lists.mysql.com."
-
-#~ msgid "Return to Issue"
-#~ msgstr "Återgå till ärendet"
-
-#~ msgid "(hold ctrl to select multiple options)"
-#~ msgstr "(Håll ner ctrl för att välja flera alternativ)"
-
-#~ msgid "Company Name"
-#~ msgstr "Företagsnamn"
-
-#~ msgid "First Name"
-#~ msgstr "Förnamn"
-
-#~ msgid "Last Name"
-#~ msgstr "Efternamn"
-
-#~ msgid "Support Type"
-#~ msgstr "Supporttyp"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "För att lägga till mer information i detta ärende behöver du bara svara på e-"
-#~ "postmeddelandet."
-
-#~ msgid ""
-#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-#~ "server."
-#~ msgstr ""
-#~ "<b>Notering:</b> Om du markerar denna kan du inte lämna en kopia av "
-#~ "meddelandet på servern."
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Notering:</b> Konfigurationen för SMTP (utgående e-post) behövs för att "
-#~ "försäkra sig om att e-post sänds på korrekt sätt när nya användare/projekt "
-#~ "skapas."
-
-#~ msgid "(only technical contacts listed on your contract)"
-#~ msgstr "(enbart tekniska kontakter listade på ditt kontrakt)"
-
-#~ msgid "Add Primary Contact to Notification List? *"
-#~ msgstr "Lägg Till Primär Kontakt till Notefieringslista? *"

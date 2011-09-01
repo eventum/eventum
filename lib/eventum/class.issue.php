@@ -2582,7 +2582,7 @@ class Issue
                 }
 
                 if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeInteger($search_value);
+                    $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
                     }
