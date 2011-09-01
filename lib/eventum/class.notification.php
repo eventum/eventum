@@ -290,11 +290,16 @@ class Notification
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
+
             if (!empty($email)) {
                 // don't send the email to the same person who sent it unless they want it
                 if ($sender_usr_id != false) {
                     $prefs = Prefs::get($sender_usr_id);
-                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) && ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
+                    if (!isset($prefs['receive_copy_of_own_action'][$prj_id])) {
+                        $prefs['receive_copy_of_own_action'][$prj_id] = 0;
+                    }
+                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
+                            ((!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"]) ||
                             (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
                         continue;
                     }
