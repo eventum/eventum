@@ -210,4 +210,3 @@ if (APP_MAINTENANCE){
 
 // Default IRC category
 define("APP_EVENTUM_IRC_CATEGORY_DEFAULT", "default");
-define("APP_EVENTUM_IRC_CATEGORY_SPAM", "spam");
