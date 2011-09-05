@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-30 22:28+0300\n"
-"PO-Revision-Date: 2011-08-30 19:28+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2011-09-04 19:43+0000\n"
+"Last-Translator: Alexander Strelchenko <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:39+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-09-05 06:06+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -352,7 +352,7 @@ msgstr "Добавить файлы"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Добавить меня к Уведомлениям"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
@@ -1060,7 +1060,7 @@ msgstr "Доступные языки"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Доступные схожие темы"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1163,12 +1163,12 @@ msgstr "Шаблон:"
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Португальский Бразильский"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Бретонский"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -1225,7 +1225,7 @@ msgstr "Подготовленные ответы"
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Каталонский"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
@@ -1303,7 +1303,7 @@ msgstr "Страница отладки:"
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Китайский (упрощенный)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1386,7 +1386,7 @@ msgstr "Дата закрытия"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Закрытое сообщение"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
@@ -1463,6 +1463,8 @@ msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
+"Поддержка Cookies выключена в Ввшем обозревателе. Пожалуйста, включите эту "
+"фунцию и попробуйте заново."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
@@ -1686,7 +1688,7 @@ msgstr "Индивидуальные параметры мониторинга"
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Чешский"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
