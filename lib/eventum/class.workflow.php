@@ -381,16 +381,17 @@ class Workflow
      * @param   boolean $send_notification Whether to send a notification about this action or not
      * @param   integer $resolution_id The resolution ID
      * @param   integer $status_id The status ID
-     * @param   string $reason The reason for closing this issue
+     * @param   string  $reason The reason for closing this issue
+     * @param   integer $usr_id The ID of the user closing this issue
      * @return  void
      */
-    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
+    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& self::_getBackend($prj_id);
-        $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason);
+        $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
     }
 
 
