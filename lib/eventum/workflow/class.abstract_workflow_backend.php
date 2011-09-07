@@ -515,4 +515,10 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false)
+    {
+        return $notice;
+    }
 }

@@ -2876,6 +2876,35 @@ class Issue
 
 
     /**
+     * Method used to get the full list of users (the email usernames) assigned to a
+     * specific issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  array The list of users
+     */
+    function getAssignedUserEmailHandles($issue_id)
+    {
+        $stmt = "SELECT
+                    usr_id,
+                    SUBSTRING(usr_email, 1, INSTR(usr_email, '@')-1) AS handle
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
+                    isu_usr_id=usr_id";
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return array_values($res);
+        }
+    }
+
+
+    /**
      * Method used to get the details for a specific issue.
      *
      * @param   integer $issue_id The issue ID
