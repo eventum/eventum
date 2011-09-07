@@ -805,4 +805,35 @@ class Misc
         @fclose($fp);
         return $contents;
     }
+
+
+    /**
+     * Method used to get the standard input.
+     *
+     * @access  public
+     * @return  string The standard input value
+     */
+    function getInput($is_one_liner = FALSE)
+    {
+        static $return;
+
+        if (!empty($return)) {
+            return $return;
+        }
+
+        $terminator = "\n";
+
+        $stdin = fopen("php://stdin", "r");
+        $input = '';
+        while (!feof($stdin)) {
+            $buffer = fgets($stdin, 256);
+            $input .= $buffer;
+            if (($is_one_liner) && (strstr($input, $terminator))) {
+                break;
+            }
+        }
+        fclose($stdin);
+        $return = $input;
+        return $input;
+    }
 }
