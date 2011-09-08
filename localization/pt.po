@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-30 22:28+0300\n"
-"PO-Revision-Date: 2010-07-14 18:53+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2011-09-07 15:05+0000\n"
+"Last-Translator: Carlos Mendes <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:38+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-09-08 04:37+0000\n"
+"X-Generator: Launchpad (build 13891)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -39,7 +39,7 @@ msgstr "% Completo"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr ""
+msgstr "%1 Campo"
 
 #: lib/eventum/class.filter.php:670
 #, php-format
@@ -61,12 +61,16 @@ msgid ""
 "%1:\n"
 "%2 ago"
 msgstr ""
+"%1:\n"
+"%2 atrás"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"As categorias 'Discussão por Nota', 'Discussão por Email' e 'Discussão "
+"Telefónica' são requeridas pelo Eventum e não podem ser apagadas."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -74,7 +78,7 @@ msgstr "(Todos os assuntos)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr ""
+msgstr "(Domínios alternativos que apontem para 'Endereço do Host'"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -82,7 +86,7 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Assuntos em aberto)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
@@ -92,15 +96,19 @@ msgstr "(Esta DEVE conter um endereço de email real, ex. \"%1\" or \"%2\")"
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
+"(Isto será incluído no endereço de todos os e-mails enviados por Eventtum)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
+"(Isto será incluído no endereço de todas as notas enviadas por Eventtum)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Ajuda: as portas padrão são a 110 para servidores POP3 e 143 para "
+"servidores IMAP.)"
 
 #: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
@@ -108,11 +116,11 @@ msgstr "(arquivado)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(padrão %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(pasta padrão é INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
@@ -124,7 +132,7 @@ msgstr ""
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
-msgstr ""
+msgstr "(prima a tecla 'ALT' e a tecla '4' uma vez)"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -175,15 +183,15 @@ msgstr ""
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr "Uma nova edição acabou de ser criada e atribuída a você."
+msgstr "Um novo pedido acabou de ser criado e atribuída a si."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr "Foi criada ema nova edição no no sistema."
+msgstr "Foi criado um novo pedido no sistema."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "Um novo usuário foi criado apenas para você no sistema."
+msgstr "Um novo usuário foi criado apenas para si no sistema."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -191,7 +199,7 @@ msgstr "ADICIONADO"
 
 #: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
-msgstr ""
+msgstr "AVISO: Sua resposta será enviada para a lista de notificação."
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
@@ -200,7 +208,7 @@ msgstr "ALERTA:"
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr "Todos"
+msgstr "TODOS"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
@@ -232,7 +240,7 @@ msgstr "Gestor de conta"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr ""
+msgstr "Gestor de conta:"
 
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
@@ -241,7 +249,7 @@ msgstr "Preferências da Conta"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr ""
+msgstr "Inscrição para Conta"
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text

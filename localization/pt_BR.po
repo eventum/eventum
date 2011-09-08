@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-30 22:28+0300\n"
-"PO-Revision-Date: 2011-08-30 19:28+0000\n"
+"PO-Revision-Date: 2011-09-08 03:03+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:40+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-09-08 04:37+0000\n"
+"X-Generator: Launchpad (build 13891)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1189,12 +1189,12 @@ msgstr "Texto de rodapé:"
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Português (Brasil)"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Bretão"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -1251,7 +1251,7 @@ msgstr "Respostas Prontas"
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Catalão"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
@@ -1329,7 +1329,7 @@ msgstr "Página de Checkout:"
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Chinês (Simplificado)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1714,7 +1714,7 @@ msgstr "Customizar Parâmetros de Monitoramento"
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Tcheco"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1723,7 +1723,7 @@ msgstr "Dicas Diárias:"
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr ""
+msgstr "Dinamarquês"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1960,7 +1960,7 @@ msgstr "Duplicatas"
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
 msgid "Dutch"
-msgstr ""
+msgstr "Holandês"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
@@ -2317,17 +2317,17 @@ msgstr "Fim:"
 #. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
 #: localization/LINGUAS.php:14
 msgid "English (Australia)"
-msgstr ""
+msgstr "Inglês (Austrália)"
 
 #. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
 #: localization/LINGUAS.php:16
 msgid "English (Canada)"
-msgstr ""
+msgstr "Inglês (Canadá)"
 
 #. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
 #: localization/LINGUAS.php:18
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Inglês (Reino Unido)"
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
@@ -2474,7 +2474,7 @@ msgstr "Erro: você já está autorizado a enviar emails neste chamado."
 #. TRANSLATORS: Translation of Esperanto language in preferences dropdown
 #: localization/LINGUAS.php:20
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
@@ -2515,7 +2515,7 @@ msgstr "Tempo estimado (horas)"
 #. TRANSLATORS: Translation of Estonian language in preferences dropdown
 #: localization/LINGUAS.php:24
 msgid "Estonian"
-msgstr ""
+msgstr "Estônio"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2671,7 +2671,7 @@ msgstr "Destinatários Extras da Nota:"
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
-msgstr ""
+msgstr "Feroês"
 
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
@@ -2723,7 +2723,7 @@ msgstr "Filtrar por Data de Chegada:"
 #. TRANSLATORS: Translation of Finnish language in preferences dropdown
 #: localization/LINGUAS.php:26
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandês"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
@@ -2759,7 +2759,7 @@ msgstr ""
 #. TRANSLATORS: Translation of French language in preferences dropdown
 #: localization/LINGUAS.php:30
 msgid "French"
-msgstr ""
+msgstr "Francês"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
@@ -2805,7 +2805,7 @@ msgstr "Gerar"
 #. TRANSLATORS: Translation of German language in preferences dropdown
 #: localization/LINGUAS.php:12
 msgid "German"
-msgstr ""
+msgstr "Alemão"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2861,7 +2861,7 @@ msgstr "Grupo:"
 #. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
 #: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
-msgstr ""
+msgstr "Haitiano; Crioulo Haitiano"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
@@ -2870,7 +2870,7 @@ msgstr "Responsável"
 #. TRANSLATORS: Translation of Hebrew language in preferences dropdown
 #: localization/LINGUAS.php:32
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebraico"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2977,7 +2977,7 @@ msgstr "Entretanto, os seguintes erros foram encontrados:"
 #. TRANSLATORS: Translation of Hungarian language in preferences dropdown
 #: localization/LINGUAS.php:36
 msgid "Hungarian"
-msgstr ""
+msgstr "Húngaro"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
@@ -3168,7 +3168,7 @@ msgstr "De entrada"
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonésio"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
@@ -3370,12 +3370,12 @@ msgstr ""
 #. TRANSLATORS: Translation of Italian language in preferences dropdown
 #: localization/LINGUAS.php:40
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #. TRANSLATORS: Translation of Japanese language in preferences dropdown
 #: localization/LINGUAS.php:42
 msgid "Japanese"
-msgstr ""
+msgstr "Japonês"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
@@ -3397,7 +3397,7 @@ msgstr "Palavra(s)-chave:"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3449,7 +3449,7 @@ msgstr "Última atualização"
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
 #: localization/LINGUAS.php:48
 msgid "Latvian"
-msgstr ""
+msgstr "Letão"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3516,7 +3516,7 @@ msgstr "Listando / Buscando Chamados"
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lituano"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
@@ -4207,7 +4207,7 @@ msgstr "OK: Nenhum erro encontrado"
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
-msgstr ""
+msgstr "Occitano (pós-1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -5535,7 +5535,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Polonês"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -5545,7 +5545,7 @@ msgstr "Porta"
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Português (Portugal)"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5754,7 +5754,7 @@ msgstr "Receber email quando você for designado para um chamado?"
 
 #: templates/preferences.tpl.html
 msgid "Receive notifications for your own actions?"
-msgstr ""
+msgstr "Receber notificações para suas próprias ações?"
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
@@ -6126,7 +6126,7 @@ msgstr "Rodar Busca"
 #. TRANSLATORS: Translation of Russian language in preferences dropdown
 #: localization/LINGUAS.php:60
 msgid "Russian"
-msgstr ""
+msgstr "Russo"
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
@@ -6411,7 +6411,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Cingalês"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
@@ -6507,7 +6507,7 @@ msgstr "Ordenação"
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Espanhol"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -6682,7 +6682,7 @@ msgstr "Opções de Suporte"
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6701,7 +6701,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Tamil language in preferences dropdown
 #: localization/LINGUAS.php:66
 msgid "Tamil"
-msgstr ""
+msgstr "Tâmil"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6734,7 +6734,7 @@ msgstr "Área de Texto"
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Tailandês"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -8104,7 +8104,7 @@ msgstr "Disparou o Lembrete"
 #. TRANSLATORS: Translation of Turkish language in preferences dropdown
 #: localization/LINGUAS.php:70
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -8130,7 +8130,7 @@ msgstr "URL"
 #. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
 #: localization/LINGUAS.php:72
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ucraniano"
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -8324,7 +8324,7 @@ msgstr "Enviar Nova Assinatura"
 #. TRANSLATORS: Translation of Urdu language in preferences dropdown
 #: localization/LINGUAS.php:74
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
@@ -8408,7 +8408,7 @@ msgstr "Valor:"
 #. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
 #: localization/LINGUAS.php:76
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamita"
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
