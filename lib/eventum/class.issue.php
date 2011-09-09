@@ -61,13 +61,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        return $res !== 0;
     }
 
 
@@ -160,9 +156,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -193,10 +189,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -221,9 +217,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
 
@@ -254,10 +250,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -288,10 +284,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -319,11 +315,11 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // log this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID("contract_changed"), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
-            return 1;
         }
+
+        // log this
+        History::add($issue_id, Auth::getUserID(), History::getTypeID("contract_changed"), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
+        return 1;
     }
 
 
@@ -354,10 +350,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -389,10 +385,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -463,24 +459,24 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // clear out the last-triggered-reminder flag when changing the status of an issue
-            Reminder_Action::clearLastTriggered($issue_id);
-
-            // if old status was closed and new status is not, clear closed data from issue.
-            if (@$old_details['sta_is_closed'] == 1) {
-                $new_details = Status::getDetails($status_id);
-                if ($new_details['sta_is_closed'] != 1) {
-                    self::clearClosed($issue_id);
-                }
-            }
-
-            if ($notify) {
-                Notification::notifyStatusChange($issue_id, $old_status, $status_id);
-            }
-
-            return 1;
         }
+
+        // clear out the last-triggered-reminder flag when changing the status of an issue
+        Reminder_Action::clearLastTriggered($issue_id);
+
+        // if old status was closed and new status is not, clear closed data from issue.
+        if (@$old_details['sta_is_closed'] == 1) {
+            $new_details = Status::getDetails($status_id);
+            if ($new_details['sta_is_closed'] != 1) {
+                self::clearClosed($issue_id);
+            }
+        }
+
+        if ($notify) {
+            Notification::notifyStatusChange($issue_id, $old_status, $status_id);
+        }
+
+        return 1;
     }
 
 
@@ -530,9 +526,9 @@ class Issue
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
-            } else {
-                return 1;
             }
+
+            return 1;
         }
     }
 
@@ -556,9 +552,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -586,9 +582,9 @@ class Issue
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
-            } else {
-                return 1;
             }
+
+            return 1;
         }
     }
 
@@ -611,9 +607,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -694,12 +690,12 @@ class Issue
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
-            } else {
-                $usr_id = Auth::getUserID();
-                Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
-                History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
-                return 1;
             }
+
+            $usr_id = Auth::getUserID();
+            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
+            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
+            return 1;
         }
     }
 
@@ -722,9 +718,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -751,9 +747,9 @@ class Issue
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
-            } else {
-                return 1;
             }
+
+            return 1;
         }
     }
 
@@ -777,9 +773,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -834,12 +830,12 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            if (count($res) > 0) {
-                self::getAssignedUsersByIssues($res);
-            }
-            return $res;
         }
+
+        if (count($res) > 0) {
+            self::getAssignedUsersByIssues($res);
+        }
+        return $res;
     }
 
 
@@ -872,12 +868,12 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
-        } else {
-            // TRANSLATORS: %1 = issue_id, %2 = issue summary
-            $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', $issue_id, $res["sup_subject"]);
-            $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
-            return $res;
         }
+
+        // TRANSLATORS: %1 = issue_id, %2 = issue summary
+        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', $issue_id, $res["sup_subject"]);
+        $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
+        return $res;
     }
 
 
@@ -912,28 +908,28 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            // update last response dates if this is a staff response
-            if ($type == "staff response") {
-                $stmt = "UPDATE
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         SET
-                            iss_last_response_date='" . Date_Helper::getCurrentDateGMT() . "'
-                         WHERE
-                            iss_id = " . Misc::escapeInteger($issue_id);
-                DB_Helper::getInstance()->query($stmt);
-                $stmt = "UPDATE
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         SET
-                            iss_first_response_date='" . Date_Helper::getCurrentDateGMT() . "'
-                         WHERE
-                            iss_first_response_date IS NULL AND
-                            iss_id = " . Misc::escapeInteger($issue_id);
-                DB_Helper::getInstance()->query($stmt);
-            }
-
-            return true;
         }
+
+        // update last response dates if this is a staff response
+        if ($type == "staff response") {
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                     SET
+                        iss_last_response_date='" . Date_Helper::getCurrentDateGMT() . "'
+                     WHERE
+                        iss_id = " . Misc::escapeInteger($issue_id);
+            DB_Helper::getInstance()->query($stmt);
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                     SET
+                        iss_first_response_date='" . Date_Helper::getCurrentDateGMT() . "'
+                     WHERE
+                        iss_first_response_date IS NULL AND
+                        iss_id = " . Misc::escapeInteger($issue_id);
+            DB_Helper::getInstance()->query($stmt);
+        }
+
+        return true;
     }
 
 
@@ -957,13 +953,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        return $res !== 0;
     }
 
 
@@ -1004,14 +996,14 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // record the change
-            for ($i = 0; $i < count($ids); $i++) {
-                History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
-                    "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
-            }
-            return 1;
         }
+
+        // record the change
+        for ($i = 0; $i < count($ids); $i++) {
+            History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
+                "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
+        }
+        return 1;
     }
 
 
@@ -1028,13 +1020,13 @@ class Issue
         $res = self::getDuplicateDetailsList($issue_id);
         if (@count($res) == 0) {
             return '';
-        } else {
-            $list = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $list[$res[$i]['issue_id']] = $res[$i]['title'];
-            }
-            return $list;
         }
+
+        $list = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $list[$res[$i]['issue_id']] = $res[$i]['title'];
+        }
+        return $list;
     }
 
 
@@ -1069,10 +1061,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -1099,11 +1091,11 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // record the change
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), "Duplicate flag was reset by " . User::getFullName(Auth::getUserID()));
-            return 1;
         }
+
+        // record the change
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), "Duplicate flag was reset by " . User::getFullName(Auth::getUserID()));
+        return 1;
     }
 
 
@@ -1134,18 +1126,18 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if (!empty($_POST["comments"])) {
-                // add note with the comments of marking an issue as a duplicate of another one
-                $_POST['title'] = 'Issue duplication comments';
-                $_POST["note"] = $_POST["comments"];
-                Note::insert(Auth::getUserID(), $issue_id);
-            }
-            // record the change
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
-                    "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
-            return 1;
         }
+
+        if (!empty($_POST["comments"])) {
+            // add note with the comments of marking an issue as a duplicate of another one
+            $_POST['title'] = 'Issue duplication comments';
+            $_POST["note"] = $_POST["comments"];
+            Note::insert(Auth::getUserID(), $issue_id);
+        }
+        // record the change
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
+                "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
+        return 1;
     }
 
 
@@ -1163,11 +1155,8 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
-        if ($res > 0) {
-            return false;
-        } else {
-            return true;
-        }
+
+        return !($res > 0);
     }
 
 
@@ -1194,9 +1183,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -1219,9 +1208,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -1244,13 +1233,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            if (empty($res)) {
-                return 0;
-            } else {
-                return $res;
-            }
         }
+
+        return !empty($res) ? $res : 0;
     }
 
 
@@ -1303,56 +1288,56 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
-        } else {
-            $new_issue_id = DB_Helper::get_last_insert_id();
-            // log the creation of the issue
-            History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
-
-            // now process any files being uploaded
-            $found = 0;
-            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-                if (!@empty($_FILES["file"]["name"][$i])) {
-                    $found = 1;
-                    break;
-                }
-            }
-            if ($found) {
-                $attachment_id = Attachment::add($new_issue_id, $options["reporter"], 'files uploaded anonymously');
-                for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-                    $filename = @$_FILES["file"]["name"][$i];
-                    if (empty($filename)) {
-                        continue;
-                    }
-                    $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
-                    if (!empty($blob)) {
-                        Attachment::addFile($attachment_id, $filename, $_FILES["file"]["type"][$i], $blob);
-                    }
-                }
-            }
-            // need to process any custom fields ?
-            if (@count($_POST["custom_fields"]) > 0) {
-                foreach ($_POST["custom_fields"] as $fld_id => $value) {
-                    Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
-                }
-            }
-
-            // now add the user/issue association
-            $assign = array();
-            $users = @$options["users"];
-            $actions = Notification::getDefaultActions($new_issue_id, false, 'anon_issue');
-            for ($i = 0; $i < count($users); $i++) {
-                Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
-                self::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
-                $assign[] = $users[$i];
-            }
-
-            Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
-
-            // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($_POST['project'], $new_issue_id);
-
-            return $new_issue_id;
         }
+
+        $new_issue_id = DB_Helper::get_last_insert_id();
+        // log the creation of the issue
+        History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
+
+        // now process any files being uploaded
+        $found = 0;
+        for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+            if (!@empty($_FILES["file"]["name"][$i])) {
+                $found = 1;
+                break;
+            }
+        }
+        if ($found) {
+            $attachment_id = Attachment::add($new_issue_id, $options["reporter"], 'files uploaded anonymously');
+            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+                $filename = @$_FILES["file"]["name"][$i];
+                if (empty($filename)) {
+                    continue;
+                }
+                $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
+                if (!empty($blob)) {
+                    Attachment::addFile($attachment_id, $filename, $_FILES["file"]["type"][$i], $blob);
+                }
+            }
+        }
+        // need to process any custom fields ?
+        if (@count($_POST["custom_fields"]) > 0) {
+            foreach ($_POST["custom_fields"] as $fld_id => $value) {
+                Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
+            }
+        }
+
+        // now add the user/issue association
+        $assign = array();
+        $users = @$options["users"];
+        $actions = Notification::getDefaultActions($new_issue_id, false, 'anon_issue');
+        for ($i = 0; $i < count($users); $i++) {
+            Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
+            self::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
+            $assign[] = $users[$i];
+        }
+
+        Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
+
+        // also notify any users that want to receive emails anytime a new issue is created
+        Notification::notifyNewIssue($_POST['project'], $new_issue_id);
+
+        return $new_issue_id;
     }
 
 
@@ -1377,29 +1362,30 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            if (count($res) > 0) {
-                self::deleteAssociations($res);
-                Attachment::removeByIssues($res);
-                SCM::removeByIssues($res);
-                Impact_Analysis::removeByIssues($res);
-                self::deleteUserAssociations($res);
-                Note::removeByIssues($res);
-                Time_Tracking::removeByIssues($res);
-                Notification::removeByIssues($res);
-                Custom_Field::removeByIssues($res);
-                Phone_Support::removeByIssues($res);
-                History::removeByIssues($res);
-                // now really delete the issues
-                $items = implode(", ", $res);
-                $stmt = "DELETE FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         WHERE
-                            iss_id IN ($items)";
-                DB_Helper::getInstance()->query($stmt);
-            }
-            return true;
         }
+
+        if (count($res) > 0) {
+            self::deleteAssociations($res);
+            Attachment::removeByIssues($res);
+            SCM::removeByIssues($res);
+            Impact_Analysis::removeByIssues($res);
+            self::deleteUserAssociations($res);
+            Note::removeByIssues($res);
+            Time_Tracking::removeByIssues($res);
+            Notification::removeByIssues($res);
+            Custom_Field::removeByIssues($res);
+            Phone_Support::removeByIssues($res);
+            History::removeByIssues($res);
+            // now really delete the issues
+            $items = implode(", ", $res);
+            $stmt = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                     WHERE
+                        iss_id IN ($items)";
+            DB_Helper::getInstance()->query($stmt);
+        }
+
+        return true;
     }
 
 
@@ -1440,63 +1426,63 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            $prj_id = self::getProjectID($issue_id);
-
-            // record the change
-            History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
-
-            if ($send_notification_to == 'all') {
-
-                $from = User::getFromHeader($usr_id);
-                $message_id = User::getFromHeader($usr_id);
-                $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
-                    '', '', 'Issue closed comments', $reason, '');
-
-                $structure = Mime_Helper::decode($full_email, true, false);
-
-                $email = array(
-                    'ema_id'        =>  Email_Account::getEmailAccount(self::getProjectID($issue_id)),
-                    'issue_id'      =>  $issue_id,
-                    'message_id'    =>  $message_id,
-                    'date'          =>  Date_Helper::getCurrentDateGMT(),
-                    'subject'       =>  'Issue closed comments',
-                    'from'          =>  $from,
-                    'has_attachment'=>  0,
-                    'body'          =>  $reason,
-                    'full_email'    =>  $full_email,
-                    'headers'       =>  $structure->headers
-                );
-                Support::insertEmail($email, $structure, $sup_id, true);
-                $ids = $sup_id;
-            } else {
-                // add note with the reason to close the issue
-                $_POST['title'] = 'Issue closed comments';
-                $_POST["note"] = $reason;
-                Note::insert($usr_id, $issue_id, false, true, true, $send_notification);
-                $ids = false;
-            }
-
-            if ($send_notification) {
-                if (Customer::hasCustomerIntegration($prj_id)) {
-                    // send a special confirmation email when customer issues are closed
-                    $stmt = "SELECT
-                                iss_customer_contact_id
-                             FROM
-                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                             WHERE
-                                iss_id=$issue_id";
-                    $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
-                    if (!empty($customer_contact_id)) {
-                        Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
-                    }
-                }
-                // send notifications for the issue being closed
-                Notification::notify($issue_id, 'closed', $ids);
-            }
-            Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
-            return 1;
         }
+
+        $prj_id = self::getProjectID($issue_id);
+
+        // record the change
+        History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
+
+        if ($send_notification_to == 'all') {
+
+            $from = User::getFromHeader($usr_id);
+            $message_id = User::getFromHeader($usr_id);
+            $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
+                '', '', 'Issue closed comments', $reason, '');
+
+            $structure = Mime_Helper::decode($full_email, true, false);
+
+            $email = array(
+                'ema_id'        =>  Email_Account::getEmailAccount(self::getProjectID($issue_id)),
+                'issue_id'      =>  $issue_id,
+                'message_id'    =>  $message_id,
+                'date'          =>  Date_Helper::getCurrentDateGMT(),
+                'subject'       =>  'Issue closed comments',
+                'from'          =>  $from,
+                'has_attachment'=>  0,
+                'body'          =>  $reason,
+                'full_email'    =>  $full_email,
+                'headers'       =>  $structure->headers
+            );
+            Support::insertEmail($email, $structure, $sup_id, true);
+            $ids = $sup_id;
+        } else {
+            // add note with the reason to close the issue
+            $_POST['title'] = 'Issue closed comments';
+            $_POST["note"] = $reason;
+            Note::insert($usr_id, $issue_id, false, true, true, $send_notification);
+            $ids = false;
+        }
+
+        if ($send_notification) {
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                // send a special confirmation email when customer issues are closed
+                $stmt = "SELECT
+                            iss_customer_contact_id
+                         FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         WHERE
+                            iss_id=$issue_id";
+                $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
+                if (!empty($customer_contact_id)) {
+                    Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
+                }
+            }
+            // send notifications for the issue being closed
+            Notification::notify($issue_id, 'closed', $ids);
+        }
+        Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
+        return 1;
     }
 
 
@@ -1788,46 +1774,46 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            $currentDetails = self::getDetails($issue_id);
-
-            // set new category
-            $new_iss_prc_list = Category::getAssocList($new_prj_id);
-            $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
-            $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
-            if ($new_prc_id === false) {
-              // use the first category listed in the new project
-              $new_prc_id = key($new_iss_prc_list);
-            }
-
-            // set new priority
-            $new_iss_pri_list = Priority::getAssocList($new_prj_id);
-            $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
-            $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
-            if ($new_pri_id === false) {
-              // use the first category listed in the new project
-              $new_pri_id = key($new_iss_pri_list);
-            }
-
-            // XXX: Set status if needed when moving issue
-
-            $stmt = "UPDATE
-                  " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-              SET
-                  iss_prc_id=" . Misc::escapeInteger($new_prc_id) . ",
-                  iss_pri_id=" . Misc::escapeInteger($new_pri_id) . "
-              WHERE
-                  iss_id=$issue_id";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            }
-
-            // clear project cache
-            self::getProjectID($issue_id, true);
-
-            Notification::notifyNewIssue($new_prj_id, $issue_id);
         }
+
+        $currentDetails = self::getDetails($issue_id);
+
+        // set new category
+        $new_iss_prc_list = Category::getAssocList($new_prj_id);
+        $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
+        $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
+        if ($new_prc_id === false) {
+          // use the first category listed in the new project
+          $new_prc_id = key($new_iss_prc_list);
+        }
+
+        // set new priority
+        $new_iss_pri_list = Priority::getAssocList($new_prj_id);
+        $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
+        $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
+        if ($new_pri_id === false) {
+          // use the first category listed in the new project
+          $new_pri_id = key($new_iss_pri_list);
+        }
+
+        // XXX: Set status if needed when moving issue
+        $stmt = "UPDATE
+              " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+          SET
+              iss_prc_id=" . Misc::escapeInteger($new_prc_id) . ",
+              iss_pri_id=" . Misc::escapeInteger($new_pri_id) . "
+          WHERE
+              iss_id=$issue_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        }
+
+        // clear project cache
+        self::getProjectID($issue_id, true);
+
+        Notification::notifyNewIssue($new_prj_id, $issue_id);
+        return 1;
     }
 
 
@@ -1947,13 +1933,13 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if ($add_history) {
-                History::add($issue_id, $usr_id, History::getTypeID('user_associated'),
-                    'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
-            }
-            return 1;
         }
+
+        if ($add_history) {
+            History::add($issue_id, $usr_id, History::getTypeID('user_associated'),
+                'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
+        }
+        return 1;
     }
 
 
@@ -1979,12 +1965,12 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if ($usr_id) {
-                History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
-            }
-            return 1;
         }
+
+        if ($usr_id) {
+            History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
+        }
+        return 1;
     }
 
 
@@ -2010,13 +1996,13 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if ($add_history) {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'),
-                    User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
-            }
-            return 1;
         }
+
+        if ($add_history) {
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'),
+                User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+        }
+        return 1;
     }
 
 
@@ -2074,7 +2060,7 @@ class Issue
                 $data['contact_timezone'] = $contact_timezone;
             }
         } else {
-            $customer_id = FALSE;
+            $customer_id = false;
         }
         if (empty($reporter)) {
             $reporter = APP_SYSTEM_USER_ID;
@@ -2701,9 +2687,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -2839,10 +2825,11 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
-            for ($i = 0; $i < count($result); $i++) {
-                @$result[$i]['iss_description'] = $res[$result[$i]['iss_id']];
-            }
+            return;
+        }
+
+        for ($i = 0; $i < count($result); $i++) {
+            @$result[$i]['iss_description'] = $res[$result[$i]['iss_id']];
         }
     }
 
@@ -2869,9 +2856,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -2898,9 +2885,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return array_values($res);
         }
+
+        return array_values($res);
     }
 
 
@@ -3080,9 +3067,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -3250,12 +3237,12 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // add the impact analysis to the history of the issue
-            $summary = 'Initial Impact Analysis for issue set by ' . User::getFullName(Auth::getUserID());
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_added'), $summary);
-            return 1;
         }
+
+        // add the impact analysis to the history of the issue
+        $summary = 'Initial Impact Analysis for issue set by ' . User::getFullName(Auth::getUserID());
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_added'), $summary);
+        return 1;
     }
 
 
@@ -3285,9 +3272,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -3318,9 +3305,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -3375,10 +3362,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            $returns[$issue_id] = $res;
-            return $res;
         }
+
+        $returns[$issue_id] = $res;
+        return $res;
     }
 
 
@@ -3404,13 +3391,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        return $res !== 0;
     }
 
 
@@ -3438,10 +3421,10 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            self::getAssignedUsersByIssues($res);
-            return $res;
         }
+
+        self::getAssignedUsersByIssues($res);
+        return $res;
     }
 
 
@@ -3466,13 +3449,13 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            if (!empty($res["iqu_expiration"])) {
-                $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
-                $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
-            }
-            return $res;
         }
+
+        if (!empty($res["iqu_expiration"])) {
+            $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
+            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
+        }
+        return $res;
     }
 
 
@@ -3608,9 +3591,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -3781,9 +3764,9 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
