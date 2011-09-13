@@ -1,4 +1,4 @@
-
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 /**
  * Expands the cell specified by ecID and msgID.
  * This will initiate the call to the remote script to get the content using
@@ -10,35 +10,35 @@ function expand(baseURL, ecID, listID)
 {
     var $row = $getRow(ecID, listID);
     var $cell = $getCell(ecID, listID);
-	var val = $cell.html(), url;
+    var val = $cell.html(), url;
 
-	// TODO: translate
+    // TODO: translate
     if (val == "" || val == 'loading...') {
         $cell.html("loading...");
-		url = baseURL + 'get_remote_data.php?action=' + getRemoteFunction(ecID) + '&ec_id=' + ecID + '&list_id=' + listID;
-		$.getJSON(url + '&callback=?', function(data) {
-			// data.ecID, data.listID, data.message;
-			if (data.error) {
-				// TODO: translate
-				$cell.html('Error: ' + data.error);
-				return;
-			}
+        url = baseURL + 'get_remote_data.php?action=' + getRemoteFunction(ecID) + '&ec_id=' + ecID + '&list_id=' + listID;
+        $.getJSON(url + '&callback=?', function(data) {
+            // data.ecID, data.listID, data.message;
+            if (data.error) {
+                // TODO: translate
+                $cell.html('Error: ' + data.error);
+                return;
+            }
 
-			// it locks up slower browsers, display warning for users
-			var len = data.message.length;
-			if (len > 10240) {
-				// TODO: translate
-				$cell.html("Loading " + len + " bytes of data, please wait...");
-				// have some time to see the message
-				setTimeout(function() {
-					$cell.html(data.message);
-				}, 10);
-			} else {
-				$cell.html(data.message);
-			}
-		});
+            // it locks up slower browsers, display warning for users
+            var len = data.message.length;
+            if (len > 10240) {
+                // TODO: translate
+                $cell.html("Loading " + len + " bytes of data, please wait...");
+                // have some time to see the message
+                setTimeout(function() {
+                    $cell.html(data.message);
+                }, 10);
+            } else {
+                $cell.html(data.message);
+            }
+        });
     }
-	$row.show();
+    $row.show();
 }
 
 // hides the current cell. The data is not lost so if the cell is expanded in the future, the content will not be reloaded.
@@ -99,10 +99,10 @@ function $getCell(ecID, listID)
 // jQuery filter to find all find TD with id="ec_<ecID>_item_<number>" rows
 function getAllCells(ecID)
 {
-	var match = new RegExp("^ec_" + ecID + "_item_\\d+");
+    var match = new RegExp("^ec_" + ecID + "_item_\\d+");
     var cells = $('td').filter(function() {
-		var id = $(this).attr("id");
-		return id && id.match(match);
-	});
+        var id = $(this).attr("id");
+        return id && id.match(match);
+    });
     return cells;
 }
