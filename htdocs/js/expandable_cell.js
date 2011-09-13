@@ -49,7 +49,7 @@ function collapse(ecID, listID)
 
 function expandAll(baseURL, ecID)
 {
-    var cells = getAllCells(ecID);
+    var cells = getAllCells(ecID), i, id, chunks;
     for (i = 0; i < cells.length; i++) {
         id = cells[i].id;
         chunks = id.split("_");
@@ -59,7 +59,7 @@ function expandAll(baseURL, ecID)
 
 function collapseAll(ecID)
 {
-    var cells = getAllCells(ecID);
+    var cells = getAllCells(ecID), i, id, chunks;
     for (i = 0; i < cells.length; i++) {
         id = cells[i].id;
         chunks = id.split("_");
@@ -96,17 +96,13 @@ function $getCell(ecID, listID)
 }
 
 // returns an array of all cells that are part of the specified expandable table.
-// TODO: jquery to find all find id="ec_<ecID>_item_<number>_row" rows
+// jQuery filter to find all find TD with id="ec_<ecID>_item_<number>" rows
 function getAllCells(ecID)
 {
-	console.log('ecid:',ecID);
-    var cells = document.body.getElementsByTagName("TD"),
-		newCells = [], len = cells.length;
-    for (i = 0; i < len; i++) {
-        if (cells[i].id != '' && cells[i].id.substring(0, ("ec_" + ecID).length) == 'ec_' + ecID) {
-            newCells.length++;
-            newCells[newCells.length-1] = cells[i];
-        }
-    }
-    return newCells;
+	var match = new RegExp("^ec_" + ecID + "_item_\\d+");
+    var cells = $('td').filter(function() {
+		var id = $(this).attr("id");
+		return id && id.match(match);
+	});
+    return cells;
 }
