@@ -364,6 +364,11 @@ class Eventum_Bot
             if (count($channels) > 0) {
                 foreach ($channels as $channel => $categories) {
                     $message = $res[$i]['ino_message'];
+                    if ($res[$i]['ino_iss_id'] > 0) {
+                        $message .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
+                    } elseif (substr($res[$i]['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
+                        $message .= ' - ' . APP_BASE_URL . 'emails.php';
+                    }
                     if (count($this->_getProjectsForChannel($channel)) > 1) {
                         // if multiple projects display in the same channel, display project in message
                         $message = "[" . Project::getName($res[$i]['ino_prj_id']) . "] " . $message;
