@@ -52,5 +52,11 @@ abstract class Abstract_Fulltext_Search
     abstract public function getMatchModes();
 
 
+    /**
+     * Returns an array of excerpts for the last search.
+     *
+     * @abstract
+     * @return array
+     */
     abstract public function getExcerpts();
 }
