@@ -208,7 +208,7 @@ source src_email_recent : src_email
 #    # we use @max to store initial value and not to overflow
 #    sql_query_range = SELECT (@max:=MAX(seb_sup_id))- 1000, MAX(seb_sup_id) FROM <?php echo APP_TABLE_PREFIX; ?>support_email_body
 #    # we use need to cast MAX() result to SIGNED not to overflow and check for negative value
-    sql_query_range = SELECT IF(CAST(MAX(sup_id) AS SIGNED)-1000>0, MAX(sup_id), 1), MAX(phs_id) FROM <?php echo APP_TABLE_PREFIX; ?>support_email
+    sql_query_range = SELECT IF(CAST(MAX(sup_id) AS SIGNED)-1000>0, MAX(sup_id), 1), MAX(sup_id) FROM <?php echo APP_TABLE_PREFIX; ?>support_email
 }
 
 index email_recent
