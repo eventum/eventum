@@ -96,6 +96,7 @@ $list = Search::getListing($prj_id, $options, $pagerRow, $rows);
 $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
 $tpl->assign("csv_data", base64_encode(@$list["csv"]));
+$tpl->assign("match_modes", Search::getMatchModes());
 
 $tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
 $tpl->assign("priorities", Priority::getAssocList($prj_id));

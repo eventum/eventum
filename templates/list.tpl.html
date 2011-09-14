@@ -311,6 +311,50 @@ function updateCustomFields(issue_id)
           {/if}
           {/foreach}
         </tr>
+        {if $list[i].excerpts != ''}
+        <tr>
+            <td colspan="{$col_count}" bgcolor="{$list[i].status_color}" class="default">
+                {if $list[i].excerpts|@count > 0}
+                    <ul class="excerpts">
+                        {if $list[i].excerpts.issue.summary}
+                            <li>Summary: {$list[i].excerpts.issue.summary}</li>
+                        {/if}
+                        {if $list[i].excerpts.issue.summary}
+                            <li>Description: {$list[i].excerpts.issue.description}</li>
+                        {/if}
+                        {if $list[i].excerpts.email|@count > 0}
+                            <li>Emails:
+                                <ul class="emails">
+                                {foreach from=$list[i].excerpts.email item=highlight key=email_num}
+                                    <li value="{$email_num}">#{$email_num}: {$highlight}</li>
+                                {/foreach}
+                                </ul>
+                            </li>
+                        {/if}
+                        {if $list[i].excerpts.phone|@count > 0}
+                            <li>Phone Calls:
+                                <ul class="phone">
+                                {foreach from=$list[i].excerpts.phone item=highlight}
+                                    <li>{$highlight}</li>
+                                {/foreach}
+                                </ul>
+                            </li>
+                        {/if}
+                        {if $list[i].excerpts.note|@count > 0}
+                            <li>Notes:
+                                <ul class="notes">
+                                {foreach from=$list[i].excerpts.note item=highlight key=note_num}
+                                    <li value="{$note_num}">#{$note_num}: {$highlight}</li>
+                                {/foreach}
+                                </ul>
+                            </li>
+                        {/if}
+                    </ul>
+
+                {/if}
+            </td>
+        </tr>
+        {/if}
         {sectionelse}
         <tr bgcolor="gray">
           <td colspan="{$col_count}" class="default_white" align="center">

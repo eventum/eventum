@@ -1574,6 +1574,7 @@ class Support
      */
     function getEmailDetails($ema_id, $sup_id)
     {
+        // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "support_email.*,
                     " . APP_TABLE_PREFIX . "support_email_body.*

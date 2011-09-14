@@ -131,6 +131,10 @@ if (!defined('APP_ENABLE_FULLTEXT')) {
     define('APP_ENABLE_FULLTEXT', false);
 }
 
+if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
+    define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+}
+
 if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {
     define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
 }

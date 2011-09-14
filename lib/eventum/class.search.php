@@ -85,6 +85,7 @@ class Search
             "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
+            'match_mode'     => self::getParam('match_mode'),
             'search_type'    => Misc::stripHTML($search_type),
             'users'          => Misc::escapeInteger(self::getParam('users')),
             'status'         => Misc::escapeInteger(self::getParam('status')),
@@ -396,10 +397,14 @@ class Search
         }
         $csv[] = @implode("\t", $column_headings);
 
+        $excerpts = self::getFullTextExcerpts();
+
         for ($i = 0; $i < count($res); $i++) {
+            $issue_id = $res[$i]['iss_id'];
             $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
             $res[$i]["iss_created_date"] = Date_Helper::getFormattedDate($res[$i]["iss_created_date"]);
             $res[$i]["iss_expected_resolution_date"] = Date_Helper::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
+            $res[$i]["excerpts"] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
             $fields = array(
                 $res[$i]['pri_title'],
                 $res[$i]['iss_id'],
@@ -679,69 +684,54 @@ class Search
             return Session::get('fulltext_issues');
         }
 
-        // no pre-existing list, generate them
-        $stmt = "(SELECT
-                    DISTINCT(iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                     MATCH(iss_summary, iss_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(not_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
-                 WHERE
-                     MATCH(not_note) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(ttr_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
-                 WHERE
-                     MATCH(ttr_summary) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(phs_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
-                 WHERE
-                     MATCH(phs_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                     DISTINCT(sup_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
-                 WHERE
-                     sup_id = seb_sup_id AND
-                     MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 )";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return array(-1);
-        } else {
-            $stmt = "SELECT
-                        DISTINCT(icf_iss_id)
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                    WHERE
-                        MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-            $custom_res = DB_Helper::getInstance()->getCol($stmt);
-            if (PEAR::isError($custom_res)) {
-                Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
-                return array(-1);
-            }
-            $issues = array_merge($res, $custom_res);
-            // we kill the query results on purpose to flag that no
-            // issues could be found with fulltext search
-            if (count($issues) < 1) {
-                $issues = array(-1);
-            }
-            Session::set('fulltext_string', $options['keywords']);
-            Session::set('fulltext_issues', $issues);
-            return $issues;
+        $fulltext = self::getFullTextSearchInstance();
+        $issues = $fulltext->getIssueIDs($options);
+
+        if (count($issues) < 1) {
+            $issues = array(-1); // no results, kill the query
         }
+
+        Session::set('fulltext_string', $options['keywords']);
+        Session::set('fulltext_issues', $issues);
+        return $issues;
+    }
+
+    /**
+     * This needs to be called after getFullTextIssues
+     *
+     * @return void
+     */
+    public function getFullTextExcerpts()
+    {
+        if (APP_ENABLE_FULLTEXT) {
+            return self::getFullTextSearchInstance()->getExcerpts();
+        } else {
+            return array();
+        }
+    }
+
+
+    /**
+     * @static
+     * @return Abstract_Fulltext_Search
+     */
+    private static function getFullTextSearchInstance()
+    {
+        static $instance = false;
+
+        if ($instance == false) {
+            require_once APP_INC_PATH . "/search/class." . APP_FULLTEXT_SEARCH_CLASS . ".php";
+
+            $class = APP_FULLTEXT_SEARCH_CLASS;
+
+            $instance = new $class();
+        }
+        return $instance;
+    }
+
+
+    public static function getMatchModes()
+    {
+        return self::getFullTextSearchInstance()->getMatchModes();
     }
 }
