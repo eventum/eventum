@@ -35,7 +35,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->sphinx->SetFilter('prj_id', array(Auth::getCurrentProject()));
 
         // TODO: Add support for selecting indexes to search
-//        $indexes = join('; ', $this->getIndexes());
+        $indexes = join('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID("Customer"))));
 
         if ((isset($options['customer_id'])) && (!empty($options['customer_id']))) {
             $this->sphinx->SetFilter('customer_id', array($options['customer_id']));
@@ -44,7 +44,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->keywords = $options['keywords'];
         $this->match_mode = $options['match_mode'];
 
-        $res = $this->sphinx->Query($options['keywords']);
+        $res = $this->sphinx->Query($options['keywords'], $indexes);
 //        echo $this->sphinx->getLastError();
 //        echo "<pre>";print_r($res);
         $issue_ids = array();
@@ -157,18 +157,33 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     }
 
 
-    private function getIndexes()
+    private function getIndexes($all_indexes=false)
     {
-        return array(
-                    'issue_description',
-                    'issue_recent_description',
-                    'email_description',
-                    'email_recent_description',
-                    'phonesupport_description',
-                    'phonesupport_recent_description',
-                    'note_description',
-                    'note_recent_description',
+        $indexes = array(
+                    'issue',
+                    'issue_stemmed',
+                    'issue_recent',
+                    'issue_recent_stemmed',
+                    'email',
+                    'email_stemmed',
+                    'email_recent',
+                    'email_recent_stemmed',
         );
+
+        if ($all_indexes) {
+            $indexes = array_merge($indexes, array(
+                    'note',
+                    'note_stemmed',
+                    'note_recent',
+                    'note_recent_stemmed',
+                    'phonesupport',
+                    'phonesupport_stemmed',
+                    'phonesupport_recent',
+                    'phonesupport_recent_stemmed',
+            ));
+        }
+
+        return $indexes;
     }
 
     private function getIndexNameByID($id)
