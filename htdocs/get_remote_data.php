@@ -24,6 +24,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -31,35 +32,58 @@ require_once dirname(__FILE__) . '/../init.php';
 Auth::checkAuthentication(APP_COOKIE);
 
 /*
- * This page is used to return a single content to the expandable table using httpClient library.
+ * This page is used to return a single content to the expandable table using
+ * httpClient library or jQuery.
  */
 
-$valid_functions = array('getEmail','getNote','getDraft','getPhoneSupport','getMailQueue');
+$valid_functions = array('getEmail', 'getNote', 'getDraft', 'getPhoneSupport', 'getMailQueue');
 $action = Misc::escapeString($_REQUEST['action']);
 if (in_array($action, $valid_functions)) {
-    echo $action($_REQUEST['list_id']);
+    $res = $action($_REQUEST['list_id']);
 } else {
-    echo $_REQUEST["ec_id"] . ":" . $_REQUEST['list_id'] . ":ERROR: Unable to call function $action";
+    $res = "ERROR: Unable to call function " . htmlspecialchars($action);
+}
+
+$callback = !empty($_GET['callback']) ? $_GET['callback'] : null;
+// convert to wanted format
+$res = array(
+    'ec_id' => $_REQUEST['ec_id'],
+    'list_id' => $_REQUEST['list_id'],
+    'message' => $res,
+);
+
+if ($callback) {
+    echo $callback, '(', json_encode($res), ')';
+} else {
+    /**
+     * Since jsrs only supports returning one value, the string that is
+     * returned is in the format of ec_id:id:<data>.
+     *
+     * If ec_id is not passed as a parameter, only the data is returned.
+     */
+    if (empty($_GET["ec_id"])) {
+        echo $res['message'];
+    } else {
+        echo $res['ec_id'] . ':' . $res['list_id'] . ':' . $res['message'];
+    }
 }
 exit;
 
 /**
- * Selects the email from the table and returns the contents. Since jsrs only supports returning one value,
- * the string that is returned is in the format
- * of ec_id:id:email. If ec_id is not passed as a parameter, only the email is returned.
+ * Selects the email from the table and returns the contents.
  *
  * @param   string $id The sup_ema_id and sup_id seperated by a -.
- * @return  A string containing the body of the email, optionally prefaced by the ec_id and $id.
+ * @return  A string containing the body of the email,
  */
 function getEmail($id)
 {
     $split = explode("-", $id);
     $info = Support::getEmailDetails($split[0], $split[1]);
-    if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br($_GET["ec_id"] . ":" . $id. ":" . Misc::highlightQuotedReply($info['seb_body'])));
-    } else {
+    if (empty($_GET["ec_id"])) {
         return $info["seb_body"];
     }
+
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
 }
 
 
@@ -72,11 +96,11 @@ function getEmail($id)
 function getNote($id)
 {
     $note = Note::getDetails($id);
-    if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br($_GET["ec_id"] . ":" . $id. ":" . Misc::highlightQuotedReply($note["not_note"])));
-    } else {
+    if (empty($_GET["ec_id"])) {
         return $note["not_note"];
     }
+
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note["not_note"])));
 }
 
 
@@ -89,11 +113,11 @@ function getNote($id)
 function getDraft($id)
 {
     $info = Draft::getDetails($id);
-    if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["emd_body"])));
-    } else {
+    if (empty($_GET["ec_id"])) {
         return $info["emd_body"];
     }
+
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info["emd_body"])));
 }
 
 
@@ -106,11 +130,11 @@ function getDraft($id)
 function getPhoneSupport($id)
 {
     $res = Phone_Support::getDetails($id);
-    if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["phs_description"])));
-    } else {
+    if (empty($_GET["ec_id"])) {
         return $res["phs_description"];
     }
+
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res["phs_description"])));
 }
 
 
@@ -125,10 +149,11 @@ function getMailQueue($id)
     if (Auth::getCurrentRole() < User::getRoleID('Developer')) {
         return;
     }
+
     $res = Mail_Queue::getEntry($id);
-    if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n\n" . $res["maq_body"])));
-    } else {
+    if (empty($_GET["ec_id"])) {
         return $res["maq_body"];
     }
+
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res["maq_headers"] . "\n" . $res["maq_body"])));
 }
