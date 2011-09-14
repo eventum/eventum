@@ -176,3 +176,15 @@ div.app_messages {
 .custom_field {
     cursor: pointer;
 }
+
+
+ul.excerpts {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.excerpts ul {
+    list-style-type: none;
+    padding-left: 1em;
+}

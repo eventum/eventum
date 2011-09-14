@@ -1,0 +1,48 @@
+What is sphinx?
+---------------------------------------
+
+
+Installation
+---------------------------------------
+Link to sphinx setup instructions here, with extra notes
+
+
+Eventum Configuration
+---------------------------------------
+Open config/config.php with a text editor.
+
+Make sure APP_ENABLE_FULLTEXT is set to true.
+
+Remove the line:
+define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+
+Add the following lines:
+define('APP_FULLTEXT_SEARCH_CLASS', 'sphinx_fulltext_search');
+define('SPHINX_SEARCHD_HOST', 'localhost');
+define('SPHINX_SEARCHD_PORT', 3312);
+
+Change the values to match your settings.
+
+Generate the sphinx config with your database settings.
+
+cd /path-to-eventum/config
+php sphinx.conf.php > sphinx.conf
+
+If needed, you can customize the sphinx paths by setting the following constants:
+SPHINX_LOG_PATH, SPHINX_RUN_PATH, SPHINX_DATA_PATH
+
+
+Starting Sphinx
+---------------------------------------
+
+Generate indexes for the first time:
+indexer --config /path-to-eventum/config/sphinx.conf --all
+
+Start searchd:
+searchd --config /path-to-eventum/config/sphinx.conf
+
+
+Crons
+---------------------------------------
+
+Info about updating indexes here.
