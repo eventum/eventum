@@ -83,8 +83,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         }
         $excerpt_options = array(
             "query_mode"    =>  $this->match_mode,
-            'before_match'          => '<b>',
-            'after_match'           => '</b>',
+            'before_match'  => '<b>',
+            'after_match'   => '</b>',
+            'allow_empty'   =>  true,
         );
         $excerpts = array();
         foreach ($this->matches as $issue_id => $matches) {
@@ -99,11 +100,15 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $issue = Issue::getDetails($issue_id);
                     $documents = array($issue['iss_summary']);
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['issue']['summary'] = self::cleanUpExcerpt($res[0]);
+                    if ($res[0] != $issue['iss_summary']) {
+                        $excerpt['issue']['summary'] = self::cleanUpExcerpt($res[0]);
+                    }
 
                     $documents = array($issue['iss_original_description']);
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
+                    if ($res[0] != $issue['iss_original_description']) {
+                        $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
+                    }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);
                     $documents = array($email['sup_subject'] . "\n" . $email['message']);

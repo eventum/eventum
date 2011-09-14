@@ -319,7 +319,7 @@ function updateCustomFields(issue_id)
                         {if $list[i].excerpts.issue.summary}
                             <li>Summary: {$list[i].excerpts.issue.summary}</li>
                         {/if}
-                        {if $list[i].excerpts.issue.summary}
+                        {if $list[i].excerpts.issue.description}
                             <li>Description: {$list[i].excerpts.issue.description}</li>
                         {/if}
                         {if $list[i].excerpts.email|@count > 0}

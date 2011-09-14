@@ -25,7 +25,7 @@ indexer
 #############################################################################
 searchd
 {
-    port         = 3312
+    port         = <?php echo SPHINX_SEARCHD_PORT . "\n"; ?>
     log          = <?php echo SPHINX_LOG_PATH; ?>searchd-eventum.log
     query_log    = <?php echo SPHINX_LOG_PATH; ?>query-eventum.log
     read_timeout = 5
