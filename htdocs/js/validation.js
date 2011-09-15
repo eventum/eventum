@@ -1,3 +1,5 @@
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+
 last_issue_number_validation_value = '';
 function validateIssueNumberField(baseURL, form_name, field_name, options)
 {

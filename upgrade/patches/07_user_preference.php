@@ -1,4 +1,5 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 
 db_query("CREATE TABLE %TABLE_PREFIX%user_preference
 (
@@ -39,15 +40,20 @@ if (PEAR::isError($res)) {
 
 foreach ($res as $row) {
     $usr_id = $row['usr_id'];
-    $old_preferences = unserialize($row['usr_preferences']);
     echo "$usr_id\n";
+
+    $old_preferences = unserialize($row['usr_preferences']);
+    if ($old_preferences === false) {
+        echo "... skipped\n";
+        continue;
+    }
 
     $new_preferences = $old_preferences;
 
     $new_preferences['email_refresh_rate'] = $old_preferences['emails_refresh_rate'];
     unset($old_preferences['emails_refresh_rate']);
 
-    $new_preferences['auto_append_email_sig'] = $old_preferences['auto_append_sig'];
+    $new_preferences['auto_append_email_sig'] = !empty($old_preferences['auto_append_sig']) ? $old_preferences['auto_append_sig'] : 0;
     unset($old_preferences['auto_append_sig']);
 
     $new_preferences['receive_assigned_email'] = $old_preferences['receive_assigned_emails'];

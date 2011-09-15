@@ -23,35 +23,40 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
-
-// This is an example config file for the IRC bot. This file should be
-// placed in the config/ directory.
+//
 
 
-// IRC server address
-$irc_server_hostname = 'localhost';
-$irc_server_port = 6667;
+/**
+ * Abstract class for fulltext searching.
+ */
+abstract class Abstract_Fulltext_Search
+{
+    /**
+     * Returns the issue IDs matching the search query.
+     *
+     * @abstract
+     * @param   array   $options    The array of search options.
+     * @return  array   An array of issues IDs matching the given search options
+     */
+    abstract public function getIssueIDs($options);
 
-// the following is the list of IRC channels that the bot should connect to,
-// and the associated project name
-//      Project Name -> IRC Channel(s),
-//      Second Project' => array('#issues_2', '#byrocrate'),
-// If you want to use IRC message categories (only applies if you have a custom workflow backend)
-// the list of channels should be an associated array with the channel for the key and an array of categories
-// for the value:
-//      Project => array(
-//          '#issues_2' =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT, 'other')
-//      )
-$irc_channels = array(
-	'Default Project' => '#issues',
-);
+    /**
+     * Returns the list of match modes the backend supports. Should return false if only one
+     * mode is supported. Otherwise format should be array('mode_id' => 'Mode Title')
+     *
+     * @abstract
+     * @return  array   An associative array of match modes
+     */
+    abstract public function getMatchModes();
 
-$nickname = 'EventumBOT';
-$realname = 'Eventum Issue Tracking System';
 
-// do you need a username/password to connect to this server? if
-// so, fill in the next two variables
-$username = '';
-$password = '';
+    /**
+     * Returns an array of excerpts for the last search.
+     *
+     * @abstract
+     * @return array
+     */
+    abstract public function getExcerpts();
+}

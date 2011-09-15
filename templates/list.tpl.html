@@ -288,6 +288,7 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'sta_change_date'}
               {$list[i].status_change_date|escape:"html"}
             {elseif $field_name == 'last_action_date'}
+              {* TRANSLATORS: %1: last action data label, %2: last action date diff *}
               {t 1=$list[i].last_action_date_label 2=$list[i].last_action_date_diff}%1:
 %2 ago{/t}
             {elseif $field_name == 'usr_full_name'}
@@ -301,16 +302,25 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'iss_summary'}
               <a href="view.php?id={$list[i].iss_id}" class="link" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
               {if $list[i].redeemed}
-                  [Redeemed]
+                  {t}[Redeemed]{/t}
               {/if}
               {if $list[i].iss_private == 1}
-                  <b>[Private]</b>
+                  <b>{t}[Private]{/t}</b>
               {/if}
             {/if}
           </td>
           {/if}
           {/foreach}
         </tr>
+        {if $list[i].excerpts != ''}
+        <tr>
+          <td colspan="{$col_count}" bgcolor="{$list[i].status_color}" class="default">
+            {if $list[i].excerpts|@count > 0}
+              {include file="list_excerpts.tpl.html"}
+            {/if}
+          </td>
+        </tr>
+        {/if}
         {sectionelse}
         <tr bgcolor="gray">
           <td colspan="{$col_count}" class="default_white" align="center">

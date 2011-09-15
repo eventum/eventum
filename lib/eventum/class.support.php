@@ -1574,6 +1574,7 @@ class Support
      */
     function getEmailDetails($ema_id, $sup_id)
     {
+        // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "support_email.*,
                     " . APP_TABLE_PREFIX . "support_email_body.*
@@ -1582,8 +1583,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id=" . Misc::escapeInteger($sup_id) . " AND
-                    sup_ema_id=" . Misc::escapeInteger($ema_id);
+                    sup_id=" . Misc::escapeInteger($sup_id);
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
