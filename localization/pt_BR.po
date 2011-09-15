@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-05 15:23+0300\n"
-"PO-Revision-Date: 2011-07-06 01:48+0000\n"
+"POT-Creation-Date: 2011-08-30 22:28+0300\n"
+"PO-Revision-Date: 2011-09-08 03:03+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2011-07-07 04:42+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-09-09 04:38+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -952,8 +951,8 @@ msgstr "Designado"
 msgid "Assignment Field"
 msgstr "Campo de Designação"
 
-#: lib/eventum/class.notification.php:609
-#: lib/eventum/class.notification.php:610
+#: lib/eventum/class.notification.php:612
+#: lib/eventum/class.notification.php:613
 msgid "Assignment List"
 msgstr "Lista de Designados"
 
@@ -1002,7 +1001,7 @@ msgstr "Projeto Associado"
 msgid "Associated Project:"
 msgstr "Projeto Associado:"
 
-#: templates/view_email.tpl.html templates/view_note.tpl.html
+#: templates/view_email.tpl.html
 msgid "Associated with Issue"
 msgstr "Associado ao Chamado"
 
@@ -1119,7 +1118,7 @@ msgstr "Tempo Médio e Mediano até Primeira Resposta por Nível de Suporte"
 msgid "Avg/Med/Max Issues/Emails"
 msgstr "Chamados/Emails Méd/Mdn/Máx"
 
-#: lib/eventum/class.notification.php:960
+#: lib/eventum/class.notification.php:963
 msgid "BLOCKED"
 msgstr "BLOQUEADO"
 
@@ -1187,6 +1186,16 @@ msgstr "Valores em azul indicam que o valor é mais baixo que o agregado."
 msgid "Boilerplate:"
 msgstr "Texto de rodapé:"
 
+#. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
+#: localization/LINGUAS.php:58
+msgid "Brasiliant Portugese"
+msgstr "Português (Brasil)"
+
+#. TRANSLATORS: Translation of Breton language in preferences dropdown
+#: localization/LINGUAS.php:4
+msgid "Breton"
+msgstr "Bretão"
+
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
 msgstr "Atualização em Lote"
@@ -1239,13 +1248,18 @@ msgstr "Cancelar Atualização"
 msgid "Canned Responses"
 msgstr "Respostas Prontas"
 
+#. TRANSLATORS: Translation of Catalan language in preferences dropdown
+#: localization/LINGUAS.php:6
+msgid "Catalan"
+msgstr "Catalão"
+
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
 msgstr "Categorias e Status"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1096
+#: lib/eventum/class.notification.php:621
+#: lib/eventum/class.notification.php:622 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1311,6 +1325,11 @@ msgstr "Verificar Ortografia"
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
 msgstr "Página de Checkout:"
+
+#. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
+#: localization/LINGUAS.php:78
+msgid "Chinese (Simplified)"
+msgstr "Chinês (Simplificado)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1379,7 +1398,7 @@ msgstr "Fechar Chamado"
 msgid "Close Window"
 msgstr "Fechar Janela"
 
-#: lib/eventum/class.notification.php:820
+#: lib/eventum/class.notification.php:823
 msgid "Closed"
 msgstr "Fechado"
 
@@ -1692,9 +1711,19 @@ msgstr "Personalizar Tela de Listagem de Chamados"
 msgid "Customize Monitoring Parameters"
 msgstr "Customizar Parâmetros de Monitoramento"
 
+#. TRANSLATORS: Translation of Czech language in preferences dropdown
+#: localization/LINGUAS.php:8
+msgid "Czech"
+msgstr "Tcheco"
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr "Dicas Diárias:"
+
+#. TRANSLATORS: Translation of Danish language in preferences dropdown
+#: localization/LINGUAS.php:10
+msgid "Danish"
+msgstr "Dinamarquês"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1927,6 +1956,11 @@ msgstr "Duplicada por"
 #: templates/view_form.tpl.html
 msgid "Duplicates"
 msgstr "Duplicatas"
+
+#. TRANSLATORS: Translation of Dutch language in preferences dropdown
+#: localization/LINGUAS.php:50
+msgid "Dutch"
+msgstr "Holandês"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
@@ -2280,6 +2314,21 @@ msgstr "Hora final no futuro."
 msgid "End:"
 msgstr "Fim:"
 
+#. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
+#: localization/LINGUAS.php:14
+msgid "English (Australia)"
+msgstr "Inglês (Austrália)"
+
+#. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
+#: localization/LINGUAS.php:16
+msgid "English (Canada)"
+msgstr "Inglês (Canadá)"
+
+#. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
+#: localization/LINGUAS.php:18
+msgid "English (United Kingdom)"
+msgstr "Inglês (Reino Unido)"
+
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
 msgstr "Informe Análise de Impacto"
@@ -2422,12 +2471,17 @@ msgstr "Erro: o chamado já está sem usuário designado."
 msgid "Error: you are already authorized to send emails in this issue."
 msgstr "Erro: você já está autorizado a enviar emails neste chamado."
 
+#. TRANSLATORS: Translation of Esperanto language in preferences dropdown
+#: localization/LINGUAS.php:20
+msgid "Esperanto"
+msgstr "Esperanto"
+
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr "Tempo Estimado de Desenvolvimento"
 
-#: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:641
+#: lib/eventum/class.notification.php:642 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2457,6 +2511,11 @@ msgstr "Tempo de Desenvolvimento Estimado por Categoria"
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
 msgstr "Tempo estimado (horas)"
+
+#. TRANSLATORS: Translation of Estonian language in preferences dropdown
+#: localization/LINGUAS.php:24
+msgid "Estonian"
+msgstr "Estônio"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2588,8 +2647,8 @@ msgid "Expand collapsed cell"
 msgstr "Expandir célula recolhida"
 
 #: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:614
-#: lib/eventum/class.notification.php:615 templates/view_form.tpl.html
+#: lib/eventum/class.notification.php:617
+#: lib/eventum/class.notification.php:618 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr "Data Esperada de Resolução"
 
@@ -2608,6 +2667,11 @@ msgstr "Exportar para Excel"
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr "Destinatários Extras da Nota:"
+
+#. TRANSLATORS: Translation of Faroese language in preferences dropdown
+#: localization/LINGUAS.php:28
+msgid "Faroese"
+msgstr "Feroês"
 
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
@@ -2656,6 +2720,11 @@ msgstr "Arquivos são anexados a chamados existentes"
 msgid "Filter by Arrival Date:"
 msgstr "Filtrar por Data de Chegada:"
 
+#. TRANSLATORS: Translation of Finnish language in preferences dropdown
+#: localization/LINGUAS.php:26
+msgid "Finnish"
+msgstr "Finlandês"
+
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
 msgstr "Primeira Resposta da Equipe"
@@ -2686,6 +2755,11 @@ msgstr ""
 "com o perfil de \"<i>usuário padrão</i>\" (e perfis com ranking mais "
 "elevado) possam selecionar valores para os campos 'Categoria' e 'Release' ao "
 "abrir um novo chamado."
+
+#. TRANSLATORS: Translation of French language in preferences dropdown
+#: localization/LINGUAS.php:30
+msgid "French"
+msgstr "Francês"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
@@ -2727,6 +2801,11 @@ msgstr "Configuração Geral"
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
 msgstr "Gerar"
+
+#. TRANSLATORS: Translation of German language in preferences dropdown
+#: localization/LINGUAS.php:12
+msgid "German"
+msgstr "Alemão"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2779,9 +2858,19 @@ msgstr "Agrupar Por"
 msgid "Group:"
 msgstr "Grupo:"
 
+#. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
+#: localization/LINGUAS.php:34
+msgid "Haitian; Haitian Creole"
+msgstr "Haitiano; Crioulo Haitiano"
+
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
 msgstr "Responsável"
+
+#. TRANSLATORS: Translation of Hebrew language in preferences dropdown
+#: localization/LINGUAS.php:32
+msgid "Hebrew"
+msgstr "Hebraico"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2884,6 +2973,11 @@ msgstr "Horas"
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
 msgstr "Entretanto, os seguintes erros foram encontrados:"
+
+#. TRANSLATORS: Translation of Hungarian language in preferences dropdown
+#: localization/LINGUAS.php:36
+msgid "Hungarian"
+msgstr "Húngaro"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
@@ -3071,6 +3165,11 @@ msgstr ""
 msgid "Incoming"
 msgstr "De entrada"
 
+#. TRANSLATORS: Translation of Indonesian language in preferences dropdown
+#: localization/LINGUAS.php:38
+msgid "Indonesian"
+msgstr "Indonésio"
+
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
 msgstr "Descrição Inicial"
@@ -3170,7 +3269,7 @@ msgid "Issue Details"
 msgstr "Detalhes do Chamado"
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
-#: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
@@ -3268,6 +3367,16 @@ msgstr ""
 "Também serão excluídos todos os registros associados (chamados,\n"
 "notas, anexos), então clique OK para confirmar."
 
+#. TRANSLATORS: Translation of Italian language in preferences dropdown
+#: localization/LINGUAS.php:40
+msgid "Italian"
+msgstr "Italiano"
+
+#. TRANSLATORS: Translation of Japanese language in preferences dropdown
+#: localization/LINGUAS.php:42
+msgid "Japanese"
+msgstr "Japonês"
+
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
 msgstr "Manter Designados Atuais:"
@@ -3284,6 +3393,11 @@ msgstr "Palavra(s)-chave"
 #: templates/searchbar.tpl.html
 msgid "Keyword(s):"
 msgstr "Palavra(s)-chave:"
+
+#. TRANSLATORS: Translation of Korean language in preferences dropdown
+#: localization/LINGUAS.php:44
+msgid "Korean"
+msgstr "Coreano"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3331,6 +3445,11 @@ msgstr "Data da Última Atualização"
 #: templates/faq.tpl.html
 msgid "Last updated"
 msgstr "Última atualização"
+
+#. TRANSLATORS: Translation of Latvian language in preferences dropdown
+#: localization/LINGUAS.php:48
+msgid "Latvian"
+msgstr "Letão"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3393,6 +3512,11 @@ msgstr "Listar Emails Excluídos"
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
 msgstr "Listando / Buscando Chamados"
+
+#. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
+#: localization/LINGUAS.php:46
+msgid "Lithuanian"
+msgstr "Lituano"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
@@ -3682,7 +3806,7 @@ msgstr "Novo Email Alternativo"
 msgid "New Attachment"
 msgstr "Novo Anexo"
 
-#: lib/eventum/class.notification.php:1110 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1113 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Chamado Novo"
 
@@ -3698,7 +3822,7 @@ msgstr "Nova Senha"
 msgid "New Status for Issue"
 msgstr "Novo Status do Chamado"
 
-#: lib/eventum/class.notification.php:1449
+#: lib/eventum/class.notification.php:1454
 msgid "New User information"
 msgstr "Informações de novo usuário"
 
@@ -3727,7 +3851,7 @@ msgstr "Próxima Mensagem"
 msgid "Next Note"
 msgstr "Próxima Nota"
 
-#: lib/eventum/class.misc.php:735 templates/close.tpl.html
+#: lib/eventum/class.misc.php:714 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -4048,22 +4172,22 @@ msgstr "Lista de Notificação:"
 msgid "Notification Options for Issue #%1"
 msgstr "Opções de Notificação para Expedir #%1"
 
-#: lib/eventum/class.notification.php:2036
+#: lib/eventum/class.notification.php:2041
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) adicionada por %2$s"
 
-#: lib/eventum/class.notification.php:1876
+#: lib/eventum/class.notification.php:1881
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) excluída por %2$s"
 
-#: lib/eventum/class.notification.php:2122
+#: lib/eventum/class.notification.php:2127
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') adicionada por %2$s"
 
-#: lib/eventum/class.notification.php:2218
+#: lib/eventum/class.notification.php:2223
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') atualizada por %2$s"
@@ -4079,6 +4203,11 @@ msgstr "Número de Dias"
 #: crons/monitor.php:101
 msgid "OK: No errors found"
 msgstr "OK: Nenhum erro encontrado"
+
+#. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
+#: localization/LINGUAS.php:52
+msgid "Occitan (post 1500)"
+msgstr "Occitano (pós-1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4274,8 +4403,8 @@ msgstr "Padrão: \"%1\""
 msgid "Pending"
 msgstr "Pendentes"
 
-#: lib/eventum/class.notification.php:646
-#: lib/eventum/class.notification.php:647
+#: lib/eventum/class.notification.php:649
+#: lib/eventum/class.notification.php:650
 msgid "Percent complete"
 msgstr "Porcentagem concluída"
 
@@ -5403,10 +5532,20 @@ msgstr ""
 "Por favor insira apenas números reais no campo de tempo estimado de "
 "desenvolvimento."
 
+#. TRANSLATORS: Translation of Polish language in preferences dropdown
+#: localization/LINGUAS.php:54
+msgid "Polish"
+msgstr "Polonês"
+
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
 msgstr "Porta"
+
+#. TRANSLATORS: Translation of Portuguese language in preferences dropdown
+#: localization/LINGUAS.php:56
+msgid "Portuguese"
+msgstr "Português (Portugal)"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5453,8 +5592,8 @@ msgid "Primary Technical Account Manager"
 msgstr "Gerente de Contas Técnico Primário"
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:629
+#: lib/eventum/class.notification.php:630 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5613,6 +5752,10 @@ msgstr "Receber email quando um chamado for aberto?"
 msgid "Receive emails when new issues are assigned to you?"
 msgstr "Receber email quando você for designado para um chamado?"
 
+#: templates/preferences.tpl.html
+msgid "Receive notifications for your own actions?"
+msgstr "Receber notificações para suas próprias ações?"
+
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
 msgstr "Recebido em"
@@ -5732,8 +5875,8 @@ msgid "Register"
 msgstr "Solicitar Conta"
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:622
-#: lib/eventum/class.notification.php:623 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:625
+#: lib/eventum/class.notification.php:626 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr "Versão"
@@ -5942,8 +6085,8 @@ msgstr "Requer suporte a cookies e a JavaScript em seu navegador"
 msgid "Reset"
 msgstr "Redefinir"
 
-#: lib/eventum/class.notification.php:634
-#: lib/eventum/class.notification.php:635 templates/close.tpl.html
+#: lib/eventum/class.notification.php:637
+#: lib/eventum/class.notification.php:638 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr "Resolução"
@@ -5979,6 +6122,11 @@ msgstr "Linhas Por Página:"
 #: templates/adv_search.tpl.html
 msgid "Run Search"
 msgstr "Rodar Busca"
+
+#. TRANSLATORS: Translation of Russian language in preferences dropdown
+#: localization/LINGUAS.php:60
+msgid "Russian"
+msgstr "Russo"
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
@@ -6260,6 +6408,11 @@ msgstr ""
 "base de dados, este processo manual é necessário para associar um status a "
 "um campo de data armazenado na base de dados."
 
+#. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
+#: localization/LINGUAS.php:62
+msgid "Sinhalese"
+msgstr "Cingalês"
+
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
 msgstr "Pular Fins de Semana"
@@ -6351,6 +6504,11 @@ msgstr "Classificar Por"
 msgid "Sort Order"
 msgstr "Ordenação"
 
+#. TRANSLATORS: Translation of Spanish language in preferences dropdown
+#: localization/LINGUAS.php:22
+msgid "Spanish"
+msgstr "Espanhol"
+
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
 msgstr "Verificação Ortográfica"
@@ -6397,8 +6555,8 @@ msgid "Stats"
 msgstr "Estatísticas"
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:630
-#: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:633
+#: lib/eventum/class.notification.php:634 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6470,8 +6628,8 @@ msgid "Suggestions:"
 msgstr "Sugestões:"
 
 #: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:642
-#: lib/eventum/class.notification.php:643 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.notification.php:645
+#: lib/eventum/class.notification.php:646 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6521,6 +6679,11 @@ msgstr "Níveis de Suporte"
 msgid "Support Options"
 msgstr "Opções de Suporte"
 
+#. TRANSLATORS: Translation of Swedish language in preferences dropdown
+#: localization/LINGUAS.php:64
+msgid "Swedish"
+msgstr "Sueco"
+
 #: templates/navigation.tpl.html
 msgid "Switch"
 msgstr "Alternar"
@@ -6534,6 +6697,11 @@ msgstr ""
 "Usuários do sistema podem \"assinar\" as ações acima para chamados "
 "específicos quando abrem novos chamados, ou ao visualizar a tela de detalhes "
 "do chamado e clicar o link 'Editar Lista de Notificação'."
+
+#. TRANSLATORS: Translation of Tamil language in preferences dropdown
+#: localization/LINGUAS.php:66
+msgid "Tamil"
+msgstr "Tâmil"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6562,6 +6730,11 @@ msgstr "Caixa de Texto"
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
 msgstr "Área de Texto"
+
+#. TRANSLATORS: Translation of Thai language in preferences dropdown
+#: localization/LINGUAS.php:68
+msgid "Thai"
+msgstr "Tailandês"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7928,6 +8101,11 @@ msgstr "Ação Disparada"
 msgid "Triggered Reminder"
 msgstr "Disparou o Lembrete"
 
+#. TRANSLATORS: Translation of Turkish language in preferences dropdown
+#: localization/LINGUAS.php:70
+msgid "Turkish"
+msgstr "Turco"
+
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -7948,6 +8126,11 @@ msgstr "Tipo:"
 #: templates/reminders/email_alert.tpl.text
 msgid "URL"
 msgstr "URL"
+
+#. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
+#: localization/LINGUAS.php:72
+msgid "Ukrainian"
+msgstr "Ucraniano"
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -8118,7 +8301,7 @@ msgstr "Modificar Valor"
 msgid "Update Values"
 msgstr "Gravar Valores"
 
-#: lib/eventum/class.notification.php:690
+#: lib/eventum/class.notification.php:693
 msgid "Updated"
 msgstr "Atualizado"
 
@@ -8137,6 +8320,11 @@ msgstr "Enviar Arquivo"
 #: templates/preferences.tpl.html
 msgid "Upload New Signature"
 msgstr "Enviar Nova Assinatura"
+
+#. TRANSLATORS: Translation of Urdu language in preferences dropdown
+#: localization/LINGUAS.php:74
+msgid "Urdu"
+msgstr "Urdu"
 
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
@@ -8176,11 +8364,11 @@ msgstr "Dados do Usuário"
 msgid "User Permission Levels"
 msgstr "Níveis de Permissão de Usuário"
 
-#: lib/eventum/class.notification.php:1375
+#: lib/eventum/class.notification.php:1380
 msgid "User account information updated"
 msgstr "Informações de conta de usuário atualizadas"
 
-#: lib/eventum/class.notification.php:1412
+#: lib/eventum/class.notification.php:1417
 msgid "User account password changed"
 msgstr "Senha de conta de usuário modificada"
 
@@ -8216,6 +8404,11 @@ msgstr "Valor"
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value:"
 msgstr "Valor:"
+
+#. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
+#: localization/LINGUAS.php:76
+msgid "Vietnamese"
+msgstr "Vietnamita"
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
@@ -8518,7 +8711,7 @@ msgstr "Carga de Trabalho por Hora do dia"
 msgid "Workload by time period"
 msgstr "Carga de trabalho por período de tempo"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:733
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:712
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8647,7 +8840,7 @@ msgstr ""
 "Você também pode usar a string 'bug' no lugar de 'issue' para especificar o "
 "número do chamado."
 
-#: lib/eventum/class.notification.php:1578
+#: lib/eventum/class.notification.php:1583
 msgid "Your User Account Details"
 msgstr "Detalhes da sua Conta de Usuário"
 
@@ -9187,7 +9380,7 @@ msgstr "atualizar esta entrada"
 msgid "view email details"
 msgstr "visualizar detalhes do email"
 
-#: templates/emails.tpl.html templates/list.tpl.html
+#: templates/close.tpl.html templates/emails.tpl.html templates/list.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
@@ -9226,352 +9419,3 @@ msgstr "semana"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "ano"
-
-#~ msgid "Expired Customer"
-#~ msgstr "Cliente com Contrato Expirado"
-
-#~ msgid "Contact"
-#~ msgstr "Contato"
-
-#~ msgid "Company Name"
-#~ msgstr "Nome da Organização"
-
-#~ msgid "Contract #"
-#~ msgstr "Número do Contrato"
-
-#~ msgid "Expired"
-#~ msgstr "Data de Expiração"
-
-#~ msgid "Customer Details"
-#~ msgstr "Detalhes do Cliente"
-
-#~ msgid "Contact Person"
-#~ msgstr "Pessoa de Contato"
-
-#~ msgid "Contact Email"
-#~ msgstr "Email de Contato"
-
-#~ msgid "Contact's Local Time"
-#~ msgstr "Hora Local do Contato"
-
-#~ msgid "Maximum First Response Time"
-#~ msgstr "Tempo Máximo da Primeira Resposta"
-
-#~ msgid "Time Until First Response Deadline"
-#~ msgstr "Tempo Restante até Deadline da Primeira Resposta"
-
-#~ msgid "Support Expiration Date"
-#~ msgstr "Data de Expiração do Suporte"
-
-#~ msgid "Sales Account Manager"
-#~ msgstr "Gerente de Contas - Vendas"
-
-#~ msgid "Notes About Customer"
-#~ msgstr "Notas Sobre o Cliente"
-
-#~ msgid "Edit"
-#~ msgstr "Editar"
-
-#~ msgid "Customer Lookup Tool"
-#~ msgstr "Ferramenta de Busca de Cliente"
-
-#~ msgid "Customer ID"
-#~ msgstr "ID do Cliente"
-
-#~ msgid "Lookup"
-#~ msgstr "Buscar"
-
-#~ msgid "Results"
-#~ msgstr "Resultados"
-
-#~ msgid "Support Type"
-#~ msgstr "Tipo de Suporte"
-
-#~ msgid "Expiration Date"
-#~ msgstr "Data de Expiração"
-
-#~ msgid "select this contact"
-#~ msgstr "selecionar este contato"
-
-#~ msgid "No results could be found"
-#~ msgstr "Nenhum resultado foi encontrado."
-
-#~ msgid "Example customer API front page"
-#~ msgstr "Página inicial da API de cliente de exemplo"
-
-#~ msgid "Quarantine explanation goes here..."
-#~ msgstr "A explicação da quarentena segue aqui..."
-
-#~ msgid "Contact Person Last Name"
-#~ msgstr "Último Nome da Pessoa de Contato"
-
-#~ msgid "Contact Person First Name"
-#~ msgstr "Primeiro Nome da Pessoa de Contato"
-
-#~ msgid "Lookup Customer"
-#~ msgstr "Buscar Cliente"
-
-#~ msgid "Add Primary Contact to Notification List? *"
-#~ msgstr "Adicionar Contato Primário à Lista de Notificação? *"
-
-#~ msgid "Notify Customer About New Issue? *"
-#~ msgstr "Notificar Cliente Sobre Novo Chamado?"
-
-#~ msgid "Last Name"
-#~ msgstr "Último Nome"
-
-#~ msgid "First Name"
-#~ msgstr "Primeiro Nome"
-
-#~ msgid "Additional Contact Emails"
-#~ msgstr "Emails de Contato Adicionais"
-
-#~ msgid "(hold ctrl to select multiple options)"
-#~ msgstr "(segure CTRL para selecionar múltiplas opções)"
-
-#~ msgid "(only technical contacts listed on your contract)"
-#~ msgstr "(somente contatos técnicos listados no seu contrato)"
-
-# Where's the leading 'N'?
-#~ msgid "Note: The current maximum allowed upload file size is"
-#~ msgstr "Nota: O tamanho máximo permitido no momento para arquivos enviados é"
-
-#~ msgid " Error: Please provide your email address."
-#~ msgstr " Erro: Por favor informe seu endereço de email."
-
-#~ msgid "Search Results"
-#~ msgstr "Resultados da Busca"
-
-#~ msgid "issues found"
-#~ msgstr "chamado(s) encontrado(s)"
-
-#~ msgid "shown"
-#~ msgstr "exibido(s)"
-
-#~ msgid "Notification Options"
-#~ msgstr "Opções de Notificação"
-
-#~ msgid "This issue was just closed by"
-#~ msgstr "O chamado acaba de ser fechado por"
-
-#~ msgid " with the message"
-#~ msgstr " com a mensagem"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "Para adicionar mais informações ao chamado, simplesmente responda este email."
-
-#~ msgid "ERROR: Almost no free disk space left (percentage left"
-#~ msgstr "ERRO: Quase sem espaço livre no disco (porcentagem livre"
-
-#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
-#~ msgstr "ERRO: Espaço livre no disco está diminuindo muito (porcentagem livre"
-
-#~ msgid "ERROR: File could not be found (path"
-#~ msgstr "ERRO: Arquivo não encontrado (caminho"
-
-#~ msgid ""
-#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
-#~ msgstr ""
-#~ "ERRO: Não foi possível conectar à base de dados MySQL. Mensagem de erro "
-#~ "detalhada:"
-
-#~ msgid "Port:"
-#~ msgstr "Porta:"
-
-#~ msgid "Username:"
-#~ msgstr "Usuário:"
-
-#~ msgid "Details:"
-#~ msgstr "Detalhes:"
-
-#~ msgid "Closed Status"
-#~ msgstr "Status de Fechamento"
-
-#~ msgid "Page generated in %1 seconds"
-#~ msgstr "Página gerada em %1 segundo(s)"
-
-#~ msgid "queries"
-#~ msgstr "consultas"
-
-#~ msgid "Benchmark Statistics"
-#~ msgstr "Estatísticas de Desempenho"
-
-#~ msgid "Keep Form Open"
-#~ msgstr "Manter Tela Aberta"
-
-#~ msgid ""
-#~ "You must enter the ID of an issue that does not have a duplicate status."
-#~ msgstr ""
-#~ "Você deve informar o número de um chamado que não seja ele mesmo uma "
-#~ "duplicata."
-
-#~ msgid ""
-#~ "The provided trial account email address could not be\n"
-#~ "            found. Please contact the local Technical Support staff for\n"
-#~ "            further assistance."
-#~ msgstr ""
-#~ "O endereço de email fornecido para a conta de teste\n"
-#~ "            não pôde ser confirmado. Por favor entre em contato com\n"
-#~ "            a Equipe de Suporte para maiores informações."
-
-#~ msgid ""
-#~ "This page can only be accessed in relation to a project. Please go to the "
-#~ "project page and choose\n"
-#~ "\"Edit Fields to Display\" to access this page."
-#~ msgstr ""
-#~ "Esta página só pode ser acessada após selecionar um projeto.\n"
-#~ "Por favor acesse a página de projetos e escolha\n"
-#~ "\"Editar Campos a Exibir\" para acessar esta página."
-
-#~ msgid ""
-#~ "WARNING: This action will remove the selected groups permanently.nPlease "
-#~ "click OK to confirm."
-#~ msgstr ""
-#~ "AVISO: Esta ação excluirá permanentemente os grupos selecionados.\n"
-#~ "Por favor clique em OK para confirmar."
-
-#~ msgid "Name: *"
-#~ msgstr "Nome: *"
-
-#~ msgid "Assigned Projects: *"
-#~ msgstr "Projetos Associados:"
-
-#~ msgid "Users: *"
-#~ msgstr "Usuários: *"
-
-#~ msgid "Manager: *"
-#~ msgstr "Gestor: *"
-
-#~ msgid "Auto-Creation of Issues:"
-#~ msgstr "Abertura Automática de Chamados:"
-
-#~ msgid "CLOCKED"
-#~ msgstr "CRONOMETRANDO:"
-
-#~ msgid "IN"
-#~ msgstr "SIM"
-
-#~ msgid "OUT"
-#~ msgstr "NÃO"
-
-#~ msgid "Clock"
-#~ msgstr "Clique para"
-
-#~ msgid "Out"
-#~ msgstr "Não Cronometrar"
-
-#~ msgid "In"
-#~ msgstr "Cronometrar"
-
-#~ msgid ""
-#~ "Warning: your issue is currently quarantined.\n"
-#~ "                Please see the <a href=\"faq.php\">FAQ</a> for information "
-#~ "regarding quarantined issues."
-#~ msgstr ""
-#~ "Aviso: seu chamado está em quarentena.\n"
-#~ "                Por favor leia a <a href=\"faq.php\">FAQ</a> para obter "
-#~ "informações sobre chamados em quarentena."
-
-#~ msgid "yes"
-#~ msgstr "sim"
-
-#~ msgid "no"
-#~ msgstr "não"
-
-#~ msgid ""
-#~ "Refers to the number of issues in eventum for the given support level or "
-#~ "customer.\n"
-#~ "    Average and median counts do not include customers who have never opened "
-#~ "an issue."
-#~ msgstr ""
-#~ "Refere-se ao número de chamados no Eventum para o nível de suporte ou "
-#~ "cliente informados.\n"
-#~ "    Contagens média e mediana não incluem clientes que nunca abriram "
-#~ "chamados."
-
-#~ msgid ""
-#~ "Based on all issues recorded in Eventum since start to present.\n"
-#~ "        Actions are any event that shows up in the history of an issue, such "
-#~ "as a user or a developer updating an issue, uploading a file, sending an "
-#~ "email, etc."
-#~ msgstr ""
-#~ "Baseado em todos os chamados cadastrados no Eventum desde o início até o "
-#~ "presente.\n"
-#~ "        Ações são quaisquer eventos que constem no histórico de um chamado, "
-#~ "tais como quando um usuário ou desenvolvedor atualiza um chamado, envia um "
-#~ "arquivo, envia um email, etc."
-
-#~ msgid ""
-#~ "Sorry, but the email could not be queued. This might be related to problems "
-#~ "with your SMTP account settings.\n"
-#~ "  Please contact the administrator of this application for further "
-#~ "assistance."
-#~ msgstr ""
-#~ "Desculpe, mas o email não pôde ser incluído na fila. Isso pode estar "
-#~ "relacionado a problemas nas configurações da sua conta SMTP.\n"
-#~ "  Por favor entre em contato com seu administrador local para maiores "
-#~ "informações."
-
-#~ msgid ""
-#~ "Sorry, but the email could not be sent. This might be related to problems "
-#~ "with your SMTP account settings.\n"
-#~ "              Please contact the administrator of this application for "
-#~ "assistance."
-#~ msgstr ""
-#~ "Desculpe, mas o email não pôde ser enviado. Isso pode estar relacionado a "
-#~ "problemas nas configurações da sua conta SMTP.\n"
-#~ "              Por favor entre em contato com seu administrador local para "
-#~ "maiores informações."
-
-#~ msgid ""
-#~ "You can create canned email responses and use them when sending emails from "
-#~ "the\n"
-#~ "system. That is an useful feature when dealing with lots of issues that "
-#~ "relate\n"
-#~ "to the same problem.\n"
-#~ "<br /><br />\n"
-#~ "If no canned email responses are available through the Email window, please\n"
-#~ "contact an user with the appropriate permissions (administrator or manager) "
-#~ "to\n"
-#~ "add some for you."
-#~ msgstr ""
-#~ "Você pode criar respostas prontas de email e usá-las quando enviar emails do "
-#~ "sistema.\n"
-#~ "Esta é uma funcionalidade útil quando se atende um grande número de chamados "
-#~ "relacionados ao mesmo problema.\n"
-#~ "<br /><br />\n"
-#~ "Se nenhuma resposta pronta estiver disponível na janela de Email, por favor "
-#~ "entre em\n"
-#~ "contato com algum usuário que tenha as permissões apropriadas (administrador "
-#~ "do sistema\n"
-#~ "ou gestor de projeto) para criar algumas para você."
-
-#~ msgid ""
-#~ "The specified note does not exist. <br />\n"
-#~ "      It could have been converted to an email."
-#~ msgstr ""
-#~ "A nota selecionada não existe. <br />\n"
-#~ "      Ela pode ter sido convertida em um email."
-
-#~ msgid ""
-#~ "<b>Note:</b> If you check this, you cannot leave a copy of messages on the "
-#~ "server."
-#~ msgstr ""
-#~ "<b>Nota:</b> Se você marcar esta opção, não poderá deixar uma cópia das "
-#~ "mensagens no servidor."
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
-#~ "emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Nota:</b> A configuração SMTP (email sainte) é necessária para garantir "
-#~ "que os emails sejam enviados de forma adequada ao criar novos "
-#~ "usários/projetos."
-
-#, php-format
-#~ msgid "Email #%1$s: %2$s"
-#~ msgstr "Email #%1$s: %2$s"
