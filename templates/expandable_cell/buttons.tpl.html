@@ -1,7 +1,4 @@
 {strip}
-{if $remote_func != ''}
-    <script type="text/javascript">setRemoteFunction('{$ec_id}', '{$remote_func}');</script>
-{/if}
 {if $list_id == ''}
     {assign var="js_expand_func" value="expandAll('$rel_url', '$ec_id')"}
     {capture assign="expand_all"}{t}Expand all collapsed cells{/t}{/capture}

@@ -36,10 +36,17 @@ Auth::checkAuthentication(APP_COOKIE);
  * httpClient library or jQuery.
  */
 
-$valid_functions = array('getEmail', 'getNote', 'getDraft', 'getPhoneSupport', 'getMailQueue');
+$valid_functions = array(
+    'email' => 'getEmail',
+    'note' => 'getNote',
+    'draft' => 'getDraft',
+    'phone' => 'getPhoneSupport',
+    'mailqueue' => 'getMailQueue',
+);
 $action = Misc::escapeString($_REQUEST['action']);
-if (in_array($action, $valid_functions)) {
-    $res = $action($_REQUEST['list_id']);
+if (in_array($action, array_keys($valid_functions))) {
+    $method = $valid_functions[$action];
+    $res = $method($_REQUEST['list_id']);
 } else {
     $res = "ERROR: Unable to call function " . htmlspecialchars($action);
 }
