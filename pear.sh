@@ -64,7 +64,7 @@ if [ ! -f pear.install ]; then
 		pear install -O -n -l -f -P $t $f
 		v=${f#$p-}
 		v=${v%.tgz}
-		echo "$p $v" >> $t/VERSIONS
+		echo "- $p $v" >> $t/VERSIONS
 	done
 	touch pear.install
 fi
