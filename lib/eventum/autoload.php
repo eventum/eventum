@@ -30,6 +30,12 @@ class Eventum_Autoload {
 			return true;
 		}
 
+		// SphinxClient
+		if ($className === 'SphinxClient') {
+			require_once dirname(__FILE__) . '/../sphinxapi/sphinxapi.php';
+			return true;
+		}
+
 		if (!is_array(self::$classes)) {
 			self::$classes = array();
 			self::scan(dirname(__FILE__));
