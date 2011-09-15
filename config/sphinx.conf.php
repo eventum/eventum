@@ -1,5 +1,5 @@
 <?php
-require_once "../init.php";
+require_once dirname(__FILE__) . "/init.php";
 
 if (!defined('SPHINX_LOG_PATH')) {
     define('SPHINX_LOG_PATH', '/var/log/sphinx/');
