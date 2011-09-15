@@ -1,14 +1,12 @@
 <?php
 
-require APP_INC_PATH . "/search/class.abstract_fulltext_search.php";
-require APP_INC_PATH . "/search/sphinxapi.php";
-
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
     private $sphinx;
 
     private $keywords;
-    
+	private $excerpt_placeholder;
+
     public function __construct()
     {
         $this->sphinx = new SphinxClient();
@@ -16,9 +14,12 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->matches = array();
 
         $this->match_mode = '';
+
+		// generate unique placeholder
+        $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
     }
-    
-    
+
+
     public function getIssueIDs($options)
     {
         // Build the Sphinx client
@@ -45,8 +46,18 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->match_mode = $options['match_mode'];
 
         $res = $this->sphinx->Query($options['keywords'], $indexes);
-//        echo $this->sphinx->getLastError();
-//        echo "<pre>";print_r($res);
+
+		// TODO: report these somehow back to the UI
+		if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
+			error_log("sphinx_fulltext_search: Network Error");
+		}
+		if ($this->sphinx->GetLastWarning()) {
+			error_log("sphinx_fulltext_search: WARNING: " . $this->sphinx->GetLastWarning());
+		}
+		if ($this->sphinx->GetLastError()) {
+			error_log("sphinx_fulltext_search: ERROR: " . $this->sphinx->GetLastError());
+		}
+
         $issue_ids = array();
         if (isset($res['matches'])) {
             foreach ($res['matches'] as $match_details) {
@@ -81,11 +92,12 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         if (count($this->matches) < 1) {
             return false;
         }
+
         $excerpt_options = array(
-            "query_mode"    =>  $this->match_mode,
-            'before_match'  => '<b>',
-            'after_match'   => '</b>',
-            'allow_empty'   =>  true,
+            'query_mode'    => $this->match_mode,
+            'before_match'  => $this->excerpt_placeholder . '-before',
+            'after_match'   => $this->excerpt_placeholder . '-after',
+            'allow_empty'   => true,
         );
         $excerpts = array();
         foreach ($this->matches as $issue_id => $matches) {
@@ -108,6 +120,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
                     if ($res[0] != $issue['iss_original_description']) {
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
+                        error_log(print_r($excerpt['issue']['description'],1));
                     }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);
@@ -139,11 +152,24 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         return $excerpts;
     }
 
-    private function cleanUpExcerpt($str)
-    {
-        return Misc::removeNewLines($str);
-    }
-
+	/**
+	 * Cleanup excerpt from newlines.
+	 *
+	 * Converts placeholders to HTML bold tags and returns text HTML encoded
+	 *
+	 * @param string $str
+	 */
+	private function cleanUpExcerpt($str)
+	{
+		return str_replace(
+				array(
+					$this->excerpt_placeholder . '-before',
+					$this->excerpt_placeholder . '-after',
+				),
+				array('<b>', '</b>'),
+				htmlspecialchars(Misc::removeNewLines($str)
+			));
+	}
 
     public function getMatchModes()
     {

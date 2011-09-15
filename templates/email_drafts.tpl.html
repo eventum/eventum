@@ -53,7 +53,7 @@ function showAllDrafts(thisBox)
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr id="drafts1" {get_display_style element_name="drafts" total=$drafts|@count} bgcolor="{$internal_color}">
-                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
                 <td width="5" class="default_white" align="center">#</td>
                 {if $smarty.request.show_all_drafts == 1}
                 <td width="5%" class="default_white">{t}Status{/t}</td>

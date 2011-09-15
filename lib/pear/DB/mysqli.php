@@ -19,7 +19,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: mysqli.php,v 1.82 2007/09/21 13:40:41 aharvey Exp $
+ * @version    CVS: $Id: mysqli.php 315557 2011-08-26 14:32:35Z danielc $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -43,7 +43,7 @@ require_once 'DB/common.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  * @since      Class functional since Release 1.6.3
  */
@@ -993,7 +993,7 @@ class DB_mysqli extends DB_common
             $got_string = false;
         }
 
-        if (!is_a($id, 'mysqli_result')) {
+        if (!is_object($id) || !is_a($id, 'mysqli_result')) {
             return $this->mysqliRaiseError(DB_ERROR_NEED_MORE_DATA);
         }
 

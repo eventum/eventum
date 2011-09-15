@@ -63,7 +63,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 
@@ -955,7 +955,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 
@@ -3393,7 +3393,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 

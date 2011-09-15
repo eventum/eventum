@@ -8,16 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-05 15:23+0300\n"
-"PO-Revision-Date: 2011-05-05 20:21+0000\n"
-"Last-Translator: gvandenbosch <Unknown>\n"
+"POT-Creation-Date: 2011-08-30 22:28+0300\n"
+"PO-Revision-Date: 2011-08-30 19:27+0000\n"
+"Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2011-07-06 04:36+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-08-31 04:36+0000\n"
+"X-Generator: Launchpad (build 13815)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -954,8 +953,8 @@ msgstr "In behandeling bij"
 msgid "Assignment Field"
 msgstr "Toewijzing"
 
-#: lib/eventum/class.notification.php:609
-#: lib/eventum/class.notification.php:610
+#: lib/eventum/class.notification.php:612
+#: lib/eventum/class.notification.php:613
 msgid "Assignment List"
 msgstr "Opdrachtenlijst"
 
@@ -1004,7 +1003,7 @@ msgstr "Gekoppeld project"
 msgid "Associated Project:"
 msgstr "Bijgevoegd project"
 
-#: templates/view_email.tpl.html templates/view_note.tpl.html
+#: templates/view_email.tpl.html
 msgid "Associated with Issue"
 msgstr "Gekoppeld aan melding"
 
@@ -1120,7 +1119,7 @@ msgstr "Gemiddelde en mediaan-tijd tot dfe eerste reactie per support level"
 msgid "Avg/Med/Max Issues/Emails"
 msgstr "Meldingen/Berichten"
 
-#: lib/eventum/class.notification.php:960
+#: lib/eventum/class.notification.php:963
 msgid "BLOCKED"
 msgstr "Geblokkeerd"
 
@@ -1185,6 +1184,16 @@ msgstr "Blauwe cijfers betekenen dat de waarde lager is dan het totaal."
 msgid "Boilerplate:"
 msgstr "Tekstblok"
 
+#. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
+#: localization/LINGUAS.php:58
+msgid "Brasiliant Portugese"
+msgstr ""
+
+#. TRANSLATORS: Translation of Breton language in preferences dropdown
+#: localization/LINGUAS.php:4
+msgid "Breton"
+msgstr ""
+
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
 msgstr "Selectie bijwerken"
@@ -1237,13 +1246,18 @@ msgstr "Update annuleren"
 msgid "Canned Responses"
 msgstr "Standaardantwoorden"
 
+#. TRANSLATORS: Translation of Catalan language in preferences dropdown
+#: localization/LINGUAS.php:6
+msgid "Catalan"
+msgstr ""
+
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
 msgstr "Categorieën en statussen"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:618
-#: lib/eventum/class.notification.php:619 lib/eventum/class.project.php:1096
+#: lib/eventum/class.notification.php:621
+#: lib/eventum/class.notification.php:622 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1309,6 +1323,11 @@ msgstr "Spellingcontrole"
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
 msgstr "Controlepagina:"
+
+#. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
+#: localization/LINGUAS.php:78
+msgid "Chinese (Simplified)"
+msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1377,7 +1396,7 @@ msgstr "Melding sluiten"
 msgid "Close Window"
 msgstr "Venster sluiten"
 
-#: lib/eventum/class.notification.php:820
+#: lib/eventum/class.notification.php:823
 msgid "Closed"
 msgstr "Afgesloten"
 
@@ -1688,9 +1707,19 @@ msgstr "Overzicht aanpassen"
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
+#. TRANSLATORS: Translation of Czech language in preferences dropdown
+#: localization/LINGUAS.php:8
+msgid "Czech"
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
 msgstr "Dagelijkse tips:"
+
+#. TRANSLATORS: Translation of Danish language in preferences dropdown
+#: localization/LINGUAS.php:10
+msgid "Danish"
+msgstr ""
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1923,6 +1952,11 @@ msgstr "Gekopieerd door"
 #: templates/view_form.tpl.html
 msgid "Duplicates"
 msgstr "Duplicaten"
+
+#. TRANSLATORS: Translation of Dutch language in preferences dropdown
+#: localization/LINGUAS.php:50
+msgid "Dutch"
+msgstr ""
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
@@ -2280,6 +2314,21 @@ msgstr "Eindtijd ligt in de toekomst"
 msgid "End:"
 msgstr "Einde:"
 
+#. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
+#: localization/LINGUAS.php:14
+msgid "English (Australia)"
+msgstr ""
+
+#. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
+#: localization/LINGUAS.php:16
+msgid "English (Canada)"
+msgstr ""
+
+#. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
+#: localization/LINGUAS.php:18
+msgid "English (United Kingdom)"
+msgstr ""
+
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
 msgstr "Impactanalyse invoeren"
@@ -2419,12 +2468,17 @@ msgstr "Fout: Toewijzing van deze melding is al ongedaan gemaakt."
 msgid "Error: you are already authorized to send emails in this issue."
 msgstr "Fout: U bent al gemachtigd om eimals te verzenden voor deze melding."
 
+#. TRANSLATORS: Translation of Esperanto language in preferences dropdown
+#: localization/LINGUAS.php:20
+msgid "Esperanto"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr "Geschatte ontwikkeltijd"
 
-#: lib/eventum/class.notification.php:638
-#: lib/eventum/class.notification.php:639 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:641
+#: lib/eventum/class.notification.php:642 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2454,6 +2508,11 @@ msgstr "Geschatte verwerkingstijd per categorie"
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
 msgstr "Geschatte tijd (uren)"
+
+#. TRANSLATORS: Translation of Estonian language in preferences dropdown
+#: localization/LINGUAS.php:24
+msgid "Estonian"
+msgstr ""
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2585,8 +2644,8 @@ msgid "Expand collapsed cell"
 msgstr "Ingeklapte kolom uitvouwen"
 
 #: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:614
-#: lib/eventum/class.notification.php:615 templates/view_form.tpl.html
+#: lib/eventum/class.notification.php:617
+#: lib/eventum/class.notification.php:618 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr "Verwachte afhandeldatum"
 
@@ -2605,6 +2664,11 @@ msgstr "Exporteren naar Microsoft Excel"
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr "Extra geadresseerden:"
+
+#. TRANSLATORS: Translation of Faroese language in preferences dropdown
+#: localization/LINGUAS.php:28
+msgid "Faroese"
+msgstr ""
 
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
@@ -2653,6 +2717,11 @@ msgstr "Bestanden gekoppeld aan bestaande meldingen"
 msgid "Filter by Arrival Date:"
 msgstr "Filteren op datum van binnenkomst:"
 
+#. TRANSLATORS: Translation of Finnish language in preferences dropdown
+#: localization/LINGUAS.php:26
+msgid "Finnish"
+msgstr ""
+
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
 msgstr "Eerste reactie"
@@ -2678,6 +2747,11 @@ msgid ""
 "For example, you could use this page so that only users of the role "
 "\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
 "category or release fields when reporting a new issue."
+msgstr ""
+
+#. TRANSLATORS: Translation of French language in preferences dropdown
+#: localization/LINGUAS.php:30
+msgid "French"
 msgstr ""
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
@@ -2720,6 +2794,11 @@ msgstr "Algemene Setup"
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
 msgstr "Genereren"
+
+#. TRANSLATORS: Translation of German language in preferences dropdown
+#: localization/LINGUAS.php:12
+msgid "German"
+msgstr ""
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2772,9 +2851,19 @@ msgstr "Groeperen naar"
 msgid "Group:"
 msgstr "Groep:"
 
+#. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
+#: localization/LINGUAS.php:34
+msgid "Haitian; Haitian Creole"
+msgstr ""
+
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
 msgstr "Behandelaar"
+
+#. TRANSLATORS: Translation of Hebrew language in preferences dropdown
+#: localization/LINGUAS.php:32
+msgid "Hebrew"
+msgstr ""
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2879,6 +2968,11 @@ msgstr "Uur"
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
 msgstr "De volgende fouten zijn opgetreden:"
+
+#. TRANSLATORS: Translation of Hungarian language in preferences dropdown
+#: localization/LINGUAS.php:36
+msgid "Hungarian"
+msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
@@ -3055,6 +3149,11 @@ msgstr ""
 msgid "Incoming"
 msgstr "Inkomend"
 
+#. TRANSLATORS: Translation of Indonesian language in preferences dropdown
+#: localization/LINGUAS.php:38
+msgid "Indonesian"
+msgstr ""
+
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
 msgstr "Omschrijving"
@@ -3154,7 +3253,7 @@ msgid "Issue Details"
 msgstr "Gegevens"
 
 #: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
-#: templates/close.tpl.html templates/reports/custom_fields.tpl.html
+#: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
@@ -3252,6 +3351,16 @@ msgstr ""
 "Gekoppelde items (meldingen, notities, bijlagen etc.) zullen worden "
 "verwijderd druk op OK om te bevestigen."
 
+#. TRANSLATORS: Translation of Italian language in preferences dropdown
+#: localization/LINGUAS.php:40
+msgid "Italian"
+msgstr ""
+
+#. TRANSLATORS: Translation of Japanese language in preferences dropdown
+#: localization/LINGUAS.php:42
+msgid "Japanese"
+msgstr ""
+
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
 msgstr "Huidige opdrachten behouden:"
@@ -3268,6 +3377,11 @@ msgstr "Zoekwoord(en)"
 #: templates/searchbar.tpl.html
 msgid "Keyword(s):"
 msgstr "Sleutelwoord(en):"
+
+#. TRANSLATORS: Translation of Korean language in preferences dropdown
+#: localization/LINGUAS.php:44
+msgid "Korean"
+msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3315,6 +3429,11 @@ msgstr "Laatst gewijzigd"
 #: templates/faq.tpl.html
 msgid "Last updated"
 msgstr "Laatste wijziging"
+
+#. TRANSLATORS: Translation of Latvian language in preferences dropdown
+#: localization/LINGUAS.php:48
+msgid "Latvian"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3372,6 +3491,11 @@ msgstr "Verwijderde berichten tonen"
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
 msgstr "Vastleggen/zoeken meldingen"
+
+#. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
+#: localization/LINGUAS.php:46
+msgid "Lithuanian"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
@@ -3657,7 +3781,7 @@ msgstr "Nieuwe alias"
 msgid "New Attachment"
 msgstr "Nieuwe bijlage"
 
-#: lib/eventum/class.notification.php:1110 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1113 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Nieuwe melding"
 
@@ -3673,7 +3797,7 @@ msgstr "Nieuw wachtwoord."
 msgid "New Status for Issue"
 msgstr "Nieuwe status voor melding"
 
-#: lib/eventum/class.notification.php:1449
+#: lib/eventum/class.notification.php:1454
 msgid "New User information"
 msgstr "Nieuw gebruikersgegevens"
 
@@ -3702,7 +3826,7 @@ msgstr "Volgende boodschap"
 msgid "Next Note"
 msgstr "Volgende nototie"
 
-#: lib/eventum/class.misc.php:735 templates/close.tpl.html
+#: lib/eventum/class.misc.php:714 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -4021,22 +4145,22 @@ msgstr "Notificatielijst:"
 msgid "Notification Options for Issue #%1"
 msgstr "Notificatieopties voor melding #%1"
 
-#: lib/eventum/class.notification.php:2036
+#: lib/eventum/class.notification.php:2041
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Invoer notificatielijst (%1$s) toegeovoegd door %2$s"
 
-#: lib/eventum/class.notification.php:1876
+#: lib/eventum/class.notification.php:1881
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Invoer notificatielijst (%1$s) verwijderd door %2$s"
 
-#: lib/eventum/class.notification.php:2122
+#: lib/eventum/class.notification.php:2127
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Invoer notificatielijst ('%1$s') toegevoegd door %2$s"
 
-#: lib/eventum/class.notification.php:2218
+#: lib/eventum/class.notification.php:2223
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Invoer notificatielijst (%1$s) bijgewerkt door %2$s"
@@ -4052,6 +4176,11 @@ msgstr "Aantal dagen"
 #: crons/monitor.php:101
 msgid "OK: No errors found"
 msgstr "OK: Geen fouten gevonden"
+
+#. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
+#: localization/LINGUAS.php:52
+msgid "Occitan (post 1500)"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4246,8 +4375,8 @@ msgstr ""
 msgid "Pending"
 msgstr "Nog niet gekoppeld"
 
-#: lib/eventum/class.notification.php:646
-#: lib/eventum/class.notification.php:647
+#: lib/eventum/class.notification.php:649
+#: lib/eventum/class.notification.php:650
 msgid "Percent complete"
 msgstr ""
 
@@ -5329,10 +5458,20 @@ msgstr ""
 "Gebruik alleen gehele getallen in het veld voor de geschatte "
 "ontwikkelingstijd."
 
+#. TRANSLATORS: Translation of Polish language in preferences dropdown
+#: localization/LINGUAS.php:54
+msgid "Polish"
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
 msgstr "Poort"
+
+#. TRANSLATORS: Translation of Portuguese language in preferences dropdown
+#: localization/LINGUAS.php:56
+msgid "Portuguese"
+msgstr ""
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5379,8 +5518,8 @@ msgid "Primary Technical Account Manager"
 msgstr "Primaire technische contactpersoon"
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:626
-#: lib/eventum/class.notification.php:627 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:629
+#: lib/eventum/class.notification.php:630 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5538,6 +5677,10 @@ msgstr "Email ontvangen bij nieuwe meldingen?"
 msgid "Receive emails when new issues are assigned to you?"
 msgstr "Email ontvangen wanneer nieuwe meldingen aan u worden toegewezen?"
 
+#: templates/preferences.tpl.html
+msgid "Receive notifications for your own actions?"
+msgstr ""
+
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
 msgstr "Ontvangen"
@@ -5656,8 +5799,8 @@ msgid "Register"
 msgstr "Registreer"
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:622
-#: lib/eventum/class.notification.php:623 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:625
+#: lib/eventum/class.notification.php:626 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr "Fase"
@@ -5862,8 +6005,8 @@ msgstr "Cookies en javascript ondesteuning van uw browser is vereist"
 msgid "Reset"
 msgstr "Reset"
 
-#: lib/eventum/class.notification.php:634
-#: lib/eventum/class.notification.php:635 templates/close.tpl.html
+#: lib/eventum/class.notification.php:637
+#: lib/eventum/class.notification.php:638 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr "Afhandeling"
@@ -5899,6 +6042,11 @@ msgstr "Rijen per pagina:"
 #: templates/adv_search.tpl.html
 msgid "Run Search"
 msgstr "Zoekopdracht uitvoeren"
+
+#. TRANSLATORS: Translation of Russian language in preferences dropdown
+#: localization/LINGUAS.php:60
+msgid "Russian"
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
@@ -6176,6 +6324,11 @@ msgstr ""
 "database komt, is dit manuele proces nodig om een status te associëren met "
 "een datumveld uit de database."
 
+#. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
+#: localization/LINGUAS.php:62
+msgid "Sinhalese"
+msgstr ""
+
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
 msgstr "Weekends overslaan"
@@ -6259,6 +6412,11 @@ msgstr "Sorteren op"
 msgid "Sort Order"
 msgstr "Sorteervolgorde"
 
+#. TRANSLATORS: Translation of Spanish language in preferences dropdown
+#: localization/LINGUAS.php:22
+msgid "Spanish"
+msgstr ""
+
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
 msgstr "Spellingcontrole"
@@ -6305,8 +6463,8 @@ msgid "Stats"
 msgstr "Statistieken"
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:630
-#: lib/eventum/class.notification.php:631 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:633
+#: lib/eventum/class.notification.php:634 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6378,8 +6536,8 @@ msgid "Suggestions:"
 msgstr "Suggesties:"
 
 #: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:642
-#: lib/eventum/class.notification.php:643 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.notification.php:645
+#: lib/eventum/class.notification.php:646 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6429,6 +6587,11 @@ msgstr "Support levels"
 msgid "Support Options"
 msgstr "Supportopties"
 
+#. TRANSLATORS: Translation of Swedish language in preferences dropdown
+#: localization/LINGUAS.php:64
+msgid "Swedish"
+msgstr ""
+
 #: templates/navigation.tpl.html
 msgid "Switch"
 msgstr "Wisselen"
@@ -6438,6 +6601,11 @@ msgid ""
 "System users may subscribe to the actions above for specific issues when "
 "they report new issues or by visiting the issue details screen and "
 "subscribing manually by using the 'Edit Notification List' link."
+msgstr ""
+
+#. TRANSLATORS: Translation of Tamil language in preferences dropdown
+#: localization/LINGUAS.php:66
+msgid "Tamil"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
@@ -6467,6 +6635,11 @@ msgstr "Tekstinvoer"
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
 msgstr "Tekstvlak"
+
+#. TRANSLATORS: Translation of Thai language in preferences dropdown
+#: localization/LINGUAS.php:68
+msgid "Thai"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7684,6 +7857,11 @@ msgstr "Uitgevoerde acties"
 msgid "Triggered Reminder"
 msgstr "Niet-automatische herinnering"
 
+#. TRANSLATORS: Translation of Turkish language in preferences dropdown
+#: localization/LINGUAS.php:70
+msgid "Turkish"
+msgstr ""
+
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -7704,6 +7882,11 @@ msgstr "Type:"
 #: templates/reminders/email_alert.tpl.text
 msgid "URL"
 msgstr "Webadres"
+
+#. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
+#: localization/LINGUAS.php:72
+msgid "Ukrainian"
+msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -7875,7 +8058,7 @@ msgstr "Waarde bijwerken"
 msgid "Update Values"
 msgstr "Waarden bijwerken"
 
-#: lib/eventum/class.notification.php:690
+#: lib/eventum/class.notification.php:693
 msgid "Updated"
 msgstr "Bijgewerkt"
 
@@ -7894,6 +8077,11 @@ msgstr "Bestand uploaden"
 #: templates/preferences.tpl.html
 msgid "Upload New Signature"
 msgstr "Nieuwe handtekening uploaden"
+
+#. TRANSLATORS: Translation of Urdu language in preferences dropdown
+#: localization/LINGUAS.php:74
+msgid "Urdu"
+msgstr ""
 
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
@@ -7931,11 +8119,11 @@ msgstr "Gebruikersgegevens"
 msgid "User Permission Levels"
 msgstr "Toegangsniveau's van gebruikers"
 
-#: lib/eventum/class.notification.php:1375
+#: lib/eventum/class.notification.php:1380
 msgid "User account information updated"
 msgstr "Gebruikersaccount bijgewerkt"
 
-#: lib/eventum/class.notification.php:1412
+#: lib/eventum/class.notification.php:1417
 msgid "User account password changed"
 msgstr "Wachtwoord gebruikersaccount gewijzigd"
 
@@ -7971,6 +8159,11 @@ msgstr "Waarde"
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Value:"
 msgstr "Waarde:"
+
+#. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
+#: localization/LINGUAS.php:76
+msgid "Vietnamese"
+msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
@@ -8265,7 +8458,7 @@ msgstr "Werkverdeling"
 msgid "Workload by time period"
 msgstr "Werkverdeling per tijdvak"
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:733
+#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:712
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8373,7 +8566,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1578
+#: lib/eventum/class.notification.php:1583
 msgid "Your User Account Details"
 msgstr "Gegevens van uw gebruikersaccount"
 
@@ -8906,7 +9099,7 @@ msgstr "bijwerken"
 msgid "view email details"
 msgstr "gegevens email bekijken"
 
-#: templates/emails.tpl.html templates/list.tpl.html
+#: templates/close.tpl.html templates/emails.tpl.html templates/list.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
@@ -8945,515 +9138,3 @@ msgstr "week"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "jaar"
-
-#~ msgid "Expired Customer"
-#~ msgstr "Relatie uit het verleden"
-
-#~ msgid "Contact"
-#~ msgstr "Contact"
-
-#~ msgid "Company Name"
-#~ msgstr "Bedrijfsnaam"
-
-#~ msgid "Contract #"
-#~ msgstr "Contract"
-
-#~ msgid "Expired"
-#~ msgstr "Verlopen"
-
-#~ msgid "Customer Details"
-#~ msgstr "Gegevens relatie"
-
-#~ msgid "Contact Person"
-#~ msgstr "Contactpersoon"
-
-#~ msgid "Contact Email"
-#~ msgstr "E-mail adres"
-
-#~ msgid "Contact's Local Time"
-#~ msgstr "Lokale tijd van de contactpersoon"
-
-#~ msgid "Maximum First Response Time"
-#~ msgstr "Maximale behandeltermijn"
-
-#~ msgid "Time Until First Response Deadline"
-#~ msgstr "Tijd tot eerste behandeltermijn"
-
-#~ msgid "Support Expiration Date"
-#~ msgstr "Recht op ondersteuning tot"
-
-#~ msgid "Sales Account Manager"
-#~ msgstr "Relatiebeheerder"
-
-#~ msgid "Notes About Customer"
-#~ msgstr "Opmerkingen"
-
-#~ msgid "Edit"
-#~ msgstr "Bewerken"
-
-#~ msgid "Customer Lookup Tool"
-#~ msgstr "Relatie opzoeken"
-
-#~ msgid "Customer ID"
-#~ msgstr "Relatie ID"
-
-#~ msgid "Lookup"
-#~ msgstr "Opzoeken"
-
-#~ msgid "Results"
-#~ msgstr "Resultaat"
-
-#~ msgid "Support Type"
-#~ msgstr "Contract"
-
-#~ msgid "Expiration Date"
-#~ msgstr "Datum van verstrijken"
-
-#~ msgid "No results could be found"
-#~ msgstr "Geen resultaten gevonden"
-
-#~ msgid "Example customer API front page"
-#~ msgstr "Voorbeeld van een relatiepagina"
-
-#~ msgid "Quarantine explanation goes here..."
-#~ msgstr "Quarantaine uitleg hier ..."
-
-#~ msgid "Contact Person Last Name"
-#~ msgstr "Achternaam contactpersoon"
-
-#~ msgid "Contact Person First Name"
-#~ msgstr "Voornaam contactpersoon"
-
-#~ msgid "Lookup Customer"
-#~ msgstr "Relatie opzoeken"
-
-#~ msgid "Add Primary Contact to Notification List? *"
-#~ msgstr "Primaire contactpersoon toevoegen aan de notificatielijst? *"
-
-#~ msgid "Notify Customer About New Issue? *"
-#~ msgstr "Relatie informeren over nieuwe melding? *"
-
-#~ msgid "Last Name"
-#~ msgstr "Achternaam"
-
-#~ msgid "First Name"
-#~ msgstr "Voornaam"
-
-#~ msgid "Additional Contact Emails"
-#~ msgstr "Additionele e-mail adressen"
-
-#~ msgid "(hold ctrl to select multiple options)"
-#~ msgstr "(Houd Ctrl ingedrukt om meerder opties te selecteren)"
-
-#~ msgid "(only technical contacts listed on your contract)"
-#~ msgstr "(Alleen technische contacten conform  het contract)"
-
-#~ msgid " Error: Please provide your email address."
-#~ msgstr " Fout: Geef een geldig emailadres."
-
-#~ msgid "Search Results"
-#~ msgstr "Zoekresultaat"
-
-#~ msgid "issues found"
-#~ msgstr "meldingen gevonden"
-
-#~ msgid "shown"
-#~ msgstr "zichtbaar"
-
-#~ msgid "Notification Options"
-#~ msgstr "Notificatieinstellingen"
-
-#~ msgid "This issue was just closed by"
-#~ msgstr "De melding is zojuist gesloten door"
-
-#~ msgid " with the message"
-#~ msgstr " met het bericht"
-
-#~ msgid ""
-#~ "\n"
-#~ "To add more information to this issue, simply reply to this email."
-#~ msgstr ""
-#~ "\n"
-#~ "Beantwoord dit bericht om commentaar over deze melding toe te voegen."
-
-#~ msgid "ERROR: Almost no free disk space left (percentage left"
-#~ msgstr "Fout: Bijna geen schijfruimte meer beschikbaar (percentage vrij"
-
-#~ msgid "ERROR: Free disk space left is getting very low (percentage left"
-#~ msgstr "Fout: Schijfruimte raakt bijna op (percentage vrij"
-
-#~ msgid "ERROR: File could not be found (path"
-#~ msgstr "Fout: Bestand niet gevonden (pad"
-
-#~ msgid ""
-#~ "ERROR: Could not connect to the mysql database. Detailed error message:"
-#~ msgstr ""
-#~ "Fout: Kon niet verbinden met de mysql-database. Gedetailleerde foutmelding:"
-
-#~ msgid "Port:"
-#~ msgstr "Poort:"
-
-#~ msgid "Username:"
-#~ msgstr "Gebruikersnaam:"
-
-#~ msgid "Page generated in %1 seconds"
-#~ msgstr "Pagina gegenereerd in %1 seconden"
-
-#~ msgid "queries"
-#~ msgstr "zoekopdrachtem"
-
-#~ msgid "Benchmark Statistics"
-#~ msgstr "Snelheidsstatistiek"
-
-#~ msgid "Keep Form Open"
-#~ msgstr "Hierna nog een melding opgeven"
-
-#~ msgid ""
-#~ "The provided trial account email address could not be\n"
-#~ "            found. Please contact the local Technical Support staff for\n"
-#~ "            further assistance."
-#~ msgstr ""
-#~ "Het bij de tijdelijke gebruiker behorende e-mail adres kon niet\n"
-#~ "worden gevonden. Neem contact op met de technische staf\n"
-#~ "voor assistentie."
-
-#~ msgid ""
-#~ "This page can only be accessed in relation to a project. Please go to the "
-#~ "project page and choose\n"
-#~ "\"Edit Fields to Display\" to access this page."
-#~ msgstr ""
-#~ "Deze pagina kan alleen worden geopend wanneer een project is geselecteerd. "
-#~ "Ga naar de projectpagina\n"
-#~ "en kies voor \"Wijzig weer te geven velden\" om deze pagina te kunnen "
-#~ "gebruiken."
-
-#~ msgid ""
-#~ "WARNING: This action will remove the selected groups permanently.nPlease "
-#~ "click OK to confirm."
-#~ msgstr ""
-#~ "WAARSCHUWING: Deze actie zal de geselecteerde groepen voorgoed\n"
-#~ "verwijderen. Klik op OK om te bevestigen."
-
-#~ msgid "Name: *"
-#~ msgstr "Naam: *"
-
-#~ msgid "Assigned Projects: *"
-#~ msgstr "Toegekende projecten: *"
-
-#~ msgid "Users: *"
-#~ msgstr "Gebruikers: *"
-
-#~ msgid "Manager: *"
-#~ msgstr "Beheerder: *"
-
-#~ msgid "Auto-Creation of Issues:"
-#~ msgstr "Automatosch meldingen aanmaken:"
-
-#~ msgid "CLOCKED"
-#~ msgstr "Prikklok"
-
-#~ msgid "IN"
-#~ msgstr "ingeschakeld"
-
-#~ msgid "OUT"
-#~ msgstr "uitgeschakeld"
-
-#~ msgid "Clock"
-#~ msgstr "Prikklok"
-
-#~ msgid "Out"
-#~ msgstr "uit"
-
-#~ msgid "In"
-#~ msgstr "aan"
-
-#~ msgid ""
-#~ "Warning: your issue is currently quarantined.\n"
-#~ "                Please see the <a href=\"faq.php\">FAQ</a> for information "
-#~ "regarding quarantined issues."
-#~ msgstr ""
-#~ "Waarschuwing: de melding is in quarantaine geplaatst.\n"
-#~ "Bekijk de <a href=\"faq.php\">veelgestelde vragen</a> voor informatie over "
-#~ "meldingen in quarantaine."
-
-#~ msgid "yes"
-#~ msgstr "ja"
-
-#~ msgid "no"
-#~ msgstr "nee"
-
-#~ msgid ""
-#~ "Refers to the number of issues in eventum for the given support level or "
-#~ "customer.\n"
-#~ "    Average and median counts do not include customers who have never opened "
-#~ "an issue."
-#~ msgstr ""
-#~ "Slaat op het aantal meldingen in Eventum voor het gegeven support level of "
-#~ "de gegeven relatie.\n"
-#~ "Bij gemiddelde- en mediaanberekeningen worden de relaties die nog nooit een "
-#~ "melding geopend hebben niet meegeteld."
-
-#~ msgid ""
-#~ "Based on all issues recorded in Eventum since start to present.\n"
-#~ "        Actions are any event that shows up in the history of an issue, such "
-#~ "as a user or a developer updating an issue, uploading a file, sending an "
-#~ "email, etc."
-#~ msgstr ""
-#~ "Gebaseerd op alle melddingen in het systeem sinds de installatie.\n"
-#~ "Onder acties worden verstaan alle handelingen die in de geschiedenis van een "
-#~ "melding kunnen voorkomen zoals het wijzigen van een melding, een bestand "
-#~ "uploaden, een bericht versturen etc."
-
-#~ msgid ""
-#~ "Sorry, but the email could not be queued. This might be related to problems "
-#~ "with your SMTP account settings.\n"
-#~ "  Please contact the administrator of this application for further "
-#~ "assistance."
-#~ msgstr ""
-#~ "De email is niet klaargezet voor verzending. Dit zou te maken kunnen hebben "
-#~ "met de instellingen van uw SMTP-account. Neem contact op met uw "
-#~ "systeembeheerder voor meer informatie."
-
-#~ msgid ""
-#~ "Sorry, but the email could not be sent. This might be related to problems "
-#~ "with your SMTP account settings.\n"
-#~ "              Please contact the administrator of this application for "
-#~ "assistance."
-#~ msgstr ""
-#~ "De email kon niet verzonden worden. Dit zou te maken kunnen hebben met de "
-#~ "instellingen van uw SMTP-account.\n"
-#~ "Neem contact op met uw systeembeheerder van deze toepassing voor meer "
-#~ "informatie."
-
-#~ msgid ""
-#~ "You can create canned email responses and use them when sending emails from "
-#~ "the\n"
-#~ "system. That is an useful feature when dealing with lots of issues that "
-#~ "relate\n"
-#~ "to the same problem.\n"
-#~ "<br /><br />\n"
-#~ "If no canned email responses are available through the Email window, please\n"
-#~ "contact an user with the appropriate permissions (administrator or manager) "
-#~ "to\n"
-#~ "add some for you."
-#~ msgstr ""
-#~ "U kunt een standaardantwoord laten instellen als de antwoordtekst op "
-#~ "meldingen\n"
-#~ "regelmatig hetzelfde is. Dit is een handige functie voor het opstellen van "
-#~ "b.v.\n"
-#~ "formele antwoorden.\n"
-#~ "<br /><br />\n"
-#~ "Indien er geen standaard antwoorden beschikbaar zijn, neem dan contact op "
-#~ "met een\n"
-#~ "gebruiker die beschikt over de rechten om standaardantwoorden op te stellen."
-
-#~ msgid ""
-#~ "The specified note does not exist. <br />\n"
-#~ "      It could have been converted to an email."
-#~ msgstr ""
-#~ "De opgegeven notitie bestaat niet meer.\n"
-#~ "Deze kan naar een email omgezet zijn."
-
-#~ msgid "Rows Per Page:"
-#~ msgstr "Rijen per pagina:"
-
-#~ msgid "Sort Order:"
-#~ msgstr "Sorteervolgorde:"
-
-#~ msgid "Resolution:"
-#~ msgstr "Oplossing:"
-
-#~ msgid ""
-#~ "This field is used to determine who should be assigned to this new \n"
-#~ "issue. You are be able to assign a new issue to several persons at the\n"
-#~ "same time.\n"
-#~ "<br /><br />\n"
-#~ "If you don't know who should be the assigned person for this new issue,\n"
-#~ "assign it to your Project Lead."
-#~ msgstr ""
-#~ "Hiermee wordt aangegeven welke gebruiker(s) een melding\n"
-#~ "dienen te behandelen. <br /><br />\n"
-#~ "Indien niet duidelijk is wie de behandelaar wordt, kies dan\n"
-#~ "de Projectmanager bij de toewijzing."
-
-#~ msgid ""
-#~ "This field is used to categorize issues by a common denominator, such\n"
-#~ "as 'Feature Request', 'Bug' or 'Support Inquiry'.\n"
-#~ "<br /><br />\n"
-#~ "Note: The values in this field can be changed by going in the "
-#~ "administration\n"
-#~ "section of this application and editing the appropriate atributes of\n"
-#~ "a project. If you do not have the needed permissions to do so, please\n"
-#~ "contact your local Eventum administrator."
-#~ msgstr ""
-#~ "Dit veld wordt gebruikt om meldingen in te delen aan de hand van een \n"
-#~ "gemeenschappelijk kenmerk zoals bijvoorbeeld 'Verzoek feature' of \n"
-#~ "'Foutmelding'.\n"
-#~ "Let op: De waarden in dit veld kunnen aagepast worden door naar \n"
-#~ "'Beheer' te gaan en de van toepassing zijnde instellingen van een \n"
-#~ "project te bewerken. Als u niet de benodigde bevoegdheden heeft \n"
-#~ "om dat te doen neem dan contact op met uw plaatselijke Eventum-\n"
-#~ "beheerder."
-
-#~ msgid "Note: "
-#~ msgstr "Notitie: "
-
-#~ msgid "Please choose the duplicated issue."
-#~ msgstr "Kies een duplicaat."
-
-#~ msgid "Please select an issue"
-#~ msgstr "Selecteer een melding"
-
-#~ msgid "lookup issues by their summaries"
-#~ msgstr "Meldingen zoeken op titel"
-
-#~ msgid "OR"
-#~ msgstr "OF"
-
-#~ msgid "Fulltext"
-#~ msgstr "Volledige tekst"
-
-#~ msgid "Is between %1-%2-%3 AND %4-%5-%6"
-#~ msgstr "Tussen %1-%2-%3 en %4-%5-%6"
-
-#~ msgid ""
-#~ "Link filters are used to replace text such as 'Bug #42' with an automatic\n"
-#~ "link to some external resource. It uses regular expressions to replace the "
-#~ "text.\n"
-#~ "Specify the search pattern in the pattern field without delimiters. Specify "
-#~ "the entire\n"
-#~ "string you would like to use as a replacement with $x to insert the matched "
-#~ "text. For example:\n"
-#~ "<br /><br />\n"
-#~ "Pattern: \"bug #(d+)\"<br />\n"
-#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug "
-#~ "#$1&lt;/a&gt;\""
-#~ msgstr ""
-#~ "Linkfilters worden gebruikt om teskt als 'Fout #42' te vervangen door een "
-#~ "link \n"
-#~ "naar een externe pagina. Linkfilters gebruiken reguliere expressies om de "
-#~ "tekst te vervangen.\n"
-#~ "Voer het zoekpatroon in in het patrroonveld zonder scheidingstekens,\n"
-#~ "Voer de gehele tekenreeks in die u als vervanging wilt gebruiken voor de "
-#~ "tekst.\n"
-#~ "Bijvoorbeeld: \n"
-#~ "<br /><br />\n"
-#~ "Pattern: \"fout #(d+)\"<br />\n"
-#~ "Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug "
-#~ "#$1&lt;/a&gt;\""
-
-#~ msgid ""
-#~ "As an example, using the <a href=\"http://www.horde.org/chora/\" "
-#~ "class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] "
-#~ "from the Horde project you\n"
-#~ "would usually have the following URL as the diff page:"
-#~ msgstr ""
-#~ "Als u bijvoorbeeld de <a href=\"http://www.horde.org/chora/\" class=\"link\" "
-#~ "target=\"_chora\">Chora CVS viewer</a> \n"
-#~ "gebruikt [sterk aanbevolen] van het Horde-project, dan heeft u normaal "
-#~ "gesproken\n"
-#~ "het volgende webadres als verschillenpagina hebben:"
-
-#~ msgid ""
-#~ "(This MUST contain a real email address, e.g. \"eventum@example.com\" or "
-#~ "\"Eventum <eventum@example.com>\")"
-#~ msgstr ""
-#~ "(Dit MOET een echt emailadres zijn, bijvoorbeeld  \"eventum@example.com\" or "
-#~ "\"Eventum <eventum@example.com>\")"
-
-#~ msgid "(e.g. <b>issue_</b>51@example.com)"
-#~ msgstr "(Bijvoorbeeld <b>melding_</b>51@voorbeeld.com)"
-
-#~ msgid "(e.g. issue_51@<b>example.com</b>)"
-#~ msgstr "(bijvoorbeeld melding_51@<b>voorbeeld.com</b>)"
-
-#~ msgid "(e.g. <b>note_</b>51@example.com)"
-#~ msgstr "(Bijvoorbeeld <b>notitie_</b>51@voorbeeld.com)"
-
-#~ msgid "(e.g. note_51@<b>example.com</b>)"
-#~ msgstr "(bijvoorbeeld notitie_51@<b>voorbeeld.com</b>)"
-
-#~ msgid "(e.g. <b>draft_</b>51@example.com)"
-#~ msgstr "(Bijvoorbeeld <b>concept_</b>51@voorbeeld.com)"
-
-#~ msgid "(e.g. draft_51@<b>example.com</b>)"
-#~ msgstr "(bijvoorbeeld concept_51@<b>voorbeeld.com</b>)"
-
-#~ msgid ""
-#~ "(requires <a target=\"_aspell\" class=\"link\" "
-#~ "href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)"
-#~ msgstr ""
-#~ "(Hiervoor moet  <a target=\"_aspell\" class=\"link\" "
-#~ "href=\"http://aspell.sourceforge.net/\">aspell</a> op uw server "
-#~ "geïnstalleerd zijn.)"
-
-#~ msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
-#~ msgstr "U kunt <a class=\"link\" href=\"%1\">%2</a>  als u dat wilt."
-
-#~ msgid ""
-#~ "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
-#~ "special shortcut keystroke in your keyboard.<br />\n"
-#~ "<br />\n"
-#~ "Use the following shortcuts:<br />\n"
-#~ "<br />\n"
-#~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
-#~ "'Search' box<br />\n"
-#~ "<br />\n"
-#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
-#~ msgstr ""
-#~ "U kunt snel schakelen naar de 'Zoeken' of 'OK'-vakken door \n"
-#~ "het gebruik van sneltoetsen. \n"
-#~ "\n"
-#~ "Gebruik de volgende sneltoetsen:\n"
-#~ "\n"
-#~ "ALT-3 voor het 'Zoeken'-vak en ALT-4 voor het 'OK'-vak."
-
-#~ msgid "Reported"
-#~ msgstr "Gemeld"
-
-#~ msgid ""
-#~ "Error: The sender of this email is not allowed in the project associated "
-#~ "with issue #"
-#~ msgstr ""
-#~ "Fout: De afzender van dit bericht heeft geen rechten op de projectomgeving "
-#~ "van melding"
-
-#~ msgid "and"
-#~ msgstr "en"
-
-#~ msgid "Individual"
-#~ msgstr "Individueel"
-
-#~ msgid "Invalid role"
-#~ msgstr "Ongeldige rol"
-
-#~ msgid "for"
-#~ msgstr "van"
-
-#~ msgid "through"
-#~ msgstr "tot"
-
-#~ msgid "per day"
-#~ msgstr "per dag"
-
-#~ msgid "per week"
-#~ msgstr "per week"
-
-#~ msgid "per month"
-#~ msgstr "per maand"
-
-#~ msgid "per day of week"
-#~ msgstr "per weekdag"
-
-#~ msgid "Issues by created date"
-#~ msgstr "Meldingen ontstaan van"
-
-#~ msgid "ago"
-#~ msgstr "geleden"
-
-#~ msgid "Not available"
-#~ msgstr "Niet beschikbaar"
-
-#, php-format
-#~ msgid "Email #%1$s: %2$s"
-#~ msgstr "Email #%1$s: %2$s"

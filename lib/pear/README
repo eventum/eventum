@@ -1,0 +1,55 @@
+Bundled PEAR packages
+
+- Auth_SASL 1.0.5
+No Changes
+
+- DB 1.7.14
+No Changes
+Trimmed to include only supported drivers
+
+- Date 1.4.7
+Patched EEST timezone
+
+- File_Util 1.0.0
+No Changes
+
+- Mail 1.2.0
+No Changes
+
+- Mail_Mime 1.8.2
+No Changes
+
+- Mail_mimeDecode 1.5.5
+No Changes
+
+- Math_Stats 0.8.5
+No Changes
+
+- Net_POP3 1.3.8
+No Changes
+
+- Net_SMTP 1.6.1
+No Changes
+
+- Net_SmartIRC 1.0.2
+Patched to support strict mode
+https://pear.php.net/bugs/bug.php?id=18774
+
+- Net_Socket 1.0.10
+No Changes
+
+- Net_UserAgent_Detect 2.5.2
+No Changes
+
+- Net_URL 1.0.15
+No Changes
+
+- PEAR 1.9.4
+No Changes
+Trimmed to bundle only PEAR class
+
+- Text_Diff 1.1.1
+No Changes
+
+- XML_RPC 1.5.5
+No Changes

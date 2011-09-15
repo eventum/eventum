@@ -17,7 +17,7 @@
  * @author      Michael Wallner <mike@php.net>
  * @copyright   2004-2005 Michael Wallner
  * @license     http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version     CVS: $Id: Util.php,v 1.25 2007/02/20 14:19:08 mike Exp $
+ * @version     CVS: $Id: Util.php 309134 2011-03-12 16:45:50Z dufuz $
  * @link        http://pear.php.net/package/File
  */
 
@@ -180,7 +180,7 @@ class File_Util
             return false;
         }
         if (FILE_WIN32) {
-            return preg_match('/^[a-zA-Z]:(\\\|\/)/', $path);
+            return (($path{0} == '/') ||  preg_match('/^[a-zA-Z]:(\\\|\/)/', $path));
         }
         return ($path{0} == '/') || ($path{0} == '~');
     }
@@ -208,7 +208,7 @@ class File_Util
         if (file_exists($file)) {
             return $file;
         }
-        return NULL;
+        return null;
     }
 
     /**
@@ -262,8 +262,8 @@ class File_Util
         }
 
         $drive = '';
+        $path = preg_replace('/[\\\\\/]/', $separator, $path);
         if (FILE_WIN32) {
-            $path = preg_replace('/[\\\\\/]/', $separator, $path);
             if (preg_match('/([a-zA-Z]\:)(.*)/', $path, $matches)) {
                 $drive = $matches[1];
                 $path  = $matches[2];
@@ -477,4 +477,52 @@ class File_Util
 
         return $filename .'.'. $to;
     }
+
+    /**
+     * Returns the filesize using a prefix like "kilo", "mebi" or "giga"
+     *
+     * @author Christian Weiske <cweiske@cweiske.de>
+     *
+     * @param integer $size       The size to convert
+     * @param integer $decimals   The number of decimals to use
+     * @param boolean $long       Use long names (kilobyte) instead of
+     *                            short ones (kB)
+     * @param boolean $oldStyle   If the old style should be used
+     * @param boolean $useBiBytes If the "BiBytes" names should be
+     *                            used [applies only to !$bOldStyle]
+     *
+     * @return string The filesize in human readable format
+     *
+     * @static
+     */
+    function prefixed(
+        $size, $decimals = 1, $long = false, $oldStyle = true,
+        $useBiBytes = true
+    ) {
+        $base  = ($oldStyle || $useBiBytes) ? 1024 : 1000;
+        $names = array(
+            '', 'kilo', 'mega', 'giga', 'tera',
+             'peta', 'exa', 'zetta', 'yotta'
+        );
+        $max   = count($names) - 1;
+
+        for ($a = 0; $size >= $base && $a < $max; $a++) {
+            $size /= $base;
+        }
+
+        $name = ($oldStyle || !$useBiBytes)
+            ? $names[$a]
+            : $names[$a] . 'bi';
+        if (!$long) {
+            $name = $oldStyle || !$useBiBytes
+                ? strtoupper(substr($name, 0, 1))
+                : strtoupper(substr($name, 0, 1)) . 'i';
+            $name .= 'B';
+        } else {
+            $name .= $size == 1 ? 'byte' : 'bytes';
+        }
+
+        return round($size, $decimals) . ' ' . $name;
+    }
+
 }

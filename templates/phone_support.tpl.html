@@ -43,7 +43,7 @@ function addPhoneCall()
           <td colspan="2">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr id="phone_support1" {get_display_style element_name="phone_support" total=$phone_entries|@count} bgcolor="{$internal_color}">
-                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
                 <td width="5" class="default_white" align="center">#</td>
                 <td width="20%" class="default_white" nowrap>{t}Recorded Date{/t}</td>
                 <td width="15%" class="default_white">{t}Entered By{/t}</td>

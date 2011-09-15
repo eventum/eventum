@@ -155,7 +155,7 @@ $tpl->assign("zones", Date_Helper::getTimezoneList());
 $tpl->display('setup.tpl.html');
 
 
-function checkPermissions($file, $desc, $is_directory = FALSE)
+function checkPermissions($file, $desc, $is_directory = false)
 {
     clearstatcache();
     if (!file_exists($file)) {
@@ -226,34 +226,35 @@ function checkRequirements()
     $errors = array();
     $warnings = array();
 
-    // check for GD support
-    if (!extension_loaded('gd')) {
-        $errors[] = 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
+    $extensions = array(
+        // extension => array(IS_REQUIRED, MESSAGE_TO_DISPLAY)
+        'gd' => array(true, 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
+        'session' => array(true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
+        'mysql' => array(true, 'The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
+        'json' => array(true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
+        'mbstring' =>  array(false, "The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly " .
+            "You need to install this extension. If you do not install this extension localization will be disabled."),
+        'iconv' => array(false, "The ICONV extension is not enabled in your PHP installation. ".
+            "You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted."),
+    );
+
+    foreach ($extensions as $extension => $value) {
+        list($required, $message) = $value;
+        if (!extension_loaded($extension)) {
+            if ($required) {
+                $errors[] = $message;
+            } else {
+                $warnings[] = $message;
+            }
+        }
     }
-    // check for session support
-    if (!extension_loaded('session')) {
-        $errors[] = 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
-    }
-    // check for MySQL support
-    if (!extension_loaded('mysql')) {
-        $errors[] = 'The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
-    }
+
     // check for the file_uploads php.ini directive
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
-    // check for mbstring extension
-    if (!extension_loaded('mbstring')) {
-        $warnings[] = "The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly " .
-            "you need to install this extension. If you do not install this extension localization will be disabled.";
-    }
-    // check for iconv extension
-    if (!extension_loaded('iconv')) {
-        $warnings[] = "The ICONV extension is not enabled in your PHP installation. ".
-            "You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.";
-    }
 
-    $error = checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", TRUE);
+    $error = checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", true);
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -270,15 +271,15 @@ function checkRequirements()
         $errors[] = $error;
     }
 
-    $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", TRUE);
+    $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", true);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_LOG_PATH, "Directory '". APP_LOG_PATH . "'", TRUE);
+    $error = checkPermissions(APP_LOG_PATH, "Directory '". APP_LOG_PATH . "'", true);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_TPL_COMPILE_PATH, "Directory '" . APP_TPL_COMPILE_PATH . "'", TRUE);
+    $error = checkPermissions(APP_TPL_COMPILE_PATH, "Directory '" . APP_TPL_COMPILE_PATH . "'", true);
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -364,11 +365,11 @@ function install()
 $private_key = "' . md5(microtime()) . '";
 ';
     $fp = @fopen($private_key_path, 'w');
-    if ($fp === FALSE) {
+    if ($fp === false) {
         return "Could not open the file '$private_key_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
     $res = fwrite($fp, $private_key);
-    if ($fp === FALSE) {
+    if ($fp === false) {
         return "Could not write the configuration information to '$private_key_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);
@@ -484,11 +485,11 @@ $private_key = "' . md5(microtime()) . '";
     }
 
     $fp = @fopen($config_file_path, 'w');
-    if ($fp === FALSE) {
+    if ($fp === false) {
         return "Could not open the file '$config_file_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
     $res = fwrite($fp, $config_contents);
-    if ($fp === FALSE) {
+    if ($fp === false) {
         return "Could not write the configuration information to '$config_file_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);

@@ -3,9 +3,15 @@
 config/config.php
 config/private_key.php
 config/setup.php
+config/sphinx.conf
 *.gz
 *.gz.md5
 logs/*.log
 templates_c/*
 misc/routed_emails/*
 misc/routed_notes/*
+localization/*.mo
+*.patch
+*.rej
+*.orig
+dropin

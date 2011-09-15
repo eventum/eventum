@@ -4,28 +4,26 @@ Installation Process
 
 Eventum needs PHP >= 5.1.2 (http://www.php.net/) for smooth operation.
 
+Additionally you should enable following PHP Core extensions:
+ - date (builtin)
+ - filter
+ - gd
+ - gettext
+ - iconv
+ - imap
+ - json
+ - mbstring
+ - mysql
+ - pcre
+ - session (builtin)
+ - spl (builtin)
+
 Installation is pretty simple and quick. Eventum already bundles the libraries
 that it needs to work properly:
 
 - JpGraph 1.5.3 (last GPL version)
 - Smarty 2.6.18 (http://smarty.php.net)
-- PEAR packages:
-   Auth_SASL 1.0.4
-   DB 1.7.13
-   Date 1.4.7
-   Mail 1.2.0
-   Mail_Mime 1.5.2
-   Mail_mimeDecode 1.5.5
-   Math_Stats 0.8.5
-   Net_POP3 1.3.8
-   Net_SMTP 1.5.0
-   Net_SmartIRC 1.0.2
-   Net_Socket 1.0.10
-   Net_UserAgent_Detect 2.5.2
-   Net_URL 1.0.15
-   PEAR 1.9.1
-   Text_Diff 1.1.1
-   XML_RPC 1.5.4
+- PEAR packages (see lib/pear/README for details)
 - dTree 2.0.5 (http://www.destroydrop.com/javascript/tree/)
 - dynCalendar.js (http://www.phpguru.org/dyncalendar.html)
 - overLIB 3.5.1 (http://www.bosrup.com/web/overlib/)

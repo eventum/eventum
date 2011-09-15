@@ -288,6 +288,7 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'sta_change_date'}
               {$list[i].status_change_date|escape:"html"}
             {elseif $field_name == 'last_action_date'}
+              {* TRANSLATORS: %1: last action data label, %2: last action date diff *}
               {t 1=$list[i].last_action_date_label 2=$list[i].last_action_date_diff}%1:
 %2 ago{/t}
             {elseif $field_name == 'usr_full_name'}
@@ -301,10 +302,10 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'iss_summary'}
               <a href="view.php?id={$list[i].iss_id}" class="link" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
               {if $list[i].redeemed}
-                  [Redeemed]
+                  {t}[Redeemed]{/t}
               {/if}
               {if $list[i].iss_private == 1}
-                  <b>[Private]</b>
+                  <b>{t}[Private]{/t}</b>
               {/if}
             {/if}
           </td>
@@ -313,46 +314,11 @@ function updateCustomFields(issue_id)
         </tr>
         {if $list[i].excerpts != ''}
         <tr>
-            <td colspan="{$col_count}" bgcolor="{$list[i].status_color}" class="default">
-                {if $list[i].excerpts|@count > 0}
-                    <ul class="excerpts">
-                        {if $list[i].excerpts.issue.summary}
-                            <li>Summary: {$list[i].excerpts.issue.summary}</li>
-                        {/if}
-                        {if $list[i].excerpts.issue.description}
-                            <li>Description: {$list[i].excerpts.issue.description}</li>
-                        {/if}
-                        {if $list[i].excerpts.email|@count > 0}
-                            <li>Emails:
-                                <ul class="emails">
-                                {foreach from=$list[i].excerpts.email item=highlight key=email_num}
-                                    <li value="{$email_num}">#{$email_num}: {$highlight}</li>
-                                {/foreach}
-                                </ul>
-                            </li>
-                        {/if}
-                        {if $list[i].excerpts.phone|@count > 0 and $current_role != $roles.customer}
-                            <li>Phone Calls:
-                                <ul class="phone">
-                                {foreach from=$list[i].excerpts.phone item=highlight}
-                                    <li>{$highlight}</li>
-                                {/foreach}
-                                </ul>
-                            </li>
-                        {/if}
-                        {if $list[i].excerpts.note|@count > 0 and $current_role != $roles.customer}
-                            <li>Notes:
-                                <ul class="notes">
-                                {foreach from=$list[i].excerpts.note item=highlight key=note_num}
-                                    <li value="{$note_num}">#{$note_num}: {$highlight}</li>
-                                {/foreach}
-                                </ul>
-                            </li>
-                        {/if}
-                    </ul>
-
-                {/if}
-            </td>
+          <td colspan="{$col_count}" bgcolor="{$list[i].status_color}" class="default">
+            {if $list[i].excerpts|@count > 0}
+              {include file="list_excerpts.tpl.html"}
+            {/if}
+          </td>
         </tr>
         {/if}
         {sectionelse}

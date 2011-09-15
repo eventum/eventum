@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Added option to notify specific IRC users and categorize messages (Bryan Alsdorf)
 - Added new workflow method formatIRCMessage (Bryan Alsdorf)
 - Port expandable cell to jQuery (Elan Ruusamäe)
+- Updated PEAR packages to latest versions (Elan Ruusamäe)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
