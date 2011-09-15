@@ -50,8 +50,8 @@ $ indexer --config /path-to-eventum/config/sphinx.conf --all --rotate
 add --quiet if you don't want verbose messages from it
 
 You can also index recent content more often so it shows up quickly
-$ indexer --config /path-to-eventum/config/sphinx.conf issue_recent issue_recent_stemmed email_recent \
-    email_recent_stemmed note_recent note_recent_stemmed phonesupport_recent phonesupport_recent_stemmed \
+$ indexer --config /path-to-eventum/config/sphinx.conf \
+    {issue,email,note,phonesupport}_recent{,_stemmed} \
     --rotate --quiet
 
 for example the complete index cron runs under user "www-data" at 03:12 daily and the
@@ -64,9 +64,9 @@ MAILTO=you@example.com
 12 03 * *  * www-data indexer --config /path-to-eventum-config/eventum.conf --all --rotate --quiet
 
 # Run every 5 minutes (the next 3 lines should all be on one line)
-*/5 * * * * www-data indexer --config /path-to-eventum/config/sphinx.conf issue_recent issue_recent_stemmed
-email_recent email_recent_stemmed note_recent note_recent_stemmed phonesupport_recent phonesupport_recent_stemmed
---rotate --quiet
+*/5 * * * * www-data indexer --config /path-to-eventum/config/sphinx.conf
+ {issue,email,note,phonesupport}_recent{,_stemmed}
+ --rotate --quiet
 --- END /etc/cron.d/sphinx-search-eventum ---
 
 
