@@ -53,6 +53,10 @@ class Eventum_Autoload {
 	private static function scan($path) {
 
 		$dh = opendir($path);
+		if ($dh === false) {
+			return;
+		}
+
 		while (($file = readdir($dh)) !== false) {
 			// omit exclusions
 			if (array_search($file, self::$excludes) !== false) {
