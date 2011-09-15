@@ -4,6 +4,20 @@ Installation Process
 
 Eventum needs PHP >= 5.1.2 (http://www.php.net/) for smooth operation.
 
+Additionally you should enable following PHP Core extensions:
+ - date (builtin)
+ - filter
+ - gd
+ - gettext
+ - iconv
+ - imap
+ - json
+ - mbstring
+ - mysql
+ - pcre
+ - session (builtin)
+ - spl (builtin)
+
 Installation is pretty simple and quick. Eventum already bundles the libraries
 that it needs to work properly:
 
