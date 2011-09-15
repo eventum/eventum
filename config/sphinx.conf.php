@@ -13,6 +13,20 @@ if (!defined('SPHINX_DATA_PATH')) {
 if (!defined('SPHINX_SEARCHD_PORT')) {
 	define('SPHINX_SEARCHD_PORT', 3312);
 }
+
+// support localhost:/path/to/socket.sock syntax in db host
+$sql_host_enabled = '';
+$sql_sock_enabled = '# ';
+$sql_host = APP_SQL_DBHOST;
+$sql_sock = '';
+
+$parts = explode(':', $sql_host, 2);
+if (count($parts) >= 2 && list($host, $socket) = $parts) {
+	$sql_host_enabled = '# ';
+	$sql_sock_enabled = '';
+	$sql_host = $host;
+	$sql_sock = $socket;
+}
 ?>
 
 #############################################################################
@@ -41,10 +55,10 @@ source eventum
 {
     type                = mysql
 	# connect over unix socket
-    # sql_sock            = /var/lib/mysql/mysql.sock
+	<?php echo $sql_sock_enabled ?>sql_sock            = <?php echo $sql_sock. "\n"; ?>
 
 	# connect over tcp
-    sql_host            = <?php echo APP_SQL_DBHOST . "\n"; ?>
+	<?php echo $sql_host_enabled ?>sql_host            = <?php echo $sql_host . "\n"; ?>
     sql_port            = <?php echo APP_SQL_DBPORT . "\n"; ?>
 
     sql_user            = <?php echo APP_SQL_DBUSER . "\n"; ?>
