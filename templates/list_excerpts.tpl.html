@@ -1,5 +1,5 @@
 {*
-list excerpts 
+list excerpts
 
 used by block in list.tpl.html
 
@@ -7,11 +7,11 @@ used by block in list.tpl.html
 <ul class="excerpts">
   {if $list[i].excerpts.issue.summary}
     {* TRANSLATORS: %1: excerpt issue summary *}
-    <li>{t 1=$list[i].excerpts.issue.summary}Summary: %1{/t}</li>
+    <li>{t escape=no 1=$list[i].excerpts.issue.summary}Summary: %1{/t}</li>
   {/if}
   {if $list[i].excerpts.issue.description}
     {* TRANSLATORS: %1: excerpt issue description *}
-    <li>{t 1=$list[i].excerpts.issue.description}Description: %1{/t}</li>
+    <li>{t escape=no 1=$list[i].excerpts.issue.description}Description: %1{/t}</li>
   {/if}
   {if $list[i].excerpts.email|@count > 0}
     <li>{t}Emails:{/t}
