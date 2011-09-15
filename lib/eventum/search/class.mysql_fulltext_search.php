@@ -75,26 +75,29 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
-        } else {
-            $stmt = "SELECT
-                        DISTINCT(icf_iss_id)
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                    WHERE
-                        MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-            $custom_res = DB_Helper::getInstance()->getCol($stmt);
-            if (PEAR::isError($custom_res)) {
-                Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
-                return array(-1);
-            }
-            $issues = array_merge($res, $custom_res);
-            // we kill the query results on purpose to flag that no
-            // issues could be found with fulltext search
-            if (count($issues) < 1) {
-                $issues = array(-1);
-            }
-            return $issues;
+
         }
+
+        $stmt = "SELECT
+                    DISTINCT(icf_iss_id)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
+        $custom_res = DB_Helper::getInstance()->getCol($stmt);
+        if (PEAR::isError($custom_res)) {
+            Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
+            return array(-1);
+        }
+
+        $issues = array_merge($res, $custom_res);
+
+        // we kill the query results on purpose to flag that no
+        // issues could be found with fulltext search
+        if (count($issues) < 1) {
+            return array(-1);
+        }
+        return $issues;
     }
 
 
