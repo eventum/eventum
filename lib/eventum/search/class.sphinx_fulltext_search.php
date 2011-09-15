@@ -5,7 +5,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     private $sphinx;
 
     private $keywords;
-    
+
     public function __construct()
     {
         $this->sphinx = new SphinxClient();
@@ -14,8 +14,8 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
         $this->match_mode = '';
     }
-    
-    
+
+
     public function getIssueIDs($options)
     {
         // Build the Sphinx client
