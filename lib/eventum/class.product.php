@@ -45,6 +45,9 @@ class Product
                     pro_removed = ?";
             $data[] = $removed;
         }
+        $sql .= "
+                ORDER BY
+                    pro_rank";
         $res = DB_Helper::getInstance()->getAll($sql, $data, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
         	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
