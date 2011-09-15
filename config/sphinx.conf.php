@@ -10,6 +10,9 @@ if (!defined('SPHINX_RUN_PATH')) {
 if (!defined('SPHINX_DATA_PATH')) {
     define('SPHINX_DATA_PATH', '/var/lib/sphinx/eventum/');
 }
+if (!defined('SPHINX_SEARCHD_PORT')) {
+	define('SPHINX_SEARCHD_PORT', 3312);
+}
 ?>
 
 #############################################################################
