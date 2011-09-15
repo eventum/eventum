@@ -1,8 +1,5 @@
 <?php
 
-require APP_INC_PATH . "/search/class.abstract_fulltext_search.php";
-require APP_INC_PATH . "/search/sphinxapi.php";
-
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
     private $sphinx;
