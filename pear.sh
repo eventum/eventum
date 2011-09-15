@@ -57,9 +57,14 @@ fi
 install -d $t
 
 if [ ! -f pear.install ]; then
+	> $t/VERSIONS
 	for p in $pear_pkgs; do
 		p=${p%-*}
-		pear install -O -n -l -f -P $t $p-*.tgz
+		f=$(echo $p-*.tgz)
+		pear install -O -n -l -f -P $t $f
+		v=${f#$p-}
+		v=${v%.tgz}
+		echo "$p $v" >> $t/VERSIONS
 	done
 	touch pear.install
 fi
