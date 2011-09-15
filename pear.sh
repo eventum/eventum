@@ -107,5 +107,7 @@ if [ ! -f pear.clean ]; then
 	find -name '*.php' | xargs -r sed -i -e '${/^$/d}'
 	# and as well can remove trailing spaces/tabs:
 	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
+	# remove DOS EOL
+	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'  
 	cd -
 fi
