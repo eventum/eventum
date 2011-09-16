@@ -86,6 +86,7 @@ class Search
             // quick filter form
             'keywords'       => self::getParam('keywords'),
             'match_mode'     => self::getParam('match_mode'),
+            'hide_excerpts'  => self::getParam('hide_excerpts'),
             'search_type'    => Misc::stripHTML($search_type),
             'users'          => Misc::escapeInteger(self::getParam('users')),
             'status'         => Misc::escapeInteger(self::getParam('status')),
@@ -397,7 +398,9 @@ class Search
         }
         $csv[] = @implode("\t", $column_headings);
 
-        $excerpts = self::getFullTextExcerpts();
+        if ($options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
+           $excerpts = self::getFullTextExcerpts();
+        }
 
         for ($i = 0; $i < count($res); $i++) {
             $issue_id = $res[$i]['iss_id'];
@@ -733,5 +736,11 @@ class Search
     public static function getMatchModes()
     {
         return self::getFullTextSearchInstance()->getMatchModes();
+    }
+
+
+    public static function doesBackendSupportExcerpts()
+    {
+        return self::getFullTextSearchInstance()->supportsExcerpts();
     }
 }

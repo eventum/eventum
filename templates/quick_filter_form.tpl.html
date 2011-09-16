@@ -137,6 +137,18 @@ function runCustomFilter(f)
                 <select name="match_mode" class="default">
                     {html_options options=$match_modes selected=$options.match_mode}
                 </select>
+                &nbsp;&nbsp;
+            </div>
+            {/if}
+            {if $supports_excerpts}
+            <div style="float: left;">
+                <span class="default">{t}Excerpts{/t}:</span><br />
+                <label class="default"><input type="radio" name="hide_excerpts" value="0"
+                    {if $options.hide_excerpts == 0}CHECKED{/if} />
+                    {t}Show{/t}</label>
+                <label class="default"><input type="radio" name="hide_excerpts" value="1"
+                    {if $options.hide_excerpts == 1}CHECKED{/if} />
+                    {t}Hide{/t}</label>
             </div>
             {/if}
           </td>

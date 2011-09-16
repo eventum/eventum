@@ -228,4 +228,10 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         }
     }
 
+
+    public function supportsExcerpts()
+    {
+        return true;
+    }
+
 }
