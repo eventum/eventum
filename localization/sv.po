@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 22:28+0300\n"
+"POT-Creation-Date: 2011-09-15 09:01+0300\n"
 "PO-Revision-Date: 2011-08-15 09:00+0000\n"
 "Last-Translator: Stefan Norin <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:39+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-09-16 04:40+0000\n"
+"X-Generator: Launchpad (build 13955)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -914,8 +914,8 @@ msgstr "Tilldelning"
 msgid "Assignment Field"
 msgstr ""
 
-#: lib/eventum/class.notification.php:612
-#: lib/eventum/class.notification.php:613
+#: lib/eventum/class.notification.php:614
+#: lib/eventum/class.notification.php:615
 msgid "Assignment List"
 msgstr "Tilldelningslista"
 
@@ -1080,7 +1080,7 @@ msgstr ""
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: lib/eventum/class.notification.php:963
+#: lib/eventum/class.notification.php:965
 msgid "BLOCKED"
 msgstr "BLOCKERAD"
 
@@ -1217,8 +1217,8 @@ msgid "Categories and Statuses"
 msgstr "Kategorier och statusnivåer"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:621
-#: lib/eventum/class.notification.php:622 lib/eventum/class.project.php:1096
+#: lib/eventum/class.notification.php:623
+#: lib/eventum/class.notification.php:624 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1357,7 +1357,7 @@ msgstr "Stäng Ärende"
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: lib/eventum/class.notification.php:823
+#: lib/eventum/class.notification.php:825
 msgid "Closed"
 msgstr "Stängt"
 
@@ -1820,6 +1820,10 @@ msgstr "Beskrivningen är dold"
 msgid "Description:"
 msgstr "Beskrivning:"
 
+#: templates/list.tpl.html
+msgid "Description: %1"
+msgstr ""
+
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
@@ -2222,6 +2226,10 @@ msgstr ""
 msgid "Emails by Staff"
 msgstr ""
 
+#: templates/list.tpl.html
+msgid "Emails:"
+msgstr ""
+
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
 msgstr "Töm meddelandehuvud"
@@ -2409,8 +2417,8 @@ msgstr ""
 msgid "Est Dev Time"
 msgstr "Beräknad behandlingstid"
 
-#: lib/eventum/class.notification.php:641
-#: lib/eventum/class.notification.php:642 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:643
+#: lib/eventum/class.notification.php:644 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2576,8 +2584,8 @@ msgid "Expand collapsed cell"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:617
-#: lib/eventum/class.notification.php:618 templates/view_form.tpl.html
+#: lib/eventum/class.notification.php:619
+#: lib/eventum/class.notification.php:620 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr "Förväntat lösningsdatum"
 
@@ -3556,6 +3564,10 @@ msgstr "Markera ärendet som dublett"
 msgid "Mark as Duplicate"
 msgstr "Markera som dublett"
 
+#: templates/quick_filter_form.tpl.html
+msgid "Match Mode"
+msgstr ""
+
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
 msgstr "Max"
@@ -3700,7 +3712,7 @@ msgstr "Nytt alias"
 msgid "New Attachment"
 msgstr "Ny bilaga"
 
-#: lib/eventum/class.notification.php:1113 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
@@ -3716,7 +3728,7 @@ msgstr "Nytt lösenord"
 msgid "New Status for Issue"
 msgstr "Ny status för ärendet"
 
-#: lib/eventum/class.notification.php:1454
+#: lib/eventum/class.notification.php:1467
 msgid "New User information"
 msgstr "Ny användarinformation"
 
@@ -4048,6 +4060,10 @@ msgstr ""
 msgid "Notes are added to existing issues"
 msgstr ""
 
+#: templates/list.tpl.html
+msgid "Notes:"
+msgstr ""
+
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
@@ -4061,22 +4077,22 @@ msgstr "Notifieringslista:"
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2041
+#: lib/eventum/class.notification.php:2054
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1881
+#: lib/eventum/class.notification.php:1894
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2127
+#: lib/eventum/class.notification.php:2140
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2223
+#: lib/eventum/class.notification.php:2236
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4286,8 +4302,8 @@ msgstr "Mönster: \"%1\""
 msgid "Pending"
 msgstr "Väntande"
 
-#: lib/eventum/class.notification.php:649
-#: lib/eventum/class.notification.php:650
+#: lib/eventum/class.notification.php:651
+#: lib/eventum/class.notification.php:652
 msgid "Percent complete"
 msgstr ""
 
@@ -4320,6 +4336,10 @@ msgstr "Radera"
 #: templates/phone_support.tpl.html
 msgid "Phone Calls"
 msgstr "Telefonsamtal"
+
+#: templates/list.tpl.html
+msgid "Phone Calls:"
+msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
@@ -5390,8 +5410,8 @@ msgid "Primary Technical Account Manager"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:629
-#: lib/eventum/class.notification.php:630 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:631
+#: lib/eventum/class.notification.php:632 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5521,7 +5541,7 @@ msgid "Re: %1$s"
 msgstr "Sv: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:823
+#: lib/eventum/class.issue.php:820
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr "Sv: [#%1$s] %2$s"
@@ -5666,8 +5686,8 @@ msgid "Register"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:625
-#: lib/eventum/class.notification.php:626 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:627
+#: lib/eventum/class.notification.php:628 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr "Utgåva"
@@ -5870,8 +5890,8 @@ msgstr "Kräver stöd för kakor och javascript i din webläsare"
 msgid "Reset"
 msgstr "Återställ"
 
-#: lib/eventum/class.notification.php:637
-#: lib/eventum/class.notification.php:638 templates/close.tpl.html
+#: lib/eventum/class.notification.php:639
+#: lib/eventum/class.notification.php:640 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr "Lösning"
@@ -6321,8 +6341,8 @@ msgid "Stats"
 msgstr "Statistik"
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:633
-#: lib/eventum/class.notification.php:634 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:635
+#: lib/eventum/class.notification.php:636 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6394,8 +6414,8 @@ msgid "Suggestions:"
 msgstr "Förslag:"
 
 #: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:645
-#: lib/eventum/class.notification.php:646 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.notification.php:647
+#: lib/eventum/class.notification.php:648 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6424,6 +6444,10 @@ msgstr ""
 #: templates/update_form.tpl.html
 msgid "Summary:"
 msgstr "Rubrik:"
+
+#: templates/list.tpl.html
+msgid "Summary: %1"
+msgstr ""
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
@@ -7931,7 +7955,7 @@ msgstr "Uppdatera värde"
 msgid "Update Values"
 msgstr "Updatera värden"
 
-#: lib/eventum/class.notification.php:693
+#: lib/eventum/class.notification.php:695
 msgid "Updated"
 msgstr "Uppdaterad"
 
@@ -7992,11 +8016,11 @@ msgstr "Användardetaljer"
 msgid "User Permission Levels"
 msgstr "Användarens rättigheter"
 
-#: lib/eventum/class.notification.php:1380
+#: lib/eventum/class.notification.php:1393
 msgid "User account information updated"
 msgstr "Användarkontot uppdaterat"
 
-#: lib/eventum/class.notification.php:1417
+#: lib/eventum/class.notification.php:1430
 msgid "User account password changed"
 msgstr ""
 
@@ -8452,7 +8476,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1583
+#: lib/eventum/class.notification.php:1596
 msgid "Your User Account Details"
 msgstr "Dina användardetaljer"
 
@@ -8495,6 +8519,14 @@ msgstr ""
 "Ditt användarstatus är för tillfället satt till väntar.Detta innebär att du "
 "måste bekräfta din registrering. Kontakta din systemadministratör för mer "
 "information."
+
+#: templates/list.tpl.html
+msgid "[Private]"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "[Redeemed]"
+msgstr ""
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
