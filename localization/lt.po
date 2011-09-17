@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-15 09:01+0300\n"
+"POT-Creation-Date: 2011-09-16 10:20+0300\n"
 "PO-Revision-Date: 2011-08-30 19:23+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-16 04:39+0000\n"
+"X-Launchpad-Export-Date: 2011-09-17 05:07+0000\n"
 "X-Generator: Launchpad (build 13955)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -1796,7 +1796,7 @@ msgstr ""
 msgid "Description:"
 msgstr ""
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Description: %1"
 msgstr ""
 
@@ -2199,7 +2199,7 @@ msgstr ""
 msgid "Emails by Staff"
 msgstr ""
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Emails:"
 msgstr ""
 
@@ -2441,6 +2441,10 @@ msgstr ""
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
+msgstr ""
+
+#: templates/quick_filter_form.tpl.html
+msgid "Excerpts"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -2809,6 +2813,10 @@ msgstr ""
 
 #: lib/eventum/class.help.php:50
 msgid "Help Topics"
+msgstr ""
+
+#: templates/quick_filter_form.tpl.html
+msgid "Hide"
 msgstr ""
 
 #: templates/emails.tpl.html
@@ -3993,7 +4001,7 @@ msgstr ""
 msgid "Notes are added to existing issues"
 msgstr ""
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Notes:"
 msgstr ""
 
@@ -4267,7 +4275,7 @@ msgstr ""
 msgid "Phone Calls"
 msgstr ""
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
 msgstr ""
 
@@ -6046,6 +6054,10 @@ msgstr ""
 msgid "Shorten the field"
 msgstr ""
 
+#: templates/quick_filter_form.tpl.html
+msgid "Show"
+msgstr ""
+
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
 msgstr ""
@@ -6349,7 +6361,7 @@ msgstr ""
 msgid "Summary:"
 msgstr ""
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
 msgstr ""
 

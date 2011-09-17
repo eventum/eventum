@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-15 09:01+0300\n"
+"POT-Creation-Date: 2011-09-16 10:20+0300\n"
 "PO-Revision-Date: 2011-09-08 03:03+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-16 04:41+0000\n"
+"X-Launchpad-Export-Date: 2011-09-17 05:09+0000\n"
 "X-Generator: Launchpad (build 13955)\n"
 "Language: pt_BR\n"
 
@@ -1865,7 +1865,7 @@ msgstr "Descrição está recolhida"
 msgid "Description:"
 msgstr "Descrição:"
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Description: %1"
 msgstr ""
 
@@ -2287,7 +2287,7 @@ msgstr "Emails por Clientes"
 msgid "Emails by Staff"
 msgstr "Emails por Membros da Equipe"
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Emails:"
 msgstr ""
 
@@ -2544,6 +2544,10 @@ msgstr "URL Relativa do Eventum"
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
 msgstr "O Eventum não pôde rotear seu email"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Excerpts"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
@@ -2936,6 +2940,10 @@ msgstr "Ajuda"
 #: lib/eventum/class.help.php:50
 msgid "Help Topics"
 msgstr "Tópicos de Ajuda"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Hide"
+msgstr ""
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -4171,7 +4179,7 @@ msgstr "Notas"
 msgid "Notes are added to existing issues"
 msgstr "Notas são adicionadas a chamados existentes"
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Notes:"
 msgstr ""
 
@@ -4454,7 +4462,7 @@ msgstr "Excluir Permanentemente"
 msgid "Phone Calls"
 msgstr "Chamadas Telefônicas"
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
 msgstr ""
 
@@ -6355,6 +6363,10 @@ msgstr "Descrição Curta"
 msgid "Shorten the field"
 msgstr "Encurtar o campo"
 
+#: templates/quick_filter_form.tpl.html
+msgid "Show"
+msgstr ""
+
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
 msgstr "Mostrar Todos os Rascunhos"
@@ -6679,7 +6691,7 @@ msgstr "Campo Resumo"
 msgid "Summary:"
 msgstr "Resumo:"
 
-#: templates/list.tpl.html
+#: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
 msgstr ""
 
