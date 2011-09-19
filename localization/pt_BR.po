@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-16 10:20+0300\n"
-"PO-Revision-Date: 2011-09-08 03:03+0000\n"
+"PO-Revision-Date: 2011-09-19 01:54+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-17 05:09+0000\n"
+"X-Launchpad-Export-Date: 2011-09-19 04:42+0000\n"
 "X-Generator: Launchpad (build 13955)\n"
 "Language: pt_BR\n"
 
@@ -1867,7 +1867,7 @@ msgstr "Descrição:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Description: %1"
-msgstr ""
+msgstr "Descrição: %1"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
@@ -2289,7 +2289,7 @@ msgstr "Emails por Membros da Equipe"
 
 #: templates/list_excerpts.tpl.html
 msgid "Emails:"
-msgstr ""
+msgstr "Emails:"
 
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
@@ -2547,7 +2547,7 @@ msgstr "O Eventum não pôde rotear seu email"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Excerpts"
-msgstr ""
+msgstr "Trechos"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
@@ -2943,7 +2943,7 @@ msgstr "Tópicos de Ajuda"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -3675,7 +3675,7 @@ msgstr "Marcar como Duplicata"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Match Mode"
-msgstr ""
+msgstr "Modo de Correspondência"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
@@ -4181,7 +4181,7 @@ msgstr "Notas são adicionadas a chamados existentes"
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
-msgstr ""
+msgstr "Notas:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
@@ -4464,7 +4464,7 @@ msgstr "Chamadas Telefônicas"
 
 #: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
-msgstr ""
+msgstr "Chamadas Telefônicas:"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
@@ -6365,7 +6365,7 @@ msgstr "Encurtar o campo"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
@@ -6377,7 +6377,7 @@ msgstr "Mostrar Campos Personalizados?"
 
 #: templates/manage/users.tpl.html
 msgid "Show Customers"
-msgstr "Exibir Clientes"
+msgstr "Mostrar Clientes"
 
 #: templates/adv_search.tpl.html
 msgid "Show Issues in Which I Am"
@@ -6693,7 +6693,7 @@ msgstr "Resumo:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
-msgstr ""
+msgstr "Resumo: %1"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
@@ -8923,11 +8923,11 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "[Private]"
-msgstr ""
+msgstr "[Privado]"
 
 #: templates/list.tpl.html
 msgid "[Redeemed]"
-msgstr ""
+msgstr "[Compensado]"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
