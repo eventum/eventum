@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-16 10:20+0300\n"
-"PO-Revision-Date: 2011-09-26 17:31+0000\n"
+"PO-Revision-Date: 2011-09-27 08:52+0000\n"
 "Last-Translator: N Ankar <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-27 04:48+0000\n"
-"X-Generator: Launchpad (build 14028)\n"
+"X-Launchpad-Export-Date: 2011-09-28 05:21+0000\n"
+"X-Generator: Launchpad (build 14049)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -33,7 +33,7 @@ msgstr ""
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr "#%1$s - %2$s"
+msgstr "Ärende nummer %1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -80,7 +80,7 @@ msgstr "(Alla ärenden)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Alternativa domännamn som pekar mot 'Address Hostname')"
+msgstr "(Alternativa domännamn som pekar mot 'Adress Värdnamn')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -848,7 +848,7 @@ msgstr "Artikelinlägg"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Som ett exempel, använd"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -2376,11 +2376,11 @@ msgstr "Fel: E-postmeddelandet var tomt."
 
 #: lib/eventum/class.routing.php:58
 msgid "Error: The email routing interface is disabled."
-msgstr "FEL: Routing av e-postmeddelanden är avstängt."
+msgstr "FEL: Routning av e-postmeddelanden är avstängt."
 
 #: lib/eventum/class.routing.php:260
 msgid "Error: The internal note routing interface is disabled."
-msgstr "FEL: Routing av interna meddelanden är avstängt."
+msgstr "FEL: Routning av interna meddelanden är avstängt."
 
 #: templates/close.tpl.html
 msgid "Error: The issue #%1 could not be found"
@@ -2602,7 +2602,7 @@ msgstr "Befintliga statusnivåer:"
 
 #: templates/notification.tpl.html
 msgid "Existing Subscribers for this Issue"
-msgstr "Prenuumeranter för ärendet."
+msgstr "Prenumeranter för ärendet"
 
 #: templates/manage/users.tpl.html
 msgid "Existing Users"
@@ -3156,7 +3156,7 @@ msgstr "Intern FAQ"
 
 #: templates/manage/general.tpl.html
 msgid "Internal Note Routing Interface:"
-msgstr ""
+msgstr "Routning av interna anteckningar:"
 
 #: templates/notes.tpl.html
 msgid "Internal Notes"
@@ -4887,7 +4887,7 @@ msgstr ""
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address prefix for the email routing interface."
-msgstr ""
+msgstr "Var god ange e-postadressens prefix för e-postroutningen"
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the email of this user."
@@ -6458,7 +6458,7 @@ msgstr "Ärende"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Titelbaserad fördelning:"
 
 #: templates/email_filter_form.tpl.html
 msgid "Subject/Body:"
