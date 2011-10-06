@@ -2,7 +2,7 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 
-<script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
+<script type="text/javascript" src="{$core.rel_url}js/dynCalendar.js"></script>
 {literal}
 <script type="text/javascript">
 <!--
@@ -180,7 +180,7 @@ function disableCustomFields(disable)
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
-          <td colspan="4" bgcolor="{$light_color}" class="default">
+          <td colspan="4" bgcolor="{$light_color}">
             <b>{t}Advanced Search{/t}</b>
           </td>
           <td bgcolor="{$light_color}" align="right">
@@ -200,13 +200,13 @@ function disableCustomFields(disable)
         <input id="closed_date_hidden" type="hidden" name="closed_date" value="">
         <tr>
           <td nowrap colspan="1">
-            <span class="default">{t}Keyword(s){/t}:</span><br />
-            <input class="default" type="text" name="keywords" value="{$options.cst_keywords|escape:'html'}" size="40">
+            <span>{t}Keyword(s){/t}:</span><br />
+            <input type="text" name="keywords" value="{$options.cst_keywords|escape:'html'}" size="40">
           </td>
           <td colspan="3">
-            {if $has_customer_integration}
-            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">{t}All Text (emails, notes, etc){/t}</label>
+            {if $core.has_customer_integration}
+            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
             {else}
             <input type="hidden" name="search_type" value="all_text">
             {/if}
@@ -214,15 +214,15 @@ function disableCustomFields(disable)
         </tr>
         <tr>
           <td valign="top">
-            <span class="default">{t}Assigned{/t}:</span><br />
-            <select name="users" class="default">
+            <span>{t}Assigned{/t}:</span><br />
+            <select name="users">
               {html_options options=$users selected=$options.cst_users}
             </select>
           </td>
           {if $cats|@count > 0}
           <td>
-            <span class="default">{t}Category{/t}:</span><br />
-            <select name="category" class="default">
+            <span>{t}Category{/t}:</span><br />
+            <select name="category">
               <option value="">{t}any{/t}</option>
               {foreach key=prc_id item=prc_title from=$cats}
               <option value="{$prc_id}" {if $prc_id == $options.cst_iss_prc_id}selected{/if}>{$prc_title}</option>
@@ -231,8 +231,8 @@ function disableCustomFields(disable)
           </td>
           {/if}
           <td>
-            <span class="default">{t}Priority{/t}:</span><br />
-            <select name="priority" class="default">
+            <span>{t}Priority{/t}:</span><br />
+            <select name="priority">
               <option value="">{t}any{/t}</option>
               {section name="i" loop=$priorities}
               <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.cst_iss_pri_id}selected{/if}>{$priorities[i].pri_title}</option>
@@ -240,8 +240,8 @@ function disableCustomFields(disable)
             </select>
           </td>
           <td valign="top">
-            <span class="default">{t}Status{/t}:</span><br />
-            <select name="status" class="default">
+            <span>{t}Status{/t}:</span><br />
+            <select name="status">
               <option value="">{t}any{/t}</option>
               {foreach key=sta_id item=sta_title from=$status}
               <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id}selected{/if}>{$sta_title}</option>
@@ -251,16 +251,16 @@ function disableCustomFields(disable)
         </tr>
         <tr>
           <td>
-            <span class="default">{t}Reporter{/t}:</span><br />
-            <select name="reporter" class="default">
+            <span>{t}Reporter{/t}:</span><br />
+            <select name="reporter">
               <option value="">{t}Any{/t}</option>
               {html_options options=$reporters selected=$options.cst_reporter}
             </select>
           </td>
           {if $releases|@count > 0}
           <td>
-            <span class="default">{t}Release{/t}:</span><br />
-            <select name="release" class="default">
+            <span>{t}Release{/t}:</span><br />
+            <select name="release">
               <option value="">{t}any{/t}</option>
               {foreach key=pre_id item=pre_title from=$releases}
               <option value="{$pre_id}" {if $pre_id == $options.cst_iss_pre_id}selected{/if}>{$pre_title}</option>
@@ -270,12 +270,12 @@ function disableCustomFields(disable)
           {/if}
         </tr>
         <tr>
-          <td align="center" class="default">
-            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'hide_closed');">{t}Hide Closed Issues{/t}</a>
+          <td align="center">
+            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'hide_closed');">{t}Hide Closed Issues{/t}</a>
           </td>
           <td>
-            <span class="default">{t}Rows Per Page{/t}:</span><br />
-            <select name="rows" class="default">
+            <span>{t}Rows Per Page{/t}:</span><br />
+            <select name="rows">
               <option value="100" {if $options.cst_rows == 100}selected{/if}>100</option>
               <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
               <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
@@ -285,8 +285,8 @@ function disableCustomFields(disable)
             </select>
           </td>
           <td>
-            <span class="default">{t}Sort By{/t}:</span><br />
-            <select name="sort_by" class="default">
+            <span>{t}Sort By{/t}:</span><br />
+            <select name="sort_by">
               <option value="last_action_date" {if $options.cst_sort_by == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
               <option value="iss_pri_id" {if $options.cst_sort_by == "iss_pri_id"}selected{/if}>{t}Priority{/t}</option>
               <option value="iss_id" {if $options.cst_sort_by == "iss_id"}selected{/if}>{t}Issue ID{/t}</option>
@@ -295,8 +295,8 @@ function disableCustomFields(disable)
             </select>
           </td>
           <td colspan="2">
-            <span class="default">{t}Sort Order{/t}:</span><br />
-            <select name="sort_order" class="default">
+            <span>{t}Sort Order{/t}:</span><br />
+            <select name="sort_order">
               <option value="desc" {if $options.cst_sort_order == "desc"}selected{/if}>{t}descending{/t}</option>
               <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>{t}ascending{/t}</option>
             </select>
@@ -307,14 +307,14 @@ function disableCustomFields(disable)
           <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
-                <td nowrap class="default">
+                <td nowrap>
                   {t}Show Issues in Which I Am{/t}:&nbsp;
                 </td>
-                <td width="80%" class="default">
+                <td width="80%">
                   <input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_authorized_issues');">{t}Authorized to Send Emails{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_authorized_issues');">{t}Authorized to Send Emails{/t}</a>
                   <input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">{t}In Notification List{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">{t}In Notification List{/t}</a>
                 </td>
               </tr>
             </table>
@@ -324,8 +324,8 @@ function disableCustomFields(disable)
         <tr>
           <td colspan="5">
           <hr>
-            <input id="show_date_fields_checkbox" type="checkbox" name="show_date_fields" value="1" class="default" onClick="changeDateFieldsVisibility(this.checked)">
-            <label for="show_date_fields_checkbox" class="default">{t}Show date fields to search by{/t}</label>
+            <input id="show_date_fields_checkbox" type="checkbox" name="show_date_fields" value="1" onClick="changeDateFieldsVisibility(this.checked)">
+            <label for="show_date_fields_checkbox">{t}Show date fields to search by{/t}</label>
           </td>
         </tr>
         <tr id="date_field_row_0" style="display: none">
@@ -334,8 +334,8 @@ function disableCustomFields(disable)
               <tr>
                 <td nowrap width="60%">
                   <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" onClick="toggleDateFields(this.form, 'created_date');">
-                  <span class="default"><label for="filter[created_date]">{t}Created{/t}:</label></span><br />
-                  <select name="created_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><label for="filter[created_date]">{t}Created{/t}:</label></span><br />
+                  <select name="created_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_created_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -345,23 +345,23 @@ function disableCustomFields(disable)
                   {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar = new dynCalendar('tCalendar', 'calendarCallback_created', '{$rel_url}images/');
+                  tCalendar = new dynCalendar('tCalendar', 'calendarCallback_created', '{$core.rel_url}images/');
                   tCalendar.setMonthCombo(false);
                   tCalendar.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
                   <span id="created_date_last">
-                  <input type="text" name="created_date[time_period]" size="3" class="default" value="{$options.cst_created_date_time_period}"> <span class="default">{t}hours{/t}</span>
+                  <input type="text" name="created_date[time_period]" size="3" value="{$options.cst_created_date_time_period}"> <span>{t}hours{/t}</span>
                   &nbsp;&nbsp;
                   </span>
                 </td>
                 <td nowrap id="created_date2" width="40%" valign="bottom">
-                  <span class="default">Created: <i>(End date)</i></span><br />
+                  <span>Created: <i>(End date)</i></span><br />
                   {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar2 = new dynCalendar('tCalendar2', 'calendarCallback_created_end', '{$rel_url}images/');
+                  tCalendar2 = new dynCalendar('tCalendar2', 'calendarCallback_created_end', '{$core.rel_url}images/');
                   tCalendar2.setMonthCombo(false);
                   tCalendar2.setYearCombo(false);
                   //-->
@@ -377,8 +377,8 @@ function disableCustomFields(disable)
               <tr>
                 <td nowrap width="60%">
                   <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" onClick="toggleDateFields(this.form, 'updated_date');">
-                  <span class="default"><label for="filter[updated_date]">{t}Last Updated{/t}:</label></span><br />
-                  <select name="updated_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><label for="filter[updated_date]">{t}Last Updated{/t}:</label></span><br />
+                  <select name="updated_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_updated_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -389,23 +389,23 @@ function disableCustomFields(disable)
                   {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar3 = new dynCalendar('tCalendar3', 'calendarCallback_updated', '{$rel_url}images/');
+                  tCalendar3 = new dynCalendar('tCalendar3', 'calendarCallback_updated', '{$core.rel_url}images/');
                   tCalendar3.setMonthCombo(false);
                   tCalendar3.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
                   <span id="updated_date_last">
-                  <input type="text" name="updated_date[time_period]" size="3" class="default" value="{$options.cst_updated_date_time_period}"> <span class="default">{t}hours{/t}</span>
+                  <input type="text" name="updated_date[time_period]" size="3" value="{$options.cst_updated_date_time_period}"> <span>{t}hours{/t}</span>
                   &nbsp;&nbsp;
                   </span>
                 </td>
                 <td nowrap id="updated_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Last Updated{/t}: <i>({t}End date{/t})</i></span><br />
+                  <span>{t}Last Updated{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar4 = new dynCalendar('tCalendar4', 'calendarCallback_updated_end', '{$rel_url}images/');
+                  tCalendar4 = new dynCalendar('tCalendar4', 'calendarCallback_updated_end', '{$core.rel_url}images/');
                   tCalendar4.setMonthCombo(false);
                   tCalendar4.setYearCombo(false);
                   //-->
@@ -421,8 +421,8 @@ function disableCustomFields(disable)
               <tr>
                 <td nowrap width="60%">
                   <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" onClick="toggleDateFields(this.form, 'first_response_date');">
-                  <span class="default"><label for="filter[first_response_date]">{t}First Response by Staff{/t}:</label></span><br />
-                  <select name="first_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><label for="filter[first_response_date]">{t}First Response by Staff{/t}:</label></span><br />
+                  <select name="first_response_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_first_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -433,23 +433,23 @@ function disableCustomFields(disable)
                   {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_first_response', '{$rel_url}images/');
+                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_first_response', '{$core.rel_url}images/');
                   tCalendar7.setMonthCombo(false);
                   tCalendar7.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
                   <span id="first_response_date_last">
-                  <input type="text" name="first_response_date[time_period]" size="3" class="default" value="{$options.cst_first_response_date_time_period}"> <span class="default">{t}hours{/t}</span>
+                  <input type="text" name="first_response_date[time_period]" size="3" value="{$options.cst_first_response_date_time_period}"> <span>{t}hours{/t}</span>
                   &nbsp;&nbsp;
                   </span>
                 </td>
                 <td nowrap id="first_response_date2" width="40%" valign="bottom">
-                  <span class="default">{t}First Response By Staff{/t}: <i>({t}End date{/t})</i></span><br />
+                  <span>{t}First Response By Staff{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_first_response_end', '{$rel_url}images/');
+                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_first_response_end', '{$core.rel_url}images/');
                   tCalendar8.setMonthCombo(false);
                   tCalendar8.setYearCombo(false);
                   //-->
@@ -465,8 +465,8 @@ function disableCustomFields(disable)
               <tr>
                 <td nowrap width="60%">
                   <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" onClick="toggleDateFields(this.form, 'last_response_date');">
-                  <span class="default"><label for="filter[last_response_date]">{t}Last Response by Staff{/t}:</label></span><br />
-                  <select name="last_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><label for="filter[last_response_date]">{t}Last Response by Staff{/t}:</label></span><br />
+                  <select name="last_response_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_last_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -477,23 +477,23 @@ function disableCustomFields(disable)
                   {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar5 = new dynCalendar('tCalendar5', 'calendarCallback_last_response', '{$rel_url}images/');
+                  tCalendar5 = new dynCalendar('tCalendar5', 'calendarCallback_last_response', '{$core.rel_url}images/');
                   tCalendar5.setMonthCombo(false);
                   tCalendar5.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
                   <span id="last_response_date_last">
-                  <input type="text" name="last_response_date[time_period]" size="3" class="default" value="{$options.cst_last_response_date_time_period}"> <span class="default">{t}hours{/t}</span>
+                  <input type="text" name="last_response_date[time_period]" size="3" value="{$options.cst_last_response_date_time_period}"> <span>{t}hours{/t}</span>
                   &nbsp;&nbsp;
                   </span>
                 </td>
                 <td nowrap id="last_response_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Last Response by Staff{/t}: <i>({t}End date{/t})</i></span><br />
+                  <span>{t}Last Response by Staff{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar6 = new dynCalendar('tCalendar6', 'calendarCallback_last_response_end', '{$rel_url}images/');
+                  tCalendar6 = new dynCalendar('tCalendar6', 'calendarCallback_last_response_end', '{$core.rel_url}images/');
                   tCalendar6.setMonthCombo(false);
                   tCalendar6.setYearCombo(false);
                   //-->
@@ -509,8 +509,8 @@ function disableCustomFields(disable)
               <tr>
                 <td nowrap width="60%">
                   <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" onClick="toggleDateFields(this.form, 'closed_date');">
-                  <span class="default"><label for="filter[closed_date]">{t}Status Closed{/t}:</label></span><br />
-                  <select name="closed_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><label for="filter[closed_date]">{t}Status Closed{/t}:</label></span><br />
+                  <select name="closed_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.cst_closed_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -521,24 +521,24 @@ function disableCustomFields(disable)
                   {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar9 = new dynCalendar('tCalendar9', 'calendarCallback_closed', '{$rel_url}images/');
+                  tCalendar9 = new dynCalendar('tCalendar9', 'calendarCallback_closed', '{$core.rel_url}images/');
                   tCalendar9.setMonthCombo(false);
                   tCalendar9.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
                   <span id="closed_date_last">
-                  <input type="text" name="closed_date[time_period]" size="3" class="default" value="{$options.cst_closed_date_time_period}"> <span class="default">{t}hours{/t}</span>
+                  <input type="text" name="closed_date[time_period]" size="3" value="{$options.cst_closed_date_time_period}"> <span>{t}hours{/t}</span>
                   &nbsp;&nbsp;
                   </span>
                   </span>
                 </td>
                 <td nowrap id="closed_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Status Closed{/t}: <i>({t}End date{/t})</i></span><br />
+                  <span>{t}Status Closed{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar10 = new dynCalendar('tCalendar10', 'calendarCallback_closed_end', '{$rel_url}images/');
+                  tCalendar10 = new dynCalendar('tCalendar10', 'calendarCallback_closed_end', '{$core.rel_url}images/');
                   tCalendar10.setMonthCombo(false);
                   tCalendar10.setYearCombo(false);
                   //-->
@@ -553,25 +553,25 @@ function disableCustomFields(disable)
         {/if}
         <tr>
           <td colspan="5" align="center">
-            <input class="button" type="submit" value="{t}Run Search{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
+            <input type="submit" value="{t}Run Search{/t}">
+            <input type="reset" value="{t}Reset{/t}">
           </td>
         </tr>
 	{if !$is_anon_user}
         <tr>
           <td colspan="5" align="center" bgcolor="{$light_color}">
-            <span class="default">{t}Search Title{/t}:</span>
-            <input type="text" name="title" class="default" value="{$options.cst_title}">
+            <span>{t}Search Title{/t}:</span>
+            <input type="text" name="title" value="{$options.cst_title}">
             {include file="error_icon.tpl.html" field="title"}
-            {if $current_role >= $roles.manager}
+            {if $core.current_role >= $core.roles.manager}
             <input type="checkbox" id="is_global" name="is_global" value="1" {if $options.cst_is_global}checked{/if}>
-            <span class="default"><label for="is_global">{t}Global Search{/t}</label></span>
+            <span><label for="is_global">{t}Global Search{/t}</label></span>
             {/if}
           </td>
         </tr>
         <tr>
           <td colspan="5" align="center" bgcolor="{$light_color}">
-            <input class="button" type="button" value="{t}Save Search{/t}" onClick="saveCustomFilter(this.form);">
+            <input type="button" value="{t}Save Search{/t}" onClick="saveCustomFilter(this.form);">
           </td>
         </tr>
 	{/if}
@@ -593,26 +593,26 @@ function disableCustomFields(disable)
         <input type="hidden" name="cat" value="delete_filter">
         <tr>
           <td bgcolor="{$light_color}" colspan="3">
-            <span class="default"><b>{t}Saved Searches{/t}:</b></span>
+            <span><b>{t}Saved Searches{/t}:</b></span>
           </td>
         </tr>
         {section name="i" loop=$custom}
         <tr>
           <td width="2">
-            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $current_role < $roles.manager and $custom[i].cst_is_global}disabled{/if}>
+            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}disabled{/if}>
           </td>
           <td width="100%">
-            <span class="default">
-            {if $current_role < $roles.manager and $custom[i].cst_is_global}
+            <span>
+            {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}
             {$custom[i].cst_title}
             {else}
-            <a href="adv_search.php?custom_id={$custom[i].cst_id}" class="link" title="{t}edit this custom search{/t}">{$custom[i].cst_title}</a>
+            <a href="adv_search.php?custom_id={$custom[i].cst_id}" title="{t}edit this custom search{/t}">{$custom[i].cst_title}</a>
             {/if}
             </span>
-            {if $custom[i].cst_is_global}<span class="small_default"><i>({t}global filter{/t})</i></span>{/if}
+            {if $custom[i].cst_is_global}<span><i>({t}global filter{/t})</i></span>{/if}
           </td>
           <td>
-            <a class="link" title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
+            <a title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
           </td>
         </tr>
         {if %i.last% && %i.total% > 0}
@@ -624,7 +624,7 @@ function disableCustomFields(disable)
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td align="right">
-                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
+                  <input type="submit" value="{t}Remove Selected{/t}">
                 </td>
               </tr>
             </table>
@@ -633,7 +633,7 @@ function disableCustomFields(disable)
         {/if}
         {sectionelse}
         <tr>
-          <td class="default" colspan="3" align="center">
+          <td colspan="3" align="center">
             <i>{t}No custom searches could be found.{/t}</i>
           </td>
         </tr>

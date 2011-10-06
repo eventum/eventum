@@ -139,6 +139,7 @@ class Search
                 );
             }
         }
+        
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
         return $cookie;
     }

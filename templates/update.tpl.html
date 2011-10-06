@@ -1,14 +1,14 @@
 {include file="header.tpl.html"}
 {include file="navigation.tpl.html"}
-<script type="text/javascript" src="{$rel_url}js/httpclient.js"></script>
+<script type="text/javascript" src="{$core.rel_url}js/httpclient.js"></script>
 
 {if $issue == ""}
   <table width="300" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>{t}Error: The issue could not be found.{/t}</b>
+        &nbsp;<span><b>{t}Error: The issue could not be found.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
       </td>
     </tr>
   </table>
@@ -16,21 +16,21 @@
   <table width="500" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>{t}Sorry, you do not have the required privileges to update this issue.{/t}</b>
+        &nbsp;<span><b>{t}Sorry, you do not have the required privileges to update this issue.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
       </td>
     </tr>
   </table>
 {else}
-  {if $current_role > $roles.reporter}
+  {if $core.current_role > $core.roles.reporter}
   {include file="update_form.tpl.html"}
   {else}
   <center>
-<span class="default">
+<span>
 <b>{t}Sorry, but you do not have the required permission level to access this screen.{/t}</b>
 <br /><br />
-<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a>
+<a href="javascript:history.go(-1);">{t}Go Back{/t}</a>
 </span>
 </center>
   {/if}

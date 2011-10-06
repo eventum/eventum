@@ -51,7 +51,7 @@ function removeOption(f, field_name)
 </script>
 {/literal}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
+<script type="text/javascript" src="{$core.rel_url}js/overlib_mini.js"></script>
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -64,9 +64,9 @@ function removeOption(f, field_name)
         <input type="hidden" name="cat" value="insert">
         {/if}
         <input type="hidden" name="issue_id" value="{$issue_id}">
-        {if $current_role > $roles.reporter}
+        {if $core.current_role > $core.roles.reporter}
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>{t issue_id=$issue_id}Notification Options for Issue #%1{/t}</b>
           </td>
         </tr>
@@ -84,40 +84,40 @@ function removeOption(f, field_name)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$cell_color}">
             <b>{t}Email{/t}:</b>
           </td>
           <td bgcolor="{$light_color}" nowrap>
-            <input type="text" name="email" size="40" class="default" value="{if $info.sub_email != ''}{$info.sub_email}{else}{$current_email}{/if}">
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            <input type="text" name="email" size="40" value="{if $info.sub_email != ''}{$info.sub_email}{else}{$current_email}{/if}">
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$core.rel_url}images/lookup.gif" border="0"></a>{/if}
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$cell_color}">
             <b>{t}Get a Notification When{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
+          <td bgcolor="{$light_color}">
+            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
           </td>
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
             {if $smarty.get.cat == 'edit'}
-            <input class="button" type="submit" value="{t}Update Subscription{/t}">
+            <input type="submit" value="{t}Update Subscription{/t}">
             {else}
-            <input class="button" type="submit" value="{t}Add Subscription{/t}">
+            <input type="submit" value="{t}Add Subscription{/t}">
             {/if}
-            <input class="button" type="reset" value="{t}Reset{/t}">
+            <input type="reset" value="{t}Reset{/t}">
           </td>
         </tr>
         </form>
         {/if}
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>{t}Existing Subscribers for this Issue{/t}:</b>
           </td>
         </tr>
@@ -147,32 +147,32 @@ function removeOption(f, field_name)
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
                 <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>{t}Email{/t}</b> ({t}click to edit{/t})</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>{t}Actions{/t}</b></td>
+                <td bgcolor="{$cell_color}"><b>{t}Email{/t}</b> ({t}click to edit{/t})</td>
+                <td bgcolor="{$cell_color}"><b>{t}Actions{/t}</b></td>
               </tr>
               {section name="i" loop=$list}
               {cycle values=$cycle assign="row_color"}
               <tr>
                 <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
-                <td width="60%" bgcolor="{$row_color}" class="default">
-                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
+                <td width="60%" bgcolor="{$row_color}">
+                  <a href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
                 </td>
-                <td width="40%" bgcolor="{$row_color}" class="default">
+                <td width="40%" bgcolor="{$row_color}">
                   {$list[i].actions}
                 </td>
               </tr>
               {sectionelse}
               <tr>
-                <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
+                <td colspan="3" bgcolor="{$light_color}" align="center">
                   <i>{t}No subscribers could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
-              {if $current_role > $roles.reporter}
+              {if $core.current_role > $core.roles.reporter}
               <tr>
                 <td colspan="3" bgcolor="{$cell_color}" align="center">
-                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
-                  <input type="button" value="{t}Close{/t}" class="button" onClick="closeAndRefresh();">
+                  <input type="submit" value="{t}Remove Selected{/t}">
+                  <input type="button" value="{t}Close{/t}" onClick="closeAndRefresh();">
                 </td>
               </tr>
               {/if}

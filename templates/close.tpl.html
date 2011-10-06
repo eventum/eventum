@@ -6,9 +6,9 @@
   <table width="400" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>{t 1=$smarty.get.id|intval}Error: The issue #%1 could not be found{/t}.</b>
+        &nbsp;<span><b>{t 1=$smarty.get.id|intval}Error: The issue #%1 could not be found{/t}.</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
       </td>
     </tr>
   </table>
@@ -18,7 +18,7 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default">
+          <td>
             {if $close_result == -1}
             <b>{t}Sorry, an error happened while trying to run your query{/t}.</b>
             {elseif $close_result == 1}
@@ -35,10 +35,10 @@
 
             <b>{t}Please choose from one of the options below{/t}:</b>
             <ul>
-              <li><a href="view.php?id={$issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
-              <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
-              {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
-              <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
+              <li><a href="view.php?id={$issue_id}">{t}Open the Issue Details Page{/t}</a></li>
+              <li><a href="list.php">{t}Open the Issue Listing Page{/t}</a></li>
+              {if $core.app_setup.support_email == 'enabled' and $core.current_role > $core.roles.viewer}
+              <li><a href="emails.php">{t}Open the Emails Listing Page{/t}</a></li>
               {/if}
             </ul>
             {/if}
@@ -130,16 +130,16 @@ function setSignature(f)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="2" class="default" nowrap>
-            <b>{t}Close Issue{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}" class="link">{$issue_id}</a>)
+          <td colspan="2" nowrap>
+            <b>{t}Close Issue{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue_id}</a>)
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
+          <td width="160" bgcolor="{$cell_color}">
             <b>{t}Status{/t}: *</b><br />
           </td>
           <td bgcolor="{$light_color}">
-            <select class="default" name="status" id="status">
+            <select name="status" id="status">
               <option value="-1">{t}Please choose a status{/t}</option>
               {html_options options=$statuses}
             </select>
@@ -149,11 +149,11 @@ function setSignature(f)
         </tr>
         {if $resolutions|@count > 0}
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
+          <td width="160" bgcolor="{$cell_color}">
             <b>{t}Resolution{/t}:</b><br />
           </td>
           <td bgcolor="{$light_color}">
-            <select class="default" name="resolution">
+            <select name="resolution">
               {html_options options=$resolutions}
             </select>
           </td>
@@ -163,21 +163,21 @@ function setSignature(f)
         {/if}
         {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='close'}
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
+          <td width="160" bgcolor="{$cell_color}">
             <b>{t}Send Notification About Issue Being Closed?{/t}</b><br />
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <input type="radio" name="send_notification" checked value="1">
-            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <a id="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
             <input type="radio" name="send_notification" value="0">
-            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 1);">{t}No{/t}</a>
+            <a id="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 1);">{t}No{/t}</a>
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
+          <td width="160" bgcolor="{$cell_color}">
             <b>{t}Send Notification To{/t}:</b><br />
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
             <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"}) ({t}Will save as a note{/t})</label><br />
             <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
@@ -185,10 +185,10 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white" id="reason_cell">
+          <td width="160" bgcolor="{$internal_color}" id="reason_cell">
             <b>{t}Reason for closing issue{/t}: *</b><br />
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <textarea name="reason" rows="8" style="width: 97%">{if $current_user_prefs.auto_append_email_sig == 1}
 
 
@@ -201,32 +201,32 @@ function setSignature(f)
         has_per_incident_contract = true;
         </script>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
+          <td width="160" bgcolor="{$internal_color}">
             <b>{t}Incident Types to Redeem{/t}: </b><br />
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             {foreach from=$incident_details item=type_details key=type_id}
               {cycle values=$cycle assign="row_color"}
               {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
-              <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('close_form', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a><br />
+              <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('close_form', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a><br />
             {/foreach}
           </td>
         </tr>
         {/if}
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
+          <td width="160" bgcolor="{$internal_color}">
             <b>{t}Time Spent{/t}: </b><br />
           </td>
           <td bgcolor="{$light_color}">
-            <input class="default" type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>{include file="error_icon.tpl.html" field="time_spent"}
+            <input type="text" size="5" name="time_spent"> <span>(in minutes)</span>{include file="error_icon.tpl.html" field="time_spent"}
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
+          <td width="160" bgcolor="{$internal_color}">
             <b>{t}Time Category{/t}: </b><br />
           </td>
           <td bgcolor="{$light_color}">
-            <select name="category" class="default">
+            <select name="category">
               <option value="">{t}Please choose a category{/t}</option>
               {html_options options=$time_categories}
             </select>
@@ -237,10 +237,10 @@ function setSignature(f)
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
-                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
-                <td width="100%" align="center"><input class="button" type="submit" value="{t}Close Issue{/t}"></td>
+                <td><input type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
+                <td width="100%" align="center"><input type="submit" value="{t}Close Issue{/t}"></td>
                 {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
-                <td class="default_white" align="right" width="150">
+                <td align="right" width="150">
                   <nobr>
                   <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
                   <a id="white_link" class="white_link" href="javascript:void(null);" onClick="toggleCheckbox('close_form', 'add_email_signature');setSignature(getForm('close_form'));">Add Email Signature</a>

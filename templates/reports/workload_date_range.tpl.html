@@ -6,7 +6,7 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="2" class="default_white">
+          <td bgcolor="{$cell_color}" colspan="2">
             <b>{t}Workload by Date Range Report{/t}</b>
           </td>
         </tr>
@@ -14,12 +14,12 @@
         </tr>
         {if $categories|@count > 0}
         <tr>
-          <td class="default" align="right">
+          <td align="right">
             <b>{t}Category{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
-            <select name="category" class="default">
+            <select name="category">
                 <option value=""></option>
                 {html_options options=$categories selected=$category}
             </select>
@@ -27,28 +27,28 @@
         </tr>
         {/if}
         <tr>
-          <td class="default" align="right">
+          <td align="right">
             <b>{t}Type{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
-            <select name="type" class="default" onChange="setIntervals('')">
+            <select name="type" onChange="setIntervals('')">
                 {html_options options=$types selected=$type}
             </select>
           </td>
         </tr>
         <tr>
-          <td class="default" align="right">
+          <td align="right">
             <b>{t}Interval{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
-            <select name="interval" class="default">
+            <select name="interval">
             </select>
           </td>
         </tr>
         <tr>
-          <td class="default" align="right">
+          <td align="right">
             <b>{t}Start{/t}:</b>
           </td>
           <td align="left">
@@ -57,7 +57,7 @@
           </td>
         </tr>
         <tr>
-          <td class="default" align="right">
+          <td align="right">
             <b>{t}End{/t}:</b>
           </td>
           <td align="left">
@@ -74,7 +74,7 @@
     </td>
   </tr>
 </table>
-<div class="default" style="color: red" align="center">
+<div style="color: red" align="center">
    {t escape=no}Warning: Some type and interval options, combined with large <br />date ranges can produce extremely large graphs.{/t}
 </div>
 </form>
@@ -108,44 +108,44 @@ setIntervals('{$interval}');
 </script>
 {if $data != ''}
 <center>
-<h3>Project: {$current_project_name}</h3>
+<h3>Project: {$core.project_name}</h3>
 </center>
 <table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
-          <th class="default_white">
+          <th>
             &nbsp;
           </th>
-          <th class="default_white">
+          <th>
             Total
           </th>
-          <th class="default_white">
+          <th>
             Avg
           </th>
-          <th class="default_white">
+          <th>
             Med
           </th>
-          <th class="default_white">
+          <th>
             Max
           </th>
         </tr>
         {foreach name="workload" from=$data key=loop_name item=row}
         {cycle values=$cycle assign="row_color"}
         <tr bgcolor="{$row_color}">
-          <td align="center" class="default">{$loop_name}</td>
-          <td align="center" class="default">{$row.stats.total}</td>
-          <td align="center" class="default">{$row.stats.avg|round:2}</td>
-          <td align="center" class="default">{$row.stats.median}</td>
-          <td align="center" class="default">{$row.stats.max}</td>
+          <td align="center">{$loop_name}</td>
+          <td align="center">{$row.stats.total}</td>
+          <td align="center">{$row.stats.avg|round:2}</td>
+          <td align="center">{$row.stats.median}</td>
+          <td align="center">{$row.stats.max}</td>
         </tr>
         {/foreach}
       </table>
     </td>
   </tr>
 </table>
-<div class="default" align="center">
+<div align="center">
 {t}Avg/Med/Max Issues/Emails{/t}
 {if $interval == 'day'}
     per day

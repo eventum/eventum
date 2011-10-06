@@ -1,5 +1,5 @@
 
-<script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
+<script type="text/javascript" src="{$core.rel_url}js/dynCalendar.js"></script>
 {literal}
 <script type="text/javascript">
 <!--
@@ -100,27 +100,27 @@ function validateForm(f)
         <input type="hidden" name="hidden1" value="">
         <tr>
           <td>
-            <span class="default">{t}Subject/Body:{/t}</span><br />
-            <input class="default" type="text" name="keywords" size="20" value="{$options.keywords|escape:"html"}">
+            <span>{t}Subject/Body:{/t}</span><br />
+            <input type="text" name="keywords" size="20" value="{$options.keywords|escape:"html"}">
           </td>
           <td>
-            <span class="default">{t}Sender:{/t}</span><br />
-            <input class="default" type="text" name="sender" size="20" value="{$options.sender|escape:"html"}">
+            <span>{t}Sender:{/t}</span><br />
+            <input type="text" name="sender" size="20" value="{$options.sender|escape:"html"}">
           </td>
           <td>
-            <span class="default">{t}To:{/t}</span><br />
-            <input class="default" type="text" name="to" size="20" value="{$options.to|escape:"html"}">
+            <span>{t}To:{/t}</span><br />
+            <input type="text" name="to" size="20" value="{$options.to|escape:"html"}">
           </td>
           <td>
-            <span class="default">{t}Email Account:{/t}</span><br />
-            <select name="ema_id" class="default">
+            <span>{t}Email Account:{/t}</span><br />
+            <select name="ema_id">
               <option value="">{t}any{/t}</option>
               {html_options options=$accounts selected=$options.ema_id}
             </select>
           </td>
           <td>
-            <input class="button" type="submit" value="{t}Search{/t}">
-            <input class="button" type="button" value="{t}Clear{/t}" onClick="clearFilters(this.form);">
+            <input type="submit" value="{t}Search{/t}">
+            <input type="button" value="{t}Clear{/t}" onClick="clearFilters(this.form);">
           </td>
         </tr>
         <tr>
@@ -129,8 +129,8 @@ function validateForm(f)
               <tr>
                 <td nowrap width="50%">
                   <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="toggleDateFields(this.form, 'arrival_date');">
-                  <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
-                  <select name="arrival_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
+                  <span><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
+                  <select name="arrival_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
                     <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
                     <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
@@ -138,18 +138,18 @@ function validateForm(f)
                   {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_arrival', '{$rel_url}images/');
+                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_arrival', '{$core.rel_url}images/');
                   tCalendar7.setMonthCombo(false);
                   tCalendar7.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
                 </td>
                 <td nowrap id="arrival_date1" width="50%" valign="bottom">
-                  <span class="default">{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
+                  <span>{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script type="text/javascript" type="text/javascript">
                   <!--
-                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_arrival_end', '{$rel_url}images/');
+                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_arrival_end', '{$core.rel_url}images/');
                   tCalendar8.setMonthCombo(false);
                   tCalendar8.setYearCombo(false);
                   //-->

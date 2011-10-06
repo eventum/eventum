@@ -7,19 +7,19 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
-          <td align="center" class="default_white">{t}Issue ID{/t}</td>
-          <td align="center" class="default_white">{t}Summary{/t}</td>
-          <td align="center" class="default_white">{t}Status{/t}</td>
-          <td align="center" class="default_white">{t}Time Spent{/t}</td>
-          <td align="center" class="default_white">{t}Created{/t}</td>
+          <td align="center">{t}Issue ID{/t}</td>
+          <td align="center">{t}Summary{/t}</td>
+          <td align="center">{t}Status{/t}</td>
+          <td align="center">{t}Time Spent{/t}</td>
+          <td align="center">{t}Created{/t}</td>
         </tr>
         {foreach key=issue_id item=issue from=$assigned_issues}
         <tr>
-          <td bgcolor="{$issue.status_color}" class="default" align="center"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue_id}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.sta_title|escape:"html"}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.time_spent}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.iss_created_date}</td>
+          <td bgcolor="{$issue.status_color}" align="center"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue_id}</a></td>
+          <td bgcolor="{$issue.status_color}"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.sta_title|escape:"html"}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.time_spent}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date}</td>
         </tr>
         {/foreach}
       </table>

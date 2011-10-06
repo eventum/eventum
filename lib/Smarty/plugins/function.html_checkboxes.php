@@ -1,10 +1,10 @@
 <?php
 /**
  * Smarty plugin
+ *
  * @package Smarty
- * @subpackage plugins
+ * @subpackage PluginsFunction
  */
-
 
 /**
  * Smarty {html_checkboxes} function plugin
@@ -14,33 +14,36 @@
  * Name:       html_checkboxes<br>
  * Date:       24.Feb.2003<br>
  * Purpose:    Prints out a list of checkbox input types<br>
- * Input:<br>
- *           - name       (optional) - string default "checkbox"
- *           - values     (required) - array
- *           - options    (optional) - associative array
- *           - checked    (optional) - array default not set
- *           - separator  (optional) - ie <br> or &nbsp;
- *           - output     (optional) - the output next to each checkbox
- *           - assign     (optional) - assign the output as an array to this variable
  * Examples:
  * <pre>
  * {html_checkboxes values=$ids output=$names}
  * {html_checkboxes values=$ids name='box' separator='<br>' output=$names}
  * {html_checkboxes values=$ids checked=$checked separator='<br>' output=$names}
  * </pre>
- * @link http://smarty.php.net/manual/en/language.function.html.checkboxes.php {html_checkboxes}
+ * Params:
+ * <pre>
+ * - name       (optional) - string default "checkbox"
+ * - values     (required) - array
+ * - options    (optional) - associative array
+ * - checked    (optional) - array default not set
+ * - separator  (optional) - ie <br> or &nbsp;
+ * - output     (optional) - the output next to each checkbox
+ * - assign     (optional) - assign the output as an array to this variable
+ * </pre>
+ *
+ * @link http://www.smarty.net/manual/en/language.function.html.checkboxes.php {html_checkboxes}
  *      (Smarty online manual)
  * @author     Christopher Kvarme <christopher.kvarme@flashjab.com>
  * @author credits to Monte Ohrt <monte at ohrt dot com>
  * @version    1.0
- * @param array
- * @param Smarty
+ * @param array $params parameters
+ * @param object $template template object
  * @return string
  * @uses smarty_function_escape_special_chars()
  */
-function smarty_function_html_checkboxes($params, &$smarty)
+function smarty_function_html_checkboxes($params, $template)
 {
-    require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
+    require_once(SMARTY_PLUGINS_DIR . 'shared.escape_special_chars.php');
 
     $name = 'checkbox';
     $values = null;
@@ -78,7 +81,7 @@ function smarty_function_html_checkboxes($params, &$smarty)
                 break;
 
             case 'checkboxes':
-                $smarty->trigger_error('html_checkboxes: the use of the "checkboxes" attribute is deprecated, use "options" instead', E_USER_WARNING);
+                trigger_error('html_checkboxes: the use of the "checkboxes" attribute is deprecated, use "options" instead', E_USER_WARNING);
                 $options = (array)$_val;
                 break;
 
@@ -89,7 +92,7 @@ function smarty_function_html_checkboxes($params, &$smarty)
                 if(!is_array($_val)) {
                     $extra .= ' '.$_key.'="'.smarty_function_escape_special_chars($_val).'"';
                 } else {
-                    $smarty->trigger_error("html_checkboxes: extra attribute '$_key' cannot be an array", E_USER_NOTICE);
+                    trigger_error("html_checkboxes: extra attribute '$_key' cannot be an array", E_USER_NOTICE);
                 }
                 break;
         }
@@ -116,7 +119,7 @@ function smarty_function_html_checkboxes($params, &$smarty)
     }
 
     if(!empty($params['assign'])) {
-        $smarty->assign($params['assign'], $_html_result);
+        $template->assign($params['assign'], $_html_result);
     } else {
         return implode("\n",$_html_result);
     }
@@ -139,3 +142,5 @@ function smarty_function_html_checkboxes_output($name, $value, $output, $selecte
 
     return $_output;
 }
+
+?>

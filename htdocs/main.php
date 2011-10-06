@@ -57,6 +57,7 @@ if ($role_id == User::getRoleID('customer')) {
     if ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
         $tpl->assign('hide_stats', true);
     } else {
+        $tpl->assign('hide_stats', false);
         $tpl->assign("status", Stats::getStatus());
         $tpl->assign("releases", Stats::getRelease($hide_closed));
         $tpl->assign("categories", Stats::getCategory($hide_closed));
@@ -65,7 +66,7 @@ if ($role_id == User::getRoleID('customer')) {
         $tpl->assign("emails", Stats::getEmailStatus($hide_closed));
         $tpl->assign("pie_chart", Stats::getPieChart($hide_closed));
     }
-    $tpl->assign("random_tip", Misc::getRandomTip($tpl));
+//    $tpl->assign("random_tip", Misc::getRandomTip($tpl));
 }
 
 if  (@$_REQUEST['hide_closed'] == '') {

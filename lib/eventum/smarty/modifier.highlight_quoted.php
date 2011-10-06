@@ -1,4 +1,4 @@
-<?php
+j<?php
 /*
 * Smarty plugin
 * Type:		modifier

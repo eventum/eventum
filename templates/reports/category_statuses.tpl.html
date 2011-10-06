@@ -5,17 +5,17 @@
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
           <tr bgcolor="{$cell_color}">
-            <th class="default_white">Category</th>
+            <th>Category</th>
           {foreach from=$statuses item=status}
-            <th class="default_white">{$status}</th>
+            <th>{$status}</th>
           {/foreach}
           </tr>
         {foreach from=$data item=row}
         {cycle values=$cycle assign="row_color"}
           <tr bgcolor="{$row_color}">
-            <td class="default">{$row.title}</td>
+            <td>{$row.title}</td>
             {foreach from=$row.statuses item=col}
-            <td class="default" align="right">{$col.count}</td>
+            <td align="right">{$col.count}</td>
             {/foreach}
           </tr>
         {/foreach}

@@ -8,16 +8,16 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default">
+          <td>
             {if $duplicate_result == -1}
             <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
             {elseif $duplicate_result == 1}
             <b>{t}Thank you, the issue was marked as a duplicate successfully. Please choose from one of the options below:{/t}</b>
             <ul>
-              <li><a href="view.php?id={$smarty.post.issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
-              <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
-              {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
-              <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
+              <li><a href="view.php?id={$smarty.post.issue_id}">{t}Open the Issue Details Page{/t}</a></li>
+              <li><a href="list.php">{t}Open the Issue Listing Page{/t}</a></li>
+              {if $core.app_setup.support_email == 'enabled' and $core.current_role > $core.roles.viewer}
+              <li><a href="emails.php">{t}Open the Emails Listing Page{/t}</a></li>
               {/if}
             </ul>
             <b>{t}Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.{/t}</b>
@@ -43,7 +43,7 @@
 </table>
 {else}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
+<script type="text/javascript" src="{$core.rel_url}js/overlib_mini.js"></script>
 <script type="text/javascript">
 {literal}
 <!--
@@ -67,12 +67,12 @@ function validateDuplicate(f)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="2" class="default" nowrap>
-            <b>{t}Mark Issue as Duplicate{/t}</b> ({t}Issue ID:{/t} <a href="{$rel_url}view.php?id={$smarty.get.id|intval}" class="link">{$smarty.get.id|intval}</a>)
+          <td colspan="2" nowrap>
+            <b>{t}Mark Issue as Duplicate{/t}</b> ({t}Issue ID:{/t} <a href="{$core.rel_url}view.php?id={$smarty.get.id|intval}">{$smarty.get.id|intval}</a>)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Duplicated Issue:{/t} *</b>
           </td>
           <td bgcolor="{$light_color}">
@@ -80,10 +80,10 @@ function validateDuplicate(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Comments:{/t}</b><br />
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <textarea name="comments" rows="8" style="width: 97%"></textarea>
           </td>
         </tr>
@@ -91,14 +91,14 @@ function validateDuplicate(f)
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
-                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
-                <td width="100%" align="center"><input class="button" type="submit" value="{t}Mark Issue as Duplicate{/t}"></td>
+                <td><input type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
+                <td width="100%" align="center"><input type="submit" value="{t}Mark Issue as Duplicate{/t}"></td>
               </tr>
             </table>
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>* {t}Required fields{/t}</b>
           </td>
         </tr>

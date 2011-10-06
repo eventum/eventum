@@ -184,7 +184,7 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Manage Custom Fields{/t}</b>
                 </td>
               </tr>
@@ -208,112 +208,112 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Title{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" name="title" size="40" class="default" value="{$info.fld_title}">
+                  <input type="text" name="title" size="40" value="{$info.fld_title}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Short Description{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" name="description" size="30" class="default" value="{$info.fld_description}">
-                  <span class="small_default">({t}it will show up by the side of the field{/t})</span>
+                  <input type="text" name="description" size="30" value="{$info.fld_description}">
+                  <span>({t}it will show up by the side of the field{/t})</span>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Assigned Projects{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <select name="projects[]" multiple size="3" class="default">
+                  <select name="projects[]" multiple size="3">
                   {html_options options=$project_list selected=$info.projects}
                   </select>
                   {include file="error_icon.tpl.html" field="projects[]"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Target Forms{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <span class="default">
-                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
-                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a><br />
-                  <input type="checkbox" name="close_form" value="1" {if $info.fld_close_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form', 0);checkRequiredFields();">{t}Close Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form_required', 0);">{t}Required Field{/t}</a>
+                  <span>
+                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="close_form" value="1" {if $info.fld_close_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form', 0);checkRequiredFields();">{t}Close Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required == 1}checked{/if}> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'close_form_required', 0);">{t}Required Field{/t}</a>
                   </span>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Display on List Issues Page{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <span class="default">
+                  <span>
                   <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
                   <input type="radio" name="list_display" value="0" {if $info.fld_list_display != 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 1);">{t}No{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 1);">{t}No{/t}</a>
                   </span>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Field Type{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}" class="default">
+                <td bgcolor="{$light_color}">
                   <input type="radio" name="field_type" value="text" {if $info.fld_type == 'text'}checked{/if} onClick="toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;<br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;<br />
                   <input type="radio" name="field_type" value="textarea" {if $info.fld_type == 'textarea'}checked{/if} onClick="toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">{t}Textarea{/t}</a>&nbsp;<br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">{t}Textarea{/t}</a>&nbsp;<br />
                   <input type="radio" name="field_type" value="combo" {if $info.fld_type == 'combo'}checked{/if} onClick="toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">{t}Combo Box{/t}</a>&nbsp;<br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">{t}Combo Box{/t}</a>&nbsp;<br />
                   <input type="radio" name="field_type" value="multiple" {if $info.fld_type == 'multiple'}checked{/if} onClick="toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a><br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a><br />
                   <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a><br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a><br />
                   <input type="radio" name="field_type" value="integer" {if $info.fld_type == 'integer'}checked{/if} onClick="toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 5);toggleCustomOptionsField(true);">{t}Integer{/t}</a><br /><br />
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 5);toggleCustomOptionsField(true);">{t}Integer{/t}</a><br /><br />
                   <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{t}Warning{/t}: </b> {t}Changing field types can result in loss of data.{/t}<br /><br />
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Field Options{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <table bgcolor="{$dark_color}" cellspacing="0" cellpadding="0" border="0">
                     <tr>
-                      <td rowspan="2"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
+                      <td rowspan="2"><img src="{$core.rel_url}images/blank.gif" width="30" height="1"></td>
                       <td valign="top">
-                        <span class="default"><b>{t}Set available options{/t}:</b></span><br />
-                        <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="{t}Add{/t}" onClick="addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="updateFieldOption(this.form);">{/if}<br />
+                        <span><b>{t}Set available options{/t}:</b></span><br />
+                        <input type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="{t}Add{/t}" onClick="addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="updateFieldOption(this.form);">{/if}<br />
                       </td>
-                      <td rowspan="3" class="default">
+                      <td rowspan="3">
                         &nbsp;&nbsp;&nbsp;&nbsp;<b>{t}AND / OR{/t}</b>&nbsp;&nbsp;&nbsp;&nbsp;
                       </td>
                       <td valign="top">
-                        <span class="default"><b>{t}Choose Custom Field Backend{/t}:</b></span><br />
-                        <select name="custom_field_backend" class="default">
+                        <span><b>{t}Choose Custom Field Backend{/t}:</b></span><br />
+                        <select name="custom_field_backend">
                           <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
                           {html_options options=$backend_list selected=$info.fld_backend}
                         </select>
                       </td>
-                      <td rowspan="3"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
+                      <td rowspan="3"><img src="{$core.rel_url}images/blank.gif" width="30" height="1"></td>
                     </tr>
                     <tr>
                       <td>
                         <table border="0" cellspacing="0" cellpadding="0">
                           <tr>
                             <td>
-                              <select name="field_options[]" multiple size="3" class="default">
+                              <select name="field_options[]" multiple size="3">
                               {if $info.field_options == ""}
                                 <option value="-1">{t}enter a new option above{/t}</option>
                               {else}
@@ -335,36 +335,36 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Minimum Role{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <select name="min_role" class="default">
+                  <select name="min_role">
                     {html_options options=$user_roles selected=$info.fld_min_role}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Rank{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" name="rank" value="{$info.fld_rank}" size="3" class="default">
+                  <input type="text" name="rank" value="{$info.fld_rank}" size="3">
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Custom Field{/t}">
+                  <input type="submit" value="{t}Update Custom Field{/t}">
                   {else}
-                  <input class="button" type="submit" value="{t}Create Custom Field{/t}">
+                  <input type="submit" value="{t}Create Custom Field{/t}">
                   {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
+                  <input type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Existing Custom Fields{/t}:</b>
                 </td>
               </tr>
@@ -393,12 +393,12 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td nowrap bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b></td>
-                      <td width="15%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
-                      <td width="10%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Min. Role{/t}</b></td>
-                      <td width="5%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
-                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Options{/t}</b></td>
+                      <td nowrap bgcolor="{$cell_color}">&nbsp;<b>{t}Rank{/t}</b></td>
+                      <td width="15%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="20%" bgcolor="{$cell_color}">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
+                      <td width="10%" bgcolor="{$cell_color}">&nbsp;<b>{t}Min. Role{/t}</b></td>
+                      <td width="5%" bgcolor="{$cell_color}">&nbsp;<b>{t}Type{/t}</b></td>
+                      <td width="50%" bgcolor="{$cell_color}">&nbsp;<b>{t}Options{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -406,29 +406,29 @@
                       <td width="4" nowrap bgcolor="{$row_color}" align="center">
                         <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                       </td>
-                      <td bgcolor="{$row_color}" class="default" nowrap>
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
-                        <a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      <td bgcolor="{$row_color}" nowrap>
+                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
                       </td>
-                      <td width="15%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
+                      <td width="15%" bgcolor="{$row_color}">
+                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">
+                      <td width="20%" bgcolor="{$row_color}">
                         &nbsp;{$list[i].projects}
                       </td>
-                      <td width="10%" bgcolor="{$row_color}" class="default">
+                      <td width="10%" bgcolor="{$row_color}">
                         &nbsp;{$list[i].min_role_name}
                       </td>
-                      <td width="5%" bgcolor="{$row_color}" class="default">
+                      <td width="5%" bgcolor="{$row_color}">
                         <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{else}{t}Text Input{/t}{/if}</nobr>
                       </td>
-                      <td width="50%" bgcolor="{$row_color}" class="default">
+                      <td width="50%" bgcolor="{$row_color}">
                         &nbsp;{$list[i].field_options}
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="7" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="7" bgcolor="{$light_color}" align="center">
                         <i>{t}No custom fields could be found.{/t}</i>
                       </td>
                     </tr>
@@ -438,7 +438,7 @@
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="6" bgcolor="{$cell_color}">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
+                        <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>
                     </form>

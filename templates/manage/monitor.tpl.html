@@ -41,7 +41,7 @@
     <form name="monitor_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
     <input type="hidden" name="cat" value="update">
     <tr>
-    <td colspan="2" class="default">
+    <td colspan="2">
       <b>{t}Monitor Setup{/t}</b>
     </td>
     </tr>
@@ -53,7 +53,7 @@
       ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
       {elseif $result == -2}
       {t}ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory{/t}
-      ({$app_setup_file}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
+      ({$core.app_setup_file}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
       {elseif $result == 1}
       {t}Thank you, the setup information was saved successfully.{/t}
       {/if}
@@ -62,49 +62,49 @@
     {/if}
     <tr>
 
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
+    <td width="120" bgcolor="{$cell_color}">
       <b>{t}Check Disk Space:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}" class="default">
+    <td bgcolor="{$light_color}">
       <table>
       <tr>
-        <td colspan="2" class="default_white">
+        <td colspan="2">
         <input type="radio" name="diskcheck[status]" value="enabled" id="diskcheck[status].enabled" {if $setup.monitor.diskcheck.status == 'enabled'}checked{/if} onClick="disableDiskcheckFields(this.form, false);">
         <label for="diskcheck[status].enabled">
-          <a id="link" class="link">{t}Enabled{/t}</a>
+          <a id="link">{t}Enabled{/t}</a>
         </label>
         &nbsp;&nbsp;
         <input type="radio" name="diskcheck[status]" value="disabled" id="diskcheck[status].disabled" {if $setup.monitor.diskcheck.status != 'enabled'}checked{/if} onClick="disableDiskcheckFields(this.form, true);">
         <label for="diskcheck[status].disabled">
-          <a id="link" class="link">{t}Disabled{/t}</a>
+          <a id="link">{t}Disabled{/t}</a>
         </label>
         </td>
       </tr>
       <tr>
-        <td width="100" class="default" align="right">
+        <td width="100" align="right">
         {t}Partition:{/t}&nbsp;
         </td>
         <td width="80%">
-        <input type="text" name="diskcheck[partition]" value="{$setup.monitor.diskcheck.partition}" class="default">
+        <input type="text" name="diskcheck[partition]" value="{$setup.monitor.diskcheck.partition}">
         {include file="error_icon.tpl.html" field="diskcheck[partition]"}
-        <span class="small_default">{t escape=no 1="<b>/</b>"}(default %1){/t}</span>
+        <span>{t escape=no 1="<b>/</b>"}(default %1){/t}</span>
         </td>
       </tr>
       </table>
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
+    <td width="120" bgcolor="{$cell_color}">
       <b>{t}Check Paths:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}" class="default">
+    <td bgcolor="{$light_color}">
       <table>
       <tr>
-        <td class="default" width="120">
+        <td width="120">
         {html_radios name='paths[status]' options=$enable_disable selected=$setup.monitor.paths.status separator='<br/>'}
         </td>
         <td>
-          <span class="small_default">
+          <span>
           {t}Whether to check permissions of directories and config files.{/t}
           </span><br />
         </td>
@@ -113,17 +113,17 @@
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
+    <td width="120" bgcolor="{$cell_color}">
       <b>{t}Check IRC Bot:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}" class="default">
+    <td bgcolor="{$light_color}">
       <table>
       <tr>
-        <td class="default" width="120">
+        <td width="120">
         {html_radios name='ircbot[status]' options=$enable_disable selected=$setup.monitor.ircbot.status separator='<br/>'}
         </td>
         <td>
-          <span class="small_default">
+          <span>
           {t}Whether to check if IRC Bot is running.{/t}
           </span><br />
         </td>
@@ -134,8 +134,8 @@
 
     <tr>
     <td colspan="2" bgcolor="{$cell_color}" align="center">
-      <input class="button" type="submit" value="{t}Update Setup{/t}">
-      <input class="button" type="reset" value="{t}Reset{/t}">
+      <input type="submit" value="{t}Update Setup{/t}">
+      <input type="reset" value="{t}Reset{/t}">
     </td>
     </tr>
     </form>

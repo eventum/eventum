@@ -7,8 +7,8 @@
                 <td colspan="2">
                   <table border="0" cellspacing="0" cellpadding="0" width="100%">
                     <tr>
-                      <td class="default"><b>{t}Manage Issue Reminders{/t}</b></td>
-                      <td align="right" class="default">
+                      <td><b>{t}Manage Issue Reminders{/t}</b></td>
+                      <td align="right">
                         <b>{if $smarty.get.cat == 'edit'}{t}Updating Reminder{/t} #{$smarty.get.id|intval}{else}{t}Creating New Reminder{/t}{/if}</b>
                       </td>
                     </tr>
@@ -149,11 +149,11 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Project{/t}:</b>
                 </td>
                 <td width="85%" bgcolor="{$light_color}">
-                  <select name="project" class="default" onChange="populateIssueComboBox(this.form);">
+                  <select name="project" onChange="populateIssueComboBox(this.form);">
                     <option value="">{t}Please choose an option{/t}</option>
                     {html_options options=$project_list selected=$info.rem_prj_id}
                   </select>
@@ -161,25 +161,25 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Title{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" size="50" name="title" class="default" value="{$info.rem_title|escape:"html"}">
+                  <input type="text" size="50" name="title" value="{$info.rem_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Rank{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" size="10" name="rank" class="default" value="{$info.rem_rank}">
+                  <input type="text" size="10" name="rank" value="{$info.rem_rank}">
                   {include file="error_icon.tpl.html" field="rank"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Reminder Type{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
@@ -187,31 +187,31 @@
                     <tr>
                       {counter start=0 assign="next_field"}
                       {if $backend_uses_support_levels}
-                      <td class="default">
+                      <td>
                         <input type="radio" name="reminder_type" value="support_level" {if $info.type == 'support_level'}checked{/if} onClick="toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', 0);toggleReminderTypeFields();">{t}By Support Level{/t}</a>
+                        <a id="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', 0);toggleReminderTypeFields();">{t}By Support Level{/t}</a>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         {counter}
                       {/if}
                       {if $project_has_customer_integration}
-                      <td class="default">
+                      <td>
                         <input type="radio" name="reminder_type" value="customer" {if $info.type == 'customer'}checked{/if} onClick="toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}By Customer{/t}</a>
+                        <a id="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}By Customer{/t}</a>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         {counter}
                       {/if}
-                      <td class="default">
+                      <td>
                         <input type="radio" name="reminder_type" value="issue" {if $info.type == 'issue'}checked{/if} onClick="toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}By Issue ID{/t}</a>
+                        <a id="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}By Issue ID{/t}</a>
                       </td>
                       {counter}
                     </tr>
                     <tr>
                       {if $backend_uses_support_levels}
                       <td>
-                        <select name="support_levels[]" class="default" size="4" multiple>
+                        <select name="support_levels[]" size="4" multiple>
                           {html_options options=$support_levels selected=$info.rer_support_level_id}
                         </select>
                       </td>
@@ -219,27 +219,27 @@
                       {/if}
                       {if $project_has_customer_integration}
                       <td>
-                        <select name="customers[]" size="4" multiple class="default">
+                        <select name="customers[]" size="4" multiple>
                           {html_options options=$customers selected=$info.rer_customer_id}
                         </select>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       {/if}
                       <td>
-                        <select name="issues[]" class="default" size="4" multiple>
+                        <select name="issues[]" size="4" multiple>
                           {html_options options=$issues|truncate:70 selected=$info.rer_iss_id}
                         </select>
                       </td>
                     </tr>
                     <tr>
-                      <td class="default">
+                      <td>
                         <input type="radio" name="reminder_type" value="all_issues" {if $info.type == 'ALL'}checked{/if} onClick="toggleReminderTypeFields();" {if $smarty.get.cat != 'edit'}checked{/if}>
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}All Issues{/t}</a>
+                        <a id="link" href="javascript:void(null);" onClick="checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">{t}All Issues{/t}</a>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                      <td class="default">
+                      <td>
                         <input type="checkbox" name="check_priority" value="yes" {if $info.check_priority == 'yes'}checked{/if} onClick="toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('reminder_form', 'check_priority');toggleReminderTypeFields();">{t}Also Filter By Issue Priorities{/t}</a>
+                        <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('reminder_form', 'check_priority');toggleReminderTypeFields();">{t}Also Filter By Issue Priorities{/t}</a>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -248,7 +248,7 @@
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>
-                        <select name="priorities[]" size="4" multiple class="default">
+                        <select name="priorities[]" size="4" multiple>
                           {html_options options=$priorities selected=$info.rer_pri_id}
                         </select>
                       </td>
@@ -259,10 +259,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Skip Weekends{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}" class="default">
+                <td bgcolor="{$light_color}">
                   <input type="radio" name="skip_weekend" value="1" {if $info.rem_skip_weekend == 1}CHECKED{/if}>{t}Yes{/t}
                   <input type="radio" name="skip_weekend" value="0" {if $info.rem_skip_weekend != 1}CHECKED{/if}>{t}No{/t}<br />
                   &nbsp;{t}If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.{/t}
@@ -271,16 +271,16 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Reminder{/t}">
+                  <input type="submit" value="{t}Update Reminder{/t}">
                   {else}
-                  <input class="button" type="submit" value="{t}Create Reminder{/t}">
+                  <input type="submit" value="{t}Create Reminder{/t}">
                   {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
+                  <input type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Existing Issue Reminders{/t}:</b>
                 </td>
               </tr>
@@ -309,42 +309,42 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}ID{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Project{/t}</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white" nowrap>&nbsp;<b>{t}Issue Priorities{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Details{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}ID{/t}</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Project{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Type{/t}</b></td>
+                      <td bgcolor="{$cell_color}" nowrap>&nbsp;<b>{t}Issue Priorities{/t}</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Details{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
-                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].rem_id}</td>
-                      <td bgcolor="{$row_color}" class="default" align="center">
-                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].rem_rank}
-                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      <td bgcolor="{$row_color}" align="center">{$list[i].rem_id}</td>
+                      <td bgcolor="{$row_color}" align="center">
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].rem_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
                       </td>
-                      <td bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].rem_id}" title="{t}update this entry{/t}">{$list[i].rem_title|escape:"html"}</a>
+                      <td bgcolor="{$row_color}">
+                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].rem_id}" title="{t}update this entry{/t}">{$list[i].rem_title|escape:"html"}</a>
                       </td>
-                      <td width="25%" bgcolor="{$row_color}" class="default">
+                      <td width="25%" bgcolor="{$row_color}">
                         &nbsp;{$list[i].prj_title|escape:"html"}
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">
+                      <td width="20%" bgcolor="{$row_color}">
                         &nbsp;{if $list[i].type == 'ALL'}{t}All Issues{/t}{elseif $list[i].type == 'support_level'}{t}By Support Level{/t}{elseif $list[i].type == 'customer'}{t}By Customer{/t}{elseif $list[i].type == 'issue'}{t}By Issue ID{/t}{/if}
                       </td>
-                      <td width="15%" bgcolor="{$row_color}" class="default">
+                      <td width="15%" bgcolor="{$row_color}">
                         &nbsp;{section name="y" loop=$list[i].priorities}{$list[i].priorities[y]|escape:"html"}{if not $smarty.section.y.last}, {/if}{/section}
                       </td>
-                      <td bgcolor="{$row_color}" class="default">
-                        &nbsp;<a href="reminder_actions.php?rem_id={$list[i].rem_id}" class="link">{$list[i].total_actions} Action{if $list[i].total_actions != 1}s{/if}</a>
+                      <td bgcolor="{$row_color}">
+                        &nbsp;<a href="reminder_actions.php?rem_id={$list[i].rem_id}">{$list[i].total_actions} Action{if $list[i].total_actions != 1}s{/if}</a>
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="8" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="8" bgcolor="{$light_color}" align="center">
                         <i>{t}No reminders could be found.{/t}</i>
                       </td>
                     </tr>
@@ -354,7 +354,7 @@
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="7" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
+                        <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>
                     </form>

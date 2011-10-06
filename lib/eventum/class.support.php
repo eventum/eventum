@@ -1417,6 +1417,7 @@ class Support
      */
     function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
+        debug_print_backtrace();
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
         }

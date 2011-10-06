@@ -59,7 +59,7 @@ class Error_Handler
         if ($notify_error === false || is_null($dbh) || PEAR::isError($dbh)) {
             return;
         }
-
+        
         $setup = Setup::load();
         if ($setup['email_error']['status'] == 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);

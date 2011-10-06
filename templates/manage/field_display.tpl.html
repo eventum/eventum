@@ -1,7 +1,7 @@
 {if $prj_id == ''}
-    <span class="default">
+    <span>
     {t}This page can only be accessed in relation to a project. Please go to the project page and choose{/t}&nbsp;"{t}Edit Fields to Display{/t}"&nbsp;{t}to access this page.{/t}<br />
-    <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
+    <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
 <form name="display_form" method="post" action="{$smarty.server.PHP_SELF}?prj_id={$prj_id}">
@@ -10,7 +10,7 @@
         <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
                 <tr>
-                    <td class="default" colspan="2">
+                    <td colspan="2">
                         <b>{t}Edit Fields to Display{/t}</b> {include file="help_link.tpl.html" topic="field_display"}
                     </td>
                 </tr>
@@ -28,11 +28,11 @@
                 {foreach from=$fields item=field_title key=field_name}
                 {cycle values=$cycle assign="row_color"}
                 <tr>
-                    <td bgcolor="{$cell_color}" align="center" class="default_white" width="150">
+                    <td bgcolor="{$cell_color}" align="center" width="150">
                         {t 1=$field_title}%1 Field{/t}:
                     </td>
                     <td bgcolor="{$row_color}">
-                        <select name="min_role[{$field_name}]" class="default">
+                        <select name="min_role[{$field_name}]">
                             {html_options options=$user_roles selected=$display_settings[$field_name]}
                         </select>
                     </td>
@@ -41,8 +41,8 @@
                 <tr>
                 <tr>
                     <td bgcolor="{$cell_color}" colspan="2">
-                        <input class="button" type="submit" value="{t}Set Display Preferences{/t}">
-                        <input class="button" type="reset" value="{t}Reset{/t}">
+                        <input type="submit" value="{t}Set Display Preferences{/t}">
+                        <input type="reset" value="{t}Reset{/t}">
                     </td>
                 </tr>
             </table>

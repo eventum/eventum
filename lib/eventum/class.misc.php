@@ -40,8 +40,6 @@
 class Misc
 {
 
-    static private $messages = array();
-
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
@@ -732,15 +730,25 @@ class Misc
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
 
+    const MSG_INFO = 'info';
+    const MSG_WARNING = 'warning';
+    const MSG_ERROR = 'error';
 
-    function setMessage($msg)
+    public static function setMessage($msg, $type=self::MSG_INFO)
     {
-        self::$messages[] = $msg;
+        $messages = Session::get('messages', array());
+        $messages[] = array(
+            'text'  =>  $msg,
+            'type'  =>  $type,
+        );
+        Session::set('messages', $messages);
     }
 
 
-    function getMessages()
+    public static function getMessages()
     {
-        return self::$messages;
+        $messages = Session::get('messages', array());
+        Session::set('messages', array());
+        return $messages;
     }
 }

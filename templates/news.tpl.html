@@ -10,11 +10,11 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Important Notices{/t}</b></span>
+                  <span><b>{t}Important Notices{/t}</b></span>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$light_color}" class="default">
+                <td bgcolor="{$light_color}">
                   {section name="i" loop=$news}
                   <p><b>{$news[i].nws_created_date} - {$news[i].nws_title}</b></p>
                   <p>{$news[i].nws_message|activateLinks:"links"}</p>

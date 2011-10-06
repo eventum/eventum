@@ -1,7 +1,7 @@
 {if $prj_id == ''}
-    <span class="default">
+    <span>
     {t}This page can only be accessed in relation to a project. Please go to the project page and choose{/t}&nbsp;"{t}Edit Columns to Display{/t}"&nbsp;{t}to access this page.{/t}<br />
-    <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
+    <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -13,10 +13,10 @@
         <input type="hidden" name="page" value="{$page}">
         <input type="hidden" name="prj_id" value="{$prj_id}">
         <tr>
-          <td class="default" nowrap colspan="2">
+          <td nowrap colspan="2">
             <b>{t}Manage Columns to Display{/t}</b> {include file="help_link.tpl.html" topic="column_display"}
           </td>
-          <td class="default" align="right">
+          <td align="right">
             ({t}Current Project{/t}: {$project_name})
           </td>
         </tr>
@@ -32,13 +32,13 @@
         </tr>
         {/if}
         <tr>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
+          <td bgcolor="{$cell_color}" align="center" width="40%">
             <b>{t}Column Name{/t}</b>
           </td>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="20%">
+          <td bgcolor="{$cell_color}" align="center" width="20%">
             <b>{t}Minimum Role{/t}</b>
           </td>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
+          <td bgcolor="{$cell_color}" align="center" width="40%">
             <b>{t}Order{/t}</b>
           </td>
         </tr>
@@ -46,7 +46,7 @@
         {foreach from=$available item=column key=field_name}
         {cycle values=$cycle assign="row_color"}
         <tr>
-          <td bgcolor="{$row_color}" class="default" align="center" width="40%">
+          <td bgcolor="{$row_color}" align="center" width="40%">
             {$column.title}
           </td>
           <td bgcolor="{$row_color}" align="center" width="20%">
@@ -55,7 +55,7 @@
             {else}
               {assign var="selected_role" value=$selected[$field_name].min_role}
             {/if}
-            <select name="min_role[{$field_name}]" class="default">
+            <select name="min_role[{$field_name}]">
               {html_options options=$user_roles selected=$selected_role}
             </select>
           </td>
@@ -65,7 +65,7 @@
             {else}
               {assign var=selected_rank value=$selected[$field_name].rank}
             {/if}
-            <select name="rank[{$field_name}]" class="default">
+            <select name="rank[{$field_name}]">
               {html_options options=$ranks selected=$selected_rank}
             </select>
           </td>
@@ -74,7 +74,7 @@
         {/foreach}
         <tr>
           <td bgcolor="{$cell_color}" align="center" colspan="3">
-            <input type="submit" name="save" value="{t}Save{/t}" class="button">
+            <input type="submit" name="save" value="{t}Save{/t}">
           </td>
         </tr>
       </table>

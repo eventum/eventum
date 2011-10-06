@@ -1,8 +1,8 @@
 <tr>
   <td colspan="5">
   <hr>
-    <input id="show_custom_fields_checkbox" type="checkbox" name="show_custom_fields" value="1" class="default" onClick="changeVisibility('custom_fields_row', this.checked);disableCustomFields(!this.checked)">
-    <label for="show_custom_fields_checkbox" class="default">{t}Show additional fields to search by{/t}</label>
+    <input id="show_custom_fields_checkbox" type="checkbox" name="show_custom_fields" value="1" onClick="changeVisibility('custom_fields_row', this.checked);disableCustomFields(!this.checked)">
+    <label for="show_custom_fields_checkbox">{t}Show additional fields to search by{/t}</label>
   </td>
 </tr>
 <tr id="custom_fields_row" style="display: none;">
@@ -14,24 +14,24 @@
       {if $smarty.foreach.custom_fields.iteration % 2 == 1}
       <tr>
       {/if}
-        <td nowrap width="15%" class="default" height="30" align="right" valign="top">
+        <td nowrap width="15%" height="30" align="right" valign="top">
           {$field.fld_title}:&nbsp;
         </td>
         <td width="35%" align="left" valign="top">
           {if $field.fld_type == 'text' OR $field.fld_type == 'textarea'}
-          <input type="text" name="custom_field[{$field.fld_id}]" class="default" value="{$options.cst_custom_field[$field.fld_id]}" disabled>
+          <input type="text" name="custom_field[{$field.fld_id}]" value="{$options.cst_custom_field[$field.fld_id]}" disabled>
           {elseif $field.fld_type == 'integer'}
           {assign var="cmp" value=$options.cst_custom_field[$field.fld_id].filter_type}
-          <select name="custom_field[{$field.fld_id}][filter_type]" class="default">
+          <select name="custom_field[{$field.fld_id}][filter_type]">
             <option value="eq" {if $cmp == 'eq'}selected{/if}>{t}Equals{/t}</option>
             <option value="ge" {if $cmp == 'ge'}selected{/if}>{t}Greater or Equal{/t}</option>
             <option value="le" {if $cmp == 'le'}selected{/if}>{t}Less or Equal{/t}</option>
             <option value="gt" {if $cmp == 'gt'}selected{/if}>{t}Greater Than{/t}</option>
             <option value="lt" {if $cmp == 'lt'}selected{/if}>{t}Less Than{/t}</option>
           </select>
-          <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" class="default" value="{$options.cst_custom_field[$field.fld_id].value}" disabled>
+          <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" value="{$options.cst_custom_field[$field.fld_id].value}" disabled>
           {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple'}
-          <select name="custom_field[{$field.fld_id}][]" class="default" multiple
+          <select name="custom_field[{$field.fld_id}][]" multiple
             {if $field.field_options|@count > 10}
               size="10"
             {else}

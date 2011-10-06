@@ -26,7 +26,7 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Manage Time Tracking Categories{/t}</b>
                 </td>
               </tr>
@@ -54,27 +54,27 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Title:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <input type="text" name="title" size="40" class="default" value="{$info.ttc_title}">
+                  <input type="text" name="title" size="40" value="{$info.ttc_title}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Category{/t}">
+                  <input type="submit" value="{t}Update Category{/t}">
                   {else}
-                  <input class="button" type="submit" value="{t}Create Category{/t}">
+                  <input type="submit" value="{t}Create Category{/t}">
                   {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
+                  <input type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Existing Categories:{/t}</b>
                 </td>
               </tr>
@@ -103,19 +103,19 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="100%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
-                      <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
+                      <td width="100%" bgcolor="{$row_color}">
+                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="2" bgcolor="{$light_color}" align="center">
                         <i>{t}No time tracking categories could be found.{/t}</i>
                       </td>
                     </tr>
@@ -125,13 +125,13 @@
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
+                        <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>
                     </form>
                   </table>
                   <br />
-                  <span class="small_default"><b>{t}Note{/t}: </b> {t}'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are required by Eventum and cannot be deleted.{/t}</span>
+                  <span><b>{t}Note{/t}: </b> {t}'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are required by Eventum and cannot be deleted.{/t}</span>
                 </td>
               </tr>
             </table>

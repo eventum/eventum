@@ -93,6 +93,9 @@ class Display_Column
             }
             // get title
             $data[$field] = self::getColumnInfo($page, $field);
+            if (!isset($data[$field]['width'])) {
+                $data[$field]['width'] = '';
+            }
         }
         $returns[$prj_id][$page] = $data;
         return $data;

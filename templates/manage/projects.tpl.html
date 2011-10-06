@@ -71,7 +71,7 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Manage Projects{/t}</b>
                 </td>
               </tr>
@@ -99,151 +99,151 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Title{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="title" size="40" class="default" value="{$info.prj_title|escape:"html"}">
+                  <input type="text" name="title" size="40" value="{$info.prj_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Status{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="status" class="default">
+                  <select name="status">
                     <option value="active" {if $info.prj_status == 'active'}selected{/if}>{t}Active{/t}</option>
                     <option value="archived" {if $info.prj_status == 'archived'}selected{/if}>{t}Archived{/t}</option>
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Customer Integration Backend{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="customer_backend" class="default">
+                  <select name="customer_backend">
                     <option value="">{t}No Customer Integration{/t}</option>
                     {html_options options=$customer_backends selected=$info.prj_customer_backend}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Workflow Backend{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="workflow_backend" class="default">
+                  <select name="workflow_backend">
                     <option value="">{t}No Workflow Management{/t}</option>
                     {html_options options=$workflow_backends selected=$info.prj_workflow_backend}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Project Lead{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="lead_usr_id" class="default" onChange="checkLeadSelection(this.form);">
+                  <select name="lead_usr_id" onChange="checkLeadSelection(this.form);">
                     {html_options options=$user_options selected=$info.prj_lead_usr_id}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Users{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="users[]" multiple size="3" class="default">
+                  <select name="users[]" multiple size="3">
                     {html_options options=$user_options selected=$info.prj_assigned_users}
                   </select>
                   {include file="error_icon.tpl.html" field="users[]"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Statuses{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="statuses[]" multiple size="3" class="default">
+                  <select name="statuses[]" multiple size="3">
                     {html_options options=$status_options selected=$info.assigned_statuses}
                   </select>
                   {include file="error_icon.tpl.html" field="statuses[]"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Initial Status for New Issues{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="initial_status" class="default">
+                  <select name="initial_status">
                     {html_options options=$status_options selected=$info.prj_initial_sta_id}
                   </select>
                   {include file="error_icon.tpl.html" field="initial_status"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Outgoing Email Sender Name{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="outgoing_sender_name" size="40" class="default" value="{$info.prj_outgoing_sender_name|escape:"html"}">
+                  <input type="text" name="outgoing_sender_name" size="40" value="{$info.prj_outgoing_sender_name|escape:"html"}">
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Outgoing Email Sender Address{/t}: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="outgoing_sender_email" size="40" class="default" value="{$info.prj_outgoing_sender_email|escape:"html"}">
+                  <input type="text" name="outgoing_sender_email" size="40" value="{$info.prj_outgoing_sender_email|escape:"html"}">
                   {include file="error_icon.tpl.html" field="outgoing_sender_email"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                <td width="120" bgcolor="{$cell_color}">
                   <b>{t}Project mail aliases{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="mail_aliases" size="40" class="default" value="{$info.prj_mail_aliases|escape:"html"}">
+                  <input type="text" name="mail_aliases" size="40" value="{$info.prj_mail_aliases|escape:"html"}">
                   {include file="error_icon.tpl.html" field="mail_aliases"}
                 </td>
               </tr>
               <tr>
-                <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
+                <td width="120" nowrap bgcolor="{$cell_color}">
                   <b>{t}Remote Invocation{/t}:</b>
                 </td>
-                <td width="80%" bgcolor="{$light_color}" class="default">
+                <td width="80%" bgcolor="{$light_color}">
                   <input type="radio" name="remote_invocation" value="enabled" {if $info.prj_remote_invocation == 'enabled'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="remote_invocation" value="disabled" {if $info.prj_remote_invocation != 'enabled'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 1);">{t}Disabled{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 1);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>
-                <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
+                <td width="120" nowrap bgcolor="{$cell_color}">
                   <b>{t}Segregate Reporters{/t}:</b> {include file="help_link.tpl.html" topic="segregate_reporter"}
                 </td>
-                <td width="80%" bgcolor="{$light_color}" class="default">
+                <td width="80%" bgcolor="{$light_color}">
                   <input type="radio" name="segregate_reporter" value="1" {if $info.prj_segregate_reporter == 1}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="segregate_reporter" value="0" {if $info.prj_segregate_reporter != 1}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 1);">{t}No{/t}</a>
+                  <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Project{/t}">
+                  <input type="submit" value="{t}Update Project{/t}">
                   {else}
-                  <input class="button" type="submit" value="{t}Create Project{/t}">
+                  <input type="submit" value="{t}Create Project{/t}">
                   {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
+                  <input type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
-                <td colspan="2" class="default">
+                <td colspan="2">
                   <b>{t}Existing Projects{/t}:</b>
                 </td>
               </tr>
@@ -278,35 +278,35 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Project Lead{/t}</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Status{/t}</b></td>
-                      <td bgcolor="{$cell_color}" nowrap class="default_white" align="center">&nbsp;<b>{t}Actions{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Project Lead{/t}</b></td>
+                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Status{/t}</b></td>
+                      <td bgcolor="{$cell_color}" nowrap align="center">&nbsp;<b>{t}Actions{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" align="center" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].prj_id}"></td>
-                      <td width="30%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
+                      <td width="30%" bgcolor="{$row_color}">
+                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].usr_full_name|escape:html}</td>
-                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].prj_status|capitalize}</td>
-                      <td width="30%" bgcolor="{$row_color}" nowrap class="default">
+                      <td width="20%" bgcolor="{$row_color}">&nbsp;{$list[i].usr_full_name|escape:html}</td>
+                      <td bgcolor="{$row_color}">&nbsp;{$list[i].prj_status|capitalize}</td>
+                      <td width="30%" bgcolor="{$row_color}" nowrap>
                         <ul>
-                          <li><a href="{$rel_url}manage/releases.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Releases{/t}</a></li>
-                          <li><a href="{$rel_url}manage/categories.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Categories{/t}</a></li>
-                          <li><a href="{$rel_url}manage/priorities.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Priorities{/t}</a></li>
-                          <li><a href="{$rel_url}manage/phone_categories.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Phone Support Categories{/t}</a></li>
-                          <li><a href="{$rel_url}manage/anonymous.php?prj_id={$list[i].prj_id}" class="link">{t}Anonymous Reporting{/t}</a></li>
-                          <li><a href="{$rel_url}manage/field_display.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Fields to Display{/t}</a></li>
-                          <li><a href="{$rel_url}manage/column_display.php?prj_id={$list[i].prj_id}" class="link">{t}Edit Columns to Display{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/releases.php?prj_id={$list[i].prj_id}">{t}Edit Releases{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/categories.php?prj_id={$list[i].prj_id}">{t}Edit Categories{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/priorities.php?prj_id={$list[i].prj_id}">{t}Edit Priorities{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/phone_categories.php?prj_id={$list[i].prj_id}">{t}Edit Phone Support Categories{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/anonymous.php?prj_id={$list[i].prj_id}">{t}Anonymous Reporting{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/field_display.php?prj_id={$list[i].prj_id}">{t}Edit Fields to Display{/t}</a></li>
+                          <li><a href="{$core.rel_url}manage/column_display.php?prj_id={$list[i].prj_id}">{t}Edit Columns to Display{/t}</a></li>
                         </ul>
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="5" bgcolor="{$light_color}" align="center">
                         <i>{t}No projects could be found.{/t}</i>
                       </td>
                     </tr>
@@ -316,7 +316,7 @@
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="4" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
+                        <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>
                     </form>
