@@ -64,10 +64,9 @@ class Template_Helper
     /**
      * Sets the internal template filename for the current PHP script
      *
-     * @access public
      * @param  string $tpl_name The filename of the template
      */
-    function setTemplate($tpl_name)
+    public function setTemplate($tpl_name)
     {
         $this->tpl_name = $tpl_name;
     }
@@ -76,11 +75,10 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @access public
      * @param  string $var_name Placeholder on the template
      * @param  string $value Value to be assigned to this placeholder
      */
-    function assign($var_name, $value = "")
+    public function assign($var_name, $value = "")
     {
         if (!is_array($var_name)) {
             $this->smarty->assign($var_name, $value);
@@ -96,7 +94,7 @@ class Template_Helper
      * @access public
      * @param  array $array Array with the PLACEHOLDER=>VALUE pairs to be assigned
      */
-    function bulkAssign($array)
+    public function bulkAssign($array)
     {
         while (list($key, $value) = each($array)) {
             $this->smarty->assign($key, $value);
@@ -109,7 +107,7 @@ class Template_Helper
      *
      * @access public
      */
-    function displayTemplate()
+    public function displayTemplate()
     {
         $this->processTemplate();
         // finally display the parsed template
@@ -123,7 +121,7 @@ class Template_Helper
      * @access public
      * @return string The contents of the parsed template
      */
-    function getTemplateContents()
+    public function getTemplateContents()
     {
         $this->processTemplate();
         return $this->smarty->fetch($this->tpl_name);
