@@ -24,8 +24,9 @@ $(document).ready(function() {
 
 function Eventum()
 {
-    expires = new Date(today.getTime() + (56 * 86400000));
 }
+
+Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 
 Eventum.toggle_section_visibility = function(id) {
     var element = $('#' + id);
