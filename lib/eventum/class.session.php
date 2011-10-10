@@ -109,7 +109,7 @@ class Session
     public static function verify($usr_id)
     {
         session_start();
-        
+
         // Don't check the IP of the session, since this caused problems for users that use a proxy farm that uses
         // a different IP address each page load.
         if (!self::is_set('usr_id')) {
