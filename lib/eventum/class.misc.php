@@ -420,7 +420,7 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        $tip_dir = $tpl->smarty->template_dir . "/tips";
+        $tip_dir = APP_TPL_PATH . "/tips";
         $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
