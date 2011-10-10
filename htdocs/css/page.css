@@ -208,3 +208,12 @@ body#list_issues #bulk_update {
     width: 80%;
     margin: 1em auto;
 }
+
+/* End List Issue page */
+
+
+/* Begin preferences page */
+body#preferences table.bordered {
+    width: 80%;
+    margin-bottom: 1em;
+}
