@@ -17,14 +17,14 @@
 <script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows}
-setTimeout('closeAndRefresh()', 2000);
+setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
 </script>
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span><a href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
   </center>
 {/if}
 {elseif $draft_result != ''}
@@ -41,14 +41,14 @@ setTimeout('closeAndRefresh()', 2000);
 <script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows == '1'}
-setTimeout('closeAndRefresh()', 2000);
+setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
 </script>
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span><a href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
   </center>
 {/if}
 {else}

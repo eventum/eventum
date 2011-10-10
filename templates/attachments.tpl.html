@@ -22,12 +22,6 @@ function deleteAttachmentFile(file_id)
         popupWin.focus();
     }
 }
-function uploadFile(issue_id)
-{
-    var features = 'width=600,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
-    popupWin.focus();
-}
 //-->
 </script>
 {/literal}
@@ -88,7 +82,7 @@ function uploadFile(issue_id)
       {if $core.current_role > $core.roles.viewer}
       <form>
       <div class="buttons">
-          <input type="button" value="{t}Upload File{/t}" onClick="uploadFile({$smarty.get.id|intval});">
+          <input type="button" value="{t}Upload File{/t}" id='upload_file' data-issue-id="{$issue_id}">
       </div>
       </form>
       {/if}

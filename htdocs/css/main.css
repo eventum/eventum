@@ -149,6 +149,7 @@ div#content {
 
 /* Bordered Table & div */
 .bordered {
+    width: 100%;
     border: 1px solid #255282;
     border-radius: 0.5em;
     -webkit-border-radius: 0.5em;
@@ -187,8 +188,9 @@ table.bordered tr:last-child td:last-child {
     padding: .3em;
 }
 
-.bordered .title td {
+.bordered .title th {
     background: #FFFFFF;
+    color: #000000;
 }
 
 .bordered .title span.menu {
@@ -201,6 +203,10 @@ table.bordered th {
     color: white;
     text-align: left;
     padding-left: .3em;
+}
+
+table.bordered th.internal {
+    background: #9c494b;
 }
 
 table.bordered th a {

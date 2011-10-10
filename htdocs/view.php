@@ -40,6 +40,7 @@ $role_id = Auth::getCurrentRole();
 $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
 @$issue_id = $_POST["issue_id"] ? $_POST["issue_id"] : $_GET["id"];
+$tpl->assign('issue_id', $issue_id);
 
 // check if the requested issue is a part of the 'current' project. If it doesn't
 // check if issue exists in another project and if it does, switch projects

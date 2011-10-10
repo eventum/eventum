@@ -46,3 +46,11 @@ Eventum.toggle_section_visibility = function(id) {
 
     $.cookie('visibility_' + id, display, {expires: Eventum.expires});
 }
+
+Eventum.close_and_refresh = function()
+{
+    if (opener) {
+        opener.location.href = opener.location;
+    }
+    window.close();
+}

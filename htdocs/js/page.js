@@ -33,6 +33,10 @@ issue_view.ready = function(page_id)
     $('#toggle_phone_calls').click(function() { issue_view.toggle_issue_section('phone_calls'); });
     $('#toggle_drafts').click(function() { issue_view.toggle_issue_section('drafts'); });
     $('#toggle_support_emails').click(function() { issue_view.toggle_issue_section('support_emails'); });
+
+
+    /* Attachments Section */
+    $('#upload_file').click(issue_view.upload_file);
 }
 
 issue_view.toggle_issue_section = function(id)
@@ -53,4 +57,13 @@ issue_view.toggle_issue_section = function(id)
     $('#toggle_' + id).text(link_title);
 
     $.cookie('visibility_' + id, display, {expires: Eventum.expires});
+}
+
+
+issue_view.upload_file = function(e)
+{
+    var issue_id = $(e.target).attr('data-issue-id');
+    var features = 'width=600,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
+    popupWin.focus();
 }
