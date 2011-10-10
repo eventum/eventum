@@ -41,6 +41,7 @@ $tpl->assign("user_prefs", Prefs::get($usr_id));
 Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
+$tpl->assign('issue_id', $issue_id);
 $details = Issue::getDetails($issue_id);
 if ($details == '') {
     Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
@@ -77,11 +78,30 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
     $new_prj_id = Issue::getProjectID($issue_id);
     if (@$_POST["cat"] == "update") {
         $res = Issue::update($_POST["issue_id"]);
-        $tpl->assign("update_result", $res);
-        $tpl->assign("errors", $errors);
-        if (Issue::hasDuplicates($_POST["issue_id"])) {
-            $tpl->assign("has_duplicates", "yes");
+
+        if ($res == -1) {
+            Misc::setMessage(ev_gettext("Sorry, an error happened while trying to update this issue."), Misc::MSG_ERROR);
+            $tpl->displayTemplate();
+            exit;
+        } elseif ($res == 1) {
+            Misc::setMessage(ev_gettext("Thank you, issue #%1s was updated successfully.", $issue_id), Misc::MSG_INFO);
         }
+
+        $notify_list = Notification::getLastNotifiedAddresses($issue_id);
+        $has_duplicates = Issue::hasDuplicates($_POST["issue_id"]);
+        if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
+            $update_tpl = new Template_Helper();
+            $update_tpl->setTemplate("include/update_msg.tpl.html");
+            $update_tpl->assign("update_result", $res);
+            $update_tpl->assign("errors", $errors);
+            $update_tpl->assign("notify_list", $notify_list);
+            if ($has_duplicates) {
+                $update_tpl->assign("has_duplicates", "yes");
+            }
+            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+        }
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+        exit;
     }
 
     $prj_id = Auth::getCurrentProject();
@@ -107,7 +127,6 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
 
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
-        "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
         "status"       => $statuses,

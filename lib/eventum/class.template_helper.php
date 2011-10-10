@@ -119,9 +119,11 @@ class Template_Helper
      * @access public
      * @return string The contents of the parsed template
      */
-    public function getTemplateContents()
+    public function getTemplateContents($process=True)
     {
-        $this->processTemplate();
+        if ($process) {
+            $this->processTemplate();
+        }
         return $this->smarty->fetch($this->tpl_name);
     }
 

@@ -282,7 +282,7 @@ table.two_column td.footnote {
 
 
 /* Messages */
-div.note_box, div.html_box {
+div.note_box {
     width: 480px;
     margin: 1em auto;
     border: 1px solid red;
@@ -316,6 +316,12 @@ div#global_messages div.info span {
 
 div#global_messages div.warning span {
     background: #ef6830;
+}
+
+div.html_box {
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #255282;
 }
 
 /* End Messages */

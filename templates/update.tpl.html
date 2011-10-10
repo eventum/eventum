@@ -1,7 +1,7 @@
 {extends "base_full.tpl.html"}
 {block page_id}issue_update{/block}
 {block page_classes}issue_view{/block}
-{block title}{t 1=$smarty.get.id|intval}Issue #%1 - Update{/t}{/block}
+{block title}{t 1=$issue_id}Issue #%1 - Update{/t}{/block}
 
 {block "content"}
 {if $issue|default:'' != ''}
