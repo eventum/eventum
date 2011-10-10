@@ -1,40 +1,10 @@
-{include file="header.tpl.html"}
-{include file="navigation.tpl.html"}
-<script type="text/javascript" src="{$core.rel_url}js/httpclient.js"></script>
+{extends "base_full.tpl.html"}
+{block page_id}issue_update{/block}
+{block page_classes}issue_view{/block}
+{block title}{t 1=$smarty.get.id|intval}Issue #%1 - Update{/t}{/block}
 
-{if $issue == ""}
-  <table width="300" align="center">
-    <tr>
-      <td>
-        &nbsp;<span><b>{t}Error: The issue could not be found.{/t}</b>
-        <br /><br />
-        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-      </td>
-    </tr>
-  </table>
-{elseif $auth_customer == 'denied'}
-  <table width="500" align="center">
-    <tr>
-      <td>
-        &nbsp;<span><b>{t}Sorry, you do not have the required privileges to update this issue.{/t}</b>
-        <br /><br />
-        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-      </td>
-    </tr>
-  </table>
-{else}
-  {if $core.current_role > $core.roles.reporter}
-  {include file="update_form.tpl.html"}
-  {else}
-  <center>
-<span>
-<b>{t}Sorry, but you do not have the required permission level to access this screen.{/t}</b>
-<br /><br />
-<a href="javascript:history.go(-1);">{t}Go Back{/t}</a>
-</span>
-</center>
-  {/if}
+{block "content"}
+{if $issue|default:'' != ''}
+{include file="update_form.tpl.html"}
 {/if}
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

@@ -733,6 +733,7 @@ class Misc
     const MSG_INFO = 'info';
     const MSG_WARNING = 'warning';
     const MSG_ERROR = 'error';
+    const MSG_HTML_BOX = 'html_box';
 
     public static function setMessage($msg, $type=self::MSG_INFO)
     {

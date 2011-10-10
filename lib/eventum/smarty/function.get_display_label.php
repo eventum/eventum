@@ -1,5 +1,5 @@
 <?php
-function smarty_function_get_innerhtml($params, &$smarty)
+function smarty_function_get_display_label($params, &$smarty)
 {
     $print_result = true;
     extract($params);
@@ -13,12 +13,6 @@ function smarty_function_get_innerhtml($params, &$smarty)
         }
     } else {
         $html_result = 'hide';
-    }
-    // automatically hide the table if there is nothing to be displayed
-    if (isset($total)) {
-        if ($total < 1) {
-            $html_result = 'show';
-        }
     }
 
     if ($print_result) {

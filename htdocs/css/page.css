@@ -54,17 +54,17 @@ body#login form#login_form table td.button {
 
 
 /* View Issue Page */
-body#issue_view div#issue_overview {
+body.issue_view div#issue_overview {
     margin: 1em 0;
     background: #dddddd;
 }
 
-body#issue_view div#issue_overview div.clear {
+body.issue_view div#issue_overview div.clear {
     background: #FFFFFF;
     height: 1px;
 }
 
-body#issue_view div#issue_overview div.title {
+body.issue_view div#issue_overview div.title {
     font-weight: bold;
     background: #FFFFFF;
     padding: .3em;
@@ -76,19 +76,19 @@ body#issue_view div#issue_overview div.title {
     -moz-border-radius-topright: 0.5em;
 }
 
-body#issue_view div#issue_overview div#issue_menu {
+body.issue_view div#issue_overview div#issue_menu {
     width: 50%;
     float: right;
     text-align: right;
     font-weight: normal;
 }
 
-body#issue_view div#issue_overview div.column {
+body.issue_view div#issue_overview div.column {
     width: 50%;
     float: left;
 }
 
-body#issue_view div#issue_overview div.issue_field_display {
+body.issue_view div#issue_overview div.issue_field_display {
     background: #dddddd;
     width: 100%;
     padding: 0;
@@ -96,7 +96,7 @@ body#issue_view div#issue_overview div.issue_field_display {
     clear: both;
 }
 
-body#issue_view div#issue_overview div.issue_field_display div.label {
+body.issue_view div#issue_overview div.issue_field_display div.label {
     width: 150px;
     font-weight: bold;
     float: left;
@@ -105,24 +105,24 @@ body#issue_view div#issue_overview div.issue_field_display div.label {
     color: #FFFFFF;
 }
 
-body#issue_view div#issue_overview div.issue_field_display div.display {
+body.issue_view div#issue_overview div.issue_field_display div.display {
     padding: .3em;
     margin-left: 155px;
 }
 
-body#issue_view div#issue_overview div#description div.label {
+body.issue_view div#issue_overview div#description div.label {
     min-height: 8em;
 }
 
-body#issue_view div#issue_overview div#description div.label div {
+body.issue_view div#issue_overview div#description div.label div {
     margin-top: 1em;
 }
 
-body#issue_view div#issue_overview div#description div.label div a {
+body.issue_view div#issue_overview div#description div.label div a {
     color: white;
 }
 
-body#issue_view div#issue_overview div.buttons1 {
+body.issue_view div#issue_overview div.buttons1 {
     background: #076486;
     padding: .3em;
 }

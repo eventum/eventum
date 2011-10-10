@@ -41,8 +41,9 @@ $tpl->assign("user_prefs", Prefs::get($usr_id));
 Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
-
-if (empty($issue_id)) {
+$details = Issue::getDetails($issue_id);
+if ($details == '') {
+    Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
@@ -58,16 +59,20 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
     Auth::setCurrentProject($iss_prj_id, $cookie["remember"], true);
     $auto_switched_from = $iss_prj_id;
     $prj_id = $iss_prj_id;
+    Misc::setMessage(ev_gettext("Note: Project automatically switched to '%1s' from '%2s'.",
+                                Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
 }
 
-$details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
 $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 
-if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
-    $tpl->assign("auth_customer", 'denied');
-} elseif (!Issue::canAccess($issue_id, $usr_id)) {
-    $tpl->assign("auth_customer", 'denied');
+// in the case of a customer user, also need to check if that customer has access to this issue
+if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
+        !Issue::canAccess($issue_id, $usr_id) ||
+        !($role_id > User::getRoleID('Reporter'))) {
+    Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);
     if (@$_POST["cat"] == "update") {
@@ -114,14 +119,6 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
     ));
-
-    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if (!empty($cookie['auto_switched_from'])) {
-        $tpl->assign(array(
-            "project_auto_switched" =>  1,
-            "old_project"   =>  Project::getName($cookie['auto_switched_from'])
-        ));
-    }
 }
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();

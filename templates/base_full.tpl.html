@@ -91,9 +91,13 @@
     <div id="global_messages">
         {foreach from=$core.messages item=message}
         <div class="{$message.type}">
+            {if $message.type == 'html_box'}
+                {$message.text}
+            {else}
             <span>
                 {$message.text|escape}
             </span>
+            {/if}
         </div>
         {/foreach}
     </div>

@@ -27,7 +27,7 @@ function removeCheckins(f)
         {t}SCM Integration - Checkins{/t}
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <a href="javascript:void(null);" onClick="toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
+            [ <a href="javascript:void(null);" onClick="toggleVisibility('checkins');">{get_display_label element_name="checkins" total=$checkins|@count}</a> ]
         </span>
     </div>
     <div class="content">

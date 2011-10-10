@@ -31,15 +31,15 @@ function uploadFile(issue_id)
 //-->
 </script>
 {/literal}
-<div class="issue_section bordered">
+<div class="issue_section bordered" id="attachments">
     <div class="title">
         {t}Attached Files{/t} ({$files|@count})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <a id="attachments_link" href="javascript:void(null);" onClick="toggleVisibility('attachments');">{get_innerhtml element_name="attachments"}</a> ]
+            [ <span class="js_link" id="toggle_attachments" >{get_display_label element_name="attachments"}</span> ]
         </span>
     </div>
-    <div id="attachments" class="content">
+    <div class="content" {get_display_style element_name='attachments'}>
         <table class="grid">
           <tr>
             <th>{t}Files{/t}</th>
@@ -84,6 +84,7 @@ function uploadFile(issue_id)
           </tr>
           {/section}
         </table>
+    </div>
       {if $core.current_role > $core.roles.viewer}
       <form>
       <div class="buttons">
@@ -91,5 +92,4 @@ function uploadFile(issue_id)
       </div>
       </form>
       {/if}
-    </div>
 </div>
