@@ -1,154 +1,149 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
+{block "page_id"}popup{/block}
 
-<br />
-<center>
-  <span>
-{if $note_add_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $note_add_result == -2}
-  <b>{t}Please enter the note text on the input box below.{/t}</b>
-{elseif $note_add_result == 1}
-  <b>{t}Thank you, the new note was created and associated with the issue below.{/t}</b>
+{block "content"}
+<div class="popup">
+{if $note_add_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $note_add_result|default:'' == -2}
+  {t}Please enter the note text on the input box below.{/t}
+{elseif $note_add_result|default:'' == 1}
+  {t}Thank you, the new note was created and associated with the issue below.{/t}
 {/if}
 
-{if $note_delete_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $note_delete_result == -2}
-  <b>{t}You do not have permission to delete this note.{/t}</b>
-{elseif $note_delete_result == 1}
-  <b>{t}Thank you, the note was removed successfully.{/t}</b>
+{if $note_delete_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $note_delete_result|default:'' == -2}
+  {t}You do not have permission to delete this note.{/t}
+{elseif $note_delete_result|default:'' == 1}
+  {t}Thank you, the note was removed successfully.{/t}
 {/if}
 
-{if $time_delete_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $time_delete_result == 1}
-  <b>{t}Thank you, the time tracking entry was removed successfully.{/t}</b>
+{if $time_delete_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $time_delete_result|default:'' == 1}
+  {t}Thank you, the time tracking entry was removed successfully.{/t}
 {/if}
 
-{if $bulk_update_result == 1}
-  <b>{t}Thank you, the selected issues were updated successfully.{/t}</b>
-{elseif $bulk_update_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
+{if $bulk_update_result|default:'' == 1}
+  {t}Thank you, the selected issues were updated successfully.{/t}
+{elseif $bulk_update_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
 {/if}
 
-{if $set_initial_impact_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $set_initial_impact_result == 1}
-  <b>{t}Thank you, the inital impact analysis was set successfully.{/t}</b>
+{if $set_initial_impact_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $set_initial_impact_result|default:'' == 1}
+  {t}Thank you, the inital impact analysis was set successfully.{/t}
 {/if}
 
-{if $add_requirement_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $add_requirement_result == 1}
-  <b>{t}Thank you, the new requirement was added successfully.{/t}</b>
+{if $add_requirement_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $add_requirement_result|default:'' == 1}
+  {t}Thank you, the new requirement was added successfully.{/t}
 {/if}
 
-{if $set_impact_requirement_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $set_impact_requirement_result == 1}
-  <b>{t}Thank you, the impact analysis was set successfully.{/t}</b>
+{if $set_impact_requirement_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $set_impact_requirement_result|default:'' == 1}
+  {t}Thank you, the impact analysis was set successfully.{/t}
 {/if}
 
-{if $requirement_delete_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $requirement_delete_result == 1}
-  <b>{t}Thank you, the selected requirements were removed successfully.{/t}</b>
+{if $requirement_delete_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $requirement_delete_result|default:'' == 1}
+  {t}Thank you, the selected requirements were removed successfully.{/t}
 {/if}
 
-{if $save_filter_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $save_filter_result == 1}
-  <b>{t}Thank you, the custom filter was saved successfully.{/t}</b>
+{if $save_filter_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $save_filter_result|default:'' == 1}
+  {t}Thank you, the custom filter was saved successfully.{/t}
 {/if}
 
-{if $delete_filter_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $delete_filter_result == 1}
-  <b>{t}Thank you, the selected custom filters were removed successfully.{/t}</b>
+{if $delete_filter_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $delete_filter_result|default:'' == 1}
+  {t}Thank you, the selected custom filters were removed successfully.{/t}
 {/if}
 
-{if $remove_association_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_association_result == 1}
-  <b>{t}Thank you, the association to the selected emails were removed successfully.{/t}</b>
+{if $remove_association_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $remove_association_result|default:'' == 1}
+  {t}Thank you, the association to the selected emails were removed successfully.{/t}
 {/if}
 
-{if $remove_attachment_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_attachment_result == -2}
-  <b>{t}You do not have the permission to remove this attachment.{/t}</b>
-{elseif $remove_attachment_result == 1}
-  <b>{t}Thank you, the attachment was removed successfully.{/t}</b>
+{if $remove_attachment_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $remove_attachment_result|default:'' == -2}
+  {t}You do not have the permission to remove this attachment.{/t}
+{elseif $remove_attachment_result|default:'' == 1}
+  {t}Thank you, the attachment was removed successfully.{/t}
 {/if}
 
-{if $remove_file_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_file_result == -2}
-  <b>{t}You do not have the permission to remove this file.{/t}</b>
-{elseif $remove_file_result == 1}
-  <b>{t}Thank you, the file was removed successfully.{/t}</b>
+{if $remove_file_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $remove_file_result|default:'' == -2}
+  {t}You do not have the permission to remove this file.{/t}
+{elseif $remove_file_result|default:'' == 1}
+  {t}Thank you, the file was removed successfully.{/t}
 {/if}
 
-{if $remove_checkin_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_checkin_result == 1}
-  <b>{t}Thank you, the selected checkin information entries were removed successfully.{/t}</b>
+{if $remove_checkin_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $remove_checkin_result|default:'' == 1}
+  {t}Thank you, the selected checkin information entries were removed successfully.{/t}
 {/if}
 
 
-{if $remove_email_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_email_result == 1}
-  <b>{t}Thank you, the emails were marked as removed successfully.{/t}</b>
+{if $remove_email_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $remove_email_result|default:'' == 1}
+  {t}Thank you, the emails were marked as removed successfully.{/t}
 {/if}
 
-{if $clear_duplicate_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $clear_duplicate_result == 1}
-  <b>{t}Thank you, the current issue is no longer marked as a duplicate.{/t}</b>
+{if $clear_duplicate_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $clear_duplicate_result|default:'' == 1}
+  {t}Thank you, the current issue is no longer marked as a duplicate.{/t}
 {/if}
 
-{if $delete_phone_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $delete_phone_result == -2}
-  <b>{t}You do not have permission to remove this phone support entry.{/t}</b>
-{elseif $delete_phone_result == 1}
-  <b>{t}Thank you, the phone support entry was removed successfully.{/t}</b>
-{elseif $delete_phone_result == 2}
-  <b>{t}Thank you, the phone support entry was removed successfully.{/t}<br />
-  {t}The associated time tracking entry was also deleted.{/t}</b>
+{if $delete_phone_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $delete_phone_result|default:'' == -2}
+  {t}You do not have permission to remove this phone support entry.{/t}
+{elseif $delete_phone_result|default:'' == 1}
+  {t}Thank you, the phone support entry was removed successfully.{/t}
+{elseif $delete_phone_result|default:'' == 2}
+  {t}Thank you, the phone support entry was removed successfully.{/t}<br />
+  {t}The associated time tracking entry was also deleted.{/t}
 {/if}
 
-{if $new_status_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $new_status_result == 1}
-  <b>{t}Thank you, the issue was updated successfully.{/t}</b>
+{if $new_status_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $new_status_result|default:'' == 1}
+  {t}Thank you, the issue was updated successfully.{/t}
 {/if}
 
-{if $unassign_result == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $unassign_result == -2}
-  <b>{t}Error: the issue is already unassigned.{/t}</b>
-{elseif $unassign_result == 1}
-  <b>{t}Thank you, the issue was unassigned successfully.{/t}</b>
+{if $unassign_result|default:'' == -1}
+  {t}An error occurred while trying to run your query{/t}
+{elseif $unassign_result|default:'' == -2}
+  {t}Error: the issue is already unassigned.{/t}
+{elseif $unassign_result|default:'' == 1}
+  {t}Thank you, the issue was unassigned successfully.{/t}
 {/if}
 
-{if $authorize_reply_result == -1}
-  <b>{t}Error: you are already authorized to send emails in this issue.{/t}</b>
-{elseif $authorize_reply_result == 1}
-  <b>{t}Thank you, you are now authorized to send emails in this issue.{/t}</b>
+{if $authorize_reply_result|default:'' == -1}
+  {t}Error: you are already authorized to send emails in this issue.{/t}
+{elseif $authorize_reply_result|default:'' == 1}
+  {t}Thank you, you are now authorized to send emails in this issue.{/t}
 {/if}
 
-{if $remove_quarantine_result == -1}
-    <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $remove_quarantine_result == 1}
-  <b>{t}Thank you, this issue was removed from quarantine.{/t}</b>
+{if $remove_quarantine_result|default:'' == -1}
+    {t}An error occurred while trying to run your query{/t}
+{elseif $remove_quarantine_result|default:'' == 1}
+  {t}Thank you, this issue was removed from quarantine.{/t}
 {/if}
-
-  </span>
-</center>
-
-{include file="app_messages.tpl.html"}
 
 
 <script type="text/javascript">
@@ -165,4 +160,5 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 </center>
 {/if}
 
-{include file="footer.tpl.html"}
+</div>
+{/block}

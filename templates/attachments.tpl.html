@@ -1,30 +1,3 @@
-
-{literal}
-<script type="text/javascript">
-<!--
-function deleteAttachment(file_id)
-{
-    if (!confirm('{/literal}{t escape="js"}This action will permanently delete the selected attachment.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_attachment&id=' + file_id, '_popup', features);
-        popupWin.focus();
-    }
-}
-function deleteAttachmentFile(file_id)
-{
-    if (!confirm('{/literal}{t escape="js"}This action will permanently delete the selected file.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_file&id=' + file_id, '_popup', features);
-        popupWin.focus();
-    }
-}
-//-->
-</script>
-{/literal}
 <div class="issue_section bordered" id="attachments">
     <div class="title">
         {t}Attached Files{/t} ({$files|@count})
@@ -50,13 +23,15 @@ function deleteAttachmentFile(file_id)
               {section name="y" loop=$files[i].files}
               <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$core.rel_url}images/file.gif" border="0"></a>
               <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
-              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}<a title="{t}delete file{/t}" href="javascript:void(null);" onClick="deleteAttachmentFile({$files[i].files[y].iaf_id});">{t}delete{/t}</a>{/if}
+              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
+              <span title="{t}delete file{/t}" data-iaf-id="{$files[i].files[y].iaf_id}" class="js_link delete_file">{t}delete{/t}</span>{/if}
               <br />
               {/section}
             </td>
             <td width="15%" nowrap>
               {$files[i].usr_full_name|escape:"html"}
-              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}[ <a title="{t}delete attachment{/t}" href="javascript:void(null);" onClick="deleteAttachment({$files[i].iat_id});">{t}delete{/t}</a> ]{/if}
+              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
+                [ <span title="{t}delete attachment{/t}" class="js_link delete_attachment" data-iat-id="{$files[i].iat_id}">{t}delete{/t}</span> ]{/if}
             </td>
             {if $core.current_role > $core.roles.customer}
             <td width="5%" align="center">
@@ -73,7 +48,7 @@ function deleteAttachmentFile(file_id)
           {sectionelse}
           <tr class="no_results">
             <td colspan="{if $core.current_role > $core.roles.customer}5{else}4{/if}">
-              <i>{t}No attachments could be found.{/t}</i>
+              {t}No attachments could be found.{/t}
             </td>
           </tr>
           {/section}

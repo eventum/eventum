@@ -37,6 +37,8 @@ issue_view.ready = function(page_id)
 
     /* Attachments Section */
     $('#upload_file').click(issue_view.upload_file);
+    $('#attachments .delete_attachment').click(issue_view.delete_attachment);
+    $('#attachments .delete_file').click(issue_view.delete_file);
 }
 
 issue_view.toggle_issue_section = function(id)
@@ -66,4 +68,28 @@ issue_view.upload_file = function(e)
     var features = 'width=600,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
     popupWin.focus();
+}
+
+issue_view.delete_attachment = function(e)
+{
+    var iat_id = $(e.target).attr('data-iat-id');
+    if (!confirm('This action will permanently delete the selected attachment.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_attachment&id=' + iat_id, '_popup', features);
+        popupWin.focus();
+    }
+}
+
+issue_view.delete_file = function(e)
+{
+    iaf_id = $(e.target).attr('data-iaf-id');
+    if (!confirm('This action will permanently delete the selected file.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_file&id=' + iaf_id, '_popup', features);
+        popupWin.focus();
+    }
 }

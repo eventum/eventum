@@ -217,3 +217,12 @@ body#preferences table.bordered {
     width: 80%;
     margin-bottom: 1em;
 }
+
+/* End preferences page */
+
+/* Begin Popup Page */
+body#popup div.popup {
+    text-align: center;
+    font-weight: bold;
+    margin: 1em;
+}
