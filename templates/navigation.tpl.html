@@ -2,7 +2,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="navigation">
   <tr>
     <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="{$cell_color}">
+      <table width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
           <td>
             <b>{$core.app_setup.tool_caption|default:$application_title}</b> ({if !$is_anon_user}<a title="{t}logout from{/t} {$core.app_setup.tool_caption|default:$application_title}" target="_top" href="{$core.rel_url}logout.php" class="white_link">{t}Logout{/t}</a>{else}<a target="_top" href="{$core.rel_url}index.php" class="white_link">{t}Login{/t}</a>{/if})
@@ -37,10 +37,10 @@
   </tr>
   <tr>
     <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="{$cell_color}">
+      <table width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
           {if $core.current_role == $core.roles.customer}
-          <td nowrap width="50%" bgcolor="{$light_color}">
+          <td nowrap width="50%">
             <b>{t}Project{/t}: {$core.project_name|escape:"html"}</b>
           </td>
           {else}
@@ -77,7 +77,7 @@
           </script>
           {/literal}
           <form onSubmit="return setCurrentProject();" target="_active_project" method="post" action="{$core.rel_url}switch.php{if $is_frame == "yes"}?is_frame=yes{/if}">
-          <td nowrap width="50%" bgcolor="{$light_color}">
+          <td nowrap width="50%">
             <select name="current_project" class="shortcut">
               {html_options options=$active_projects selected=$current_project}
             </select>
@@ -85,7 +85,7 @@
           </td>
           </form>
           {/if}
-          <td width="50%" nowrap bgcolor="{$light_color}">
+          <td width="50%" nowrap>
             <b>{$core.current_role_name}: {$current_full_name|escape:html}{if $core.current_role > $core.roles.standard_user} [{if $is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]{/if}</b>
             {strip}
             ({if $is_anon_user}
@@ -99,7 +99,7 @@
             {/strip}
           </td>
           <form target="_top" method="get" action="{$core.rel_url}list.php">
-          <td width="5%" nowrap bgcolor="{$light_color}">
+          <td width="5%" nowrap>
             {if $core.current_role != $core.roles.customer}
             <label for="search" accesskey="3"></label>
             <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15"
@@ -109,7 +109,7 @@
           </td>
           </form>
           <form onSubmit="return validateIssueID(this);" target="_top" method="get" action="{$core.rel_url}view.php">
-          <td width="2%" nowrap bgcolor="{$light_color}" align="right">
+          <td width="2%" nowrap align="right">
             <label for="shortcut" accesskey="4"></label>
             <input type="text" id="shortcut" name="id" value="id #"
               onBlur="if (this.value == '') this.value = 'id #';" onFocus="if (this.value == 'id #') this.value='';" size="5" class="shortcut">

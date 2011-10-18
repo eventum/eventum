@@ -20,7 +20,7 @@
     </td>
   </tr>
   <tr>
-    <td bgcolor="{$cell_color}">
+    <td>
       <table width="100%" align="center" bgcolor="White">
         {foreach from=$incident_details item=type_details key=type_id}
         {cycle values=$cycle assign="row_color"}
@@ -33,7 +33,7 @@
         {/foreach}
         {if $res == ''}
         <tr>
-          <td bgcolor="{$cell_color}" align="center">
+          <td align="center">
             <input type="submit" name="submit" value="{t}Redeem Incidents{/t}" class="shortcut">
           </td>
         </tr>

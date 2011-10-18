@@ -2,11 +2,11 @@
 
 {foreach key=user_full_name item=assigned_issues from=$users}
 <h4>{$user_full_name|escape:"html"}</h4>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td align="center">{t}Issue ID{/t}</td>
           <td align="center">{t}Summary{/t}</td>
           <td align="center">{t}Status{/t}</td>

@@ -77,24 +77,6 @@ function confirmCloseWindow()
     }
 }
 
-function isWhitespace(s)
-{
-    var whitespace = " \t\n\r";
-
-    if (s.length == 0) {
-        // empty field!
-        return true;
-    } else {
-        // check for whitespace now!
-        for (var z = 0; z < s.length; z++) {
-            // Check that current character isn't whitespace.
-            var c = s.charAt(z);
-            if (whitespace.indexOf(c) == -1) return false;
-        }
-        return true;
-    }
-}
-
 function isEmail(s)
 {
     // email text field.
@@ -181,16 +163,6 @@ function hasOneChecked(f, field_name)
     }
 }
 
-function isNumberOnly(s)
-{
-    var check = parseFloat(s).toString();
-    if ((s.length == check.length) && (check != "NaN")) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 function isDigit(c)
 {
     return ((c >= "0") && (c <= "9"));
@@ -232,69 +204,6 @@ function startsWith(s, substr)
     }
 }
 
-function errorDetails(f, field_name, show)
-{
-    var field = getFormElement(f, field_name);
-    var icon = getPageElement('error_icon_' + field_name);
-    if (icon == null) {
-        return false;
-    }
-    if (show) {
-        field.style.backgroundColor = '#FF9999';
-        icon.style.visibility = 'visible';
-        icon.width = 14;
-        icon.height = 14;
-    } else {
-        field.style.backgroundColor = '#FFFFFF';
-        icon.style.visibility = 'hidden';
-        icon.width = 1;
-        icon.height = 1;
-    }
-}
-
-function checkCustomFields(f)
-{
-    // requires the variable custom_fields_info to be set
-    for (var i = 0; i < custom_fields_info.length; i++) {
-        var info = custom_fields_info[i];
-        var field = $('#custom_field_' + info.id);
-
-        if (((field.val() == null || field.val().length < 1) || 
-                (field.val() == -1)) && 
-                (field.parent().parent().css('display') == 'none')) {
-            continue;
-        }
-
-        if (info.required == 1) {
-            if (info.type == 'combo') {
-                if (field.val() == '' || getSelectedOption(f, field.attr('name')) == '-1') {
-                    errors[errors.length] = new Option(info.title, field.attr('name'));
-                }
-            } else if (info.type == 'multiple') {
-                if (!hasOneSelected(f, field.attr('name'))) {
-                    errors[errors.length] = new Option(info.title, field.attr('name'));
-                }
-            } else {
-                if (isWhitespace(field.val())) {
-                    errors[errors.length] = new Option(info.title, field.attr('name'));
-                }
-            }
-        }
-        if (info.validation_js != '') {
-            eval("validation_result = " + info.validation_js + '()');
-            if (validation_result != true) {
-                errors_extra[errors_extra.length] = new Option(info.title + ': ' + validation_result, field.attr('name'));
-            }
-        } else {
-            if (info.type == 'integer') {
-                if ((!isWhitespace(field.val())) && (!isNumberOnly(field.val()))) {
-                    errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.attr('name'));
-                }
-            }
-        }
-
-    }
-}
 
 function checkErrorCondition(e, form_name, field_name, old_onchange)
 {
@@ -327,25 +236,6 @@ function checkErrorCondition(e, form_name, field_name, old_onchange)
     }
 }
 
-function selectField(f, field_name, old_onchange)
-{
-    for (var i = 0; i < f.elements.length; i++) {
-        if (f.elements[i].name == field_name) {
-            if (f.elements[i].type != 'hidden') {
-                f.elements[i].focus();
-            }
-            errorDetails(f, field_name, true);
-            if (isWhitespace(f.name)) {
-                return false;
-            }
-            f.elements[i].onchange = new Function('e', 'checkErrorCondition(e, \'' + f.name + '\', \'' + field_name + '\', ' + old_onchange + ');');
-            if (f.elements[i].select) {
-                f.elements[i].select();
-            }
-        }
-    }
-}
-
 function getSelectedOption(f, field_name)
 {
     for (var i = 0; i < f.elements.length; i++) {
@@ -368,47 +258,5 @@ function getSelectedOptionObject(f, field_name)
         if (f.elements[i].name == field_name) {
             return f.elements[i].options[f.elements[i].selectedIndex];
         }
-    }
-}
-
-var errors = null;
-var errors_extra = null;
-function checkFormSubmission(f, callback_func)
-{
-    errors = new Array();
-    errors_extra = new Array();
-    eval(callback_func + '(f);');
-    if (errors.length > 0) {
-        // loop through all of the broken fields and select them
-        var fields = '';
-        for (var i = 0; i < errors.length; i++) {
-            if (getFormElement(f, errors[i].value).onchange != undefined) {
-                old_onchange = getFormElement(f, errors[i].value).onchange;
-            } else {
-                old_onchange = false;
-            }
-            selectField(f, errors[i].value, old_onchange);
-            fields += '- ' + errors[i].text + "\n";
-        }
-        // show a big alert box with the missing information
-        alert("The following required fields need to be filled out:\n\n" + fields + "\nPlease complete the form and try again.");
-        return false;
-    } else if (errors_extra.length > 0) {
-        // loop through all of the broken fields and select them
-        var fields = '';
-        for (var i = 0; i < errors_extra.length; i++) {
-            if (getFormElement(f, errors_extra[i].value).onchange != undefined) {
-                old_onchange = getFormElement(f, errors_extra[i].value).onchange;
-            } else {
-                old_onchange = false;
-            }
-            selectField(f, errors_extra[i].value, old_onchange);
-            fields += '- ' + errors_extra[i].text + "\n";
-        }
-        // show a big alert box with the missing information
-        alert("The following fields have errors that need to be resolved:\n\n" + fields + "\nPlease resolve these errors and try again.");
-        return false;
-    } else {
-        return true;
     }
 }

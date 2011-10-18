@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -74,7 +74,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new user.{/t}
@@ -92,19 +92,19 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Address{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="email" size="40" value="{$info.usr_email}">
                   {include file="error_icon.tpl.html" field="email"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Password{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="password" name="password" size="20">
                   {if $smarty.get.cat == 'edit'}
                   <span>({t}leave empty to keep the current password{/t})</span>
@@ -113,19 +113,19 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Full Name{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html}">
                   {include file="error_icon.tpl.html" field="full_name"}
                 </td>
               </tr>
               <tr>
-                  <td width="120" bgcolor="{$cell_color}">
+                  <td width="120">
                       <b>{t}Group:{/t}</b>
                   </td>
-                  <td bgcolor="{$light_color}" width="80%">
+                  <td width="80%">
                       <select name="grp_id" size="1">
                           <option value="">{t}-- Select One --{/t}</option>
                           {html_options options=$group_list selected=$info.usr_grp_id}
@@ -134,10 +134,10 @@
                   </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <nobr><b>{t}Assigned Projects and Roles{/t}:</b></nobr>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table border="0">
                     {foreach from=$project_list key=prj_id item=prj_name}
                     <tr>
@@ -160,7 +160,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update User{/t}">
                   {else}
@@ -233,13 +233,13 @@
                     <form name="change_status_form" onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="change_status">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Full Name{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Role{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Email Address{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Email Alias{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Status{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Group{/t}</b></td>
+                      <td nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td>&nbsp;<b>{t}Full Name{/t}</b></td>
+                      <td>&nbsp;<b>{t}Role{/t}</b></td>
+                      <td>&nbsp;<b>{t}Email Address{/t}</b></td>
+                      <td>&nbsp;<b>{t}Email Alias{/t}</b></td>
+                      <td>&nbsp;<b>{t}Status{/t}</b></td>
+                      <td>&nbsp;<b>{t}Group{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -270,13 +270,13 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="7" bgcolor="{$light_color}" align="center">
+                      <td colspan="7" align="center">
                         <i>{t}No users could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="7" bgcolor="{$cell_color}">
+                      <td colspan="7">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                           <tr>
                             <td>
@@ -287,7 +287,7 @@
                                 <option value="inactive">{t}Inactive{/t}</option>
                               </select>
                             </td>
-                            <td align="right" bgcolor="{$cell_color}">
+                            <td align="right">
                               <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="showCustomerUsers(this.form);">
                               <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
                             </td>

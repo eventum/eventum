@@ -111,7 +111,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>
@@ -130,26 +130,26 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Received{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$email.sup_date}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}From{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$email.sup_from|escape:"html"}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}To{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {if $email.sup_to == ""}
             <i>{t}sent to notification list{/t}</i>
             {else}
@@ -159,10 +159,10 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {if $role != $core.roles.customer && $recipients|@count > 0}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Recipients{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {strip}
             {section name="i" loop=$recipients}
               {if not $smarty.section.i.first}, {/if}
@@ -173,24 +173,24 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Cc{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$email.sup_cc|escape:"html"}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Subject{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$email.sup_subject|escape:"html"}
           </td>
         </tr>
         {if $email.attachments}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Attachments{/t}:</b>
           </td>
           <td bgcolor="{$dark_color}">
@@ -202,7 +202,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2">
             <table width="100%">
               <tr>
                 <td>
@@ -218,19 +218,19 @@ setTimeout('Eventum.close_and_refresh()', 2000);
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$light_color}" id="email_message">
+          <td colspan="2" id="email_message">
 {$email.seb_body|highlight_quoted|nl2br|activateLinks}
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.ema_id}, {$smarty.get.id|intval});">
             <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>
@@ -250,7 +250,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         {/if}
         {if $core.current_role > $core.roles.standard_user && $email.sup_iss_id == 0 && $email_accounts|@count > 1}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             <input type="button" name="move_message" value="{t}Move Message To{/t}" onClick="moveMessage()">
             <select name="new_ema_id" class="shortcut">
             {html_options options=$email_accounts selected=$email.sup_ema_id}

@@ -18,11 +18,4 @@
     {/if}
     </span>
 
-    {if $notify_list|default:'' != '' and $notify_list|@count > 0}
-    {t}E-mail about issue update was sent to{/t}:
-    <ul>
-    {foreach from=$notify_list item=email_address}
-        <li>{$email_address|escape:"html"}</li>
-    {/foreach}
-    </ul>
-{/if}
+{include file="include/notified_list.tpl.html"}

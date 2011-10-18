@@ -1,6 +1,9 @@
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block "page_id"}self_assign{/block}
+{block "title"}#{$issue_id} - Self Assign{/block}
 
-{if $self_assign_result}
+{block "content"}
+{if $self_assign_result|default:'' != ''}
   <br />
   <center>
   <span>
@@ -27,44 +30,39 @@
 {else}
 <form name="assign_form" method="post" action="self_assign.php">
 <input type="hidden" name="iss_id" value="{$issue_id}">
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="0" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2" style="font-weight: bold; color: red;" align="center">
-            <span style="font-size: 140%">{t}WARNING{/t}</span><br />
-            {t count=$assigned_users|@count plural="The following users are already assigned to this issue"}The following user is already assigned to this issue{/t}.<br />{","|join:$assigned_users}
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$dark_color}" align="right">
-            <input type="radio" name="target" value="replace" checked>
-          </td>
-          <td bgcolor="{$dark_color}">
-            <b><a id="link" href="javascript:void(null);" onClick="checkRadio('assign_form', 'target', 0);">
-            {t count=$assigned_users|@count plural="Replace current assignees with Myself."}Replace current assignee with Myself.{/t}</a></b>
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$dark_color}" align="right" valign="top">
-            <input type="radio" name="target" value="add">
-          </td>
-          <td bgcolor="{$dark_color}">
-            <b><a id="link" href="javascript:void(null);" onClick="checkRadio('assign_form', 'target', 1);">
-            {t}Add Myself to list of assignees.{/t}</a></b>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="right">
-            <input type="submit" value="{t}Continue{/t} &gt;&gt;">
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+  <table class="bordered">
+    <tr>
+      <td colspan="2" style="font-weight: bold; color: red;" align="center">
+        <span style="font-size: 140%">{t}WARNING{/t}</span><br />
+        {t count=$assigned_users|@count plural="The following users are already assigned to this issue"}The following user is already assigned to this issue{/t}.<br />{","|join:$assigned_users}
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <input id="target_replace" type="radio" name="target" value="replace" checked>
+      </td>
+      <td>
+        <label for="target_replace">
+        {t count=$assigned_users|@count plural="Replace current assignees with Myself."}Replace current assignee with Myself.{/t}
+        </label>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">
+        <input id="target_add" type="radio" name="target" value="add">
+      </td>
+      <td>
+        <label for="target_add">
+            {t}Add Myself to list of assignees.{/t}
+        </label>
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        <input type="submit" value="{t}Continue{/t} &gt;&gt;">
+      </td>
+    </tr>
+  </table>
 </form>
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

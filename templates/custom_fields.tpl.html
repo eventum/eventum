@@ -11,7 +11,7 @@ function updateCustomFields(issue_id)
 //-->
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <form method="get" action="{$smarty.server.PHP_SELF}">
   <tr>
     <td width="100%">
@@ -47,14 +47,14 @@ function updateCustomFields(issue_id)
               </tr>
               {sectionelse}
               <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
-                <td colspan="2" bgcolor="{$light_color}" align="center">
+                <td colspan="2" align="center">
                   <i>{t}No custom fields could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               {if $core.current_role > $core.roles.reporter and $custom_fields != ""}
               <tr>
-                <td align="center" colspan="2" bgcolor="{$cell_color}">
+                <td align="center" colspan="2">
                   <input type="button" value="{t}Update{/t}" onClick="updateCustomFields({$smarty.get.id|intval});">
                 </td>
               </tr>

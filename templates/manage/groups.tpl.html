@@ -46,7 +46,7 @@ function checkDelete(f)
 }
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1">
+<table width="100%" border="0" cellspacing="0" cellpadding="1">
     <tr>
         <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
@@ -64,7 +64,7 @@ function checkDelete(f)
                 </tr>
                 {if $result != ""}
                 <tr>
-                    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                    <td colspan="2" align="center" class="error">
                     {if $smarty.post.cat == "new"}
                         {if $result == -1}
                             {t}An error occurred while trying to add the new group.{/t}
@@ -82,28 +82,28 @@ function checkDelete(f)
                 </tr>
                 {/if}
                 <tr>
-                    <td width="120" bgcolor="{$cell_color}">
+                    <td width="120">
                         <b>{t}Name:{/t} *</b>
                     </td>
-                    <td bgcolor="{$light_color}">
+                    <td>
                         <input type="text" name="group_name" size="40" value="{$info.grp_name}">
                         {include file="error_icon.tpl.html" field="group_name"}
                     </td>
                 </tr>
                 <tr>
-                    <td width="120" bgcolor="{$cell_color}">
+                    <td width="120">
                         <b>{t}Description:{/t}</b>
                     </td>
-                    <td bgcolor="{$light_color}">
+                    <td>
                         <input type="text" name="description" size="100" value="{$info.grp_description}">
                         {include file="error_icon.tpl.html" field="description"}
                     </td>
                 </tr>
                 <tr>
-                    <td width="120" bgcolor="{$cell_color}">
+                    <td width="120">
                         <nobr><b>{t}Assigned Projects:{/t} *</b></nobr>
                     </td>
-                    <td bgcolor="{$light_color}">
+                    <td>
                         <select name="projects[]" multiple size="3">
                             {html_options options=$project_list selected=$info.project_ids}
                         </select>
@@ -111,10 +111,10 @@ function checkDelete(f)
                     </td>
                 </tr>
                 <tr>
-                    <td width="120" bgcolor="{$cell_color}">
+                    <td width="120">
                         <b>{t}Users:{/t} *</b>
                     </td>
-                    <td bgcolor="{$light_color}" width="80%">
+                    <td width="80%">
                         <select name="users[]" multiple size="6" onChange="showSelections('group_form', 'users[]');">
                             {html_options options=$user_options selected=$info.users}
                         </select>
@@ -129,10 +129,10 @@ function checkDelete(f)
                     </td>
                 </tr>
                 <tr>
-                    <td width="120" bgcolor="{$cell_color}">
+                    <td width="120">
                         <b>{t}Manager:{/t} *</b>
                     </td>
-                    <td bgcolor="{$light_color}" width="80%">
+                    <td width="80%">
                         <select name="manager" size="1">
                             <option value="">{t}-- Select One --{/t}</option>
                             {html_options options=$user_options selected=$info.grp_manager_usr_id}
@@ -142,7 +142,7 @@ function checkDelete(f)
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" bgcolor="{$cell_color}" align="center">
+                    <td colspan="2" align="center">
                         {if $smarty.get.cat == 'edit'}
                         <input type="submit" value="{t}Update Group{/t}">
                         {else}
@@ -162,11 +162,11 @@ function checkDelete(f)
                         <table border="0" width="100%" cellpadding="1" cellspacing="1">
                             <form name="delete_group" onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                             <tr>
-                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                                <td bgcolor="{$cell_color}">&nbsp;<b>{t}Name{/t}</b></td>
-                                <td bgcolor="{$cell_color}">&nbsp;<b>{t}Description{/t}</b></td>
-                                <td bgcolor="{$cell_color}">&nbsp;<b>{t}Manager{/t}</b></td>
-                                <td bgcolor="{$cell_color}">&nbsp;<b>{t}Projects{/t}</b></td>
+                                <td nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                                <td>&nbsp;<b>{t}Name{/t}</b></td>
+                                <td>&nbsp;<b>{t}Description{/t}</b></td>
+                                <td>&nbsp;<b>{t}Manager{/t}</b></td>
+                                <td>&nbsp;<b>{t}Projects{/t}</b></td>
                             </tr>
                             {section name="i" loop=$list}
                             {cycle values=$cycle assign="row_color"}
@@ -189,20 +189,20 @@ function checkDelete(f)
                             </tr>
                             {sectionelse}
                             <tr>
-                                <td colspan="5" bgcolor="{$light_color}" align="center">
+                                <td colspan="5" align="center">
                                     <i>{t}No groups could be found.{/t}</i>
                                 </td>
                             </tr>
                             {/section}
                             <tr>
-                                <td colspan="5" bgcolor="{$cell_color}">
+                                <td colspan="5">
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
-                                            <td width="4" bgcolor="{$cell_color}" align="center">
+                                            <td width="4" align="center">
                                                 <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                                                 <input type="hidden" name="cat" value="delete">
                                             </td>
-                                            <td colspan="4" bgcolor="{$cell_color}" align="center">
+                                            <td colspan="4" align="center">
                                                 <input type="submit" value="{t}Delete{/t}">
                                             </td>
                                         </tr>

@@ -91,19 +91,6 @@ function str_replace(s, srch, rplc)
     return tmp_output + tmp;
 }
 
-function displayFixedWidth(element_name)
-{
-    var el = getPageElement(element_name);
-    // only do this for mozilla
-    if (is_nav6up) {
-        var content = el.innerHTML;
-        el.innerHTML = '<pre>' + str_replace(content, "<br>", '') + '</pre>';
-        el.className = '';
-    }
-    el.style.fontFamily = 'Mono, Monaco, Courier New, Courier';
-    el.style.whiteSpace = 'pre';
-}
-
 function showSelections(form_name, field_name)
 {
     var f = getForm(form_name);
@@ -716,20 +703,6 @@ function openHelp(rel_url, topic)
     var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var helpWin = window.open(rel_url + 'help.php?topic=' + topic, '_help', features);
     helpWin.focus();
-}
-
-function selectOnlyValidOption(selectObj)
-{
-    if (selectObj.selectedIndex < 1) {
-        if (selectObj.length == 1) {
-            selectObj.selectedIndex = 0;
-            return;
-        }
-        if (selectObj.length <= 2 && selectObj.options[0].value == -1) {
-            selectObj.selectedIndex = 1;
-            return;
-        }
-    }
 }
 
 // this method will confirm that you want the window to close

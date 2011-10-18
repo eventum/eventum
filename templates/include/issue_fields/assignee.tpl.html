@@ -1,8 +1,8 @@
 <tr>
-  <td width="120" bgcolor="{$internal_color}">
+  <td width="120">
     <b>{t}Assignee:{/t}</b>
   </td>
-  <td bgcolor="{$light_color}">
+  <td>
     <select size="4" multiple name="issue_field[assignee][]" onChange="showSelections(this.form.name, 'issue_field[assignee][]');">
       {html_options options=$issue_field.options selected=$issue_field.value}
     </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="clearSelectedOptions(getFormElement(this.form, 'issue_field[assignee][]'));showSelections(this.form.name, 'issue_field[assignee][]');"><br />

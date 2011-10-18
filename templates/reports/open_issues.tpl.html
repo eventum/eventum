@@ -3,12 +3,12 @@
 <br />
 <form method="get" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="group_by_reporter" value="{$smarty.request.group_by_reporter}">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="3">
+          <td colspan="3">
             <b>{t}Showing all open issues older than {/t}{$cutoff_days} {t}days{/t}.</b>
           </td>
         </tr>
@@ -31,11 +31,11 @@
 
 {foreach key=user_full_name item=assigned_issues from=$users}
 <h4>{$user_full_name|escape:"html"}</h4>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td rowspan="2" align="center">{t}Issue ID{/t}</td>
           <td rowspan="2" align="center">{t}Summary{/t}</td>
           <td rowspan="2" align="center">{t}Status{/t}</td>
@@ -43,7 +43,7 @@
           <td rowspan="2" align="center">{t}Created{/t}</td>
           <td colspan="2" align="center">{t}Days and Hours Since{/t}</td>
         </tr>
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td align="center">{t}Last Update{/t}</td>
           <td align="center">{t}Last Outgoing Msg{/t}</td>
         </tr>

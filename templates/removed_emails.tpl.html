@@ -19,7 +19,7 @@ setTimeout('window.close()', 2000);
 </script>
 {else}
 <br />
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
@@ -61,12 +61,12 @@ setTimeout('window.close()', 2000);
             <input type="hidden" name="cat" value="restore">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
-                <td width="1%" bgcolor="{$cell_color}">
+                <td width="1%">
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
-                <td bgcolor="{$cell_color}">{t}Date{/t}</td>
-                <td bgcolor="{$cell_color}" width="20%">{t}From{/t}</td>
-                <td bgcolor="{$cell_color}" width="50%">{t}Subject{/t}</td>
+                <td>{t}Date{/t}</td>
+                <td width="20%">{t}From{/t}</td>
+                <td width="50%">{t}Subject{/t}</td>
               </tr>
               {section name="i" loop=$list}
               {cycle values=$cycle assign="row_color"}
@@ -86,16 +86,16 @@ setTimeout('window.close()', 2000);
               </tr>
               {sectionelse}
               <tr>
-                <td colspan="4" bgcolor="{$light_color}" align="center">
+                <td colspan="4" align="center">
                   <i>{t}No emails could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               <tr>
-                <td bgcolor="{$cell_color}" width="1%" align="center">
+                <td width="1%" align="center">
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                 </td>
-                <td colspan="3" bgcolor="{$cell_color}">
+                <td colspan="3">
                   <input type="button" value="{t}Restore Emails{/t}" onClick="validateForm(this.form);">
                   <input type="button" value="{t}Close{/t}" onClick="window.close();">
                 </td>

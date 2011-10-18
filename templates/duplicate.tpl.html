@@ -3,7 +3,7 @@
 
 <br />
 {if $duplicate_result != ""}
-<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="500" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -59,7 +59,7 @@ function validateDuplicate(f)
 //-->
 {/literal}
 </script>
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="80%" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="duplicate_form" onSubmit="return validateDuplicate(this);" method="post" action="duplicate.php">
 <input type="hidden" name="cat" value="mark">
 <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
@@ -72,22 +72,22 @@ function validateDuplicate(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Duplicated Issue:{/t} *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id|intval error_message="You must enter the ID of an issue that does not have a duplicate status." exclude_duplicates=1}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Comments:{/t}</b><br />
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <textarea name="comments" rows="8" style="width: 97%"></textarea>
           </td>
         </tr>
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>

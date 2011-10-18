@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -38,7 +38,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the round robin entry.{/t}
@@ -64,10 +64,10 @@
               </tr>
               {/if}
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <nobr><b>{t}Project:{/t}</b></nobr>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   {if $info.prr_prj_id != ''}
                     {assign var=project value=$info.prr_prj_id}
                   {else}
@@ -81,10 +81,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Assignable Users:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="users[]" multiple size="4">
                     {html_options options=$user_options selected=$info.users}
                   </select>
@@ -92,10 +92,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Blackout Time Range:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <table>
                     <tr>
                       <td>{t}Start{/t}:</td>
@@ -109,7 +109,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Round Robin Entry{/t}">
                   {else}
@@ -148,9 +148,9 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="30%" bgcolor="{$cell_color}">&nbsp;<b>{t}Project{/t}</b></td>
-                      <td width="70%" bgcolor="{$cell_color}">&nbsp;<b>{t}Assignable Users{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="30%">&nbsp;<b>{t}Project{/t}</b></td>
+                      <td width="70%">&nbsp;<b>{t}Assignable Users{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -165,16 +165,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="3" bgcolor="{$light_color}" align="center">
+                      <td colspan="3" align="center">
                         <i>{t}No round robin entries could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="2" bgcolor="{$cell_color}" align="center">
+                      <td colspan="2" align="center">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

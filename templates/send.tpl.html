@@ -175,7 +175,7 @@ function setSignature(f)
         </tr>
         {if $send_result != ""}
         <tr>
-          <td bgcolor="{$cell_color}" colspan="2" class="error" align="center">
+          <td colspan="2" class="error" align="center">
             {if $send_result == -1}
               <b>{t}An error occurred while trying to run your query{/t}</b>
             {elseif $send_result == -2}
@@ -188,19 +188,19 @@ function setSignature(f)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}From{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="hidden" name="from" value="{$from|escape:"html"}">
             <b>{$from|escape:"html"}</b>
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}To{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {if $issue_id == ''}
                 <input type="text" name="to" size="50" value="{$email.sup_from|escape:"html"}" onKeyUp="autoComplete(this, contact_list);">
                 {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$core.rel_url}images/lookup.gif" border="0"></a>{/if}
@@ -211,20 +211,20 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Cc{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" name="cc" size="50" value="{$email.cc|escape:"html"}" {if $read_only == 1}readonly{/if}>
             {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$core.rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
         </tr>
         {if $issue_id and $core.current_role != $core.roles.customer and $read_only != 1}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             &nbsp;
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="checkbox" name="add_unknown" value="yes">
             <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('send_email_form', 'add_unknown');">{t}Add Unknown Recipients to Issue Notification List{/t}</a>
           </td>
@@ -233,16 +233,16 @@ function setSignature(f)
         <input type="hidden" name="add_unknown" value="no">
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Subject{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" name="subject" size="50" value="{if $smarty.get.cat == 'view_draft'}{$email.sup_subject|escape:"html"}{else}{$email.reply_subject|escape:"html"}{/if}" {if $read_only == 1}readonly{/if}>
             {include file="error_icon.tpl.html" field="subject"}
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$light_color}" colspan="2">
+          <td colspan="2">
             {if $core.current_role != $core.roles.customer and $canned_responses != '' and $read_only != 1}
             <span><b>{t}Canned Responses{/t}:</b></span>
             <select name="email_response">
@@ -257,20 +257,20 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>Attachment:</b>
           </td>
-          <td bgcolor="{$light_color}" >
+          <td >
             <input type="file" name="attachment[]" size="30"></input>
           </td>
         </tr>
         {if $issue_id and $core.current_role > $core.roles.customer and $read_only != 1}
             {if $hide_email_buttons != 'yes'}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}New Status for Issue{/t} #{$issue_id}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <select name="new_status">
               {html_options options=$statuses selected=$current_issue_status}
             </select>
@@ -278,10 +278,10 @@ function setSignature(f)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Time Spent{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" size="5" name="time_spent"> <span><i>({t}in minutes{/t})</i></span>
           </td>
         </tr>
@@ -290,7 +290,7 @@ function setSignature(f)
         {/if}
         {if $hide_email_buttons != 'yes'}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
                 <td align="center">

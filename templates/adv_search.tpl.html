@@ -172,7 +172,7 @@ function disableCustomFields(disable)
 //-->
 </script>
 {/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       &nbsp;
@@ -180,10 +180,10 @@ function disableCustomFields(disable)
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
-          <td colspan="4" bgcolor="{$light_color}">
+          <td colspan="4">
             <b>{t}Advanced Search{/t}</b>
           </td>
-          <td bgcolor="{$light_color}" align="right">
+          <td align="right">
             {include file="help_link.tpl.html" topic="adv_search"}
           </td>
         </tr>
@@ -559,7 +559,7 @@ function disableCustomFields(disable)
         </tr>
 	{if !$is_anon_user}
         <tr>
-          <td colspan="5" align="center" bgcolor="{$light_color}">
+          <td colspan="5" align="center">
             <span>{t}Search Title{/t}:</span>
             <input type="text" name="title" value="{$options.cst_title}">
             {include file="error_icon.tpl.html" field="title"}
@@ -570,7 +570,7 @@ function disableCustomFields(disable)
           </td>
         </tr>
         <tr>
-          <td colspan="5" align="center" bgcolor="{$light_color}">
+          <td colspan="5" align="center">
             <input type="button" value="{t}Save Search{/t}" onClick="saveCustomFilter(this.form);">
           </td>
         </tr>
@@ -585,14 +585,14 @@ function disableCustomFields(disable)
 </table>
 {if !$is_anon_user}
 <br />
-<table width="450" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="450" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="2">
         <form onSubmit="return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
         <input type="hidden" name="cat" value="delete_filter">
         <tr>
-          <td bgcolor="{$light_color}" colspan="3">
+          <td colspan="3">
             <span><b>{t}Saved Searches{/t}:</b></span>
           </td>
         </tr>
@@ -616,7 +616,7 @@ function disableCustomFields(disable)
           </td>
         </tr>
         {if %i.last% && %i.total% > 0}
-        <tr bgcolor="{$light_color}">
+        <tr>
           <td colspan="3">
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
               <tr>

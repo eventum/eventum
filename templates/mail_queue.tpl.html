@@ -16,7 +16,7 @@
     <tr>
       <td>
         <table width="100%" cellpadding="2" cellspacing="1">
-          <tr bgcolor="{$cell_color}">
+          <tr>
             <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue"}</td>
             <td width="20%">{t}Recipient{/t}</td>
             <td width="20%" nowrap>{t}Queued Date{/t}</td>
@@ -35,13 +35,13 @@
           {include file="expandable_cell/body.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id colspan="5"}
           {sectionelse}
           <tr>
-            <td colspan="5" bgcolor="{$light_color}" align="center">
+            <td colspan="5" align="center">
               <i>{t}No mail queue could be found.{/t}</i>
             </td>
           </tr>
           {/section}
           <tr>
-            <td colspan="5" bgcolor="{$cell_color}">
+            <td colspan="5">
               <input type="button" value="&lt;&lt; Back" onClick="location.href='{$core.rel_url}view.php?id={$issue_id}';">
             </td>
           </tr>

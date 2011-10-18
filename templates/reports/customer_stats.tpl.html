@@ -22,12 +22,12 @@ function clearDate()
 }
 {/literal}
 </script>
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="3">
+          <td colspan="3">
             <b>{t}Customer Stats Report{/t} - {$project_name}</b>
           </td>
         </tr>
@@ -121,19 +121,19 @@ function clearDate()
 
 {$date_msg}
 {if $display.customer_counts == 1 || $display.issue_counts == 1 || $display.email_counts == 1}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 <th rowspan="2">{$row_label}</th>
                 {if $display.customer_counts == 1}<th colspan="3">{t}Customers{/t}</th>{/if}
                 {if $display.issue_counts == 1}<th colspan="4">{t}Issues{/t}<sup>1</sup></th>{/if}
                 {if $display.email_counts == 1}<th colspan="3">{t}Emails by Customers{/t}<sup>2</sup></th>
                 <th colspan="3">{t}Emails by Staff{/t}<sup>3</sup></th>{/if}
             </tr>
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 {if $display.customer_counts == 1}
                 <th>{t}Count{/t}</th>
                 <th>{t}Using CSC{/t}</th>
@@ -206,19 +206,19 @@ function clearDate()
 {* Display second table *}
 {if $display.time_stats == 1}
 <br />
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 <th rowspan="2">{$row_label}</th>
                 {if $display.time_stats == 1}
                 <th colspan="4" >{t}Time To First Response{/t}</th>
                 <th colspan="4" >{t}Time To Close{/t}<sup>4</sup></th>
                 {/if}
             </tr>
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 {if $display.time_stats == 1}
                 <th>{t}Min{/t}</th>
                 <th>{t}Avg{/t}</th>
@@ -262,18 +262,18 @@ function clearDate()
 
 {* Display 3rd table *}
 {if $display.time_tracking == 1}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 <th width="150" rowspan="2">{t}Support Level{/t}</th>
                 {assign var=col_span value=$time_tracking_categories|@count}
                 {assign var=col_span value="`$col_span+1`"}
                 <th colspan="{$col_span}">{t}Time Tracking{/t}<span style="vertical-align: super; font-size: 80%">5</span></th>
             </tr>
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 <th width="50">&nbsp;</th>
                 {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
                 <th width="150">{$ttc_title}</th>

@@ -1,4 +1,4 @@
-  <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
     <tr>
       <td>
         <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -42,7 +42,7 @@
           </tr>
           {if $result != ""}
           <tr>
-            <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+            <td colspan="2" align="center" class="error">
               {if $smarty.post.cat == "new"}
                 {if $result == -1}
                   {t}An error occurred while trying to add the new note.{/t}
@@ -66,10 +66,10 @@
           </tr>
           {/if}
           <tr>
-            <td width="120" bgcolor="{$cell_color}">
+            <td width="120">
               <b>{t}Project{/t}:</b>
             </td>
-            <td bgcolor="{$light_color}">
+            <td>
               <select name="project" onChange="populateCustomerComboBox(this.form);">
                 <option value="-1">{t}Please choose an option{/t}</option>
                 {html_options options=$project_list selected=$info.cno_prj_id}
@@ -78,10 +78,10 @@
             </td>
           </tr>
           <tr>
-            <td width="120" bgcolor="{$cell_color}">
+            <td width="120">
               <b>{t}Customer{/t}:</b>
             </td>
-            <td bgcolor="{$light_color}">
+            <td>
             <select name="customer">
                 <option value="">{t}Please choose a customer{/t}</option>
                 {html_options options=$customers selected=$info.cno_customer_id}
@@ -90,15 +90,15 @@
             </td>
           </tr>
           <tr>
-            <td width="120" bgcolor="{$cell_color}">
+            <td width="120">
               <b>{t}Note{/t}:</b>
             </td>
-            <td bgcolor="{$light_color}">
+            <td>
               <textarea name="note" cols="40" rows="5">{$info.cno_note}</textarea>
             </td>
           </tr>
           <tr>
-            <td colspan="2" bgcolor="{$cell_color}" align="center">
+            <td colspan="2" align="center">
               {if $smarty.get.cat == 'edit'}
               <input type="submit" value="{t}Update Note{/t}">
               {else}
@@ -137,9 +137,9 @@
                 <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                 <input type="hidden" name="cat" value="delete">
                 <tr>
-                  <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                  <td width="50%" bgcolor="{$cell_color}">&nbsp;<b>{t}Customer{/t}</b></td>
-                  <td width="50%" bgcolor="{$cell_color}">&nbsp;<b>{t}Note{/t}</b></td>
+                  <td nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                  <td width="50%">&nbsp;<b>{t}Customer{/t}</b></td>
+                  <td width="50%">&nbsp;<b>{t}Note{/t}</b></td>
                 </tr>
                 {section name="i" loop=$list}
                 {cycle values=$cycle assign="row_color"}
@@ -154,16 +154,16 @@
                 </tr>
                 {sectionelse}
                 <tr>
-                  <td colspan="4" bgcolor="{$light_color}" align="center">
+                  <td colspan="4" align="center">
                     <i>{t}No notes could be found.{/t}</i>
                   </td>
                 </tr>
                 {/section}
                 <tr>
-                  <td bgcolor="{$cell_color}">
+                  <td>
                     <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                   </td>
-                  <td colspan="3" bgcolor="{$cell_color}" align="center">
+                  <td colspan="3" align="center">
                     <input type="submit" value="{t}Delete{/t}">
                   </td>
                 </tr>

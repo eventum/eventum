@@ -5,7 +5,7 @@
     </span>
 {else}
 <form name="display_form" method="post" action="{$smarty.server.PHP_SELF}?prj_id={$prj_id}">
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
     <tr>
         <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -16,7 +16,7 @@
                 </tr>
                 {if $result != ""}
                 <tr>
-                    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                    <td colspan="2" align="center" class="error">
                       {if $result == -1}
                         {t}An error occurred while trying to update field display settings.{/t}
                       {elseif $result == 1}
@@ -28,7 +28,7 @@
                 {foreach from=$fields item=field_title key=field_name}
                 {cycle values=$cycle assign="row_color"}
                 <tr>
-                    <td bgcolor="{$cell_color}" align="center" width="150">
+                    <td align="center" width="150">
                         {t 1=$field_title}%1 Field{/t}:
                     </td>
                     <td bgcolor="{$row_color}">
@@ -40,7 +40,7 @@
                 {/foreach}
                 <tr>
                 <tr>
-                    <td bgcolor="{$cell_color}" colspan="2">
+                    <td colspan="2">
                         <input type="submit" value="{t}Set Display Preferences{/t}">
                         <input type="reset" value="{t}Reset{/t}">
                     </td>

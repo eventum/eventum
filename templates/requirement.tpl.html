@@ -52,16 +52,16 @@ function validate(f)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Estimated Dev. Time{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" name="dev_time" size="6"> <span>({t}in hours{/t})</span>
             {include file="error_icon.tpl.html" field="dev_time"}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}">
+          <td width="120">
             <b>{t}Impact <br />Analysis{/t}: *</b>
           </td>
           <td bgcolor="{$dark_color}">
@@ -70,7 +70,7 @@ function validate(f)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             <input type="submit" value="Update">
             <input type="button" value="Close" onClick="window.close();">
           </td>

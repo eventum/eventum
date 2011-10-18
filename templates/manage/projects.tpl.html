@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -77,7 +77,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new project.{/t}
@@ -99,19 +99,19 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Title{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <input type="text" name="title" size="40" value="{$info.prj_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Status{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="status">
                     <option value="active" {if $info.prj_status == 'active'}selected{/if}>{t}Active{/t}</option>
                     <option value="archived" {if $info.prj_status == 'archived'}selected{/if}>{t}Archived{/t}</option>
@@ -119,10 +119,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Customer Integration Backend{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="customer_backend">
                     <option value="">{t}No Customer Integration{/t}</option>
                     {html_options options=$customer_backends selected=$info.prj_customer_backend}
@@ -130,10 +130,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Workflow Backend{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="workflow_backend">
                     <option value="">{t}No Workflow Management{/t}</option>
                     {html_options options=$workflow_backends selected=$info.prj_workflow_backend}
@@ -141,20 +141,20 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Project Lead{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="lead_usr_id" onChange="checkLeadSelection(this.form);">
                     {html_options options=$user_options selected=$info.prj_lead_usr_id}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Users{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="users[]" multiple size="3">
                     {html_options options=$user_options selected=$info.prj_assigned_users}
                   </select>
@@ -162,10 +162,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Statuses{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="statuses[]" multiple size="3">
                     {html_options options=$status_options selected=$info.assigned_statuses}
                   </select>
@@ -173,10 +173,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Initial Status for New Issues{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <select name="initial_status">
                     {html_options options=$status_options selected=$info.prj_initial_sta_id}
                   </select>
@@ -184,55 +184,55 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Outgoing Email Sender Name{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <input type="text" name="outgoing_sender_name" size="40" value="{$info.prj_outgoing_sender_name|escape:"html"}">
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Outgoing Email Sender Address{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <input type="text" name="outgoing_sender_email" size="40" value="{$info.prj_outgoing_sender_email|escape:"html"}">
                   {include file="error_icon.tpl.html" field="outgoing_sender_email"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Project mail aliases{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}" width="80%">
+                <td width="80%">
                   <input type="text" name="mail_aliases" size="40" value="{$info.prj_mail_aliases|escape:"html"}">
                   {include file="error_icon.tpl.html" field="mail_aliases"}
                 </td>
               </tr>
               <tr>
-                <td width="120" nowrap bgcolor="{$cell_color}">
+                <td width="120" nowrap>
                   <b>{t}Remote Invocation{/t}:</b>
                 </td>
-                <td width="80%" bgcolor="{$light_color}">
-                  <input type="radio" name="remote_invocation" value="enabled" {if $info.prj_remote_invocation == 'enabled'}checked{/if}> 
+                <td width="80%">
+                  <input type="radio" name="remote_invocation" value="enabled" {if $info.prj_remote_invocation == 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="remote_invocation" value="disabled" {if $info.prj_remote_invocation != 'enabled'}checked{/if}> 
+                  <input type="radio" name="remote_invocation" value="disabled" {if $info.prj_remote_invocation != 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'remote_invocation', 1);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>
-                <td width="120" nowrap bgcolor="{$cell_color}">
+                <td width="120" nowrap>
                   <b>{t}Segregate Reporters{/t}:</b> {include file="help_link.tpl.html" topic="segregate_reporter"}
                 </td>
-                <td width="80%" bgcolor="{$light_color}">
-                  <input type="radio" name="segregate_reporter" value="1" {if $info.prj_segregate_reporter == 1}checked{/if}> 
+                <td width="80%">
+                  <input type="radio" name="segregate_reporter" value="1" {if $info.prj_segregate_reporter == 1}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="segregate_reporter" value="0" {if $info.prj_segregate_reporter != 1}checked{/if}> 
+                  <input type="radio" name="segregate_reporter" value="0" {if $info.prj_segregate_reporter != 1}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('project_form', 'segregate_reporter', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Project{/t}">
                   {else}
@@ -277,11 +277,11 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Project Lead{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Status{/t}</b></td>
-                      <td bgcolor="{$cell_color}" nowrap align="center">&nbsp;<b>{t}Actions{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td>&nbsp;<b>{t}Title{/t}</b></td>
+                      <td>&nbsp;<b>{t}Project Lead{/t}</b></td>
+                      <td>&nbsp;<b>{t}Status{/t}</b></td>
+                      <td nowrap align="center">&nbsp;<b>{t}Actions{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -306,16 +306,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="5" bgcolor="{$light_color}" align="center">
+                      <td colspan="5" align="center">
                         <i>{t}No projects could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" align="center">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                      <td colspan="4" align="center">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

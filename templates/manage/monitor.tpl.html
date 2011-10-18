@@ -1,4 +1,4 @@
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
 <tr>
   <td>
   <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -47,7 +47,7 @@
     </tr>
     {if $result != ""}
     <tr>
-    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+    <td colspan="2" align="center" class="error">
       {if $result == -1}
       {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
       ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
@@ -62,10 +62,10 @@
     {/if}
     <tr>
 
-    <td width="120" bgcolor="{$cell_color}">
+    <td width="120">
       <b>{t}Check Disk Space:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}">
+    <td>
       <table>
       <tr>
         <td colspan="2">
@@ -94,10 +94,10 @@
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}">
+    <td width="120">
       <b>{t}Check Paths:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}">
+    <td>
       <table>
       <tr>
         <td width="120">
@@ -113,10 +113,10 @@
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}">
+    <td width="120">
       <b>{t}Check IRC Bot:{/t}</b>
     </td>
-    <td bgcolor="{$light_color}">
+    <td>
       <table>
       <tr>
         <td width="120">
@@ -133,7 +133,7 @@
     </tr>
 
     <tr>
-    <td colspan="2" bgcolor="{$cell_color}" align="center">
+    <td colspan="2" align="center">
       <input type="submit" value="{t}Update Setup{/t}">
       <input type="reset" value="{t}Reset{/t}">
     </td>

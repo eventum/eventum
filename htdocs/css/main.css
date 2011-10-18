@@ -154,6 +154,7 @@ div#content {
     border-radius: 0.5em;
     -webkit-border-radius: 0.5em;
     -moz-border-radius: 0.5em;
+    margin-bottom: 1em;
 }
 
 table.bordered tr:first-child td:first-child {
@@ -193,6 +194,10 @@ table.bordered tr:last-child td:last-child {
     color: #000000;
 }
 
+.bordered .title th a {
+    color: #000000;
+}
+
 .bordered .title span.menu {
     float: right;
     font-weight: normal;
@@ -205,8 +210,9 @@ table.bordered th {
     padding-left: .3em;
 }
 
-table.bordered th.internal {
-    background: #9c494b;
+table.bordered th.internal, table.bordered td.internal {
+    background: #9c494b !important;
+    color: #FFFFFF;
 }
 
 table.bordered th a {
@@ -218,12 +224,12 @@ table.bordered td {
     padding: .3em;
 }
 
-.bordered .buttons, .bordered .buttons td  {
+.bordered .buttons, .bordered .buttons td, .bordered .buttons td a  {
     background: #255282;
     color: #FFFFFF;
 }
 
-.bordered.internal .buttons {
+.bordered.internal .buttons, .bordered.internal .buttons td {
     background: #9c494b;
     color: #FFFFFF;
 }
@@ -311,6 +317,10 @@ div#global_messages span {
     -moz-border-radius: 0.5em;
 }
 
+div#full_width_messages div#global_messages span {
+    display: block;
+}
+
 div#global_messages div.error span {
     background: #cc0029;
     color: #000000;
@@ -332,6 +342,22 @@ div.html_box {
 
 /* End Messages */
 
+
+.error_icon {
+    width: 14;
+    height: 14;
+    display: none;
+}
+
+.error_field {
+    background: #FF9999;
+}
+
+.fixed_width {
+    font-family: Mono, Monaco, Courier New, Courier;
+    white-space: pre;
+    overflow: scroll;
+}
 
 
 /* Old compat styles */

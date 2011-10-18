@@ -4,7 +4,7 @@
     <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -22,7 +22,7 @@
         </tr>
         {if $result != ""}
         <tr>
-          <td colspan="3" bgcolor="{$cell_color}" align="center" class="error">
+          <td colspan="3" align="center" class="error">
               {if $result == -1}
                 {t}An error occurred while trying to save columns to display.{/t}
               {elseif $result == 1}
@@ -32,13 +32,13 @@
         </tr>
         {/if}
         <tr>
-          <td bgcolor="{$cell_color}" align="center" width="40%">
+          <td align="center" width="40%">
             <b>{t}Column Name{/t}</b>
           </td>
-          <td bgcolor="{$cell_color}" align="center" width="20%">
+          <td align="center" width="20%">
             <b>{t}Minimum Role{/t}</b>
           </td>
-          <td bgcolor="{$cell_color}" align="center" width="40%">
+          <td align="center" width="40%">
             <b>{t}Order{/t}</b>
           </td>
         </tr>
@@ -73,7 +73,7 @@
         {assign var=default_rank value=$default_rank+1}
         {/foreach}
         <tr>
-          <td bgcolor="{$cell_color}" align="center" colspan="3">
+          <td align="center" colspan="3">
             <input type="submit" name="save" value="{t}Save{/t}">
           </td>
         </tr>

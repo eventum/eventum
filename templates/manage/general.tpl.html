@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -278,7 +278,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $result == -1}
                     {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
                     ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
@@ -292,18 +292,18 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Tool Caption:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="tool_caption" size="50" value="{$setup.tool_caption|escape:"html"}">
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}SMTP (Outgoing Email) Settings:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td width="100" align="right">
@@ -382,10 +382,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Open Account Signup:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -421,10 +421,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Subject Based Routing:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td>
@@ -439,10 +439,10 @@
                 </table>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Recipient Type Flag:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td width="100" align="right">
@@ -463,10 +463,10 @@
                 </table>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Routing Interface:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -521,10 +521,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Note Recipient Type Flag:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td width="100" align="right">
@@ -545,10 +545,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Internal Note Routing Interface:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -582,10 +582,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Draft Interface:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -619,10 +619,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t escape=no}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -663,10 +663,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Integration Feature:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="support_email" value="enabled" {if $setup.support_email == 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'support_email', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="support_email" value="disabled" {if $setup.support_email != 'enabled'}checked{/if}>
@@ -674,10 +674,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Daily Tips:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips == 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'daily_tips', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips != 'enabled'}checked{/if}>
@@ -685,10 +685,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Spell Checker:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <span>
                   <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker == 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'spell_checker', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
@@ -698,10 +698,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}IRC Notifications:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification == 'enabled'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'irc_notification', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification != 'enabled'}checked{/if}>
@@ -709,10 +709,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Allow Un-Assigned Issues?{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues == 'yes'}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'allow_unassigned_issues', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues != 'yes'}checked{/if}>
@@ -720,10 +720,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Default Options for Notifications:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="checkbox" name="update" {if $setup.update}checked{/if} value="1"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'update');">{t}Issues are Updated{/t}</a><br />
                   <input type="checkbox" name="closed" {if $setup.closed}checked{/if} value="1"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'closed');">{t}Issues are Closed{/t}</a><br />
                   <input type="checkbox" name="emails" {if $setup.emails}checked{/if} value="1"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'emails');">{t}Emails are Associated{/t}</a><br />
@@ -731,10 +731,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Reminder System Status Information:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -757,10 +757,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Email Error Logging System:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table>
                     <tr>
                       <td colspan="2">
@@ -783,7 +783,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   <input type="submit" value="{t}Update Setup{/t}">
                   <input type="reset" value="{t}Reset{/t}">
                 </td>

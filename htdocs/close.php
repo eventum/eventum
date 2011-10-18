@@ -65,13 +65,17 @@ if (@$_REQUEST["cat"] == "close") {
     }
 
     $tpl->assign("close_result", $res);
+    if ($res == 1) {
+        Misc::setMessage("Thank you, the issue was closed successfully");
+        Misc::displayNotifiedUsers(Notification::getLastNotifiedAddresses($issue_id));
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+    }
 }
 
 $tpl->assign(array(
     "statuses"      => Status::getClosedAssocList($prj_id),
     "resolutions"   => Resolution::getAssocList(),
     "time_categories"   => Time_Tracking::getAssocCategories(),
-    "notify_list"       => Notification::getLastNotifiedAddresses($issue_id),
     "custom_fields"     => Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id, 'close_form'),
     "issue_id"          => $issue_id,
 ));

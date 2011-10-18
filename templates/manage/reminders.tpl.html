@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -17,7 +17,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new reminder.{/t}
@@ -149,10 +149,10 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Project{/t}:</b>
                 </td>
-                <td width="85%" bgcolor="{$light_color}">
+                <td width="85%">
                   <select name="project" onChange="populateIssueComboBox(this.form);">
                     <option value="">{t}Please choose an option{/t}</option>
                     {html_options options=$project_list selected=$info.rem_prj_id}
@@ -161,28 +161,28 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Title{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" size="50" name="title" value="{$info.rem_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Rank{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" size="10" name="rank" value="{$info.rem_rank}">
                   {include file="error_icon.tpl.html" field="rank"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Reminder Type{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table cellpadding="1" border="0">
                     <tr>
                       {counter start=0 assign="next_field"}
@@ -259,17 +259,17 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Skip Weekends{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="skip_weekend" value="1" {if $info.rem_skip_weekend == 1}CHECKED{/if}>{t}Yes{/t}
                   <input type="radio" name="skip_weekend" value="0" {if $info.rem_skip_weekend != 1}CHECKED{/if}>{t}No{/t}<br />
                   &nbsp;{t}If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.{/t}
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Reminder{/t}">
                   {else}
@@ -308,14 +308,14 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}ID{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Project{/t}</b></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Type{/t}</b></td>
-                      <td bgcolor="{$cell_color}" nowrap>&nbsp;<b>{t}Issue Priorities{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Details{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td>&nbsp;<b>{t}ID{/t}</b>&nbsp;</td>
+                      <td align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
+                      <td>&nbsp;<b>{t}Title{/t}</b></td>
+                      <td>&nbsp;<b>{t}Project{/t}</b></td>
+                      <td>&nbsp;<b>{t}Type{/t}</b></td>
+                      <td nowrap>&nbsp;<b>{t}Issue Priorities{/t}</b>&nbsp;</td>
+                      <td>&nbsp;<b>{t}Details{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -344,16 +344,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="8" bgcolor="{$light_color}" align="center">
+                      <td colspan="8" align="center">
                         <i>{t}No reminders could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="7" bgcolor="{$cell_color}" align="center">
+                      <td colspan="7" align="center">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

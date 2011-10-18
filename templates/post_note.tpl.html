@@ -82,32 +82,32 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="140" bgcolor="{$internal_color}">
+          <td width="140">
             <b>{t}From:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <b>{$from|escape:"html"}</b>
           </td>
         </tr>
         <tr>
-          <td width="140" bgcolor="{$internal_color}">
+          <td width="140">
             <b>{t}Recipients:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             Issue #{$issue_id} {t}Notification List{/t} (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"})
           </td>
         </tr>
         <tr>
-          <td width="140" bgcolor="{$internal_color}">
+          <td width="140">
             <b>{t}Title:{/t} *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" name="title" size="50" value="{$reply_subject|escape:"html"}">
             {include file="error_icon.tpl.html" field="title"}
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$light_color}" colspan="2">
+          <td colspan="2">
             <textarea name="note" rows="16" style="width: 97%">{$note.not_body|escape:"html"}{if $current_user_prefs.auto_append_note_sig == 1}
 
 
@@ -116,10 +116,10 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="140" bgcolor="{$internal_color}" valign="top">
+          <td width="140" valign="top">
             <b>{t}Extra Note Recipients:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <select
               {if $users|@count > 10}
                 size="10"
@@ -134,29 +134,29 @@ function setSignature(f)
           </td>
         </tr>
         <tr>
-          <td width="140" bgcolor="{$internal_color}">
+          <td width="140">
             <b>{t}Add Extra Recipients To Notification List?{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="radio" name="add_extra_recipients" value="yes"> <a id="link" href="javascript:void(null);" onClick="checkRadio('post_note_form', 'add_extra_recipients', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
             <input type="radio" name="add_extra_recipients" value="no" checked> <a id="link" href="javascript:void(null);" onClick="checkRadio('post_note_form', 'add_extra_recipients', 1);">{t}No{/t}</a>
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}New Status for Issue{/t} #{$issue_id}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <select name="new_status">
               {html_options options=$statuses selected=$current_issue_status}
             </select>
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}Time Spent:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" size="5" name="time_spent">
             <select name="time_category">
               {html_options options=$time_categories selected=$note_category_id}
@@ -167,7 +167,7 @@ function setSignature(f)
         </tr>
         {include file="include/issue_fields.tpl.html"}
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}">
+          <td colspan="2">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
                 <td align="center">

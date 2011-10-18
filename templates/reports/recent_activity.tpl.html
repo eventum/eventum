@@ -5,12 +5,12 @@
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
 <input type="hidden" name="cat" value="generate">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="2">
+          <td colspan="2">
             <b>{t}Recent Activity Report{/t}</b>
           </td>
         </tr>
@@ -116,26 +116,26 @@ changeType('{$smarty.request.report_type}');
 
 {if $data|@count > 0}
 {if $data.phone != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}8{else}7{/if}">
+          <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
             <b>{t}Recent Phone Calls{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
+          <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
+          <td>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}Date{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Developer{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Type{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Line{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Description{/t}</td>
+          <td>{t}Date{/t}</td>
+          <td>{t}Developer{/t}</td>
+          <td>{t}Type{/t}</td>
+          <td>{t}Line{/t}</td>
+          <td>{t}Description{/t}</td>
         </tr>
         {foreach from=$data.phone item=row}
         {cycle values=$cycle assign="row_color"}
@@ -167,24 +167,24 @@ changeType('{$smarty.request.report_type}');
 {/if}
 
 {if $data.note != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}6{else}5{/if}">
+          <td colspan="{if $core.has_customer_integration}6{else}5{/if}">
             <b>{t}Recent Notes{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
+          <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
+          <td>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}Posted Date{/t}</td>
-          <td bgcolor="{$cell_color}">{t}User{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Title{/t}</td>
+          <td>{t}Posted Date{/t}</td>
+          <td>{t}User{/t}</td>
+          <td>{t}Title{/t}</td>
         </tr>
         {foreach from=$data.note item=row}
         {cycle values=$cycle assign="row_color"}
@@ -214,25 +214,25 @@ changeType('{$smarty.request.report_type}');
 {/if}
 
 {if $data.email != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}7{else}6{/if}">
+          <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
             <b>{t}Recent Emails{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
-          <td bgcolor="{$cell_color}" nowrap>{t}Issue ID{/t}</td>
+          <td align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
+          <td nowrap>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}From{/t}</td>
-          <td bgcolor="{$cell_color}">{t}To{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Date{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Subject{/t}</td>
+          <td>{t}From{/t}</td>
+          <td>{t}To{/t}</td>
+          <td>{t}Date{/t}</td>
+          <td>{t}Subject{/t}</td>
         </tr>
         {foreach from=$data.email item=row}
         {cycle values=$cycle assign="row_color"}
@@ -271,26 +271,26 @@ changeType('{$smarty.request.report_type}');
 {/if}
 
 {if $data.draft != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}8{else}7{/if}">
+          <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
             <b>{t}Recent Drafts{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
+          <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
+          <td>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}Status{/t}</td>
-          <td bgcolor="{$cell_color}">{t}From{/t}</td>
-          <td bgcolor="{$cell_color}">{t}To{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Date{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Subject{/t}</td>
+          <td>{t}Status{/t}</td>
+          <td>{t}From{/t}</td>
+          <td>{t}To{/t}</td>
+          <td>{t}Date{/t}</td>
+          <td>{t}Subject{/t}</td>
         </tr>
         {foreach from=$data.draft item=row}
         {cycle values=$cycle assign="row_color"}
@@ -323,25 +323,25 @@ changeType('{$smarty.request.report_type}');
 {/if}
 
 {if $data.time != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}7{else}6{/if}">
+          <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
             <b>{t}Recent Time Entries{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
+          <td>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}Date of Work{/t}</td>
-          <td bgcolor="{$cell_color}">{t}User{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Time Spent{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Category{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Summary{/t}</td>
+          <td>{t}Date of Work{/t}</td>
+          <td>{t}User{/t}</td>
+          <td>{t}Time Spent{/t}</td>
+          <td>{t}Category{/t}</td>
+          <td>{t}Summary{/t}</td>
         </tr>
         {foreach from=$data.time item=row}
         {cycle values=$cycle assign="row_color"}
@@ -371,22 +371,22 @@ changeType('{$smarty.request.report_type}');
 {/if}
 
 {if $data.reminder != ''}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $core.has_customer_integration}4{else}3{/if}">
+          <td colspan="{if $core.has_customer_integration}4{else}3{/if}">
             <b>{t}Recent Reminder Actions{/t}</b>
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
+          <td>{t}Issue ID{/t}</td>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}">{t}Date Triggered{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Title{/t}</td>
+          <td>{t}Date Triggered{/t}</td>
+          <td>{t}Title{/t}</td>
         </tr>
         {foreach from=$data.reminder item=row}
         {cycle values=$cycle assign="row_color"}

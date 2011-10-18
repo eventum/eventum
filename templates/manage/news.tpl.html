@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -37,7 +37,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the news entry.{/t}
@@ -63,10 +63,10 @@
               </tr>
               {/if}
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <nobr><b>{t}Assigned Projects{/t}:</b></nobr>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <select name="projects[]" multiple size="3">
                   {html_options options=$project_list selected=$info.projects}
                   </select>
@@ -74,10 +74,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Status{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <select name="status">
                     <option value="active" {if $info.nws_status != 'inactive'}selected{/if}>{t}Active{/t}</option>
                     <option value="inactive" {if $info.nws_status == 'inactive'}selected{/if}>{t}Inactive{/t}</option>
@@ -85,25 +85,25 @@
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Title{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="title" size="40" value="{$info.nws_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Message{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <textarea name="message" cols="50" rows="10">{$info.nws_message|escape:"html"}</textarea>
                   {include file="error_icon.tpl.html" field="message"}
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update News Entry{/t}">
                   {else}
@@ -142,10 +142,10 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="40%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="40%" bgcolor="{$cell_color}">&nbsp;<b>{t}Projects{/t}</b></td>
-                      <td width="20%" bgcolor="{$cell_color}">&nbsp;<b>{t}Status{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="40%">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="40%">&nbsp;<b>{t}Projects{/t}</b></td>
+                      <td width="20%">&nbsp;<b>{t}Status{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -163,16 +163,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="4" bgcolor="{$light_color}" align="center">
+                      <td colspan="4" align="center">
                         <i>{t}No news entries could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="3" bgcolor="{$cell_color}" align="center">
+                      <td colspan="3" align="center">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

@@ -1,107 +1,3 @@
-
-<script type="text/javascript">
-<!--
-var ema_id = '{$ema_id}';
-{* TODO:JS *}
-{literal}
-function openHistory(issue_id)
-{
-    var features = 'width=520,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
-    popupWin.focus();
-}
-function openNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
-    popupWin.focus();
-}
-function selfNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
-    popupWin.focus();
-}
-function openAuthorizedReplier(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
-    popupWin.focus();
-}
-function signupAsAuthorizedReplier(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=authorize_reply&iss_id=' + issue_id, '_authorizeReply', features);
-    popupWin.focus();
-}
-function selfAssign(issue_id)
-{
-    var features = 'width=420,height=150,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('self_assign.php?iss_id=' + issue_id, '_selfAssign', features);
-    popupWin.focus();
-}
-function unassign(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=unassign&iss_id=' + issue_id, '_unassign', features);
-    popupWin.focus();
-}
-function replyIssue(issue_id)
-{
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('send.php?cat=reply&ema_id=' + ema_id + '&issue_id=' + issue_id, '_replyIssue' + issue_id, features);
-    popupWin.focus();
-}
-function clearDuplicateStatus(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=clear_duplicate&iss_id=' + issue_id, '_clearDuplicate', features);
-    popupWin.focus();
-}
-function changeIssueStatus(f, issue_id, current_status_id)
-{
-    var new_status = getSelectedOption(f, 'new_status');
-    if (new_status == current_status_id) {
-        selectField(f, 'new_status');
-        alert('{/literal}{t escape=js}Please select the new status for this issue.{/t}{literal}');
-    } else {
-        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_id + '&new_sta_id=' + new_status, '_newStatus', features);
-        popupWin.focus();
-    }
-}
-function editIncidentRedemption(issue_id)
-{
-    var features = 'width=300,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('redeem_incident.php?iss_id=' + issue_id, '_flagIncident', features);
-    popupWin.focus();
-}
-function removeQuarantine(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=remove_quarantine&iss_id=' + issue_id, '_removeQuarantine', features);
-    popupWin.focus();
-}
-function validateForm(f)
-{
-    // if no emails accounts are setup, don't display confirmation message.
-    if (({/literal}{$core.current_role} < {$core.roles.developer}{literal}) && (ema_id != '') &&
-            !confirm("{/literal}{t escape=js}NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.{/t}{literal}")) {
-        return false;
-    }
-    return true;
-}
-function collapseDescription()
-{
-    if (isElementVisible(getPageElement('description1'))) {
-        changeVisibility('description_hidden', false);
-    } else {
-        changeVisibility('description_hidden', true);
-    }
-}
-//-->
-</script>
-{/literal}
 <div id="issue_links">
   {if $previous_issue}
         <div><a title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a></div>
@@ -122,7 +18,7 @@ function collapseDescription()
     {t 1="faq.php" escape=no}Please see the <a href="%1">FAQ</a> for information regarding quarantined issues.{/t}
     {if $core.current_role > $core.roles.developer}
     <br /><br />
-    <input type="button" name="remove_quarantine" value="{t}Remove Quarantine{/t}" onClick="removeQuarantine({$issue.iss_id})">
+    <input type="button" name="remove_quarantine" value="{t}Remove Quarantine{/t}" class="remove_quarantine">
     {/if}
 </div>
 {/if}
@@ -139,17 +35,17 @@ function collapseDescription()
 </div>
 {/if}
 
-<form method="get" action="update.php" name="view_form" onSubmit="return validateForm(this);">
+<form method="get" action="update.php" name="view_form">
 <input type="hidden" name="id" value="{$issue.iss_id}">
-<div id="issue_overview" class="bordered">
+<div id="issue_overview" class="bordered" data-issue-id="{$issue_id}" data-ema-id="{$ema_id}">
     <div class="title">
         {t}Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
         <div id="issue_menu">
             {if $core.current_role > $core.roles.customer}
-            [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
-            [ <a title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
+            [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="authorized_replier.php?iss_id={$issue_id}" class="open_ar">{t}Edit Authorized Replier List{/t}</a> ]
+            [ <a title="{t}edit the notification list for this issue{/t}" href="notification.php?iss_id={$issue_id}" class="open_nl">{t}Edit Notification List{/t}</a> ]
             {/if}
-            [ <a title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
+            [ <a title="{t}view the full history of changes on this issue{/t}" class="open_history" href="history.php?id=iss_id={$issue_id}">{t}History of Changes{/t}</a> ]
         </div>
     </div>
 
@@ -371,18 +267,13 @@ function collapseDescription()
         <div class="label">
             {t}Initial Description{/t}
             <div>
-                [ <a id="description_link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{get_display_label element_name="description"}</a> ]
-                [ <a href="javascript:void(null);" onClick="displayFixedWidth('issue_description');">{t}fixed width{/t}</a> ]
+                [ <span class="js_link" id="issue_description_link">{get_display_label element_name="issue_description"}</span> ]
+                [ <span class="js_link display_fixed_width">{t}fixed width{/t}</span> ]
             </div>
         </div>
         <div class="display">
-            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
-            <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
-            {literal}
-            <script type="text/javascript">
-            collapseDescription();
-            </script>
-            {/literal}
+            <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+            <span id="description_hidden" style="display: none"><em>{t}Description is currently collapsed{/t}.</em></span>
         </div>
         <div class="clear"></div>
     </div>
@@ -391,28 +282,28 @@ function collapseDescription()
     <div class="buttons1">
         <input type="submit" value="{t}Update Issue{/t}">
         {if $core.current_role >= $core.roles.standard_user and $core.app_setup.support_email == 'enabled' and $ema_id != ''}
-        &nbsp;<input type="button" value="{t}Reply{/t}" onClick="replyIssue({$issue.iss_id});">
+        &nbsp;<input type="button" value="{t}Reply{/t}" class="reply_issue">
         {/if}
 
         {if $core.current_role > $core.roles.customer}
           {if $is_user_assigned == 1}
             {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
-              <input type="button" value="{t}Unassign Issue{/t}" onClick="unassign({$issue.iss_id});">&nbsp;
+              <input type="button" value="{t}Unassign Issue{/t}" class="unassign">
             {/if}
           {else}
-            <input type="button" value="{t}Assign Issue To Myself{/t}" onClick="selfAssign({$issue.iss_id});">&nbsp;
+            <input type="button" value="{t}Assign Issue To Myself{/t}" class="self_assign">
           {/if}
 
           <div class="right">
           {if not $issue.sta_is_closed}
             {if $issue.duplicates == ''}
               {if $issue.iss_duplicated_iss_id}
-              <input type="button" value="{t}Clear Duplicate Status{/t}" onClick="clearDuplicateStatus({$issue.iss_id});">
+              <input type="button" value="{t}Clear Duplicate Status{/t}" class="clear_duplicate">
               {else}
-              <input type="button" value="{t}Mark as Duplicate{/t}" onClick="window.location.href='duplicate.php?id={$issue.iss_id}';">
+              <input type="button" value="{t}Mark as Duplicate{/t}" class="mark_duplicate">
               {/if}
             {/if}
-            <input type="button" value="{t}Close Issue{/t}" onClick="window.location.href='close.php?id={$issue.iss_id}';">
+            <input type="button" value="{t}Close Issue{/t}" class="close_issue">
           {/if}
           </div>
         {/if}
@@ -421,22 +312,25 @@ function collapseDescription()
     {if $core.current_role > $core.roles.customer}
     <div class="buttons2">
       {if $is_user_authorized != 1}
-        <input type="button" value="{t}Signup as Authorized Replier{/t}" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
+        <input type="button" value="{t}Signup as Authorized Replier{/t}" class="self_authorized_replier">
       {/if}
       {if $is_user_notified != 1}
-        <input type="button" value="{t}Add Me To Notification{/t}" onClick="selfNotification({$issue.iss_id});">
+        <input type="button" value="{t}Add Me To Notification{/t}" class="self_notification">
       {/if}
       {if $core.has_customer_integration && $issue.customer_info.is_per_incident}
-        <input type="button" value="{t}Edit Incident Redemption{/t}" onClick="editIncidentRedemption({$issue.iss_id});">
+        <input type="button" value="{t}Edit Incident Redemption{/t}" class="edit_incident_redemption">
       {/if}
+      &nbsp;
       <div class="right">
           {if $statuses != ''}
-          <input type="button" value="{t}Change Status To{/t} &gt;" onClick="changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
-          <select name="new_status">
+          <input type="button" value="{t}Change Status To{/t} &gt;" data-status-id="{$issue.iss_sta_id}" class="change_status">
+          <select name="new_status" id="new_status">
             {html_options options=$statuses selected=$issue.iss_sta_id}
           </select>
+          {include "error_icon.tpl.html" field="new_status"}
           {/if}
       </div>
+      <div style="clear: both"></div>
     </div>
     {/if}
 </div>

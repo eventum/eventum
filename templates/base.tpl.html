@@ -23,6 +23,12 @@
 <div id="container">
     {block "header"}{/block}
 
+    {block "messages"}
+    <div id="full_width_messages">
+        {include "app_messages.tpl.html"}
+    </div>
+    {/block}
+
     <div id="middle">
         <div id="content">
         {block name="content"}{/block}

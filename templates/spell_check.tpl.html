@@ -102,26 +102,26 @@ function buildSuggestionBox()
         </tr>
         {if $spell_check.total_words == 0}
         <tr>
-          <td bgcolor="{$light_color}" align="center">
+          <td align="center">
             <b>{t}No spelling mistakes could be found.{/t}</b>
           </td>
         </tr>
         {else}
         <tr>
-          <td width="130" bgcolor="{$cell_color}">
+          <td width="130">
             <b>{t}Misspelled Words:{/t}</b>
           </td>
-          <td width="60%" bgcolor="{$light_color}">
+          <td width="60%">
             <select name="misspelled_words" onChange="buildSuggestionBox();">
             {html_options options=$spell_check.words}
             </select>
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}">
+          <td width="130">
             <b>{t}Suggestions:{/t}</b>
           </td>
-          <td width="60%" bgcolor="{$light_color}">
+          <td width="60%">
             <select name="suggestion">
               <option>{t}Choose a misspelled word{/t}</option>
             </select>
@@ -129,7 +129,7 @@ function buildSuggestionBox()
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" align="center">
             {if $spell_check.total_words > 0}<input type="button" value="{t}Fix Spelling{/t}" onClick="fixSpelling();">&nbsp;&nbsp;{/if}
             <input type="button" value="Close" onClick="window.close();">
           </td>
@@ -149,4 +149,4 @@ buildSuggestionBox();
 {/if}
 
 {include file="app_info.tpl.html"}
-{include file="footer.tpl.html"} 
+{include file="footer.tpl.html"}

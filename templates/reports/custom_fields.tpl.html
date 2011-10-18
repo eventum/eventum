@@ -17,12 +17,12 @@ function validateForm(f)
 {/literal}
 <form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
+<table border="0" cellspacing="0" cellpadding="1" align="center" width="400">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="3">
+          <td colspan="3">
             <b>{t}Custom Fields Report{/t}</b>
           </td>
         </tr>
@@ -185,25 +185,25 @@ setOptions('{$custom_field}', false);
 
 {if $data|@count > 0}
 {assign var="colspan" value=3}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{$colspan}">
+          <td colspan="{$colspan}">
             <b>{t}Issues/Customers matching criteria{/t}</b>
           </td>
         </tr>
         <tr>
           {if $core.has_customer_integration}
-          <td bgcolor="{$cell_color}">{t}Customer{/t}</td>
+          <td>{t}Customer{/t}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}
-          <td bgcolor="{$cell_color}">{t}Issue Count{/t}</td>
+          <td>{t}Issue Count{/t}</td>
           {else}
-          <td bgcolor="{$cell_color}">{t}Issue ID{/t}</td>
-          <td bgcolor="{$cell_color}">{t}Summary{/t}</td>
-          <td bgcolor="{$cell_color}">{$field_info.fld_title}</td>
+          <td>{t}Issue ID{/t}</td>
+          <td>{t}Summary{/t}</td>
+          <td>{$field_info.fld_title}</td>
           {/if}
         </tr>
         {foreach from=$data item=row}

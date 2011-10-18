@@ -58,7 +58,7 @@ function validatePhoneSupportForm(f)
 <table align="center" width="100%" cellpadding="3">
   <tr>
     <td>
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
       <form name="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
       <input type="hidden" name="cat" value="add_phone">
       <input type="hidden" name="issue_id" value="{$issue_id}">
@@ -70,16 +70,16 @@ function validatePhoneSupportForm(f)
                 <td colspan="2"><b>{t}Record Phone Call{/t}:</b></td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Date of Call{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Date of Call{/t}:</b></td>
+                <td width="100%">
                   {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=''}&nbsp;
                   {html_select_time minute_interval=5 field_array='date' prefix='' all_extra='' display_seconds=false}
                   <a href="javascript:void(null);" onClick="updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Reason{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Reason{/t}:</b></td>
+                <td width="100%">
                   <select name="phone_category">
                     {html_options options=$phone_categories selected=5}
                   </select>
@@ -87,22 +87,22 @@ function validatePhoneSupportForm(f)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Call From{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Call From{/t}:</b></td>
+                <td width="100%">
                   <input type="text" name="from_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span>,</span>
                   <input type="text" name="from_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Call To{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Call To{/t}:</b></td>
+                <td width="100%">
                   <input type="text" name="to_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span>,</span>
                   <input type="text" name="to_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Type{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Type{/t}:</b></td>
+                <td width="100%">
                   <select name="type">
                     <option value="incoming">{t}Incoming{/t}</option>
                     <option value="outgoing">{t}Outgoing{/t}</option>
@@ -110,8 +110,8 @@ function validatePhoneSupportForm(f)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Customer Phone Number{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
+                <td width="190" nowrap><b>{t}Customer Phone Number{/t}:</b></td>
+                <td width="100%">
                   <input type="text" size="20" maxlength="32" name="phone_number">
                   {include file="error_icon.tpl.html" field="phone_number"}
                   <select name="phone_type">
@@ -124,18 +124,18 @@ function validatePhoneSupportForm(f)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Time Spent{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%"><input type="text" size="5" name="call_length"> {include file="error_icon.tpl.html" field="call_length"} <span><i>({t}in minutes{/t})</i></span></td>
+                <td width="190" nowrap><b>{t}Time Spent{/t}:</b></td>
+                <td width="100%"><input type="text" size="5" name="call_length"> {include file="error_icon.tpl.html" field="call_length"} <span><i>({t}in minutes{/t})</i></span></td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" width="190" nowrap><b>{t}Description{/t}:</b></td>
-                <td bgcolor="{$light_color}">
+                <td width="190" nowrap><b>{t}Description{/t}:</b></td>
+                <td>
                   <textarea name="description" rows="8" style="width: 97%"></textarea>
                   {include file="error_icon.tpl.html" field="description"}
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$internal_color}" align="center">
+                <td colspan="2" align="center">
                   <input type="submit" value="{t}Save Phone Call{/t}">
                 </td>
               </tr>

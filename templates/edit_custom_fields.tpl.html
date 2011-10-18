@@ -1,10 +1,6 @@
 {* Should be included and past the variables 'custom_fields' (an array of custom fields) and
 'form_type' which should be either 'anonymous' or 'report' *}
-<script type="text/javascript">
-{literal}
-var custom_fields_info = new Array();
-{/literal}
-</script>
+
 {section name="i" loop=$custom_fields}
 {assign var='fld_id' value=$custom_fields[i].fld_id}
 {assign var="custom_field_id" value=$custom_fields[i].fld_id}
@@ -15,34 +11,29 @@ var custom_fields_info = new Array();
 {elseif $form_type == 'close'}
   {assign var="cf_required" value=$custom_fields[i].fld_close_form_required}
 {/if}
-<tr>
-  <td width="150" bgcolor="{$cell_color}">
-    <b>{$custom_fields[i].fld_title}:{if $cf_required} *{/if}</b>
-    <script type="text/javascript">
-    <!--
-    fld_id = {$custom_fields[i].fld_id};
-    {literal}
-    custom_fields_info[custom_fields_info.length] = {
-        id: fld_id,
-        type: '{/literal}{$custom_fields[i].fld_type}{literal}',
-        title: '{/literal}{$custom_fields[i].fld_title}{literal}',
-        required: '{/literal}{$cf_required}{literal}',
-        validation_js: {/literal}{$custom_fields[i].validation_js|default:"''"}{literal}
-        }
-
-    {/literal}
-    //-->
-    </script>
-  </td>
-  <td bgcolor="{$light_color}">
+<tr class="custom_field"
+    data-custom-id="{$custom_fields[i].fld_id}"
+    data-custom-type="{$custom_fields[i].fld_type}"
+    data-custom-title="{$custom_fields[i].fld_title}"
+    data-custom-required="{$cf_required}"
+    data-custom-validation-js="{$custom_fields[i].validation_js|default:''}">
+  <th>
+    {$custom_fields[i].fld_title}{if $cf_required} *{/if}
+  </th>
+  <td>
     {if $custom_fields[i].fld_type == 'text'}
-    <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50"
+           {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}
+           value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {elseif $custom_fields[i].fld_type == 'integer'}
-    <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10"
+           {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}
+           value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {elseif $custom_fields[i].fld_type == 'textarea'}
-    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
+    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60"
+              {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
-    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
     {else}
     <select id="custom_field_{$custom_fields[i].fld_id}"
@@ -53,13 +44,14 @@ var custom_fields_info = new Array();
             multiple size="{$custom_fields[i].field_options|@count}"
           {/if}
         {/if}
-      name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
+      name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}"
+      {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>
 
       {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
       {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value}
     </select>
     {/if}
-    {if $custom_fields[i].lookup_method != ''}
+    {if $custom_fields[i].lookup_method|default:'' != ''}
     <script type="text/javascript">custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
     {/if}
     {if $custom_fields[i].fld_type == 'multiple'}
@@ -68,7 +60,7 @@ var custom_fields_info = new Array();
       {assign var="custom_field_sufix" value=""}
     {/if}
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]$custom_field_sufix"}
-    {if $custom_fields[i].fld_description != ""}
+    {if $custom_fields[i].fld_description|default:'' != ""}
     <span>({$custom_fields[i].fld_description|escape:"html"})</span>
     {/if}
   </td>

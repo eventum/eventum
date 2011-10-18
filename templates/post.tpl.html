@@ -3,7 +3,7 @@
 <br />
 
 {if $no_projects}
-<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="500" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -18,7 +18,7 @@
 </table>
 {else}
   {if $new_issue_id != "" and $smarty.post.report_stays != "yes"}
-<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="500" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -30,7 +30,7 @@
           </td>
         </tr>
         <tr align="center">
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2">
             <a class="white_link" href="index.php">{t}Back to Login Form{/t}</a>
           </td>
         </tr>
@@ -55,7 +55,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="80%" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="post_form" value="yes">
   <tr>
@@ -67,10 +67,10 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Project{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <select name="project">
               <option value="-1">{t}Please choose a project{/t}</option>
               {html_options options=$projects}
@@ -79,7 +79,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2">
             <input type="submit" value="{t}Next{/t} &gt;&gt;">&nbsp;&nbsp;
           </td>
         </tr>
@@ -118,12 +118,12 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="80%" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 {assign var="tabindex" value=1}
   <tr>
-    <td colspan="2" bgcolor="{$cell_color}">
+    <td colspan="2">
       <a class="white_link" href="index.php">{t}Back to Login Form{/t}</a>
     </td>
   </tr>
@@ -136,28 +136,28 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Project{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <b>{$project_name}</b>
             <input type="hidden" name="project" value="{$smarty.get.project}">
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Summary{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <input type="text" name="summary" size="60" tabindex="{$tabindex++}">
             {include file="error_icon.tpl.html" field="summary"}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Description{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <textarea name="description" style="width: 97%" rows="10" tabindex="{$tabindex++}"></textarea>
             {include file="error_icon.tpl.html" field="description"}
           </td>
@@ -165,10 +165,10 @@ function validateForm(f)
         {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='anonymous'}
         {assign var=tabindex value=$tabindex+50}
         <tr>
-          <td width="150" bgcolor="{$cell_color}">
+          <td width="150">
             <b>{t}Attach Files{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
               <tr>
                 <td>
@@ -200,7 +200,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
                 <td width="10" nowrap>

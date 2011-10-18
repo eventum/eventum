@@ -148,7 +148,7 @@ jQuery(function() { toggleIssueField(); });
 //-->
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="email_list_form" target="_popup" method="get" action="associate.php">
 <input type="hidden" name="cat" value="associate">
   <tr>
@@ -161,7 +161,7 @@ jQuery(function() { toggleIssueField(); });
             {include file="help_link.tpl.html" topic="support_emails"}
           </td>
         </tr>
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">{/if}</td>
           <td align="center">
             <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
@@ -221,7 +221,7 @@ jQuery(function() { toggleIssueField(); });
           </td>
         </tr>
         {/section}
-        <tr bgcolor="{$cell_color}">
+        <tr>
           <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
             <table width="100%" cellspacing="0" cellpadding="0">
               <tr>

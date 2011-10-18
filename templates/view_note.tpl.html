@@ -51,7 +51,7 @@ function viewNote(id)
         </tr>
         {if $next != "" || $previous != ""}
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
+          <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>
@@ -70,27 +70,27 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}Posted Date:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$note.not_created_date}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}From:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$note.not_from|escape:"html"}
           </td>
         </tr>
         {if $recipients|@count > 0}
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}Recipients{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {strip}
             {section name="i" loop=$recipients}
               {if not $smarty.section.i.first}, {/if}
@@ -101,16 +101,16 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}Title:{/t}</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td>
             {$note.not_title|default:"<Empty Title>"|escape:"html"}
           </td>
         </tr>
         {if $note.attachments}
         <tr>
-          <td width="120" bgcolor="{$internal_color}">
+          <td width="120">
             <b>{t}Attachments:{/t}</b>
           </td>
           <td bgcolor="{$dark_color}">
@@ -122,7 +122,7 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}">
+          <td colspan="2">
             <table width="100%">
               <tr>
                 <td>
@@ -139,19 +139,19 @@ function viewNote(id)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$light_color}" id="email_message">
+          <td colspan="2" id="email_message">
 {$note.message|highlight_quoted|nl2br|activateLinks}
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
+          <td colspan="2" align="center">
             <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
             <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>
         {if $next != "" || $previous != ""}
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
+          <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>

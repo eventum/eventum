@@ -86,22 +86,10 @@
             <div class="clear"></div>
         </div>
     </div>
+{/block}
 
-    {if $core.messages|@count > 0}
-    <div id="global_messages">
-        {foreach from=$core.messages item=message}
-        <div class="{$message.type}">
-            {if $message.type == 'html_box'}
-                {$message.text}
-            {else}
-            <span>
-                {$message.text|escape}
-            </span>
-            {/if}
-        </div>
-        {/foreach}
-    </div>
-    {/if}
+{block "messages"}
+{include "app_messages.tpl.html"}
 {/block}
 
 {block "footer"}

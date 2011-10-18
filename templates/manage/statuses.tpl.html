@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -52,7 +52,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new status.{/t}
@@ -74,47 +74,47 @@
               </tr>
               {/if}
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Title:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="title" size="40" value="{$info.sta_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Abbreviation:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="abbreviation" size="5" value="{$info.sta_abbreviation}" maxlength="3">
                   {include file="error_icon.tpl.html" field="abbreviation"}
                   <span>{t}(three letter abbreviation){/t}</span>
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Rank:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="rank" size="5" value="{$info.sta_rank}">
                   {include file="error_icon.tpl.html" field="rank"}
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Closed Context ?{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="is_closed" value="1" {if $info.sta_is_closed == '1'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="checkRadio('status_form', 'is_closed', 0);">{t}Yes{/t}</a>
                   <input type="radio" name="is_closed" value="0" {if $info.sta_is_closed != '1'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="checkRadio('status_form', 'is_closed', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <nobr><b>{t}Assigned Projects:{/t}</b></nobr>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <select name="projects[]" multiple size="3">
                   {html_options options=$project_list selected=$info.projects}
                   </select>
@@ -122,17 +122,17 @@
                 </td>
               </tr>
               <tr>
-                <td width="140" bgcolor="{$cell_color}">
+                <td width="140">
                   <b>{t}Color:{/t}</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="color" size="10" value="{$info.sta_color}">
                   {include file="error_icon.tpl.html" field="color"}
                   <span>{t}(this color will be used in the issue listing page){/t}</span>
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Status{/t}">
                   {else}
@@ -171,12 +171,12 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
-                      <td bgcolor="{$cell_color}">&nbsp;<b>{t}Abbreviation{/t}</b>&nbsp;</td>
-                      <td width="40%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="30%" bgcolor="{$cell_color}">&nbsp;<b>{t}Projects{/t}</b></td>
-                      <td width="30%" bgcolor="{$cell_color}">&nbsp;<b>{t}Color{/t}</b></td>
+                      <td nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td>&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
+                      <td>&nbsp;<b>{t}Abbreviation{/t}</b>&nbsp;</td>
+                      <td width="40%">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="30%">&nbsp;<b>{t}Projects{/t}</b></td>
+                      <td width="30%">&nbsp;<b>{t}Color{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -196,16 +196,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="6" bgcolor="{$light_color}" align="center">
+                      <td colspan="6" align="center">
                         <i>{t}No statuses could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td bgcolor="{$cell_color}">
+                      <td>
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="5" bgcolor="{$cell_color}" align="center">
+                      <td colspan="5" align="center">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

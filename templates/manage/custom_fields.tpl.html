@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -190,7 +190,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new custom field.{/t}
@@ -208,28 +208,28 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Title{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="title" size="40" value="{$info.fld_title}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Short Description{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="description" size="30" value="{$info.fld_description}">
                   <span>({t}it will show up by the side of the field{/t})</span>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Assigned Projects{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <select name="projects[]" multiple size="3">
                   {html_options options=$project_list selected=$info.projects}
                   </select>
@@ -237,10 +237,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Target Forms{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <span>
                   <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
@@ -252,10 +252,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Display on List Issues Page{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <span>
                   <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}>
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
@@ -265,10 +265,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Field Type{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="radio" name="field_type" value="text" {if $info.fld_type == 'text'}checked{/if} onClick="toggleCustomOptionsField(true);">
                   <a id="link" href="javascript:void(null);" onClick="checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;<br />
                   <input type="radio" name="field_type" value="textarea" {if $info.fld_type == 'textarea'}checked{/if} onClick="toggleCustomOptionsField(true);">
@@ -285,10 +285,10 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Field Options{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <table bgcolor="{$dark_color}" cellspacing="0" cellpadding="0" border="0">
                     <tr>
                       <td rowspan="2"><img src="{$core.rel_url}images/blank.gif" width="30" height="1"></td>
@@ -335,25 +335,25 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Minimum Role{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <select name="min_role">
                     {html_options options=$user_roles selected=$info.fld_min_role}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Rank{/t}:</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="rank" value="{$info.fld_rank}" size="3">
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Custom Field{/t}">
                   {else}
@@ -392,13 +392,13 @@
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td nowrap bgcolor="{$cell_color}">&nbsp;<b>{t}Rank{/t}</b></td>
-                      <td width="15%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="20%" bgcolor="{$cell_color}">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
-                      <td width="10%" bgcolor="{$cell_color}">&nbsp;<b>{t}Min. Role{/t}</b></td>
-                      <td width="5%" bgcolor="{$cell_color}">&nbsp;<b>{t}Type{/t}</b></td>
-                      <td width="50%" bgcolor="{$cell_color}">&nbsp;<b>{t}Options{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td nowrap>&nbsp;<b>{t}Rank{/t}</b></td>
+                      <td width="15%">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="20%">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
+                      <td width="10%">&nbsp;<b>{t}Min. Role{/t}</b></td>
+                      <td width="5%">&nbsp;<b>{t}Type{/t}</b></td>
+                      <td width="50%">&nbsp;<b>{t}Options{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -428,16 +428,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="7" bgcolor="{$light_color}" align="center">
+                      <td colspan="7" align="center">
                         <i>{t}No custom fields could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="6" bgcolor="{$cell_color}">
+                      <td colspan="6">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>

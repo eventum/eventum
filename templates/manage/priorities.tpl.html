@@ -1,5 +1,5 @@
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -41,7 +41,7 @@
               </tr>
               {if $result != ""}
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                <td colspan="2" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
                       {t}An error occurred while trying to add the new priority.{/t}
@@ -63,25 +63,25 @@
               </tr>
               {/if}
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Title{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="title" size="40" value="{$info.pri_title}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}">
+                <td width="120">
                   <b>{t}Rank{/t}: *</b>
                 </td>
-                <td bgcolor="{$light_color}">
+                <td>
                   <input type="text" name="rank" size="5" value="{$info.pri_rank}">
                   {include file="error_icon.tpl.html" field="rank"}
                 </td>
               </tr>
               <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                <td colspan="2" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input type="submit" value="{t}Update Priority{/t}">
                   {else}
@@ -121,9 +121,9 @@
                     <input type="hidden" name="prj_id" value="{$project.prj_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
-                      <td width="100%" bgcolor="{$cell_color}">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
+                      <td align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
+                      <td width="100%">&nbsp;<b>{t}Title{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -139,16 +139,16 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="3" bgcolor="{$light_color}" align="center">
+                      <td colspan="3" align="center">
                         <i>{t}No priorities could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
+                      <td width="4" align="center">
                         <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td bgcolor="{$cell_color}" align="center" colspan="2">
+                      <td align="center" colspan="2">
                         <input type="submit" value="{t}Delete{/t}">
                       </td>
                     </tr>
