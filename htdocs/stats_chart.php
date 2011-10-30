@@ -84,6 +84,7 @@ $data = array_values($data);
 // check the values coming from the database and if they are all empty, then
 // output a pre-generated 'No Data Available' picture
 if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
+	header("Content-type: image/gif");
     readfile(APP_PATH . "/htdocs/images/no_data.gif");
     exit;
 }

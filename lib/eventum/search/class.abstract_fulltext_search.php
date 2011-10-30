@@ -59,4 +59,15 @@ abstract class Abstract_Fulltext_Search
      * @return array
      */
     abstract public function getExcerpts();
+
+
+    /**
+     * If the backend supports excerpts
+     *
+     * @return  bool
+     */
+    public function supportsExcerpts()
+    {
+        return false;
+    }
 }

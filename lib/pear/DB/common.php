@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: common.php,v 1.143 2007/09/21 13:40:41 aharvey Exp $
+ * @version    CVS: $Id: common.php 315557 2011-08-26 14:32:35Z danielc $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -42,7 +42,7 @@ require_once 'PEAR.php';
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  */
 class DB_common extends PEAR
@@ -204,7 +204,7 @@ class DB_common extends PEAR
     function __wakeup()
     {
         if ($this->was_connected) {
-            $this->connect($this->dsn, $this->options);
+            $this->connect($this->dsn, $this->options['persistent']);
         }
     }
 
@@ -1249,7 +1249,7 @@ class DB_common extends PEAR
             return $query;
         }
         $result = $this->query($query, $params);
-        if (is_a($result, 'DB_result')) {
+        if (is_object($result) && is_a($result, 'DB_result')) {
             $result->setOption('limit_from', $from);
             $result->setOption('limit_count', $count);
         }
@@ -1868,13 +1868,18 @@ class DB_common extends PEAR
      *                 query and native error code.
      * @param mixed   native error code, integer or string depending the
      *                 backend
+     * @param mixed   dummy parameter for E_STRICT compatibility with
+     *                 PEAR::raiseError
+     * @param mixed   dummy parameter for E_STRICT compatibility with
+     *                 PEAR::raiseError
      *
      * @return object  the PEAR_Error object
      *
      * @see PEAR_Error
      */
     function &raiseError($code = DB_ERROR, $mode = null, $options = null,
-                         $userinfo = null, $nativecode = null)
+                         $userinfo = null, $nativecode = null, $dummy1 = null,
+                         $dummy2 = null)
     {
         // The error is yet a DB error object
         if (is_object($code)) {

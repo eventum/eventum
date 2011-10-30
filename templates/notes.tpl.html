@@ -62,7 +62,7 @@ function replyNote(note_id, issue_id)
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$internal_color}">
-                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getNote" ec_id="note"}</td>
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
                 <td class="default_white" align="center">#</td>
                 <td class="default_white">{t}Reply{/t}</td>
                 <td width="20%" class="default_white">{t}Posted Date{/t}</td>

@@ -27,8 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require APP_INC_PATH . "/search/class.abstract_fulltext_search.php";
-
 class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
 {
     public function getIssueIDs($options)

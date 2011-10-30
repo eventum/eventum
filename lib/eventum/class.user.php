@@ -659,11 +659,10 @@ class User
     /**
      * Method used to get the account details of a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  array The account details
      */
-    function getDetails($usr_id)
+    public static function getDetails($usr_id)
     {
         $res = self::getDetailsAssoc(array($usr_id));
         return reset($res);

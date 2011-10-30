@@ -63,7 +63,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 
@@ -901,7 +901,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 
@@ -2084,10 +2084,9 @@ class Issue
     /**
      * Method used to add a new issue using the normal report form.
      *
-     * @access  public
      * @return  integer The new issue ID
      */
-    function createFromPost()
+    public static function createFromPost()
     {
         $keys = array(
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
@@ -3292,7 +3291,7 @@ class Issue
             return false;
         }
 
-        return $res !== 0;
+        return $res != 0;
     }
 
 

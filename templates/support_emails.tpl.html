@@ -72,7 +72,7 @@ function sendEmail(account_id, issue_id)
                 {if $emails != "" and $current_role > $roles.viewer and $current_role != $roles.customer}
                 <td width="5"><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');"></td>
                 {/if}
-                <td class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}</td>
+                <td class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
                 <td width="5" class="default_white" align="center">#</td>
                 <td width="5" class="default_white">{t}Reply{/t}</td>
                 <td width="15%" class="default_white">{t}From{/t}</td>

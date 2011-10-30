@@ -126,7 +126,7 @@ changeType('{$smarty.request.report_type}');
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
+          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
           {if $has_customer_integration}
           <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>
@@ -177,7 +177,7 @@ changeType('{$smarty.request.report_type}');
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" class="default_white" nowrap>{include file="expandable_cell/buttons.tpl.html" remote_func="getNote" ec_id="note"}</td>
+          <td bgcolor="{$cell_color}" class="default_white" nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
           {if $has_customer_integration}
           <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>
@@ -224,7 +224,7 @@ changeType('{$smarty.request.report_type}');
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}</td>
+          <td bgcolor="{$cell_color}" class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
           <td bgcolor="{$cell_color}" class="default_white" nowrap>{t}Issue ID{/t}</td>
           {if $has_customer_integration}
           <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>
@@ -281,7 +281,7 @@ changeType('{$smarty.request.report_type}');
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
+          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
           {if $has_customer_integration}
           <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>

@@ -15,7 +15,7 @@ function expand(baseURL, ecID, listID)
     // TODO: translate
     if (val == "" || val == 'loading...') {
         $cell.html("loading...");
-        url = baseURL + 'get_remote_data.php?action=' + getRemoteFunction(ecID) + '&ec_id=' + ecID + '&list_id=' + listID;
+        url = baseURL + 'get_remote_data.php?action=' + ecID + '&ec_id=' + ecID + '&list_id=' + listID;
         $.getJSON(url + '&callback=?', function(data) {
             // data.ecID, data.listID, data.message;
             if (data.error) {
@@ -65,22 +65,6 @@ function collapseAll(ecID)
         chunks = id.split("_");
         collapse(ecID, chunks[3]);
     }
-}
-
-// setRemoteFunction('email', 'getEmail')
-// setRemoteFunction('note', 'getNote')
-// setRemoteFunction('phone', 'getPhoneSupport')
-// setRemoteFunction('draft', 'getDraft')
-// TODO: discard this mapping, change backend call params
-function setRemoteFunction(ecID, url)
-{
-    self['ec_remote_func_' + ecID] = url;
-}
-
-// TODO: discard this mapping along with setRemoteFunction
-function getRemoteFunction(ecID)
-{
-    return self['ec_remote_func_' + ecID];
 }
 
 // returns the row for the specified ecID and listID

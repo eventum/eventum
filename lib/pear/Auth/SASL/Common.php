@@ -32,7 +32,7 @@
 // | Author: Richard Heyes <richard@php.net>                               |
 // +-----------------------------------------------------------------------+
 //
-// $Id: Common.php 286825 2009-08-05 06:23:42Z cweiske $
+// $Id$
 
 /**
 * Common functionality to SASL mechanisms
@@ -49,10 +49,12 @@ class Auth_SASL_Common
     * Function which implements HMAC MD5 digest
     *
     * @param  string $key  The secret key
-    * @param  string $data The data to protect
-    * @return string       The HMAC MD5 digest
+    * @param  string $data The data to hash
+    * @param  bool $raw_output Whether the digest is returned in binary or hexadecimal format.
+    *
+    * @return string       The HMAC-MD5 digest
     */
-    function _HMAC_MD5($key, $data)
+    function _HMAC_MD5($key, $data, $raw_output = FALSE)
     {
         if (strlen($key) > 64) {
             $key = pack('H32', md5($key));
@@ -66,8 +68,37 @@ class Auth_SASL_Common
         $k_opad = substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64);
 
         $inner  = pack('H32', md5($k_ipad . $data));
-        $digest = md5($k_opad . $inner);
+        $digest = md5($k_opad . $inner, $raw_output);
 
         return $digest;
     }
+
+    /**
+    * Function which implements HMAC-SHA-1 digest
+    *
+    * @param  string $key  The secret key
+    * @param  string $data The data to hash
+    * @param  bool $raw_output Whether the digest is returned in binary or hexadecimal format.
+    * @return string       The HMAC-SHA-1 digest
+    * @author Jehan <jehan.marmottard@gmail.com>
+    * @access protected
+    */
+    protected function _HMAC_SHA1($key, $data, $raw_output = FALSE)
+    {
+        if (strlen($key) > 64) {
+            $key = sha1($key, TRUE);
+        }
+
+        if (strlen($key) < 64) {
+            $key = str_pad($key, 64, chr(0));
+        }
+
+        $k_ipad = substr($key, 0, 64) ^ str_repeat(chr(0x36), 64);
+        $k_opad = substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64);
+
+        $inner  = pack('H40', sha1($k_ipad . $data));
+        $digest = sha1($k_opad . $inner, $raw_output);
+
+         return $digest;
+     }
 }

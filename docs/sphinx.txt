@@ -49,13 +49,25 @@ Setup your cron to run daily
 $ indexer --config /path-to-eventum/config/sphinx.conf --all --rotate
 add --quiet if you don't want verbose messages from it
 
-for example this cron runs under user "www-data" at 03:12 daily
+You can also index recent content more often so it shows up quickly
+$ indexer --config /path-to-eventum/config/sphinx.conf \
+    {issue,email,note,phonesupport}_recent{,_stemmed} \
+    --rotate --quiet
+
+for example the complete index cron runs under user "www-data" at 03:12 daily and the
+recent content cron runs under user "www-data" every 5 minutes.
 
 --- BEGIN /etc/cron.d/sphinx-search-eventum ---
 MAILTO=you@example.com
 
 # Run nightly at 03:12 local time
 12 03 * *  * www-data indexer --config /path-to-eventum-config/eventum.conf --all --rotate --quiet
+
+# Run every 5 minutes (the next 3 lines should all be on one line)
+*/5 * * * * www-data indexer --config /path-to-eventum/config/sphinx.conf
+ {issue,email,note,phonesupport}_recent{,_stemmed}
+ --rotate --quiet
 --- END /etc/cron.d/sphinx-search-eventum ---
 
-Info about updating indexes here.
+
+

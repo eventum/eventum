@@ -76,13 +76,12 @@ class Auth
      * page. It will check for the cookie name provided and redirect the user
      * to another page if needed.
      *
-     * @access  public
      * @param   string $cookie_name The name of the cookie to check for
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
      * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
      * @return  void
      */
-    function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
+    public static function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
@@ -316,12 +315,11 @@ class Auth
     /**
      * Method used to redirect people to another URL.
      *
-     * @access  public
      * @param   string $url The URL the user should be redirected to
      * @param   boolean $is_popup Whether the current window is a popup or not
      * @return  void
      */
-    function redirect($url, $is_popup = false)
+    public static function redirect($url, $is_popup = false)
     {
         if ($is_popup) {
             $html = '<script type="text/javascript">
@@ -447,10 +445,9 @@ class Auth
     /**
      * Gets the current project name from the user's project cookie.
      *
-     * @access  public
      * @return  string The current project name
      */
-    function getCurrentProjectName()
+    public static function getCurrentProjectName()
     {
         $proj_id = self::getCurrentProject();
         if (!empty($proj_id)) {
