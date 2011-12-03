@@ -22,7 +22,7 @@ LINGUAS.php: $(wildcard *.po) Makefile
 		echo "\t'$$code' => _('$$lang'),"; \
 	done; \
 	echo ');'
-	php -l $@
+	php -n -l $@
 
 install: $(MOFILES)
 	install -d $(DESTDIR)$(localedir)
