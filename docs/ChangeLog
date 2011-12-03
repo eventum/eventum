@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2011-??-??, Version ???
+2011-12-??, Version 2.3.2
 - Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 - Separate search methods to new Search class (Elan Ruusamäe)
 - fix new users are creation groups (group id was 0, should be NULL) bug #806083
