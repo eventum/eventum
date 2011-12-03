@@ -104,7 +104,9 @@ if [ ! -f pear.clean ]; then
 		esac
 	done
 
-	test -d data && rmdir data
+	rm -rf data/Math_Stats
+
+	test ! -d data || rmdir data
 
 	# here's shell oneliner to remove ?> from all files which have it on their last line:
 	find -name '*.php' | xargs -r sed -i -e '${/^?>$/d}'
