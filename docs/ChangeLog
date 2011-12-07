@@ -18,6 +18,7 @@ Eventum Issue Tracking System
 - Port expandable cell to jQuery (Elan Ruusamäe)
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
 - Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
+- Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
