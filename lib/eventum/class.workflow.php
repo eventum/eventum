@@ -147,6 +147,7 @@ class Workflow
      */
     function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
+        Partner::handleIssueChange($issue_id, $usr_id, $old_details, $changes);
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -311,8 +312,10 @@ class Workflow
      * @param   array $row The array of data that was inserted into the database.
      * @param   boolean $closing If we are closing the issue.
      */
-    function handleNewEmail($prj_id, $issue_id, $message, $row = FALSE, $closing = false)
+    function handleNewEmail($prj_id, $issue_id, $message, $row, $closing = false)
     {
+        Partner::handleNewEmail($issue_id, $row['sup_id']);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -348,6 +351,8 @@ class Workflow
      */
     function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false, $note_id = false)
     {
+        Partner::handleNewNote($issue_id, $note_id);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }

@@ -365,7 +365,7 @@ class Issue
      * @param   boolean $force_refresh If the cache should not be used.
      * @return  integer The project ID
      */
-    function getProjectID($issue_id, $force_refresh = false)
+    public static function getProjectID($issue_id, $force_refresh = false)
     {
         static $returns;
 

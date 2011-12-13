@@ -3,8 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 Eventum Team              .                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -33,54 +32,25 @@ $tpl->setTemplate("manage/index.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "users");
+$tpl->assign("type", "partners");
 
 $role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
-        $excluded_roles = array('customer');
-    } else {
-        $excluded_roles = array('customer', 'administrator');
     }
 
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", User::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", User::update());
-    } elseif (@$_POST["cat"] == "change_status") {
-        User::changeStatus();
+    if (@$_POST["cat"] == "update") {
+        $tpl->assign("result", Partner::update($_POST['code'], @$_POST['projects']));
     }
 
-    $project_roles = array();
-    $project_list = Project::getAll();
     if (@$_GET["cat"] == "edit") {
-        $info = User::getDetails($_GET["id"]);
+        $info = Partner::getDetails($_GET["code"]);
         $tpl->assign("info", $info);
     }
-    foreach ($project_list as $prj_id => $prj_title) {
-        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID('Customer')) {
-            if (count($excluded_roles) == 1) {
-                $excluded_roles = false;
-            } else {
-                $excluded_roles = array('administrator');
-            }
-        }
-        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID("administrator")) {
-            $excluded_roles = false;
-        }
-        $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
-    }
-    if (@$_GET['show_customers'] == 1) {
-        $show_customer = true;
-    } else {
-        $show_customer = false;
-    }
-    $tpl->assign("list", User::getList($show_customer));
-    $tpl->assign("project_list", $project_list);
-    $tpl->assign("project_roles", $project_roles);
-    $tpl->assign("group_list", Group::getAssocListAllProjects());
-    $tpl->assign("partners", Partner::getAssocList());
+
+    $tpl->assign("list", Partner::getList());
+    $tpl->assign("project_list", Project::getAll());
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

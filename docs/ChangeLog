@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
+- Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
@@ -126,7 +127,7 @@ Eventum Issue Tracking System
 - Make Last Action Date translatable in issue list screen (Elan Ruusamäe)
 - Added Custom Fields Weekly Report (Raul Raat)
 - Allow setup to configure default timezone and start day of week (Elan Ruusamäe)
-- Make default timezone and default start day of week configurable in setup (Elan Ruusamäe) 
+- Make default timezone and default start day of week configurable in setup (Elan Ruusamäe)
 - Add new option to Custom Fields Weekly Report to show time spent by user (Raul Raat)
 - Fixed bug with displaying help (Bryan)
 - Fixed bug with dynamic custom fields (Bryan)

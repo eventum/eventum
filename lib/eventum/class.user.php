@@ -1038,6 +1038,10 @@ class User
             $stmt .= ",
                     usr_password='" . Auth::hashPassword($_POST["password"]) . "'";
         }
+        if (isset($_POST["par_code"])) {
+            $stmt .= ",
+                    usr_par_code='" . Misc::escapeString($_POST["par_code"]) . "'";
+        }
         $stmt .= "
                  WHERE
                     usr_id=" . Misc::escapeInteger($_POST["id"]);
@@ -1115,7 +1119,8 @@ class User
                     usr_full_name,
                     usr_email,
                     usr_grp_id,
-                    usr_preferences
+                    usr_preferences,
+                    usr_par_code
                  ) VALUES (
                     NULL,
                     NULL,
@@ -1124,7 +1129,8 @@ class User
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
                     $group_id,
-                    '" . Misc::escapeString($prefs) . "'
+                    '" . Misc::escapeString($prefs) . "',
+                    '" . Misc::escapeString(@$_POST['par_code']) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -1184,6 +1190,9 @@ class User
                 $row["roles"] = $roles;
                 if (!empty($res[$i]["usr_grp_id"])) {
                     $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
+                }
+                if (!empty($res[$i]["usr_par_code"])) {
+                    $row["partner_name"] = Partner::getName($res[$i]["usr_par_code"]);
                 }
                 $data[] = $row;
             }
