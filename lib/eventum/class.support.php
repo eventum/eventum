@@ -1299,55 +1299,58 @@ class Support
                 "list" => "",
                 "info" => ""
             );
-        } else {
-            if ((count($res) < 1) && ($current_row > 0)) {
-                // if there are no results, and the page is not the first page reset page to one and reload results
-                Auth::redirect("emails.php?pagerRow=0&rows=$max");
+        }
+
+        if (count($res) < 1 && $current_row > 0) {
+            // if there are no results, and the page is not the first page reset page to one and reload results
+            Auth::redirect("emails.php?pagerRow=0&rows=$max");
+        }
+
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $customer_ids = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
+                    $customer_ids[] = $res[$i]['sup_customer_id'];
+                }
+            }
+            if (count($customer_ids) > 0) {
+                $company_titles = Customer::getTitles($prj_id, $customer_ids);
+            }
+        }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
+            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+            $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
+            if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
+                $res[$i]["sup_to"] = "Notification List";
+            } else {
+                $to = Mail_Helper::getName($res[$i]["sup_to"]);
+                // Ignore unformattable headers
+                if (!PEAR::isError($to)) {
+                    $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
+                }
             }
             if (Customer::hasCustomerIntegration($prj_id)) {
-                $customer_ids = array();
-                for ($i = 0; $i < count($res); $i++) {
-                    if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
-                        $customer_ids[] = $res[$i]['sup_customer_id'];
-                    }
-                }
-                if (count($customer_ids) > 0) {
-                    $company_titles = Customer::getTitles($prj_id, $customer_ids);
-                }
+                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
             }
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
-                $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
-                if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
-                    $res[$i]["sup_to"] = "Notification List";
-                } else {
-                    $to = Mail_Helper::getName($res[$i]["sup_to"]);
-                    // Ignore unformattable headers
-                    if (!PEAR::isError($to)) {
-                        $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
-                    }
-                }
-                if (Customer::hasCustomerIntegration($prj_id)) {
-                    @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
-                }
-            }
-            $total_pages = ceil($total_rows / $max);
-            $last_page = $total_pages - 1;
-            return array(
-                "list" => $res,
-                "info" => array(
-                    "current_page"  => $current_row,
-                    "start_offset"  => $start,
-                    "end_offset"    => $start + count($res),
-                    "total_rows"    => $total_rows,
-                    "total_pages"   => $total_pages,
-                    "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
-                    "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                    "last_page"     => $last_page
-                )
-            );
         }
+
+        $total_pages = ceil($total_rows / $max);
+        $last_page = $total_pages - 1;
+        return array(
+            "list" => $res,
+            "info" => array(
+                "current_page"  => $current_row,
+                "start_offset"  => $start,
+                "end_offset"    => $start + count($res),
+                "total_rows"    => $total_rows,
+                "total_pages"   => $total_pages,
+                "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
+                "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
+                "last_page"     => $last_page
+            )
+        );
     }
 
 
@@ -1574,6 +1577,7 @@ class Support
      */
     function getEmailDetails($ema_id, $sup_id)
     {
+        // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "support_email.*,
                     " . APP_TABLE_PREFIX . "support_email_body.*
@@ -1582,8 +1586,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id=" . Misc::escapeInteger($sup_id) . " AND
-                    sup_ema_id=" . Misc::escapeInteger($ema_id);
+                    sup_id=" . Misc::escapeInteger($sup_id);
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2607,5 +2610,40 @@ class Support
                 }
             }
         }
+    }
+
+
+    /**
+     * Returns the sequential number of the specified email ID.
+     *
+     * @param   integer $sup_id The email ID
+     * @return  integer The sequence number of the email
+     */
+    public static function getSequenceByID($sup_id)
+    {
+        if (empty($sup_id)) {
+            return '';
+        }
+        $res = DB_Helper::getInstance()->query("SET @sup_seq = 0");
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        }
+        $issue_id = Support::getIssueFromEmail($sup_id);
+        $sql = "SELECT
+                	sup_id,
+                	@sup_seq := @sup_seq+1
+                FROM
+                	" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                WHERE
+                	sup_iss_id = " . $issue_id . "
+                ORDER BY
+                    sup_id ASC";
+        $res = DB_Helper::getInstance()->getAssoc($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        }
+        return @$res[$sup_id];
     }
 }

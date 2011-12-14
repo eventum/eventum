@@ -41,7 +41,7 @@ ini_set('memory_limit', '128M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://launchpad.net/eventum/');
-define('APP_VERSION', '2.3.1');
+define('APP_VERSION', '2.3.2');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));
@@ -73,6 +73,10 @@ if (!defined('APP_INC_PATH')) {
 
 if (!defined('APP_PEAR_PATH')) {
     define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
+}
+
+if (!defined('APP_SPHINXAPI_PATH')) {
+    define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
 }
 
 if (!defined('APP_SMARTY_PATH')) {
@@ -127,11 +131,18 @@ if (!defined('APP_ENABLE_FULLTEXT')) {
     define('APP_ENABLE_FULLTEXT', false);
 }
 
+if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
+    define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+}
+
 if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {
     define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
 }
 if (!defined('APP_DEFAULT_NEW_EMAILS')) {
     define('APP_DEFAULT_NEW_EMAILS', 0);
+}
+if (!defined('APP_DEFAULT_COPY_OF_OWN_ACTION')) {
+    define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 }
 if (!defined('APP_RELATIVE_URL')) {
     define('APP_RELATIVE_URL', '/');
@@ -168,8 +179,12 @@ if (!defined('APP_MAINTENANCE')) {
 }
 
 // add pear to the include path
-if (defined('APP_PEAR_PATH')) {
+if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
     set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
+}
+// add sphinxapi to the include path
+if (defined('APP_SPHINXAPI_PATH') && APP_SPHINXAPI_PATH) {
+    set_include_path(APP_SPHINXAPI_PATH . PATH_SEPARATOR . get_include_path());
 }
 
 require_once APP_INC_PATH . '/autoload.php';
@@ -196,3 +211,6 @@ if (APP_MAINTENANCE){
         exit(0);
 	}
 }
+
+// Default IRC category
+define("APP_EVENTUM_IRC_CATEGORY_DEFAULT", "default");

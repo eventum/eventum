@@ -1,0 +1,73 @@
+What is sphinx?
+---------------------------------------
+
+
+Installation
+---------------------------------------
+Link to sphinx setup instructions here, with extra notes
+
+
+Eventum Configuration
+---------------------------------------
+Open config/config.php with a text editor.
+
+Make sure APP_ENABLE_FULLTEXT is set to true.
+
+Remove the line:
+define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+
+Add the following lines:
+define('APP_FULLTEXT_SEARCH_CLASS', 'sphinx_fulltext_search');
+define('SPHINX_SEARCHD_HOST', 'localhost');
+define('SPHINX_SEARCHD_PORT', 3312);
+
+Change the values to match your settings.
+
+Generate the sphinx config with your database settings.
+
+cd /path-to-eventum/config
+php sphinx.conf.php > sphinx.conf
+
+If needed, you can customize the sphinx paths by setting the following constants:
+SPHINX_LOG_PATH, SPHINX_RUN_PATH, SPHINX_DATA_PATH
+
+
+Starting Sphinx
+---------------------------------------
+
+Generate indexes for the first time:
+$ indexer --config /path-to-eventum/config/sphinx.conf --all
+
+Start searchd:
+$ searchd --config /path-to-eventum/config/sphinx.conf
+
+
+Crons
+---------------------------------------
+
+Setup your cron to run daily
+$ indexer --config /path-to-eventum/config/sphinx.conf --all --rotate
+add --quiet if you don't want verbose messages from it
+
+You can also index recent content more often so it shows up quickly
+$ indexer --config /path-to-eventum/config/sphinx.conf \
+    {issue,email,note,phonesupport}_recent{,_stemmed} \
+    --rotate --quiet
+
+for example the complete index cron runs under user "www-data" at 03:12 daily and the
+recent content cron runs under user "www-data" every 5 minutes.
+
+--- BEGIN /etc/cron.d/sphinx-search-eventum ---
+MAILTO=you@example.com
+
+# Run nightly at 03:12 local time
+12 03 * *  * www-data indexer --config /path-to-eventum-config/eventum.conf --all --rotate --quiet
+
+# Run every 5 minutes (the next 3 lines should all be on one line)
+*/5 * * * * www-data indexer --config /path-to-eventum/config/sphinx.conf
+ {issue,email,note,phonesupport}_recent{,_stemmed}
+ --rotate --quiet
+--- END /etc/cron.d/sphinx-search-eventum ---
+
+
+

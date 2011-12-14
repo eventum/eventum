@@ -57,9 +57,14 @@ fi
 install -d $t
 
 if [ ! -f pear.install ]; then
+	> $t/VERSIONS
 	for p in $pear_pkgs; do
 		p=${p%-*}
-		pear install -O -n -l -f -P $t $p-*.tgz
+		f=$(echo $p-*.tgz)
+		pear install -O -n -l -f -P $t $f
+		v=${f#$p-}
+		v=${v%.tgz}
+		echo "- $p $v" >> $t/VERSIONS
 	done
 	touch pear.install
 fi
@@ -99,7 +104,12 @@ if [ ! -f pear.clean ]; then
 		esac
 	done
 
-	test -d data && rmdir data
+	# Math_Stats
+	rm -rf data/Math_Stats
+	rm -rf contrib/ignatius_reilly
+
+	test ! -d data || rmdir data
+	test ! -d contrib || rmdir contrib
 
 	# here's shell oneliner to remove ?> from all files which have it on their last line:
 	find -name '*.php' | xargs -r sed -i -e '${/^?>$/d}'
@@ -107,5 +117,7 @@ if [ ! -f pear.clean ]; then
 	find -name '*.php' | xargs -r sed -i -e '${/^$/d}'
 	# and as well can remove trailing spaces/tabs:
 	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
+	# remove DOS EOL
+	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'  
 	cd -
 fi

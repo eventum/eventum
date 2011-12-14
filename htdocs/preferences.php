@@ -52,7 +52,7 @@ if (Auth::isAnonUser()) {
 $usr_id = Auth::getUserID();
 
 if (@$_POST["cat"] == "update_account") {
-    $res = Prefs::set($usr_id);
+    $res = Prefs::set($usr_id, $_POST);
     $tpl->assign('update_account_result', $res);
     User::updateSMS($usr_id, @$_POST['sms_email']);
 } elseif (@$_POST["cat"] == "update_name") {
@@ -68,10 +68,7 @@ if (@$_POST["cat"] == "update_account") {
 
 $prefs = Prefs::get($usr_id);
 $prefs['sms_email'] = User::getSMS($usr_id);
-// if the user has no preferences set yet, get it from the system-wide options
-if (empty($prefs)) {
-    $prefs = Setup::load();
-}
+
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("user_info", User::getDetails($usr_id));
 $tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));

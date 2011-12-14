@@ -89,6 +89,7 @@ define('APP_HASH_TYPE', 'MD5');
 
 // if full text searching is enabled
 define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
+define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
 
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php

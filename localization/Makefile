@@ -1,5 +1,5 @@
 # Makefile for Eventum po files.
-# (c) 2007-2010 Elan Ruusamäe <glen@delfi.ee>
+# (c) 2007-2011 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := /usr/share/locale
 DOMAIN      := eventum
@@ -11,13 +11,26 @@ all: $(MOFILES)
 %.mo: %.po
 	msgfmt --statistics $< -o $(subst .po,,$<).mo.tmp && mv $(subst .po,,$<).mo.tmp $(subst .po,,$<).mo
 
+LINGUAS.php: $(wildcard *.po) Makefile
+	exec 1> $@; \
+	echo '<?php'; \
+	echo '$$avail_langs = array('; \
+	for po in $(wildcard *.po); do \
+		code=$$(basename $$po .po); \
+		lang=$$(sed -ne 's/"Language-Team: \(.*\)/\1/p' $$po | sed -e 's, <.*,,;s,\\n.*,,'); \
+		echo "\t// TRANSLATORS: Translation of $$lang language in preferences dropdown"; \
+		echo "\t'$$code' => _('$$lang'),"; \
+	done; \
+	echo ');'
+	php -n -l $@
+
 install: $(MOFILES)
 	install -d $(DESTDIR)$(localedir)
 	@for mo in $(MOFILES); do \
 		lang=$$(basename $$mo .mo); \
 		install -d $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES; \
-		echo cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
-		cp -a $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		echo cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		cp -p $$mo $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
 clean:
@@ -42,8 +55,15 @@ pot: tools-check
 		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
 		msgcat -o merged.pot code.pot ts.pot; \
 		sed -ne '1,/^$$/p' code.pot > header.pot; \
-		msgcat -s -o eventum.pot --use-first header.pot merged.pot; \
-		mv eventum.pot ..; \
+		msgcat -s -o $(DOMAIN).pot --use-first header.pot merged.pot; \
+		\
+		msgcat ../$(DOMAIN).pot --no-location --sort-output | sed -ne '/^$$/,$$p' > old; \
+		msgcat $(DOMAIN).pot --no-location --sort-output | sed -ne '/^$$/,$$p' > new; \
+		if diff -u old new; then \
+			echo No changes; \
+		else \
+			mv $(DOMAIN).pot ..; \
+		fi; \
 	cd -; \
 	rm -rf workdir
 

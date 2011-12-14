@@ -38,6 +38,12 @@ $irc_server_port = 6667;
 // and the associated project name
 //      Project Name -> IRC Channel(s),
 //      Second Project' => array('#issues_2', '#byrocrate'),
+// If you want to use IRC message categories (only applies if you have a custom workflow backend)
+// the list of channels should be an associated array with the channel for the key and an array of categories
+// for the value:
+//      Project => array(
+//          '#issues_2' =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT, 'other')
+//      )
 $irc_channels = array(
 	'Default Project' => '#issues',
 );

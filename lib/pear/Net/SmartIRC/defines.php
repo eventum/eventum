@@ -6,9 +6,9 @@
  * $Date: 2004-06-29 03:05:55 +0930 (Tue, 29 Jun 2004) $
  *
  * Copyright (c) 2002-2004 Mirco Bauer <meebey@meebey.net> <http://www.meebey.net>
- *
+ * 
  * Full LGPL License: <http://www.gnu.org/licenses/lgpl.txt>
- *
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -233,3 +233,4 @@ foreach ($SMARTIRC_replycodes as $key => $value) {
     define('SMARTIRC_'.$key, $value);
     $SMARTIRC_nreplycodes[$value] = $key;
 }
+?>

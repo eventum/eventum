@@ -77,7 +77,7 @@ class Search
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = array(
-            'rows'           => Misc::escapeInteger($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
+            'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
             'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow')),
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
@@ -85,6 +85,8 @@ class Search
             "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
+            'match_mode'     => self::getParam('match_mode'),
+            'hide_excerpts'  => self::getParam('hide_excerpts'),
             'search_type'    => Misc::stripHTML($search_type),
             'users'          => Misc::escapeInteger(self::getParam('users')),
             'status'         => Misc::escapeInteger(self::getParam('status')),
@@ -256,6 +258,7 @@ class Search
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+
         // join custom fields if we are searching by custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
             foreach ($options['custom_field'] as $fld_id => $search_value) {
@@ -270,7 +273,7 @@ class Search
                     continue;
                 }
                 if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeInteger($search_value);
+                    $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
                     }
@@ -280,6 +283,7 @@ class Search
             }
         }
         $stmt .= ")";
+
         // check for the custom fields we want to sort by
         if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_id = str_replace("custom_field_", '', $options['sort_by']);
@@ -288,6 +292,7 @@ class Search
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
+
         if (!empty($options["users"]) || $options["sort_by"] === "isu_usr_id") {
             $stmt .= "
                  LEFT JOIN
@@ -363,98 +368,107 @@ class Search
                 "list" => "",
                 "info" => ""
             );
-        } else {
-            if (count($res) > 0) {
-                Issue::getAssignedUsersByIssues($res);
-                Time_Tracking::getTimeSpentByIssues($res);
-                // need to get the customer titles for all of these issues...
-                if (Customer::hasCustomerIntegration($prj_id)) {
-                    Customer::getCustomerTitlesByIssues($prj_id, $res);
-                    Customer::getSupportLevelsByIssues($prj_id, $res);
-                }
-                Issue::formatLastActionDates($res);
-                Issue::getLastStatusChangeDates($prj_id, $res);
-            } elseif ($current_row > 0) {
-                // if there are no results, and the page is not the first page reset page to one and reload results
-                Auth::redirect("list.php?pagerRow=0&rows=$max");
-            }
-            $groups = Group::getAssocList($prj_id);
-            $categories = Category::getAssocList($prj_id);
-            $column_headings = Issue::getColumnHeadings($prj_id);
-            if (count($custom_fields) > 0) {
-                $column_headings = array_merge($column_headings,$custom_fields);
-            }
-            $csv[] = @implode("\t", $column_headings);
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
-                $res[$i]["iss_created_date"] = Date_Helper::getFormattedDate($res[$i]["iss_created_date"]);
-                $res[$i]["iss_expected_resolution_date"] = Date_Helper::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
-                $fields = array(
-                    $res[$i]['pri_title'],
-                    $res[$i]['iss_id'],
-                    $res[$i]['usr_full_name'],
-                );
-                // hide the group column from the output if no
-                // groups are available in the database
-                if (count($groups) > 0) {
-                    $fields[] = $res[$i]['group'];
-                }
-                $fields[] = $res[$i]['assigned_users'];
-                $fields[] = $res[$i]['time_spent'];
-                // hide the category column from the output if no
-                // categories are available in the database
-                if (count($categories) > 0) {
-                    $fields[] = $res[$i]['prc_title'];
-                }
-                if (Customer::hasCustomerIntegration($prj_id)) {
-                    $fields[] = @$res[$i]['customer_title'];
-                    // check if current user is acustomer and has a per incident contract.
-                    // if so, check if issue is redeemed.
-                    if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
-                        if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
-                                (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
-                            $res[$i]['redeemed'] = true;
-                        }
-                    }
-                }
-                $fields[] = $res[$i]['sta_title'];
-                $fields[] = $res[$i]["status_change_date"];
-                $fields[] = $res[$i]["last_action_date"];
-                $fields[] = $res[$i]['iss_dev_time'];
-                $fields[] = $res[$i]['iss_summary'];
-                $fields[] = $res[$i]['iss_expected_resolution_date'];
-
-                if (count($custom_fields) > 0) {
-                    $res[$i]['custom_field'] = array();
-                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
-                    foreach ($custom_field_values as $this_field) {
-                        if (!empty($custom_fields[$this_field['fld_id']])) {
-                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['value'];
-                            $fields[] = $this_field['value'];
-                        }
-                    }
-                }
-
-                $csv[] = @implode("\t", $fields);
-            }
-            $total_pages = ceil($total_rows / $max);
-            $last_page = $total_pages - 1;
-            return array(
-                "list" => $res,
-                "info" => array(
-                    "current_page"  => $current_row,
-                    "start_offset"  => $start,
-                    "end_offset"    => $start + count($res),
-                    "total_rows"    => $total_rows,
-                    "total_pages"   => $total_pages,
-                    "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
-                    "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                    "last_page"     => $last_page,
-                    "custom_fields" => $custom_fields
-                ),
-                "csv" => @implode("\n", $csv)
-            );
         }
+
+        if (count($res) > 0) {
+            Issue::getAssignedUsersByIssues($res);
+            Time_Tracking::getTimeSpentByIssues($res);
+            // need to get the customer titles for all of these issues...
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                Customer::getCustomerTitlesByIssues($prj_id, $res);
+                Customer::getSupportLevelsByIssues($prj_id, $res);
+            }
+            Issue::formatLastActionDates($res);
+            Issue::getLastStatusChangeDates($prj_id, $res);
+        } elseif ($current_row > 0) {
+            // if there are no results, and the page is not the first page reset page to one and reload results
+            Auth::redirect("list.php?pagerRow=0&rows=$max");
+        }
+
+        $groups = Group::getAssocList($prj_id);
+        $categories = Category::getAssocList($prj_id);
+        $column_headings = Issue::getColumnHeadings($prj_id);
+        if (count($custom_fields) > 0) {
+            $column_headings = array_merge($column_headings,$custom_fields);
+        }
+        $csv[] = @implode("\t", $column_headings);
+
+        if ($options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
+           $excerpts = self::getFullTextExcerpts();
+        }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $issue_id = $res[$i]['iss_id'];
+            $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
+            $res[$i]["iss_created_date"] = Date_Helper::getFormattedDate($res[$i]["iss_created_date"]);
+            $res[$i]["iss_expected_resolution_date"] = Date_Helper::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
+            $res[$i]["excerpts"] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+            $fields = array(
+                $res[$i]['pri_title'],
+                $res[$i]['iss_id'],
+                $res[$i]['usr_full_name'],
+            );
+            // hide the group column from the output if no
+            // groups are available in the database
+            if (count($groups) > 0) {
+                $fields[] = $res[$i]['group'];
+            }
+            $fields[] = $res[$i]['assigned_users'];
+            $fields[] = $res[$i]['time_spent'];
+            // hide the category column from the output if no
+            // categories are available in the database
+            if (count($categories) > 0) {
+                $fields[] = $res[$i]['prc_title'];
+            }
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                $fields[] = @$res[$i]['customer_title'];
+                // check if current user is acustomer and has a per incident contract.
+                // if so, check if issue is redeemed.
+                if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
+                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
+                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
+                        $res[$i]['redeemed'] = true;
+                    }
+                }
+            }
+            $fields[] = $res[$i]['sta_title'];
+            $fields[] = $res[$i]["status_change_date"];
+            $fields[] = $res[$i]["last_action_date"];
+            $fields[] = $res[$i]['iss_dev_time'];
+            $fields[] = $res[$i]['iss_summary'];
+            $fields[] = $res[$i]['iss_expected_resolution_date'];
+
+            if (count($custom_fields) > 0) {
+                $res[$i]['custom_field'] = array();
+                $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
+                foreach ($custom_field_values as $this_field) {
+                    if (!empty($custom_fields[$this_field['fld_id']])) {
+                        $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['value'];
+                        $fields[] = $this_field['value'];
+                    }
+                }
+            }
+
+            $csv[] = @implode("\t", $fields);
+        }
+
+        $total_pages = ceil($total_rows / $max);
+        $last_page = $total_pages - 1;
+        return array(
+            "list" => $res,
+            "info" => array(
+                "current_page"  => $current_row,
+                "start_offset"  => $start,
+                "end_offset"    => $start + count($res),
+                "total_rows"    => $total_rows,
+                "total_pages"   => $total_pages,
+                "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
+                "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
+                "last_page"     => $last_page,
+                "custom_fields" => $custom_fields
+            ),
+            "csv" => @implode("\n", $csv)
+        );
     }
 
     /**
@@ -598,11 +612,12 @@ class Search
                 }
 
                 if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeInteger($search_value);
+                    $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
+                        $cfo_id = Misc::escapeString($cfo_id);
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_iss_id = iss_id";
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = $cfo_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
@@ -667,69 +682,60 @@ class Search
             return Session::get('fulltext_issues');
         }
 
-        // no pre-existing list, generate them
-        $stmt = "(SELECT
-                    DISTINCT(iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                     MATCH(iss_summary, iss_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(not_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
-                 WHERE
-                     MATCH(not_note) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(ttr_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
-                 WHERE
-                     MATCH(ttr_summary) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                    DISTINCT(phs_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
-                 WHERE
-                     MATCH(phs_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 ) UNION (
-                 SELECT
-                     DISTINCT(sup_iss_id)
-                 FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
-                 WHERE
-                     sup_id = seb_sup_id AND
-                     MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
-                 )";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return array(-1);
-        } else {
-            $stmt = "SELECT
-                        DISTINCT(icf_iss_id)
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                    WHERE
-                        MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-            $custom_res = DB_Helper::getInstance()->getCol($stmt);
-            if (PEAR::isError($custom_res)) {
-                Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
-                return array(-1);
-            }
-            $issues = array_merge($res, $custom_res);
-            // we kill the query results on purpose to flag that no
-            // issues could be found with fulltext search
-            if (count($issues) < 1) {
-                $issues = array(-1);
-            }
-            Session::set('fulltext_string', $options['keywords']);
-            Session::set('fulltext_issues', $issues);
-            return $issues;
+        $fulltext = self::getFullTextSearchInstance();
+        $issues = $fulltext->getIssueIDs($options);
+
+        if (count($issues) < 1) {
+            $issues = array(-1); // no results, kill the query
         }
+
+        Session::set('fulltext_string', $options['keywords']);
+        Session::set('fulltext_issues', $issues);
+        return $issues;
+    }
+
+    /**
+     * This needs to be called after getFullTextIssues
+     *
+     * @return void
+     */
+    public function getFullTextExcerpts()
+    {
+        if (APP_ENABLE_FULLTEXT) {
+            return self::getFullTextSearchInstance()->getExcerpts();
+        } else {
+            return array();
+        }
+    }
+
+
+    /**
+     * @static
+     * @return Abstract_Fulltext_Search
+     */
+    private static function getFullTextSearchInstance()
+    {
+        static $instance = false;
+
+        if ($instance == false) {
+            require_once APP_INC_PATH . "/search/class." . APP_FULLTEXT_SEARCH_CLASS . ".php";
+
+            $class = APP_FULLTEXT_SEARCH_CLASS;
+
+            $instance = new $class();
+        }
+        return $instance;
+    }
+
+
+    public static function getMatchModes()
+    {
+        return self::getFullTextSearchInstance()->getMatchModes();
+    }
+
+
+    public static function doesBackendSupportExcerpts()
+    {
+        return self::getFullTextSearchInstance()->supportsExcerpts();
     }
 }

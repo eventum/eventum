@@ -80,6 +80,7 @@ $prefs = $setup['monitor'];
 
 $errors += Monitor::checkDatabase();
 $errors += Monitor::checkMailQueue();
+$errors += Monitor::checkMailAssociation();
 
 if ($prefs['diskcheck']['status'] == 'enabled') {
     $errors += Monitor::checkDiskspace($prefs['diskcheck']['partition']);

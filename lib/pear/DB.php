@@ -20,7 +20,7 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: DB.php,v 1.88 2007/08/12 05:27:25 aharvey Exp $
+ * @version    CVS: $Id: DB.php 315557 2011-08-26 14:32:35Z danielc $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -426,7 +426,7 @@ define('DB_PORTABILITY_ALL', 63);
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  */
 class DB
@@ -576,7 +576,7 @@ class DB
      */
     function apiVersion()
     {
-        return '1.7.13';
+        return '1.7.14';
     }
 
     // }}}
@@ -591,7 +591,7 @@ class DB
      */
     function isError($value)
     {
-        return is_a($value, 'DB_Error');
+        return is_object($value) && is_a($value, 'DB_Error');
     }
 
     // }}}
@@ -940,7 +940,7 @@ class DB
  * @author     Stig Bakken <ssb@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  */
 class DB_Error extends PEAR_Error
@@ -987,7 +987,7 @@ class DB_Error extends PEAR_Error
  * @author     Stig Bakken <ssb@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  */
 class DB_result
@@ -1452,7 +1452,7 @@ class DB_result
  * @author     Stig Bakken <ssb@php.net>
  * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.7.13
+ * @version    Release: 1.7.14
  * @link       http://pear.php.net/package/DB
  * @see        DB_common::setFetchMode()
  */
