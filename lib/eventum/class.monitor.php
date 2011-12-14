@@ -56,6 +56,40 @@ class Monitor
         return $errors;
     }
 
+    /**
+     * Checks the associated emails page (emails.php) that there aren't any unassociated mails
+     *
+     * @see class.support.php getEmailListing()
+     * @access  public
+     * @return  integer Number of mails not associated.
+     */
+    function checkMailAssociation()
+    {
+        // TODO: optimize this
+        // TODO: should we check it per project?
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    (
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    )
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    ON
+                        sup_iss_id = iss_id
+                    WHERE sup_removed=0 AND sup_ema_id=ema_id AND sup_iss_id = 0
+        ";
+        $res = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        if ($res > 0) {
+            echo ev_gettext('ERROR: There is a total of %d emails not associated.', $res), "\n";
+        }
+        return $res;
+    }
 
     /**
      * Checks the free disk space status on the server.
@@ -99,7 +133,7 @@ class Monitor
                 continue;
             }
             // check the owner and group for these files
-            list($owner, $group) = self::_getOwnerAndGroup($file_path);
+            list($owner, $group) = self::getOwnerAndGroup($file_path);
             if (!empty($options['check_owner']) && $options['owner'] != $owner) {
                 echo ev_gettext('ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path, $owner, $options['owner']), "\n";
                 $errors++;
@@ -109,7 +143,7 @@ class Monitor
                 $errors++;
             }
             // check permission bits
-            $perm = self::_getOctalPerms($file_path);
+            $perm = self::getOctalPerms($file_path);
             if (!empty($options['check_permission']) && $options['permission'] != $perm) {
                 echo ev_gettext('ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $file_path, $perm, $options['permission']), "\n";
                 $errors++;
@@ -141,7 +175,7 @@ class Monitor
                 continue;
             }
             // check permission bits
-            $perm = self::_getOctalPerms($dir_path);
+            $perm = self::getOctalPerms($dir_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
                 echo ev_gettext('ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $dir_path, $perm, $options['permission']), "\n";
                 $errors++;
@@ -227,7 +261,7 @@ class Monitor
         );
 
         // add the table prefix to all of the required tables
-        $required_tables = Misc::array_map_deep($required_tables, array(__CLASS__, '_add_table_prefix'));
+        $required_tables = Misc::array_map_deep($required_tables, array(__CLASS__, 'add_table_prefix'));
 
         // check if all of the required tables are really there
         $stmt = "SHOW TABLES";
@@ -270,11 +304,11 @@ class Monitor
      * do exist in the appropriate database. It returns the given
      * table name prepended with the appropriate table prefix.
      *
-     * @access  private
+     * @static
      * @param   string $table_name The table name
      * @return  string The table name with the prefix added to it
      */
-    public static function _add_table_prefix($table_name)
+    public static function add_table_prefix($table_name)
     {
         return APP_TABLE_PREFIX . $table_name;
     }
@@ -283,11 +317,11 @@ class Monitor
     /**
      * Returns the owner and group name for the given file.
      *
-     * @access  private
+     * @static
      * @param   string $file The full path to the file
      * @return  array The owner and group name associated with that file
      */
-    private static function _getOwnerAndGroup($file)
+    private static function getOwnerAndGroup($file)
     {
         $owner_info = posix_getpwuid(fileowner($file));
         $group_info = posix_getgrgid(filegroup($file));
@@ -301,11 +335,11 @@ class Monitor
     /**
      * Returns the octal permission string for a given file.
      *
-     * @access  private
+     * @static
      * @param   string $file The full path to the file
      * @return  string The octal permission string
      */
-    private static function _getOctalPerms($file)
+    private static function getOctalPerms($file)
     {
         return substr(sprintf("%o", fileperms($file)), -3);
     }

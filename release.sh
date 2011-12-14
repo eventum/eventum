@@ -2,8 +2,8 @@
 set -e
 set -x
 app=eventum
-rc=dev # development version
-#rc=RC1 # release candidate
+#rc=dev # development version
+rc=RC1 # release candidate
 #rc= # release
 dir=$app
 
@@ -44,7 +44,7 @@ rm -rf tests
 
 # sanity check
 if [ "$rc" != "dev" ]; then
-	find -name '*.php' | xargs -l1 php -l
+	find -name '*.php' | xargs -l1 php -n -l
 fi
 
 rm -rf .bzr*

@@ -57,7 +57,7 @@ class DB_Helper
 	            /** @global $error_type  */
                 $error_type = "db";
                 require_once APP_PATH . "/htdocs/offline.php";
-                exit(1);
+                exit(2);
             }
         }
         return self::$instance->dbh;

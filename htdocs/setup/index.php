@@ -445,6 +445,7 @@ $private_key = "' . md5(microtime()) . '";
             return getErrorMessage($type, mysql_error());
         }
     }
+
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
         $_POST['db_username'] = $_POST['eventum_user'];
@@ -499,6 +500,14 @@ $private_key = "' . md5(microtime()) . '";
     $_REQUEST['setup']['allow_unassigned_issues'] = 'yes';
     $_REQUEST['setup']['support_email'] = 'enabled';
     Setup::save($_REQUEST['setup']);
+
+    // after config has been written down, we can finish database setup by calling upgrade script
+    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+    exec("$upgrade_script 2>&1", $upgrade_log, $rc);
+    if ($rc != 0) {
+        $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+        return "Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.";
+    }
 
     return 'success';
 }

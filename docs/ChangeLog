@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2011-??-??, Version ???
+2011-12-??, Version 2.3.2
 - Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 - Separate search methods to new Search class (Elan Ruusamäe)
 - fix new users are creation groups (group id was 0, should be NULL) bug #806083
@@ -12,11 +12,14 @@ Eventum Issue Tracking System
 - Added preference to allow users to get copies of their own emails (Bryan)
 - Changed view email window to display sequential email ID instead of raw ID (Bryan)
 - Minor fixes to get Custom Field to work whose key is stringual, r4363 (Elan Ruusamäe)
-- Update bundled jQuery to 1.6.2 (Elan Ruusamäe)
+- Update bundled jQuery to 1.6.4 (Elan Ruusamäe)
 - Added option to notify specific IRC users and categorize messages (Bryan Alsdorf)
 - Added new workflow method formatIRCMessage (Bryan Alsdorf)
 - Port expandable cell to jQuery (Elan Ruusamäe)
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
+- Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
+- Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
+- Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

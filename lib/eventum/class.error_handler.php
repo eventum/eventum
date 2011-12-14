@@ -61,7 +61,7 @@ class Error_Handler
         }
         
         $setup = Setup::load();
-        if ($setup['email_error']['status'] == 'enabled') {
+        if (isset($setup['email_error']['status']) && $setup['email_error']['status'] == 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);
             if (empty($notify_list)) {
                 return false;

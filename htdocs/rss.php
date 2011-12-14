@@ -33,16 +33,15 @@ if (empty($setup['tool_caption'])) {
     $setup['tool_caption'] = APP_NAME;
 }
 
-function authenticate()
-{
+function sendAuthenticateHeader() {
     global $setup;
 
+    // FIXME: escape tool_caption properly
     header('WWW-Authenticate: Basic realm="' . $setup['tool_caption'] . '"');
     header('HTTP/1.0 401 Unauthorized');
 }
 
-function returnError($msg)
-{
+function returnError($msg) {
     header("Content-Type: text/xml");
     echo '<?xml version="1.0"?>' . "\n";
 ?>
@@ -61,59 +60,77 @@ function returnError($msg)
 <?php
 }
 
-// Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
-// not set on that particular platform. Instead what you get is a base64 encoded
-// value of the username:password under HTTP_AUTHORIZATION
-if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
-    $pieces = explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
-    $_SERVER['PHP_AUTH_USER'] = $pieces[0];
-    $_SERVER['PHP_AUTH_PW'] = $pieces[1];
-} elseif ((!empty($_SERVER['ALL_HTTP'])) && (strstr($_SERVER['ALL_HTTP'], 'HTTP_AUTHORIZATION'))) {
-    preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $_SERVER['ALL_HTTP'], $matches);
-    if (count($matches) > 0) {
-        $pieces = explode(':', base64_decode($matches[1]));
-        $_SERVER['PHP_AUTH_USER'] = $pieces[0];
-        $_SERVER['PHP_AUTH_PW'] = $pieces[1];
+/**
+ * Extract HTTP Authorization data from HTTP headers
+ * @return array($username, $password)
+ */
+function getAuthData() {
+    // Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
+    // not set on that particular platform. Instead what you get is a base64 encoded
+    // value of the username:password under HTTP_AUTHORIZATION
+    if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+        return explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
     }
+
+    if ((!empty($_SERVER['ALL_HTTP'])) && (strstr($_SERVER['ALL_HTTP'], 'HTTP_AUTHORIZATION'))) {
+        preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $_SERVER['ALL_HTTP'], $matches);
+        if (count($matches) > 0) {
+            return explode(':', base64_decode($matches[1]));
+        }
+    }
+
+    return null;
 }
 
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
-    authenticate();
-    echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
-    exit;
-} else {
+/**
+ * Authorize request.
+ * @return authorized username (email). exits program if failed
+ * TODO: translations
+ * TODO: ip based control
+ */
+function authorizeRequest() {
+    $authData = getAuthData();
+    if ($authData === null) {
+        sendAuthenticateHeader();
+        echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
+        exit;
+    }
+
+    list($authUser, $authPassword) = $authData;
+    $usr_id = User::getUserIDByEmail($authUser);
+
     // check the authentication
-    if (Validation::isWhitespace($_SERVER['PHP_AUTH_USER'])) {
-        authenticate();
+    if (Validation::isWhitespace($authUser)) {
+        sendAuthenticateHeader();
         echo 'Error: Please provide your email address.';
         exit;
     }
-    if (Validation::isWhitespace($_SERVER['PHP_AUTH_PW'])) {
-        authenticate();
+    if (Validation::isWhitespace($authPassword)) {
+        sendAuthenticateHeader();
         echo 'Error: Please provide your password.';
         exit;
     }
     // check if user exists
-    if (!Auth::userExists($_SERVER['PHP_AUTH_USER'])) {
-        authenticate();
+    if (!Auth::userExists($authUser)) {
+        sendAuthenticateHeader();
         echo 'Error: The user specified does not exist.';
         exit;
     }
     // check if the password matches
-    if (!Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-        authenticate();
+    if (!Auth::isCorrectPassword($authUser, $authPassword)) {
+        sendAuthenticateHeader();
         echo 'Error: The provided email address/password combo is not correct.';
         exit;
     }
     // check if this user did already confirm his account
-    if (Auth::isPendingUser($_SERVER['PHP_AUTH_USER'])) {
-        authenticate();
+    if (Auth::isPendingUser($authUser)) {
+        sendAuthenticateHeader();
         echo 'Error: The provided user still needs to have its account confirmed.';
         exit;
     }
     // check if this user is really an active one
-    if (!Auth::isActiveUser($_SERVER['PHP_AUTH_USER'])) {
-        authenticate();
+    if (!Auth::isActiveUser($authUser)) {
+        sendAuthenticateHeader();
         echo 'Error: The provided user is currently set as an inactive user.';
         exit;
     }
@@ -124,18 +141,21 @@ if (!isset($_SERVER['PHP_AUTH_USER'])) {
         exit;
     }
 
-    $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER']);
+    $usr_id = User::getUserIDByEmail($authUser);
     // check if the passed 'custom_id' parameter is associated with the usr_id
     if ((!Filter::isGlobal($_GET['custom_id'])) && (!Filter::isOwner($_GET['custom_id'], $usr_id))) {
         returnError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }
+
+    return $authUser;
 }
 
+$authUser = authorizeRequest();
 
 $filter = Filter::getDetails($_GET["custom_id"], FALSE);
 
-Auth::createFakeCookie(User::getUserIDByEmail($_SERVER['PHP_AUTH_USER']), $filter['cst_prj_id']);
+Auth::createFakeCookie(User::getUserIDByEmail($authUser), $filter['cst_prj_id']);
 
 $options = array(
     'users'         => $filter['cst_users'],
@@ -153,6 +173,8 @@ $issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
 $issues = $issues['list'];
 $project_title = Project::getName($filter['cst_prj_id']);
 Issue::getDescriptionByIssues($issues);
+
+# TODO: reporter is not present
 
 Header("Content-Type: text/xml; charset=" . APP_CHARSET);
 echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
