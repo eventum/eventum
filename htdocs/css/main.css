@@ -317,6 +317,10 @@ div#global_messages span {
     -moz-border-radius: 0.5em;
 }
 
+div#global_messages div.note_box span {
+    color: #000000;
+}
+
 div#full_width_messages div#global_messages span {
     display: block;
 }

@@ -734,6 +734,7 @@ class Misc
     const MSG_WARNING = 'warning';
     const MSG_ERROR = 'error';
     const MSG_HTML_BOX = 'html_box';
+    const MSG_NOTE_BOX = 'note_box';
 
     public static function setMessage($msg, $type=self::MSG_INFO)
     {
@@ -751,6 +752,17 @@ class Misc
         $messages = Session::get('messages', array());
         Session::set('messages', array());
         return $messages;
+    }
+
+
+    public static function mapMessages($result, $map)
+    {
+        foreach ($map as $val => $info) {
+            if ($result == $val) {
+                Misc::setMessage($info[0], $info[1]);
+                return;
+            }
+        }
     }
 
 

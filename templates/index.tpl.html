@@ -25,7 +25,7 @@ function validateForm(f)
 {/literal}
 <form id="login_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
 <input type="hidden" name="cat" value="login">
-<input type="hidden" name="url" value="">
+<input type="hidden" name="url" value="{$smarty.request.url|default:''}">
 
 <h1>{$core.app_title} - {t}Login{/t}</h1>
 <table>

@@ -83,6 +83,44 @@ Eventum.escapeSelector = function(selector)
     return selector.replace(/\[/, '\\[').replace(/\]/, '\\]');
 }
 
+Eventum.getField = function(name_or_obj)
+{
+    if ($.type(name_or_obj) == 'string') {
+        return $('[name="' + name_or_obj + '"]')
+    }
+    return name_or_obj;
+}
+
+Eventum.toggleCheckAll = function(field_name)
+{
+    var fields = Eventum.getField(field_name);
+    fields.prop('checked', !fields.prop('checked'));
+}
+
+Eventum.selectOption = function(field, new_values)
+{
+    // adds the specified values to the list of select options
+
+    field = Eventum.getField(field)
+
+    var values = field.val()
+    if (values == null) {
+        values = new Array();
+    }
+    values.push(new_values);
+    field.val(values);
+}
+
+Eventum.removeOptionByValue = function(field, value)
+{
+    var field = Eventum.getField(field);
+    for (var i = 0; i < field[0].options.length; i++) {
+        if (field[0].options[i].value == value) {
+            field[0].options[i] = null;
+        }
+    }
+}
+
 
 
 function Validation()
@@ -91,6 +129,7 @@ function Validation()
 
 Validation.selectField = function(field)
 {
+    field = Eventum.getField(field);
     if (field.attr('type') != 'hidden') {
         field.focus();
     }
@@ -118,8 +157,18 @@ Validation.showErrorIcon = function(field, show)
     }
 }
 
+Validation.isFieldWhitespace = function(field)
+{
+    field = Eventum.getField(field);
+    return Validation.isWhitespace(field.val());
+}
+
 Validation.isWhitespace = function(s)
 {
+    if (s == null) {
+        return true;
+    }
+
     var whitespace = " \t\n\r";
 
     if (s.length == 0) {
@@ -148,7 +197,57 @@ Validation.isNumberOnly = function(s)
 
 Validation.hasOneSelected = function(field)
 {
-    if (field.val().length > 0) {
+    field = Eventum.getField(field);
+    if (field.val() != null && field.val().length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+Validation.isEmail = function(s)
+{
+    // email text field.
+    var sLength = s.length;
+    var denied_chars = new Array(" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|");
+
+    // look for @
+    if (s.indexOf("@") == -1) return false;
+
+    // look for more than one @ sign
+    if (s.indexOf("@") != s.lastIndexOf("@")) return false;
+
+    // look for any special character
+    for (var z = 0; z < denied_chars.length; z++) {
+        if (s.indexOf(denied_chars[z]) != -1) return false;
+    }
+
+    // look for a dot, but also allow for a user@localhost address
+    if ((s.indexOf(".") == -1) && (s.substring(s.lastIndexOf('@'), s.length) != '@localhost')) {
+        return false;
+    }
+
+    // no two dots alongside each other
+    if (s.indexOf("..") != -1) return false;
+
+    // you can't have and @ and a dot
+    if (s.indexOf("@.") != -1) return false;
+
+    // the last character cannot be a .
+    if ((s.substring(s.lastIndexOf('@'), s.length) != '@localhost.') && (
+            (s.charAt(sLength-1) == ".") ||
+            (s.charAt(sLength-1) == "_"))) {
+        return false;
+    }
+
+    return true;
+}
+
+
+Validation.hasOneChecked = function(field)
+{
+    field = Eventum.getField(field);
+    if (field.filter(':checked').length > 0) {
         return true;
     } else {
         return false;

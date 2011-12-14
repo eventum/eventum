@@ -77,44 +77,6 @@ function confirmCloseWindow()
     }
 }
 
-function isEmail(s)
-{
-    // email text field.
-    var sLength = s.length;
-    var denied_chars = new Array(" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|");
-
-    // look for @
-    if (s.indexOf("@") == -1) return false;
-
-    // look for more than one @ sign
-    if (s.indexOf("@") != s.lastIndexOf("@")) return false;
-
-    // look for any special character
-    for (var z = 0; z < denied_chars.length; z++) {
-        if (s.indexOf(denied_chars[z]) != -1) return false;
-    }
-
-    // look for a dot, but also allow for a user@localhost address
-    if ((s.indexOf(".") == -1) && (s.substring(s.lastIndexOf('@'), s.length) != '@localhost')) {
-        return false;
-    }
-
-    // no two dots alongside each other
-    if (s.indexOf("..") != -1) return false;
-
-    // you can't have and @ and a dot
-    if (s.indexOf("@.") != -1) return false;
-
-    // the last character cannot be a .
-    if ((s.substring(s.lastIndexOf('@'), s.length) != '@localhost.') && (
-            (s.charAt(sLength-1) == ".") ||
-            (s.charAt(sLength-1) == "_"))) {
-        return false;
-    }
-
-    return true;
-}
-
 function hasDeniedChars(s)
 {
     var denied_chars = new Array(" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "+", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|");
@@ -146,21 +108,6 @@ function hasOneSelected(f, field_name)
 function hasSelected(field, value)
 {
     return field.options[field.selectedIndex].value == value;
-}
-
-function hasOneChecked(f, field_name)
-{
-    var found = 0;
-    for (var i = 0; i < f.elements.length; i++) {
-        if ((f.elements[i].name == field_name) && (f.elements[i].checked)) {
-            found = 1;
-        }
-    }
-    if (found == 0) {
-        return false;
-    } else {
-        return true;
-    }
 }
 
 function isDigit(c)

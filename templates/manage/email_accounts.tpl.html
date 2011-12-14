@@ -1,308 +1,271 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (f.project.selectedIndex == 0) {
-                      alert('{/literal}{t escape=js}Please choose the project to be associated with this email account.{/t}{literal}');
-                      selectField(f, 'project');
-                      return false;
-                  }
-                  if (f.type.selectedIndex == 0) {
-                      alert('{/literal}{t escape=js}Please choose the type of email server to be associated with this email account.{/t}{literal}');
-                      selectField(f, 'type');
-                      return false;
-                  }
-                  if (isWhitespace(f.hostname.value)) {
-                      alert('{/literal}{t escape=js}Please enter the hostname for this email account.{/t}{literal}');
-                      selectField(f, 'hostname');
-                      return false;
-                  }
-                  if (isWhitespace(f.port.value)) {
-                      alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
-                      selectField(f, 'port');
-                      return false;
-                  }
-                  if (!isNumberOnly(f.port.value)) {
-                      alert('{/literal}{t escape=js}Please enter a valid port number for this email account.{/t}{literal}');
-                      selectField(f, 'port');
-                      return false;
-                  }
-                  if (!isNumberOnly(f.port.value)) {
-                      alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
-                      selectField(f, 'port');
-                      return false;
-                  }
-                  var server_type = getSelectedOption(f, 'type');
-                  if ((server_type.indexOf('imap') != -1) && (isWhitespace(f.folder.value))) {
-                      alert('{/literal}{t escape=js}Please enter the IMAP folder for this email account.{/t}{literal}');
-                      selectField(f, 'folder');
-                      return false;
-                  }
-                  if (isWhitespace(f.username.value)) {
-                      alert('{/literal}{t escape=js}Please enter the username for this email account.{/t}{literal}');
-                      selectField(f, 'username');
-                      return false;
-                  }
-                  if (isWhitespace(f.password.value)) {
-                      alert('{/literal}{t escape=js}Please enter the password for this email account.{/t}{literal}');
-                      selectField(f, 'password');
-                      return false;
-                  }
-                  return true;
-              }
-              function toggleFolderField(f)
-              {
-                  var element = getPageElement('imap_folder');
-                  var option = getSelectedOption(f, 'type');
-                  if (option.indexOf('imap') != -1) {
-                      element.style.display = getDisplayStyle();
-                      f.folder.disabled = false;
-                  } else {
-                      element.style.display = 'none';
-                      f.folder.disabled = true;
-                  }
-              }
-              function testSettings(f)
-              {
-                  var features = 'width=320,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-                  var popupWin = window.open('', '_testEmailSettings', features);
-                  popupWin.focus();
-                  var old_action = f.action;
-                  f.action = 'check_email_settings.php';
-                  f.target = '_testEmailSettings';
-                  f.submit();
-                  f.action = old_action;
-                  f.target = '';
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="email_account_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-              {else}
-              <input type="hidden" name="cat" value="new">
-              {/if}
-              <tr>
-                <td colspan="2">
-                  <b>{t}Manage Email Accounts{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new account.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the email account was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the account information.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the account was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="100">
-                  <nobr><b>{t}Associated Project:{/t}</b></nobr>
-                </td>
-                <td width="80%">
-                  <select name="project">
-                    <option value="-1"></option>
-                    {html_options options=$all_projects selected=$info.ema_prj_id}
-                  </select>
-                  {include file="error_icon.tpl.html" field="project"}
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Type:{/t}</b>
-                </td>
-                <td width="80%">
-                  <select name="type" onChange="toggleFolderField(this.form);">
-                    <option value="-1"></option>
-                    <option value="imap" {if $info.ema_type == 'imap'}selected{/if}>{t}IMAP{/t}</option>
-                    <option value="imap/ssl" {if $info.ema_type == 'imap/ssl'}selected{/if}>{t}IMAP over SSL{/t}</option>
-                    <option value="imap/ssl/novalidate-cert" {if $info.ema_type == 'imap/ssl/novalidate-cert'}selected{/if}>{t}IMAP over SSL (self-signed){/t}</option>
-                    <option value="imap/notls" {if $info.ema_type == 'imap/notls'}selected{/if}>{t}IMAP, no TLS{/t}</option>
-                    <option value="imap/tls" {if $info.ema_type == 'imap/tls'}selected{/if}>{t}IMAP, with TLS{/t}</option>
-                    <option value="imap/tls/novalidate-cert" {if $info.ema_type == 'imap/tls/novalidate-cert'}selected{/if}>{t}IMAP, with TLS (self-signed){/t}</option>
-                    <option value="pop3" {if $info.ema_type == 'pop3'}selected{/if}>{t}POP3{/t}</option>
-                    <option value="pop3/ssl" {if $info.ema_type == 'pop3/ssl'}selected{/if}>{t}POP3 over SSL{/t}</option>
-                    <option value="pop3/ssl/novalidate-cert" {if $info.ema_type == 'pop3/ssl/novalidate-cert'}selected{/if}>{t}POP3 over SSL (self-signed){/t}</option>
-                    <option value="pop3/notls" {if $info.ema_type == 'pop3/notls'}selected{/if}>{t}POP3, no TLS{/t}</option>
-                    <option value="pop3/tls" {if $info.ema_type == 'pop3/tls'}selected{/if}>{t}POP3, with TLS{/t}</option>
-                    <option value="pop3/tls/novalidate-cert" {if $info.ema_type == 'pop3/tls/novalidate-cert'}selected{/if}>{t}POP3, with TLS (self-signed){/t}</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Hostname{/t}:</b>
-                </td>
-                <td width="80%">
-                  <input type="text" name="hostname" size="30" value="{$info.ema_hostname|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="hostname"}
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Port{/t}:</b>
-                </td>
-                <td width="80%">
-                  <input type="text" name="port" size="10" value="{$info.ema_port}"> <span>{t}(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones){/t}</span>
-                  {include file="error_icon.tpl.html" field="port"}
-                </td>
-              </tr>
-              <tr id="imap_folder">
-                <td width="100">
-                  <b>{t}IMAP Folder{/t}:/b>
-                </td>
-                <td width="80%">
-                  <input type="text" name="folder" size="20" value="{if $info.ema_folder == ""}INBOX{else}{$info.ema_folder}{/if}"> <span>{t}(default folder is INBOX){/t}</span>
-                  {include file="error_icon.tpl.html" field="folder"}
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Username{/t}:</b>
-                </td>
-                <td width="80%">
-                  <input type="text" name="username" size="20" value="{$info.ema_username|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="username"}
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Password{/t}:</b>
-                </td>
-                <td width="80%">
-                  <input type="password" name="password" size="20" value="{$info.ema_password|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="password"}
-                </td>
-              </tr>
-              <tr>
-                <td width="100">
-                  <b>{t}Advanced Options{/t}:</b>
-                </td>
-                <td width="80%">
-                  <input type="checkbox" name="get_only_new" value="1" {if $info.ema_get_only_new}checked{/if}>
-                  <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'get_only_new', 0);">{t}Only Download Unread Messages{/t}</a><br />
-                  <input type="checkbox" name="leave_copy" value="1" {if $smarty.get.cat == 'edit'}{if $info.ema_leave_copy}checked{/if}{else}checked{/if}>
-                  <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'leave_copy', 0);">{t}Leave Copy of Messages On Server{/t}</a><br />
-                  <input type="checkbox" name="use_routing" value="1" {if $info.ema_use_routing}checked{/if}>
-                  <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('email_account_form', 'use_routing', 0);">{t escape="none"}Use account for non-subject based email/note/draft routing.{/t}</a><br />
-                    <b>{t}Note{/t}:</b>: {t}If you check this, you cannot leave a copy of messages on the server.{/t}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  <input type="button" value="{t}Test Settings{/t}" onClick="testSettings(this.form);">
-                  {if $smarty.get.cat == 'edit'}
-                  <input type="submit" value="{t}Update Account{/t}">
-                  {else}
-                  <input type="submit" value="{t}Create Account{/t}">
-                  {/if}
-                  <input type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2">
-                  <b>{t}Existing Accounts:{/t}</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the accounts.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td>&nbsp;<b>{t}Associated Project{/t}</b></td>
-                      <td>&nbsp;<b>{t}Hostname{/t}</b></td>
-                      <td>&nbsp;<b>{t}Type{/t}</b></td>
-                      <td>&nbsp;<b>{t}Port{/t}</b></td>
-                      <td>&nbsp;<b>{t}Username{/t}</b></td>
-                      <td>&nbsp;<b>{t}Mailbox{/t}</b></td>
-                      <td>&nbsp;<b>{t}Auto-Creation of Issues{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" align="center" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].prj_title}</td>
-                      <td width="30%"bgcolor="{$row_color}">
-                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].ema_type}</td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].ema_port}</td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].ema_username|escape:"html"}</td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].ema_folder}</td>
-                      <td bgcolor="{$row_color}">&nbsp;<a href="issue_auto_creation.php?ema_id={$list[i].ema_id}">{$list[i].ema_issue_auto_creation|ucfirst}</a></td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="8" align="center">
-                        <i>{t}No email accounts could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td colspan="7" align="center">
-                        <input type="submit" value="{t}Delete{/t}">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      {literal}
-      <script type="text/javascript">
-      <!--
-      window.onload = setFolderField;
-      function setFolderField()
-      {
-          var f = getForm('email_account_form');
-          toggleFolderField(f);
+{block "manage_content"}              {literal}
+  <script type="text/javascript">
+  <!--
+  function validateForm()
+  {
+      var f = $('#email_account_form');
+      if (f.find('[name=project]').val() == -1) {
+          alert('{/literal}{t escape=js}Please choose the project to be associated with this email account.{/t}{literal}');
+          Validation.selectField('project');
+          return false;
       }
-      //-->
-      </script>
-      {/literal}
+      if (f.find('[name=type]').val() == -1) {
+          alert('{/literal}{t escape=js}Please choose the type of email server to be associated with this email account.{/t}{literal}');
+          Validation.selectField('type');
+          return false;
+      }
+      if (Validation.isFieldWhitespace('hostname')) {
+          alert('{/literal}{t escape=js}Please enter the hostname for this email account.{/t}{literal}');
+          Validation.selectField('hostname');
+          return false;
+      }
+      var port_val = f.find('[name=port]').val();
+      if (Validation.isWhitespace(port_val)) {
+          alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
+          Validation.selectField('port');
+          return false;
+      }
+      if (!Validation.isNumberOnly(port_val)) {
+          alert('{/literal}{t escape=js}Please enter a valid port number for this email account.{/t}{literal}');
+          Validation.selectField('port');
+          return false;
+      }
+      var server_type = f.find('[name=type]').val();
+      if ((server_type.indexOf('imap') != -1) && (Validation.isFieldWhitespace('folder'))) {
+          alert('{/literal}{t escape=js}Please enter the IMAP folder for this email account.{/t}{literal}');
+          Validation.selectField('folder');
+          return false;
+      }
+      if (Validation.isFieldWhitespace('username')) {
+          alert('{/literal}{t escape=js}Please enter the username for this email account.{/t}{literal}');
+          Validation.selectField('username');
+          return false;
+      }
+      if (Validation.isFieldWhitespace('password')) {
+          alert('{/literal}{t escape=js}Please enter the password for this email account.{/t}{literal}');
+          Validation.selectField('password');
+          return false;
+      }
+      return true;
+  }
 
+  function toggleFolderField()
+  {
+      var element = $('#imap_folder');
+      var folder = element.find('input[name=folder]');
+      if ($('select[name=type]').val().indexOf('imap') != -1) {
+          element.show();
+          folder[0].disabled = false;
+      } else {
+          element.hide();
+          folder[0].disabled = true;
+      }
+  }
+  function testSettings(f)
+  {
+      var features = 'width=320,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+      var popupWin = window.open('', '_testEmailSettings', features);
+      popupWin.focus();
+      var old_action = f.action;
+      f.action = 'check_email_settings.php';
+      f.target = '_testEmailSettings';
+      f.submit();
+      f.action = old_action;
+      f.target = '';
+  }
+  function checkDelete(f)
+  {
+      if (!Validation.hasOneChecked('items[]')) {
+          alert('{/literal}{t escape=js}Please select at least one of the accounts.{/t}{literal}');
+          return false;
+      }
+      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+          return false;
+      } else {
+          return true;
+      }
+  }
+  $().ready(function() {
+      toggleFolderField();
+      $('#email_account_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+  });
+  //-->
+  </script>
+  {/literal}
+  <form id="email_account_form"  method="post" action="{$smarty.server.PHP_SELF}">
+  {if $smarty.get.cat|default:'' == 'edit'}
+  <input type="hidden" name="cat" value="update">
+  <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+  {else}
+  <input type="hidden" name="cat" value="new">
+  {/if}
+<table class="bordered">
+  <tr class="title">
+    <th colspan="2">
+      {t}Manage Email Accounts{/t}
+    </th>
+  </tr>
+  <tr>
+    <th width="100">
+      <nobr>{t}Associated Project{/t}</nobr>
+    </th>
+    <td width="80%">
+      <select name="project">
+        <option value="-1"></option>
+        {html_options options=$all_projects selected=$info.ema_prj_id|default:''}
+      </select>
+      {include file="error_icon.tpl.html" field="project"}
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Type{/t}
+    </th>
+    <td width="80%">
+      <select name="type" onChange="toggleFolderField(this.form);">
+        <option value="-1"></option>
+        <option value="imap" {if $info.ema_type|default:'' == 'imap'}selected{/if}>{t}IMAP{/t}</option>
+        <option value="imap/ssl" {if $info.ema_type|default:'' == 'imap/ssl'}selected{/if}>{t}IMAP over SSL{/t}</option>
+        <option value="imap/ssl/novalidate-cert" {if $info.ema_type|default:'' == 'imap/ssl/novalidate-cert'}selected{/if}>{t}IMAP over SSL (self-signed){/t}</option>
+        <option value="imap/notls" {if $info.ema_type|default:'' == 'imap/notls'}selected{/if}>{t}IMAP, no TLS{/t}</option>
+        <option value="imap/tls" {if $info.ema_type|default:'' == 'imap/tls'}selected{/if}>{t}IMAP, with TLS{/t}</option>
+        <option value="imap/tls/novalidate-cert" {if $info.ema_type|default:'' == 'imap/tls/novalidate-cert'}selected{/if}>{t}IMAP, with TLS (self-signed){/t}</option>
+        <option value="pop3" {if $info.ema_type|default:'' == 'pop3'}selected{/if}>{t}POP3{/t}</option>
+        <option value="pop3/ssl" {if $info.ema_type|default:'' == 'pop3/ssl'}selected{/if}>{t}POP3 over SSL{/t}</option>
+        <option value="pop3/ssl/novalidate-cert" {if $info.ema_type|default:'' == 'pop3/ssl/novalidate-cert'}selected{/if}>{t}POP3 over SSL (self-signed){/t}</option>
+        <option value="pop3/notls" {if $info.ema_type|default:'' == 'pop3/notls'}selected{/if}>{t}POP3, no TLS{/t}</option>
+        <option value="pop3/tls" {if $info.ema_type|default:'' == 'pop3/tls'}selected{/if}>{t}POP3, with TLS{/t}</option>
+        <option value="pop3/tls/novalidate-cert" {if $info.ema_type|default:'' == 'pop3/tls/novalidate-cert'}selected{/if}>{t}POP3, with TLS (self-signed){/t}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Hostname{/t}
+    </th>
+    <td width="80%">
+      <input type="text" name="hostname" size="30" value="{$info.ema_hostname|default:''|escape:"html"}">
+      {include file="error_icon.tpl.html" field="hostname"}
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Port{/t}
+    </th>
+    <td width="80%">
+      <input type="text" name="port" size="10" value="{$info.ema_port|default:''}"> <span>{t}(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones){/t}</span>
+      {include file="error_icon.tpl.html" field="port"}
+    </td>
+  </tr>
+  <tr id="imap_folder">
+    <th width="100">
+      {t}IMAP Folder{/t}
+    </th>
+    <td width="80%">
+      <input type="text" name="folder" size="20" value="{if $info.ema_folder|default:'' == ""}INBOX{else}{$info.ema_folder}{/if}"> <span>{t}(default folder is INBOX){/t}</span>
+      {include file="error_icon.tpl.html" field="folder"}
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Username{/t}
+    </th>
+    <td width="80%">
+      <input type="text" name="username" size="20" value="{$info.ema_username|default:''|escape:"html"}">
+      {include file="error_icon.tpl.html" field="username"}
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Password{/t}
+    </th>
+    <td width="80%">
+      <input type="password" name="password" size="20" value="{$info.ema_password|default:''|escape:"html"}">
+      {include file="error_icon.tpl.html" field="password"}
+    </td>
+  </tr>
+  <tr>
+    <th width="100">
+      {t}Advanced Options{/t}
+    </th>
+    <td width="80%">
+        <label>
+            <input type="checkbox" name="get_only_new" value="1" {if $info.ema_get_only_new|default:''}checked{/if}>
+            {t}Only Download Unread Messages{/t}
+        </label><br />
+        <label>
+            <input type="checkbox" name="leave_copy" value="1" {if $smarty.get.cat|default:'' == 'edit'}{if $info.ema_leave_copy|default:''}checked{/if}{else}checked{/if}>
+            {t}Leave Copy of Messages On Server{/t}
+        </label><br />
+        <label>
+            <input type="checkbox" name="use_routing" value="1" {if $info.ema_use_routing|default:''}checked{/if}>
+            {t escape="none"}Use account for non-subject based email/note/draft routing.{/t}
+        </label><br />
+        {t}Note{/t}: {t}If you check this, you cannot leave a copy of messages on the server.{/t}
+    </td>
+  </tr>
+  <tr class="buttons">
+    <td colspan="2">
+      <input type="button" value="{t}Test Settings{/t}" onClick="testSettings(this.form);">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="submit" value="{t}Update Account{/t}">
+      {else}
+      <input type="submit" value="{t}Create Account{/t}">
+      {/if}
+      <input type="reset" value="{t}Reset{/t}">
+    </td>
+  </tr>
+</table>
+</form>
+
+<form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<input type="hidden" name="cat" value="delete">
+<table class="bordered grid">
+  <tr class="title">
+    <th colspan="2">
+      {t}Existing Accounts{/t}
+    </th>
+  </tr>
+    <tr>
+      <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+      <th>&nbsp;{t}Associated Project{/t}</th>
+      <th>&nbsp;{t}Hostname{/t}</th>
+      <th>&nbsp;{t}Type{/t}</th>
+      <th>&nbsp;{t}Port{/t}</th>
+      <th>&nbsp;{t}Username{/t}</th>
+      <th>&nbsp;{t}Mailbox{/t}</th>
+      <th>&nbsp;{t}Auto-Creation of Issues{/t}</th>
+    </tr>
+    {section name="i" loop=$list}
+    <tr class="{cycle values='odd,even'}">
+      <td width="4" align="center" nowrap><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
+      <td>&nbsp;{$list[i].prj_title}</td>
+      <td width="30%"bgcolor="{$row_color}">
+        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
+      <td>&nbsp;{$list[i].ema_type}</td>
+      <td>&nbsp;{$list[i].ema_port}</td>
+      <td>&nbsp;{$list[i].ema_username|escape:"html"}</td>
+      <td>&nbsp;{$list[i].ema_folder}</td>
+      <td>&nbsp;<a href="issue_auto_creation.php?ema_id={$list[i].ema_id}">{$list[i].ema_issue_auto_creation|ucfirst}</a></td>
+    </tr>
+    {sectionelse}
+    <tr class="no_results">
+      <td colspan="8">
+        {t}No email accounts could be found.{/t}
+      </td>
+    </tr>
+    {/section}
+    <tr class="buttons">
+      <td width="4" align="center">
+        <input type="button" value="{t}All{/t}" class="select_all">
+      </td>
+      <td colspan="7" align="center">
+        <input type="submit" value="{t}Delete{/t}">
+      </td>
+    </tr>
+  </table>
+</form>
+{/block}
