@@ -31,8 +31,9 @@ require_once dirname(__FILE__).'/../init.php';
 
 // if requested, clear the lock
 if (in_array('--fix-lock', $argv)) {
-    Lock::release('check_reminders');
-    echo "The lock file was removed successfully.\n";
+    if (Lock::release('check_reminders')) {
+        echo "The lock file was removed successfully.\n";
+    }
     exit;
 }
 

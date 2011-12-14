@@ -177,14 +177,16 @@ if ($config['fix-lock']) {
             $ema_ids = Email_Account::getAssocList($prj_id);
             foreach ($ema_ids as $ema_id => $ema_title) {
                 $lockfile = 'download_emails_' . $ema_id;
-                Lock::release($lockfile);
-                msg("Removed lock file '$lockfile'.");
+                if (Lock::release($lockfile)) {
+                    msg("Removed lock file '$lockfile'.");
+                }
             }
         }
     } else {
         $lockfile = 'download_emails_' . $account_id;
-        Lock::release($lockfile);
-        msg("Removed lock file '$lockfile'.");
+        if (Lock::release($lockfile)) {
+            msg("Removed lock file '$lockfile'.");
+        }
     }
     exit(0);
 }
