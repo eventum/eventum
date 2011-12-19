@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-16 10:20+0300\n"
-"PO-Revision-Date: 2011-10-11 21:23+0000\n"
-"Last-Translator: Mehmet Pekmezci <Unknown>\n"
+"PO-Revision-Date: 2011-12-19 02:53+0000\n"
+"Last-Translator: Kemal Birinci <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-07 05:46+0000\n"
-"X-Generator: Launchpad (build 14231)\n"
+"X-Launchpad-Export-Date: 2011-12-19 04:49+0000\n"
+"X-Generator: Launchpad (build 14525)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1041,7 +1041,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
-msgstr ""
+msgstr "Doğrulama penceresi otomatik olarak kapatılsın mı?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
@@ -1116,7 +1116,7 @@ msgstr "Hatırlatıcı Listesine Geri Dön"
 #: templates/support_emails.tpl.html templates/time_tracking.tpl.html
 #: templates/top_link.tpl.html
 msgid "Back to Top"
-msgstr ""
+msgstr "Yukarı Çık"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
@@ -1219,11 +1219,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Katalonca"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "Kategoriler ve Durumlar"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
 #: lib/eventum/class.notification.php:623
@@ -1264,7 +1264,7 @@ msgstr ""
 
 #: templates/notifications/updated.tpl.text
 msgid "Changed Fields"
-msgstr ""
+msgstr "Değiştirilen Alanlar"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
@@ -1297,7 +1297,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Çince (Basitleştirilmiş)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1376,7 +1376,7 @@ msgstr ""
 
 #: lib/eventum/class.filter.php:759
 msgid "Closed Date"
-msgstr ""
+msgstr "Kapatılma Tarihi"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
@@ -8625,11 +8625,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "manage the application settings, users, projects, etc"
-msgstr ""
+msgstr "uygulama ayarlarını, kullanıcıları, projeleri vb yönet"
 
 #: templates/navigation.tpl.html
 msgid "modify your account details and preferences"
-msgstr ""
+msgstr "hesap detaylarını ve tercihlerini düzenle"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "mon"
@@ -8637,19 +8637,19 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "month"
-msgstr ""
+msgstr "ay"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "move field down"
-msgstr ""
+msgstr "Alanı aşağı taşı"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "move field up"
-msgstr ""
+msgstr "Alanı yukarı taşı"
 
 #: templates/setup.tpl.html
 msgid "must be a valid email address"
-msgstr ""
+msgstr "geçerli bir e-posta adresi olmalıdır"
 
 #: htdocs/adv_search.php:56 htdocs/list.php:85
 #: lib/eventum/class.filter.php:666
@@ -8682,11 +8682,11 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "or"
-msgstr ""
+msgstr "veya"
 
 #: templates/setup.tpl.html
 msgid "page"
-msgstr ""
+msgstr "sayfa"
 
 #: templates/lookup_field.tpl.html
 msgid "paste or start typing here"
@@ -8694,7 +8694,7 @@ msgstr ""
 
 #: templates/emails.tpl.html
 msgid "pending"
-msgstr ""
+msgstr "beklemede"
 
 #: templates/view_form.tpl.html
 msgid "previous issue on your current active filter"
@@ -8702,7 +8702,7 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "quick search"
-msgstr ""
+msgstr "hızlı ara"
 
 #: templates/quick_filter_form.tpl.html
 msgid "quick search bar"
