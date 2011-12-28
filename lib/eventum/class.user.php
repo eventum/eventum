@@ -1565,4 +1565,22 @@ class User
         }
         return $res;
     }
+
+
+    public static function isPartner($usr_id)
+    {
+        $sql = "SELECT
+                    usr_par_code
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                WHERE
+                    usr_id = ?";
+        $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return !empty($res);
+    }
 }

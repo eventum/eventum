@@ -166,8 +166,9 @@ class Template_Helper
                     $this->assign("current_role", (integer) $role_id);
                     $this->assign("current_role_name", User::getRole($role_id));
                 }
+                $this->assign('feature_access', Access::getFeatureAccessArray($usr_id));
             }
-            $info = User::getNameEmail($usr_id);
+            $info = User::getDetails($usr_id);
             $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
@@ -180,6 +181,7 @@ class Template_Helper
             $this->assign("current_full_name", $info["usr_full_name"]);
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
+            $this->assign("is_current_user_partner", !empty($info['usr_par_code']));
             $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
             $this->assign("is_anon_user", Auth::isAnonUser());
             $this->assign("roles", User::getAssocRoleIDs());

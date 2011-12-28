@@ -31,12 +31,13 @@ require_once dirname(__FILE__) . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate("new.tpl.html");
 
-Auth::checkAuthentication(APP_COOKIE);
-if (Auth::getCurrentRole() < User::getRoleID("Reporter")) {
-    Auth::redirect("main.php");
-}
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
+
+Auth::checkAuthentication(APP_COOKIE);
+if (!Access::canCreateIssue($usr_id)) {
+    Auth::redirect("main.php");
+}
 
 // If the project has changed since the new issue form was requested, then change it back
 $issue_prj_id = !empty($_REQUEST['prj_id']) ? (int )$_REQUEST['prj_id'] : 0;

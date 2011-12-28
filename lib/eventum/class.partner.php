@@ -35,7 +35,7 @@ class Partner
      * Includes the appropriate partner backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @param   integer $par_code The partner code
+     * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
      */
     private static function &getBackend($par_code)
@@ -344,5 +344,37 @@ class Partner
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
             $backend->handleIssueChange($iss_id, $usr_id, $old_details, $changes);
         }
+    }
+
+    /**
+     * @static
+     * @param $usr_id
+     * @param string $feature create_issue, associate_emails, reports
+     * @return bool
+     */
+    public static function canUserAccessFeature($usr_id, $feature)
+    {
+        $usr_details = User::getDetails($usr_id);
+        if (!empty($usr_details['usr_par_code'])) {
+            $backend = self::getBackend($usr_details['usr_par_code']);
+            return $backend->canUserAccessFeature($usr_id, $feature);
+        }
+        return null;
+    }
+
+    /**
+     * @static
+     * @param $usr_id
+     * @param string $section partners, drafts, files, time, notes, phone
+     * @return bool
+     */
+    public static function canUserAccessIssueSection($usr_id, $section)
+    {
+        $usr_details = User::getDetails($usr_id);
+        if (!empty($usr_details['usr_par_code'])) {
+            $backend = self::getBackend($usr_details['usr_par_code']);
+            return $backend->canUserAccessIssueSection($usr_id, $section);
+        }
+        return null;
     }
 }

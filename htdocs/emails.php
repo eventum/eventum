@@ -33,7 +33,7 @@ $tpl->setTemplate("emails.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
+if (!Access::canAccessAssociateEmails(Auth::getUserID())) {
     $tpl->assign("no_access", 1);
     $tpl->displayTemplate();
     exit;

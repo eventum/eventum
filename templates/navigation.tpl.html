@@ -11,21 +11,21 @@
             {if $current_role > $roles.developer}
             <a target="_top" title="{t}manage the application settings, users, projects, etc{/t}" href="{$rel_url}manage/projects.php" class="white_link">{t}Administration{/t}</a>&nbsp;|
             {/if}
-            {if $current_role >= $roles.reporter}
+            {if $feature_access.create_issue}
             <a target="_top" title="{t}create a new issue{/t}" href="{$rel_url}new.php" class="white_link">{t}Create Issue{/t}</a>&nbsp;|
             {/if}
             <a target="_top" title="{t}list the issues stored in the system{/t}" href="{$rel_url}list.php" class="white_link">{t}List Issues{/t}</a>&nbsp;|
             {if $current_role != $roles.customer}
             <a target="_top" title="{t}get access to advanced search parameters{/t}" href="{$rel_url}adv_search.php" class="white_link">{t}Advanced Search{/t}</a>&nbsp;|
             {/if}
-            {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
+            {if $app_setup.support_email == 'enabled' and $feature_access.associate_emails}
             <a target="_top" title="{t}list available emails{/t}" href="{$rel_url}emails.php" class="white_link">{t}Associate Emails{/t}</a>&nbsp;|
             {/if}
             {if $current_role > $roles.customer}
             <a target="_top" title="{t}list all issues assigned to you{/t}" href="{$rel_url}list.php?view=my_assignments" class="white_link">{t}My Assignments{/t}</a>&nbsp;|
             {/if}
             <a target="_top" title="{t}general statistics{/t}" href="{$rel_url}main.php" class="white_link">{t}Stats{/t}</a>&nbsp;|
-            {if $current_role > $roles.customer}
+            {if $feature_access.reports}
             <a target="_top" title="{t}reporting system{/t}" href="{$rel_url}reports/index.php" class="white_link">{t}Reports{/t}</a>&nbsp;|
             {/if}
             <a target="_top" title="{t}internal faq{/t}" href="{$rel_url}faq.php" class="white_link">{t}Internal FAQ{/t}</a>&nbsp;|

@@ -217,6 +217,7 @@ class Search
         // get the current user's role
         $usr_id = Auth::getUserID();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
+        $usr_details = User::getDetails($usr_id);
 
         // get any custom fields that should be displayed
         $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
@@ -300,6 +301,14 @@ class Search
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  ON
                     isu_iss_id=iss_id";
+        }
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                 ON
+                    ipa_iss_id=iss_id";
         }
         if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= "
@@ -487,6 +496,7 @@ class Search
         $usr_id = Auth::getUserID();
         $prj_id = Auth::getCurrentProject();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
+        $usr_details = User::getDetails($usr_id);
 
         $stmt = ' AND iss_usr_id = usr_id';
         if ($role_id == User::getRoleID('Customer')) {
@@ -496,6 +506,11 @@ class Search
                         iss_usr_id = $usr_id OR
                         iur_usr_id = $usr_id
                         )";
+        }
+
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= " AND ipa_par_code = " . Misc::escapeInteger($usr_details['usr_par_code']);
         }
 
         if (!empty($options["users"])) {

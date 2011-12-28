@@ -75,4 +75,32 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
     {
         return "foo blah blah";
     }
+
+    public static function canUserAccessFeature($usr_id, $feature)
+    {
+        switch($feature) {
+            case 'create_issue':
+                return false;
+            case 'associate_emails':
+                return false;
+            case 'reports':
+                return false;
+        }
+    }
+
+    public static function canUserAccessIssueSection($usr_id, $section)
+    {
+        switch($section) {
+            case 'partners':
+                return false;
+            case 'drafts':
+                return false;
+            case 'time':
+                return false;
+            case 'notes':
+                return false;
+            case 'phone':
+                return false;
+        }
+    }
 }

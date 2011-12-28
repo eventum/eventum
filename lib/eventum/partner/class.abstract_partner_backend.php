@@ -56,4 +56,9 @@ abstract class Abstract_Partner_Backend
     public function handleIssueChange($iss_id, $usr_id, $old_details, $changes) {}
 
     public function getIssueMessage($iss_id) {}
+
+    public static function canUserAccessFeature($usr_id, $feature)
+    {
+        return null;
+    }
 }

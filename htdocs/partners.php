@@ -34,7 +34,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 
-if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Standard User"))) {
+if ((!Access::canViewDrafts($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Standard User"))) {
     $tpl = new Template_Helper();
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();

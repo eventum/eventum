@@ -3604,61 +3604,9 @@ class Issue
      * @param   integer $usr_id The ID of the user
      * @return  boolean If the user can access the issue
      */
-    function canAccess($issue_id, $usr_id)
+    public static function canAccess($issue_id, $usr_id)
     {
-        static $access;
-
-        if (empty($issue_id)) {
-            return true;
-        }
-
-        if (isset($access[$issue_id . "-" . $usr_id])) {
-            return $access[$issue_id . "-" . $usr_id];
-        }
-
-        $details = self::getDetails($issue_id);
-        if (empty($details)) {
-            return true;
-        }
-        $usr_details = User::getDetails($usr_id);
-        $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
-        $prj_id = self::getProjectID($issue_id);
-
-
-        if (empty($usr_role)) {
-            // check if they are even allowed to access the project
-            $return = false;
-        } elseif ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
-                ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
-            // check customer permissions
-            $return = false;
-        } elseif ($details['iss_private'] == 1) {
-            // check if the issue is even private
-
-            // check role, reporter, assigment and group
-            if ($usr_role > User::getRoleID("Developer")) {
-                $return = true;
-            } elseif ($details['iss_usr_id'] == $usr_id) {
-                $return = true;
-            } elseif (self::isAssignedToUser($issue_id, $usr_id)) {
-                $return = true;
-            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
-                        ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
-                $return = true;
-            } elseif (Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)) {
-                $return = true;
-            } else {
-                $return = false;
-            }
-        } elseif ((Auth::getCurrentRole() == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)) &&
-                ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
-            return false;
-        } else {
-            $return = true;
-        }
-
-        $access[$issue_id . "-" . $usr_id] = $return;
-        return $return;
+        return Access::canAccessIssue($issue_id, $usr_id);
     }
 
 

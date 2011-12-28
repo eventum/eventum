@@ -28,35 +28,44 @@
   <div class="view_issue_seperator"></div>
   {include file="custom_fields.tpl.html"}
   {/if}
-  {if $current_role > $roles.customer && $enabled_partners|@count > 0}
+  {if $issue_access.partners && $enabled_partners|@count > 0}
   <div class="view_issue_seperator"></div>
   {include file="partners.tpl.html"}
   {/if}
   <div class="view_issue_seperator"></div>
+
   {if $has_customer_integration and $issue.iss_customer_id}
   {include file="$customer_template_path/customer_info.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
+
+  {if $issue_access.files}
   {include file="attachments.tpl.html"}
   <div class="view_issue_seperator"></div>
+  {/if}
+
   {if $current_role > $roles.customer and $app_setup.scm_integration == 'enabled'}
   {include file="checkins.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $issue_access.time}
   {include file="time_tracking.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $issue_access.notes}
   {include file="notes.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $issue_access.phone}
   {include file="phone_support.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
+
   {if $app_setup.support_email == 'enabled'}
-    {if $current_role > $roles.customer}
+    {if $issue_access.drafts}
       {include file="email_drafts.tpl.html"}
       <div class="view_issue_seperator"></div>
     {/if}

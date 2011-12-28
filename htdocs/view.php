@@ -264,6 +264,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'statuses'           => $statuses,
                     'drafts'             => Draft::getList($issue_id, $show_all_drafts),
                     'groups'             => $groups,
+                    'issue_access'       => Access::getIssueAccessArray($issue_id, $usr_id),
                 ));
             }
         }
