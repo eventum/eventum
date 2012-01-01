@@ -1068,8 +1068,9 @@ class Notification
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id]))
-                    && (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id])
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            if ((!empty($prefs['receive_new_issue_email'][$prj_id]))
+                    && (@$prefs['receive_new_issue_email'][$prj_id])
                     && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
@@ -1134,6 +1135,7 @@ class Notification
         $headers = array(
             "Message-ID" => $message_id
         );
+
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
 
