@@ -59,14 +59,15 @@ class Lock
      *
      * @access  public
      * @param   string $name The name of this lock file
-     * @return  void
+     * @return  boolean
      */
     public static function release($name)
     {
         $pid_file = self::getProcessFilename($name);
         if (file_exists($pid_file)) {
-            unlink($pid_file);
+            return unlink($pid_file);
         }
+        return false;
     }
 
 

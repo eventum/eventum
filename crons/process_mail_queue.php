@@ -70,8 +70,9 @@ $config = getParams();
 
 // if requested, clear the lock
 if ($config['fix-lock']) {
-    Lock::release('process_mail_queue');
-    echo "The lock file was removed successfully.\n";
+    if (Lock::release('process_mail_queue')) {
+        echo "The lock file was removed successfully.\n";
+    }
     exit(0);
 }
 

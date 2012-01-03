@@ -165,6 +165,7 @@ Eventum Issue Tracking System
 - Added more informative to close issue page explaining the difference between Internal / All notification options (Bryan)
 - Fixed bug with custom field report display keys instead of values (Bryan, Elan Ruusamäe)
 - scm/eventum-cvs-hook: support CVS 1.11 and 1.12 formats (autodetected if configured correctly) (Elan Ruusamäe)
+- fix cronjobs erroneously report removed lock files. Fixes #904033 (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
