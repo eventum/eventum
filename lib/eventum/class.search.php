@@ -241,7 +241,7 @@ class Search
                     sta_color status_color,
                     sta_id,
                     iqu_status,
-                    grp_name `group`,
+                    grp_name ". DB_Helper::getInstance()->quoteIdentifier("group") .",
                     pre_title,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
@@ -316,7 +316,7 @@ class Search
         }
         $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  ON
                     iss_grp_id=grp_id
                  LEFT JOIN
