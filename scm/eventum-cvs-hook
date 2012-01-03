@@ -36,15 +36,48 @@ $eventum_url = 'http://eventum.example.com/';
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
 //
 
-
 // save name of this script
 $PROGRAM = basename(array_shift($argv));
 // save who is committing these changes
 $username = array_shift($argv);
+
 // grab fileinfo
-$args = explode(' ', array_shift($argv));
-// save what the name of the module is
-$cvs_module = array_shift($args);
+if ($argc == 3) {
+    // assume the old way ("PATH {FILE,rev1,rev2 }+")
+    // CVSROOT/loginfo: ALL eventum-cvs-hook $USER %{sVv}
+    $args = explode(' ', array_shift($argv));
+    // save what the name of the module is
+    $cvs_module = array_shift($args);
+
+    // now parse the list of modified files
+    $modified_files = array();
+    foreach ($args as $file_info) {
+        list($filename, $old_revision, $new_revision) = explode(',', $file_info);
+        $modified_files[] = array(
+            'filename'     => $filename,
+            'old_revision' => $old_revision,
+            'new_revision' => $new_revision
+        );
+    }
+
+} else {
+    // assume the new way ("PATH" {"FILE" "rev1" "rev2"}+)
+    // CVSROOT/loginfo: ALL eventum-cvs-hook $USER "%p" %{sVv}
+    $args = $argv;
+    // save what the name of the module is
+    $cvs_module = array_shift($args);
+
+    // now parse the list of modified files
+    $modified_files = array();
+    while ($file_info = array_splice($args, 0, 3)) {
+        list($filename, $old_revision, $new_revision) = $file_info;
+        $modified_files[] = array(
+            'filename'     => $filename,
+            'old_revision' => $old_revision,
+            'new_revision' => $new_revision
+        );
+    }
+}
 
 // skip if we're importing or adding new dirrectory
 $msg = implode(' ', array_slice($args, -3));
@@ -55,17 +88,6 @@ if (in_array($msg, array('- Imported sources', '- New directory'))) {
 // get the full commit message
 $input = stream_get_contents(STDIN);
 $commit_msg = rtrim(substr($input, strpos($input, 'Log Message:') + strlen('Log Message:') + 1));
-
-// now parse the list of modified files
-$modified_files = array();
-foreach ($args as $file_info) {
-    list($filename, $old_revision, $new_revision) = explode(',', $file_info);
-    $modified_files[] = array(
-        'filename'     => $filename,
-        'old_revision' => $old_revision,
-        'new_revision' => $new_revision
-    );
-}
 
 // parse the commit message and get all issue numbers we can find
 preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
