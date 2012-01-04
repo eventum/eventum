@@ -23,10 +23,10 @@ function validate(f)
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <form name="reporter_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        <form name="reporter_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
         <input type="hidden" name="cat" value="update">
-        <input type="hidden" name="id" value="{$smarty.get.id}">
-        <input type="hidden" name="issue_id" value="{$issue_id}">
+        <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+        <input type="hidden" name="issue_id" value="{$issue_id|intval}">
         {if $current_role > $roles.reporter}
         <tr>
           <td colspan="2" class="default">
@@ -50,14 +50,14 @@ function validate(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="email" size="40" class="default" value="{$info.sub_email}">
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$allowed_reporters}', 'reporter_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$allowed_reporters}', 'reporter_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
             <input class="button" type="submit" value="{t}Save Reporter{/t}">
-            <input type="button" value="{t}Cancel{/t}" class="button" onClick="javascript:closeAndRefresh();">
+            <input type="button" value="{t}Cancel{/t}" class="button" onClick="closeAndRefresh();">
           </td>
         </tr>
         </form>
