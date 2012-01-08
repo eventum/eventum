@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-04 12:00+0200\n"
-"PO-Revision-Date: 2011-09-19 01:54+0000\n"
+"PO-Revision-Date: 2012-01-08 03:40+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-05 05:42+0000\n"
-"X-Generator: Launchpad (build 14625)\n"
+"X-Launchpad-Export-Date: 2012-01-08 05:04+0000\n"
+"X-Generator: Launchpad (build 14640)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -693,7 +693,7 @@ msgstr ""
 
 #: templates/edit_reporter.tpl.html
 msgid "An error occurred while trying to update the Reporter."
-msgstr ""
+msgstr "Ocorreu um erro ao tentar atualizar o Reclamante."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
@@ -827,7 +827,7 @@ msgstr ""
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
-msgstr "Você foi designado para atender um chamado pelo %1"
+msgstr "Você foi designado para atender um chamado por %1"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Anonymous Form"
@@ -2066,7 +2066,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:89
 #, php-format
 msgid "ERROR: There is a total of %d emails not associated."
-msgstr ""
+msgstr "ERRO: Há um total de %d emails não associados."
 
 #: lib/eventum/class.monitor.php:54
 #, php-format
@@ -2119,7 +2119,7 @@ msgstr "Editar Versões"
 
 #: templates/view_form.tpl.html
 msgid "Edit Reporter"
-msgstr ""
+msgstr "Editar Reclamante"
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
@@ -2127,7 +2127,7 @@ msgstr "Editar Assinatura"
 
 #: templates/view_form.tpl.html
 msgid "Edit the Reporter for this issue"
-msgstr ""
+msgstr "Editar o Reclamante para este chamado"
 
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
@@ -5690,7 +5690,7 @@ msgstr "Líder de Projeto"
 
 #: templates/edit_reporter.tpl.html
 msgid "Project Reporters"
-msgstr ""
+msgstr "Reclamantes do Projeto"
 
 #: templates/update_form.tpl.html
 msgid "Project automatically switched to '%1' from '%2'."
@@ -6227,7 +6227,7 @@ msgstr "Salvar Modificações do Rascunho"
 
 #: templates/associate.tpl.html
 msgid "Save Message"
-msgstr "Gravar Mensagem"
+msgstr "Salvar Mensagem"
 
 #: templates/associate.tpl.html
 msgid "Save Message as Reference Email"
@@ -6239,11 +6239,11 @@ msgstr "Salvar Mensagem Como Nota Interna"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
-msgstr "Gravar Dados da Chamada Telefônica"
+msgstr "Salvar Dados da Chamada Telefônica"
 
 #: templates/edit_reporter.tpl.html
 msgid "Save Reporter"
-msgstr ""
+msgstr "Salvar Reclamante"
 
 #: templates/adv_search.tpl.html
 msgid "Save Search"
@@ -6840,7 +6840,7 @@ msgstr "Obrigado, a entrada de FAQ foi atualizada com sucesso."
 
 #: templates/edit_reporter.tpl.html
 msgid "Thank you, the Reporter was updated successfully."
-msgstr ""
+msgstr "Obrigado, o Reclamante foi atualizado com sucesso."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was added successfully."
@@ -8365,7 +8365,7 @@ msgstr "Modificar Valor"
 
 #: templates/custom_fields_form.tpl.html
 msgid "Update Values"
-msgstr "Gravar Valores"
+msgstr "Salvar Valores"
 
 #: lib/eventum/class.notification.php:695
 msgid "Updated"
