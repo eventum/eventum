@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-04 12:00+0200\n"
-"PO-Revision-Date: 2011-09-18 13:31+0000\n"
-"Last-Translator: Cyberscooty <Unknown>\n"
+"PO-Revision-Date: 2012-01-10 10:46+0000\n"
+"Last-Translator: gilleskom <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-05 05:39+0000\n"
-"X-Generator: Launchpad (build 14625)\n"
+"X-Launchpad-Export-Date: 2012-01-11 04:42+0000\n"
+"X-Generator: Launchpad (build 14640)\n"
 "X-Poedit-Basepath: D:/wamp/www/eventum23\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -36,7 +36,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:198
 msgid "% Complete"
-msgstr "Complet à %"
+msgstr "% effectué"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
