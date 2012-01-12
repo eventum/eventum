@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-04 12:00+0200\n"
-"PO-Revision-Date: 2011-10-16 13:58+0000\n"
-"Last-Translator: Christian Lins <Unknown>\n"
+"PO-Revision-Date: 2012-01-11 16:38+0000\n"
+"Last-Translator: Daniel Winzen <d@winzen4.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-05 05:39+0000\n"
-"X-Generator: Launchpad (build 14625)\n"
+"X-Launchpad-Export-Date: 2012-01-12 05:42+0000\n"
+"X-Generator: Launchpad (build 14640)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -3276,11 +3276,11 @@ msgstr "Intervall"
 
 #: lib/eventum/class.filter.php:629
 msgid "Is NULL"
-msgstr "Is NULL"
+msgstr "Ist NULL"
 
 #: templates/adv_search.tpl.html
 msgid "Is Null"
-msgstr "Is Null"
+msgstr "Ist Null"
 
 #: lib/eventum/class.filter.php:633
 #, php-format
