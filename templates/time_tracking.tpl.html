@@ -61,7 +61,7 @@ function addTimeEntry()
                 </td>
                 <td class="default">{$time_entries[i].formatted_time}</td>
                 <td class="default" nowrap>{$time_entries[i].ttc_title}</td>
-                <td class="default">{$time_entries[i].ttr_summary}</td>
+                <td class="default">{$time_entries[i].ttr_summary|escape:html}</td>
               </tr>
               {if $smarty.section.i.last}
                 {if count($total_time_by_user) > 1}
