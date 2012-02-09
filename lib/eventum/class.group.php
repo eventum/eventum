@@ -344,7 +344,7 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
@@ -451,7 +451,7 @@ class Group
         $stmt = "SELECT
                     grp_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
