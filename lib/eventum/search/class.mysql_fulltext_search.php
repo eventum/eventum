@@ -33,40 +33,42 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
     {
         // no pre-existing list, generate them
         $stmt = "(SELECT
-                    DISTINCT(iss_id)
+                    iss_id
                  FROM
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                      MATCH(iss_summary, iss_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
-                    DISTINCT(not_iss_id)
+                    not_iss_id
                  FROM
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
+                     not_removed = 0 AND
                      MATCH(not_note) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
-                    DISTINCT(ttr_iss_id)
+                    ttr_iss_id
                  FROM
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                  WHERE
                      MATCH(ttr_summary) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
-                    DISTINCT(phs_iss_id)
+                    phs_iss_id
                  FROM
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                      MATCH(phs_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
-                     DISTINCT(sup_iss_id)
+                     sup_iss_id
                  FROM
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                      " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                      sup_id = seb_sup_id AND
+                     sup_removed = 0 AND
                      MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  )";
         $res = DB_Helper::getInstance()->getCol($stmt);

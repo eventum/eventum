@@ -258,7 +258,7 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'iss_customer_id'}
               <a href="list.php?view=customer&customer_id={$list[i].iss_customer_id}"
               title="View other issues from this customer">
-              {$list[i].customer_title|escape:"html"}</a>
+              {$list[i].customer_title|default:''|escape:"html"}</a>
             {elseif $field_name == 'support_level'}
               {$list[i].support_level|escape:"html"}
             {elseif $field_name == 'sta_rank'}

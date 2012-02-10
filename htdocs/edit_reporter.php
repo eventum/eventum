@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
@@ -24,71 +23,26 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Dave Anderson <dave@anderson.net.nz>                        |
 // +----------------------------------------------------------------------+
 
-ini_set("memory_limit", '1024M');
+require_once dirname(__FILE__) . '/../init.php';
 
-require_once dirname(__FILE__).'/../init.php';
+$tpl = new Template_Helper();
+$tpl->setTemplate("edit_reporter.tpl.html");
 
-// setup constant to be used globally
-define('SAPI_CLI', 'cli' == php_sapi_name());
+Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-/**
- * Get parameters needed for this script.
- *
- * for CLI mode these are take from command line arguments
- * for Web mode those are taken as named _GET parameters.
- *
- * @return  array   $config
- */
-function getParams() {
-    // defaults
-    $config = array(
-        'fix-lock' => false,
-    );
+$prj_id = Auth::getCurrentProject();
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
+$tpl->assign("issue_id", $issue_id);
 
-    if (SAPI_CLI) {
-        global $argc, $argv;
-        // --fix-lock may be only the last argument
-        if ($argv[$argc - 1] == '--fix-lock') {
-            // no other args are allowed
-            $config['fix-lock'] = true;
-        }
-
-    } else {
-        foreach (array_keys($config) as $key) {
-            if (isset($_GET[$key])) {
-                $config[$key] = $_GET[$key];
-            }
-        }
-    }
-    return $config;
+if (@$_POST["cat"] == "update") {
+    $res = Edit_Reporter::update($issue_id, $_POST['email']);
+    $tpl->assign("insert_result", $res);
 }
 
-$config = getParams();
+$t = Project::getAddressBook($prj_id, $issue_id);
+$tpl->assign("allowed_reporters", $t);
 
-// if requested, clear the lock
-if ($config['fix-lock']) {
-    if (Lock::release('process_mail_queue')) {
-        echo "The lock file was removed successfully.\n";
-    }
-    exit(0);
-}
-
-if (!Lock::acquire('process_mail_queue')) {
-    $pid = Lock::getProcessID('process_mail_queue');
-    fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
-    fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
-    exit(1);
-}
-
-// handle only pending emails
-$limit = 50;
-Mail_Queue::send('pending', $limit);
-
-// handle emails that we tried to send before, but an error happened...
-$limit = 50;
-Mail_Queue::send('error', $limit);
-
-Lock::release('process_mail_queue');
+$tpl->displayTemplate();

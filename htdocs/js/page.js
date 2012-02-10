@@ -240,6 +240,14 @@ issue_view.editIncidentRedemption = function()
 }
 
 
+issue_view.openReporter = function(issue_id)
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('edit_reporter.php?iss_id=' + issue_id, '_reporter', features);
+    popupWin.focus();
+}
+
+
 
 /*
  * Close Issue Page

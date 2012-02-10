@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
@@ -6,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2011 Anderson.net New Zealand                   |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,71 +24,49 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Dave Anderson <dave@anderson.net.nz>                        |
 // +----------------------------------------------------------------------+
 
-ini_set("memory_limit", '1024M');
-
-require_once dirname(__FILE__).'/../init.php';
-
-// setup constant to be used globally
-define('SAPI_CLI', 'cli' == php_sapi_name());
 
 /**
- * Get parameters needed for this script.
+ * Class designed to handle adding, removing and viewing authorized repliers for an issue.
  *
- * for CLI mode these are take from command line arguments
- * for Web mode those are taken as named _GET parameters.
- *
- * @return  array   $config
+ * @author  Dave Anderson <dave@anderson.net.nz>
  */
-function getParams() {
-    // defaults
-    $config = array(
-        'fix-lock' => false,
-    );
+class Edit_Reporter
+{
+    /**
+     * Modifies an Issue's Reporter.
+     *
+     * @access  public
+     * @param   integer $issue_id The id of the issue.
+     * @param   string $fullname The id of the user.
+     * @param   boolean $add_history If this should be logged.
+     */
+    function update($issue_id, $email, $add_history = true)
+    {
 
-    if (SAPI_CLI) {
-        global $argc, $argv;
-        // --fix-lock may be only the last argument
-        if ($argv[$argc - 1] == '--fix-lock') {
-            // no other args are allowed
-            $config['fix-lock'] = true;
+        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $usr_id = User::getUserIDByEmail($email, true);
+
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                SET
+                    iss_usr_id = " . Misc::escapeInteger($usr_id) . "
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+
+        $res = DB_Helper::getInstance()->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
         }
 
-    } else {
-        foreach (array_keys($config) as $key) {
-            if (isset($_GET[$key])) {
-                $config[$key] = $_GET[$key];
-            }
+        if ($add_history) {
+            // add the change to the history of the issue
+            $summary = 'Reporter was changed to ' . $email . ' by ' . User::getFullName(Auth::getUserID());
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_updated'), $summary);
         }
+        return 1;
     }
-    return $config;
 }
-
-$config = getParams();
-
-// if requested, clear the lock
-if ($config['fix-lock']) {
-    if (Lock::release('process_mail_queue')) {
-        echo "The lock file was removed successfully.\n";
-    }
-    exit(0);
-}
-
-if (!Lock::acquire('process_mail_queue')) {
-    $pid = Lock::getProcessID('process_mail_queue');
-    fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
-    fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
-    exit(1);
-}
-
-// handle only pending emails
-$limit = 50;
-Mail_Queue::send('pending', $limit);
-
-// handle emails that we tried to send before, but an error happened...
-$limit = 50;
-Mail_Queue::send('error', $limit);
-
-Lock::release('process_mail_queue');

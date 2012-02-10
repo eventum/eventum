@@ -30,8 +30,9 @@
 /**
  * Class to handle the business logic related to the administration
  * of groups.
- * Note! Any reference to the group table must use ` around the table name
- * due to "group" being a reserved word and some users don't use table prefixes.
+ * Note! Any reference to the group table must use quoteIdentifier() around
+ * the table name due to "group" being a reserved word and some users don't
+ * use table prefixes.
  *
  * @version 1.0
  * @author Bryan Alsdorf <bryan@mysql.com>
@@ -48,7 +49,7 @@ class Group
     function insert()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  (
                     grp_name,
                     grp_description,
@@ -86,7 +87,7 @@ class Group
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  SET
                     grp_name = '" . Misc::escapeString($_POST["group_name"]) . "',
                     grp_description = '" . Misc::escapeString($_POST["description"]) . "',
@@ -126,7 +127,7 @@ class Group
             $users = self::getUsers($grp_id);
 
             $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                        " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                      WHERE
                         grp_id = $grp_id";
             $res = DB_Helper::getInstance()->query($stmt);
@@ -246,7 +247,7 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  WHERE
                     grp_id = $grp_id";
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
@@ -304,7 +305,7 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  ORDER BY
                     grp_name";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -343,7 +344,7 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`,
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
@@ -450,7 +451,7 @@ class Group
         $stmt = "SELECT
                     grp_id
                  FROM
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`,
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
