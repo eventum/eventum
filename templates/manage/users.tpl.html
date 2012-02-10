@@ -1,167 +1,207 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.email.value)) {
-                      alert('{/literal}{t escape=js}Please enter the email of this user.{/t}{literal}');
-                      selectField(f, 'email');
-                      return false;
-                  }
-                  if (!isEmail(f.email.value)) {
-                      alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
-                      selectField(f, 'email');
-                      return false;
-                  }
-                  if (f.cat.value == 'update') {
-                      if ((!isWhitespace(f.password.value)) && (f.password.value.length < 6)) {
-                          alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
-                          selectField(f, 'password');
-                          return false;
-                      }
-                  } else {
-                      if ((isWhitespace(f.password.value)) || (f.password.value.length < 6)) {
-                          alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
-                          selectField(f, 'password');
-                          return false;
-                      }
-                  }
-                  if (isWhitespace(f.full_name.value)) {
-                      alert('{/literal}{t escape=js}Please enter the full name of this user.{/t}{literal}');
-                      selectField(f, 'full_name');
-                      return false;
-                  }
-                  var has_project_selected = false;
-                  var projects = new Array({/literal}{$project_list|@count}{literal});
-                  {/literal}
-                  {foreach from=$project_list key=prj_id item=prj_title name=projects}
-                  projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
-                  {/foreach}
-                  {literal}
-                  for (i = 0; i < projects.length; i++) {
-                    if ((getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').selectedIndex > 0) ||
-                        (getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').type == 'hidden' &&
-                        getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').value != '')) {
-                        has_project_selected = true;
-                    }
-                  }
-                  if (!has_project_selected) {
-                      alert('{/literal}{t escape=js}Please assign the appropriate projects for this user.{/t}{literal}');
-                      selectField(f, 'projects[]');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="user_form" onSubmit="return validateForm(this);" method="post" action="{$core.rel_url}manage/users.php">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-              {else}
-              <input type="hidden" name="cat" value="new">
-              {/if}
-              <tr>
-                <td colspan="2">
-                  <b>{t}Manage Users{/t}</b>
-                </td>
+{block "manage_content"}
+  <script type="text/javascript">
+  <!--
+  var active_users = new Array();
+  var page_url = '{$smarty.server.PHP_SELF}';
+
+  {section name="i" loop=$list}
+  {if $list[i].usr_status == 'active'}
+    active_users[{$smarty.section.i.index}] = '{$list[i].usr_email|escape:"html"}';
+  {/if}
+  {/section}
+
+  var projects = new Array({$project_list|@count});
+  {foreach from=$project_list key=prj_id item=prj_title name=projects}
+    projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
+  {/foreach}
+
+  {literal}
+  function validateForm()
+  {
+      if (Validation.isFieldWhitespace('email')) {
+          alert('{/literal}{t escape=js}Please enter the email of this user.{/t}{literal}');
+          Validation.selectField('email');
+          return false;
+      }
+      if (!Validation.isEmail(Eventum.getField('email').val())) {
+          alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+          Validation.selectField('email');
+          return false;
+      }
+      var password = Eventum.getField('password').val();
+      if (Eventum.getField('cat').val() == 'update') {
+          if ((!Validation.isWhitespace(password)) && (password.length < 6)) {
+              alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
+              Validation.selectField('password');
+              return false;
+          }
+      } else {
+          if ((Validation.isWhitespace(password)) || (password.length < 6)) {
+              alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
+              Validation.selectField('password');
+              return false;
+          }
+      }
+      if (Validation.isFieldWhitespace('full_name')) {
+          alert('{/literal}{t escape=js}Please enter the full name of this user.{/t}{literal}');
+          Validation.selectField('full_name');
+          return false;
+      }
+
+      var has_project_selected = false;
+      for (i = 0; i < projects.length; i++) {
+        var role_field = Eventum.getField('role[' + projects[i] + ']');
+        if ((role_field[0].selectedIndex > 0) ||
+            (role_field[0].type == 'hidden' &&
+            role_field[0].value != '')) {
+            has_project_selected = true;
+        }
+      }
+      if (!has_project_selected) {
+          alert('{/literal}{t escape=js}Please assign the appropriate projects for this user.{/t}{literal}');
+          Validation.selectField('projects[]');
+          return false;
+      }
+      return true;
+  }
+
+  function checkDelete()
+  {
+      var total_selected = Eventum.getField('items[]').filter(':checked').length;
+      var total = Eventum.getField('items[]').length;
+      if (Eventum.getField('status').val() == 'inactive') {
+          if (active_users.length < 2) {
+              alert('{/literal}{t escape=js}You cannot change the status of the only active user left in the system.{/t}{literal}');
+              return false;
+          }
+          if (total == total_selected) {
+              alert('{/literal}{t escape=js}You cannot inactivate all of the users in the system.{/t}{literal}');
+              return false;
+          }
+      }
+      if (!Validation.hasOneChecked('items[]')) {
+          alert('{/literal}{t escape=js}Please select at least one of the users.{/t}{literal}');
+          return false;
+      }
+      if (!confirm('{/literal}{t escape=js}This action will change the status of the selected users.{/t}{literal}')) {
+          return false;
+      } else {
+          return true;
+      }
+  }
+  function showCustomerUsers()
+  {
+      window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_customers',
+              $('#show_customers:checked').length);
+  }
+  function openAliasList(e)
+  {
+    var target = $(e.target);
+    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var aliasEmailWin = window.open('email_alias.php?id=' + target.attr('data-usr-id'), '_EmailAlias', features);
+    aliasEmailWin.focus();
+    return false;
+  }
+
+  $().ready(function() {
+      $('#user_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+      $('a.manage_alias').click(openAliasList);
+      $('#show_customers').click(showCustomerUsers);
+
+      $('#delete_form').submit(checkDelete);
+  });
+
+  {/literal}
+  //-->
+  </script>
+  <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
+  {if $smarty.get.cat|default:'' == 'edit'}
+  <input type="hidden" name="cat" value="update">
+  <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
+  {else}
+  <input type="hidden" name="cat" value="new">
+  {/if}
+      <table class="bordered">
+              <tr class="title">
+                <th colspan="2">
+                  {t}Manage Users{/t}
+                </th>
               </tr>
-              {if $result != ""}
               <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new user.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the user was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the user information.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the user was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120">
-                  <b>{t}Email Address{/t}:</b>
-                </td>
+                <th width="120">
+                  {t}Email Address{/t}
+                </th>
                 <td>
-                  <input type="text" name="email" size="40" value="{$info.usr_email}">
+                  <input type="text" name="email" size="40" value="{$info.usr_email|default:''}">
                   {include file="error_icon.tpl.html" field="email"}
                 </td>
               </tr>
               <tr>
-                <td width="120">
-                  <b>{t}Password{/t}:</b>
-                </td>
+                <th width="120">
+                  {t}Password{/t}
+                </th>
                 <td>
                   <input type="password" name="password" size="20">
-                  {if $smarty.get.cat == 'edit'}
+                  {if $smarty.get.cat|default:'' == 'edit'}
                   <span>({t}leave empty to keep the current password{/t})</span>
                   {/if}
                   {include file="error_icon.tpl.html" field="password"}
                 </td>
               </tr>
               <tr>
-                <td width="120">
-                  <b>{t}Full Name{/t}:</b>
-                </td>
+                <th width="120">
+                  {t}Full Name{/t}
+                </th>
                 <td>
-                  <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html}">
+                  <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html|default:''}">
                   {include file="error_icon.tpl.html" field="full_name"}
                 </td>
               </tr>
               <tr>
-                  <td width="120">
-                      <b>{t}Group:{/t}</b>
-                  </td>
+                  <th width="120">
+                      {t}Group{/t}
+                  </th>
                   <td width="80%">
                       <select name="grp_id" size="1">
                           <option value="">{t}-- Select One --{/t}</option>
-                          {html_options options=$group_list selected=$info.usr_grp_id}
+                          {html_options options=$group_list selected=$info.usr_grp_id|default:''}
                       </select>
                       {include file="error_icon.tpl.html" field="grp_id"}
                   </td>
               </tr>
               <tr>
-                <td width="120">
-                  <nobr><b>{t}Assigned Projects and Roles{/t}:</b></nobr>
-                </td>
+                <th width="120">
+                  <nobr>{t}Assigned Projects and Roles{/t}</nobr>
+                </th>
                 <td>
                   <table border="0">
                     {foreach from=$project_list key=prj_id item=prj_name}
                     <tr>
                       <td>{$prj_name}:</td>
                       <td>
-                        {if $info.roles.$prj_id.pru_role == $core.roles.customer}
+                        {if $info.roles.$prj_id.pru_role|default:'' == $core.roles.customer}
                         <span>{t}Customer{/t}</span>
                         <input type="hidden" name="role[{$prj_id}]" value="{$core.roles.customer}">
                         {else}
-                        <select name="role[{$prj_id}]"  {if $core.current_role < $info.roles.$prj_id.pru_role}disabled{/if}>
-                        {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role}
+                        <select name="role[{$prj_id}]"  {if $core.current_role < $info.roles.$prj_id.pru_role|default:0}disabled{/if}>
+                        {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role|default:''}
                         </select>
-                        {if $core.current_role < $info.roles.$prj_id.pru_role}<input type="hidden" name="role[{$prj_id}]" value="{$info.roles.$prj_id.pru_role}">{/if}
+                        {if $core.current_role < $info.roles.$prj_id.pru_role|default:0}<input type="hidden" name="role[{$prj_id}]" value="{$info.roles.$prj_id.pru_role|default:''}">{/if}
                         {include file="error_icon.tpl.html" field="role[$prj_id]"}
                         {/if}
                       </td>
                     </tr>
                     {/foreach}
                   </table>
-                </td>
+                </th>
               </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  {if $smarty.get.cat == 'edit'}
+              <tr class="buttons">
+                <td colspan="2">
+                  {if $smarty.get.cat|default:'' == 'edit'}
                   <input type="submit" value="{t}Update User{/t}">
                   {else}
                   <input type="submit" value="{t}Create User{/t}">
@@ -169,137 +209,73 @@
                   <input type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
-              </form>
-              <tr>
-                <td colspan="2">
-                  <b>{t}Existing Users{/t}:</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <script type="text/javascript">
-                  <!--
-                  var active_users = new Array();
-                  {section name="i" loop=$list}
-                  {if $list[i].usr_status == 'active'}
-                  active_users[{$smarty.section.i.index}] = '{$list[i].usr_email|escape:"html"}';
-                  {/if}
-                  {/section}
-                  var page_url = '{$smarty.server.PHP_SELF}';
-                  {literal}
-                  function checkDelete(f)
-                  {
-                      var total_selected = getTotalCheckboxesChecked(f, 'items[]');
-                      var total = getTotalCheckboxes(f, 'items[]');
-                      if (getSelectedOption(f, 'status') == 'inactive') {
-                          if (active_users.length < 2) {
-                              alert('{/literal}{t escape=js}You cannot change the status of the only active user left in the system.{/t}{literal}');
-                              return false;
-                          }
-                          if (total == total_selected) {
-                              alert('{/literal}{t escape=js}You cannot inactivate all of the users in the system.{/t}{literal}');
-                              return false;
-                          }
-                      }
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the users.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will change the status of the selected users.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  function showCustomerUsers(f)
-                  {
-                      var field = getFormElement(f, 'show_customers', 0);
-                      if (field.checked) {
-                          window.location.href = page_url + "?" + replaceParam(window.location.href, 'show_customers', '1');
-                      } else {
-                          window.location.href = page_url + "?" + replaceParam(window.location.href, 'show_customers', '0');
-                      }
-                  }
-                  function openAliasList(id)
-				  {
-    				var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    				var aliasEmailWin = window.open('email_alias.php?id=' + id, '_EmailAlias', features);
-    				aliasEmailWin.focus();
-					}
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form name="change_status_form" onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="change_status">
-                    <tr>
-                      <td nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td>&nbsp;<b>{t}Full Name{/t}</b></td>
-                      <td>&nbsp;<b>{t}Role{/t}</b></td>
-                      <td>&nbsp;<b>{t}Email Address{/t}</b></td>
-                      <td>&nbsp;<b>{t}Email Alias{/t}</b></td>
-                      <td>&nbsp;<b>{t}Status{/t}</b></td>
-                      <td>&nbsp;<b>{t}Group{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center">
-                        <input type="checkbox" name="items[]" value="{$list[i].usr_id}" {if $smarty.section.i.total == 0}disabled{/if}>
-                      </td>
-                      <td width="15%" bgcolor="{$row_color}">
-                        &nbsp;<a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name}</a>
-                      </td>
-                      <td width="15%" bgcolor="{$row_color}" nowrap>
-                        {foreach from=$list[i].roles item=role_data}
-                          &nbsp;{$role_data.prj_title}: {$role_data.role}<br />
-                        {/foreach}
-                      </td>
-                      <td width="30%" bgcolor="{$row_color}">
-                        &nbsp;<a href="mailto:{$list[i].usr_email}" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
-                      </td>
-                      <td width="10%" bgcolor="{$row_color}">
-                        &nbsp;<a title="{t}list all email aliases{/t}" href="javascript:void(null);" onClick="openAliasList({$list[i].usr_id});">{t}manage alias{/t}</a>
-                      </td>
-                      <td width="10%" bgcolor="{$row_color}">
-                        &nbsp;{$list[i].usr_status|capitalize}
-                      </td>
-                      <td width="20%" bgcolor="{$row_color}">
-                        &nbsp;{$list[i].group_name}
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="7" align="center">
-                        <i>{t}No users could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td colspan="7">
-                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                          <tr>
-                            <td>
-                              <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                              <input type="submit" value="{t}Update Status{/t} &gt;&gt;">
-                              <select name="status">
-                                <option value="active">{t}Active{/t}</option>
-                                <option value="inactive">{t}Inactive{/t}</option>
-                              </select>
-                            </td>
-                            <td align="right">
-                              <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="showCustomerUsers(this.form);">
-                              <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
             </table>
-          </td>
-        </tr>
-      </table>
+          </form>
+
+          <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+          <input type="hidden" name="cat" value="change_status">
+          <table class="bordered grid">
+              <tr class="title">
+                <th colspan="7">
+                  {t}Existing Users{/t}
+                </th>
+              </tr>
+            <tr>
+              <th nowrap><input type="button" value="{t}All{/t} " class="select_all"></th>
+              <th>&nbsp;{t}Full Name{/t}</th>
+              <th>&nbsp;{t}Role{/t}</th>
+              <th>&nbsp;{t}Email Address{/t}</th>
+              <th>&nbsp;{t}Email Alias{/t}</th>
+              <th>&nbsp;{t}Status{/t}</th>
+              <th>&nbsp;{t}Group{/t}</th>
+            </tr>
+            {section name="i" loop=$list}
+            <tr class="{cycle values='odd,even'}">
+              <td width="4" nowrap align="center">
+                <input type="checkbox" name="items[]" value="{$list[i].usr_id}" {if $smarty.section.i.total == 0}disabled{/if}>
+              </td>
+              <td width="15%">
+                &nbsp;<a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name}</a>
+              </td>
+              <td width="15%" nowrap>
+                {foreach from=$list[i].roles item=role_data}
+                  &nbsp;{$role_data.prj_title}: {$role_data.role}<br />
+                {/foreach}
+              </td>
+              <td width="30%">
+                &nbsp;<a href="mailto:{$list[i].usr_email}" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
+              </td>
+              <td width="10%">
+                &nbsp;<a title="{t}list all email aliases{/t}" href="email_alias.php?id={$list[i].usr_id}" class="manage_alias" data-usr-id="{$list[i].usr_id}">{t}manage alias{/t}</a>
+              </td>
+              <td width="10%">
+                &nbsp;{$list[i].usr_status|capitalize}
+              </td>
+              <td width="20%">
+                &nbsp;{$list[i].group_name|default:''}
+              </td>
+            </tr>
+            {sectionelse}
+            <tr class="no_results">
+              <td colspan="7">
+                {t}No users could be found.{/t}
+              </td>
+            </tr>
+            {/section}
+            <tr class="buttons">
+              <td colspan="7">
+                      <input type="button" value="{t}All{/t}" class="select_all">
+                      <input type="submit" value="{t}Update Status{/t} &gt;&gt;">
+                      <select name="status">
+                        <option value="active">{t}Active{/t}</option>
+                        <option value="inactive">{t}Inactive{/t}</option>
+                      </select>
+                    <div class="right">
+                      <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers|default:0 == 1}checked{/if}>
+                      <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
+                    </div>
+              </td>
+            </tr>
+          </table>
+          </form>
+{/block}

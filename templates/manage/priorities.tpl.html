@@ -128,12 +128,12 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].pri_id}"></td>
-                      <td bgcolor="{$row_color}" align="center" nowrap>
+                      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pri_id}"></td>
+                      <td align="center" nowrap>
                         <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].pri_rank}
                         <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
                       </td>
-                      <td width="100%" bgcolor="{$row_color}">
+                      <td width="100%">
                         &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title}</a>
                       </td>
                     </tr>

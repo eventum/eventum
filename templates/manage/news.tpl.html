@@ -1,187 +1,159 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this news entry.{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  if (!hasOneSelected(f, 'projects[]')) {
-                      alert('{/literal}{t escape=js}Please assign the appropriate projects for this news entry.{/t}{literal}');
-                      selectField(f, 'projects[]');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="news_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-              {else}
-              <input type="hidden" name="cat" value="new">
-              {/if}
-              <tr>
-                <td colspan="2">
-                  <b>{t}Manage News{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the news entry.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this news entry.{/t}
-                    {elseif $result == -3}
-                      {t}Please enter the message for this news entry.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the news entry was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the news entry information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this news entry.{/t}
-                    {elseif $result == -3}
-                      {t}Please enter the message for this news entry.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the news entry was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="140">
-                  <nobr><b>{t}Assigned Projects{/t}:</b></nobr>
-                </td>
-                <td>
-                  <select name="projects[]" multiple size="3">
-                  {html_options options=$project_list selected=$info.projects}
-                  </select>
-                  {include file="error_icon.tpl.html" field="projects[]"}
-                </td>
-              </tr>
-              <tr>
-                <td width="140">
-                  <b>{t}Status{/t}:</b>
-                </td>
-                <td>
-                  <select name="status">
-                    <option value="active" {if $info.nws_status != 'inactive'}selected{/if}>{t}Active{/t}</option>
-                    <option value="inactive" {if $info.nws_status == 'inactive'}selected{/if}>{t}Inactive{/t}</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td width="140">
-                  <b>{t}Title{/t}:</b>
-                </td>
-                <td>
-                  <input type="text" name="title" size="40" value="{$info.nws_title|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-              </tr>
-              <tr>
-                <td width="140">
-                  <b>{t}Message{/t}:</b>
-                </td>
-                <td>
-                  <textarea name="message" cols="50" rows="10">{$info.nws_message|escape:"html"}</textarea>
-                  {include file="error_icon.tpl.html" field="message"}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input type="submit" value="{t}Update News Entry{/t}">
-                  {else}
-                  <input type="submit" value="{t}Create News Entry{/t}">
-                  {/if}
-                  <input type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2">
-                  <b>{t}Existing News Entries{/t}:</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the news entries.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected news entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="40%">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="40%">&nbsp;<b>{t}Projects{/t}</b></td>
-                      <td width="20%">&nbsp;<b>{t}Status{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].nws_id}"></td>
-                      <td width="40%" bgcolor="{$row_color}">
-                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].nws_id}" title="{t}update this entry{/t}">{$list[i].nws_title}</a>
-                      </td>
-                      <td width="40%" bgcolor="{$row_color}">
-                        &nbsp;{$list[i].projects|escape:"html"}
-                      </td>
-                      <td width="20%" bgcolor="{$row_color}">
-                        &nbsp;{$list[i].nws_status|escape:"html"}
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="4" align="center">
-                        <i>{t}No news entries could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td colspan="3" align="center">
-                        <input type="submit" value="{t}Delete{/t}">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
+{block "manage_content"}
+{literal}
+<script type="text/javascript">
+<!--
+function validateForm()
+{
+  if (!Validation.hasOneSelected('projects[]')) {
+      alert('{/literal}{t escape=js}Please assign the appropriate projects for this news entry.{/t}{literal}');
+      Validation.selectField('projects[]');
+      return false;
+  }
+  if (Validation.isFieldWhitespace('title')) {
+      alert('{/literal}{t escape=js}Please enter the title of this news entry.{/t}{literal}');
+      Validation.selectField('title');
+      return false;
+  }
+  if (Validation.isFieldWhitespace('message')) {
+      alert('{/literal}{t escape=js}Please enter the message of this news entry.{/t}{literal}');
+      Validation.selectField('message');
+      return false;
+  }
+  return true;
+}
+function checkDelete()
+{
+  if (!Validation.hasOneChecked('items[]')) {
+      alert('{/literal}{t escape=js}Please select at least one of the news entries.{/t}{literal}');
+      return false;
+  }
+  if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected news entries.{/t}{literal}')) {
+      return false;
+  } else {
+      return true;
+  }
+}
+  $().ready(function() {
+      $('#news_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+      $('#delete_form').submit(checkDelete);
+  });
+//-->
+</script>
+{/literal}
+<form id="news_form"  method="post" action="{$smarty.server.PHP_SELF}">
+{if $smarty.get.cat|default:'' == 'edit'}
+<input type="hidden" name="cat" value="update">
+<input type="hidden" name="id" value="{$smarty.get.id|intval}">
+{else}
+<input type="hidden" name="cat" value="new">
+{/if}
+<table class="bordered">
+  <tr class="title">
+    <th colspan="2">
+      {t}Manage News{/t}
+    </th>
+  </tr>
+  <tr>
+    <th width="140">
+      <nobr>{t}Assigned Projects{/t}</nobr>
+    </th>
+    <td>
+      <select name="projects[]" multiple size="3">
+      {html_options options=$project_list selected=$info.projects|default:''}
+      </select>
+      {include file="error_icon.tpl.html" field="projects[]"}
+    </td>
+  </tr>
+  <tr>
+    <th width="140">
+      {t}Status{/t}:
+    </th>
+    <td>
+      <select name="status">
+        <option value="active" {if $info.nws_status|default:'' != 'inactive'}selected{/if}>{t}Active{/t}</option>
+        <option value="inactive" {if $info.nws_status|default:'' == 'inactive'}selected{/if}>{t}Inactive{/t}</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th width="140">
+      {t}Title{/t}:
+    </th>
+    <td>
+      <input type="text" name="title" size="40" value="{$info.nws_title|escape:"html"|default:''}">
+      {include file="error_icon.tpl.html" field="title"}
+    </td>
+  </tr>
+  <tr>
+    <th width="140">
+      {t}Message{/t}:
+    </th>
+    <td>
+      <textarea name="message" cols="50" rows="10">{$info.nws_message|escape:"html"|default:''}</textarea>
+      {include file="error_icon.tpl.html" field="message"}
+    </td>
+  </tr>
+  <tr class="buttons">
+    <td colspan="2">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="submit" value="{t}Update News Entry{/t}">
+      {else}
+      <input type="submit" value="{t}Create News Entry{/t}">
+      {/if}
+      <input type="reset" value="{t}Reset{/t}">
+    </td>
+  </tr>
+</table>
+</form>
+
+
+<form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+<input type="hidden" name="cat" value="delete">
+<table class="bordered grid">
+  <tr class="title">
+    <th colspan="4">
+      {t}Existing News Entries{/t}
+    </th>
+  </tr>
+    <tr>
+      <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+      <th width="40%">&nbsp;{t}Title{/t}</th>
+      <th width="40%">&nbsp;{t}Projects{/t}</th>
+      <th width="20%">&nbsp;{t}Status{/t}</th>
+    </tr>
+    {section name="i" loop=$list}
+    <tr class="{cycle values='odd,even'}">
+      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].nws_id}"></td>
+      <td width="40%">
+        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].nws_id}" title="{t}update this entry{/t}">{$list[i].nws_title}</a>
+      </td>
+      <td width="40%">
+        &nbsp;{$list[i].projects|escape:"html"}
+      </td>
+      <td width="20%">
+        &nbsp;{$list[i].nws_status|escape:"html"}
+      </td>
+    </tr>
+    {sectionelse}
+    <tr class="no_results">
+      <td colspan="4">
+        {t}No news entries could be found.{/t}
+      </td>
+    </tr>
+    {/section}
+    <tr class="buttons">
+      <td width="4">
+        <input type="button" value="{t}All{/t}" class="select_all">
+      </td>
+      <td colspan="3">
+        <input type="submit" value="{t}Delete{/t}">
+      </td>
+    </tr>
+</table>
+</form>
+{/block}
 

@@ -171,19 +171,19 @@ function checkDelete(f)
                             {section name="i" loop=$list}
                             {cycle values=$cycle assign="row_color"}
                             <tr>
-                                <td width="4" nowrap bgcolor="{$row_color}" align="center">
+                                <td width="4" nowrap align="center">
                                     <input type="checkbox" name="items[]" value="{$list[i].grp_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                                 </td>
-                                <td width="20%" bgcolor="{$row_color}">
+                                <td width="20%">
                                     &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name}</a>
                                 </td>
-                                <td width="20%" bgcolor="{$row_color}">
+                                <td width="20%">
                                     &nbsp;{$list[i].grp_description}
                                 </td>
-                                <td width="40%" bgcolor="{$row_color}">
+                                <td width="40%">
                                     &nbsp;{$list[i].manager}
                                 </td>
-                                <td width="20%" bgcolor="{$row_color}">
+                                <td width="20%">
                                     &nbsp;{", "|join:$list[i].projects}
                                 </td>
                             </tr>

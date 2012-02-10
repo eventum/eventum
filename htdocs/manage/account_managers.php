@@ -29,45 +29,47 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/account_managers.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "account_managers");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Customer::insertAccountManager());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Customer::updateAccountManager());
-    } elseif (@$_POST["cat"] == "delete") {
-        Customer::removeAccountManager();
-    } elseif (!empty($_GET['prj_id'])) {
-        $tpl->assign("info", array('cam_prj_id' => $_GET['prj_id']));
-        $tpl->assign('customers', Customer::getAssocList($_GET['prj_id']));
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $info = Customer::getAccountManagerDetails($_GET["id"]);
-        if (!empty($_GET['prj_id'])) {
-            $info['cam_prj_id'] = $_GET['prj_id'];
-        }
-        $tpl->assign('customers', Customer::getAssocList($info['cam_prj_id']));
-        $tpl->assign("info", $info);
-    }
-
-    $tpl->assign("list", Customer::getAccountManagerList());
-    if (!empty($_REQUEST['prj_id'])) {
-        $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
-    }
-    $tpl->assign("project_list", Project::getAll(false));
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+if (@$_POST["cat"] == "new") {
+    $res = Customer::insertAccountManager();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the account manager was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the the account manager.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Customer::updateAccountManager();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the account manager was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the the account manager.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Customer::removeAccountManager();
+} elseif (!empty($_GET['prj_id'])) {
+    $tpl->assign("info", array('cam_prj_id' => $_GET['prj_id']));
+    $tpl->assign('customers', Customer::getAssocList($_GET['prj_id']));
+}
+
+if (@$_GET["cat"] == "edit") {
+    $info = Customer::getAccountManagerDetails($_GET["id"]);
+    if (!empty($_GET['prj_id'])) {
+        $info['cam_prj_id'] = $_GET['prj_id'];
+    }
+    $tpl->assign('customers', Customer::getAssocList($info['cam_prj_id']));
+    $tpl->assign("info", $info);
+}
+
+$tpl->assign("list", Customer::getAccountManagerList());
+if (!empty($_REQUEST['prj_id'])) {
+    $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+}
+$tpl->assign("project_list", Project::getAll(false));
 
 $tpl->displayTemplate();

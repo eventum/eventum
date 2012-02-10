@@ -46,10 +46,10 @@
         {foreach from=$available item=column key=field_name}
         {cycle values=$cycle assign="row_color"}
         <tr>
-          <td bgcolor="{$row_color}" align="center" width="40%">
+          <td align="center" width="40%">
             {$column.title}
           </td>
-          <td bgcolor="{$row_color}" align="center" width="20%">
+          <td align="center" width="20%">
             {if $selected[$field_name].min_role == ''}
               {assign var="selected_role" value=$column.default_role}
             {else}
@@ -59,7 +59,7 @@
               {html_options options=$user_roles selected=$selected_role}
             </select>
           </td>
-          <td bgcolor="{$row_color}" align="center" width="40%">
+          <td align="center" width="40%">
             {if $selected[$field_name].rank == ''}
               {assign var=selected_rank value=$default_rank}
             {else}

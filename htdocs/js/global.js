@@ -477,15 +477,6 @@ function getSelectedOptionValues(f, field_name)
     return selected;
 }
 
-function removeAllOptions(f, field_name)
-{
-    var field = getFormElement(f, field_name);
-    if (field.options.length > 0) {
-        field.options[0] = null;
-        removeAllOptions(f, field_name);
-    }
-}
-
 function getValues(list)
 {
     var values = new Array();
@@ -493,50 +484,6 @@ function getValues(list)
         values[values.length] = list[i].value;
     }
     return values;
-}
-
-function optionExists(field, option)
-{
-    for (var i = 0; i < field.options.length; i++) {
-        if (field.options[i].text == option.text) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function addOptions(f, field_name, options)
-{
-    var field = getFormElement(f, field_name);
-    for (var i = 0; i < options.length; i++) {
-        if (!optionExists(field, options[i])) {
-            field.options.length = field.options.length + 1;
-            field.options[field.options.length-1].text = options[i].text;
-            field.options[field.options.length-1].value = options[i].value;
-        }
-    }
-}
-
-function replaceParam(str, param, new_value)
-{
-    if (str.indexOf("?") == -1) {
-        return param + "=" + new_value;
-    } else {
-        var pieces = str.split("?");
-        var params = pieces[1].split("&");
-        var new_params = new Array();
-        for (var i = 0; i < params.length; i++) {
-            if (params[i].indexOf(param + "=") == 0) {
-                params[i] = param + "=" + new_value;
-            }
-            new_params[i] = params[i];
-        }
-        // check if the parameter doesn't exist on the URL
-        if ((str.indexOf("?" + param + "=") == -1) && (str.indexOf("&" + param + "=") == -1)) {
-            new_params[new_params.length] = param + "=" + new_value;
-        }
-        return new_params.join("&");
-    }
 }
 
 function checkRadio(form_name, field_name, num)
@@ -703,28 +650,6 @@ function openHelp(rel_url, topic)
     var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var helpWin = window.open(rel_url + 'help.php?topic=' + topic, '_help', features);
     helpWin.focus();
-}
-
-// this method will confirm that you want the window to close
-var checkClose = false;
-var closeConfirmMessage = 'Do you want to close this window?';
-function handleClose()
-{
-    if (checkClose == true) {
-        return closeConfirmMessage;
-    } else {
-        return;
-    }
-}
-
-function checkWindowClose(msg)
-{
-    if (msg == false) {
-        checkClose = false;
-    } else {
-        checkClose = true;
-        closeConfirmMessage = msg;
-    }
 }
 
 // Replace special characters MS uses for quotes with normal versions

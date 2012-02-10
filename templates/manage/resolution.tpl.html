@@ -108,8 +108,8 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
-                      <td width="100%" bgcolor="{$row_color}">
+                      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
+                      <td width="100%">
                         &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
                       </td>
                     </tr>

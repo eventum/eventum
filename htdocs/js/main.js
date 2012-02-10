@@ -21,6 +21,8 @@ $(document).ready(function() {
     $(":text:visible:enabled").not(".noautofocus").first().focus();
 
     $('.close_window').click(function() { window.close(); });
+
+    window.onbeforeunload = Eventum.handleClose;
 });
 
 
@@ -29,6 +31,8 @@ function Eventum()
 }
 
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
+Eventum.checkClose = false;
+Eventum.closeConfirmMessage = 'Do you want to close this window?';
 
 Eventum.toggle_section_visibility = function(id) {
     var element = $('#' + id);
@@ -121,6 +125,80 @@ Eventum.removeOptionByValue = function(field, value)
     }
 }
 
+Eventum.selectAllOptions = function(field)
+{
+    Eventum.getField(field).find('option').each(function() { this.selected = true; });
+}
+
+Eventum.addOptions = function(field, options)
+{
+    var field = Eventum.getField(field);
+    $.each(options, function(index, value) {
+        var option = new Option(value.text, value.value);
+        if (!Eventum.optionExists(field, option)) {
+            field.append(option);
+        }
+    });
+}
+
+Eventum.optionExists = function(field, option)
+{
+    var field = Eventum.getField(field);
+    var option = $(option);
+    if (field.find('option[value="' + Eventum.escapeSelector(option.val()) + '"]').length > 0) {
+        return true;
+    }
+    return false;
+}
+
+Eventum.removeAllOptions = function(field)
+{
+    var field = Eventum.getField(field);
+    field.html('');
+}
+
+
+
+Eventum.replaceParam = function(str, param, new_value)
+{
+    if (str.indexOf("?") == -1) {
+        return param + "=" + new_value;
+    } else {
+        var pieces = str.split("?");
+        var params = pieces[1].split("&");
+        var new_params = new Array();
+        for (var i = 0; i < params.length; i++) {
+            if (params[i].indexOf(param + "=") == 0) {
+                params[i] = param + "=" + new_value;
+            }
+            new_params[i] = params[i];
+        }
+        // check if the parameter doesn't exist on the URL
+        if ((str.indexOf("?" + param + "=") == -1) && (str.indexOf("&" + param + "=") == -1)) {
+            new_params[new_params.length] = param + "=" + new_value;
+        }
+        return new_params.join("&");
+    }
+}
+
+Eventum.handleClose = function()
+{
+    if (Eventum.checkClose == true) {
+        return Eventum.closeConfirmMessage;
+    } else {
+        return;
+    }
+}
+
+Eventum.checkWindowClose = function(msg)
+{
+    if (!msg) {
+        Eventum.checkClose = false;
+    } else {
+        Eventum.checkClose = true;
+        Eventum.closeConfirmMessage = msg;
+    }
+}
 
 
 function Validation()

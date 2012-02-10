@@ -152,12 +152,12 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
-                      <td width="40%" bgcolor="{$row_color}">
+                      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
+                      <td width="40%">
                         &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
                       </td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].pre_scheduled_date}</td>
-                      <td bgcolor="{$row_color}">&nbsp;{$list[i].pre_status}</td>
+                      <td>&nbsp;{$list[i].pre_scheduled_date}</td>
+                      <td>&nbsp;{$list[i].pre_status}</td>
                     </tr>
                     {sectionelse}
                     <tr>

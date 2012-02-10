@@ -29,52 +29,59 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/faq.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "faq");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", FAQ::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", FAQ::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        FAQ::remove();
-    } elseif (!empty($_GET['prj_id'])) {
-        $tpl->assign("info", array('faq_prj_id' => $_GET['prj_id']));
-        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
-        $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
-        if ($backend_uses_support_levels) {
-            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
-        }
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $info = FAQ::getDetails($_GET["id"]);
-        if (!empty($_GET['prj_id'])) {
-            $info['faq_prj_id'] = $_GET['prj_id'];
-        }
-        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['faq_prj_id']);
-        $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
-        if ($backend_uses_support_levels) {
-            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['faq_prj_id']));
-        }
-        $tpl->assign("info", $info);
-    } elseif (@$_GET["cat"] == "change_rank") {
-        FAQ::changeRank($_GET['id'], $_GET['rank']);
-    }
-
-    $tpl->assign("list", FAQ::getList());
-    $tpl->assign("project_list", Project::getAll());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+
+if (@$_POST["cat"] == "new") {
+    $res = FAQ::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the FAQ entry was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the FAQ entry.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = FAQ::update();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the FAQ entry was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the FAQ entry information.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    FAQ::remove();
+} elseif (!empty($_GET['prj_id'])) {
+    $tpl->assign("info", array('faq_prj_id' => $_GET['prj_id']));
+    $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
+    $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+    if ($backend_uses_support_levels) {
+        $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
+    }
+}
+
+if (@$_GET["cat"] == "edit") {
+    $info = FAQ::getDetails($_GET["id"]);
+    if (!empty($_GET['prj_id'])) {
+        $info['faq_prj_id'] = $_GET['prj_id'];
+    }
+    $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['faq_prj_id']);
+    $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+    if ($backend_uses_support_levels) {
+        $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['faq_prj_id']));
+    }
+    $tpl->assign("info", $info);
+} elseif (@$_GET["cat"] == "change_rank") {
+    FAQ::changeRank($_GET['id'], $_GET['rank']);
+}
+
+$tpl->assign("list", FAQ::getList());
+$tpl->assign("project_list", Project::getAll());
 
 $tpl->displayTemplate();
