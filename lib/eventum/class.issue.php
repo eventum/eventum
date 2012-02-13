@@ -3619,21 +3619,7 @@ class Issue
      */
     public static function canUpdate($issue_id, $usr_id)
     {
-        if (!self::canAccess($issue_id, $usr_id)) {
-            return false;
-        }
-
-        $prj_id = Issue::getProjectID($issue_id);
-        $workflow = Workflow::canUpdateIssue($prj_id, $issue_id, $usr_id);
-        if (!is_null($workflow)) {
-            return $workflow;
-        }
-
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Customer")) {
-            return true;
-        }
-
-        return false;
+        return Access::canUpdateIssue($issue_id, $usr_id);
     }
 
 

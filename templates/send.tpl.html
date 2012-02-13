@@ -269,7 +269,7 @@ function setSignature(f)
           </td>
         </tr>
         {if $issue_id and $current_role > $roles.customer and $read_only != 1}
-            {if $hide_email_buttons != 'yes'}
+            {if $hide_email_buttons != 'yes' and $issue_access.change_status}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}New Status for Issue{/t} #{$issue_id}:</b>

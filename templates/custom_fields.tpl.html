@@ -52,7 +52,7 @@ function updateCustomFields(issue_id)
                 </td>
               </tr>
               {/section}
-              {if $current_role > $roles.reporter and $custom_fields != ""}
+              {if $current_role > $roles.reporter and $custom_fields != "" and $can_update}
               <tr>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
                   <input class="button" type="button" value="{t}Update{/t}" onClick="updateCustomFields({$smarty.get.id|intval});">

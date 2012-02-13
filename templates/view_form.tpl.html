@@ -379,7 +379,7 @@ function collapseDescription()
           <td colspan="4">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                {if $current_role > $roles.customer}
+                {if $current_role > $roles.customer and $can_update}
                 <td nowrap>
                   {if $is_user_assigned == 1}
                     {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
@@ -398,7 +398,7 @@ function collapseDescription()
                   &nbsp;<input class="button" type="button" value="{t}Reply{/t}" onClick="replyIssue({$issue.iss_id});">
                   {/if}
                 </td>
-                {if $current_role > $roles.customer}
+                {if $current_role > $roles.customer and $can_update}
                 <td nowrap>
                   <nobr>
                   {if not $issue.sta_is_closed}
@@ -425,18 +425,18 @@ function collapseDescription()
             <table border="0" width="100%" cellpadding="0" cellspacing="0">
               <tr>
                 <td width="50%">
-                  {if $is_user_authorized != 1}
+                  {if $is_user_authorized != 1 and $issue_access.authorized_repliers}
                     <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
                   {/if}
-                  {if $is_user_notified != 1}
+                  {if $is_user_notified != 1 and $issue_access.notification_list}
                     <input type="button" value="{t}Add Me To Notification{/t}" class="button" onClick="selfNotification({$issue.iss_id});">
                   {/if}
-                  {if $issue.customer_info.is_per_incident}
+                  {if $issue.customer_info.is_per_incident and $can_update}
                     <input type="button" value="{t}Edit Incident Redemption{/t}" class="button" onClick="editIncidentRedemption({$issue.iss_id});">
                   {/if}
                 </td>
                 <td width="50%" align="right">
-                  {if $statuses != ''}
+                  {if $statuses != '' and ($can_update or $issue_access.change_status)}
                   <input type="button" value="{t}Change Status To{/t} &gt;" class="button" onClick="changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
                   <select class="default" name="new_status">
                     {html_options options=$statuses selected=$issue.iss_sta_id}

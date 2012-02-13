@@ -25,6 +25,21 @@
     </center>
     {/if}
 {else}
+<script type="text/javascript">
+{literal}
+$().ready(function() {
+    $('input.partners').click(function(e) {
+        var target = $(e.target);
+        if (target.is(':checked')) {
+            var warning = 'WARNING: Adding a partner will allow them to see the issue overview, emails and other issue information.';
+            if (!confirm(warning)) {
+                return false
+            }
+        }
+    });
+});
+{/literal}
+</script>
 
 <table align="center" width="100%" cellpadding="3">
   <tr>
@@ -42,7 +57,7 @@
               {foreach from=$enabled_partners item=partner key=par_code}
               <tr>
                 <td bgcolor="{$light_color}" width="100%" class="default">
-                    <label><input type="checkbox" name="partners[]" value="{$par_code}" {if $partners.$par_code != ''}checked{/if} />
+                    <label><input class="partners" type="checkbox" name="partners[]" value="{$par_code}" {if $partners.$par_code != ''}checked{/if} />
                         {$partner.name}</label></td>
               </tr>
               {/foreach}

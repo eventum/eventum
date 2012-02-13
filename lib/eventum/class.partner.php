@@ -388,4 +388,21 @@ class Partner
         }
         return null;
     }
+
+    /**
+     * If the partner can edit the issue.
+     *
+     * @param integer   $issue_id
+     * @param integer   $usr_id
+     * @return bool
+     */
+    public static function canUpdateIssue($issue_id, $usr_id)
+    {
+        $usr_details = User::getDetails($usr_id);
+        if (!empty($usr_details['usr_par_code'])) {
+            $backend = self::getBackend($usr_details['usr_par_code']);
+            return $backend->canUpdateIssue($issue_id, $usr_id);
+        }
+        return null;
+    }
 }

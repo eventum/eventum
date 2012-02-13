@@ -59,4 +59,6 @@ abstract class Abstract_Partner_Backend
     {
         return null;
     }
+
+    public static function canEditIssue($issue_id, $usr_id) {}
 }
