@@ -171,6 +171,7 @@ $tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id))
 
 $user_prefs = Prefs::get($usr_id);
 $tpl->assign("current_user_prefs", $user_prefs);
+$tpl->assign('issue_access', Access::getIssueAccessArray($issue_id, $usr_id));
 
 // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
 if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_email_sig"] == 1) &&

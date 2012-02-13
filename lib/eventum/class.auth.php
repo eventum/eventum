@@ -340,7 +340,7 @@ class Auth
      * @param   boolean $is_popup Whether the current window is a popup or not
      * @return  void
      */
-    function redirect($url, $is_popup = false)
+    public static function redirect($url, $is_popup = false)
     {
         if ($is_popup) {
             $html = '<script type="text/javascript">

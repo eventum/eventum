@@ -37,6 +37,12 @@ $prj_id = Auth::getCurrentProject();
 $role_id = Auth::getCurrentRole();
 $usr_id = Auth::getUserID();
 
+// redirect partners to list.php instead of sanitizing this page
+if (User::isPartner($usr_id)) {
+    Auth::redirect('list.php');
+}
+
+
 if (isset($_REQUEST['hide_closed'])) {
     Auth::setCookie(APP_HIDE_CLOSED_STATS_COOKIE, $_REQUEST['hide_closed'], Date_Helper::getCurrentUnixTimestampGMT()+YEAR);
     $_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE] = $_REQUEST['hide_closed'];

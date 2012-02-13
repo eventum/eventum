@@ -188,10 +188,16 @@ function collapseDescription()
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
-            [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
-            [ <a class="link" title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
+                {if $issue_access.notification_list}
+                [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
+                {/if}
+                {if $issue_access.authorized_repliers}
+                [ <a class="link" title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
+                {/if}
             {/if}
+            {if $issue_access.history}
             [ <a class="link" title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
+            {/if}
           </td>
         </tr>
         {if $has_customer_integration and $issue.iss_customer_id}

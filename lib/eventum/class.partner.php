@@ -198,6 +198,16 @@ class Partner
         return $return;
     }
 
+
+    public static function isPartnerEnabledForIssue($par_code, $iss_id)
+    {
+        if (in_array($par_code, self::getPartnerCodesByIssue($iss_id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @static
      * Scans the directories for partner backends.
@@ -349,7 +359,7 @@ class Partner
     /**
      * @static
      * @param $usr_id
-     * @param string $feature create_issue, associate_emails, reports
+     * @param string $feature create_issue, associate_emails, reports, export
      * @return bool
      */
     public static function canUserAccessFeature($usr_id, $feature)
@@ -365,7 +375,8 @@ class Partner
     /**
      * @static
      * @param $usr_id
-     * @param string $section partners, drafts, files, time, notes, phone
+     * @param string $section partners, drafts, files, time, notes, phone, history, notification_list,
+     *  authorized_repliers
      * @return bool
      */
     public static function canUserAccessIssueSection($usr_id, $section)

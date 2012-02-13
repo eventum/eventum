@@ -30,6 +30,10 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (!Access::canExportData(Auth::getUserID())) {
+    exit;
+}
+
 $csv = base64_decode($_POST['csv_data']);
 
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past

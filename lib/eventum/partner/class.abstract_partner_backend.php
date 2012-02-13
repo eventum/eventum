@@ -47,8 +47,6 @@ abstract class Abstract_Partner_Backend
 
     public function issueRemoved($iss_id) {}
 
-    public function canViewIssue($iss_id, $usr_id) {}
-
     public function handleNewEmail($iss_id, $sup_id) {}
 
     public function handleNewNote($iss_id, $not_id) {}

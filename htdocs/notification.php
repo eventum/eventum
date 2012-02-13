@@ -38,6 +38,12 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
+if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 // format default actions properly
 $default = Notification::getDefaultActions();
 $res = array();

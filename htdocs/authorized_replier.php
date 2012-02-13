@@ -36,6 +36,11 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
+if (!Access::canViewAuthorizedRepliers($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
 
 if (@$_POST["cat"] == "insert") {
     $res = Authorized_Replier::manualInsert($issue_id, $_POST['email']);

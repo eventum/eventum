@@ -24,7 +24,9 @@
             {if $current_role > $roles.customer}
             <a target="_top" title="{t}list all issues assigned to you{/t}" href="{$rel_url}list.php?view=my_assignments" class="white_link">{t}My Assignments{/t}</a>&nbsp;|
             {/if}
+            {if $is_current_user_partner != true}
             <a target="_top" title="{t}general statistics{/t}" href="{$rel_url}main.php" class="white_link">{t}Stats{/t}</a>&nbsp;|
+            {/if}
             {if $feature_access.reports}
             <a target="_top" title="{t}reporting system{/t}" href="{$rel_url}reports/index.php" class="white_link">{t}Reports{/t}</a>&nbsp;|
             {/if}

@@ -51,11 +51,6 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
         echo "partner: issue $iss_id removed for " . $this->getName();
     }
 
-    public function canViewIssue($iss_id, $usr_id)
-    {
-
-    }
-
     public function handleNewEmail($iss_id, $sup_id)
     {
         echo "partner: new email $sup_id on issue $iss_id";

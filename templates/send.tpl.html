@@ -56,10 +56,12 @@ setTimeout('closeAndRefresh()', 2000);
 <!--
 checkWindowClose('{t}If you close this window, you will lose your message{/t}');
 
+{if not $is_current_user_partner}
 var contact_list = new Array();
 {section name="i" loop=$assoc_emails}
 contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
 {/section}
+{/if}
 
 var email_responses = new Array();
 {section name="i" loop=$js_canned_responses}
@@ -216,7 +218,9 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="cc" class="default" size="50" value="{$email.cc|escape:"html"}" {if $read_only == 1}readonly{/if}>
+            {if not $is_current_user_partner}
             {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {/if}
           </td>
         </tr>
         {if $issue_id and $current_role != $roles.customer and $read_only != 1}
@@ -277,6 +281,7 @@ function setSignature(f)
           </td>
         </tr>
         {/if}
+        {if $issue_access.time}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Time Spent{/t}:</b>
@@ -285,6 +290,7 @@ function setSignature(f)
             <input type="text" size="5" name="time_spent" class="default"> <span class="small_default"><i>({t}in minutes{/t})</i></span>
           </td>
         </tr>
+        {/if}
         {elseif $issue_id and $current_role == $roles.customer}
         <input type="hidden" name="new_status" value="{$new_status}">
         {/if}
@@ -319,7 +325,7 @@ function setSignature(f)
           </td>
         </tr>
         {/if}
-        {if $issue_id and $current_role != $roles.customer}
+        {if $issue_id and $current_role != $roles.customer and $issue_access.drafts }
         <tr>
           <td bgcolor="{if $hide_email_buttons == 'yes'}{$cell_color}{else}{$dark_color}{/if}" colspan="2">
             {if $read_only != 1}

@@ -229,7 +229,9 @@ function updateCustomFields(issue_id)
                   {if $sorting.images.iss_summary != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}" class="white_link"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
                 </td>
                 <td align="right">
+                  {if $feature_access.export}
                   <span class="default_white">{t}Export Data:{/t}</span> <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="return downloadCSV();">
+                  {/if}
                 </td>
               </tr>
             </table>

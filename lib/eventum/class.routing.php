@@ -285,7 +285,8 @@ class Routing
         // check if the sender is allowed in this issue' project and if it is an internal user
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
-        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) &&
+        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User')) ||
+                (User::isPartner($sender_usr_id) && !Access::canViewInternalNotes($issue_id, $sender_usr_id))) &&
                 ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
             return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
