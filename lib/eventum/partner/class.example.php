@@ -98,4 +98,8 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
                 return false;
         }
     }
+
+    public static function canUpdateIssue($issue_id, $usr_id) {
+        return false;
+    }
 }
