@@ -1860,7 +1860,7 @@ class Support
      * @param   string $sender_email The email address
      * @return  boolean
      */
-    function isAllowedToEmail($issue_id, $sender_email)
+    public static function isAllowedToEmail($issue_id, $sender_email)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -1894,6 +1894,8 @@ class Support
             // also not the reporter
             $details = Issue::getDetails($issue_id);
             if ($sender_usr_id == $details['iss_usr_id']) {
+                $is_allowed = true;
+            } elseif ((User::isPartner($sender_usr_id)) && (in_array(User::getPartnerID($sender_usr_id), Partner::getPartnerCodesByIssue($issue_id)))) {
                 $is_allowed = true;
             } elseif ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                 $is_allowed = false;

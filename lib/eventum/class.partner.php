@@ -163,7 +163,7 @@ class Partner
         return $return;
     }
 
-    private static function getPartnerCodesByIssue($iss_id)
+    public static function getPartnerCodesByIssue($iss_id)
     {
         $prj_id = Issue::getProjectID($iss_id);
         $sql = "SELECT
