@@ -67,7 +67,11 @@ if (isset($_REQUEST['view'])) {
     }
 }
 
-$options = Search::saveSearchParams();
+if (!empty($_REQUEST['nosave'])) {
+	$options = Search::saveSearchParams(false);
+} else {
+	$options = Search::saveSearchParams();
+}
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Search::getSortingInfo($options));
 

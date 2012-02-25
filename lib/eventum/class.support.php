@@ -1152,6 +1152,8 @@ class Support
     /**
      * Method used to save the current search parameters in a cookie.
      *
+     * TODO: Merge with Search::saveSearchParams()
+     *
      * @access  public
      * @return  array The search parameters
      */

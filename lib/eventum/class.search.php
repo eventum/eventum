@@ -56,10 +56,12 @@ class Search
 
     /**
      * Method used to save the current search parameters in a cookie.
+     * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
+     * @param   string $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
-    public static function saveSearchParams()
+    public static function saveSearchParams($save_db = true)
     {
         $sort_by = self::getParam('sort_by');
         $sort_order = self::getParam('sort_order');
@@ -139,7 +141,10 @@ class Search
                 );
             }
         }
-        Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
+
+        if ($save_db) {
+            Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
+        }
         return $cookie;
     }
 
