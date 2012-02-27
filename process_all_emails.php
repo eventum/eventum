@@ -36,21 +36,19 @@ $structure = Mime_Helper::decode($full_message, false, true);
 // since this is all hacked up anyway, let's hardcode the values
 if ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'email') !== false) {
     $_SERVER['argv'][1] = '1';
-    Routing::route_emails($full_message);
+    $return = Routing::route_emails($full_message);
 } elseif ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'note') !== false) {
-    Routing::route_notes($full_message);
+    $return = Routing::route_notes($full_message);
 } elseif ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'draft') !== false) {
-    Routing::route_drafts($full_message);
+    $return = Routing::route_drafts($full_message);
 } elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'email') !== false) {
     $_SERVER['argv'][1] = '1';
-    Routing::route_emails($full_message);
+    $return = Routing::route_emails($full_message);
 } elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'note') !== false) {
-    Routing::route_notes($full_message);
+    $return = Routing::route_notes($full_message);
 } elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'draft') !== false) {
-    Routing::route_drafts($full_message);
-}
-
-else {
+    $return = Routing::route_drafts($full_message);
+} else {
     /*
      * TODO: Save other emails
     // save this message in a special directory
@@ -63,5 +61,10 @@ else {
     chmod($path . $filename, 0777);
     */
     // postfix uses exit code 67 to flag unknown users
-    exit(67);
+    $return = array(67, '');
+}
+
+if (is_array($return)) {
+    echo $return[1];
+    exit($return[0]);
 }
