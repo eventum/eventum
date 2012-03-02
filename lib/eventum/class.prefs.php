@@ -48,7 +48,7 @@ class Prefs
     {
         $prefs = array(
             'receive_assigned_email'  => array(),
-            'receive_new_emails'      => array(),
+            'receive_new_issue_email' => array(),
             'timezone'                => Date_Helper::getDefaultTimezone(),
             'week_firstday'           => Date_Helper::getDefaultWeekday(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,

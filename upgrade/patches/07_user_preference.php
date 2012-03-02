@@ -60,7 +60,7 @@ foreach ($res as $row) {
     unset($new_preferences['receive_assigned_emails']);
 
     $new_preferences['receive_new_issue_email'] = $old_preferences['receive_new_emails'];
-    unset($new_preferences['receive_new_email']);
+    unset($new_preferences['receive_new_emails']);
 
     $new_preferences['receive_copy_of_own_action'][1] = 0;
 

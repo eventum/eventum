@@ -27,6 +27,7 @@
 // +----------------------------------------------------------------------+
 
 require_once 'Math/Stats.php';
+require_once 'Date.php';
 
 /**
  * Class to handle the business logic related to all aspects of the
