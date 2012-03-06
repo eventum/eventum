@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-04 12:00+0200\n"
-"PO-Revision-Date: 2012-01-11 16:38+0000\n"
-"Last-Translator: Daniel Winzen <d@winzen4.de>\n"
+"PO-Revision-Date: 2012-03-05 19:10+0000\n"
+"Last-Translator: Dennis Baudys <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-12 05:42+0000\n"
-"X-Generator: Launchpad (build 14640)\n"
+"X-Launchpad-Export-Date: 2012-03-06 04:49+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1262,12 +1262,12 @@ msgstr "Abschlusstext:"
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Brasilianisches Portugiesisch"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Bretonisch"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -2610,7 +2610,7 @@ msgstr "Veranschlagte Zeit (Stunden)"
 #. TRANSLATORS: Translation of Estonian language in preferences dropdown
 #: localization/LINGUAS.php:24
 msgid "Estonian"
-msgstr ""
+msgstr "Estnisch"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2634,7 +2634,7 @@ msgstr "Eventum konnte Ihre Email nicht zustellen"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Excerpts"
-msgstr ""
+msgstr "Auszüge"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
@@ -2770,7 +2770,7 @@ msgstr "Weitere Empfänger des Hinweises:"
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
-msgstr ""
+msgstr "Färöisch"
 
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
@@ -3006,7 +3006,7 @@ msgstr "Hilfethemen"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Hide"
-msgstr ""
+msgstr "Ausblenden"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -3231,7 +3231,7 @@ msgstr "Eingehend"
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesisch"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
@@ -3433,12 +3433,12 @@ msgstr ""
 #. TRANSLATORS: Translation of Italian language in preferences dropdown
 #: localization/LINGUAS.php:40
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 #. TRANSLATORS: Translation of Japanese language in preferences dropdown
 #: localization/LINGUAS.php:42
 msgid "Japanese"
-msgstr ""
+msgstr "Japanisch"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
@@ -3460,7 +3460,7 @@ msgstr "Schlüsselwort (-wörter)"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
-msgstr ""
+msgstr "Koreanisch"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3512,7 +3512,7 @@ msgstr "Letzte Aktualisierung"
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
 #: localization/LINGUAS.php:48
 msgid "Latvian"
-msgstr ""
+msgstr "Lettisch"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3574,7 +3574,7 @@ msgstr "Vorgangsliste / Suche nach Vorgängen"
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litauisch"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
@@ -3775,7 +3775,7 @@ msgstr "Montag"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Bildschirmeinrichtung"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -3966,7 +3966,7 @@ msgstr "Es konnten keine Aktionen gefunden werden."
 
 #: templates/manage/email_alias.tpl.html
 msgid "No aliases could be found."
-msgstr ""
+msgstr "Es wurden keine Aliase gefunden."
 
 #: templates/support_emails.tpl.html
 msgid "No associated emails could be found."
@@ -4207,7 +4207,7 @@ msgstr "Die Notizen wurden an existierende Vorgänge angehängt"
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
-msgstr ""
+msgstr "Notizen:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
@@ -4257,7 +4257,7 @@ msgstr "OK: Keine Fehler gefunden"
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
-msgstr ""
+msgstr "Okzitanisch (nach 1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4450,7 +4450,7 @@ msgstr "Wartend"
 #: lib/eventum/class.notification.php:651
 #: lib/eventum/class.notification.php:652
 msgid "Percent complete"
-msgstr ""
+msgstr "Prozent abgeschlossen"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -4485,7 +4485,7 @@ msgstr "Telefonanrufe"
 
 #: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
-msgstr ""
+msgstr "Anrufe:"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
@@ -5559,7 +5559,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Polnisch"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -5569,7 +5569,7 @@ msgstr "Port:"
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugiesisch"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5988,7 +5988,7 @@ msgstr "Ersetzungswert"
 
 #: templates/help/link_filters.tpl.html
 msgid "Replacement: \"%1\""
-msgstr ""
+msgstr "Ersetzen mit: »%1»"
 
 #: templates/notes.tpl.html templates/support_emails.tpl.html
 #: templates/view_email.tpl.html templates/view_form.tpl.html
@@ -6147,7 +6147,7 @@ msgstr "Suche ausführen"
 #. TRANSLATORS: Translation of Russian language in preferences dropdown
 #: localization/LINGUAS.php:60
 msgid "Russian"
-msgstr ""
+msgstr "Russisch"
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
@@ -6346,7 +6346,7 @@ msgstr "Einstellungen speichern"
 
 #: templates/bulk_update.tpl.html
 msgid "Set Message"
-msgstr ""
+msgstr "Nachricht festlegen"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Set available options"
@@ -6362,7 +6362,7 @@ msgstr "Feld kürzen"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Show"
-msgstr ""
+msgstr "Anzeigen"
 
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
@@ -6433,7 +6433,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Singhalesisch"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
@@ -6459,12 +6459,16 @@ msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Entschuldigung, aber die E-Mail konnte nicht eingereiht werden. Dies hängt "
+"möglicherweise mit Problemen mit Ihren SMTP-Kontoeinstellungen zusammen."
 
 #: templates/send.tpl.html
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Entschuldigung, aber die E-Mail konnte nicht gesendet werden. Dies hängt "
+"möglicherweise mit Problemen mit Ihren SMTP-Kontoeinstellungen zusammen."
 
 #: templates/post.tpl.html
 msgid ""
@@ -6523,7 +6527,7 @@ msgstr "Sortierreihenfolge"
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Spanisch"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -6677,7 +6681,7 @@ msgstr "Zusammenfassung:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
-msgstr ""
+msgstr "Zusammenfassung: %1"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
@@ -6702,7 +6706,7 @@ msgstr "Supportoptionen"
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Schwedisch"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6718,7 +6722,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Tamil language in preferences dropdown
 #: localization/LINGUAS.php:66
 msgid "Tamil"
-msgstr ""
+msgstr "Tamilisch"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6751,7 +6755,7 @@ msgstr "Mehrzeiliges Textfeld"
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Thailändisch"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -8015,7 +8019,7 @@ msgstr "Ausgelöste Erinnerungen"
 #. TRANSLATORS: Translation of Turkish language in preferences dropdown
 #: localization/LINGUAS.php:70
 msgid "Turkish"
-msgstr ""
+msgstr "Türkisch"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -8041,7 +8045,7 @@ msgstr "URL"
 #. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
 #: localization/LINGUAS.php:72
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainisch"
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -8235,7 +8239,7 @@ msgstr "neue Signatur hochladen"
 #. TRANSLATORS: Translation of Urdu language in preferences dropdown
 #: localization/LINGUAS.php:74
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
@@ -8318,7 +8322,7 @@ msgstr "Wert:"
 #. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
 #: localization/LINGUAS.php:76
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamesisch"
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
@@ -8567,11 +8571,11 @@ msgstr "Feld erweitern"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
 msgid "Will save as a note"
-msgstr ""
+msgstr "Wird als Notiz gespeichert"
 
 #: templates/close.tpl.html
 msgid "Will save as email"
-msgstr ""
+msgstr "Wird als E-Mail gespeichert"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -8581,11 +8585,11 @@ msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work ended"
-msgstr ""
+msgstr "Arbeit beendet"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work started"
-msgstr ""
+msgstr "Arbeit begonnen"
 
 #: templates/manage/projects.tpl.html
 msgid "Workflow Backend"
@@ -8601,7 +8605,7 @@ msgstr "Bericht zu Arbeitsbelastung im Zeitraum"
 
 #: htdocs/reports/workload_time_period_graph.php:54
 msgid "Workload by Time Period"
-msgstr ""
+msgstr "Arbeitslast im Zeitraum"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Workload by Time of day"
