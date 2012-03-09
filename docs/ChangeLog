@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
 - Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
+- Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
