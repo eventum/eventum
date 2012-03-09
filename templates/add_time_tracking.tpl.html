@@ -1,6 +1,9 @@
-{include file="header.tpl.html" extra_title="Issue #$issue_id - Add Time Tracking"}
+{extends "base.tpl.html"}
+{block "title"}Issue #{$issue_id} - Custom Fields{/block}
 
-{if $time_add_result != ''}
+{block "content"}
+
+{if $time_add_result|default:'' != ''}
     <br />
     <center>
     <span><b>
@@ -126,8 +129,8 @@ function calcDateDiff(f, type, element)
 	}
 
 	/* refill form after calculation */
-	updateTimeFields(f.name, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]', d1)
-	updateTimeFields(f.name, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]', d2)
+	Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]', d1)
+	Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]', d2)
 
 	duration = parseInt(duration);
 	if (duration > 0) {
@@ -138,78 +141,67 @@ function calcDateDiff(f, type, element)
 //-->
 </script>
 {/literal}
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-      <form name="add_time_form" onSubmit="return validateTimeForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+      <form name="add_time_form" class="validate" data-validation-function="validateTimeForm" method="post" action="{$smarty.server.PHP_SELF}">
       <input type="hidden" name="cat" value="add_time">
       <input type="hidden" name="issue_id" value="{$issue_id}">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-              {if $core.current_role > $core.roles.viewer}
-              <tr>
-                <td colspan="2"><b>{t}Record Time Worked{/t}:</b></td>
-              </tr>
-              <tr>
-                <td width="190" nowrap><b>{t}Summary{/t}:</b></td>
-                <td width="100%"><input type="text" name="summary" size="40">{include file="error_icon.tpl.html" field="summary"}</td>
-              </tr>
-              <tr>
-                <td width="190" nowrap><b>{t}Category{/t}:</b></td>
-                <td width="100%">
-                  <select name="category">
-                    <option value="">{t}Please choose a category{/t}</option>
-                    {html_options options=$time_categories}
-                  </select>
-                  {include file="error_icon.tpl.html" field="category"}
-                </td>
-              </tr>
+        <table class="bordered">
+          {if $core.current_role > $core.roles.viewer}
+          <tr class="title">
+            <th colspan="2">{t}Record Time Worked{/t}</th>
+          </tr>
+          <tr>
+            <th width="190" nowrap>{t}Summary{/t}</th>
+            <td width="100%"><input type="text" name="summary" size="40">{include file="error_icon.tpl.html" field="summary"}</td>
+          </tr>
+          <tr>
+            <th width="190" nowrap>{t}Category{/t}</th>
+            <td width="100%">
+              <select name="category">
+                <option value="">{t}Please choose a category{/t}</option>
+                {html_options options=$time_categories}
+              </select>
+              {include file="error_icon.tpl.html" field="category"}
+            </td>
+          </tr>
+          <tr>
+            <th width="190" nowrap>{t}Time Spent{/t}</th>
+            <td width="100%"><input type="text" size="5" name="time_spent" onChange="calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
+          </tr>
 
-              <tr>
-                <td width="190" nowrap><b>{t}Time Spent{/t}:</b></td>
-                <td width="100%"><input type="text" size="5" name="time_spent" onChange="calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
-              </tr>
+          <tr>
+            <th width="190" nowrap>{t}Work started{/t}</th>
+            <td width="100%">
+              {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
+              {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
+              <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+            </td>
+          </tr>
 
-              <tr>
-                <td width="190" nowrap><b>{t}Work started{/t}:</b></td>
-                <td width="100%">
-                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
-                  {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
-                  <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
-                </td>
-              </tr>
+          <tr>
+            <th width="190" nowrap>{t}Work ended{/t}</th>
+            <td width="100%">
+              {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"'}&nbsp;
+              {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"' display_seconds=false}
+              <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+            </td>
+          </tr>
 
-              <tr>
-                <td width="190" nowrap><b>{t}Work ended{/t}:</b></td>
-                <td width="100%">
-                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"'}&nbsp;
-                  {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"' display_seconds=false}
-                  <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="2" align="center" width="100%" nowrap>
-                  <input type="submit" value="{t}Add Time Entry{/t}">
-                </td>
-              </tr>
-              {/if}
+          <tr class="buttons">
+            <td colspan="2">
+              <input type="submit" value="{t}Add Time Entry{/t}">
+            </td>
+          </tr>
+          {/if}
             </table>
-          </td>
-        </tr>
       </form>
-      </table>
-    </td>
-  </tr>
-</table>
 <script type="text/javascript">
 <!--
-updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
-updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
+$().ready(function() {
+    var f = $('form[name=add_time_form]');
+    Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
+    Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
+});
 //-->
 </script>
-{include file="app_info.tpl.html"}
 {/if}
-{include file="footer.tpl.html"}
+{/block}

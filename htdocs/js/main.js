@@ -23,6 +23,8 @@ $(document).ready(function() {
     $('.close_window').click(function() { window.close(); });
 
     window.onbeforeunload = Eventum.handleClose;
+
+    $('form.validate').submit(Validation.callback)
 });
 
 
@@ -108,11 +110,16 @@ Eventum.selectOption = function(field, new_values)
     field = Eventum.getField(field)
 
     var values = field.val()
-    if (values == null) {
-        values = new Array();
+
+    if (!jQuery.isArray(values)) {
+        field.val(new_values);
+    } else {
+        if (values == null) {
+            values = new Array();
+        }
+        values.push(new_values);
+        field.val(values);
     }
-    values.push(new_values);
-    field.val(values);
 }
 
 Eventum.removeOptionByValue = function(field, value)
@@ -198,6 +205,30 @@ Eventum.checkWindowClose = function(msg)
         Eventum.checkClose = true;
         Eventum.closeConfirmMessage = msg;
     }
+}
+
+
+
+Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_field, minute_field, date)
+{
+    function padDateValue(str)
+    {
+        if (str.length == 1) {
+            str = '0' + str;
+        }
+        return str;
+    }
+
+    if (typeof date == 'undefined') {
+        date = new Date();
+    }
+    Eventum.selectOption(month_field, padDateValue(date.getMonth()+1));
+    Eventum.selectOption(day_field, padDateValue(date.getDate()));
+    Eventum.selectOption(year_field, date.getFullYear());
+    Eventum.selectOption(hour_field, padDateValue(date.getHours()));
+    // minutes need special case due the 5 minute granularity
+    var minutes = Math.floor(date.getMinutes() / 5) * 5;
+    Eventum.selectOption(minute_field, padDateValue(minutes));
 }
 
 
@@ -339,7 +370,12 @@ Validation.checkFormSubmission = function(form, callback_func)
 {
     Validation.errors = new Array();
     Validation.errors_extra = new Array();
-    callback_func();
+
+    if (typeof(callback_func) == 'string') {
+        eval(callback_func + '()');
+    } else {
+        callback_func();
+    }
     if (Validation.errors.length > 0) {
         // loop through all of the broken fields and select them
         var fields = '';
@@ -407,9 +443,11 @@ Validation.checkCustomFields = function(form)
     });
 }
 
-
-
-
+Validation.callback = function(e)
+{
+    var f = $(e.target);
+    return Validation.checkFormSubmission(f, $(e.target).attr('data-validation-function'))
+}
 
 
 

@@ -132,29 +132,6 @@ function checkSpelling(form_name, field_name)
     popupWin.focus();
 }
 
-function updateTimeFields(form_name, year_field, month_field, day_field, hour_field, minute_field, date)
-{
-    var f = getForm(form_name);
-    if (typeof date == 'undefined') {
-        date = new Date();
-    }
-    selectOption(f, month_field, padDateValue(date.getMonth()+1));
-    selectOption(f, day_field, padDateValue(date.getDate()));
-    selectOption(f, year_field, date.getFullYear());
-    selectOption(f, hour_field, padDateValue(date.getHours()));
-    // minutes need special case due the 5 minute granularity
-    var minutes = Math.floor(date.getMinutes() / 5) * 5;
-    selectOption(f, minute_field, padDateValue(minutes));
-}
-
-function padDateValue(str)
-{
-    if (str.length == 1) {
-        str = '0' + str;
-    }
-    return str;
-}
-
 function resizeTextarea(page_name, form_name, field_name, change)
 {
     var f = getForm(form_name);
@@ -386,17 +363,6 @@ function selectOptions(f, field_name, values)
             if (field.options[y].value == values[i].value) {
                 field.options[y].selected = true;
             }
-        }
-    }
-}
-
-function selectOption(f, field_name, value)
-{
-    field = getFormElement(f, field_name);
-    for (var i = 0; i < field.options.length; i++) {
-        if (field.options[i].value == value) {
-            field.options[i].selected = true;
-            return true;
         }
     }
 }

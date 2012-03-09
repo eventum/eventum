@@ -10,6 +10,8 @@
   {assign var="cf_required" value=$custom_fields[i].fld_anonymous_form_required}
 {elseif $form_type == 'close'}
   {assign var="cf_required" value=$custom_fields[i].fld_close_form_required}
+{elseif $form_type == 'edit'}
+  {assign var="cf_required" value=''}
 {/if}
 <tr class="custom_field"
     data-custom-id="{$custom_fields[i].fld_id}"
@@ -31,7 +33,7 @@
            value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60"
-              {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
+              {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
     <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
@@ -48,7 +50,7 @@
       {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>
 
       {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
-      {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value}
+      {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value|default:''}
     </select>
     {/if}
     {if $custom_fields[i].lookup_method|default:'' != ''}

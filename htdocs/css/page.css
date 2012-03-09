@@ -167,6 +167,10 @@ body#issue_view div#time_tracking tr.total_time td:first-child {
     text-align: right;
 }
 
+body#issue_view div#custom_fields div.content th {
+    width: 200px;
+}
+
 /* End View Issue Page */
 
 /* Begin List issue page */
@@ -207,6 +211,10 @@ body#list_issues #current_filters span {
 body#list_issues #bulk_update {
     width: 80%;
     margin: 1em auto;
+}
+
+body#list_issues #bulk_update table {
+    width: 100%;
 }
 
 /* End List Issue page */

@@ -38,6 +38,7 @@ issue_view.get_ema_id = function()
 issue_view.ready = function(page_id)
 {
     $('#toggle_time_tracking').click(function() { issue_view.toggle_issue_section('time_tracking'); });
+    $('#toggle_custom_fields').click(function() { issue_view.toggle_issue_section('custom_fields'); });
     $('#toggle_internal_notes').click(function() { issue_view.toggle_issue_section('internal_notes'); });
     $('#toggle_phone_calls').click(function() { issue_view.toggle_issue_section('phone_calls'); });
     $('#toggle_drafts').click(function() { issue_view.toggle_issue_section('drafts'); });
@@ -71,6 +72,8 @@ issue_view.ready = function(page_id)
     $('#upload_file').click(issue_view.upload_file);
     $('#attachments .delete_attachment').click(issue_view.delete_attachment);
     $('#attachments .delete_file').click(issue_view.delete_file);
+
+    $('#update_custom_fields').click(issue_view.updateCustomFields);
 }
 
 issue_view.toggle_issue_description = function()
@@ -177,6 +180,15 @@ issue_view.changeIssueStatus = function(e)
         var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_view.get_issue_id() + '&new_sta_id=' + new_status, '_newStatus', features);
         popupWin.focus();
     }
+}
+
+
+issue_view.updateCustomFields = function(e)
+{
+    var issue_id = $(e.target).attr('data-issue-id');
+    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
+    customWin.focus();
 }
 
 issue_view.upload_file = function(e)
