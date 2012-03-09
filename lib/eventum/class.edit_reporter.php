@@ -49,6 +49,11 @@ class Edit_Reporter
         $email = strtolower(Mail_Helper::getEmailAddress($email));
         $usr_id = User::getUserIDByEmail($email, true);
 
+        // If no valid user found reset to system account
+        if (!$usr_id) {
+            $usr_id = APP_SYSTEM_USER_ID;
+        }
+
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 SET
@@ -66,6 +71,11 @@ class Edit_Reporter
             // add the change to the history of the issue
             $summary = 'Reporter was changed to ' . $email . ' by ' . User::getFullName(Auth::getUserID());
             History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_updated'), $summary);
+        }
+
+        // Add new user to notification list
+        if ($usr_id > 0){
+            Notification::subscribeEmail($usr_id, $issue_id, $email, Notification::getDefaultActions());
         }
         return 1;
     }

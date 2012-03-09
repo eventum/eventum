@@ -122,9 +122,9 @@ function calcDateDiff(f, type, element)
 		}
 	} else if (type == 2) { // end time
 		duration = (d2.getTime() - d1.getTime()) / minute;
-	} else if (type == 11) { // refresh start time
+	} else if (type == 11 && duration > 0) { // refresh start time
 		d2.setTime(d1.getTime() + duration * minute);
-	} else if (type == 12) { // refresh end time
+	} else if (type == 12 && duration > 0) { // refresh end time
 		d1.setTime(d2.getTime() - duration * minute);
 	}
 

@@ -2,16 +2,17 @@
 Installation Process
 ====================
 
-Eventum needs PHP >= 5.1.2 (http://www.php.net/) for smooth operation.
+Eventum needs PHP >= 5.1.2 (http://www.php.net/) for smooth operation, PHP >=
+5.2.0 is recommended version.
 
 Additionally you should enable following PHP Core extensions:
  - date (builtin)
- - filter
+ - filter (for PHP < 5.2.0 install from PECL: http://pecl.php.net/package/filter)
  - gd
  - gettext
  - iconv
  - imap
- - json
+ - json (for PHP < 5.2.0 install from PECL: http://pecl.php.net/package/json)
  - mbstring
  - mysql
  - pcre

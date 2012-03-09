@@ -675,8 +675,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
-                    // don't notify the user who made this change
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -717,6 +719,7 @@ class Notification
             return false;
         }
 
+        $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
@@ -725,8 +728,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
-                    // don't notify the user who made this change
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -778,8 +783,10 @@ class Notification
                     $email = $users[$i]["sub_email"];
                 }
             } else {
-                // don't send the notification email to the person who performed the action
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
+                $prefs = Prefs::get($users[$i]['usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
@@ -1053,8 +1060,8 @@ class Notification
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id]))
-                    && (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id])
+            if ((!empty($res[$i]['usr_preferences']['receive_new_issue_email'][$prj_id]))
+                    && (@$res[$i]['usr_preferences']['receive_new_issue_email'][$prj_id])
                     && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }

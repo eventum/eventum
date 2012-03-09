@@ -20,6 +20,8 @@ Eventum Issue Tracking System
 - Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
 - Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
+- Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
+- Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
@@ -101,7 +103,7 @@ Eventum Issue Tracking System
 - Make Last Action Date translatable in issue list screen (Elan Ruusamäe)
 - Added Custom Fields Weekly Report (Raul Raat)
 - Allow setup to configure default timezone and start day of week (Elan Ruusamäe)
-- Make default timezone and default start day of week configurable in setup (Elan Ruusamäe) 
+- Make default timezone and default start day of week configurable in setup (Elan Ruusamäe)
 - Add new option to Custom Fields Weekly Report to show time spent by user (Raul Raat)
 - Fixed bug with displaying help (Bryan)
 - Fixed bug with dynamic custom fields (Bryan)
