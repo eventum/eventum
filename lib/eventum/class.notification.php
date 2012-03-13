@@ -783,7 +783,7 @@ class Notification
                     $email = $users[$i]["sub_email"];
                 }
             } else {
-                $prefs = Prefs::get($users[$i]['usr_id']);
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
                 if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
