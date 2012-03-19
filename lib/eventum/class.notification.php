@@ -1034,7 +1034,6 @@ class Notification
                     usr_id,
                     usr_full_name,
                     usr_email,
-                    usr_preferences,
                     pru_role,
                     usr_customer_id,
                     usr_customer_contact_id
@@ -1053,15 +1052,15 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
-            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
             // don't send these emails to customers
             if (($res[$i]['pru_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((!empty($res[$i]['usr_preferences']['receive_new_issue_email'][$prj_id]))
-                    && (@$res[$i]['usr_preferences']['receive_new_issue_email'][$prj_id])
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            if ((!empty($prefs['receive_new_issue_email'][$prj_id]))
+                    && (@$prefs['receive_new_issue_email'][$prj_id])
                     && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
@@ -1071,8 +1070,7 @@ class Notification
         $stmt = "SELECT
                     usr_id,
                     usr_full_name,
-                    usr_email,
-                    usr_preferences
+                    usr_email
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
@@ -1082,11 +1080,11 @@ class Notification
                     usr_status = 'active'";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
-            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
-            if ((!empty($res[$i]['usr_preferences']['receive_assigned_email'][$prj_id])) &&
-            (@$res[$i]['usr_preferences']['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            if ((!empty($prefs['receive_assigned_email'][$prj_id])) &&
+            (@$prefs['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }

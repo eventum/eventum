@@ -152,7 +152,7 @@ class Prefs
      * @param   array   $preferences An array of preferences
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function set($usr_id, $preferences)
+    public static function set($usr_id, $preferences)
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
         if (!empty($_FILES['file_signature']['name'])) {

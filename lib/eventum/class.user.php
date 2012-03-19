@@ -308,7 +308,6 @@ class User
         if (Auth::userExists($_POST["email"])) {
             return -2;
         }
-        $prefs = serialize(Prefs::getDefaults($projects));
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -316,14 +315,12 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
-                    usr_preferences,
                     usr_status
                  ) VALUES (
                     '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Auth::hashPassword(Misc::escapeString($_POST["passwd"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
-                    '" . Misc::escapeString($prefs) . "',
                     'pending'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
@@ -336,6 +333,9 @@ class User
             for ($i = 0; $i < count($projects); $i++) {
                 Project::associateUser($projects[$i], $new_usr_id, $role);
             }
+
+            Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+
             // send confirmation email to user
             $hash = md5($_POST["full_name"] . md5($_POST["email"]) . Auth::privateKey());
 
@@ -1112,8 +1112,7 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
-                    usr_grp_id,
-                    usr_preferences
+                    usr_grp_id
                  ) VALUES (
                     NULL,
                     NULL,
@@ -1121,8 +1120,7 @@ class User
                     '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
-                    $group_id,
-                    '" . Misc::escapeString($prefs) . "'
+                    $group_id
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -1131,12 +1129,17 @@ class User
         } else {
             $new_usr_id = DB_Helper::get_last_insert_id();
             // add the project associations!
+            $projects = array();
             foreach ($_POST["role"] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
                 Project::associateUser($prj_id, $new_usr_id, $role);
+                $projects[] = $prj_id;
             }
+
+            Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+
             // send email to user
             Notification::notifyNewUser($new_usr_id, $_POST["password"]);
             return 1;
