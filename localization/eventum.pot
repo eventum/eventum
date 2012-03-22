@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-04 12:00+0200\n"
+"POT-Creation-Date: 2012-03-22 11:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,10 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
+msgstr ""
+
+#: templates/close.tpl.html templates/post_note.tpl.html
+msgid "(in minutes)"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -780,7 +784,7 @@ msgstr ""
 msgid "Anonymous Reporting:"
 msgstr ""
 
-#: htdocs/adv_search.php:48 htdocs/list.php:78 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:48 htdocs/list.php:82 templates/adv_search.tpl.html
 msgid "Any"
 msgstr ""
 
@@ -950,11 +954,11 @@ msgstr ""
 msgid "Attached Files"
 msgstr ""
 
-#: lib/eventum/class.support.php:1453
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: lib/eventum/class.support.php:1451
+#: lib/eventum/class.support.php:1453
 msgid "Attachment originated from an email"
 msgstr ""
 
@@ -1050,7 +1054,7 @@ msgstr ""
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: lib/eventum/class.notification.php:965
+#: lib/eventum/class.notification.php:972
 msgid "BLOCKED"
 msgstr ""
 
@@ -1328,7 +1332,7 @@ msgstr ""
 msgid "Close Window"
 msgstr ""
 
-#: lib/eventum/class.notification.php:825
+#: lib/eventum/class.notification.php:832
 msgid "Closed"
 msgstr ""
 
@@ -2037,12 +2041,12 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: lib/eventum/class.support.php:1505
+#: lib/eventum/class.support.php:1507
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1849
+#: lib/eventum/class.support.php:1851
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2150,7 +2154,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2573
+#: lib/eventum/class.support.php:2575
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2230,7 +2234,7 @@ msgstr ""
 msgid "End date"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "End time in the future."
 msgstr ""
 
@@ -2752,7 +2756,7 @@ msgstr ""
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:90 lib/eventum/class.display_column.php:189
+#: htdocs/list.php:94 lib/eventum/class.display_column.php:189
 #: lib/eventum/class.project.php:1101 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
@@ -3662,7 +3666,7 @@ msgstr ""
 msgid "New Attachment"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1120 templates/emails.tpl.html
 msgid "New Issue"
 msgstr ""
 
@@ -3678,7 +3682,7 @@ msgstr ""
 msgid "New Status for Issue"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1467
+#: lib/eventum/class.notification.php:1472
 msgid "New User information"
 msgstr ""
 
@@ -4021,22 +4025,22 @@ msgstr ""
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2054
+#: lib/eventum/class.notification.php:2059
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1894
+#: lib/eventum/class.notification.php:1899
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2140
+#: lib/eventum/class.notification.php:2145
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2236
+#: lib/eventum/class.notification.php:2241
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4168,7 +4172,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2207
+#: lib/eventum/class.support.php:2209
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -5451,7 +5455,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
-#: lib/eventum/class.support.php:1601
+#: lib/eventum/class.support.php:1603
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -6254,7 +6258,7 @@ msgstr ""
 msgid "Start Installation"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Start time in the future."
 msgstr ""
 
@@ -7812,7 +7816,7 @@ msgstr ""
 msgid "Update Values"
 msgstr ""
 
-#: lib/eventum/class.notification.php:695
+#: lib/eventum/class.notification.php:697
 msgid "Updated"
 msgstr ""
 
@@ -7873,11 +7877,11 @@ msgstr ""
 msgid "User Permission Levels"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1393
+#: lib/eventum/class.notification.php:1398
 msgid "User account information updated"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1430
+#: lib/eventum/class.notification.php:1435
 msgid "User account password changed"
 msgstr ""
 
@@ -8137,11 +8141,11 @@ msgid ""
 "'Checkout page' input field is:"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work ended"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work started"
 msgstr ""
 
@@ -8274,7 +8278,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1596
+#: lib/eventum/class.notification.php:1601
 msgid "Your User Account Details"
 msgstr ""
 
@@ -8629,17 +8633,17 @@ msgstr ""
 msgid "must be a valid email address"
 msgstr ""
 
-#: htdocs/adv_search.php:56 htdocs/list.php:85
+#: htdocs/adv_search.php:56 htdocs/list.php:89
 #: lib/eventum/class.filter.php:666
 msgid "myself and my group"
 msgstr ""
 
-#: htdocs/adv_search.php:50 htdocs/list.php:80
+#: htdocs/adv_search.php:50 htdocs/list.php:84
 #: lib/eventum/class.filter.php:664
 msgid "myself and un-assigned"
 msgstr ""
 
-#: htdocs/adv_search.php:57 htdocs/list.php:86
+#: htdocs/adv_search.php:57 htdocs/list.php:90
 #: lib/eventum/class.filter.php:668
 msgid "myself, un-assigned and my group"
 msgstr ""
@@ -8772,7 +8776,7 @@ msgstr ""
 msgid "to access this page."
 msgstr ""
 
-#: htdocs/adv_search.php:49 htdocs/list.php:79
+#: htdocs/adv_search.php:49 htdocs/list.php:83
 #: lib/eventum/class.filter.php:662
 msgid "un-assigned"
 msgstr ""
