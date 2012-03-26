@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-22 23:53+0200\n"
-"PO-Revision-Date: 2012-01-08 03:40+0000\n"
+"PO-Revision-Date: 2012-03-26 01:35+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-23 04:46+0000\n"
-"X-Generator: Launchpad (build 14996)\n"
+"X-Launchpad-Export-Date: 2012-03-26 04:38+0000\n"
+"X-Generator: Launchpad (build 15008)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -35,7 +35,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:199
 msgid "% Complete"
-msgstr "% Concluída"
+msgstr "% Completada"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
@@ -147,7 +147,7 @@ msgstr "(em horas por favor)"
 
 #: templates/close.tpl.html templates/post_note.tpl.html
 msgid "(in minutes)"
-msgstr ""
+msgstr "(em minutos)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -1718,7 +1718,7 @@ msgstr "Personalizar Tela de Listagem de Chamados"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr "Customizar Parâmetros de Monitoramento"
+msgstr "Personalizar Parâmetros de Monitoramento"
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
@@ -1982,7 +1982,7 @@ msgstr "Email sobre atualização do chamado foi enviado para"
 #: lib/eventum/class.monitor.php:107
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
-msgstr "ERRO: Parece não haver espaço livre no disco (porcentagem: %.2f%%)"
+msgstr "ERRO: Há pouco espaço livre no disco (porcentagem restante: %.2f%%)"
 
 #: lib/eventum/class.monitor.php:296
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -1991,7 +1991,7 @@ msgstr "ERRO: Não foi encontrado pid do bot IRC na lista de processos."
 #: lib/eventum/class.monitor.php:273
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr "ERRO: A tabela requerida não foi encontrada \"%s\""
+msgstr "ERRO: Não foi possível encontrar a tabela exigida \"%s\""
 
 #: lib/eventum/class.monitor.php:174
 #, php-format
@@ -2010,7 +2010,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:132
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr "ERRO: O arquivo não foi encontrado (path: %s)"
+msgstr "ERRO: Não foi possível encontrar o arquivo (caminho: %s)"
 
 #: lib/eventum/class.monitor.php:143
 #, php-format
@@ -2049,7 +2049,9 @@ msgstr ""
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
-msgstr "ERRO: O espaço em disco está muito baixo (porcentagem: %.2f%%)"
+msgstr ""
+"ERRO: O espaço restante em disco está ficando muito baixo (porcentagem "
+"restante: %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
@@ -3755,7 +3757,7 @@ msgstr "Segunda"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr "Configuração do Monitor"
+msgstr "Configuração de Monitoramento"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
@@ -4216,7 +4218,7 @@ msgstr "Lista de Notificação:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
-msgstr "Opções de Notificação para Expedir #%1"
+msgstr "Opções de Notificação para o Chamado #%1"
 
 #: lib/eventum/class.notification.php:2060
 #, php-format
@@ -4452,7 +4454,7 @@ msgstr "Pendentes"
 #: lib/eventum/class.notification.php:652
 #: lib/eventum/class.notification.php:653
 msgid "Percent complete"
-msgstr "Porcentagem concluída"
+msgstr "Porcentagem completada"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -5128,7 +5130,7 @@ msgstr "Por favor informe o rank desta prioridade"
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the rank of this resolution."
-msgstr ""
+msgstr "Por favor informe o rank desta resolução."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the rank of this status."
@@ -8728,11 +8730,13 @@ msgstr "Relatório Semanal"
 
 #: templates/manage/monitor.tpl.html
 msgid "Whether to check if IRC Bot is running."
-msgstr "Onde verificar se o IRC Bot está rodando"
+msgstr "Se deve ser verificado se o Bot IRC está em execução."
 
 #: templates/manage/monitor.tpl.html
 msgid "Whether to check permissions of directories and config files."
-msgstr "Onde verificar permissões de diretório e arquivos de configuração."
+msgstr ""
+"Se devem ser verificadas as permissões de diretórios e arquivos de "
+"configuração."
 
 #: templates/resize_textarea.tpl.html
 msgid "Widen the field"
