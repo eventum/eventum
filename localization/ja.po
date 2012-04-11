@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-22 23:53+0200\n"
-"PO-Revision-Date: 2011-08-30 19:17+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2012-04-11 03:41+0000\n"
+"Last-Translator: Brian LaVallee <brian.lavallee@pbxl.jp>\n"
 "Language-Team: Japanese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-23 04:44+0000\n"
-"X-Generator: Launchpad (build 14996)\n"
+"X-Launchpad-Export-Date: 2012-04-11 04:39+0000\n"
+"X-Generator: Launchpad (build 15070)\n"
 "Language: ja\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -32,7 +32,7 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:199
 msgid "% Complete"
-msgstr ""
+msgstr "% 完了"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
