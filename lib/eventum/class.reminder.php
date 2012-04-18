@@ -962,6 +962,10 @@ class Reminder
                     // support NULL as values for a date field
                     if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
                         $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
+                    } elseif (strtoupper($conditions[$i]['rlc_value']) == 'NOW') {
+                        $conditions[$i]['rmf_sql_representation'] = "UNIX_TIMESTAMP(" .
+                            $conditions[$i]['rmf_sql_field'] . ")";
+                        $conditions[$i]['rlc_value'] = 'UNIX_TIMESTAMP()';
                     } else {
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
                         if (@$reminder["rem_skip_weekend"] == 1) {

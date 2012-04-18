@@ -743,3 +743,7 @@ CREATE TABLE issue_partner (
 
 INSERT INTO history_type SET htt_name = 'partner_added', htt_role = 4;
 INSERT INTO history_type SET htt_name = 'partner_removed', htt_role = 4;
+
+
+# reminder expected date
+INSERT INTO reminder_field SET rmf_title = 'Expected Resolution Date', rmf_sql_field = 'iss_expected_resolution_date', rmf_sql_representation = '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_expected_resolution_date), 0))', rmf_allow_column_compare = 1;
