@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -156,7 +157,7 @@ class Prefs
      * @param   array   $preferences An array of preferences
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function set($usr_id, $preferences)
+    public static function set($usr_id, $preferences)
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
         if (!empty($_FILES['file_signature']['name'])) {

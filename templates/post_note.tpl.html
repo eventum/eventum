@@ -144,7 +144,7 @@ $().ready(function() {
         <select name="time_category">
           {html_options options=$time_categories selected=$note_category_id}
         </select>
-        <span><i>(in minutes)</i></span>
+        <span><i>({t}in minutes{/t})</i></span>
         {include file="error_icon.tpl.html" field="time_spent"}
       </td>
     </tr>

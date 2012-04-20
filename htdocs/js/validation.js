@@ -45,20 +45,6 @@ function validateIssueNumberField(baseURL, form_name, field_name, options)
      });
 }
 
-function isValidDate(f, field_prefix)
-{
-    var selected_date = new Date();
-    selected_date.setMonth(getSelectedOption(f, field_prefix + '[Month]')-1);
-    selected_date.setDate(getSelectedOption(f, field_prefix + '[Day]'));
-    selected_date.setYear(getSelectedOption(f, field_prefix + '[Year]'));
-
-    if (selected_date.getDate() != getSelectedOption(f, field_prefix + '[Day]')) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
 function resetForm(f)
 {
     if (confirm('This action will clear out any changes you performed on this form.')) {

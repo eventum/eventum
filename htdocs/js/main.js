@@ -55,9 +55,9 @@ Eventum.toggle_section_visibility = function(id) {
     $.cookie('visibility_' + id, display, {expires: Eventum.expires});
 }
 
-Eventum.close_and_refresh = function()
+Eventum.close_and_refresh = function(noparent)
 {
-    if (opener) {
+    if (opener && !noparent) {
         opener.location.href = opener.location;
     }
     window.close();
@@ -380,6 +380,20 @@ Validation.hasOneChecked = function(field)
         return true;
     } else {
         return false;
+    }
+}
+
+Validation.isValidDate = function(field_prefix)
+{
+    var selected_date = new Date();
+    selected_date.setMonth(Eventum.getField(field_prefix + '[Month]').val()-1);
+    selected_date.setDate(Eventum.getField(field_prefix + '[Day]').val());
+    selected_date.setYear(Eventum.getField(field_prefix + '[Year]').val());
+
+    if (selected_date.getDate() != Eventum.getField(field_prefix + '[Day]').val()) {
+        return false;
+    } else {
+        return true;
     }
 }
 

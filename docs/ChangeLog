@@ -22,6 +22,8 @@ Eventum Issue Tracking System
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
 - Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
 - Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
+- Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
+- Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

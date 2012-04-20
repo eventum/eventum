@@ -115,7 +115,7 @@
         {if $core.current_role > $core.roles.customer && $groups|@count > 0}
         <div class="issue_field_display">
             <div class="label">{t}Group{/t}</div>
-            <div class="display">{$issue.group.grp_name}</div>
+            <div class="display">{$issue.group.grp_name|default:''}</div>
             <div class="clear"></div>
         </div>
         {/if}

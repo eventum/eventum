@@ -4,6 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |

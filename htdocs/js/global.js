@@ -62,9 +62,15 @@ function getEmailFromAddress(str)
     }
 }
 
-function closeAndRefresh()
+/**
+ * reload parent window (if defined) and close current window
+ *
+ * 'noparent' if true, means that parent should not be reloaded (for example if
+ * you call the popup via bookmark)
+ */
+function closeAndRefresh(noparent)
 {
-    if (opener) {
+    if (opener && !noparent) {
         opener.location.href = opener.location;
     }
     window.close();
@@ -580,6 +586,84 @@ function getDisplayStyle(use_inline)
         }
     } else {
         return '';
+    }
+}
+
+/**
+ * Make javascript Date() object from datetime form selection.
+ *
+ * @param   Object  f       Form object.
+ * @param   String  name    Form element prefix for date.
+ */
+function makeDate(f, name) {
+    var d = new Date();
+    d.setFullYear(f.elements[name + '[Year]'].value);
+    d.setMonth(f.elements[name + '[Month]'].value - 1);
+    d.setDate(f.elements[name + '[Day]'].value);
+    d.setHours(f.elements[name + '[Hour]'].value);
+    d.setMinutes(f.elements[name + '[Minute]'].value);
+    d.setSeconds(0);
+    return d;
+}
+
+/**
+ * @param   Object  f       Form object
+ * @param   Integer type    The type of update occouring.
+ *                          0 = Duration was updated.
+ *                          1 = Start time was updated.
+ *                          2 = End time was updated.
+ *                          11 = Start time refresh icon was clicked.
+ *                          12 = End time refresh icon was clicked.
+ * @param String element Name of the element changed
+ */
+function calcDateDiff(f, type, element)
+{
+    var duration = f.elements['time_spent'].value;
+    // enforce 5 minute granuality.
+    duration = Math.floor(duration / 5) * 5;
+
+    var d1 = makeDate(f, 'date');
+    var d2 = makeDate(f, 'date2');
+
+    var minute = 1000 * 60;
+    /*
+    - if time is adjusted, duration is calculated,
+    - if duration is adjusted, the end time is adjusted,
+    - clicking refresh icon on either icons will make that time current date
+      and recalculate duration.
+    */
+
+    if (type == 0) { // duration
+        d1.setTime(d2.getTime() - duration * minute);
+    } else if (type == 1) { // start time
+        if (element == 'date[Year]' || element == 'date[Month]' || element == 'date[Day]') {
+            d2.setTime(d1.getTime() + duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    } else if (type == 2) { // end time
+        duration = (d2.getTime() - d1.getTime()) / minute;
+    } else if (type == 11) { // refresh start time
+        if (duration) {
+            d2.setTime(d1.getTime() + duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    } else if (type == 12) { // refresh end time
+        if (duration) {
+            d1.setTime(d2.getTime() - duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    }
+
+    /* refill form after calculation */
+    updateTimeFields(f.name, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]', d1)
+    updateTimeFields(f.name, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]', d2)
+
+    duration = parseInt(duration);
+    if (duration > 0) {
+        f.elements['time_spent'].value = duration;
     }
 }
 
