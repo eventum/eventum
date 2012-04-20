@@ -1,7 +1,9 @@
-
+{*
+Disabled for now until it can be re-worked for new UI
 <input class="lookup_field" name="{$lookup_field_name}" type="text" size="24"
     {if $tabindex|default:'' != ''}tabindex="{$tabindex}"{/if}
     value="{t}paste or start typing here{/t}"
     onBlur="this.value='{t}paste or start typing here{/t}';"
     onFocus="this.value='';"
     onKeyUp="lookupField(this.form, this, '{$lookup_field_target}', {if $callbacks|default:'' != ""}{$callbacks}{else}null{/if});">
+*}

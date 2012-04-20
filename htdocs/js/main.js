@@ -231,6 +231,26 @@ Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_
     Eventum.selectOption(minute_field, padDateValue(minutes));
 }
 
+Eventum.setup_show_selections = function(select_box)
+{
+    select_box.change(Eventum.show_selections);
+    select_box.change();
+}
+
+Eventum.show_selections = function(e)
+{
+        var select_box = $(e.target);
+        var selected = [];
+        if (select_box.val() != null) {
+            $.each(select_box.val(), function(index, value) {
+                selected.push(select_box.find("option[value='" + value + "']").text());
+            });
+        }
+
+        var display_div = $('#selection_' + select_box.attr('id'));
+        display_div.html(selected.join(', '));
+}
+
 
 function Validation()
 {

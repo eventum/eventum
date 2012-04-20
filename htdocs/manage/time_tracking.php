@@ -29,33 +29,37 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/time_tracking.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "time_tracking");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Time_Tracking::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Time_Tracking::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        Time_Tracking::remove();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $tpl->assign("info", Time_Tracking::getDetails($_GET["id"]));
-    }
-
-    $tpl->assign("list", Time_Tracking::getList());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
 
+if (@$_POST["cat"] == "new") {
+    $res =  Time_Tracking::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO),
+            -1   =>  array(ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO),
+            -2  =>  array(ev_gettext('Please enter the title for this new time tracking category.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Time_Tracking::update();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the time tracking category was updated successfully.'), Misc::MSG_INFO),
+            -1   =>  array(ev_gettext('An error occurred while trying to update the time tracking category information.'), Misc::MSG_INFO),
+            -2  =>  array(ev_gettext('Please enter the title for this time tracking category.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Time_Tracking::remove();
+}
+
+if (@$_GET["cat"] == "edit") {
+    $tpl->assign("info", Time_Tracking::getDetails($_GET["id"]));
+}
+
+$tpl->assign("list", Time_Tracking::getList());
 $tpl->displayTemplate();
