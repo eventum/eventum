@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-22 23:53+0200\n"
-"PO-Revision-Date: 2011-12-19 09:34+0000\n"
-"Last-Translator: Kemal Birinci <Unknown>\n"
+"PO-Revision-Date: 2012-04-22 07:02+0000\n"
+"Last-Translator: kulkke <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-23 04:45+0000\n"
-"X-Generator: Launchpad (build 14996)\n"
+"X-Launchpad-Export-Date: 2012-04-23 04:47+0000\n"
+"X-Generator: Launchpad (build 15135)\n"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
@@ -1232,7 +1232,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr "Katalonca"
+msgstr "Katalanca"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
@@ -1700,7 +1700,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr "Danimarkaca"
+msgstr "Danca"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -3430,7 +3430,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr "Litvanyaca"
+msgstr "Litvanca"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
