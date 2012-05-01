@@ -43,7 +43,7 @@ if (!Auth::hasValidCookie(APP_COOKIE)) {
 
 if (@$_GET["err"] == '') {
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if ($cookie["remember"]) {
+    if ($cookie["remember"] && $cookie['prj_id'] != false) {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
@@ -113,7 +113,6 @@ if ($select_prj) {
         }
     }
 }
-
 $tpl->displayTemplate();
 
 function handleExpiredCustomer($prj_id)

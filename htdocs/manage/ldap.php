@@ -27,59 +27,39 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-// delay language init if we're saving language
-if (!empty($_POST['language'])) {
-    define('SKIP_LANGUAGE_INIT', true);
-}
-require_once dirname(__FILE__) . '/../init.php';
-
-// must do Language::setPreference before template is initialized
-if (@$_POST["cat"] == "update_account") {
-    if (isset($_POST['language'])) {
-        $res = User::setLang(Auth::getUserID(), $_POST['language']);
-        Language::setPreference();
-    }
-}
+require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("preferences.tpl.html");
+$tpl->setTemplate("manage/index.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (Auth::isAnonUser()) {
-    Auth::redirect("index.php");
+$tpl->assign("type", "ldap");
+
+$role_id = Auth::getCurrentRole();
+if ($role_id == User::getRoleID('administrator')) {
+    $tpl->assign("show_setup_links", true);
+
+    if (@$_POST['cat'] == 'update') {
+        $setup = LDAP_Auth_Backend::loadSetup();
+        $setup['host'] = $_POST['host'];
+        $setup['port'] = $_POST['port'];
+        $setup['binddn'] = $_POST['binddn'];
+        $setup['bindpw'] = $_POST['bindpw'];
+        $setup['basedn'] = $_POST['basedn'];
+        $setup['userdn'] = $_POST['userdn'];
+        $setup['create_users'] = $_POST['create_users'];
+        $setup['default_role'] = $_POST['default_role'];
+        $res = LDAP_Auth_Backend::saveSetup($setup);
+        $tpl->assign("result", $res);
+    }
+    $options = LDAP_Auth_Backend::loadSetup(true);
+    $tpl->assign("setup", $options);
+    $tpl->assign("project_list", Project::getAll());
+    $tpl->assign("project_roles", array(0 => "No Access") + User::getRoles());
+    $tpl->assign("user_roles", User::getRoles(array('Customer')));
+} else {
+    $tpl->assign("show_not_allowed_msg", true);
 }
-
-$usr_id = Auth::getUserID();
-
-if (@$_POST["cat"] == "update_account") {
-    $res = Prefs::set($usr_id, $_POST);
-    $tpl->assign('update_account_result', $res);
-    User::updateSMS($usr_id, @$_POST['sms_email']);
-} elseif (@$_POST["cat"] == "update_name") {
-    $res = User::updateFullName($usr_id);
-    $tpl->assign('update_name_result', $res);
-} elseif (@$_POST["cat"] == "update_email") {
-    $res = User::updateEmail($usr_id);
-    $tpl->assign('update_email_result', $res);
-} elseif (@$_POST["cat"] == "update_password") {
-    $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
-    $tpl->assign('update_password_result', $res);
-}
-
-$prefs = Prefs::get($usr_id);
-$prefs['sms_email'] = User::getSMS($usr_id);
-
-$tpl->assign("user_prefs", $prefs);
-$tpl->assign("user_info", User::getDetails($usr_id));
-$tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
-$tpl->assign("zones", Date_Helper::getTimezoneList());
-$tpl->assign('avail_langs', Language::getAvailableLanguages());
-$tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
-$tpl->assign(array(
-    'can_update_name'   =>  Auth::canUserUpdateName(Auth::getUserID()),
-    'can_update_email'  =>  Auth::canUserUpdateEmail(Auth::getUserID()),
-    'can_update_password'   =>  Auth::canUserUpdatePassword(Auth::getUserID()),
-));
 
 $tpl->displayTemplate();

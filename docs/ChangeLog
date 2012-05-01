@@ -25,6 +25,8 @@ Eventum Issue Tracking System
 - Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
 - Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
 - Added option to check if IRC bot process is still running (Bryan)
+- Added pluggable auth user backends (Bryan, Elan Ruusamäe)
+- Added LDAP user backend (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

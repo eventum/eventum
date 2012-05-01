@@ -46,9 +46,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", User::insert());
+        $tpl->assign("result", User::insertFromPost());
     } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", User::update());
+        $tpl->assign("result", User::updateFromPost());
     } elseif (@$_POST["cat"] == "change_status") {
         User::changeStatus();
     }
