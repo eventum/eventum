@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-03-22 23:53+0200\n"
-"PO-Revision-Date: 2012-04-24 11:46+0000\n"
+"PO-Revision-Date: 2012-05-02 09:28+0000\n"
 "Last-Translator: Darabánt Balázs <balazs.darabant@gyapinet.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-25 04:47+0000\n"
-"X-Generator: Launchpad (build 15139)\n"
+"X-Launchpad-Export-Date: 2012-05-03 05:27+0000\n"
+"X-Generator: Launchpad (build 15185)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -6187,7 +6187,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Signup for an Account"
-msgstr ""
+msgstr "Jelentkezzen be egy fiókba"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -6206,11 +6206,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Szingaléz"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
-msgstr ""
+msgstr "Ugrás Hétvégére"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -6221,23 +6221,27 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Sorry, an error happened while trying to run your query"
-msgstr ""
+msgstr "Sajnáljuk, hiba történt, miközben futtatni próbálta a lekérdezést"
 
 #: templates/duplicate.tpl.html templates/update_form.tpl.html
 msgid "Sorry, an error happened while trying to run your query."
-msgstr ""
+msgstr "Sajnáljuk, hiba történt, miközben futtatni próbálta a lekérdezést."
 
 #: templates/send.tpl.html
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Sajnálom, de az e-mailt nem lehet várólistára tenni. Ez kapcsolatban állhat "
+"az SMTP fiók beállításaival."
 
 #: templates/send.tpl.html
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Sajnálom, de az e-mailt nem lehet elküldeni. Ez kapcsolatban állhat az SMTP "
+"fiók beállításaival."
 
 #: templates/post.tpl.html
 msgid ""
@@ -6247,64 +6251,70 @@ msgstr ""
 
 #: templates/emails.tpl.html templates/signup.tpl.html
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr ""
+msgstr "Sajnáljuk, de ez a funkció le van tiltva a rendszergazda által."
 
 #: templates/emails.tpl.html
 msgid "Sorry, but you do not have access to this page."
-msgstr ""
+msgstr "Sajnálom, de nem férnek hozzá ezen az oldalon."
 
 #: templates/manage/manage.tpl.html templates/update.tpl.html
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
 msgstr ""
+"Sajnálom, de nem rendelkezik a szükséges jogosultsági szint eléréséhez a "
+"képernyőn."
 
 #: templates/permission_denied.tpl.html
 msgid "Sorry, you do not have permission to access this page."
-msgstr ""
+msgstr "Sajnálom, nincs jogod megtekinteni ezt az oldalt."
 
 #: templates/mail_queue.tpl.html
 msgid "Sorry, you do not have permission to view this page"
-msgstr ""
+msgstr "Sajnálom, nincs jogosultsága az oldal megtekintéséhez"
 
 #: templates/update.tpl.html
 msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr ""
+"Sajnálom nem rendelkezik a szükséges jogosultságokkal, hogy frissíteni tudja "
+"ezt a kérdést."
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr ""
+"Sajnálom, hogy nem rendelkezik a szükséges jogosultsággal, hogy "
+"megtekinthesse ezt a kérdést."
 
 #: lib/eventum/class.filter.php:769 templates/adv_search.tpl.html
 msgid "Sort By"
-msgstr ""
+msgstr "Rendezés"
 
 #: lib/eventum/class.filter.php:773 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
-msgstr ""
+msgstr "Rendezési sorrend"
 
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Spanyol"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
-msgstr ""
+msgstr "Helyesírás-ellenőrzés"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Staff"
-msgstr ""
+msgstr "Staff"
 
 #: templates/update_form.tpl.html
 msgid "Staff:"
-msgstr ""
+msgstr "Staff:"
 
 #: templates/reports/tree.tpl.html
 msgid "Stalled Issues"
-msgstr ""
+msgstr "Elakadt Kérdések"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Stalled Issues Report"
@@ -6312,7 +6322,7 @@ msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Standard User"
-msgstr ""
+msgstr "Standard Felhasználó"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
@@ -6321,19 +6331,19 @@ msgstr ""
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Start"
-msgstr ""
+msgstr "Kezdés"
 
 #: templates/setup.tpl.html
 msgid "Start Installation"
-msgstr ""
+msgstr "Telepítés Megkezdése"
 
 #: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Start time in the future."
-msgstr ""
+msgstr "Kezdési időpont a jövőben."
 
 #: templates/navigation.tpl.html
 msgid "Stats"
-msgstr ""
+msgstr "Statisztika"
 
 #: lib/eventum/class.display_column.php:219 lib/eventum/class.filter.php:731
 #: lib/eventum/class.notification.php:636
@@ -6351,25 +6361,25 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 #: lib/eventum/class.display_column.php:222
 msgid "Status Change Date"
-msgstr ""
+msgstr "Állapot Módosítás Dátuma"
 
 #: templates/adv_search.tpl.html
 msgid "Status Closed"
-msgstr ""
+msgstr "Állapot Zárva"
 
 #: templates/manage/customize_listing.tpl.html
 #: templates/manage/releases.tpl.html templates/searchbar.tpl.html
 #: templates/update_form.tpl.html
 msgid "Status:"
-msgstr ""
+msgstr "Állapot:"
 
 #: templates/manage/projects.tpl.html
 msgid "Statuses"
-msgstr ""
+msgstr "Állapotok"
 
 #: templates/attached_emails.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/mail_queue.tpl.html
@@ -6377,36 +6387,36 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Subject"
-msgstr ""
+msgstr "Tárgy"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Tárgy Alapú Útválasztás:"
 
 #: templates/email_filter_form.tpl.html
 msgid "Subject/Body:"
-msgstr ""
+msgstr "Tárgy/Törzs"
 
 #: templates/new.tpl.html templates/post.tpl.html
 #: templates/reports/open_issues.tpl.html
 msgid "Submit"
-msgstr ""
+msgstr "Küldés"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Submitted"
-msgstr ""
+msgstr "Elküldve"
 
 #: templates/view_form.tpl.html
 msgid "Submitted Date"
-msgstr ""
+msgstr "Beküldés Dátuma"
 
 #: templates/update_form.tpl.html
 msgid "Submitted Date:"
-msgstr ""
+msgstr "Beküldés Dátuma:"
 
 #: templates/spell_check.tpl.html
 msgid "Suggestions:"
-msgstr ""
+msgstr "Javaslatok:"
 
 #: lib/eventum/class.display_column.php:231
 #: lib/eventum/class.notification.php:648
@@ -6430,7 +6440,7 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/time_tracking.tpl.html
 #: templates/view_form.tpl.html
 msgid "Summary"
-msgstr ""
+msgstr "Összegzés"
 
 #: lib/eventum/class.help.php:75 templates/help/report_summary.tpl.html
 msgid "Summary Field"
@@ -6438,15 +6448,15 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
-msgstr ""
+msgstr "Összegzés:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
-msgstr ""
+msgstr "Összegzés: %1"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
-msgstr ""
+msgstr "Vasárnap"
 
 #: lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:216
@@ -6467,11 +6477,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Svéd"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
-msgstr ""
+msgstr "Vált"
 
 #: templates/help/notifications.tpl.html
 msgid ""
@@ -6495,34 +6505,37 @@ msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date"
-msgstr ""
+msgstr "Feltételes Dátum"
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date:"
-msgstr ""
+msgstr "Feltételes Dátum:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
-msgstr ""
+msgstr "Beállítások tesztelése"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Text Input"
-msgstr ""
+msgstr "Szöveg-bemenet"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
-msgstr ""
+msgstr "Szövegterület"
 
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: templates/setup.tpl.html
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
 msgstr ""
+"Köszönöm, most már helyesek az Eventum beállításai és készen áll a "
+"használatra. Nyissa meg a következő URL-t amin bejelentkezhet az első "
+"alkalommal:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6530,6 +6543,9 @@ msgid ""
 "instructions available in this message to confirm your password creation "
 "request."
 msgstr ""
+"Köszönöm, egy visszaigazoló üzenetet küldünk e-mailben Önnek. Kérjük, "
+"kövesse az utasításokat az üzenetben leírtak szerint, hogy megerősítse a "
+"jelszót létrehozása kérését."
 
 #: templates/manage/column_display.tpl.html
 msgid "Thank you, columns to display was saved successfully."
@@ -6537,7 +6553,7 @@ msgstr ""
 
 #: templates/manage/field_display.tpl.html
 msgid "Thank you, field display settings were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a mező megjelenítési beállítások sikeresen módosítva."
 
 #: templates/update_form.tpl.html
 msgid "Thank you, issue #%1 was updated successfully."
@@ -6545,11 +6561,11 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was added successfully."
-msgstr ""
+msgstr "Köszönöm, a GYIK bejegyzés sikeresen hozzáadásra került."
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a GYIK bejegyzés frissÍtése sikeres volt."
 
 #: templates/edit_reporter.tpl.html
 msgid "Thank you, the Reporter was updated successfully."
@@ -6565,15 +6581,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the account was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a fiók frissítése sikeres volt."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was added successfully."
-msgstr ""
+msgstr "Köszönöm, az intézkedés sikeresen elküldve."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az intézkedés frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6582,7 +6598,7 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the attachment was removed successfully."
-msgstr ""
+msgstr "Köszönöm, a melléklet sikeresen eltávolítva."
 
 #: templates/authorized_replier.tpl.html
 msgid "Thank you, the authorized replier was inserted successfully."
@@ -6596,7 +6612,7 @@ msgstr ""
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Thank you, the category was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kategória frissítése sikeres volt."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Thank you, the condition was added successfully."
@@ -6612,47 +6628,47 @@ msgstr ""
 
 #: templates/custom_fields_form.tpl.html
 msgid "Thank you, the custom field values were updated successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mezőértékek sikeresen módosítva."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was added successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mezőny sikeresen hozzáadva."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was updated successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mező frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the custom filter was saved successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni szűrő sikeresen elmentve."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was added successfully."
-msgstr ""
+msgstr "Köszönöm, a testreszabás sikeresen elküldve."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a testreszabás sikeres volt."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the email account was added successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail fiók sikeresen elküldve."
 
 #: templates/manage/email_alias.tpl.html
 msgid "Thank you, the email aliases were removed successfully"
-msgstr ""
+msgstr "Köszönöm, az e-mail alias sikeresen eltávolították"
 
 #: templates/send.tpl.html
 msgid "Thank you, the email message was saved as a draft successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail üzenet mentése piszkozatként sikerült."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was added successfully."
-msgstr ""
+msgstr "Köszönöm a válasz e-mail sikeresen elküldve."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was updated successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail válasz sikeres volt."
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was queued to be sent successfully."
@@ -6660,23 +6676,23 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was sent successfully."
-msgstr ""
+msgstr "Köszönöm az e-mailt sikeresen elküldtük."
 
 #: templates/view_email.tpl.html
 msgid "Thank you, the email was successfully moved."
-msgstr ""
+msgstr "Köszönöm az e-mail sikeresen áthelyeződött."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the emails were marked as removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kijelölt e-maileket sikeresen töröltük."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the file was removed successfully."
-msgstr ""
+msgstr "Köszönjük a fájl sikeresen törölve."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was added successfully."
-msgstr ""
+msgstr "Köszönöm, a csoport hozzáadása sikeresen elküldve."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was updated successfully."
@@ -6684,15 +6700,15 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the impact analysis was set successfully."
-msgstr ""
+msgstr "Köszönöm, a hatáselemzés beállítása sikeres volt."
 
 #: templates/requirement.tpl.html
 msgid "Thank you, the impact analysis was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a hatáselemzés frissítése sikeres volt."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Thank you, the information was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az információ frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the inital impact analysis was set successfully."
@@ -6700,7 +6716,7 @@ msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Thank you, the internal note was posted successfully."
-msgstr ""
+msgstr "Köszönöm, a belső feljegyzés sikeresen megírva."
 
 #: templates/manage/resolution.tpl.html
 msgid "Thank you, the issue resolution was added successfully."
@@ -6712,7 +6728,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Thank you, the issue was closed successfully"
-msgstr ""
+msgstr "Köszönöm a kérdést sikeresen lezárva"
 
 #: templates/duplicate.tpl.html
 msgid ""
@@ -6730,80 +6746,84 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the issue was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a probléma frissítése sikeres volt."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was added successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő sikeresen frissítve."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was deleted successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő sikeresen törlésre került."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was updated successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő frissítése sikeresen megtörtént."
 
 #: templates/new.tpl.html
 msgid "Thank you, the new issue was created successfully."
-msgstr ""
+msgstr "Köszönöm az új kérdés létrehozása sikeres volt."
 
 #: templates/post.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. For your records, the new "
 "issue ID is <font color=\"red\">%1</font>"
 msgstr ""
+"Köszönöm, az új kérdés létrehozása sikeres volt. A saját nyilvántartásában, "
+"az új kérdés azonosítója <font color=\"red\">% 1 </ font>"
 
 #: templates/new.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. Please choose from one of "
 "the options below"
 msgstr ""
+"Köszönöm, az új kérdés létrehozása sikeres volt. Kérjük, válasszon egyet az "
+"alábbi lehetőségek közül"
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the new note was created and associated with the issue below."
-msgstr ""
+msgstr "Köszönöm új jegyzet jött létre ezzel a kérdéssel kapcsolatban."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the new requirement was added successfully."
-msgstr ""
+msgstr "Köszönöm, az új követelményt sikeresen elküldve."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was added successfully."
-msgstr ""
+msgstr "Köszönöm a hír bejegyzés sikeresen hozzáadásra került."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was updated successfully."
-msgstr ""
+msgstr "Köszönöm a hír bejegyzés frissítése sikeres volt."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was added successfully."
-msgstr ""
+msgstr "Köszönöm a megjegyzés sikeresen hozzáadva."
 
 #: templates/convert_note.tpl.html
 msgid "Thank you, the note was converted successfully."
-msgstr ""
+msgstr "Köszönöm a feljegyzés konvertálása sikeres volt."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
-msgstr ""
+msgstr "Köszönöm, a megjegyzés törlése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
-msgstr ""
+msgstr "Köszönöm, a jegyzet sikeresen eltávolítva."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a jegyzet frissítése sikeres volt."
 
 #: templates/notification.tpl.html
 msgid "Thank you, the notification entry was updated successfully."
-msgstr ""
+msgstr "Köszönöm az értesítés bejegyzés sikeres volt."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Thank you, the phone entry was added successfully."
-msgstr ""
+msgstr "Köszönjük a telefon bejegyzés sikeresen hozzáadásra került."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the phone support entry was removed successfully."
@@ -6811,35 +6831,35 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was added successfully."
-msgstr ""
+msgstr "Köszönöm a prioritás sikeresen elküldve."
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was updated successfully."
-msgstr ""
+msgstr "Köszönöm a prioritás frissítése sikeres volt."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was added successfully."
-msgstr ""
+msgstr "Köszönjük, hogy a projekt hozzáadása sikeresen elküldve."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a projekt frissítése sikeres volt."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was added successfully."
-msgstr ""
+msgstr "Köszönöm, a kibocsátás sikeresen elküldve."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kibocsátás frissítése sikeres volt."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was added successfully."
-msgstr ""
+msgstr "Köszönöm, az emlékeztető sikeresen elküldve."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az emlékeztető frissítése sikeres volt."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Thank you, the round robin entry was added successfully."
@@ -6854,10 +6874,12 @@ msgid ""
 "Thank you, the selected checkin information entries were removed "
 "successfully."
 msgstr ""
+"Köszönöm, a kiválasztott csekket információs bejegyzéseket eltávolították "
+"sikeresen."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected custom filters were removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott egyéni szűrőket sikeresen eltávolították."
 
 #: templates/associate.tpl.html
 msgid "Thank you, the selected email message was associated successfully."
@@ -6865,23 +6887,23 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott kérdések frissítése sikeresen módosítva."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected requirements were removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott követelményeket sikeresen eltávolították."
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
-msgstr ""
+msgstr "Köszönöm, a beállítási információk mentése sikeresen volt."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was added successfully."
-msgstr ""
+msgstr "Köszönöm az állapot hozzáadása sikeres volt."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was updated successfully."
-msgstr ""
+msgstr "Köszönöm az állapot frissítése sikeres volt."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Thank you, the time tracking category was added successfully."
@@ -6905,15 +6927,15 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was added successfully."
-msgstr ""
+msgstr "Köszönöm, a felhasználó sikeresen elküldve."
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a felhasználó frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, this issue was removed from quarantine."
-msgstr ""
+msgstr "Köszönöm, ez a kérdés lekerült a karanténból."
 
 #: templates/self_assign.tpl.html
 msgid "Thank you, you are now assigned to the issue"
@@ -6925,7 +6947,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Thank you, you are now logged out of %1"
-msgstr ""
+msgstr "Köszönöm, Ön most kijelentkezett 1%"
 
 #: templates/clock_status.tpl.html
 msgid "Thank you, your account clocked-in status was changed successfully."
@@ -6943,32 +6965,37 @@ msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
 msgstr ""
+"Köszönöm, fiókja már aktív, és készen áll a használatra. Használja az alábbi "
+"űrlapot a belépéshez."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a fiók beállítások sikeresen módosítva."
 
 #: templates/switch.tpl.html
 msgid "Thank you, your current selected project was changed successfully."
 msgstr ""
+"Köszönöm, az aktuális kiválasztott projektet sikeresen megváltoztatva."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your email address was updated successfully."
-msgstr ""
+msgstr "Köszönjük, az e-mail cím frissítése sikeres volt."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your full name was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a teljes nevét sikeres frissítette."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your password was updated successfully."
-msgstr ""
+msgstr "Köszönöm, jelszavát sikeres módosította."
 
 #: templates/confirm.tpl.html
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
 msgstr ""
+"Köszönöm, a kérést megkaptuk, hogy egy új jelszót igényelt. Hamarosan kapnia "
+"kell egy e-mailt az új jelszóval rövidesen."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7018,6 +7045,8 @@ msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
 msgstr ""
+"A jelenlegi projekt nem rendelkezik ügyfél-integrációval, így ezt a "
+"jelentést nem lehet megtekinteni."
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -7037,11 +7066,11 @@ msgstr ""
 #: templates/login_form.tpl.html
 msgid ""
 "The email address / password combination could not be found in the system."
-msgstr ""
+msgstr "Az e-mail cím / jelszó kombináció nem található a rendszerben."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
-msgstr ""
+msgstr "A fájlnév már foglalt"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7053,6 +7082,8 @@ msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
 msgstr ""
+"A következő 1% emlékeztetőt nem lehet elküldeni, mert nem találhatóak a "
+"címzettek"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -7067,7 +7098,7 @@ msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "The following user is already assigned to this issue"
-msgstr ""
+msgstr "A következő felhasználó már hozzá van rendelve ehhez a kérdésnek"
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7077,7 +7108,7 @@ msgstr ""
 
 #: templates/notification.tpl.html
 msgid "The given email address"
-msgstr ""
+msgstr "Az adott e-mail cím"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -7096,7 +7127,7 @@ msgstr ""
 
 #: templates/notifications/updated.tpl.text
 msgid "The issue was updated by %1"
-msgstr ""
+msgstr "A kérdést frissítette 1%"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7107,15 +7138,15 @@ msgstr ""
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
-msgstr ""
+msgstr "A fájl új verziója"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The old revision of the file"
-msgstr ""
+msgstr "A fájl érégebbi verziója"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "The original message headers follow"
-msgstr ""
+msgstr "Az eredeti üzenet fejlécét kövesse"
 
 #: templates/confirm.tpl.html
 msgid ""
@@ -7144,22 +7175,25 @@ msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
-msgstr ""
+msgstr "A megadott megjegyzés nem létezik."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "The specified value already exists in the list of options."
-msgstr ""
+msgstr "A megadott érték már létezik a lehetőségek listáján."
 
 #: templates/preferences.tpl.html
 msgid ""
 "The two passwords do not match. Please review your information and try again."
 msgstr ""
+"A két jelszó nem egyezik. Kérjük, nézze át az adatait, és próbálja újra."
 
 #: templates/file_upload.tpl.html
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
 msgstr ""
+"A feltöltött fájl már csatolva van. Kérjük, nevezze át a fájlt, és próbálja "
+"újra."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
@@ -7189,7 +7223,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "This Issue is Currently Quarantined"
-msgstr ""
+msgstr "Ez a kérdés karanténban van"
 
 #: templates/manage/users.tpl.html
 msgid "This action will change the status of the selected users."
@@ -7201,25 +7235,26 @@ msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected attachment."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt mellékletet."
 
 #: templates/adv_search.tpl.html templates/checkins.tpl.html
 #: templates/impact_analysis.tpl.html
 msgid "This action will permanently delete the selected entries."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt bejegyzéseket."
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected file."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt fájlokat."
 
 #: templates/notes.tpl.html
 msgid "This action will permanently delete the specified note."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a megadott jegyzetet."
 
 #: templates/phone_support.tpl.html
 msgid ""
 "This action will permanently delete the specified phone support entry."
 msgstr ""
+"Ez a művelet véglegesen törli a megadott telefonos támogatási bejegyzést."
 
 #: templates/time_tracking.tpl.html
 msgid ""
@@ -7229,6 +7264,7 @@ msgstr ""
 #: templates/manage/faq.tpl.html
 msgid "This action will permanently remove the selected FAQ entries."
 msgstr ""
+"Ez a művelet véglegesen eltávolítja a kiválasztott GYIK bejegyzéseket."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "This action will permanently remove the selected custom fields."
