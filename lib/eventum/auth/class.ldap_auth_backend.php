@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2012 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -180,8 +180,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $usr_id = self::getUserIDByLogin($login);
         $local_user_info = User::getDetails($usr_id);
         if (empty($local_user_info['usr_external_id'])) {
-            $mysql_backend = Auth::getFallBackAuthBackend();
-            return $mysql_backend->verifyPassword($login, $password);
+            return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
         }
 
         $user_info = $this->isValidUser($login, $password);
