@@ -1066,4 +1066,3 @@ class Net_LDAP2_Entry extends PEAR
         return $this->_changes;
     }
 }
-?>

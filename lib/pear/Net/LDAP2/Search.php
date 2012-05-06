@@ -620,5 +620,3 @@ class Net_LDAP2_Search extends PEAR implements Iterator
         reset($this->_iteratorCache);
     }
 }
-
-?>

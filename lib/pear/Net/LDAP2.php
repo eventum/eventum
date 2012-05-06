@@ -1795,5 +1795,3 @@ class Net_LDAP2_Error extends PEAR_Error
         }
     }
 }
-
-?>

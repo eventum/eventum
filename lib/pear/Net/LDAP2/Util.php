@@ -568,5 +568,3 @@ class Net_LDAP2_Util extends PEAR
         return array_values($dn);
     }
 }
-
-?>

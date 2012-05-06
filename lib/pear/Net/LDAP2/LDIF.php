@@ -921,4 +921,3 @@ class Net_LDAP2_LDIF extends PEAR
         }
     }
 }
-?>

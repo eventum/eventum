@@ -544,4 +544,3 @@ class Net_LDAP2_Filter extends PEAR
         }
     }
 }
-?>
