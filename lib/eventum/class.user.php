@@ -1023,7 +1023,7 @@ class User
         if ($usr_id == APP_SYSTEM_USER_ID) {
             return 1;
         }
-        $group_id = ($data["grp_id"]) ? Misc::escapeInteger($_POST["grp_id"]) : 'NULL';
+        $group_id = ($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
