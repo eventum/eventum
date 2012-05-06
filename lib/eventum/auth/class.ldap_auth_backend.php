@@ -28,14 +28,17 @@
 require_once 'Net/LDAP2.php';
 
 /**
- * This auth backend integrates with an LDAP server and if set to, will create a local user with the specified name
- * and email. The user will be authenticated against the LDAP server on each login.
+ * This auth backend integrates with an LDAP server and if set to, will create
+ * a local user with the specified name and email. The user will be
+ * authenticated against the LDAP server on each login.
  *
- * This backend will look for users in the default mysql backend if no ldap user is found. This behaviour may be
+ * This backend will look for users in the default mysql backend if no LDAP
+ * user is found. This behaviour may be
  * configurable in the future.
  *
- * Set define('APP_AUTH_BACKEND', 'ldap_auth_backend') in the config file and then fill in the LDAP server details
- * in manage -<
+ * Set define('APP_AUTH_BACKEND', 'ldap_auth_backend') in the config file and
+ * then fill in the LDAP server details
+ * in manage
  */
 class LDAP_Auth_Backend extends Abstract_Auth_Backend
 {
@@ -104,7 +107,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     {
         $entry = $this->conn->getEntry($this->getUserDNstring($uid), array('cn', 'uid', 'mail'));
 
-        if (Pear::isError($entry)) {
+        if (PEAR::isError($entry)) {
             return null;
         }
 
