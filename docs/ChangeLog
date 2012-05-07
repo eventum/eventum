@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Added option to check if IRC bot process is still running (Bryan)
 - Added pluggable auth user backends (Bryan, Elan Ruusamäe)
 - Added LDAP user backend (Bryan)
+- Added option to clear list filters by passing in url parameter view=clear (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
