@@ -2314,13 +2314,13 @@ class Issue
 
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
-                    iss_customer_id=". Misc::escapeInteger($data['customer']) . ",";
+                    iss_customer_id='". Misc::escapeString($data['customer']) . "',";
             if (!empty($data['contact'])) {
             $stmt .= "
                     iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',";
             }
             $stmt .= "
-                    iss_customer_contact_id=". Misc::escapeInteger($data['contact']) . ",
+                    iss_customer_contact_id='". Misc::escapeString($data['contact']) . "',
                     iss_contact_person_lname='". Misc::escapeString($data['contact_person_lname']) . "',
                     iss_contact_person_fname='". Misc::escapeString($data['contact_person_fname']) . "',
                     iss_contact_email='". Misc::escapeString($data['contact_email']) . "',

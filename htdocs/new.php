@@ -56,6 +56,7 @@ if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
 if (Customer::hasCustomerIntegration($prj_id)) {
     if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         $customer_id = User::getCustomerID($usr_id);
+//        $contract_id = Auth::get
         // check if the current customer has already redeemed all available per-incident tickets
         if ((empty($_POST['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) &&
                 (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
