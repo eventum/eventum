@@ -1179,7 +1179,7 @@ class User
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    function getList($show_customers)
+    function getList($show_customers = false)
     {
         $stmt = "SELECT
                     *
