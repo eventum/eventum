@@ -1015,9 +1015,10 @@ class User
      * @access  public
      * @param $usr_id
      * @param $data
+     * @param bool $notify
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update($usr_id, $data)
+    function update($usr_id, $data, $notify=True)
     {
         // system account should not be updateable
         if ($usr_id == APP_SYSTEM_USER_ID) {
@@ -1076,10 +1077,13 @@ class User
                     }
                 }
             }
-            if (!empty($data["password"])) {
-                Notification::notifyUserPassword($usr_id, $data["password"]);
-            } else {
-                Notification::notifyUserAccount($usr_id);
+
+            if ($notify == True) {
+                if (!empty($data["password"])) {
+                    Notification::notifyUserPassword($usr_id, $data["password"]);
+                } else {
+                    Notification::notifyUserAccount($usr_id);
+                }
             }
             return 1;
         }

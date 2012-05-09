@@ -151,7 +151,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             $return = User::insert($data);
             return $return;
         } else {
-            $update = User::update($local_usr_id, $data);
+            $update = User::update($local_usr_id, $data, false);
             return $local_usr_id;
         }
     }
