@@ -47,11 +47,11 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
      *
      * The admin connection
      */
-    private $conn;
+    protected $conn;
 
-    private $config;
+    protected $config;
 
-    private $user_dn_string;
+    protected $user_dn_string;
 
     public function __construct() {
         $setup = self::loadSetup();

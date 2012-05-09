@@ -1024,16 +1024,24 @@ class User
         if ($usr_id == APP_SYSTEM_USER_ID) {
             return 1;
         }
-        $group_id = ($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
                     usr_full_name='" . Misc::escapeString($data["full_name"]) . "',
-                    usr_email='"     . Misc::escapeString($data["email"])     . "',
-                    usr_grp_id="     . $group_id;
+                    usr_email='"     . Misc::escapeString($data["email"])     . "'";
+        if (isset($data["grp_id"])) {
+            $group_id = !empty($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
+            $stmt .= ",
+                    usr_grp_id='" . $group_id . "'";
+        }
         if (!empty($data["password"])) {
             $stmt .= ",
                     usr_password='" . Auth::hashPassword($data["password"]) . "'";
+        }
+        if (isset($data["external_id"])) {
+            $stmt .= ",
+                    usr_external_id='" . Misc::escapeString($data["external_id"]) . "'";
         }
         $stmt .= "
                  WHERE
