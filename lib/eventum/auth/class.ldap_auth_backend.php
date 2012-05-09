@@ -160,17 +160,18 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     {
         $usr_id = User::getUserIDByEmail($login, true);
         if (empty($usr_id)) {
+            // the login is not a local email address, try external id
             $usr_id = User::getUserIDByExternalID($login);
         }
 
         $local_user_info = User::getDetails($usr_id);
         if ($local_user_info !== false && empty($local_user_info['usr_external_id'])) {
+            // local user exist and is not associated with LDAP, don't try to update.
             return $usr_id;
         }
-        $created = $this->updateLocalUserFromBackend($login);
-        if ($created) {
 
-        }
+        // try to create or update local user from ldap info
+        $created = $this->updateLocalUserFromBackend($login);
         return $created;
     }
 
