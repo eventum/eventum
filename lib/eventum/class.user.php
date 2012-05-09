@@ -1042,51 +1042,51 @@ class User
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            if (isset($data['role'])) {
-                // update the project associations now
-                $stmt = "DELETE FROM
+        }
+
+        if (isset($data['role'])) {
+            // update the project associations now
+            $stmt = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                     WHERE
+                        pru_usr_id=" . Misc::escapeInteger($usr_id);
+            $res = DB_Helper::getInstance()->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            }
+
+            foreach ($data["role"] as $prj_id => $role) {
+                if ($role < 1) {
+                    continue;
+                }
+                $stmt = "INSERT INTO
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                         WHERE
-                            pru_usr_id=" . Misc::escapeInteger($usr_id);
+                         (
+                            pru_prj_id,
+                            pru_usr_id,
+                            pru_role
+                         ) VALUES (
+                            " . $prj_id . ",
+                            " . Misc::escapeInteger($usr_id) . ",
+                            " . $role . "
+                         )";
                 $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
-                } else {
-                    foreach ($data["role"] as $prj_id => $role) {
-                        if ($role < 1) {
-                            continue;
-                        }
-                        $stmt = "INSERT INTO
-                                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                                 (
-                                    pru_prj_id,
-                                    pru_usr_id,
-                                    pru_role
-                                 ) VALUES (
-                                    " . $prj_id . ",
-                                    " . Misc::escapeInteger($usr_id) . ",
-                                    " . $role . "
-                                 )";
-                        $res = DB_Helper::getInstance()->query($stmt);
-                        if (PEAR::isError($res)) {
-                            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                            return -1;
-                        }
-                    }
                 }
             }
-
-            if ($notify == true) {
-                if (!empty($data["password"])) {
-                    Notification::notifyUserPassword($usr_id, $data["password"]);
-                } else {
-                    Notification::notifyUserAccount($usr_id);
-                }
-            }
-            return 1;
         }
+
+        if ($notify == true) {
+            if (!empty($data["password"])) {
+                Notification::notifyUserPassword($usr_id, $data["password"]);
+            } else {
+                Notification::notifyUserAccount($usr_id);
+            }
+        }
+        return 1;
     }
 
     public static function insertFromPost()
