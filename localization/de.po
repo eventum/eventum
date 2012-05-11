@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-22 23:53+0200\n"
-"PO-Revision-Date: 2012-04-11 01:30+0000\n"
-"Last-Translator: Dennis Baudys <Unknown>\n"
+"PO-Revision-Date: 2012-05-10 20:13+0000\n"
+"Last-Translator: Jonas Kern <info@jonaskern.de>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-12 04:50+0000\n"
-"X-Generator: Launchpad (build 15070)\n"
+"X-Launchpad-Export-Date: 2012-05-11 05:15+0000\n"
+"X-Generator: Launchpad (build 15225)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -90,7 +90,7 @@ msgstr "(Offene Tickets)"
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
-"(Dies muss muß eine gültige Email-Adresse beinhalten, z.B. '%1' oder '%2')"
+"(Dies muss eine gültige Email-Adresse beinhalten, z.B. '%1' oder '%2')"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -216,7 +216,7 @@ msgstr "TIPP: Ihre Antwort wird an die Benachrichtigungsliste gesandt."
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
-msgstr "Vorsicht:"
+msgstr ""
 
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
@@ -3154,7 +3154,7 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Ignore Issue Status Changes"
-msgstr ""
+msgstr "Ignorieren Sie die Problem-Status-Änderungen"
 
 #: templates/requirement.tpl.html
 msgid "Impact <br />Analysis"
@@ -4224,7 +4224,7 @@ msgstr "Benachrichtigungsliste:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
-msgstr ""
+msgstr "Benachrichtigungsoptionen für das Problem #%1"
 
 #: lib/eventum/class.notification.php:2060
 #, php-format
@@ -4647,7 +4647,7 @@ msgstr ""
 
 #: templates/list.tpl.html
 msgid "Please choose new values for the selected issues"
-msgstr ""
+msgstr "Bitte wählen Sie neue Werte für die gewählten Objekte"
 
 #: templates/associate.tpl.html
 msgid ""
