@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2011-??-??, Version ???
+2011-12-??, Version 2.3.2
 - Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 - Separate search methods to new Search class (Elan Ruusamäe)
 - fix new users are creation groups (group id was 0, should be NULL) bug #806083
@@ -12,11 +12,18 @@ Eventum Issue Tracking System
 - Added preference to allow users to get copies of their own emails (Bryan)
 - Changed view email window to display sequential email ID instead of raw ID (Bryan)
 - Minor fixes to get Custom Field to work whose key is stringual, r4363 (Elan Ruusamäe)
-- Update bundled jQuery to 1.6.2 (Elan Ruusamäe)
+- Update bundled jQuery to 1.6.4 (Elan Ruusamäe)
 - Added option to notify specific IRC users and categorize messages (Bryan Alsdorf)
 - Added new workflow method formatIRCMessage (Bryan Alsdorf)
 - Port expandable cell to jQuery (Elan Ruusamäe)
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
+- Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
+- Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
+- Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
+- Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
+- Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
+- Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
+- Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
@@ -190,6 +197,10 @@ Eventum Issue Tracking System
 - Prevent PHP error with IRC bot when trying to fetch channels for a project with no channels defined (Bryan)
 - Added more informative to close issue page explaining the difference between Internal / All notification options (Bryan)
 - Fixed bug with custom field report display keys instead of values (Bryan, Elan Ruusamäe)
+- scm/eventum-cvs-hook: support CVS 1.11 and 1.12 formats (autodetected if configured correctly) (Elan Ruusamäe)
+- fix cronjobs erroneously report removed lock files. Fixes #904033 (Elan Ruusamäe)
+- Add a simple screen on the issue page for amending the reporter. (Elan Ruusamäe, Dave Anderson)
+- Fix search returning deleted notes. Bug #788718 (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

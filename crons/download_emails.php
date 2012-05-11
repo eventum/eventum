@@ -6,6 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -177,14 +178,16 @@ if ($config['fix-lock']) {
             $ema_ids = Email_Account::getAssocList($prj_id);
             foreach ($ema_ids as $ema_id => $ema_title) {
                 $lockfile = 'download_emails_' . $ema_id;
-                Lock::release($lockfile);
-                msg("Removed lock file '$lockfile'.");
+                if (Lock::release($lockfile)) {
+                    msg("Removed lock file '$lockfile'.");
+                }
             }
         }
     } else {
         $lockfile = 'download_emails_' . $account_id;
-        Lock::release($lockfile);
-        msg("Removed lock file '$lockfile'.");
+        if (Lock::release($lockfile)) {
+            msg("Removed lock file '$lockfile'.");
+        }
     }
     exit(0);
 }

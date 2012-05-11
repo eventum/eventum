@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -255,7 +256,6 @@ class Round_Robin
     {
         $stmt = "SELECT
                     usr_id,
-                    usr_preferences,
                     rru_next,
                     prr_blackout_start,
                     prr_blackout_end
@@ -280,7 +280,7 @@ class Round_Robin
             for ($i = 0; $i < count($res); $i++) {
                 $blackout_start = $res[$i]['prr_blackout_start'];
                 $blackout_end = $res[$i]['prr_blackout_end'];
-                $prefs = unserialize($res[$i]['usr_preferences']);
+                $prefs = Prefs::get($res[$i]['usr_id']);
                 $t[$res[$i]['usr_id']] = array(
                     'timezone' => $prefs['timezone'],
                     'is_next'  => $res[$i]['rru_next']

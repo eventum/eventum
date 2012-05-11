@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -684,8 +685,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
-                    // don't notify the user who made this change
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -736,7 +739,6 @@ class Notification
                 $email = $users[$i]["sub_email"];
             } else {
                 $prefs = Prefs::get($users[$i]['sub_usr_id']);
-//                echo "<pre>";var_dump($prefs);echo "</pre>";
                 if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
@@ -791,7 +793,7 @@ class Notification
                     $email = $users[$i]["sub_email"];
                 }
             } else {
-                $prefs = Prefs::get($users[$i]['usr_id']);
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
                 if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
@@ -1095,8 +1097,8 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
-            $prefs = Prefs::get($res[$i]['usr_id']);
 
+            $prefs = Prefs::get($res[$i]['usr_id']);
             if ((!empty($prefs['receive_assigned_email'][$prj_id])) &&
             (@$prefs['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;

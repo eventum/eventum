@@ -390,9 +390,7 @@ CREATE TABLE `%TABLE_PREFIX%resolution` (
   PRIMARY KEY  (res_id),
   UNIQUE KEY res_title (res_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
-INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (1, 'open', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (2, 'fixed', NOW());
-INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (3, 'reopened', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (4, 'unable to reproduce', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (5, 'not fixable', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (6, 'duplicate', NOW());

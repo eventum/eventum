@@ -12,7 +12,7 @@ IMPORTANT:
 When upgrading to a new version of Eventum, please follow these
 instructions:
 
-- Upgrading from version 2.2 to 2.3 or updating 2.3 to 2.3.1:
+- Upgrading from version 2.2 to 2.3 or updating 2.3.x to 2.3.2:
 ----------------------------------------
 1) Move your current copy of Eventum to a new directory.
 2) Extract the new Eventum files to a directory.
@@ -24,9 +24,12 @@ instructions:
    /path-to-eventum/lib/eventum/custom_field/ respectively.
 5) Point your webserver to /path-to-eventum/htdocs/
 6) Run the upgrade scripts described below from the command line.
-
-cd /path-to-eventum/upgrade/
-php update-database.php
+   cd /path-to-eventum/upgrade/
+   php update-database.php
+7) Modify your workflow/customer classes not to require any Eventum core
+   classes, they are autoloaded now. So you can just remove following lines:
+   require_once(APP_INC_PATH."workflow/class.abstract_workflow_backend.php");
+   require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 
 - Upgrading from version 2.1.1 to 2.2:
 ----------------------------------------

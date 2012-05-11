@@ -1,6 +1,7 @@
 <?php
 function smarty_function_get_display_style($params, &$smarty)
 {
+    $html_result = '';
     $print_result = true;
     extract($params);
 

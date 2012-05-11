@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -59,14 +60,15 @@ class Lock
      *
      * @access  public
      * @param   string $name The name of this lock file
-     * @return  void
+     * @return  boolean
      */
     public static function release($name)
     {
         $pid_file = self::getProcessFilename($name);
         if (file_exists($pid_file)) {
-            unlink($pid_file);
+            return unlink($pid_file);
         }
+        return false;
     }
 
 

@@ -4,6 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003, 2004, 2005, 2006 MySQL AB                        |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -56,10 +57,12 @@ class Search
 
     /**
      * Method used to save the current search parameters in a cookie.
+     * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
+     * @param   string $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
-    public static function saveSearchParams()
+    public static function saveSearchParams($save_db = true)
     {
         $sort_by = self::getParam('sort_by');
         $sort_order = self::getParam('sort_order');
@@ -139,7 +142,10 @@ class Search
                 );
             }
         }
-        Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
+
+        if ($save_db) {
+            Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
+        }
         return $cookie;
     }
 
@@ -242,7 +248,7 @@ class Search
                     sta_color status_color,
                     sta_id,
                     iqu_status,
-                    grp_name `group`,
+                    grp_name ". DB_Helper::getInstance()->quoteIdentifier("group") .",
                     pre_title,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
@@ -326,7 +332,7 @@ class Search
         }
         $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
+                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
                  ON
                     iss_grp_id=grp_id
                  LEFT JOIN

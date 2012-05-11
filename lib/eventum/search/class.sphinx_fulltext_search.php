@@ -1,11 +1,39 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
+// +----------------------------------------------------------------------+
+//
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
     private $sphinx;
 
     private $keywords;
-	private $excerpt_placeholder;
+    private $excerpt_placeholder;
 
     public function __construct()
     {
@@ -15,7 +43,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
         $this->match_mode = '';
 
-		// generate unique placeholder
+        // generate unique placeholder
         $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
     }
 
@@ -47,16 +75,16 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
         $res = $this->sphinx->Query($options['keywords'], $indexes);
 
-		// TODO: report these somehow back to the UI
-		if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-			error_log("sphinx_fulltext_search: Network Error");
-		}
-		if ($this->sphinx->GetLastWarning()) {
-			error_log("sphinx_fulltext_search: WARNING: " . $this->sphinx->GetLastWarning());
-		}
-		if ($this->sphinx->GetLastError()) {
-			error_log("sphinx_fulltext_search: ERROR: " . $this->sphinx->GetLastError());
-		}
+        // TODO: report these somehow back to the UI
+        if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
+            error_log("sphinx_fulltext_search: Network Error");
+        }
+        if ($this->sphinx->GetLastWarning()) {
+            error_log("sphinx_fulltext_search: WARNING: " . $this->sphinx->GetLastWarning());
+        }
+        if ($this->sphinx->GetLastError()) {
+            error_log("sphinx_fulltext_search: ERROR: " . $this->sphinx->GetLastError());
+        }
 
         $issue_ids = array();
         if (isset($res['matches'])) {
@@ -152,24 +180,24 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         return $excerpts;
     }
 
-	/**
-	 * Cleanup excerpt from newlines.
-	 *
-	 * Converts placeholders to HTML bold tags and returns text HTML encoded
-	 *
-	 * @param string $str
-	 */
-	private function cleanUpExcerpt($str)
-	{
-		return str_replace(
-				array(
-					$this->excerpt_placeholder . '-before',
-					$this->excerpt_placeholder . '-after',
-				),
-				array('<b>', '</b>'),
-				htmlspecialchars(Misc::removeNewLines($str)
-			));
-	}
+    /**
+     * Cleanup excerpt from newlines.
+     *
+     * Converts placeholders to HTML bold tags and returns text HTML encoded
+     *
+     * @param string $str
+     */
+    private function cleanUpExcerpt($str)
+    {
+        return str_replace(
+                array(
+                    $this->excerpt_placeholder . '-before',
+                    $this->excerpt_placeholder . '-after',
+                ),
+                array('<b>', '</b>'),
+                htmlspecialchars(Misc::removeNewLines($str)
+            ));
+    }
 
     public function getMatchModes()
     {

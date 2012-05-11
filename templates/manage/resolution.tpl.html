@@ -13,6 +13,11 @@
                       selectField(f, 'title');
                       return false;
                   }
+                  if (isWhitespace(f.rank.value)) {
+                      alert('{/literal}{t escape=js}Please enter the rank of this resolution.{/t}{literal}');
+                      selectField(f, 'rank');
+                      return false;
+                  }
                   return true;
               }
               //-->
@@ -61,6 +66,15 @@
                   <input type="text" name="title" size="40" class="default" value="{$info.res_title}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
+                <tr>
+                  <td width="140" bgcolor="{$cell_color}" class="default_white">
+                    <b>{t}Rank:{/t}</b>
+                  </td>
+                  <td bgcolor="{$light_color}">
+                    <input type="text" name="rank" size="5" class="default" value="{$info.res_rank}">
+                    {include file="error_icon.tpl.html" field="rank"}
+                  </td>
+                </tr>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
@@ -112,14 +126,14 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="20" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
                       <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
-                      <td width="20" nowrap bgcolor="{$row_color}" align="center" class="default">{$list[i].res_rank}</td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].res_rank}</td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
                       </td>

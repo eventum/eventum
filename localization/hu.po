@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-30 22:28+0300\n"
-"PO-Revision-Date: 2011-02-19 15:08+0000\n"
-"Last-Translator: Lukács István <Unknown>\n"
+"POT-Creation-Date: 2011-09-16 10:20+0300\n"
+"PO-Revision-Date: 2011-12-11 16:42+0000\n"
+"Last-Translator: Pal Vig <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:37+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-12-12 05:17+0000\n"
+"X-Generator: Launchpad (build 14458)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -77,7 +77,7 @@ msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
-msgstr ""
+msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
@@ -91,6 +91,7 @@ msgstr ""
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
+"(Ez lesz a Feladó mező tartalma minden emailben, amit az Eventum küld)"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -111,7 +112,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(alapértelmezett mappa az INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
-msgstr ""
+msgstr "(%1-nek telepítve kell lennie a szerveren)"
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
@@ -151,7 +152,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Válasszon Egyet --"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -159,6 +160,9 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
+"<b>Megjegyzés:</b> Az e-mail <b>nem</b> kerül továbbításra az értesítési "
+"listára, ha ezt az opciót választja. Ez egy hasznos lehetőség az e-mail "
+"terhelés csökkentésére."
 
 #: templates/associate.tpl.html
 msgid ""
@@ -182,11 +186,11 @@ msgstr ""
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr ""
+msgstr "Új felhasználó jött létre a rendszerben az Ön számára."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
-msgstr ""
+msgstr "HOZZÁADVA"
 
 #: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
@@ -194,12 +198,12 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
-msgstr ""
+msgstr "FIGYELEM:"
 
 #: templates/adv_search.tpl.html templates/emails.tpl.html
 #: templates/list.tpl.html
 msgid "ALL"
-msgstr ""
+msgstr "MIND"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
@@ -211,7 +215,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
-msgstr ""
+msgstr "ÉS / VAGY"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
@@ -219,11 +223,11 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Rövidítés:"
 
 #: templates/confirm.tpl.html
 msgid "Account Creation"
-msgstr ""
+msgstr "Azonosító Létrehozása"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
@@ -236,30 +240,30 @@ msgstr ""
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
-msgstr ""
+msgstr "Fiókbeállítások"
 
 #: templates/signup.tpl.html
 msgid "Account Signup"
-msgstr ""
+msgstr "Feliratkozás"
 
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Action"
-msgstr ""
+msgstr "Művelet"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Művelet Típusa"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Művelet Típusa:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Actions"
-msgstr ""
+msgstr "Műveletek"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid ""
@@ -271,7 +275,7 @@ msgstr ""
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
 msgid "Active"
-msgstr ""
+msgstr "Aktív"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
@@ -279,16 +283,16 @@ msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr ""
+msgstr "Múltbeli Tevékenységek"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr ""
+msgstr "Kategória Hozzáadása / Szerkesztése"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
@@ -296,11 +300,11 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr ""
+msgstr "Prioritások Hozzáadása / Szerkesztése"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr ""
+msgstr "Kiadások Hozzáadása / Szerkesztése"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
@@ -312,11 +316,11 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Feltétel Hozzáadása"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
-msgstr ""
+msgstr "Email Aláírás Hozzáadása"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
@@ -324,7 +328,7 @@ msgstr ""
 
 #: templates/new.tpl.html
 msgid "Add Files"
-msgstr ""
+msgstr "Fájlok Hozzáadása"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
@@ -372,33 +376,33 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Administration"
-msgstr ""
+msgstr "Rendszeradminisztráció"
 
 #: templates/help/permission_levels.tpl.html
 msgid "Administrator"
-msgstr ""
+msgstr "Adminisztrátor"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Advanced Options"
-msgstr ""
+msgstr "Haladó Beállítások"
 
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr ""
+msgstr "Részletes Keresés"
 
 #: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
-msgstr ""
+msgstr "Részletes Keresés / Egyedi Lekérdezések Létrehozása"
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr ""
+msgstr "A Küldő Neve Után"
 
 #: lib/eventum/class.customer_stats_report.php:188
 msgid "Aggregate"
-msgstr ""
+msgstr "Összegzés"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
@@ -442,7 +446,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr ""
+msgstr "Összes"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
@@ -450,7 +454,7 @@ msgstr ""
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "Minden Szöveg (emailek, feljegyzések, stb.)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -502,7 +506,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "Hiba Történt"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
@@ -510,11 +514,11 @@ msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr ""
+msgstr "Hiba történt az új ügyfelmenedzser felvétele közben."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr ""
+msgstr "Hiba történt az új fiók felvétele közben."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
@@ -523,15 +527,15 @@ msgstr ""
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr ""
+msgstr "Hiba történt az új lategória felvétele közben."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr ""
+msgstr "Hiba történt az új feltétel felvétele közben."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
+msgstr "Hiba történt az új egyedi mező felvétele közben."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
@@ -539,11 +543,11 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
-msgstr ""
+msgstr "Hiba történt az új email válasz felvétele közben."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
-msgstr ""
+msgstr "Hiba történt az új csoport felvétele közben."
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
@@ -551,31 +555,31 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
-msgstr ""
+msgstr "Hiba történt az új link szűrő felvétele közben."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr ""
+msgstr "Hiba történt az új feljegyzés felvétele közben."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr ""
+msgstr "Hiba történt az új prioritás felvétele közben."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr ""
+msgstr "Hiba történt az új projekt felvétele közben."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
-msgstr ""
+msgstr "Hiba történt az új kiadás felvétele közben."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr ""
+msgstr "Hiba történt az új emlékeztető felvétele közben."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
-msgstr ""
+msgstr "Hiba történt az új állapot felvétele közben."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "An error occurred while trying to add the new time tracking category."
@@ -583,11 +587,11 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
-msgstr ""
+msgstr "Hiba történt az új felhasználó felvétele közben."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
-msgstr ""
+msgstr "Hiba történt az új hír bejegyzés felvétele közben."
 
 #: templates/manage/round_robin.tpl.html
 msgid "An error occurred while trying to add the round robin entry."
@@ -596,7 +600,7 @@ msgstr ""
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
-msgstr ""
+msgstr "Hiba történt a kiválasztott email üzenet hozzárendelése közben."
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
@@ -604,19 +608,19 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
-msgstr ""
+msgstr "Hiba történt a link szűrő törlése közben."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
-msgstr ""
+msgstr "Hiba történt a feljegyzés törlése közben."
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
-msgstr ""
+msgstr "Hiba történt az illetékes feladó hozzáadása közben."
 
 #: templates/file_upload.tpl.html
 msgid "An error occurred while trying to process the uploaded file."
-msgstr ""
+msgstr "Hiba történt a feltöltött file feldolgozása közben."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
@@ -625,11 +629,11 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
-msgstr ""
+msgstr "Hiba történt a lekérdezés futtatása közben"
 
 #: templates/preferences.tpl.html
 msgid "An error occurred while trying to run your query."
-msgstr ""
+msgstr "Hiba történt a lekérdezés futtatása közben."
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
@@ -886,8 +890,8 @@ msgstr ""
 msgid "Assignment Field"
 msgstr ""
 
-#: lib/eventum/class.notification.php:612
-#: lib/eventum/class.notification.php:613
+#: lib/eventum/class.notification.php:614
+#: lib/eventum/class.notification.php:615
 msgid "Assignment List"
 msgstr ""
 
@@ -1052,7 +1056,7 @@ msgstr ""
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: lib/eventum/class.notification.php:963
+#: lib/eventum/class.notification.php:965
 msgid "BLOCKED"
 msgstr ""
 
@@ -1189,8 +1193,8 @@ msgid "Categories and Statuses"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:621
-#: lib/eventum/class.notification.php:622 lib/eventum/class.project.php:1096
+#: lib/eventum/class.notification.php:623
+#: lib/eventum/class.notification.php:624 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1329,7 +1333,7 @@ msgstr ""
 msgid "Close Window"
 msgstr ""
 
-#: lib/eventum/class.notification.php:823
+#: lib/eventum/class.notification.php:825
 msgid "Closed"
 msgstr ""
 
@@ -1790,6 +1794,10 @@ msgstr ""
 msgid "Description:"
 msgstr ""
 
+#: templates/list_excerpts.tpl.html
+msgid "Description: %1"
+msgstr ""
+
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
@@ -2189,6 +2197,10 @@ msgstr ""
 msgid "Emails by Staff"
 msgstr ""
 
+#: templates/list_excerpts.tpl.html
+msgid "Emails:"
+msgstr ""
+
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
 msgstr ""
@@ -2370,8 +2382,8 @@ msgstr ""
 msgid "Est Dev Time"
 msgstr ""
 
-#: lib/eventum/class.notification.php:641
-#: lib/eventum/class.notification.php:642 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:643
+#: lib/eventum/class.notification.php:644 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2425,6 +2437,10 @@ msgstr ""
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
+msgstr ""
+
+#: templates/quick_filter_form.tpl.html
+msgid "Excerpts"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -2537,8 +2553,8 @@ msgid "Expand collapsed cell"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:617
-#: lib/eventum/class.notification.php:618 templates/view_form.tpl.html
+#: lib/eventum/class.notification.php:619
+#: lib/eventum/class.notification.php:620 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr ""
 
@@ -2793,6 +2809,10 @@ msgstr ""
 
 #: lib/eventum/class.help.php:50
 msgid "Help Topics"
+msgstr ""
+
+#: templates/quick_filter_form.tpl.html
+msgid "Hide"
 msgstr ""
 
 #: templates/emails.tpl.html
@@ -3492,6 +3512,10 @@ msgstr ""
 msgid "Mark as Duplicate"
 msgstr ""
 
+#: templates/quick_filter_form.tpl.html
+msgid "Match Mode"
+msgstr ""
+
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
 msgstr ""
@@ -3631,7 +3655,7 @@ msgstr ""
 msgid "New Attachment"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1113 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
 msgid "New Issue"
 msgstr ""
 
@@ -3647,7 +3671,7 @@ msgstr ""
 msgid "New Status for Issue"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1454
+#: lib/eventum/class.notification.php:1467
 msgid "New User information"
 msgstr ""
 
@@ -3973,6 +3997,10 @@ msgstr ""
 msgid "Notes are added to existing issues"
 msgstr ""
 
+#: templates/list_excerpts.tpl.html
+msgid "Notes:"
+msgstr ""
+
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
@@ -3986,22 +4014,22 @@ msgstr ""
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2041
+#: lib/eventum/class.notification.php:2054
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1881
+#: lib/eventum/class.notification.php:1894
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2127
+#: lib/eventum/class.notification.php:2140
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2223
+#: lib/eventum/class.notification.php:2236
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4209,8 +4237,8 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: lib/eventum/class.notification.php:649
-#: lib/eventum/class.notification.php:650
+#: lib/eventum/class.notification.php:651
+#: lib/eventum/class.notification.php:652
 msgid "Percent complete"
 msgstr ""
 
@@ -4241,6 +4269,10 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Phone Calls"
+msgstr ""
+
+#: templates/list_excerpts.tpl.html
+msgid "Phone Calls:"
 msgstr ""
 
 #: templates/phone_support.tpl.html
@@ -5290,8 +5322,8 @@ msgid "Primary Technical Account Manager"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:629
-#: lib/eventum/class.notification.php:630 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:631
+#: lib/eventum/class.notification.php:632 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5419,7 +5451,7 @@ msgid "Re: %1$s"
 msgstr ""
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:823
+#: lib/eventum/class.issue.php:820
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr ""
@@ -5564,8 +5596,8 @@ msgid "Register"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:625
-#: lib/eventum/class.notification.php:626 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:627
+#: lib/eventum/class.notification.php:628 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr ""
@@ -5768,8 +5800,8 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: lib/eventum/class.notification.php:637
-#: lib/eventum/class.notification.php:638 templates/close.tpl.html
+#: lib/eventum/class.notification.php:639
+#: lib/eventum/class.notification.php:640 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr ""
@@ -6018,6 +6050,10 @@ msgstr ""
 msgid "Shorten the field"
 msgstr ""
 
+#: templates/quick_filter_form.tpl.html
+msgid "Show"
+msgstr ""
+
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
 msgstr ""
@@ -6217,8 +6253,8 @@ msgid "Stats"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:633
-#: lib/eventum/class.notification.php:634 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:635
+#: lib/eventum/class.notification.php:636 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6290,8 +6326,8 @@ msgid "Suggestions:"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:645
-#: lib/eventum/class.notification.php:646 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.notification.php:647
+#: lib/eventum/class.notification.php:648 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6319,6 +6355,10 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
+msgstr ""
+
+#: templates/list_excerpts.tpl.html
+msgid "Summary: %1"
 msgstr ""
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
@@ -7760,7 +7800,7 @@ msgstr ""
 msgid "Update Values"
 msgstr ""
 
-#: lib/eventum/class.notification.php:693
+#: lib/eventum/class.notification.php:695
 msgid "Updated"
 msgstr ""
 
@@ -7821,11 +7861,11 @@ msgstr ""
 msgid "User Permission Levels"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1380
+#: lib/eventum/class.notification.php:1393
 msgid "User account information updated"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1417
+#: lib/eventum/class.notification.php:1430
 msgid "User account password changed"
 msgstr ""
 
@@ -8223,7 +8263,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1583
+#: lib/eventum/class.notification.php:1596
 msgid "Your User Account Details"
 msgstr ""
 
@@ -8259,6 +8299,14 @@ msgid ""
 "Your user status is currently set as pending. This means that you still need "
 "to confirm your account creation request. Please contact your local system "
 "administrator for further information."
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "[Private]"
+msgstr ""
+
+#: templates/list.tpl.html
+msgid "[Redeemed]"
 msgstr ""
 
 #: templates/help/scm_integration.tpl.html

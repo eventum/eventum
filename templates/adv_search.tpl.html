@@ -301,7 +301,7 @@ function disableCustomFields(disable)
             <span class="default">{t}Sort By{/t}:</span><br />
             <select name="sort_by" class="default">
               <option value="last_action_date" {if $options.cst_sort_by == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
-              <option value="iss_pri_id" {if $options.cst_sort_by == "iss_pri_id"}selected{/if}>{t}Priority{/t}</option>
+              <option value="pri_rank" {if $options.cst_sort_by == "pri_rank"}selected{/if}>{t}Priority{/t}</option>
               <option value="iss_id" {if $options.cst_sort_by == "iss_id"}selected{/if}>{t}Issue ID{/t}</option>
               <option value="sta_rank" {if $options.cst_sort_by == "sta_rank"}selected{/if}>{t}Status{/t}</option>
               <option value="iss_summary" {if $options.cst_sort_by == "iss_summary"}selected{/if}>{t}Summary{/t}</option>

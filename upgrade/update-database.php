@@ -4,7 +4,7 @@ require_once 'init.php';
 
 // on fresh install config is empty or missing
 if (!defined('APP_SQL_DBNAME')) {
-    fwrite(STDERR, "Eventum not configured. Please run setup.\n");
+    error_log("Eventum not configured. Please run setup.");
     exit(1);
 }
 

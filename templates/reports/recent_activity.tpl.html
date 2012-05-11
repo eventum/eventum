@@ -356,7 +356,7 @@ changeType('{$smarty.request.report_type}');
           <td class="default" bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
           <td class="default" bgcolor="{$row_color}">{$row.time_spent}</td>
           <td class="default" bgcolor="{$row_color}">{$row.ttc_title}</td>
-          <td class="default" bgcolor="{$row_color}">{$row.ttr_summary|nl2br}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.ttr_summary|escape:html|nl2br}</td>
         </tr>
         {foreachelse}
         <tr>

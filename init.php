@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -41,7 +42,7 @@ ini_set('memory_limit', '128M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://launchpad.net/eventum/');
-define('APP_VERSION', '2.3.1');
+define('APP_VERSION', '2.3.2');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));

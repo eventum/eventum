@@ -43,6 +43,18 @@ function validate(f)
         selectField(f, 'note');
         return false;
     }
+
+	var now = new Date();
+	var d1 = makeDate(f, 'date');
+	if (d1 > now) {
+		alert('{/literal}{t}Start time in the future.{/t}{literal}');
+		return false;
+	}
+	var d2 = makeDate(f, 'date2');
+	if (d2 > now) {
+		alert('{/literal}{t}End time in the future.{/t}{literal}');
+		return false;
+	}
     return true;
 }
 function clearExtraRecipients()
@@ -127,8 +139,17 @@ function setSignature(f)
                 size="{$users|@count}"
               {/if}
               multiple name="note_cc[]" onChange="showSelections('post_note_form', 'note_cc[]');">
-              {html_options options=$users}
-            </select><input class="button" type="button" value="{t}Clear Selections{/t}" onClick="clearExtraRecipients();"><br />
+
+              {foreach from=$user_details item=usr}
+              {if $usr.group}
+                {assign var=display_name value="`$usr.group`: `$usr.usr_full_name`"}
+              {else}
+                {assign var=display_name value=$usr.usr_full_name}
+              {/if}
+                {html_options values=$usr.usr_id output=$display_name}
+              {/foreach}
+            </select>
+            <input class="button" type="button" value="{t}Clear Selections{/t}" onClick="clearExtraRecipients();"><br />
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="note_cc[]" callbacks="new Array('showSelections(\'post_note_form\', \'note_cc[]\')')"}
             <div class="default" id="selection_note_cc[]"></div>
           </td>
@@ -158,13 +179,33 @@ function setSignature(f)
             <b>{t}Time Spent:{/t}</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="5" name="time_spent" class="default">
+            <input type="text" size="5" name="time_spent" class="default" onChange="calcDateDiff(this.form, 0)">
             <select name="time_category" class="default">
               {html_options options=$time_categories selected=$note_category_id}
             </select>
-            <span class="small_default"><i>(in minutes)</i></span>
+
+            <span class="small_default"><i>{t}(in minutes){/t}</i></span>
             {include file="error_icon.tpl.html" field="time_spent"}
           </td>
+
+		  <tr>
+			<td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Work started{/t}:</b></td>
+			<td bgcolor="{$light_color}" width="100%">
+			  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
+			  {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
+			  <a href="javascript:void(null);" onClick="updateTimeFields('post_note_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+			</td>
+		  </tr>
+
+		  <tr>
+			<td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Work ended{/t}:</b></td>
+			<td bgcolor="{$light_color}" width="100%">
+			  {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"'}&nbsp;
+			  {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"' display_seconds=false}
+			  <a href="javascript:void(null);" onClick="updateTimeFields('post_note_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+			</td>
+		  </tr>
+
         </tr>
         {include file="include/issue_fields.tpl.html"}
         <tr>

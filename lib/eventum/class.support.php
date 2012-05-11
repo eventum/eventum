@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -1152,6 +1153,8 @@ class Support
     /**
      * Method used to save the current search parameters in a cookie.
      *
+     * TODO: Merge with Search::saveSearchParams()
+     *
      * @access  public
      * @return  array The search parameters
      */
@@ -1299,55 +1302,58 @@ class Support
                 "list" => "",
                 "info" => ""
             );
-        } else {
-            if ((count($res) < 1) && ($current_row > 0)) {
-                // if there are no results, and the page is not the first page reset page to one and reload results
-                Auth::redirect("emails.php?pagerRow=0&rows=$max");
+        }
+
+        if (count($res) < 1 && $current_row > 0) {
+            // if there are no results, and the page is not the first page reset page to one and reload results
+            Auth::redirect("emails.php?pagerRow=0&rows=$max");
+        }
+
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $customer_ids = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
+                    $customer_ids[] = $res[$i]['sup_customer_id'];
+                }
+            }
+            if (count($customer_ids) > 0) {
+                $company_titles = Customer::getTitles($prj_id, $customer_ids);
+            }
+        }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
+            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+            $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
+            if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
+                $res[$i]["sup_to"] = "Notification List";
+            } else {
+                $to = Mail_Helper::getName($res[$i]["sup_to"]);
+                // Ignore unformattable headers
+                if (!PEAR::isError($to)) {
+                    $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
+                }
             }
             if (Customer::hasCustomerIntegration($prj_id)) {
-                $customer_ids = array();
-                for ($i = 0; $i < count($res); $i++) {
-                    if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
-                        $customer_ids[] = $res[$i]['sup_customer_id'];
-                    }
-                }
-                if (count($customer_ids) > 0) {
-                    $company_titles = Customer::getTitles($prj_id, $customer_ids);
-                }
+                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
             }
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
-                $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
-                if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
-                    $res[$i]["sup_to"] = "Notification List";
-                } else {
-                    $to = Mail_Helper::getName($res[$i]["sup_to"]);
-                    // Ignore unformattable headers
-                    if (!PEAR::isError($to)) {
-                        $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
-                    }
-                }
-                if (Customer::hasCustomerIntegration($prj_id)) {
-                    @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
-                }
-            }
-            $total_pages = ceil($total_rows / $max);
-            $last_page = $total_pages - 1;
-            return array(
-                "list" => $res,
-                "info" => array(
-                    "current_page"  => $current_row,
-                    "start_offset"  => $start,
-                    "end_offset"    => $start + count($res),
-                    "total_rows"    => $total_rows,
-                    "total_pages"   => $total_pages,
-                    "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
-                    "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                    "last_page"     => $last_page
-                )
-            );
         }
+
+        $total_pages = ceil($total_rows / $max);
+        $last_page = $total_pages - 1;
+        return array(
+            "list" => $res,
+            "info" => array(
+                "current_page"  => $current_row,
+                "start_offset"  => $start,
+                "end_offset"    => $start + count($res),
+                "total_rows"    => $total_rows,
+                "total_pages"   => $total_pages,
+                "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
+                "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
+                "last_page"     => $last_page
+            )
+        );
     }
 
 

@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -61,7 +62,7 @@ class Error_Handler
         }
 
         $setup = Setup::load();
-        if ($setup['email_error']['status'] == 'enabled') {
+        if (isset($setup['email_error']['status']) && $setup['email_error']['status'] == 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);
             if (empty($notify_list)) {
                 return false;

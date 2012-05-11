@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 22:28+0300\n"
-"PO-Revision-Date: 2011-08-15 09:00+0000\n"
-"Last-Translator: Stefan Norin <Unknown>\n"
+"POT-Creation-Date: 2011-09-16 10:20+0300\n"
+"PO-Revision-Date: 2011-09-27 08:52+0000\n"
+"Last-Translator: N Ankar <Unknown>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-31 04:39+0000\n"
-"X-Generator: Launchpad (build 13815)\n"
+"X-Launchpad-Export-Date: 2011-11-07 05:46+0000\n"
+"X-Generator: Launchpad (build 14231)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -33,7 +33,7 @@ msgstr ""
 #: htdocs/view.php:74
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr "#%1$s - %2$s"
+msgstr "Ärende nummer %1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:195
 msgid "% Complete"
@@ -80,7 +80,7 @@ msgstr "(Alla ärenden)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Alternativa domännamn som pekar mot 'Address Hostname')"
+msgstr "(Alternativa domännamn som pekar mot 'Adress Värdnamn')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -118,7 +118,7 @@ msgstr "(Arkiverad)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(standard %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -174,18 +174,24 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
+"<b>OBS:</b> E-post skickas <b>INTE</b> till notifieringslistan om detta val "
+"aktiverats. Detta är användbart om man vill ta in en större mängd e-"
+"postmeddelanden i ett befintligt ärende."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
+"<b>OBS:</b> E-post kommer att sändas till hela notifieringslistan, inklusive "
+"kunder om detta val aktiverats."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
+"<b>OBS:</b> E-post sparas som en anteckning och visas bara för användare."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
@@ -201,7 +207,7 @@ msgstr "En ny användare skapades just för dig i systemet."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
-msgstr ""
+msgstr "Tillagd"
 
 #: lib/eventum/class.mail_helper.php:468
 msgid "ADVISORY: Your reply will be sent to the notification list."
@@ -242,11 +248,11 @@ msgstr "Skapa konto"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr "Kundsansvarig"
+msgstr "Kontoansvarig"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr "Kundsansvarig:"
+msgstr "Kontoansvarig:"
 
 #: lib/eventum/class.help.php:110 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
@@ -293,11 +299,11 @@ msgstr "Aktiv"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr ""
+msgstr "Aktivitetstyp"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr ""
+msgstr "Senaste aktiviteter"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -412,7 +418,7 @@ msgstr "Utökad sökning / Skapa anpassad sökning"
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr ""
+msgstr "Efter Avsändare"
 
 #: lib/eventum/class.customer_stats_report.php:188
 msgid "Aggregate"
@@ -494,9 +500,9 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
-"Tillåten att se alla ärenden i projektet som är associerade till denna "
-"användare; Tillåten att skapa nya ärenden, uppdatera existerande ärenden "
-"samt skicka e-post och noteringar till existerande ärenden."
+"Kan se alla ärenden i de projekt som kopplats till användaren; Kan skapa nya "
+"ärenden, uppdatera befintliga ärenden och skicka e-post och anteckningar "
+"till befintliga ärenden"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -506,12 +512,18 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
+"Kan se alla ärenden i de projekt som kopplats till användaren; Kan skapa nya "
+"ärenden, uppdatera befintliga ärenden och skicka e-post och anteckningar "
+"till befintliga ärenden. Denna typ av användare får även tillgång till "
+"administration av inställningar på projektnivå."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
+"Kan se alla ärenden i de projekt som kopplats till användaren; Kan inte "
+"skapa nya eller redigera befintliga ärenden."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
@@ -533,7 +545,7 @@ msgstr "Ett fel uppstod när FAQ-posten skulle läggas till"
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr "Ett fel uppstod när den nya Kontoansvarige skulle läggas till."
+msgstr "Ett fel uppstod när den nya kontoansvarige skulle läggas till."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
@@ -674,7 +686,7 @@ msgstr "Ett fel uppstod när kontoinformationen skulle uppdateras."
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
-msgstr "Ett fel uppstod när kontohanteraren skulle uppdateras."
+msgstr "Ett fel uppstod när den kontoansvarige skulle uppdateras."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
@@ -836,7 +848,7 @@ msgstr "Artikelinlägg"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Som ett exempel, använd"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -914,8 +926,8 @@ msgstr "Tilldelning"
 msgid "Assignment Field"
 msgstr ""
 
-#: lib/eventum/class.notification.php:612
-#: lib/eventum/class.notification.php:613
+#: lib/eventum/class.notification.php:614
+#: lib/eventum/class.notification.php:615
 msgid "Assignment List"
 msgstr "Tilldelningslista"
 
@@ -986,7 +998,7 @@ msgstr "Bifogad fil härstammar från en notering"
 
 #: lib/eventum/class.support.php:1448
 msgid "Attachment originated from an email"
-msgstr ""
+msgstr "Denna bifogade fil kommer från ett e-postmeddelande"
 
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
@@ -1012,7 +1024,7 @@ msgstr "Behörig att skicka e-post"
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Auto-Creation of Issues"
-msgstr ""
+msgstr "Automatiskt skapande av ärenden"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
@@ -1020,7 +1032,7 @@ msgstr "Automatiserade ärenden"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Automatisk påminnelse för ärende nummer %1"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
@@ -1066,7 +1078,7 @@ msgstr "Medel"
 
 #: lib/eventum/class.customer_stats_report.php:689
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Medel för arbetsbelastning per kund och supportnivå"
 
 #: lib/eventum/class.customer_stats_report.php:698
 msgid "Avg and Median Time to Close by Support Level"
@@ -1080,7 +1092,7 @@ msgstr ""
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: lib/eventum/class.notification.php:963
+#: lib/eventum/class.notification.php:965
 msgid "BLOCKED"
 msgstr "BLOCKERAD"
 
@@ -1123,7 +1135,7 @@ msgstr "Baserat på alla öppna ärenden i <b>%1</b>."
 
 #: templates/manage/general.tpl.html
 msgid "Before Sender Name"
-msgstr ""
+msgstr "Före avsändarens namn"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
@@ -1135,11 +1147,11 @@ msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "Blocked Message Raw Headers"
-msgstr ""
+msgstr "Blockerat meddelandes header"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Blue values indicate value is lower than the aggregate one."
-msgstr ""
+msgstr "lå värden indikerar ett värde som är lägre än det samlade värdet."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Boilerplate:"
@@ -1148,12 +1160,12 @@ msgstr ""
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Brasiliansk portugisiska"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Breton"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -1165,15 +1177,15 @@ msgstr "Massuppdateringsverktyg"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Customer"
-msgstr ""
+msgstr "Efter kund"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Issue ID"
-msgstr ""
+msgstr "Efter ärendenummer"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Support Level"
-msgstr ""
+msgstr "Efter supportnivå"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
@@ -1210,15 +1222,15 @@ msgstr "Standardsvar"
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Katalanska"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
 msgstr "Kategorier och statusnivåer"
 
 #: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:621
-#: lib/eventum/class.notification.php:622 lib/eventum/class.project.php:1096
+#: lib/eventum/class.notification.php:623
+#: lib/eventum/class.notification.php:624 lib/eventum/class.project.php:1096
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1288,7 +1300,7 @@ msgstr "Utcheckningssida:"
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Kinesiska (förenklad)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1357,7 +1369,7 @@ msgstr "Stäng Ärende"
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: lib/eventum/class.notification.php:823
+#: lib/eventum/class.notification.php:825
 msgid "Closed"
 msgstr "Stängt"
 
@@ -1375,11 +1387,11 @@ msgstr ""
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
-msgstr ""
+msgstr "Förminska alla expanderade celler"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse expanded cell"
-msgstr ""
+msgstr "Förminska den expanderade cellen"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
@@ -1461,7 +1473,7 @@ msgstr "Skapa konto"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Create Account Manager"
-msgstr "Skapa kontohanterare"
+msgstr "Skapa kontoansvarig"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -1475,7 +1487,7 @@ msgstr "Skapa anpassat fält"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
-msgstr ""
+msgstr "Skapa anpassning"
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
@@ -1585,7 +1597,7 @@ msgstr "Nuvarande filter:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
-msgstr ""
+msgstr "Anpassat fält"
 
 #: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
@@ -1604,7 +1616,7 @@ msgstr "Veckorapport för användarfält"
 #: lib/eventum/class.custom_field.php:311
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
-msgstr ""
+msgstr "Anpassat fält uppdaterat (%1$s) av %2$s"
 
 #: lib/eventum/class.customer_stats_report.php:664
 #: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
@@ -1627,7 +1639,7 @@ msgstr "Kundkontrakt"
 
 #: lib/eventum/class.customer_stats_report.php:728
 msgid "Customer Counts"
-msgstr ""
+msgstr "Kundantal"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
@@ -1636,7 +1648,7 @@ msgstr "Kundidentitet (t.ex. \"Exempel AB\", \"johndoe@example.com\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
-msgstr ""
+msgstr "Kundintegrationsverktyg"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
@@ -1671,7 +1683,7 @@ msgstr "Anpassa övervakningsinställningar"
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Tjeckiska"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1680,7 +1692,7 @@ msgstr "Dagliga tips:"
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr ""
+msgstr "Danska"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1715,7 +1727,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Date issue was opened - Date issue was closed for all closed issues."
-msgstr ""
+msgstr "Datum då ärendet skapades eller för ständga ärende; stängningsdatum."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Date of Call"
@@ -1757,7 +1769,7 @@ msgstr "Standardkategori:"
 
 #: templates/manage/general.tpl.html
 msgid "Default Options for Notifications:"
-msgstr ""
+msgstr "Standardinställningar för Påminnelser:"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -1810,7 +1822,7 @@ msgstr "Beskrivning"
 
 #: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
 msgid "Description Field"
-msgstr ""
+msgstr "Beskrivning"
 
 #: templates/view_form.tpl.html
 msgid "Description is currently collapsed"
@@ -1819,6 +1831,10 @@ msgstr "Beskrivningen är dold"
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
 msgid "Description:"
 msgstr "Beskrivning:"
+
+#: templates/list_excerpts.tpl.html
+msgid "Description: %1"
+msgstr "Beskrivning: %1"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
@@ -1857,7 +1873,7 @@ msgstr "Ta bort associering"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Display on List Issues Page"
-msgstr ""
+msgstr "Visa på ärendelistningens sida"
 
 #: lib/eventum/class.customer_stats_report.php:690
 msgid ""
@@ -1876,7 +1892,7 @@ msgstr "Vill du fortsätta?"
 
 #: templates/view_email.tpl.html
 msgid "Download Raw Email"
-msgstr ""
+msgstr "Hämta e-postmeddelande"
 
 #: templates/manage/general.tpl.html
 msgid "Draft Address Prefix:"
@@ -1913,7 +1929,7 @@ msgstr "Kopior"
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
 msgid "Dutch"
-msgstr ""
+msgstr "Nederländska"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
@@ -1958,6 +1974,8 @@ msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
+"FEL: Filens grupp är felaktig (sökväg: %1$s; nuvarande grupp: %2$s; rätt "
+"grupp: %3$s)"
 
 #: lib/eventum/class.monitor.php:104
 #, php-format
@@ -1965,6 +1983,8 @@ msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
+"FEL: Filens ägare är felaktig (sökväg: %1$s; nuvarande ägare: %2$s; rätt "
+"ägare: %3$s)"
 
 #: lib/eventum/class.monitor.php:114
 #, php-format
@@ -1972,34 +1992,42 @@ msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
+"FEL: Filens rättigheter är felaktiga (sökväg: %1$s; nuvarande rättigheter: "
+"%2$s; rätt rättigheter: %3$s)"
 
 #: lib/eventum/class.monitor.php:119
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
-msgstr ""
+msgstr "FEL: Filens storlek är fel (sökväg: %1$s; nuvarande storlek: %2$s)"
 
 #: lib/eventum/class.monitor.php:76
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"FEL: Det lediga utrymmet på lagringsytan börjar bli lågt (Återstående "
+"utrymme: %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
+"FEL: Systemet har inte tillräckliga rättigheter för att skapa "
+"konfigurationsfilen i installationsmappen"
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
+"FEL: Systemet har inte tillräckliga rättigheter för att uppdatera "
+"konfigurationsfilen i installationsmappen"
 
 #: lib/eventum/class.monitor.php:54
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
-msgstr ""
+msgstr "FEL: Det finns totalt %d köade e-postmeddelanden med fel i."
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
@@ -2082,7 +2110,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Address to Send Saved Messages:"
-msgstr ""
+msgstr "E-postadress att skicka sparade meddelanden till:"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Email Address:"
@@ -2090,7 +2118,7 @@ msgstr "E-postadress:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Errors To:"
-msgstr ""
+msgstr "E-postadress att skicka fel till:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Information To:"
@@ -2103,23 +2131,23 @@ msgstr "E-postalias"
 #: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
-msgstr ""
+msgstr "E-postblockering"
 
 #: lib/eventum/class.customer_stats_report.php:730
 msgid "Email Counts"
-msgstr ""
+msgstr "E-posträknare"
 
 #: templates/manage/general.tpl.html
 msgid "Email Draft Interface:"
-msgstr ""
+msgstr "Interface för e-postutkast"
 
 #: templates/manage/general.tpl.html
 msgid "Email Error Logging System:"
-msgstr ""
+msgstr "Loggningssystem för e-post"
 
 #: templates/manage/general.tpl.html
 msgid "Email Integration Feature:"
-msgstr ""
+msgstr "Integration för e-post"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Email List:"
@@ -2136,11 +2164,11 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Reminder System Status Information:"
-msgstr ""
+msgstr "Status för påminnelsesystem via e-post"
 
 #: templates/manage/general.tpl.html
 msgid "Email Routing Interface:"
-msgstr ""
+msgstr "Routning av e-post"
 
 #: templates/preferences.tpl.html
 msgid "Email Signature"
@@ -2148,38 +2176,38 @@ msgstr "E-postsignatur"
 
 #: templates/manage/general.tpl.html
 msgid "Email Spell Checker:"
-msgstr ""
+msgstr "Rättstavning av e-post"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Email Time Spent"
-msgstr ""
+msgstr "Tid som lagts på e-post"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Email Workload by Time of day"
-msgstr ""
+msgstr "Arbetsbelastning av e-post per tid på dagen"
 
 #: htdocs/reports/workload_time_period_graph.php:50
 msgid "Email by Time Period"
-msgstr ""
+msgstr "E-post per tidsperiod"
 
 #: templates/reports/tree.tpl.html
 msgid "Email by time period"
-msgstr ""
+msgstr "E-post per tidsperiod"
 
 #: lib/eventum/class.support.php:2570
 #, php-format
 msgid "Email from '%1$s' blocked"
-msgstr ""
+msgstr "E-post från '%1$s' blockeras"
 
 #: lib/eventum/class.draft.php:162
 #, php-format
 msgid "Email message draft updated by %1$s"
-msgstr ""
+msgstr "E-postutkast uppdaterat av %1$s"
 
 #: lib/eventum/class.draft.php:118
 #, php-format
 msgid "Email message saved as a draft by %1$s"
-msgstr ""
+msgstr "E-postmeddelande sparat som utkast av %1$s"
 
 #: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
 #, php-format
@@ -2197,6 +2225,8 @@ msgid ""
 "Email will be re-sent from your name, NOT original sender's, and without any "
 "attachments."
 msgstr ""
+"E-postmeddelandet kommer att vidarebefodras med dig som avsändare och med "
+"eventuella bifogade filer borttagna."
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
@@ -2216,11 +2246,15 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Customers"
-msgstr ""
+msgstr "E-post per kund"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Staff"
-msgstr ""
+msgstr "E-post per medarbetare"
+
+#: templates/list_excerpts.tpl.html
+msgid "Emails:"
+msgstr "E-post:"
 
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
@@ -2238,7 +2272,7 @@ msgstr "Aktiverad"
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "End"
-msgstr ""
+msgstr "Slut"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "End date"
@@ -2246,7 +2280,7 @@ msgstr "Slutdatum"
 
 #: templates/add_time_tracking.tpl.html
 msgid "End time in the future."
-msgstr ""
+msgstr "Sluttid i framtiden."
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
@@ -2256,17 +2290,17 @@ msgstr "Slut:"
 #. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
 #: localization/LINGUAS.php:14
 msgid "English (Australia)"
-msgstr ""
+msgstr "Engelska (Australien)"
 
 #. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
 #: localization/LINGUAS.php:16
 msgid "English (Canada)"
-msgstr ""
+msgstr "Engelska (Kanada)"
 
 #. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
 #: localization/LINGUAS.php:18
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Engelska (Storbritannien)"
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
@@ -2300,16 +2334,16 @@ msgstr ""
 #: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
 #: lib/eventum/class.routing.php:382
 msgid "Error: Please configure the email address domain."
-msgstr ""
+msgstr "Fel: Var god ställ in domän för e-postadresser"
 
 #: lib/eventum/class.routing.php:61 lib/eventum/class.routing.php:263
 #: lib/eventum/class.routing.php:379
 msgid "Error: Please configure the email address prefix."
-msgstr ""
+msgstr "Fel: Var god ställ in prefix för e-postadresser."
 
 #: lib/eventum/class.routing.php:110
 msgid "Error: Please provide the email account ID."
-msgstr ""
+msgstr "Fel: Var god ställ in e-postidentifikationen"
 
 #: templates/forgot_password.tpl.html
 msgid "Error: Please provide your email address."
@@ -2319,6 +2353,7 @@ msgstr "Fel: var vänlig ange din e-postadress."
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
+"Fel: Den användare som ska kopplas för e-postroutning måste ställas in."
 
 #: templates/signup.tpl.html
 msgid ""
@@ -2329,27 +2364,27 @@ msgstr ""
 
 #: lib/eventum/class.routing.php:376
 msgid "Error: The email draft interface is disabled."
-msgstr ""
+msgstr "Fel: Interfacet för e-postutkast är deaktiverat."
 
 #: lib/eventum/class.routing.php:49
 msgid "Error: The email message was empty"
-msgstr ""
+msgstr "Fel: E-postmeddelandet var tomt"
 
 #: lib/eventum/class.routing.php:249 lib/eventum/class.routing.php:365
 msgid "Error: The email message was empty."
-msgstr ""
+msgstr "Fel: E-postmeddelandet var tomt."
 
 #: lib/eventum/class.routing.php:58
 msgid "Error: The email routing interface is disabled."
-msgstr ""
+msgstr "FEL: Routning av e-postmeddelanden är avstängt."
 
 #: lib/eventum/class.routing.php:260
 msgid "Error: The internal note routing interface is disabled."
-msgstr ""
+msgstr "FEL: Routning av interna meddelanden är avstängt."
 
 #: templates/close.tpl.html
 msgid "Error: The issue #%1 could not be found"
-msgstr ""
+msgstr "FEL: Ärende nummer %1 kunde inte hittas"
 
 #: templates/view.tpl.html
 msgid "Error: The issue #%1 could not be found."
@@ -2365,6 +2400,8 @@ msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
+"Fel: Det routade e-postmeddelandet saknade ärendenummer eller hade en "
+"felaktig mottagaradress."
 
 #: lib/eventum/class.routing.php:281
 msgid ""
@@ -2403,14 +2440,14 @@ msgstr "Fel: du har redan behörighet att skicka e-postmeddelanden i ärendet."
 #. TRANSLATORS: Translation of Esperanto language in preferences dropdown
 #: localization/LINGUAS.php:20
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lib/eventum/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr "Beräknad behandlingstid"
 
-#: lib/eventum/class.notification.php:641
-#: lib/eventum/class.notification.php:642 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:643
+#: lib/eventum/class.notification.php:644 lib/eventum/class.project.php:1100
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2418,7 +2455,7 @@ msgstr "Beräknad beh. tid"
 
 #: templates/new.tpl.html
 msgid "Estimated Dev. Time (only numbers)"
-msgstr ""
+msgstr "Beräknad utvecklingstid (endast siffror)"
 
 #: templates/update_form.tpl.html
 msgid "Estimated Dev. Time:"
@@ -2431,7 +2468,7 @@ msgstr "Beräknad behandlingstid"
 #: lib/eventum/class.help.php:82
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid "Estimated Development Time Field"
-msgstr ""
+msgstr "Fält för beräknad utvecklingstid"
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated Development Time by Category"
@@ -2444,7 +2481,7 @@ msgstr "Beräknad tid (h)"
 #. TRANSLATORS: Translation of Estonian language in preferences dropdown
 #: localization/LINGUAS.php:24
 msgid "Estonian"
-msgstr ""
+msgstr "Estniska"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2456,7 +2493,7 @@ msgstr "Eventum Installation"
 
 #: templates/header.tpl.html
 msgid "Eventum Issues search"
-msgstr ""
+msgstr "Ärendesökning i Eventum"
 
 #: templates/setup.tpl.html
 msgid "Eventum Relative URL"
@@ -2464,7 +2501,11 @@ msgstr "Eventums relativa sökväg"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
-msgstr ""
+msgstr "Eventum kunde inte routa e-postmeddelandet"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Excerpts"
+msgstr "Utdrag"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
@@ -2561,7 +2602,7 @@ msgstr "Befintliga statusnivåer:"
 
 #: templates/notification.tpl.html
 msgid "Existing Subscribers for this Issue"
-msgstr "Prenuumeranter för ärendet."
+msgstr "Prenumeranter för ärendet"
 
 #: templates/manage/users.tpl.html
 msgid "Existing Users"
@@ -2569,15 +2610,15 @@ msgstr "Befintliga användare"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Expand all collapsed cells"
-msgstr ""
+msgstr "Expandera alla förminskade celler"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Expand collapsed cell"
-msgstr ""
+msgstr "Expandera denna förminskade cell"
 
 #: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:617
-#: lib/eventum/class.notification.php:618 templates/view_form.tpl.html
+#: lib/eventum/class.notification.php:619
+#: lib/eventum/class.notification.php:620 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr "Förväntat lösningsdatum"
 
@@ -2600,7 +2641,7 @@ msgstr "Extra noteringsmottagare:"
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
-msgstr ""
+msgstr "Färöiska"
 
 #: lib/eventum/class.reminder_condition.php:213
 #: templates/manage/reminder_conditions.tpl.html
@@ -2609,7 +2650,7 @@ msgstr "Fält"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Options"
-msgstr ""
+msgstr "Fältalternativ"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Type"
@@ -2643,7 +2684,7 @@ msgstr "Filer är bifogade"
 
 #: templates/help/notifications.tpl.html
 msgid "Files are attached to existing issues"
-msgstr ""
+msgstr "Bifogade filer finns till befintliga ärenden"
 
 #: templates/email_filter_form.tpl.html
 msgid "Filter by Arrival Date:"
@@ -2652,7 +2693,7 @@ msgstr "Filtrera efter Ankomstdatum:"
 #. TRANSLATORS: Translation of Finnish language in preferences dropdown
 #: localization/LINGUAS.php:26
 msgid "Finnish"
-msgstr ""
+msgstr "Finska"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
@@ -2660,7 +2701,7 @@ msgstr "Första svar från personal"
 
 #: lib/eventum/class.filter.php:754
 msgid "First Response Date"
-msgstr ""
+msgstr "Första svarsdatum"
 
 #: templates/adv_search.tpl.html
 msgid "First Response by Staff"
@@ -2684,7 +2725,7 @@ msgstr ""
 #. TRANSLATORS: Translation of French language in preferences dropdown
 #: localization/LINGUAS.php:30
 msgid "French"
-msgstr ""
+msgstr "Franska"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
@@ -2730,7 +2771,7 @@ msgstr "Generera"
 #. TRANSLATORS: Translation of German language in preferences dropdown
 #: localization/LINGUAS.php:12
 msgid "German"
-msgstr ""
+msgstr "Tyska"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2786,7 +2827,7 @@ msgstr "Grupp:"
 #. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
 #: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
-msgstr ""
+msgstr "Haitiska; haitisk kreol"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
@@ -2795,7 +2836,7 @@ msgstr "Ansvarig"
 #. TRANSLATORS: Translation of Hebrew language in preferences dropdown
 #: localization/LINGUAS.php:32
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreiska"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2835,6 +2876,16 @@ msgid ""
 "However, if you would like to confirm this request, please do so by visiting "
 "the URL below:\n"
 msgstr ""
+"Hej\n"
+"\n"
+"Vi har nyligen tagit emot en begäran om ett nytt slumpmässigt lösenord för "
+"ditt konto på %1. Av säkerhetsskäl behöver du bekräfta denna begäran för att "
+"verkställa den aktuella begäran.\n"
+"\n"
+"Om denna ändring inte begärts av dig eller om du inte längre behöver ha ett "
+"nytt lösenord ber vi dig bortse från detta meddelande.\n"
+"\n"
+"Om ändringen är begärd av dig var god följ länken nedan.\n"
 
 #: templates/navigation.tpl.html
 msgid "Help"
@@ -2843,6 +2894,10 @@ msgstr "Hjälp"
 #: lib/eventum/class.help.php:50
 msgid "Help Topics"
 msgstr "Hjälpavsnitt"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Hide"
+msgstr "Dölj"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -2871,7 +2926,7 @@ msgstr "Hem"
 
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
-msgstr ""
+msgstr "Alias för värd:"
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
@@ -2892,7 +2947,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Hungarian language in preferences dropdown
 #: localization/LINGUAS.php:36
 msgid "Hungarian"
-msgstr ""
+msgstr "Ungerska"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
@@ -2974,6 +3029,8 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html
 msgid "If you check this, you cannot leave a copy of messages on the server."
 msgstr ""
+"Om du markerar detta val kommer inte en kopia av meddelandena att lämnas på "
+"servern."
 
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
@@ -3030,6 +3087,9 @@ msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
+"För att %1 ska fungera behöver du aktivera hantering av kakor (cookies) i "
+"din webbläsare. Var god logga in igen och acceptera alla kakor som kommer "
+"från systemet."
 
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
@@ -3067,7 +3127,7 @@ msgstr "Inkommande"
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesiska"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
@@ -3084,7 +3144,7 @@ msgstr "Inledande statusnivå för nya ärenden"
 #: lib/eventum/class.help.php:94 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
-msgstr ""
+msgstr "Instruktion för installation"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
@@ -3096,7 +3156,7 @@ msgstr "Intern FAQ"
 
 #: templates/manage/general.tpl.html
 msgid "Internal Note Routing Interface:"
-msgstr ""
+msgstr "Routning av interna anteckningar:"
 
 #: templates/notes.tpl.html
 msgid "Internal Notes"
@@ -3157,7 +3217,7 @@ msgstr ""
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issue Count"
-msgstr ""
+msgstr "Ärenderäknare"
 
 #: lib/eventum/class.customer_stats_report.php:729
 msgid "Issue Counts"
@@ -3203,7 +3263,7 @@ msgstr "Ärenden"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Issues Closed"
-msgstr ""
+msgstr "Stängda ärenden"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issues Created Between"
@@ -3211,11 +3271,11 @@ msgstr "Ärenden skapade mellan"
 
 #: templates/help/notifications.tpl.html templates/manage/general.tpl.html
 msgid "Issues are Closed"
-msgstr ""
+msgstr "Ärenden som är stängda"
 
 #: templates/manage/general.tpl.html
 msgid "Issues are Updated"
-msgstr ""
+msgstr "Ärenden som uppdaterats"
 
 #: htdocs/stats_chart.php:73
 msgid "Issues by Assignment"
@@ -3269,12 +3329,12 @@ msgstr ""
 #. TRANSLATORS: Translation of Italian language in preferences dropdown
 #: localization/LINGUAS.php:40
 msgid "Italian"
-msgstr ""
+msgstr "Italienska"
 
 #. TRANSLATORS: Translation of Japanese language in preferences dropdown
 #: localization/LINGUAS.php:42
 msgid "Japanese"
-msgstr ""
+msgstr "Japanska"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
@@ -3296,7 +3356,7 @@ msgstr "Nyckelord:"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
-msgstr ""
+msgstr "Koreanska"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
@@ -3330,7 +3390,7 @@ msgstr "Senaste svar från personal"
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Update"
-msgstr ""
+msgstr "Senaste uppdatering"
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
@@ -3348,11 +3408,11 @@ msgstr "Senast uppdaterad"
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
 #: localization/LINGUAS.php:48
 msgid "Latvian"
-msgstr ""
+msgstr "Lettiska"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
-msgstr ""
+msgstr "Lämna en kopia av meddelande på servern"
 
 #: templates/redeem_incident.tpl.html
 msgid "Left"
@@ -3365,7 +3425,7 @@ msgstr "Mindre än"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
-msgstr ""
+msgstr "Mindre än eller lika med"
 
 #: lib/eventum/class.filter.php:608
 #, php-format
@@ -3378,7 +3438,7 @@ msgstr "Nivåer:"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Line"
-msgstr ""
+msgstr "Rad"
 
 #: lib/eventum/class.help.php:126 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
@@ -3410,16 +3470,16 @@ msgstr "Lista borttagna e-postmeddelanden"
 #: lib/eventum/class.help.php:98 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
-msgstr ""
+msgstr "Listning / Sökning efter ärenden"
 
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litauiska"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
-msgstr ""
+msgstr "Loggsida:"
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
@@ -3440,11 +3500,11 @@ msgstr "Logg för e-postkö"
 
 #: templates/mail_queue.tpl.html
 msgid "Mail Queue for Issue #%1"
-msgstr ""
+msgstr "E-postkö för ärende nummer %1"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Mailbox"
-msgstr ""
+msgstr "Brevlåda"
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Canned Email Responses"
@@ -3542,11 +3602,11 @@ msgstr "Hantera användare"
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
-msgstr ""
+msgstr "Chef"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Chef:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3555,6 +3615,10 @@ msgstr "Markera ärendet som dublett"
 #: templates/view_form.tpl.html
 msgid "Mark as Duplicate"
 msgstr "Markera som dublett"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Match Mode"
+msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
@@ -3700,7 +3764,7 @@ msgstr "Nytt alias"
 msgid "New Attachment"
 msgstr "Ny bilaga"
 
-#: lib/eventum/class.notification.php:1113 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
@@ -3716,7 +3780,7 @@ msgstr "Nytt lösenord"
 msgid "New Status for Issue"
 msgstr "Ny status för ärendet"
 
-#: lib/eventum/class.notification.php:1454
+#: lib/eventum/class.notification.php:1467
 msgid "New User information"
 msgstr "Ny användarinformation"
 
@@ -3759,7 +3823,7 @@ msgstr "Nej"
 
 #: templates/manage/projects.tpl.html
 msgid "No Customer Integration"
-msgstr ""
+msgstr "Ingen kundintegration"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Drafts Found"
@@ -3775,15 +3839,15 @@ msgstr "Inga FAQ-poster hittades"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Notes Found"
-msgstr ""
+msgstr "Inga anteckningar hittades"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Phone Calls Found"
-msgstr ""
+msgstr "Inga telefonsamtal hittades"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Reminder Entries Found"
-msgstr ""
+msgstr "Inga påminnelser hittades"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Time Entries Found"
@@ -3791,11 +3855,11 @@ msgstr "Inga tidsnoteringar kunde hittas."
 
 #: templates/manage/projects.tpl.html
 msgid "No Workflow Management"
-msgstr ""
+msgstr "Ingen flödeshantering"
 
 #: templates/manage/account_managers.tpl.html
 msgid "No account managers could be found."
-msgstr "Inga kundsansvariga hittades."
+msgstr "Inga kontoansvariga kunde hittas."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "No actions could be found."
@@ -3993,7 +4057,7 @@ msgstr "Inga"
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
-msgstr ""
+msgstr "Anteckning"
 
 #: templates/manage/general.tpl.html
 msgid "Note Address Prefix:"
@@ -4042,11 +4106,15 @@ msgstr ""
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
-msgstr ""
+msgstr "Anteckningar"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
-msgstr ""
+msgstr "Anteckningar läggs till i befintliga ärenden"
+
+#: templates/list_excerpts.tpl.html
+msgid "Notes:"
+msgstr "Anteckningar:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
@@ -4061,22 +4129,22 @@ msgstr "Notifieringslista:"
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2041
+#: lib/eventum/class.notification.php:2054
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1881
+#: lib/eventum/class.notification.php:1894
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2127
+#: lib/eventum/class.notification.php:2140
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2223
+#: lib/eventum/class.notification.php:2236
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4096,7 +4164,7 @@ msgstr "Ok: Inga fel hittades"
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
-msgstr ""
+msgstr "Occitan (efter 1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4109,6 +4177,10 @@ msgid ""
 "support questions, issues or suggestions to that mailbox. Eventum will then "
 "download the emails and provide them to the users of the system."
 msgstr ""
+"Ett av de bästa användningssättet av den här funktionen är att skapa "
+"separata e-postkonton (POP3/IMAP) och be dina kunder eller användare att "
+"skicka sina supportfrågor, ärenden eller förslag till adressen. Eventum "
+"hämtar sedan meddelandena och vidarebefodrar dem till användare i systemet."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
@@ -4116,7 +4188,7 @@ msgstr "Ladda enbart ner oläsa meddelanden"
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Only for Known Customers?"
-msgstr ""
+msgstr "Endast för kända kunder?"
 
 #: lib/eventum/class.mail_helper.php:119
 msgid ""
@@ -4153,7 +4225,7 @@ msgstr "Öppna listvyn för ärenden"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator"
-msgstr ""
+msgstr "Operatör"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator:"
@@ -4175,7 +4247,7 @@ msgstr "Alternativ:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
-msgstr ""
+msgstr "Sortera"
 
 #: templates/add_phone_entry.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
@@ -4286,10 +4358,10 @@ msgstr "Mönster: \"%1\""
 msgid "Pending"
 msgstr "Väntande"
 
-#: lib/eventum/class.notification.php:649
-#: lib/eventum/class.notification.php:650
+#: lib/eventum/class.notification.php:651
+#: lib/eventum/class.notification.php:652
 msgid "Percent complete"
-msgstr ""
+msgstr "Procent färdigt"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
@@ -4321,6 +4393,10 @@ msgstr "Radera"
 msgid "Phone Calls"
 msgstr "Telefonsamtal"
 
+#: templates/list_excerpts.tpl.html
+msgid "Phone Calls:"
+msgstr "Telefonsamtal:"
+
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
 msgstr "Telefonnummer"
@@ -4328,16 +4404,16 @@ msgstr "Telefonnummer"
 #: lib/eventum/class.phone_support.php:403
 #, php-format
 msgid "Phone Support entry removed by %1$s"
-msgstr ""
+msgstr "Telefonsupportinlägg togs bort av %1$s"
 
 #: lib/eventum/class.phone_support.php:344
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
-msgstr ""
+msgstr "Telefonsupportinlägg skapades av %1$s"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Phone Time Spent"
-msgstr ""
+msgstr "Telefontid"
 
 #: templates/notifications/new.tpl.text
 msgid ""
@@ -4403,7 +4479,7 @@ msgstr "Var god ange statusnivåer för detta projekt."
 
 #: templates/manage/projects.tpl.html
 msgid "Please assign the users for this project."
-msgstr ""
+msgstr "Var god angen användare för detta projekt."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
@@ -4559,6 +4635,7 @@ msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
 msgstr ""
+"Var god ange vilken typ av e-postserver som används för detta e-postkonto."
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -4570,6 +4647,7 @@ msgid ""
 "Please choose whether the anonymous posting feature should be allowed or not "
 "for this project"
 msgstr ""
+"Var god välj om anonymt ärendeskapande skall vara aktivt för detta projekt"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -4641,34 +4719,40 @@ msgstr "Tryck OK för att bekräfta."
 
 #: templates/send.tpl.html
 msgid "Please contact the administrator of this application for assistance."
-msgstr ""
+msgstr "Var god kontakta systemadministratören för hjälp."
 
 #: templates/send.tpl.html
 msgid ""
 "Please contact the administrator of this application for further assistance."
-msgstr ""
+msgstr "Var god kontakta systemadministratören för mer hjälp."
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
+"Var god kontakta systemadministratören och begär skrivrättigheter för "
+"filerna."
 
 #: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
 msgstr ""
+"Var god kontakta systemadministratören och be om skrivrättigheter för "
+"sökvägen."
 
 #: templates/manage/projects.tpl.html
 msgid ""
 "Please enter a comma separated list of valid mail address aliases for this "
 "project"
 msgstr ""
+"Var god ange en kommaseparerad lista med e-postadresser/alias för detta "
+"projekt"
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter a number for the rank of this FAQ entry."
-msgstr ""
+msgstr "Var god ange ett nummer för rankning av detta FAQ-inlägg."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter a password of at least 6 characters."
@@ -4676,7 +4760,7 @@ msgstr "Var god ange ett lösenord med minst 6 tecken."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a pattern."
-msgstr ""
+msgstr "Var god ange en sökmall."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a replacement value."
@@ -4702,11 +4786,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter a valid port number for this email account."
-msgstr ""
+msgstr "Var god ange portnummer för detta e-postkonto."
 
 #: templates/emails.tpl.html
 msgid "Please enter an issue to associate these emails with."
-msgstr ""
+msgstr "Var god ange ett ärende att koppla dessa e-postmeddelande till."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/close.tpl.html
@@ -4755,7 +4839,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
-msgstr ""
+msgstr "Var god ange utcheckningssida för ditt SCM-integreringsverktyg."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the color of this status."
@@ -4790,18 +4874,20 @@ msgstr ""
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address hostname for the email routing interface."
-msgstr ""
+msgstr "Var god ange värden för e-postroutningen."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address of where copies of outgoing emails should be "
 "sent to."
 msgstr ""
+"Var god ange en e-postadress dit kopior av utgående e-postmeddelanden ska "
+"skickas."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address prefix for the email routing interface."
-msgstr ""
+msgstr "Var god ange e-postadressens prefix för e-postroutningen"
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the email of this user."
@@ -5198,7 +5284,7 @@ msgstr "Var god välj minst en FAQ-post."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Please select at least one of the account managers."
-msgstr "Var god välj minst en kundsansvarig."
+msgstr "Var god välj minst en kontoansvarig."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please select at least one of the accounts."
@@ -5247,7 +5333,7 @@ msgstr "Var god välj minst en anteckning."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please select at least one of the priorities."
-msgstr ""
+msgstr "Var god välj minst en prioritetsnivå."
 
 #: templates/manage/projects.tpl.html
 msgid "Please select at least one of the projects."
@@ -5333,7 +5419,7 @@ msgstr "Var god använd endast decimaltal för beräknad behandlingstid."
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Polska"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -5343,7 +5429,7 @@ msgstr "Port"
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugisiska"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -5390,8 +5476,8 @@ msgid "Primary Technical Account Manager"
 msgstr ""
 
 #: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:629
-#: lib/eventum/class.notification.php:630 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:631
+#: lib/eventum/class.notification.php:632 lib/eventum/class.project.php:1097
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5493,12 +5579,12 @@ msgstr "RSS för den här anpassade sökningen"
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/statuses.tpl.html
 msgid "Rank"
-msgstr ""
+msgstr "Rankning"
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Rank:"
-msgstr ""
+msgstr "Rank:"
 
 #: templates/view_email.tpl.html
 msgid "Raw Headers"
@@ -5521,7 +5607,7 @@ msgid "Re: %1$s"
 msgstr "Sv: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:823
+#: lib/eventum/class.issue.php:820
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr "Sv: [#%1$s] %2$s"
@@ -5560,31 +5646,31 @@ msgstr "Mottagen"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent"
-msgstr ""
+msgstr "Senaste"
 
 #: templates/reports/recent_activity.tpl.html templates/reports/tree.tpl.html
 msgid "Recent Activity"
-msgstr ""
+msgstr "Senaste aktivitet"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Activity Report"
-msgstr ""
+msgstr "Rapport över senaste aktiviteter"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Drafts"
-msgstr ""
+msgstr "Senaste utkast"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Emails"
-msgstr ""
+msgstr "Senaste e-postmeddelande"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Notes"
-msgstr ""
+msgstr "Senaste anteckningar"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Phone Calls"
-msgstr ""
+msgstr "Senaste telefonsamtal"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Reminder Actions"
@@ -5663,11 +5749,11 @@ msgstr "Uppdateringsfrekvens för listvyn över ärenden"
 
 #: templates/navigation.tpl.html
 msgid "Register"
-msgstr ""
+msgstr "Registrering"
 
 #: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:625
-#: lib/eventum/class.notification.php:626 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:627
+#: lib/eventum/class.notification.php:628 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr "Utgåva"
@@ -5686,7 +5772,7 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
-msgstr ""
+msgstr "Påminnelse"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Reminder Alert"
@@ -5748,11 +5834,11 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Replacement"
-msgstr ""
+msgstr "Ersättning"
 
 #: templates/help/link_filters.tpl.html
 msgid "Replacement: \"%1\""
-msgstr ""
+msgstr "Ersättning: \"%1\""
 
 #: templates/notes.tpl.html templates/support_emails.tpl.html
 #: templates/view_email.tpl.html templates/view_form.tpl.html
@@ -5762,11 +5848,11 @@ msgstr "Svara"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Report Form"
-msgstr ""
+msgstr "Rapportformulär"
 
 #: templates/post.tpl.html
 msgid "Report New Issue"
@@ -5774,12 +5860,12 @@ msgstr "Rapportera nytt ärende"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Report Type"
-msgstr ""
+msgstr "Rapporttyp"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
-msgstr ""
+msgstr "Rapporttyp:"
 
 #: templates/new.tpl.html
 msgid "Report a New Issue"
@@ -5791,7 +5877,7 @@ msgstr "Skapa ett nytt ärende"
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "Reported By"
-msgstr ""
+msgstr "Rapporterat av"
 
 #: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:792
 #: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
@@ -5870,8 +5956,8 @@ msgstr "Kräver stöd för kakor och javascript i din webläsare"
 msgid "Reset"
 msgstr "Återställ"
 
-#: lib/eventum/class.notification.php:637
-#: lib/eventum/class.notification.php:638 templates/close.tpl.html
+#: lib/eventum/class.notification.php:639
+#: lib/eventum/class.notification.php:640 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr "Lösning"
@@ -5890,7 +5976,7 @@ msgstr "Återgå till detaljsidan för ärende nummer %1"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Review SQL Query"
-msgstr ""
+msgstr "Visa databasfråga"
 
 #: templates/manage/users.tpl.html
 msgid "Role"
@@ -5911,7 +5997,7 @@ msgstr "Utför sökning"
 #. TRANSLATORS: Translation of Russian language in preferences dropdown
 #: localization/LINGUAS.php:60
 msgid "Russian"
-msgstr ""
+msgstr "Ryska"
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
@@ -5970,7 +6056,7 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid "Save Message as an Internal Note"
-msgstr ""
+msgstr "Spara meddelande som en intern anteckning"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
@@ -6012,7 +6098,7 @@ msgstr "Sök"
 
 #: templates/opensearch.tpl.xml
 msgid "Search Eventum Issues"
-msgstr ""
+msgstr "Sök i ärenden"
 
 #: templates/list.tpl.html
 msgid "Search Results (%1 issues found)"
@@ -6102,7 +6188,7 @@ msgstr "Sätt stängningsmeddelande"
 
 #: templates/manage/field_display.tpl.html
 msgid "Set Display Preferences"
-msgstr ""
+msgstr "Spara visningsinställningar"
 
 #: templates/bulk_update.tpl.html
 msgid "Set Message"
@@ -6119,6 +6205,10 @@ msgstr "Kort beskrivning"
 #: templates/resize_textarea.tpl.html
 msgid "Shorten the field"
 msgstr "Minska fältet"
+
+#: templates/quick_filter_form.tpl.html
+msgid "Show"
+msgstr "Visa"
 
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
@@ -6138,7 +6228,7 @@ msgstr "Visa ärenden där jag är"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Show Issues with no Response Between"
-msgstr ""
+msgstr "Visa ärenden utan händelser mellan"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
@@ -6162,7 +6252,7 @@ msgstr "Visa datumfält för sökning"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Showing all open issues older than "
-msgstr ""
+msgstr "Visa alla öppna ärenden äldre än "
 
 #: templates/view_form.tpl.html
 msgid "Signup as Authorized Replier"
@@ -6191,11 +6281,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Singalesiska"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
-msgstr ""
+msgstr "Ignorera helger"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -6223,6 +6313,8 @@ msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Tyvärr kunde inte ditt meddelande skickas på grund av ett fel i "
+"inställnigarna för SMTP eller på grund av ett serverfel."
 
 #: templates/post.tpl.html
 msgid ""
@@ -6250,11 +6342,11 @@ msgstr "Du har inte behörighet till sidan."
 
 #: templates/mail_queue.tpl.html
 msgid "Sorry, you do not have permission to view this page"
-msgstr ""
+msgstr "Du har inte rätt rättigheter för att visa denna sida"
 
 #: templates/update.tpl.html
 msgid "Sorry, you do not have the required privileges to update this issue."
-msgstr ""
+msgstr "Du har inte rätt rättigheter för att uppdatera detta ärende."
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
@@ -6273,7 +6365,7 @@ msgstr "Sortering"
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Spanska"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -6289,15 +6381,15 @@ msgstr "Personal:"
 
 #: templates/reports/tree.tpl.html
 msgid "Stalled Issues"
-msgstr ""
+msgstr "Ärenden som avstannat"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Stalled Issues Report"
-msgstr ""
+msgstr "Rapport för ärenden som avstannat"
 
 #: templates/help/permission_levels.tpl.html
 msgid "Standard User"
-msgstr ""
+msgstr "Standardanvändare"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
@@ -6306,7 +6398,7 @@ msgstr ""
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: templates/setup.tpl.html
 msgid "Start Installation"
@@ -6314,15 +6406,15 @@ msgstr "Starta installationen"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Start time in the future."
-msgstr ""
+msgstr "Starttid i framtiden."
 
 #: templates/navigation.tpl.html
 msgid "Stats"
 msgstr "Statistik"
 
 #: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:633
-#: lib/eventum/class.notification.php:634 templates/adv_search.tpl.html
+#: lib/eventum/class.notification.php:635
+#: lib/eventum/class.notification.php:636 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6366,7 +6458,7 @@ msgstr "Ärende"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Titelbaserad fördelning:"
 
 #: templates/email_filter_form.tpl.html
 msgid "Subject/Body:"
@@ -6394,8 +6486,8 @@ msgid "Suggestions:"
 msgstr "Förslag:"
 
 #: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:645
-#: lib/eventum/class.notification.php:646 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.notification.php:647
+#: lib/eventum/class.notification.php:648 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6425,6 +6517,10 @@ msgstr ""
 msgid "Summary:"
 msgstr "Rubrik:"
 
+#: templates/list_excerpts.tpl.html
+msgid "Summary: %1"
+msgstr ""
+
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
 msgstr "Söndag"
@@ -6448,7 +6544,7 @@ msgstr "Supportalternativ"
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Svenska"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6467,7 +6563,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Tamil language in preferences dropdown
 #: localization/LINGUAS.php:66
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
@@ -6487,7 +6583,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
-msgstr ""
+msgstr "Testa inställningarna"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Text Input"
@@ -6500,7 +6596,7 @@ msgstr "Flerradig textruta"
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -6542,7 +6638,7 @@ msgstr "Tack så mycket, FAQ-posten har uppdaterats."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was added successfully."
-msgstr "Tack så mycket, en ny kundsansvarig har lagt till."
+msgstr "Tack så mycket, en ny kontoansvarig har lagts till."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was updated successfully."
@@ -6991,6 +7087,8 @@ msgid ""
 ">>' links that are related to the previous and next issues for the current "
 "active filter, if appropriate."
 msgstr ""
+"Sidan för ärendedetaljer visar även länkar för '<< Föregående ärende' och "
+"'Nästa ärende>>' ralativt till aktivt ärende om fler ärenden finns."
 
 #: templates/help/list.tpl.html
 msgid ""
@@ -6999,6 +7097,9 @@ msgid ""
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
 msgstr ""
+"Sidan för ärendelistning använder ett rutnät för att underlätta manuell "
+"sökning av ärenden i projektet. Du kan sortera efter nästan alla kolumner i "
+"listningen och även koppla ett ärende till en godkänd användare."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7022,6 +7123,8 @@ msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
 msgstr ""
+"Det aktiva projektet har ingen koppling till ett kundsystem så denna rapport "
+"kan inte visas."
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -7324,6 +7427,8 @@ msgid ""
 "changes are done to specific issues. The current actions that trigger email "
 "notifications are:"
 msgstr ""
+"Denna funktion gör att användare kan få meddelande via e-post om ändringar i "
+"specifika ärenden. De åtgärder som kan skapa ett sånt meddelande är:"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -7347,6 +7452,9 @@ msgid ""
 "suggestion, it should be descriptive and short enough to be used by other "
 "users to remember quickly what the issue was all about."
 msgstr ""
+"Detta fält anger en kort och beskrivande titel för detta nya ärende. Denna "
+"text ska vara tydlig för alla andra användare så de har lätt för att "
+"associera ett ärende till en åtgärd."
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
@@ -7355,6 +7463,10 @@ msgid ""
 "to get a simple estimate of how much time each issue will take from "
 "discovery, going through implementation and testing up until release time."
 msgstr ""
+"Detta fält används av rapportörer av nya ärenden för att uppskatta "
+"tidsåtgång för lösandet av detta ärende. Detta fält är speciellt viktigt för "
+"uppskattning av hur lång tid ett ärende tar från upptäckt till lösning och "
+"stängning."
 
 #: templates/help/report_category.tpl.html
 msgid ""
@@ -7469,6 +7581,8 @@ msgid ""
 "This page allows you to create and modify saved custom searches, which will "
 "save searches that can be executed from the Issue Listing screen."
 msgstr ""
+"Denna sida ger dig möjlighet att skapa sparade sökbegrepp som kan "
+"återanvändas från sidan för ärendelistning."
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -7482,6 +7596,8 @@ msgid ""
 "This page allows you to dynamically control which columns are displayed on "
 "the list issues page."
 msgstr ""
+"Denna sida ger dig möjlighet att styra vilka kolumner som ska visas på sidan "
+"för ärendelistning."
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -7517,6 +7633,9 @@ msgid ""
 "emails with existing issues, or create new issues and associate emails with "
 "them."
 msgstr ""
+"Denna sida ger änvändare möjlighet att koppla inkomna e-postmeddelanden till "
+"befintliga ärenden eller att skapa nya ärenden och koppla e-postmeddelanden "
+"till dem."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -7529,6 +7648,8 @@ msgid ""
 "This user requires permission to create and drop tables in the specified "
 "database."
 msgstr ""
+"Denna användare måste ha rättigheter att kunna skapa och ta bort tabeller i "
+"den angivna databasen."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7661,10 +7782,12 @@ msgid ""
 "To report new issues, click in the 'Create Issue' link in the top of your "
 "browser window."
 msgstr ""
+"För att skapa ett nytt ärende: Klicka på länken 'Skapa ärende' längst upp i "
+"fönstret."
 
 #: templates/notifications/new_user.tpl.text
 msgid "To start using the system, please load the URL below"
-msgstr ""
+msgstr "För att börja använda systemet gå till nedanstående adress"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -7675,7 +7798,7 @@ msgstr ""
 msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
-msgstr ""
+msgstr "För att visa mer information om detta ärende gå till följande adress"
 
 #: templates/email_filter_form.tpl.html
 msgid "To:"
@@ -7687,7 +7810,7 @@ msgstr "Eventums visningsnamn:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Tot"
-msgstr ""
+msgstr "Tot"
 
 #: templates/redeem_incident.tpl.html
 #: templates/reports/customer_stats.tpl.html
@@ -7716,7 +7839,7 @@ msgstr "Total nedlagd tid"
 
 #: lib/eventum/class.customer_stats_report.php:681
 msgid "Total Workload by Support Level"
-msgstr ""
+msgstr "Total arbetsbelastning per Supportnivå"
 
 #: templates/update_form.tpl.html
 msgid "Trigger Reminders:"
@@ -7734,7 +7857,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Turkish language in preferences dropdown
 #: localization/LINGUAS.php:70
 msgid "Turkish"
-msgstr ""
+msgstr "Turkiska"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -7750,7 +7873,7 @@ msgstr "Typ"
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/email_accounts.tpl.html
 msgid "Type:"
-msgstr ""
+msgstr "Typ:"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -7760,7 +7883,7 @@ msgstr "URL"
 #. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
 #: localization/LINGUAS.php:72
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainska"
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -7772,7 +7895,7 @@ msgstr "Ej tillgängligt - Användare kan inte använda denna utgåva"
 
 #: lib/eventum/class.attachment.php:78
 msgid "Untitled"
-msgstr ""
+msgstr "Namnlös"
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
 #: lib/eventum/class.mime_helper.php:662
@@ -7931,7 +8054,7 @@ msgstr "Uppdatera värde"
 msgid "Update Values"
 msgstr "Updatera värden"
 
-#: lib/eventum/class.notification.php:693
+#: lib/eventum/class.notification.php:695
 msgid "Updated"
 msgstr "Uppdaterad"
 
@@ -7954,7 +8077,7 @@ msgstr "Ladda upp ny signatur"
 #. TRANSLATORS: Translation of Urdu language in preferences dropdown
 #: localization/LINGUAS.php:74
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: lib/eventum/class.help.php:90 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
@@ -7992,11 +8115,11 @@ msgstr "Användardetaljer"
 msgid "User Permission Levels"
 msgstr "Användarens rättigheter"
 
-#: lib/eventum/class.notification.php:1380
+#: lib/eventum/class.notification.php:1393
 msgid "User account information updated"
 msgstr "Användarkontot uppdaterat"
 
-#: lib/eventum/class.notification.php:1417
+#: lib/eventum/class.notification.php:1430
 msgid "User account password changed"
 msgstr ""
 
@@ -8036,7 +8159,7 @@ msgstr "Värde:"
 #. TRANSLATORS: Translation of Vietnamese language in preferences dropdown
 #: localization/LINGUAS.php:76
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamesiska"
 
 #: templates/view_email.tpl.html
 msgid "View Email Details"
@@ -8266,7 +8389,7 @@ msgstr "Vecka startar med:"
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html templates/reports/weekly_data.tpl.html
 msgid "Weekly"
-msgstr ""
+msgstr "Veckovis"
 
 #: templates/reports/tree.tpl.html templates/reports/weekly.tpl.html
 msgid "Weekly Report"
@@ -8300,11 +8423,11 @@ msgstr ""
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work ended"
-msgstr ""
+msgstr "Arbetet avslutades"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Work started"
-msgstr ""
+msgstr "Arbetet startade"
 
 #: templates/manage/projects.tpl.html
 msgid "Workflow Backend"
@@ -8452,7 +8575,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1583
+#: lib/eventum/class.notification.php:1596
 msgid "Your User Account Details"
 msgstr "Dina användardetaljer"
 
@@ -8496,6 +8619,14 @@ msgstr ""
 "måste bekräfta din registrering. Kontakta din systemadministratör för mer "
 "information."
 
+#: templates/list.tpl.html
+msgid "[Private]"
+msgstr "[Privat]"
+
+#: templates/list.tpl.html
+msgid "[Redeemed]"
+msgstr ""
+
 #: templates/help/scm_integration.tpl.html
 msgid ""
 "[highly recommended] from the Horde project you would usually have the "
@@ -8510,7 +8641,7 @@ msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:55
 msgid "actions"
-msgstr ""
+msgstr "åtgärder"
 
 #: templates/list.tpl.html
 msgid "advanced search"

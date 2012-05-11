@@ -29,23 +29,6 @@
 <script type="text/javascript">
 <!--
 
-/**
- * Make javascript Date() object from datetime form selection.
- *
- * @param	Object	f		Form object.
- * @param	String	name	Form element prefix for date.
- */
-function makeDate(f, name) {
-	var d = new Date();
-	d.setFullYear(f.elements[name + '[Year]'].value);
-	d.setMonth(f.elements[name + '[Month]'].value - 1);
-	d.setDate(f.elements[name + '[Day]'].value);
-	d.setHours(f.elements[name + '[Hour]'].value);
-	d.setMinutes(f.elements[name + '[Minute]'].value);
-	d.setSeconds(0);
-	return d;
-}
-
 function validateTimeForm(f)
 {
     if (isWhitespace(f.summary.value)) {
@@ -120,9 +103,17 @@ function calcDateDiff(f, type, element)
 	} else if (type == 2) { // end time
 		duration = (d2.getTime() - d1.getTime()) / minute;
 	} else if (type == 11) { // refresh start time
-		d2.setTime(d1.getTime() + duration * minute);
+      if (duration) {
+        d2.setTime(d1.getTime() + duration * minute);
+      } else {
+        duration = (d2.getTime() - d1.getTime()) / minute;
+      }
 	} else if (type == 12) { // refresh end time
-		d1.setTime(d2.getTime() - duration * minute);
+      if (duration) {
+        d1.setTime(d2.getTime() - duration * minute);
+      } else {
+        duration = (d2.getTime() - d1.getTime()) / minute;
+      }
 	}
 
 	/* refill form after calculation */

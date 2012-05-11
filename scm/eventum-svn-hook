@@ -6,6 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -58,8 +59,8 @@ if ($argc < 3) {
     exit(1);
 }
 
-$repos = $argv[1];
-$new_revision = $argv[2];
+$repos = $argv[0];
+$new_revision = $argv[1];
 $old_revision = $new_revision - 1;
 
 $scm_module = rawurlencode(basename($repos));
@@ -92,11 +93,11 @@ preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
 if (count($matches[1]) > 0) {
     // need to encode all of the url arguments
     $commit_msg = rawurlencode($commit_msg);
-    $cvs_module = rawurlencode($cvs_module);
+    $scm_module = rawurlencode($scm_module);
     $username = rawurlencode($username);
 
     // build the GET url to use
-    $ping_url = $eventum_url. "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
+    $ping_url = $eventum_url. "scm_ping.php?module=$scm_module&username=$username&commit_msg=$commit_msg";
     foreach ($matches[1] as $issue_id) {
         $ping_url .= "&issue[]=$issue_id";
     }
