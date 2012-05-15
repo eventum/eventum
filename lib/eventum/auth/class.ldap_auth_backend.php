@@ -83,7 +83,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     {
         $setup = self::loadSetup();
 
-        // TODO: Load from setup
         $config = array (
             'binddn'    =>  $this->getUserDNstring($uid),
             'bindpw'    =>  $password,
@@ -97,6 +96,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
         // Testing for connection error
         if (PEAR::isError($ldap)) {
+            Auth::saveLoginAttempt($_POST["email"], 'failure', $ldap->getMessage());
             return false;
         } else {
             return true;

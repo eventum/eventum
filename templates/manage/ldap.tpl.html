@@ -20,18 +20,6 @@
                       selectField(f, 'port');
                       return false;
                   }
-                  field = getFormElement(f, 'binddn');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the bind dn.{/t}{literal}');
-                      selectField(f, 'binddn');
-                      return false;
-                  }
-                  field = getFormElement(f, 'bindpw');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the bind password.{/t}{literal}');
-                      selectField(f, 'bindpw');
-                      return false;
-                  }
                   field = getFormElement(f, 'basedn');
                   if (isWhitespace(field.value)) {
                       alert('{/literal}{t escape=js}Please enter the base dn.{/t}{literal}');
