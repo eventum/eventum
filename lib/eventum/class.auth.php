@@ -279,7 +279,7 @@ class Auth
     public static function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-               ($cookie["hash"] != md5(self::privateKey() . md5($cookie["login_time"]) . $cookie["email"]))) {
+               ($cookie["hash"] != md5(self::privateKey() . $cookie["login_time"] . $cookie["email"]))) {
             return false;
         } else {
             $usr_id = User::getUserIDByEmail(@$cookie["email"]);
@@ -306,7 +306,7 @@ class Auth
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $email),
+            "hash"       => md5(self::privateKey() . $time . $email),
         );
         $cookie = base64_encode(serialize($cookie));
         self::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
@@ -528,7 +528,7 @@ class Auth
         $cookie = array(
             "email" => $user_details['usr_email'],
             "login_time"    =>  $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $user_details['usr_email']),
+            "hash"       => md5(self::privateKey() . $time . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($prj_id) {

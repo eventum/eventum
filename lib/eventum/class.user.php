@@ -283,7 +283,7 @@ class User
             if ($res == NULL) {
                 return -2;
             } else {
-                $check_hash = md5($res . md5($email) . Auth::privateKey());
+                $check_hash = md5($res . $email . Auth::privateKey());
                 if ($hash != $check_hash) {
                     return -3;
                 } else {
@@ -338,7 +338,7 @@ class User
             Prefs::set($new_usr_id, Prefs::getDefaults($projects));
 
             // send confirmation email to user
-            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . Auth::privateKey());
+            $hash = md5($_POST["full_name"] . $_POST["email"] . Auth::privateKey());
 
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
@@ -371,7 +371,7 @@ class User
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . Auth::privateKey());
+        $hash = md5($info["usr_full_name"] . $info["usr_email"] . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
