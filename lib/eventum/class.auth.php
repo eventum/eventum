@@ -93,7 +93,7 @@ class Auth
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                 self::createFakeCookie($anon_usr_id, $prj_id);
-                self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
                 self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
@@ -146,7 +146,7 @@ class Auth
         }
 
         // if the current session is still valid, then renew the expiration
-        self::createLoginCookie($cookie_name, $cookie['email']);
+        self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
         // renew the project cookie as well
         $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         self::setCurrentProject($prj_id, $prj_cookie["remember"]);
@@ -298,18 +298,21 @@ class Auth
      * @access  public
      * @param   string $cookie_name The cookie name to be created
      * @param   string $email The email address to be stored in the cookie
+     * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      * @return  void
      */
-    function createLoginCookie($cookie_name, $email)
+    function createLoginCookie($cookie_name, $email, $permanent = true)
     {
+
         $time = time();
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
+            "permanent"  => $permanent,
             "hash"       => md5(self::privateKey() . $time . $email),
         );
         $cookie = base64_encode(serialize($cookie));
-        self::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
+        self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
     }
 
 
@@ -550,7 +553,6 @@ class Auth
     public static function setCookie($name, $value, $expiration)
     {
         if (is_null(APP_COOKIE_DOMAIN)) {
-
             setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);

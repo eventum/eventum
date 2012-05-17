@@ -29,6 +29,7 @@ Eventum Issue Tracking System
 - Added LDAP user backend (Bryan)
 - Added option to clear list filters by passing in url parameter view=clear (Bryan)
 - Changed customer_id and contact_id to be strings (Bryan)
+- Added "remember me" option to login (Elan Ruusamäe)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)
