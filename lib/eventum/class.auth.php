@@ -44,7 +44,7 @@ class Auth
      */
     public static function privateKey() {
         static $private_key = null;
-        if (is_null($private_key)) {
+        if ($private_key === null) {
             require_once APP_CONFIG_PATH . "/private_key.php";
         }
         return $private_key;
@@ -552,7 +552,7 @@ class Auth
      */
     public static function setCookie($name, $value, $expiration)
     {
-        if (is_null(APP_COOKIE_DOMAIN)) {
+        if (APP_COOKIE_DOMAIN === null) {
             setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);

@@ -69,7 +69,7 @@ class Link_Filter
             if (PEAR::isError($projects)) {
                 Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
                 $projects = array();
-            } elseif (is_null($projects)) {
+            } elseif ($projects === null) {
                 $projects = array();
             }
             $res["projects"] = $projects;
@@ -114,7 +114,7 @@ class Link_Filter
             if (PEAR::isError($projects)) {
                 Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
                 $projects = array();
-            } elseif (is_null($projects)) {
+            } elseif ($projects === null) {
                 $projects = array();
             }
             $res[$i]["projects"] = array_keys($projects);

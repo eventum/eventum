@@ -135,7 +135,7 @@ class Date_Helper
         if (is_a($date, 'Date')) {
             $dt->copy($date);
         } else {
-            if (!is_null($date)) {
+            if ($date !== null) {
                 $dt->setDate($date, $format);
             } else {
                 $dt->setDate(gmdate("Y-m-d H:i:s"));

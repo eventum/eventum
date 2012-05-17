@@ -41,7 +41,7 @@ class Help
 {
     static private $topics;
     private static function getTopics() {
-        if (!is_null(self::$topics)) {
+        if (self::$topics !== null) {
             return self::$topics;
         }
 

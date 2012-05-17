@@ -53,7 +53,7 @@ class User
     private static $localized_roles;
     private static function getLocalizedRoles()
     {
-        if (is_null(self::$localized_roles)) {
+        if (self::$localized_roles === null) {
             foreach (self::$roles as $id => $role) {
                 self::$localized_roles[$id] = ev_gettext($role);
             }
