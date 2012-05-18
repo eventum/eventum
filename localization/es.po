@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 23:53+0200\n"
+"POT-Creation-Date: 2012-05-17 20:12+0300\n"
 "PO-Revision-Date: 2012-02-22 18:50+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-23 04:45+0000\n"
-"X-Generator: Launchpad (build 14996)\n"
+"X-Launchpad-Export-Date: 2012-05-18 04:44+0000\n"
+"X-Generator: Launchpad (build 15259)\n"
 "Language: es\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -902,7 +902,7 @@ msgstr "Reporte Anónimo de Nuevos Casos"
 msgid "Anonymous Reporting:"
 msgstr "Reporte Anónimo:"
 
-#: htdocs/adv_search.php:49 htdocs/list.php:83 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "Cualquiera"
 
@@ -1213,6 +1213,10 @@ msgstr "Volver al Principio"
 msgid "Backup Technical Account Manager"
 msgstr "Responsable de Cuenta Técnico de Respaldo"
 
+#: templates/manage/ldap.tpl.html
+msgid "Base DN:"
+msgstr ""
+
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
@@ -1230,6 +1234,14 @@ msgstr "Antes del Nombre del Remitente"
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
 msgstr "Entre"
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind DN:"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind PW:"
+msgstr ""
 
 # Por verificar el contexto
 #: templates/manage/round_robin.tpl.html
@@ -1660,6 +1672,10 @@ msgstr "Crear Usuario"
 msgid "Create User and Permissions"
 msgstr "Crear Usuario y Permisos"
 
+#: templates/manage/ldap.tpl.html
+msgid "Create Users:"
+msgstr ""
+
 # Se usa <a href="http://incidencias.printingroup.com.ar/reports/issue.php?cat=user>aquí</a>
 # "Creados" no aplica
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
@@ -1782,6 +1798,10 @@ msgid "Customize Issue Listing Screen"
 msgstr "Personalizar Pantalla de Listado de Casos"
 
 #: templates/manage/manage.tpl.html
+msgid "Customize LDAP Config"
+msgstr ""
+
+#: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr "Personalizar parámetros de monitoreo"
 
@@ -1883,6 +1903,10 @@ msgstr "Opciones predeterminadas para Notificaciones:"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Prioridad Predeterminada:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Default Roles:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Defaults"
@@ -2121,7 +2145,8 @@ msgstr ""
 
 # setup: ya aparece la palabra configuración.
 # Al parecer falta agregar los espacios
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2130,7 +2155,8 @@ msgstr ""
 "archivo de configuración en el directorio de instalación"
 
 # al parecer falta agregar los espacios
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2778,6 +2804,10 @@ msgstr "Exportar Datos:"
 msgid "Export to Excel"
 msgstr "Exportar a Excel"
 
+#: templates/manage/users.tpl.html
+msgid "External ID"
+msgstr ""
+
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr "Destinatarios Extras de la Nota:"
@@ -2957,7 +2987,7 @@ msgstr "Mayor o igual"
 msgid "Greater than %1$s"
 msgstr "Mayor que %1$s"
 
-#: htdocs/list.php:95 lib/eventum/class.display_column.php:190
+#: htdocs/list.php:98 lib/eventum/class.display_column.php:190
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
@@ -3077,6 +3107,10 @@ msgstr "Casa"
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
 msgstr "Alias de Host:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Host:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
@@ -3517,6 +3551,10 @@ msgstr "Palabra(s) clave:"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "LDAP Setup"
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
@@ -4954,7 +4992,8 @@ msgstr ""
 "obtener más ayuda."
 
 # espacios
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
@@ -4962,7 +5001,8 @@ msgstr ""
 "Por favor, contacte a su administrador local de sistema y solicite permisos "
 "de escritura para el nombre de archivo provisto."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -5042,6 +5082,14 @@ msgstr "Por favor, ingrese el ID del caso duplicado."
 msgid "Please enter the IMAP folder for this email account."
 msgstr "Por favor, ingrese la carpeta IMAP para esta cuenta de correo."
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP Host."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP port."
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
 msgstr "Por favor, ingrese el nombre del servidor SMTP."
@@ -5072,6 +5120,10 @@ msgstr ""
 msgid "Please enter the analysis for the changes required by this issue."
 msgstr ""
 "Por favor, introduzca el análisis de los cambios requeridos por este caso."
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the base dn."
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
@@ -5448,6 +5500,10 @@ msgstr ""
 msgid "Please enter the updated value."
 msgstr "Por favor, ingrese el valor actualizado."
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the user dn."
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the username for this email account."
 msgstr "Por favor, ingrese el nombre de usuario para esta cuenta de correo."
@@ -5715,6 +5771,10 @@ msgstr ""
 #: templates/setup.tpl.html
 msgid "Port"
 msgstr "Puerto"
+
+#: templates/manage/ldap.tpl.html
+msgid "Port:"
+msgstr ""
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
@@ -6253,8 +6313,9 @@ msgstr "Se requiere soporte para cookies y javascript en su navegador"
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
-#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/link_filters.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/news.tpl.html
+#: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -7334,7 +7395,8 @@ msgstr ""
 "Gracias, los requerimientos seleccionados fueron removidos "
 "satisfactoriamente."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 "Gracias, la información de configuración fue guardada satisfactoriamente."
@@ -8538,7 +8600,7 @@ msgstr "Actualizar Entrada de Round Robin"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Actualizar Configuración"
 
@@ -8613,6 +8675,10 @@ msgstr "Use los siguientes atajos"
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Usuario"
+
+#: templates/manage/ldap.tpl.html
+msgid "User DN:"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "User Details"
@@ -9482,17 +9548,17 @@ msgstr "mover campo hacia arriba"
 msgid "must be a valid email address"
 msgstr "debe ser una dirección de email válida"
 
-#: htdocs/adv_search.php:57 htdocs/list.php:90
+#: htdocs/adv_search.php:57 htdocs/list.php:93
 #: lib/eventum/class.filter.php:667
 msgid "myself and my group"
 msgstr "yo mismo y mi grupo"
 
-#: htdocs/adv_search.php:51 htdocs/list.php:85
+#: htdocs/adv_search.php:51 htdocs/list.php:88
 #: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
 msgstr "yo mismo y no asignados"
 
-#: htdocs/adv_search.php:58 htdocs/list.php:91
+#: htdocs/adv_search.php:58 htdocs/list.php:94
 #: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
 msgstr "yo mismo, no asignados y mi grupo"
@@ -9629,7 +9695,7 @@ msgstr "esto se mostrará al final de los mensajes recordatorios"
 msgid "to access this page."
 msgstr "para acceder a esta página."
 
-#: htdocs/adv_search.php:50 htdocs/list.php:84
+#: htdocs/adv_search.php:50 htdocs/list.php:87
 #: lib/eventum/class.filter.php:663
 msgid "un-assigned"
 msgstr "no-asignado"

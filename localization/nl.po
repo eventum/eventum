@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 23:53+0200\n"
+"POT-Creation-Date: 2012-05-17 20:12+0300\n"
 "PO-Revision-Date: 2011-08-30 19:27+0000\n"
 "Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-23 04:42+0000\n"
-"X-Generator: Launchpad (build 14996)\n"
+"X-Launchpad-Export-Date: 2012-05-18 04:41+0000\n"
+"X-Generator: Launchpad (build 15259)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -857,7 +857,7 @@ msgstr "Anomiem rapporteren van nieuwe meldingen"
 msgid "Anonymous Reporting:"
 msgstr "Anoniem rapporteren"
 
-#: htdocs/adv_search.php:49 htdocs/list.php:83 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "--"
 
@@ -1160,6 +1160,10 @@ msgstr "Terug naar boven"
 msgid "Backup Technical Account Manager"
 msgstr "Secundaire technische contactpersoon"
 
+#: templates/manage/ldap.tpl.html
+msgid "Base DN:"
+msgstr ""
+
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr "Gebaseerd op alle meldingen in het systeem."
@@ -1175,6 +1179,14 @@ msgstr "Voor naam afzender"
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
 msgstr "Tussen"
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind DN:"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind PW:"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
@@ -1597,6 +1609,10 @@ msgstr "Gebruiker aanmaken"
 msgid "Create User and Permissions"
 msgstr "Maak gebruiker en permissies"
 
+#: templates/manage/ldap.tpl.html
+msgid "Create Users:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1713,6 +1729,10 @@ msgid "Customize Issue Listing Screen"
 msgstr "Overzicht aanpassen"
 
 #: templates/manage/manage.tpl.html
+msgid "Customize LDAP Config"
+msgstr ""
+
+#: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
@@ -1813,6 +1833,10 @@ msgstr "Standaardopties voor waarschuwingen:"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Standaard prioriteit:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Default Roles:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Defaults"
@@ -2051,7 +2075,8 @@ msgstr ""
 "Fout: Er is nog weinig beschikbare schijfruimte (percentage beschikbaar: "
 "%.2f%%)"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2059,7 +2084,8 @@ msgstr ""
 "Fout: Het systeem beschikt niet over de nodige permissies om het "
 "configuratiebestand in de setup map aan te maken"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2695,6 +2721,10 @@ msgstr "Gegevens exporteren:"
 msgid "Export to Excel"
 msgstr "Exporteren naar Microsoft Excel"
 
+#: templates/manage/users.tpl.html
+msgid "External ID"
+msgstr ""
+
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr "Extra geadresseerden:"
@@ -2870,7 +2900,7 @@ msgstr "Groter of gelijk aan"
 msgid "Greater than %1$s"
 msgstr "Groter dan %1$s"
 
-#: htdocs/list.php:95 lib/eventum/class.display_column.php:190
+#: htdocs/list.php:98 lib/eventum/class.display_column.php:190
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
@@ -2990,6 +3020,10 @@ msgstr "Privé"
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
 msgstr "Host Alias:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Host:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
@@ -3419,6 +3453,10 @@ msgstr "Sleutelwoord(en):"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "LDAP Setup"
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
@@ -4809,7 +4847,8 @@ msgstr ""
 "Gelieve de systeembeheerder van dit programma te contacteren voor verdere "
 "hulp."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
@@ -4817,7 +4856,8 @@ msgstr ""
 "Gelieve uw systeembeheerder te contacteren en schrijfpermissies te vragen "
 "voor de gegeven bestandsnaam."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4889,6 +4929,14 @@ msgstr "Geef de ID van de dubbele melding"
 msgid "Please enter the IMAP folder for this email account."
 msgstr "Voer de IMAP-map in voor deze emailaccount."
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP Host."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP port."
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
 msgstr "Voer de hostnaam van de SMTP-server in."
@@ -4918,6 +4966,10 @@ msgstr ""
 msgid "Please enter the analysis for the changes required by this issue."
 msgstr ""
 "Geef een analyse voor de wijzigingen die nodig zijn voor deze melding."
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the base dn."
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
@@ -5266,6 +5318,10 @@ msgstr "Kies een naam voor deze tijdsregistratiecategorie."
 msgid "Please enter the updated value."
 msgstr "Geef een bijgewerkte waarde."
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the user dn."
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the username for this email account."
 msgstr "Voer de gebruikersnaam in voor deze emailaccount."
@@ -5521,6 +5577,10 @@ msgstr ""
 #: templates/setup.tpl.html
 msgid "Port"
 msgstr "Poort"
+
+#: templates/manage/ldap.tpl.html
+msgid "Port:"
+msgstr ""
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
@@ -6049,8 +6109,9 @@ msgstr "Cookies en javascript ondesteuning van uw browser is vereist"
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
-#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/link_filters.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/news.tpl.html
+#: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -7070,7 +7131,8 @@ msgstr "De geselecteerde meldingen zijn bijgewerkt."
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr "De geselecteerde eisen zijn verwijderd."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Dank u, de setup-informatie is opgeslagen."
 
@@ -8109,7 +8171,7 @@ msgstr "Beurtelingse taak bijwerken"
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "Setup bijwerken"
 
@@ -8184,6 +8246,10 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "Gebruiker"
+
+#: templates/manage/ldap.tpl.html
+msgid "User DN:"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "User Details"
@@ -9000,17 +9066,17 @@ msgstr "Veld omhoog"
 msgid "must be a valid email address"
 msgstr ""
 
-#: htdocs/adv_search.php:57 htdocs/list.php:90
+#: htdocs/adv_search.php:57 htdocs/list.php:93
 #: lib/eventum/class.filter.php:667
 msgid "myself and my group"
 msgstr "mijzelf en mijn groep"
 
-#: htdocs/adv_search.php:51 htdocs/list.php:85
+#: htdocs/adv_search.php:51 htdocs/list.php:88
 #: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
 msgstr "niet toegewezen/toegewezen aan mijzelf"
 
-#: htdocs/adv_search.php:58 htdocs/list.php:91
+#: htdocs/adv_search.php:58 htdocs/list.php:94
 #: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
 msgstr "niet toegewezen, mijzelf en mijn groep"
@@ -9145,7 +9211,7 @@ msgstr "die verschijnt onderaan herinneringsberichten"
 msgid "to access this page."
 msgstr ""
 
-#: htdocs/adv_search.php:50 htdocs/list.php:84
+#: htdocs/adv_search.php:50 htdocs/list.php:87
 #: lib/eventum/class.filter.php:663
 msgid "un-assigned"
 msgstr "niet-toegewezen"

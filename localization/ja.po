@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 23:53+0200\n"
+"POT-Creation-Date: 2012-05-17 20:12+0300\n"
 "PO-Revision-Date: 2012-04-11 03:41+0000\n"
 "Last-Translator: Brian LaVallee <brian.lavallee@pbxl.jp>\n"
 "Language-Team: Japanese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-12 04:50+0000\n"
-"X-Generator: Launchpad (build 15070)\n"
+"X-Launchpad-Export-Date: 2012-05-18 04:43+0000\n"
+"X-Generator: Launchpad (build 15259)\n"
 "Language: ja\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -797,7 +797,7 @@ msgstr "新しい問題の無記名報告"
 msgid "Anonymous Reporting:"
 msgstr "無記名報告"
 
-#: htdocs/adv_search.php:49 htdocs/list.php:83 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "いずれの"
 
@@ -1100,6 +1100,10 @@ msgstr "トップへ戻る"
 msgid "Backup Technical Account Manager"
 msgstr "テクニカルアカウントマネージャーのバックアップ"
 
+#: templates/manage/ldap.tpl.html
+msgid "Base DN:"
+msgstr ""
+
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
@@ -1115,6 +1119,14 @@ msgstr "送信者の名前の前に"
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
 msgstr "間"
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind DN:"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind PW:"
+msgstr ""
 
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
@@ -1535,6 +1547,10 @@ msgstr ""
 msgid "Create User and Permissions"
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Create Users:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1651,6 +1667,10 @@ msgid "Customize Issue Listing Screen"
 msgstr "問題リストの画面をカスタマイズする。"
 
 #: templates/manage/manage.tpl.html
+msgid "Customize LDAP Config"
+msgstr ""
+
+#: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
@@ -1749,6 +1769,10 @@ msgstr "通知するためのデフォルトオプション"
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "デフォルト優先順位"
+
+#: templates/manage/ldap.tpl.html
+msgid "Default Roles:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Defaults"
@@ -1972,13 +1996,15 @@ msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr "エラー：システムは、設定ディレクトリーに構成ファイルを作成できるように設定されていません。"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2597,6 +2623,10 @@ msgstr "エクスポートデータ"
 msgid "Export to Excel"
 msgstr "エクセルにエクスポートする"
 
+#: templates/manage/users.tpl.html
+msgid "External ID"
+msgstr ""
+
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr ""
@@ -2774,7 +2804,7 @@ msgstr "同じか、それ以上"
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:95 lib/eventum/class.display_column.php:190
+#: htdocs/list.php:98 lib/eventum/class.display_column.php:190
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
@@ -2872,6 +2902,10 @@ msgstr "家"
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
 msgstr "ホストアライアス"
+
+#: templates/manage/ldap.tpl.html
+msgid "Host:"
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
@@ -3290,6 +3324,10 @@ msgstr "キーワード："
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "LDAP Setup"
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
@@ -4639,13 +4677,15 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr "御社のシステムアドミニストレーターに連絡をとって、用意されているファイルネームに権限を書き込むように頼んでください。"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4713,6 +4753,14 @@ msgstr "重複している問題のIDを入力してください。"
 msgid "Please enter the IMAP folder for this email account."
 msgstr "このeメールアカウントに関するIMAPフォルダーを入力してください。"
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP Host."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP port."
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
 msgstr "SMTPサーバーのホストネームを入力してください。"
@@ -4740,6 +4788,10 @@ msgstr ""
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the analysis for the changes required by this issue."
 msgstr "この問題に必要な変更に関する分析を入力してください。"
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the base dn."
+msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
@@ -5080,6 +5132,10 @@ msgstr ""
 msgid "Please enter the updated value."
 msgstr "更新した値を入力してください。"
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the user dn."
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the username for this email account."
 msgstr "このeメールアカウントのユーザー名を入力してください。"
@@ -5321,6 +5377,10 @@ msgstr ""
 #: templates/setup.tpl.html
 msgid "Port"
 msgstr "ポート"
+
+#: templates/manage/ldap.tpl.html
+msgid "Port:"
+msgstr ""
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
@@ -5843,8 +5903,9 @@ msgstr "あなたのブラウザーではクッキー及びジャバスクリプ
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
-#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/link_filters.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/news.tpl.html
+#: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -6858,7 +6919,8 @@ msgstr ""
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "ありがとうございます。設定情報が問題なく保存されました。"
 
@@ -7895,7 +7957,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr "設定を更新します"
 
@@ -7970,6 +8032,10 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "User"
 msgstr "ユーザー"
+
+#: templates/manage/ldap.tpl.html
+msgid "User DN:"
+msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "User Details"
@@ -8745,17 +8811,17 @@ msgstr "フィールドを上へ動かす"
 msgid "must be a valid email address"
 msgstr ""
 
-#: htdocs/adv_search.php:57 htdocs/list.php:90
+#: htdocs/adv_search.php:57 htdocs/list.php:93
 #: lib/eventum/class.filter.php:667
 msgid "myself and my group"
 msgstr ""
 
-#: htdocs/adv_search.php:51 htdocs/list.php:85
+#: htdocs/adv_search.php:51 htdocs/list.php:88
 #: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
 msgstr ""
 
-#: htdocs/adv_search.php:58 htdocs/list.php:91
+#: htdocs/adv_search.php:58 htdocs/list.php:94
 #: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
 msgstr ""
@@ -8888,7 +8954,7 @@ msgstr ""
 msgid "to access this page."
 msgstr "このページにアクセスするために"
 
-#: htdocs/adv_search.php:50 htdocs/list.php:84
+#: htdocs/adv_search.php:50 htdocs/list.php:87
 #: lib/eventum/class.filter.php:663
 msgid "un-assigned"
 msgstr ""
