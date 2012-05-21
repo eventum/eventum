@@ -1558,6 +1558,12 @@ class Support
                     // the following items are not inserted, but useful in some methods
                     'headers'        => @$structure->headers
                 );
+
+                $prj_id = Issue::getProjectID($t['issue_id']);
+                if (Workflow::shouldAutoAddToNotificationList($prj_id)) {
+                    self::addExtraRecipientsToNotificationList($prj_id, $t, false);
+                }
+
                 Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
                 if ($authorize) {
                     Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);
