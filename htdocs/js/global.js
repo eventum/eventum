@@ -62,9 +62,15 @@ function getEmailFromAddress(str)
     }
 }
 
-function closeAndRefresh()
+/**
+ * reload parent window (if defined) and close current window
+ *
+ * 'noparent' if true, means that parent should not be reloaded (for example if
+ * you call the popup via bookmark)
+ */
+function closeAndRefresh(noparent)
 {
-    if (opener) {
+    if (opener && !noparent) {
         opener.location.href = opener.location;
     }
     window.close();

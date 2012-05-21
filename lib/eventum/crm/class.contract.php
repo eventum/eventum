@@ -79,6 +79,13 @@ abstract class Contract
     protected $public_comment;
 
     /**
+     * The number of servers for this contract.
+     *
+     * @var string
+     */
+    protected $server_count;
+
+    /**
      * The options for this contract
      *
      * @var array
@@ -120,8 +127,10 @@ abstract class Contract
      * @param   string $status
      * @param   string $public_comment
      * @param   string $partner_id
+     * @param   integer $server_count
      */
-    public function setData($start_date, $end_date, $support_level_id, $status, $public_comment, $partner_id)
+    public function setData($start_date, $end_date, $support_level_id, $status, $public_comment, $partner_id,
+                        $server_count)
     {
         $this->start_date = $start_date;
         $this->end_date = $end_date;
@@ -129,6 +138,7 @@ abstract class Contract
         $this->status = $status;
         $this->public_comment = $public_comment;
         $this->partner_id = $partner_id;
+        $this->server_count = $server_count;
     }
 
 
@@ -294,7 +304,7 @@ abstract class Contract
      */
     abstract public function getIncidentsRemaining($incident_type);
 
-    
+
     /**
      * Returns true if the contract is of $type
      *

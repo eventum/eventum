@@ -45,6 +45,7 @@ Net_UserAgent_Detect-stable
 PEAR-stable
 Text_Diff-stable
 XML_RPC-stable
+Net_LDAP2-stable
 "
 
 t=pear-root

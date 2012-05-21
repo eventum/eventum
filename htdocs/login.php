@@ -49,7 +49,7 @@ if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
 }
 
 // handle aliases since the user is now authenticated
-$_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
+$_POST['email'] = User::getEmail(Auth::getUserIDByLogin($_POST['email']));
 
 // check if this user did already confirm his account
 if (Auth::isPendingUser($_POST["email"])) {
@@ -64,7 +64,7 @@ if (!Auth::isActiveUser($_POST["email"])) {
 
 Auth::saveLoginAttempt($_POST["email"], 'success');
 // redirect to the initial page
-@Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
+Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
 Session::init(User::getUserIDByEmail($_POST['email']));
 if (!empty($_POST["url"])) {
     $extra = '?url=' . urlencode($_POST["url"]);

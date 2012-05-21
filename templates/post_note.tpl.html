@@ -139,17 +139,8 @@ function setSignature(f)
                 size="{$users|@count}"
               {/if}
               multiple name="note_cc[]" onChange="showSelections('post_note_form', 'note_cc[]');">
-
-              {foreach from=$user_details item=usr}
-              {if $usr.group}
-                {assign var=display_name value="`$usr.group`: `$usr.usr_full_name`"}
-              {else}
-                {assign var=display_name value=$usr.usr_full_name}
-              {/if}
-                {html_options values=$usr.usr_id output=$display_name}
-              {/foreach}
-            </select>
-            <input class="button" type="button" value="{t}Clear Selections{/t}" onClick="clearExtraRecipients();"><br />
+              {html_options options=$users}
+            </select><input class="button" type="button" value="{t}Clear Selections{/t}" onClick="clearExtraRecipients();"><br />
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="note_cc[]" callbacks="new Array('showSelections(\'post_note_form\', \'note_cc[]\')')"}
             <div class="default" id="selection_note_cc[]"></div>
           </td>

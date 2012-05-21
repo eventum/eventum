@@ -46,9 +46,15 @@ if (in_array('--fix-lock', $argv)) {
     exit;
 }
 
+if (in_array('--check-process', $argv)) {
+    $check = true;
+} else {
+    $check = false;
+}
+
 // acquire a lock to prevent multiple scripts from
 // running at the same time
-if (!Lock::acquire('irc_bot')) {
+if (!Lock::acquire('irc_bot', $check)) {
     echo 'Error: Another instance of the script is still running. ',
                 "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
                 "as the only parameter.\n";

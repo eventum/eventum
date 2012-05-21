@@ -24,6 +24,11 @@ Eventum Issue Tracking System
 - Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
 - Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
 - Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
+- Added option to check if IRC bot process is still running (Bryan)
+- Added pluggable auth user backends (Bryan, Elan Ruusamäe)
+- Added LDAP user backend (Bryan)
+- Added option to clear list filters by passing in url parameter view=clear (Bryan)
+- Changed customer_id and contact_id to be strings (Bryan)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)

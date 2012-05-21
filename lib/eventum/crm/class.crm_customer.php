@@ -42,6 +42,13 @@ abstract class CRM_Customer
     protected $name;
 
     /**
+     * The country of the customer this object represents
+     *
+     * @var string
+     */
+    protected $country;
+
+    /**
      * Constructs the customer object and loads customer and support option data.
      *
      * @param CRM $crm
@@ -64,12 +71,14 @@ abstract class CRM_Customer
      * scripts setting up customers.
      *
      * @param string $name
+     * @param string $country
      */
-    public function setData($name)
+    public function setData($name, $country)
     {
         $this->name = $name;
+        $this->country = $country;
     }
-    
+
 
     /**
      * Saves the object to the database. Returns true on success, PEAR_Error otherwise.

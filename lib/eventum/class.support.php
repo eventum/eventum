@@ -2472,7 +2472,7 @@ class Support
                 SET
                     sup_ema_id = " . Misc::escapeInteger($new_ema_id) . ",
                     sup_iss_id = " . Misc::escapeInteger($issue_id) . ",
-                    sup_customer_id = " . Misc::escapeInteger($customer_id) . "
+                    sup_customer_id = '" . Misc::escapeString($customer_id) . "'
                 WHERE
                     sup_id = " . Misc::escapeInteger($sup_id) . " AND
                     sup_ema_id = " . Misc::escapeInteger($current_ema_id);

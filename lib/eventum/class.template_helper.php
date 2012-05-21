@@ -213,6 +213,8 @@ class Template_Helper
             "internal_color" => APP_INTERNAL_COLOR
         ));
 
+        $this->assign("app_auth_backend", APP_AUTH_BACKEND);
+
         $this->assign('app_messages', Misc::getMessages());
     }
 }

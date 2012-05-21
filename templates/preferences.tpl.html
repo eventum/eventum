@@ -69,6 +69,7 @@ function validateAccount(f)
           </td>
         </tr>
         {/if}
+        {if $can_update_name}
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Full Name{/t}:</b>
@@ -85,6 +86,18 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
+        {else}
+        <tr>
+          <td width="190" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Full Name{/t}:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$current_full_name|escape:"html"}
+          </td>
+        </tr>
+        {/if}
+
+        {if $can_update_email}
         <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_email">
         {if $update_email_result}
@@ -114,7 +127,19 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
+        {else}
+        <tr>
+          <td width="190" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Login{/t} &amp; {t}Email Address{/t}:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$current_email|escape:"html"}
+          </td>
+        </tr>
         {/if}
+        {/if}
+
+        {if $can_update_password}
         <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_password">
         {if $update_password_result}
@@ -152,6 +177,7 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
+        {/if}
       </table>
     </td>
   </tr>

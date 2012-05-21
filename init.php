@@ -140,6 +140,10 @@ if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
     define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
 }
 
+if (!defined('APP_AUTH_BACKEND')) {
+    define('APP_AUTH_BACKEND', 'mysql_auth_backend');
+}
+
 if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {
     define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
 }

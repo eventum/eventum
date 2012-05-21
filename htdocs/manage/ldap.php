@@ -3,6 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
+// | Copyright (c) 2012 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,16 +24,40 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
-//
 
 require_once dirname(__FILE__) . '/../../init.php';
 
-// if there is no field ID, return false
-if (empty($_GET['fld_id'])) {
-    exit(0);
+$tpl = new Template_Helper();
+$tpl->setTemplate("manage/index.tpl.html");
+
+Auth::checkAuthentication(APP_COOKIE);
+
+$tpl->assign("type", "ldap");
+
+$role_id = Auth::getCurrentRole();
+if ($role_id == User::getRoleID('administrator')) {
+    $tpl->assign("show_setup_links", true);
+
+    if (@$_POST['cat'] == 'update') {
+        $setup = LDAP_Auth_Backend::loadSetup();
+        $setup['host'] = $_POST['host'];
+        $setup['port'] = $_POST['port'];
+        $setup['binddn'] = $_POST['binddn'];
+        $setup['bindpw'] = $_POST['bindpw'];
+        $setup['basedn'] = $_POST['basedn'];
+        $setup['userdn'] = $_POST['userdn'];
+        $setup['create_users'] = $_POST['create_users'];
+        $setup['default_role'] = $_POST['default_role'];
+        $res = LDAP_Auth_Backend::saveSetup($setup);
+        $tpl->assign("result", $res);
+    }
+    $options = LDAP_Auth_Backend::loadSetup(true);
+    $tpl->assign("setup", $options);
+    $tpl->assign("project_list", Project::getAll());
+    $tpl->assign("project_roles", array(0 => "No Access") + User::getRoles());
+    $tpl->assign("user_roles", User::getRoles(array('Customer')));
+} else {
+    $tpl->assign("show_not_allowed_msg", true);
 }
 
-$backend = Custom_Field::getBackend($_GET['fld_id']);
-if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
-    echo json_encode($backend->getDynamicOptions($_GET));
-}
+$tpl->displayTemplate();

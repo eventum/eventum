@@ -1162,7 +1162,7 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  SET
                     cam_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
-                    cam_customer_id=" . Misc::escapeInteger($_POST['customer']) . ",
+                    cam_customer_id='" . Misc::escapeString($_POST['customer']) . "',
                     cam_usr_id=" . Misc::escapeInteger($_POST['manager']) . ",
                     cam_type='" . Misc::escapeString($_POST['type']) . "'
                  WHERE
@@ -1221,7 +1221,7 @@ class Customer
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    cam_customer_id=" . Misc::escapeInteger($customer_id);
+                    cam_customer_id='" . Misc::escapeString($customer_id) . "'";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1253,7 +1253,7 @@ class Customer
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 WHERE
-                    cno_customer_id = " . Misc::escapeInteger($customer_id);
+                    cno_customer_id = '" . Misc::escapeString($customer_id) . "'";
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1337,7 +1337,7 @@ class Customer
                  SET
                     cno_note='" . Misc::escapeString($note) . "',
                     cno_prj_id=" . Misc::escapeInteger($prj_id) . ",
-                    cno_customer_id=" . Misc::escapeInteger($customer_id) . ",
+                    cno_customer_id='" . Misc::escapeString($customer_id) . "',
                     cno_updated_date='" . Date_Helper::getCurrentDateGMT() . "'
                  WHERE
                     cno_id=" . Misc::escapeInteger($cno_id);
