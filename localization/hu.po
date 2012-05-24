@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-09-16 10:20+0300\n"
-"PO-Revision-Date: 2011-12-11 16:42+0000\n"
-"Last-Translator: Pal Vig <Unknown>\n"
+"POT-Creation-Date: 2012-05-17 20:12+0300\n"
+"PO-Revision-Date: 2012-05-02 09:28+0000\n"
+"Last-Translator: Darabánt Balázs <balazs.darabant@gyapinet.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-12-12 05:17+0000\n"
-"X-Generator: Launchpad (build 14458)\n"
+"X-Launchpad-Export-Date: 2012-05-18 04:42+0000\n"
+"X-Generator: Launchpad (build 15259)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -23,14 +23,17 @@ msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
+"\n"
+"A hiba további részleteinek megtekintéséhez, vagy szerkesztéséhez látogasson "
+"el a következő URL-re"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
-#: htdocs/view.php:74
+#: htdocs/view.php:75
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
 
-#: lib/eventum/class.display_column.php:195
+#: lib/eventum/class.display_column.php:199
 msgid "% Complete"
 msgstr "% kész"
 
@@ -38,17 +41,17 @@ msgstr "% kész"
 msgid "%1 Field"
 msgstr "%1 Mező"
 
-#: lib/eventum/class.filter.php:670
+#: lib/eventum/class.filter.php:671
 #, php-format
 msgid "%1$s Group"
 msgstr "%1$s Csoport"
 
-#: lib/eventum/class.filter.php:599
+#: lib/eventum/class.filter.php:600
 #, php-format
 msgid "%1$s or greater"
 msgstr "%1$s vagy nagyobb"
 
-#: lib/eventum/class.filter.php:602
+#: lib/eventum/class.filter.php:603
 #, php-format
 msgid "%1$s or less"
 msgstr "%1$s vagy kisebb"
@@ -69,7 +72,7 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr ""
+msgstr "(Minden hiba)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
@@ -81,11 +84,11 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr ""
+msgstr "(Nyitott hibák)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
+msgstr "(Tartalmaznia KELL egy valódi e-mail címet, pl.: \"%1\" vagy \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
@@ -97,18 +100,20 @@ msgstr ""
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
+"(Ez lesz a Feladó mező tartalma minden jegyzetben, amit az Eventum küld)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Tipp: A POP3 szerver alapértelmezett portja 110 és az IMAP szerveré 143)"
 
-#: lib/eventum/class.template_helper.php:173
+#: lib/eventum/class.template_helper.php:172
 msgid "(archived)"
-msgstr ""
+msgstr "(archivált)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(alapértelmezett %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
@@ -116,23 +121,29 @@ msgstr "(alapértelmezett mappa az INBOX)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr ""
+msgstr "(pl.: %1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
+"(Nyomja le az 'ALT' és a '3' billentyűt) - a 'Keresés' mező megjelenítéshez"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
+"(Nyomja le az 'ALT' és a '4' billentyűt) - a 'Ugrás' mező megjelenítéshez"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(órában kérem)"
+
+#: templates/close.tpl.html templates/post_note.tpl.html
+msgid "(in minutes)"
+msgstr "percek alatt"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr ""
+msgstr "(szó szerint)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
@@ -148,7 +159,7 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "három betűs rövidítés"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
@@ -175,14 +186,16 @@ msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
+"<b>Megjegyzés: </ b>Az e-mail mentésre kerül, mint egy jegyzet és csak a "
+"staff számára elérhető."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "Egy új hiba épp most jött létre, és hozzád lett rendelve."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr ""
+msgstr "Egy új hiba épp most lett jött létre."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
@@ -192,7 +205,7 @@ msgstr "Új felhasználó jött létre a rendszerben az Ön számára."
 msgid "ADDED"
 msgstr "HOZZÁADVA"
 
-#: lib/eventum/class.mail_helper.php:468
+#: lib/eventum/class.mail_helper.php:469
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
 
@@ -207,11 +220,11 @@ msgstr "MIND"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-3"
-msgstr ""
+msgstr "ALT-3"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "ALT-4"
-msgstr ""
+msgstr "ALT-4"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "AND / OR"
@@ -219,7 +232,7 @@ msgstr "ÉS / VAGY"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation"
-msgstr ""
+msgstr "Rövidítés"
 
 #: templates/manage/statuses.tpl.html
 msgid "Abbreviation:"
@@ -231,13 +244,13 @@ msgstr "Azonosító Létrehozása"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr ""
+msgstr "Felelős"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr ""
+msgstr "Felelős:"
 
-#: lib/eventum/class.help.php:110 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:111 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
 msgstr "Fiókbeállítások"
@@ -279,7 +292,7 @@ msgstr "Aktív"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity Type"
-msgstr ""
+msgstr "Aktivitás típusa"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
@@ -296,7 +309,7 @@ msgstr "Kategória Hozzáadása / Szerkesztése"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr ""
+msgstr "Telefon Support Kategória Hozzáadása / Szerkesztése"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
@@ -308,11 +321,11 @@ msgstr "Kiadások Hozzáadása / Szerkesztése"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
-msgstr ""
+msgstr "Művelet hozzáadása"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
-msgstr ""
+msgstr "Jogosult Válaszoló Hozzáadása"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
@@ -324,7 +337,7 @@ msgstr "Email Aláírás Hozzáadása"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr ""
+msgstr "Extra Címzettek Hozzáadása az Értesítési listához?"
 
 #: templates/new.tpl.html
 msgid "Add Files"
@@ -340,39 +353,39 @@ msgstr ""
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
-msgstr ""
+msgstr "Új fájl hozzáadása"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr ""
+msgstr "Új követelmény hozzáadása"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "Telefono hívás hozzáadása"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
+msgstr "Telefon bejegyzés hozzáadása"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr ""
+msgstr "Előfizető Hozzáadása"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr ""
+msgstr "Idő bejegyzés hozzáadása"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr ""
+msgstr "Ismeretlen Címzettek Hozzáadása a Bejelentés Listához"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
+msgstr "Hozzáadja a küldőt a  jogosult válaszolók listájához?"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr ""
+msgstr "Számítógép Cím:"
 
 #: templates/navigation.tpl.html
 msgid "Administration"
@@ -391,7 +404,7 @@ msgstr "Haladó Beállítások"
 msgid "Advanced Search"
 msgstr "Részletes Keresés"
 
-#: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
+#: lib/eventum/class.help.php:103 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Részletes Keresés / Egyedi Lekérdezések Létrehozása"
@@ -400,17 +413,17 @@ msgstr "Részletes Keresés / Egyedi Lekérdezések Létrehozása"
 msgid "After Sender Name"
 msgstr "A Küldő Neve Után"
 
-#: lib/eventum/class.customer_stats_report.php:188
+#: lib/eventum/class.customer_stats_report.php:189
 msgid "Aggregate"
 msgstr "Összegzés"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
-msgstr ""
+msgstr "Riasztási csoport vezető:"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert IRC:"
-msgstr ""
+msgstr "Riasztás IRC-n:"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
@@ -420,7 +433,7 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr ""
+msgstr "Riasztási ok"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -450,7 +463,7 @@ msgstr "Összes"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "Minden hiba"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
@@ -464,7 +477,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr ""
+msgstr "Gazdátlan kérdések kihagyása?"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -510,7 +523,7 @@ msgstr "Hiba Történt"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr ""
+msgstr "Hiba történt a GYIK bejegyzés felvétele közben."
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
@@ -522,12 +535,12 @@ msgstr "Hiba történt az új fiók felvétele közben."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr ""
+msgstr "Hiba történt az új esemény felvétele közben."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr "Hiba történt az új lategória felvétele közben."
+msgstr "Hiba történt az új kategória felvétele közben."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
@@ -539,7 +552,7 @@ msgstr "Hiba történt az új egyedi mező felvétele közben."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
-msgstr ""
+msgstr "Hiba történt az új testreszabás közben."
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
@@ -605,6 +618,7 @@ msgstr "Hiba történt a kiválasztott email üzenet hozzárendelése közben."
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
 msgstr ""
+"Hiba történt miközben megpróbálta átalakítani a kiválasztott jegyzetet."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
@@ -641,15 +655,20 @@ msgstr ""
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
-msgstr ""
+msgstr "Hiba történt a frissíteni kívánt mező megjelenítésében."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr ""
+"Hiba történt miközben megpróbálta frissíteni a GYIK bejegyzés információkat."
+
+#: templates/edit_reporter.tpl.html
+msgid "An error occurred while trying to update the Reporter."
+msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
-msgstr ""
+msgstr "Hiba történt miközben megpróbálta frissíteni a fiók adatait."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
@@ -664,6 +683,7 @@ msgstr ""
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a kategória információkat."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
@@ -673,11 +693,13 @@ msgstr ""
 msgid ""
 "An error occurred while trying to update the custom field information."
 msgstr ""
+"Hiba történt, miközben megpróbálja frissíteni az egyéni mező adatait."
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a testreszabási információkat."
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
@@ -686,11 +708,11 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni a csoport adatait."
 
 #: templates/manage/anonymous.tpl.html
 msgid "An error occurred while trying to update the information."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni az adatokat."
 
 #: templates/manage/resolution.tpl.html
 msgid ""
@@ -699,35 +721,40 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni a link szűrőt."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni az új hírek adatait."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to update the note."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni a jegyzetet."
 
 #: templates/notification.tpl.html
 msgid "An error occurred while trying to update the notification entry."
-msgstr ""
+msgstr "Hiba történt, miközben megpróbálta frissíteni a bejelentést."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to update the priority information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a kiemelt információkat."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to update the project information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a projekt információkat."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to update the release information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a kiadásokra vonatkozó "
+"információkat."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to update the reminder information."
 msgstr ""
+"Hiba történt, miközben megpróbálja frissíteni az emlékeztető adatokat."
 
 #: templates/manage/round_robin.tpl.html
 msgid ""
@@ -737,16 +764,21 @@ msgstr ""
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to update the status information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a státuszra vonatkozó "
+"információt."
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a nyomkövetési kategóriában "
+"lévő információkat."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to update the user information."
 msgstr ""
+"Hiba történt, miközben megpróbálta frissíteni a felhasználói adatokat."
 
 #: templates/clock_status.tpl.html
 msgid ""
@@ -764,19 +796,19 @@ msgstr ""
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
-msgstr ""
+msgstr "Egy kérdés volt Önhöz rendelve %1"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Anonymous Form"
-msgstr ""
+msgstr "Névtelen Forma"
 
 #: templates/manage/projects.tpl.html
 msgid "Anonymous Reporting"
-msgstr ""
+msgstr "Névtelen Jelentés"
 
 #: templates/manage/manage.tpl.html
 msgid "Anonymous Reporting Options"
-msgstr ""
+msgstr "Névtelen Jelentés Opciók"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting of New Issues"
@@ -784,27 +816,27 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
-msgstr ""
+msgstr "Névtelen Jelentés"
 
-#: htdocs/adv_search.php:48 htdocs/list.php:78 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
-msgstr ""
+msgstr "Bármely"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr ""
+msgstr "Archivált"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
-msgstr ""
+msgstr "Biztos hogy hozzá kívánja adni ezt a címet az értesítési listához?"
 
 #: templates/manage/manage.tpl.html
 msgid "Areas"
-msgstr ""
+msgstr "Területek"
 
 #: templates/email_filter_form.tpl.html
 msgid "Arrival Date:"
-msgstr ""
+msgstr "Beérkezés dátuma:"
 
 #: templates/faq.tpl.html
 msgid "Article Entries"
@@ -817,24 +849,24 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "Növekvő"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
-msgstr ""
+msgstr "Hiba hozzárendelése magamhoz"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users"
-msgstr ""
+msgstr "Hozzárendelhető felhasználók"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users:"
-msgstr ""
+msgstr "Hozzárendelhető Felhasználók:"
 
-#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
+#: lib/eventum/class.display_column.php:193 lib/eventum/class.filter.php:721
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr ""
+msgstr "Hozzárendelve"
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
@@ -847,20 +879,20 @@ msgstr ""
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
 msgid "Assigned Projects"
-msgstr ""
+msgstr "Hozzárendelt projektek"
 
 #: templates/manage/users.tpl.html
 msgid "Assigned Projects and Roles"
-msgstr ""
+msgstr "Hozzárendelt projektek és szerepek"
 
 #: templates/manage/general.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Assigned Projects:"
-msgstr ""
+msgstr "Hozzárendelt projektek:"
 
 #: templates/manage/general.tpl.html
 msgid "Assigned Role:"
-msgstr ""
+msgstr "Hozzárendelt szerepek:"
 
 #: templates/manage/faq.tpl.html
 msgid "Assigned Support"
@@ -868,48 +900,48 @@ msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
-msgstr ""
+msgstr "Hozzárendelt:"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Hozzárendelő"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Hozzárendelő:"
 
-#: lib/eventum/class.project.php:1098 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr ""
+msgstr "Hozzárendelés"
 
-#: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
+#: lib/eventum/class.help.php:67 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
 msgstr ""
 
-#: lib/eventum/class.notification.php:614
 #: lib/eventum/class.notification.php:615
+#: lib/eventum/class.notification.php:616
 msgid "Assignment List"
-msgstr ""
+msgstr "Hozzárendelési lista"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/update_form.tpl.html
 msgid "Assignment:"
-msgstr ""
+msgstr "Hozzárendelés:"
 
 #: templates/emails.tpl.html
 msgid "Associate"
-msgstr ""
+msgstr "Kapcsolódó személyek"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.help.php:106 templates/emails.tpl.html
+#: lib/eventum/class.help.php:107 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
 #: templates/navigation.tpl.html
 msgid "Associate Emails"
@@ -917,50 +949,50 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Associated"
-msgstr ""
+msgstr "Kapcsolódva"
 
 #: templates/support_emails.tpl.html
 msgid "Associated Emails"
-msgstr ""
+msgstr "Kapcsolódó Emailek"
 
 #: templates/view_form.tpl.html
 msgid "Associated Issues"
-msgstr ""
+msgstr "Kapcsolódó Kérdések"
 
 #: templates/update_form.tpl.html
 msgid "Associated Issues:"
-msgstr ""
+msgstr "Hozzárendelt Kérdések:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Associated Project"
-msgstr ""
+msgstr "Hozzárendelt Projekt"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Associated Project:"
-msgstr ""
+msgstr "Hozzárendelt Projekt:"
 
 #: templates/view_email.tpl.html
 msgid "Associated with Issue"
-msgstr ""
+msgstr "Hozzárendelt Fájlok"
 
 #: templates/post.tpl.html
 msgid "Attach Files"
-msgstr ""
+msgstr "Csatolt Fájlok"
 
 #: templates/attached_emails.tpl.html
 msgid "Attached Emails"
-msgstr ""
+msgstr "Csatolt E-mailek"
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
 msgstr ""
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1456
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: lib/eventum/class.support.php:1448
+#: lib/eventum/class.support.php:1454
 msgid "Attachment originated from an email"
 msgstr ""
 
@@ -975,15 +1007,15 @@ msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
-msgstr ""
+msgstr "Jogosult Válaszolók"
 
 #: templates/update_form.tpl.html
 msgid "Authorized Repliers:"
-msgstr ""
+msgstr "Jogosult Válaszolók:"
 
-#: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:781 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
-msgstr ""
+msgstr "Jogosult E-mail küldésre"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -992,11 +1024,11 @@ msgstr ""
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
-msgstr ""
+msgstr "Automata Kiosztás"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Automatikus Kiosztás #%1 Emlékekztető Risztás"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
@@ -1008,15 +1040,15 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
-msgstr ""
+msgstr "Automatikus zárja be a felugró ablakot?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
-msgstr ""
+msgstr "Elérhető - Felhasználók számára engedélyezve"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
-msgstr ""
+msgstr "Rendelkezésre álló Súgó Témakörök"
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
@@ -1024,11 +1056,11 @@ msgstr ""
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Rendelkezésre álló kapcsolódó témák"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
-msgstr ""
+msgstr "Rendelkezésre álló jelentések"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
@@ -1038,36 +1070,36 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr ""
+msgstr "Átlag"
 
-#: lib/eventum/class.customer_stats_report.php:689
+#: lib/eventum/class.customer_stats_report.php:690
 msgid "Avg Workload per Customer by Support Level"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:698
+#: lib/eventum/class.customer_stats_report.php:699
 msgid "Avg and Median Time to Close by Support Level"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:707
+#: lib/eventum/class.customer_stats_report.php:708
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Avg/Med/Max Issues/Emails"
-msgstr ""
+msgstr "Átlag/Med/Max Kérdések/E-mailek"
 
-#: lib/eventum/class.notification.php:965
+#: lib/eventum/class.notification.php:973
 msgid "BLOCKED"
-msgstr ""
+msgstr "ZÁROLT"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
 msgid "Back to Login Form"
-msgstr ""
+msgstr "Vissza a Bejelentkezéshez"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Back to Reminder Action List"
@@ -1075,7 +1107,7 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Back to Reminder List"
-msgstr ""
+msgstr "Vissza az Emlékeztető listára"
 
 #: templates/attachments.tpl.html templates/checkins.tpl.html
 #: templates/custom_fields.tpl.html templates/email_drafts.tpl.html
@@ -1083,10 +1115,14 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/time_tracking.tpl.html
 #: templates/top_link.tpl.html
 msgid "Back to Top"
-msgstr ""
+msgstr "Vissza a tetejére"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Base DN:"
 msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
@@ -1095,7 +1131,7 @@ msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Based on all open issue in Eventum for <b>%1</b>."
-msgstr ""
+msgstr "Mindezek alapján nyitott kérdések az Eventumban <b>% 1 </ b>."
 
 #: templates/manage/general.tpl.html
 msgid "Before Sender Name"
@@ -1103,6 +1139,14 @@ msgstr ""
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
+msgstr "Között"
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind DN:"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind PW:"
 msgstr ""
 
 #: templates/manage/round_robin.tpl.html
@@ -1119,12 +1163,12 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Boilerplate:"
-msgstr ""
+msgstr "Szabvány:"
 
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Braziliai Portugál"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
@@ -1133,19 +1177,19 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr ""
+msgstr "Ömlesztett frissítés"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
-msgstr ""
+msgstr "Ömlesztett Frissítő Eszköz"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Customer"
-msgstr ""
+msgstr "Az Ügyfél által"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Issue ID"
-msgstr ""
+msgstr "Az ID Szám által"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Support Level"
@@ -1153,11 +1197,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
-msgstr ""
+msgstr "ÓRAJELE BE"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED OUT"
-msgstr ""
+msgstr "ÓRAJELE KI"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call From"
@@ -1165,15 +1209,16 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call To"
-msgstr ""
+msgstr "Hívás"
 
 #: templates/phone_support.tpl.html
 msgid "Call Type"
-msgstr ""
+msgstr "Hívás Típusa"
 
-#: templates/post_note.tpl.html templates/send.tpl.html
+#: templates/edit_reporter.tpl.html templates/post_note.tpl.html
+#: templates/send.tpl.html
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: templates/update_form.tpl.html
 msgid "Cancel Update"
@@ -1181,20 +1226,20 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
-msgstr ""
+msgstr "Előre Megírt Válaszok"
 
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Katalán"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "Kategóriák és Státuszok"
 
-#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:623
-#: lib/eventum/class.notification.php:624 lib/eventum/class.project.php:1096
+#: lib/eventum/class.display_column.php:207 lib/eventum/class.filter.php:726
+#: lib/eventum/class.notification.php:624
+#: lib/eventum/class.notification.php:625 lib/eventum/class.project.php:1097
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1203,19 +1248,19 @@ msgstr ""
 #: templates/reports/workload_date_range.tpl.html
 #: templates/time_tracking.tpl.html templates/view_form.tpl.html
 msgid "Category"
-msgstr ""
+msgstr "Kategória"
 
-#: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
+#: lib/eventum/class.help.php:59 templates/help/report_category.tpl.html
 msgid "Category Field"
-msgstr ""
+msgstr "Kategória Mező"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
-msgstr ""
+msgstr "Kategória:"
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr ""
+msgstr "Másolat"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
@@ -1223,7 +1268,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
-msgstr ""
+msgstr "Jelszó módosítás"
 
 #: templates/view_form.tpl.html
 msgid "Change Status To"
@@ -1231,15 +1276,15 @@ msgstr ""
 
 #: templates/notifications/updated.tpl.text
 msgid "Changed Fields"
-msgstr ""
+msgstr "Megváltozott Mezők"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
-msgstr ""
+msgstr "Mezők megváltoztatása adatvesztéshez vezethetnek."
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Lemez méretének ellenőrzése:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
@@ -1259,12 +1304,12 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
-msgstr ""
+msgstr "Pénztár oldal:"
 
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Kínai"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
@@ -1280,24 +1325,24 @@ msgstr ""
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
-msgstr ""
+msgstr "Törlés"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
-msgstr ""
+msgstr "Adat törlés"
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
-msgstr ""
+msgstr "Dupla Mező Törlése"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Clear Filters"
-msgstr ""
+msgstr "Szűrök törlése"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/post_note.tpl.html templates/update_form.tpl.html
 msgid "Clear Selections"
-msgstr ""
+msgstr "Kijelölés törlése"
 
 #: templates/view_form.tpl.html
 msgid "Click to expand."
@@ -1321,33 +1366,33 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Close Form"
-msgstr ""
+msgstr "Űrlap bezárása"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Close Issue"
-msgstr ""
+msgstr "Kérdés bezárása"
 
 #: templates/associate.tpl.html templates/faq.tpl.html
 #: templates/help/banner.tpl.html
 msgid "Close Window"
-msgstr ""
+msgstr "Ablak bezárása"
 
-#: lib/eventum/class.notification.php:825
+#: lib/eventum/class.notification.php:833
 msgid "Closed"
-msgstr ""
+msgstr "Lezárt"
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
 msgstr ""
 
-#: lib/eventum/class.filter.php:759
+#: lib/eventum/class.filter.php:760
 msgid "Closed Date"
-msgstr ""
+msgstr "Dátum bezárása"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Üzenet bezárása"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
@@ -1359,15 +1404,15 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
-msgstr ""
+msgstr "Szín"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color:"
-msgstr ""
+msgstr "Szín:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Column Name"
-msgstr ""
+msgstr "Oszlop Neve"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
@@ -1375,7 +1420,7 @@ msgstr ""
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
-msgstr ""
+msgstr "Hozzászólás"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
@@ -1383,11 +1428,11 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Complete Details"
-msgstr ""
+msgstr "Teljes Név"
 
 #: templates/manage/manage.tpl.html
 msgid "Configuration"
-msgstr ""
+msgstr "Beállítások"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
@@ -1395,7 +1440,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Új jelszó megerõsítése"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1405,11 +1450,11 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
-msgstr ""
+msgstr "Tovább"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
-msgstr ""
+msgstr "Megjegyzés átalakítása E-mailre"
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Draft and Save For Later Editing"
@@ -1417,13 +1462,15 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Email and Send Now"
-msgstr ""
+msgstr "Átalakítás E-mailbe és küldés azonnal"
 
 #: templates/login_form.tpl.html
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
+"A cookie-k támogatása valószínűleg le van tiltva a böngészőjében. Kérjük "
+"engedélyezze ezt a funkciót, majd próbálkozzon újra."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
@@ -1431,69 +1478,69 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/signup.tpl.html
 msgid "Create Account"
-msgstr ""
+msgstr "Felhasználó létrehozása"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Create Account Manager"
-msgstr ""
+msgstr "Account Manager látrehozása"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Create Category"
-msgstr ""
+msgstr "Kategória lérehozása"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Create Custom Field"
-msgstr ""
+msgstr "Egyéni Mező létrehozása"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
-msgstr ""
+msgstr "Testreszabás létrehozása"
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Vázlat létrehozása"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
-msgstr ""
+msgstr "Válasz E-mail létrehozása"
 
 #: templates/manage/faq.tpl.html
 msgid "Create FAQ Entry"
-msgstr ""
+msgstr "FAQ bejegyzés létrehozása"
 
 #: templates/manage/groups.tpl.html
 msgid "Create Group"
-msgstr ""
+msgstr "Csoport létrehozása"
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Kérdés létrehozása"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Link szűrő létrehozása"
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
-msgstr ""
+msgstr "Új kérdés létrehozása"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
-msgstr ""
+msgstr "Hír bejegyzés létrehozása"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Create Note"
-msgstr ""
+msgstr "Megjegyzés létrehozása"
 
 #: templates/manage/priorities.tpl.html
 msgid "Create Priority"
-msgstr ""
+msgstr "Prioritás létrehozása"
 
 #: templates/manage/projects.tpl.html
 msgid "Create Project"
-msgstr ""
+msgstr "Projekt létrehozása"
 
 #: templates/manage/releases.tpl.html
 msgid "Create Release"
@@ -1501,7 +1548,7 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Emlékeztető létrehozása"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
@@ -1513,40 +1560,44 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Create Status"
-msgstr ""
+msgstr "Státusz létrehozása"
 
 #: templates/manage/users.tpl.html
 msgid "Create User"
-msgstr ""
+msgstr "Felhasználó létrehozás"
 
 #: templates/setup.tpl.html
 msgid "Create User and Permissions"
+msgstr "Felhasználó és Endegély létrehozása"
+
+#: templates/manage/ldap.tpl.html
+msgid "Create Users:"
 msgstr ""
 
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
-msgstr ""
+msgstr "Létrehozva"
 
-#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:739
+#: lib/eventum/class.display_column.php:187 lib/eventum/class.filter.php:740
 msgid "Created Date"
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Új emlékeztető létrehozása"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
 msgid "Current Project"
-msgstr ""
+msgstr "Jelenlegi Projekt"
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
 msgid "Current Project:"
-msgstr ""
+msgstr "Jelenlegi Projekt:"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/update_form.tpl.html
@@ -1555,33 +1606,33 @@ msgstr ""
 
 #: templates/current_filters.tpl.html
 msgid "Current filters:"
-msgstr ""
+msgstr "Jelenlegi szűrő:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
-msgstr ""
+msgstr "Egyéni mező"
 
-#: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
+#: lib/eventum/class.display_column.php:228 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
-msgstr ""
+msgstr "Egyéni mezők"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
-msgstr ""
+msgstr "Egyéni mezők jelentése"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields Weekly Report"
-msgstr ""
+msgstr "Egyéni mezők heti jelentése"
 
-#: lib/eventum/class.custom_field.php:311
+#: lib/eventum/class.custom_field.php:312
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:664
-#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
+#: lib/eventum/class.customer_stats_report.php:665
+#: lib/eventum/class.display_column.php:213 lib/eventum/class.filter.php:797
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1593,13 +1644,13 @@ msgstr ""
 #: templates/reports/workload_time_period.tpl.html
 #: templates/view_form.tpl.html
 msgid "Customer"
-msgstr ""
+msgstr "Ügyfél"
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
-msgstr ""
+msgstr "Ügyfél szerződés"
 
-#: lib/eventum/class.customer_stats_report.php:728
+#: lib/eventum/class.customer_stats_report.php:729
 msgid "Customer Counts"
 msgstr ""
 
@@ -1607,6 +1658,7 @@ msgstr ""
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
+"Az ügyfél azonosító (pl.: \"Example Inc.\", \"johndoe@example.com\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
@@ -1614,11 +1666,11 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
-msgstr ""
+msgstr "Ügyfél telefonszáma"
 
 #: templates/reports/tree.tpl.html
 msgid "Customer Profile Stats"
-msgstr ""
+msgstr "Ügyfél Profil állapota"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customer Stats Report"
@@ -1626,39 +1678,43 @@ msgstr ""
 
 #: templates/manage/account_managers.tpl.html
 msgid "Customer:"
-msgstr ""
+msgstr "Ügyfél:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customers"
-msgstr ""
+msgstr "Ügyfelek"
 
-#: lib/eventum/class.help.php:138 templates/help/customize_listing.tpl.html
+#: lib/eventum/class.help.php:139 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
 #: templates/manage/manage.tpl.html
-msgid "Customize Monitoring Parameters"
+msgid "Customize LDAP Config"
 msgstr ""
+
+#: templates/manage/manage.tpl.html
+msgid "Customize Monitoring Parameters"
+msgstr "Monitorozás Paramétereinek Testreszabása"
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Cseh"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
-msgstr ""
+msgstr "Napi Tipp:"
 
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr ""
+msgstr "Dán"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
-msgstr ""
+msgstr "Adatbázis hiba"
 
 #: templates/attachments.tpl.html templates/checkins.tpl.html
 #: templates/emails.tpl.html templates/history.tpl.html
@@ -1666,7 +1722,7 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
@@ -1674,14 +1730,14 @@ msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field:"
-msgstr ""
+msgstr "Dátum Mező:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Date Range"
-msgstr ""
+msgstr "Dátum Tartomány"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Date Triggered"
@@ -1693,7 +1749,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Date of Call"
-msgstr ""
+msgstr "Hívás időpontja"
 
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
@@ -1701,19 +1757,19 @@ msgstr ""
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
-msgstr ""
+msgstr "Nap"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
-msgstr ""
+msgstr "A hónap napja"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Week"
-msgstr ""
+msgstr "A hét napja"
 
-#: lib/eventum/class.customer_stats_report.php:704
+#: lib/eventum/class.customer_stats_report.php:705
 msgid "Days"
-msgstr ""
+msgstr "Napok"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -1722,12 +1778,12 @@ msgstr ""
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Dear"
-msgstr ""
+msgstr "Kedves"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Category:"
-msgstr ""
+msgstr "Alapértelmezett Kategória:"
 
 #: templates/manage/general.tpl.html
 msgid "Default Options for Notifications:"
@@ -1736,11 +1792,15 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
+msgstr "Alapértelmezett prioritás:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Default Roles:"
 msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Defaults"
-msgstr ""
+msgstr "Alapértelmezett"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1759,16 +1819,16 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "Törlés"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr ""
+msgstr "Álnév Törlése"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Descending"
-msgstr ""
+msgstr "Csökkenő"
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -1780,11 +1840,11 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
-#: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
+#: lib/eventum/class.help.php:79 templates/help/report_description.tpl.html
 msgid "Description Field"
-msgstr ""
+msgstr "Leírás Mező"
 
 #: templates/view_form.tpl.html
 msgid "Description is currently collapsed"
@@ -1822,7 +1882,7 @@ msgstr ""
 msgid "Diff Page:"
 msgstr ""
 
-#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: htdocs/manage/monitor.php:55 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
@@ -1837,14 +1897,14 @@ msgstr ""
 msgid "Display on List Issues Page"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:690
+#: lib/eventum/class.customer_stats_report.php:691
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:699
-#: lib/eventum/class.customer_stats_report.php:708
+#: lib/eventum/class.customer_stats_report.php:700
+#: lib/eventum/class.customer_stats_report.php:709
 msgid "Displays time stats"
 msgstr ""
 
@@ -1860,7 +1920,7 @@ msgstr ""
 msgid "Draft Address Prefix:"
 msgstr ""
 
-#: lib/eventum/class.routing.php:417
+#: lib/eventum/class.routing.php:418
 msgid "Draft routed from"
 msgstr ""
 
@@ -1891,88 +1951,100 @@ msgstr ""
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
 msgid "Dutch"
-msgstr ""
+msgstr "Holland"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:72
+#: lib/eventum/class.monitor.php:107
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
-msgstr ""
+msgstr "Hiba: Kevés a szabad lemezterület (hátravan: %2f%%)"
 
-#: lib/eventum/class.monitor.php:261
+#: lib/eventum/class.monitor.php:296
 msgid "ERROR: Could not find IRC bot pid from process list."
-msgstr ""
+msgstr "HIBA: Nem található az IRC bot a folyamat listán."
 
-#: lib/eventum/class.monitor.php:238
+#: lib/eventum/class.monitor.php:273
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "HIBA: Nem találom a kért táblát: \"%s\""
 
-#: lib/eventum/class.monitor.php:139
+#: lib/eventum/class.monitor.php:174
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
-msgstr ""
+msgstr "HIBA: Nem található a könyvtár (elérési út: %1$s)"
 
-#: lib/eventum/class.monitor.php:146
+#: lib/eventum/class.monitor.php:181
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:97
+#: lib/eventum/class.monitor.php:132
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "HIBA: Nem található a fájl (elérési útvonal: %s)"
 
-#: lib/eventum/class.monitor.php:108
+#: lib/eventum/class.monitor.php:143
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:104
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:114
+#: lib/eventum/class.monitor.php:149
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:119
+#: lib/eventum/class.monitor.php:154
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:76
+#: lib/eventum/class.monitor.php:111
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"HIBA: A szabad lemez terült kezd kevés lenni: (hátralévő hely: %2f%%)"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
+"HIBA: A rendszer nem rendelkezik a megfelelő engedélyekkel, hogy megteremtse "
+"a konfigurációs fájlt a telepítési könyvtárban"
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
+"HIBA: A rendszer nem rendelkezik a megfelelő engedélyekkel, hogy frissítse a "
+"konfigurációs fájl a telepítési könyvtárban"
 
-#: lib/eventum/class.monitor.php:54
+#: lib/eventum/class.monitor.php:90
+#, php-format
+msgid "ERROR: There is a total of %d emails not associated."
+msgstr ""
+
+#: lib/eventum/class.monitor.php:55
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
@@ -1983,19 +2055,19 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Categories"
-msgstr ""
+msgstr "Kategóriák szerkesztése"
 
-#: lib/eventum/class.help.php:134 templates/help/column_display.tpl.html
+#: lib/eventum/class.help.php:135 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
-msgstr ""
+msgstr "Megjeleníítendő Oszlopok szerkesztése"
 
-#: lib/eventum/class.help.php:130 templates/help/field_display.tpl.html
+#: lib/eventum/class.help.php:131 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
-msgstr ""
+msgstr "Megjelenő mezők szerkesztése"
 
 #: templates/view_form.tpl.html
 msgid "Edit Incident Redemption"
@@ -2003,11 +2075,11 @@ msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Notification List"
-msgstr ""
+msgstr "Értesírési lista szerkesztése"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
-msgstr ""
+msgstr "Opciók szerkesztése"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
@@ -2015,33 +2087,41 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Priorities"
-msgstr ""
+msgstr "Prioritások szerkesztése"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Releases"
-msgstr ""
+msgstr "Kibocsátások szerkesztése"
+
+#: templates/view_form.tpl.html
+msgid "Edit Reporter"
+msgstr "Riporter szerkesztése"
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
+msgstr "Aláírás szerkesztése"
+
+#: templates/view_form.tpl.html
+msgid "Edit the Reporter for this issue"
 msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
-#: lib/eventum/class.support.php:1502
+#: lib/eventum/class.support.php:1508
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1846
+#: lib/eventum/class.support.php:1852
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
 #: templates/email_filter_form.tpl.html
 msgid "Email Account:"
-msgstr ""
+msgstr "E-mail Fiók:"
 
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2050,19 +2130,19 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Email Address"
-msgstr ""
+msgstr "E-mail Cím"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address Prefix:"
-msgstr ""
+msgstr "E-mail Cím Előtag:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address to Send Saved Messages:"
-msgstr ""
+msgstr "E-mail Cím Küldése a Mentett Üzetenetekbe:"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Email Address:"
-msgstr ""
+msgstr "E-mail Cím:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Errors To:"
@@ -2074,14 +2154,14 @@ msgstr ""
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
 msgid "Email Alias"
-msgstr ""
+msgstr "E-mail Fedőnév"
 
-#: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
+#: lib/eventum/class.help.php:123 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
-msgstr ""
+msgstr "E-mail Blokkolás"
 
-#: lib/eventum/class.customer_stats_report.php:730
+#: lib/eventum/class.customer_stats_report.php:731
 msgid "Email Counts"
 msgstr ""
 
@@ -2099,12 +2179,12 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Email List:"
-msgstr ""
+msgstr "E-mail Lista"
 
-#: lib/eventum/class.help.php:114 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:115 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
-msgstr ""
+msgstr "E-mail Értesítések"
 
 #: templates/manage/general.tpl.html
 msgid "Email Recipient Type Flag:"
@@ -2112,7 +2192,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Email Reminder System Status Information:"
-msgstr ""
+msgstr "E-mail figyelmeztető rendszer információk:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Routing Interface:"
@@ -2120,11 +2200,11 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Email Signature"
-msgstr ""
+msgstr "E-mail Aláírás"
 
 #: templates/manage/general.tpl.html
 msgid "Email Spell Checker:"
-msgstr ""
+msgstr "E-mail Helyesírás Ellenőrző:"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Email Time Spent"
@@ -2134,7 +2214,7 @@ msgstr ""
 msgid "Email Workload by Time of day"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:50
+#: htdocs/reports/workload_time_period_graph.php:51
 msgid "Email by Time Period"
 msgstr ""
 
@@ -2142,22 +2222,22 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2570
+#: lib/eventum/class.support.php:2576
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
 
-#: lib/eventum/class.draft.php:162
+#: lib/eventum/class.draft.php:163
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr ""
 
-#: lib/eventum/class.draft.php:118
+#: lib/eventum/class.draft.php:119
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr ""
 
-#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
+#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -2166,20 +2246,24 @@ msgstr ""
 msgid ""
 "Email will be re-sent from original sender, including any attachments."
 msgstr ""
+"Az E-mailt újra kell küldeni az eredeti feladónak, beleértve a "
+"mellékletekkel együtt."
 
 #: templates/convert_note.tpl.html
 msgid ""
 "Email will be re-sent from your name, NOT original sender's, and without any "
 "attachments."
 msgstr ""
+"Az E-mailt újra kell küldeni az Ön nevében, a NEM eredeti feladónak a "
+"mellékletek nélkül."
 
 #: templates/main.tpl.html templates/reports/workload_time_period.tpl.html
 msgid "Emails"
-msgstr ""
+msgstr "E-mailek"
 
 #: templates/manage/general.tpl.html
 msgid "Emails are Associated"
-msgstr ""
+msgstr "E-mailek összefüggésben"
 
 #: templates/notification.tpl.html
 msgid "Emails are Received or Sent"
@@ -2191,61 +2275,61 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Customers"
-msgstr ""
+msgstr "E-mail az ügyfelek által"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Emails by Staff"
-msgstr ""
+msgstr "E-mail a Staff által"
 
 #: templates/list_excerpts.tpl.html
 msgid "Emails:"
-msgstr ""
+msgstr "E-mailek:"
 
 #: templates/emails.tpl.html
 msgid "Empty Subject Header"
-msgstr ""
+msgstr "Üres Tárgy Fejléc"
 
-#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Enabled"
-msgstr ""
+msgstr "Engedélyezve"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "End"
-msgstr ""
+msgstr "Vége"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "End date"
-msgstr ""
+msgstr "Befejezési dátum"
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "End time in the future."
-msgstr ""
+msgstr "Befejezési idő a jövőben."
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "End:"
-msgstr ""
+msgstr "Vége:"
 
 #. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
 #: localization/LINGUAS.php:14
 msgid "English (Australia)"
-msgstr ""
+msgstr "Angol (Ausztrália)"
 
 #. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
 #: localization/LINGUAS.php:16
 msgid "English (Canada)"
-msgstr ""
+msgstr "Angol (Kanada)"
 
 #. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
 #: localization/LINGUAS.php:18
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Angol (Egyesült Királyság)"
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
@@ -2253,47 +2337,47 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Enter the details below:"
-msgstr ""
+msgstr "Adja meg az alábbi adatokat:"
 
 #: templates/phone_support.tpl.html
 msgid "Entered By"
-msgstr ""
+msgstr "Által megadott"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Equals"
-msgstr ""
+msgstr "Egyenlõ"
 
 #: templates/confirm.tpl.html templates/login_form.tpl.html
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Error: An error occurred while trying to run your query."
-msgstr ""
+msgstr "Hiba: Hiba történt a lekérdezés futtatása közben."
 
 #: templates/forgot_password.tpl.html
 msgid "Error: No user account was found matching the entered email address."
-msgstr ""
+msgstr "Hiba: Nem található a beírt felhasználói e-mail cím."
 
-#: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
-#: lib/eventum/class.routing.php:382
+#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
+#: lib/eventum/class.routing.php:383
 msgid "Error: Please configure the email address domain."
-msgstr ""
+msgstr "Hiba: Kérjük állítsa be e-mail cím domaint."
 
-#: lib/eventum/class.routing.php:61 lib/eventum/class.routing.php:263
-#: lib/eventum/class.routing.php:379
+#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
+#: lib/eventum/class.routing.php:380
 msgid "Error: Please configure the email address prefix."
-msgstr ""
+msgstr "Hiba: Kérjük állítsa be az e-mail cím előtagot."
 
-#: lib/eventum/class.routing.php:110
+#: lib/eventum/class.routing.php:111
 msgid "Error: Please provide the email account ID."
-msgstr ""
+msgstr "Hiba: Kérjük, adja meg e-mail fiók azonosítóját."
 
 #: templates/forgot_password.tpl.html
 msgid "Error: Please provide your email address."
-msgstr ""
+msgstr "Hiba: Kérjük, adja meg email címét."
 
-#: lib/eventum/class.routing.php:70
+#: lib/eventum/class.routing.php:71
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2303,47 +2387,48 @@ msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
 msgstr ""
+"Hiba: A megadott e-mail cím már kapcsolódik egy felhasználóhoz a rendszerben."
 
-#: lib/eventum/class.routing.php:376
+#: lib/eventum/class.routing.php:377
 msgid "Error: The email draft interface is disabled."
 msgstr ""
 
-#: lib/eventum/class.routing.php:49
+#: lib/eventum/class.routing.php:50
 msgid "Error: The email message was empty"
-msgstr ""
+msgstr "Hiba: Az E-mail üzenet üres"
 
-#: lib/eventum/class.routing.php:249 lib/eventum/class.routing.php:365
+#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
 msgid "Error: The email message was empty."
-msgstr ""
+msgstr "Hiba: Az E-mail üzenet üres."
 
-#: lib/eventum/class.routing.php:58
+#: lib/eventum/class.routing.php:59
 msgid "Error: The email routing interface is disabled."
 msgstr ""
 
-#: lib/eventum/class.routing.php:260
+#: lib/eventum/class.routing.php:261
 msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 
 #: templates/close.tpl.html
 msgid "Error: The issue #%1 could not be found"
-msgstr ""
+msgstr "Hiba: A #%1 kérdés nem található"
 
 #: templates/view.tpl.html
 msgid "Error: The issue #%1 could not be found."
-msgstr ""
+msgstr "Hiba: A #%1 kérdés nem található."
 
 #: templates/update.tpl.html
 msgid "Error: The issue could not be found."
-msgstr ""
+msgstr "Hiba: A kérdés nem található"
 
-#: lib/eventum/class.routing.php:100 lib/eventum/class.routing.php:105
-#: lib/eventum/class.routing.php:398
+#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
+#: lib/eventum/class.routing.php:399
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
 
-#: lib/eventum/class.routing.php:281
+#: lib/eventum/class.routing.php:282
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2351,13 +2436,15 @@ msgstr ""
 
 #: templates/faq.tpl.html
 msgid "Error: You are not allowed to view the requested FAQ entry."
-msgstr ""
+msgstr "Hiba: Nincs jogod megtekinteni a kért GYIK bejegyzést."
 
 #: templates/forgot_password.tpl.html
 msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
 msgstr ""
+"Hiba: A felhasználó státusz beállítása jelenleg inaktív. Kérjük, forduljon a "
+"helyi rendszergazdához további információkért."
 
 #: templates/notification.tpl.html
 msgid ""
@@ -2367,7 +2454,7 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Error: the issue is already unassigned."
-msgstr ""
+msgstr "Hiba: A kérdés már nincs hozzárendelve."
 
 #: templates/popup.tpl.html
 msgid "Error: you are already authorized to send emails in this issue."
@@ -2376,64 +2463,64 @@ msgstr ""
 #. TRANSLATORS: Translation of Esperanto language in preferences dropdown
 #: localization/LINGUAS.php:20
 msgid "Esperanto"
-msgstr ""
+msgstr "Eszperantó"
 
-#: lib/eventum/class.display_column.php:199
+#: lib/eventum/class.display_column.php:203
 msgid "Est Dev Time"
-msgstr ""
+msgstr "Becs Fejl Idő"
 
-#: lib/eventum/class.notification.php:643
-#: lib/eventum/class.notification.php:644 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:644
+#: lib/eventum/class.notification.php:645 lib/eventum/class.project.php:1101
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
-msgstr ""
+msgstr "Becsült Fejl. Idő"
 
 #: templates/new.tpl.html
 msgid "Estimated Dev. Time (only numbers)"
-msgstr ""
+msgstr "Becsült Fejl. Idő (csak számok)"
 
 #: templates/update_form.tpl.html
 msgid "Estimated Dev. Time:"
-msgstr ""
+msgstr "Becsült Fejl. Idő:"
 
 #: templates/reports/tree.tpl.html
 msgid "Estimated Development Time"
-msgstr ""
+msgstr "Becsült Fejlesztési Idő"
 
-#: lib/eventum/class.help.php:82
+#: lib/eventum/class.help.php:83
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid "Estimated Development Time Field"
 msgstr ""
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated Development Time by Category"
-msgstr ""
+msgstr "Becsült Fejlesztési Idő Kategória sziernt"
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Estimated time (Hours)"
-msgstr ""
+msgstr "Bwcsült Idő (Órák)"
 
 #. TRANSLATORS: Translation of Estonian language in preferences dropdown
 #: localization/LINGUAS.php:24
 msgid "Estonian"
-msgstr ""
+msgstr "Észt"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
-msgstr ""
+msgstr "Evenum E-mailek"
 
 #: templates/setup.tpl.html
 msgid "Eventum Installation"
-msgstr ""
+msgstr "Eventum telepítés"
 
 #: templates/header.tpl.html
 msgid "Eventum Issues search"
-msgstr ""
+msgstr "Eventum kérdés keresés"
 
 #: templates/setup.tpl.html
 msgid "Eventum Relative URL"
-msgstr ""
+msgstr "Eventum Relatív URL"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "Eventum was unable to route your email"
@@ -2441,15 +2528,15 @@ msgstr ""
 
 #: templates/quick_filter_form.tpl.html
 msgid "Excerpts"
-msgstr ""
+msgstr "Részletek"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Existing Accounts:"
-msgstr ""
+msgstr "Létező Fiókok:"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Existing Actions:"
-msgstr ""
+msgstr "Létező Intézkedések:"
 
 #: templates/authorized_replier.tpl.html
 msgid "Existing Authorized Repliers for this Issue"
@@ -2457,20 +2544,20 @@ msgstr ""
 
 #: templates/manage/email_responses.tpl.html
 msgid "Existing Canned Email Responses:"
-msgstr ""
+msgstr "Meglévő eltárolt E-mail Válaszok:"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Existing Categories:"
-msgstr ""
+msgstr "Létező Kategóriák:"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Existing Conditions:"
-msgstr ""
+msgstr "Létező Körülmények:"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Existing Custom Fields"
-msgstr ""
+msgstr "Létező Egyéni Mezők"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Existing Customer Account Managers:"
@@ -2482,31 +2569,31 @@ msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Existing Customizations:"
-msgstr ""
+msgstr "Létező Testreszabások:"
 
 #: templates/manage/groups.tpl.html
 msgid "Existing Groups"
-msgstr ""
+msgstr "Létező Csoportok"
 
 #: templates/manage/faq.tpl.html
 msgid "Existing Internal FAQ Entries:"
-msgstr ""
+msgstr "A meglévő belső GYIK bejegyzések:"
 
 #: templates/emails.tpl.html
 msgid "Existing Issue"
-msgstr ""
+msgstr "Meglévő Kérdés"
 
 #: templates/manage/reminders.tpl.html
 msgid "Existing Issue Reminders"
-msgstr ""
+msgstr "Meglévő Kérdés Emlékeztetők"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Existing Link Filters"
-msgstr ""
+msgstr "Létező Link Szűrők"
 
 #: templates/manage/news.tpl.html
 msgid "Existing News Entries"
-msgstr ""
+msgstr "Létező Új Bejegyzések"
 
 #: templates/manage/phone_categories.tpl.html
 msgid "Existing Phone Support Categories"
@@ -2514,11 +2601,11 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Existing Priorities"
-msgstr ""
+msgstr "Létező Prioritások"
 
 #: templates/manage/projects.tpl.html
 msgid "Existing Projects"
-msgstr ""
+msgstr "Létező Projektek"
 
 #: templates/manage/releases.tpl.html
 msgid "Existing Releases:"
@@ -2534,7 +2621,7 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Existing Statuses:"
-msgstr ""
+msgstr "Létező Státuszok:"
 
 #: templates/notification.tpl.html
 msgid "Existing Subscribers for this Issue"
@@ -2542,7 +2629,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Existing Users"
-msgstr ""
+msgstr "Létező Felhasználók"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Expand all collapsed cells"
@@ -2552,22 +2639,26 @@ msgstr ""
 msgid "Expand collapsed cell"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:619
-#: lib/eventum/class.notification.php:620 templates/view_form.tpl.html
+#: lib/eventum/class.display_column.php:236
+#: lib/eventum/class.notification.php:620
+#: lib/eventum/class.notification.php:621 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
-msgstr ""
+msgstr "Várható Döntés Dátuma"
 
 #: templates/update_form.tpl.html
 msgid "Expected Resolution Date:"
-msgstr ""
+msgstr "Várható Döntés Dátuma:"
 
 #: templates/list.tpl.html
 msgid "Export Data:"
-msgstr ""
+msgstr "Adatok Exportálása:"
 
 #: templates/list.tpl.html
 msgid "Export to Excel"
+msgstr "Exportálás Excel-be"
+
+#: templates/manage/users.tpl.html
+msgid "External ID"
 msgstr ""
 
 #: templates/post_note.tpl.html
@@ -2577,20 +2668,20 @@ msgstr ""
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
-msgstr ""
+msgstr "Feröer-szigetek"
 
-#: lib/eventum/class.reminder_condition.php:213
+#: lib/eventum/class.reminder_condition.php:214
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
-msgstr ""
+msgstr "Mező"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Options"
-msgstr ""
+msgstr "Mező Tulajdonságai"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Field Type"
-msgstr ""
+msgstr "Mező típus"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Field to Graph"
@@ -2598,25 +2689,25 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field:"
-msgstr ""
+msgstr "Mező:"
 
-#: lib/eventum/class.project.php:1102 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
 msgid "File"
-msgstr ""
+msgstr "Fájl"
 
 #: templates/file_upload.tpl.html
 msgid "Filenames"
-msgstr ""
+msgstr "Fájlnevek"
 
 #: templates/attachments.tpl.html templates/new.tpl.html
 #: templates/notifications/files.tpl.text
 #: templates/notifications/new_issue.tpl.text
 msgid "Files"
-msgstr ""
+msgstr "Fájlok"
 
 #: templates/manage/general.tpl.html templates/notification.tpl.html
 msgid "Files are Attached"
-msgstr ""
+msgstr "Csatolt Fájlok"
 
 #: templates/help/notifications.tpl.html
 msgid "Files are attached to existing issues"
@@ -2629,27 +2720,27 @@ msgstr ""
 #. TRANSLATORS: Translation of Finnish language in preferences dropdown
 #: localization/LINGUAS.php:26
 msgid "Finnish"
-msgstr ""
+msgstr "Finn"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
-msgstr ""
+msgstr "Első Válasz a Staff-tól"
 
-#: lib/eventum/class.filter.php:754
+#: lib/eventum/class.filter.php:755
 msgid "First Response Date"
-msgstr ""
+msgstr "Első Válasz Dátuma"
 
 #: templates/adv_search.tpl.html
 msgid "First Response by Staff"
-msgstr ""
+msgstr "Első Válasz a Staff-tól"
 
 #: templates/spell_check.tpl.html
 msgid "Fix Spelling"
-msgstr ""
+msgstr "Fix Helyesírás"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Például"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2661,18 +2752,18 @@ msgstr ""
 #. TRANSLATORS: Translation of French language in preferences dropdown
 #: localization/LINGUAS.php:30
 msgid "French"
-msgstr ""
+msgstr "Francia"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
-msgstr ""
+msgstr "Feladó"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr ""
+msgstr "Feladó:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2681,19 +2772,19 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html
 msgid "Full Name"
-msgstr ""
+msgstr "Teljes Név"
 
 #: templates/signup.tpl.html
 msgid "Full Name:"
-msgstr ""
+msgstr "Teljes Név:"
 
 #: templates/impact_analysis.tpl.html
 msgid "Further Requirements"
-msgstr ""
+msgstr "További Követelmények"
 
 #: templates/manage/general.tpl.html templates/manage/manage.tpl.html
 msgid "General Setup"
-msgstr ""
+msgstr "Általános beállítások"
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -2702,12 +2793,12 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
-msgstr ""
+msgstr "Létrehozás"
 
 #. TRANSLATORS: Translation of German language in preferences dropdown
 #: localization/LINGUAS.php:12
 msgid "German"
-msgstr ""
+msgstr "Német"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -2715,64 +2806,64 @@ msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Global Search"
-msgstr ""
+msgstr "Globális Keresés"
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"
-msgstr ""
+msgstr "Ugrás"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
 #: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
 msgid "Go Back"
-msgstr ""
+msgstr "Vissza"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
-msgstr ""
+msgstr "Grafikus Statisztika"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Greater Than"
-msgstr ""
+msgstr "Nagyobb mint"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Nagyobb vagy Egyenlő"
 
-#: lib/eventum/class.filter.php:605
+#: lib/eventum/class.filter.php:606
 #, php-format
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1101 templates/manage/users.tpl.html
+#: htdocs/list.php:98 lib/eventum/class.display_column.php:190
+#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
-msgstr ""
+msgstr "Csoport"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Group By"
-msgstr ""
+msgstr "Csoport"
 
 #: templates/manage/users.tpl.html templates/update_form.tpl.html
 msgid "Group:"
-msgstr ""
+msgstr "Csoport:"
 
 #. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
 #: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
-msgstr ""
+msgstr "Haiti; Haiti Kreol"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
-msgstr ""
+msgstr "Kezelő"
 
 #. TRANSLATORS: Translation of Hebrew language in preferences dropdown
 #: localization/LINGUAS.php:32
 msgid "Hebrew"
-msgstr ""
+msgstr "Héber"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2805,28 +2896,28 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Help"
-msgstr ""
+msgstr "Súgó"
 
-#: lib/eventum/class.help.php:50
+#: lib/eventum/class.help.php:51
 msgid "Help Topics"
-msgstr ""
+msgstr "Súgótémák"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Hide"
-msgstr ""
+msgstr "Rejtett"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
 msgstr ""
 
-#: lib/eventum/class.filter.php:776 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:777 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
 msgstr ""
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "History of Changes"
-msgstr ""
+msgstr "Változások Története"
 
 #: templates/history.tpl.html
 msgid "History of Changes to Issue"
@@ -2838,36 +2929,40 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Home"
-msgstr ""
+msgstr "Kezdőlap"
 
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Host:"
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
-msgstr ""
+msgstr "Gépnév"
 
 #: templates/manage/general.tpl.html
 msgid "Hostname:"
-msgstr ""
+msgstr "Gépnév:"
 
-#: lib/eventum/class.customer_stats_report.php:713
+#: lib/eventum/class.customer_stats_report.php:714
 msgid "Hours"
-msgstr ""
+msgstr "Órák"
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
-msgstr ""
+msgstr "Ugyanakkor, az alábbi hibák merültek fel:"
 
 #. TRANSLATORS: Translation of Hungarian language in preferences dropdown
 #: localization/LINGUAS.php:36
 msgid "Hungarian"
-msgstr ""
+msgstr "Magyar"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
-msgstr ""
+msgstr "Elfelejtettem a jelszavam"
 
 #: templates/manage/reminders.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -2876,15 +2971,15 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "ID"
-msgstr ""
+msgstr "Azonosító"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAP Mappa"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
@@ -2941,7 +3036,7 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
-msgstr ""
+msgstr "Ha bezárja az ablakot, az üzenet elfog veszni"
 
 #: templates/help/report_assignment.tpl.html
 msgid ""
@@ -2961,12 +3056,12 @@ msgstr ""
 msgid "Impact Analysis"
 msgstr ""
 
-#: lib/eventum/class.impact_analysis.php:197
+#: lib/eventum/class.impact_analysis.php:198
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.impact_analysis.php:163
+#: lib/eventum/class.impact_analysis.php:164
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr ""
@@ -2975,15 +3070,15 @@ msgstr ""
 msgid "Important Notices"
 msgstr ""
 
-#: lib/eventum/class.filter.php:784 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:785 templates/adv_search.tpl.html
 msgid "In Notification List"
 msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "In Past"
-msgstr ""
+msgstr "Az elmúlt"
 
-#: lib/eventum/class.filter.php:626
+#: lib/eventum/class.filter.php:627
 #, php-format
 msgid "In Past %1$s hours"
 msgstr ""
@@ -2997,6 +3092,7 @@ msgstr ""
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
 msgstr ""
+"Annak érdekében, hogy ellenőrizze, hogy a jogosultságok beállítása helyes-e"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -3007,7 +3103,7 @@ msgstr ""
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktív"
 
 #: templates/close.tpl.html
 msgid "Incident Types to Redeem"
@@ -3017,7 +3113,7 @@ msgstr ""
 msgid "Include expired contracts"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:682
+#: lib/eventum/class.customer_stats_report.php:683
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -3025,37 +3121,37 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Incoming"
-msgstr ""
+msgstr "Bejövő"
 
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonéz"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
-msgstr ""
+msgstr "Kezdeti Leírás"
 
 #: templates/impact_analysis.tpl.html
 msgid "Initial Impact Analysis"
-msgstr ""
+msgstr "Kezdeti Hatásvizsgálat"
 
 #: templates/manage/projects.tpl.html
 msgid "Initial Status for New Issues"
 msgstr ""
 
-#: lib/eventum/class.help.php:94 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:95 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
-msgstr ""
+msgstr "Telepítési Útmutató"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
-msgstr ""
+msgstr "Egész"
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
-msgstr ""
+msgstr "Belső GYIK"
 
 #: templates/manage/general.tpl.html
 msgid "Internal Note Routing Interface:"
@@ -3063,35 +3159,35 @@ msgstr ""
 
 #: templates/notes.tpl.html
 msgid "Internal Notes"
-msgstr ""
+msgstr "Belső jegyzetek"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
 msgid "Internal Users"
-msgstr ""
+msgstr "Belső Felhasználók"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Interval"
-msgstr ""
+msgstr "Intervallum"
 
-#: lib/eventum/class.filter.php:629
+#: lib/eventum/class.filter.php:630
 msgid "Is NULL"
-msgstr ""
+msgstr "Nulla"
 
 #: templates/adv_search.tpl.html
 msgid "Is Null"
-msgstr ""
+msgstr "Nulla"
 
-#: lib/eventum/class.filter.php:633
+#: lib/eventum/class.filter.php:634
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:637
+#: lib/eventum/class.filter.php:638
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:640
+#: lib/eventum/class.filter.php:641
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
@@ -3100,20 +3196,20 @@ msgstr ""
 #: templates/notifications/new_auto_created_issue.tpl.text
 #: templates/reports/custom_fields.tpl.html templates/send.tpl.html
 msgid "Issue"
-msgstr ""
+msgstr "Eredmény"
 
 #: templates/notifications/updated.tpl.text
 msgid "Issue #"
-msgstr ""
+msgstr "Eredmény #"
 
 #. TRANSLATORS: %1 = issue id
-#: htdocs/view.php:57
+#: htdocs/view.php:58
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
 
 #. TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
-#: htdocs/view_email.php:49
+#: htdocs/view_email.php:50
 #, php-format
 msgid "Issue #%1$s Email #%3$s: %2$s"
 msgstr ""
@@ -3122,7 +3218,7 @@ msgstr ""
 msgid "Issue Count"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:729
+#: lib/eventum/class.customer_stats_report.php:730
 msgid "Issue Counts"
 msgstr ""
 
@@ -3130,7 +3226,7 @@ msgstr ""
 msgid "Issue Details"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:181 templates/adv_search.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
@@ -3162,41 +3258,41 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html templates/reports/tree.tpl.html
 msgid "Issues"
-msgstr ""
+msgstr "Kérdések"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Issues Closed"
-msgstr ""
+msgstr "Kérdések lezárva"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issues Created Between"
-msgstr ""
+msgstr "Kérdések között létrejött"
 
 #: templates/help/notifications.tpl.html templates/manage/general.tpl.html
 msgid "Issues are Closed"
-msgstr ""
+msgstr "Lezárt Kérdések"
 
 #: templates/manage/general.tpl.html
 msgid "Issues are Updated"
 msgstr ""
 
-#: htdocs/stats_chart.php:73
+#: htdocs/stats_chart.php:74
 msgid "Issues by Assignment"
 msgstr ""
 
-#: htdocs/stats_chart.php:76 templates/main.tpl.html
+#: htdocs/stats_chart.php:77 templates/main.tpl.html
 msgid "Issues by Category"
 msgstr ""
 
-#: htdocs/stats_chart.php:70 templates/main.tpl.html
+#: htdocs/stats_chart.php:71 templates/main.tpl.html
 msgid "Issues by Priority"
 msgstr ""
 
-#: htdocs/stats_chart.php:67 templates/main.tpl.html
+#: htdocs/stats_chart.php:68 templates/main.tpl.html
 msgid "Issues by Release"
 msgstr ""
 
-#: htdocs/stats_chart.php:55 templates/main.tpl.html
+#: htdocs/stats_chart.php:56 templates/main.tpl.html
 msgid "Issues by Status"
 msgstr ""
 
@@ -3226,16 +3322,18 @@ msgid ""
 "It will remove all of its associated entries as well (issues, notes, "
 "attachments,netc), so please click OK to confirm."
 msgstr ""
+"Ha szeretné eltávolítani az összes hozzá tartozó bejegyzést is (kérdések, "
+"jegyzetek, mellékletek, Netc), akkor kérjük, kattintson az OK gombra."
 
 #. TRANSLATORS: Translation of Italian language in preferences dropdown
 #: localization/LINGUAS.php:40
 msgid "Italian"
-msgstr ""
+msgstr "Olasz"
 
 #. TRANSLATORS: Translation of Japanese language in preferences dropdown
 #: localization/LINGUAS.php:42
 msgid "Japanese"
-msgstr ""
+msgstr "Japán"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
@@ -3245,57 +3343,61 @@ msgstr ""
 msgid "Keep form open to report another issue"
 msgstr ""
 
-#: lib/eventum/class.filter.php:715 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:716 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Keyword(s)"
-msgstr ""
+msgstr "Kulcsszavak"
 
 #: templates/searchbar.tpl.html
 msgid "Keyword(s):"
-msgstr ""
+msgstr "Kulcsszavak:"
 
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
+msgstr "Koreai"
+
+#: templates/manage/ldap.tpl.html
+msgid "LDAP Setup"
 msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
-msgstr ""
+msgstr "Címke"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label:"
-msgstr ""
+msgstr "Felirat:"
 
-#: lib/eventum/class.display_column.php:221 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:225 templates/adv_search.tpl.html
 msgid "Last Action Date"
-msgstr ""
+msgstr "Utolsó művelet dátuma"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Outgoing Msg"
-msgstr ""
+msgstr "Utolsó Kimenő Üzenet"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Response"
-msgstr ""
+msgstr "Utolsó Válasz"
 
-#: lib/eventum/class.filter.php:749
+#: lib/eventum/class.filter.php:750
 msgid "Last Response Date"
-msgstr ""
+msgstr "Utolsó Válasz Dátuma"
 
 #: templates/adv_search.tpl.html
 msgid "Last Response by Staff"
-msgstr ""
+msgstr "Utolsó válasz a Staff által"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Update"
-msgstr ""
+msgstr "Utolsó frissítés"
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
-msgstr ""
+msgstr "Utoljára frissítve"
 
 #: templates/email_drafts.tpl.html templates/faq.tpl.html
 #: templates/view_form.tpl.html
@@ -3304,12 +3406,12 @@ msgstr ""
 
 #: templates/faq.tpl.html
 msgid "Last updated"
-msgstr ""
+msgstr "Utoljára frissítve"
 
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
 #: localization/LINGUAS.php:48
 msgid "Latvian"
-msgstr ""
+msgstr "Lett"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
@@ -3317,34 +3419,34 @@ msgstr ""
 
 #: templates/redeem_incident.tpl.html
 msgid "Left"
-msgstr ""
+msgstr "Bal"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Less Than"
-msgstr ""
+msgstr "Kevesebb, mint"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
-msgstr ""
+msgstr "Kisebb vagy Egyenlő"
 
-#: lib/eventum/class.filter.php:608
+#: lib/eventum/class.filter.php:609
 #, php-format
 msgid "Less than %1$s"
 msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
-msgstr ""
+msgstr "Szintek:"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Line"
-msgstr ""
+msgstr "Vonal"
 
-#: lib/eventum/class.help.php:126 templates/help/link_filters.tpl.html
+#: lib/eventum/class.help.php:127 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
-msgstr ""
+msgstr "Link Szűrő"
 
 #: templates/help/link_filters.tpl.html
 msgid ""
@@ -3357,30 +3459,30 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "List Issues"
-msgstr ""
+msgstr "Kérdés lista"
 
 #: templates/emails.tpl.html
 msgid "List Removed Emails"
-msgstr ""
+msgstr "Törölt E-mail lista"
 
-#: lib/eventum/class.help.php:98 templates/help/list.tpl.html
+#: lib/eventum/class.help.php:99 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
-msgstr ""
+msgstr "Kérdések listázása/keresése"
 
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litván"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
-msgstr ""
+msgstr "Bejelentkező Oldal:"
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
 msgid "Login"
-msgstr ""
+msgstr "Bejelentkezés"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Login Time Spent"
@@ -3388,7 +3490,7 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
@@ -3400,7 +3502,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Mailbox"
-msgstr ""
+msgstr "Postafiók"
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Canned Email Responses"
@@ -3408,15 +3510,15 @@ msgstr ""
 
 #: templates/manage/categories.tpl.html
 msgid "Manage Categories"
-msgstr ""
+msgstr "Kategóriák kezelése"
 
 #: templates/manage/column_display.tpl.html
 msgid "Manage Columns to Display"
-msgstr ""
+msgstr "Megjelenő Oszlopok kezelése"
 
 #: templates/manage/custom_fields.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Custom Fields"
-msgstr ""
+msgstr "Egyéni Mezők kezelése"
 
 #: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
@@ -3428,15 +3530,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Email Accounts"
-msgstr ""
+msgstr "E-mail Fiókok kezelése"
 
 #: templates/manage/groups.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Groups"
-msgstr ""
+msgstr "Csoportok kezelése"
 
 #: templates/manage/faq.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Internal FAQ"
-msgstr ""
+msgstr "Belső FAQ kezelése"
 
 #: templates/manage/manage.tpl.html templates/manage/reminders.tpl.html
 msgid "Manage Issue Reminders"
@@ -3448,11 +3550,11 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Link Filters"
-msgstr ""
+msgstr "Link Szűrő kezelése"
 
 #: templates/manage/manage.tpl.html templates/manage/news.tpl.html
 msgid "Manage News"
-msgstr ""
+msgstr "Hírek kezelése"
 
 #: templates/manage/phone_categories.tpl.html
 msgid "Manage Phone Support Categories"
@@ -3460,17 +3562,17 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Manage Priorities"
-msgstr ""
+msgstr "Prioritások kezelése"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Manage Projects"
-msgstr ""
+msgstr "Projektek kezelése"
 
 #: templates/manage/releases.tpl.html
 msgid "Manage Releases"
-msgstr ""
+msgstr "Engedélyek kezelése"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Manage Reminder Actions"
@@ -3486,7 +3588,7 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/statuses.tpl.html
 msgid "Manage Statuses"
-msgstr ""
+msgstr "Státuszok kezelése"
 
 #: templates/manage/manage.tpl.html templates/manage/time_tracking.tpl.html
 msgid "Manage Time Tracking Categories"
@@ -3494,15 +3596,15 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html templates/manage/users.tpl.html
 msgid "Manage Users"
-msgstr ""
+msgstr "Felhasználók kezelése"
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
-msgstr ""
+msgstr "Vezető"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Vezető:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
@@ -3518,7 +3620,7 @@ msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
-msgstr ""
+msgstr "Maximum"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
@@ -3526,19 +3628,19 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Members"
-msgstr ""
+msgstr "Tagok"
 
 #: templates/manage/news.tpl.html templates/view_email.tpl.html
 msgid "Message"
-msgstr ""
+msgstr "Üzenet"
 
 #: templates/manage/faq.tpl.html templates/view_note.tpl.html
 msgid "Message:"
-msgstr ""
+msgstr "Üzenet:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Min"
-msgstr ""
+msgstr "Perc"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Min. Role"
@@ -3556,11 +3658,11 @@ msgstr ""
 
 #: templates/spell_check.tpl.html
 msgid "Misspelled Words:"
-msgstr ""
+msgstr "Hibásan írt szavak:"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: templates/checkins.tpl.html
 msgid "Module / Directory"
@@ -3568,15 +3670,15 @@ msgstr ""
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
-msgstr ""
+msgstr "Hétfő"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Képernyő Beálításai"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
-msgstr ""
+msgstr "Hónap"
 
 #: templates/help/adv_search.tpl.html
 msgid ""
@@ -3587,7 +3689,7 @@ msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Move"
-msgstr ""
+msgstr "Mozgatás"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
@@ -3599,19 +3701,19 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "My Assignments"
-msgstr ""
+msgstr "Hozzárendeléseim"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr ""
+msgstr "MySQL adatbázis"
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
-msgstr ""
+msgstr "MYSQL jelszó:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "MYSQL Szerver Gépnév"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
@@ -3619,13 +3721,15 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "MYSQL Felhasználónév"
 
 #: templates/setup.tpl.html
 msgid ""
 "NOTE: For security reasons it is highly recommended that the default "
 "password be changed as soon as possible."
 msgstr ""
+"Megjegyzés: Biztonsági okokból erősen ajánlott, hogy az alapértelmezett "
+"jelszót meg változtassa a lehető leghamarabb."
 
 #: templates/view_form.tpl.html
 msgid ""
@@ -3641,23 +3745,23 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #: templates/manage/groups.tpl.html
 msgid "Name:"
-msgstr ""
+msgstr "Név:"
 
 #: templates/manage/email_alias.tpl.html
 msgid "New Alias"
-msgstr ""
+msgstr "Új álnév"
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
-msgstr ""
+msgstr "Új melléklet"
 
-#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1121 templates/emails.tpl.html
 msgid "New Issue"
-msgstr ""
+msgstr "Új Kérdés"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "New Issues Assigned"
@@ -3665,42 +3769,42 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "New Password"
-msgstr ""
+msgstr "Új Jelszó"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "New Status for Issue"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1467
+#: lib/eventum/class.notification.php:1473
 msgid "New User information"
-msgstr ""
+msgstr "Új Felhasználói Információ"
 
-#: lib/eventum/class.impact_analysis.php:72
+#: lib/eventum/class.impact_analysis.php:73
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
 msgid "News and Announcements"
-msgstr ""
+msgstr "Hírek és Érdekességek"
 
-#: lib/eventum/class.pager.php:121 templates/post.tpl.html
+#: lib/eventum/class.pager.php:122 templates/post.tpl.html
 msgid "Next"
-msgstr ""
+msgstr "Következő"
 
 #: templates/view_form.tpl.html
 msgid "Next Issue"
-msgstr ""
+msgstr "Következő Kérdés"
 
 #: templates/view_email.tpl.html
 msgid "Next Message"
-msgstr ""
+msgstr "Következő Üzenet"
 
 #: templates/view_note.tpl.html
 msgid "Next Note"
-msgstr ""
+msgstr "Következő Megjegyzés"
 
-#: lib/eventum/class.misc.php:714 templates/close.tpl.html
+#: lib/eventum/class.misc.php:715 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3710,7 +3814,7 @@ msgstr ""
 #: templates/preferences.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #: templates/manage/projects.tpl.html
 msgid "No Customer Integration"
@@ -3722,11 +3826,11 @@ msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Emails Found"
-msgstr ""
+msgstr "Nincs E-mail találat"
 
 #: templates/manage/faq.tpl.html
 msgid "No FAQ entries could be found."
-msgstr ""
+msgstr "Nem található a FAQ bejegyzés."
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Notes Found"
@@ -3796,8 +3900,8 @@ msgstr ""
 msgid "No custom fields could be found."
 msgstr ""
 
-#: htdocs/reports/custom_fields.php:53
-#: htdocs/reports/custom_fields_weekly.php:52
+#: htdocs/reports/custom_fields.php:54
+#: htdocs/reports/custom_fields_weekly.php:53
 msgid "No custom fields for this project"
 msgstr ""
 
@@ -3830,7 +3934,7 @@ msgstr ""
 msgid "No entries could be found."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:592
+#: lib/eventum/class.reminder_action.php:593
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr ""
@@ -3941,14 +4045,14 @@ msgstr ""
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
-msgstr ""
+msgstr "Nincs"
 
 #: templates/manage/customer_notes.tpl.html
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
-msgstr ""
+msgstr "Megjegyzés"
 
 #: templates/manage/general.tpl.html
 msgid "Note Address Prefix:"
@@ -3958,14 +4062,14 @@ msgstr ""
 msgid "Note Recipient Type Flag:"
 msgstr ""
 
-#: lib/eventum/class.routing.php:340
+#: lib/eventum/class.routing.php:341
 #, php-format
 msgid "Note routed from %1$s"
 msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Note:"
-msgstr ""
+msgstr "Megjegyzés:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -3991,7 +4095,7 @@ msgstr ""
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
-msgstr ""
+msgstr "Megjegyzések"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
@@ -3999,52 +4103,52 @@ msgstr ""
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
-msgstr ""
+msgstr "Megjegyzések:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
-msgstr ""
+msgstr "Értesítési Lista"
 
 #: templates/update_form.tpl.html
 msgid "Notification List:"
-msgstr ""
+msgstr "Értesítési Lista:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2054
+#: lib/eventum/class.notification.php:2060
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1894
+#: lib/eventum/class.notification.php:1900
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2140
+#: lib/eventum/class.notification.php:2146
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2236
+#: lib/eventum/class.notification.php:2242
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
 
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
-msgstr ""
+msgstr "Feladó Értesítése?"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
-msgstr ""
+msgstr "Napok száma"
 
-#: crons/monitor.php:101
+#: crons/monitor.php:103
 msgid "OK: No errors found"
-msgstr ""
+msgstr "OK: Nem található hiba"
 
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
@@ -4053,7 +4157,7 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
-msgstr ""
+msgstr "Iroda"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -4065,13 +4169,13 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
-msgstr ""
+msgstr "Csak az olvasatlan üzenetek letöltése"
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Only for Known Customers?"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:119
+#: lib/eventum/class.mail_helper.php:120
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4106,17 +4210,17 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator"
-msgstr ""
+msgstr "Üzemeltető"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator:"
-msgstr ""
+msgstr "Üzemeltető:"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
-msgstr ""
+msgstr "Beállítások"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
@@ -4124,34 +4228,36 @@ msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Options:"
-msgstr ""
+msgstr "Beállítások:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
-msgstr ""
+msgstr "Rendezés"
 
 #: templates/add_phone_entry.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Other"
-msgstr ""
+msgstr "Egyéb"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Other Emails"
-msgstr ""
+msgstr "Egyéb E-mailek"
 
 #: templates/update_form.tpl.html
 msgid "Other:"
-msgstr ""
+msgstr "Egyéb:"
 
 #: templates/duplicate.tpl.html templates/new.tpl.html
 msgid ""
 "Otherwise, you will be automatically redirected to the Issue Details Page in "
 "5 seconds."
 msgstr ""
+"Ellenkező esetben automatikusan átirányítja a probléma részletek oldalára 5 "
+"másodpercen belül."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Outgoing"
-msgstr ""
+msgstr "Kimenő"
 
 #: templates/manage/projects.tpl.html
 msgid "Outgoing Email Sender Address"
@@ -4161,30 +4267,30 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2204
+#: lib/eventum/class.support.php:2210
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
 #: templates/main.tpl.html
 msgid "Overall Stats"
-msgstr ""
+msgstr "Teljes Statisztika"
 
 #: templates/notification.tpl.html
 msgid "Overview or Details are Changed"
-msgstr ""
+msgstr "A részletek megtekintése vagy megváltoztatása"
 
 #: templates/attachments.tpl.html templates/notifications/files.tpl.text
 msgid "Owner"
-msgstr ""
+msgstr "Tulajdonos"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3"
-msgstr ""
+msgstr "POP3"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL"
-msgstr ""
+msgstr "POP3 SSL felett"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL (self-signed)"
@@ -4192,11 +4298,11 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, no TLS"
-msgstr ""
+msgstr "POP3, nem TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS"
-msgstr ""
+msgstr "POP3 TLS-el"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
@@ -4204,30 +4310,30 @@ msgstr ""
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Partíció:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/new_user.tpl.text
 #: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation"
-msgstr ""
+msgstr "Jelszó Megerősítés"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation Success"
-msgstr ""
+msgstr "Jelszó Megerősítése Sikerült"
 
 #: templates/signup.tpl.html
 msgid "Password:"
-msgstr ""
+msgstr "Jelszó:"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Pattern"
-msgstr ""
+msgstr "Minta"
 
 #: templates/help/link_filters.tpl.html
 msgid "Pattern: \"%1\""
@@ -4235,10 +4341,10 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "Pending"
-msgstr ""
+msgstr "Folyamatban"
 
-#: lib/eventum/class.notification.php:651
 #: lib/eventum/class.notification.php:652
+#: lib/eventum/class.notification.php:653
 msgid "Percent complete"
 msgstr ""
 
@@ -4258,7 +4364,7 @@ msgstr ""
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:602
+#: lib/eventum/class.reminder_action.php:603
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr ""
@@ -4269,22 +4375,22 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Phone Calls"
-msgstr ""
+msgstr "Telefonhívások"
 
 #: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
-msgstr ""
+msgstr "Telefonhívások:"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefonszám"
 
-#: lib/eventum/class.phone_support.php:403
+#: lib/eventum/class.phone_support.php:404
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:344
+#: lib/eventum/class.phone_support.php:345
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr ""
@@ -4313,15 +4419,16 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please assign the appropriate projects for this custom field."
-msgstr ""
+msgstr "Kérjük, rendelje hozzá a megfelelő projekteket az egyéni mezőben."
 
 #: templates/manage/groups.tpl.html
 msgid "Please assign the appropriate projects for this group."
-msgstr ""
+msgstr "Kérjük, rendelje hozzá a megfelelő projekteket ebben a csoportban."
 
 #: templates/manage/news.tpl.html
 msgid "Please assign the appropriate projects for this news entry."
 msgstr ""
+"Kérjük, rendelje hozzá a megfelelő projekteket ebben a hír bejegyzésben."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please assign the appropriate projects for this status."
@@ -4345,7 +4452,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Please assign the manager of this group."
-msgstr ""
+msgstr "Kérjük, rendelje hozzá a vezetőt ebben a csoportban."
 
 #: templates/manage/projects.tpl.html
 msgid "Please assign the statuses for this project."
@@ -4353,17 +4460,17 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Please assign the users for this project."
-msgstr ""
+msgstr "Kérjük, rendelje hozzá a felhasználót ebben a projektben."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Kérem válasszon"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a category"
-msgstr ""
+msgstr "Kérem, válasszon kategóriát"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please choose a customer"
@@ -4371,24 +4478,24 @@ msgstr ""
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please choose a field"
-msgstr ""
+msgstr "Kérem válasszon mezőt"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a priority"
-msgstr ""
+msgstr "Kérem válasszon prioritást"
 
 #: templates/post.tpl.html
 msgid "Please choose a project"
-msgstr ""
+msgstr "Kérem válasszon projektet"
 
 #: templates/manage/reminders.tpl.html
 msgid "Please choose a project that will be associated with this reminder."
-msgstr ""
+msgstr "Kérem válasszon egy projektet, ami társul ehhez az emlékeztetőhöz."
 
 #: templates/close.tpl.html
 msgid "Please choose a status"
-msgstr ""
+msgstr "Kérem válasszon státuszt"
 
 #: templates/edit_custom_fields.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -4398,11 +4505,11 @@ msgstr ""
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/round_robin.tpl.html
 msgid "Please choose an option"
-msgstr ""
+msgstr "Kérem válasszon beállítást"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose an user"
-msgstr ""
+msgstr "Kérem válasszon egy felhasználót"
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
@@ -4411,11 +4518,11 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Please choose from one of the options below"
-msgstr ""
+msgstr "Kérem válasszon egy lehetőséget az alábbiak közül"
 
 #: templates/new.tpl.html
 msgid "Please choose from one of the options below:"
-msgstr ""
+msgstr "Kérem válasszon egy lehetőséget az alábbiak közül:"
 
 #: templates/list.tpl.html
 msgid "Please choose new values for the selected issues"
@@ -4446,7 +4553,7 @@ msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default category."
-msgstr ""
+msgstr "Kérem válassza ki az alapértelmezett kategóriát."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the default priority for remote invocations."
@@ -4454,7 +4561,7 @@ msgstr ""
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default priority."
-msgstr ""
+msgstr "Kérem válassza ki az alapértelmezett prioritást."
 
 #: templates/redeem_incident.tpl.html
 msgid "Please choose the incident types to redeem for this issue."
@@ -4489,7 +4596,7 @@ msgstr ""
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
-msgstr ""
+msgstr "Kérem válassza ki a projektet."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the reporter for remote invocations."
@@ -4584,7 +4691,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html templates/manage/link_filters.tpl.html
 msgid "Please click OK to confirm."
-msgstr ""
+msgstr "Kérem kattintson az Ok feliratra a megerősítéshez"
 
 #: templates/send.tpl.html
 msgid "Please contact the administrator of this application for assistance."
@@ -4595,13 +4702,15 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4619,11 +4728,11 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Please enter a password of at least 6 characters."
-msgstr ""
+msgstr "Kérem írja be a jelszót, ami legkevesebb 6 karakter."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a pattern."
-msgstr ""
+msgstr "Kérem adja meg a példát."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a replacement value."
@@ -4633,11 +4742,11 @@ msgstr ""
 msgid "Please enter a valid email address for the sender address."
 msgstr ""
 
-#: templates/authorized_replier.tpl.html templates/manage/users.tpl.html
-#: templates/notification.tpl.html templates/preferences.tpl.html
-#: templates/signup.tpl.html
+#: templates/authorized_replier.tpl.html templates/edit_reporter.tpl.html
+#: templates/manage/users.tpl.html templates/notification.tpl.html
+#: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Kérem adjjon meg egy valós e-mail címet."
 
 #: templates/navigation.tpl.html
 msgid "Please enter a valid issue ID."
@@ -4649,7 +4758,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter a valid port number for this email account."
-msgstr ""
+msgstr "Kérem adjon meg egy érvényes port számot, ehhez az e-mail fiókhoz."
 
 #: templates/emails.tpl.html
 msgid "Please enter an issue to associate these emails with."
@@ -4669,21 +4778,29 @@ msgstr ""
 msgid "Please enter the IMAP folder for this email account."
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP Host."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP port."
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
-msgstr ""
+msgstr "Kérem adja meg az SMTP szerver gépnevét."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server password."
-msgstr ""
+msgstr "Kérem adja meg az SMTP szerver jelszavát."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server port number."
-msgstr ""
+msgstr "Kérem adja meg az SMTP szerver port számát."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server username."
-msgstr ""
+msgstr "Kérem adja meg az SMTP szerver felhasználónevét."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the abbreviation of this status."
@@ -4697,6 +4814,10 @@ msgstr ""
 msgid "Please enter the analysis for the changes required by this issue."
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the base dn."
+msgstr ""
+
 #: templates/manage/general.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
@@ -4707,15 +4828,16 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Please enter the database hostname for this installation of Eventum."
-msgstr ""
+msgstr "Kérem adja meg az adatbázis gépnevét az Eventum telepítéséhez."
 
 #: templates/setup.tpl.html
 msgid "Please enter the database name for this installation of Eventum."
-msgstr ""
+msgstr "Kérem adja meg az adatbázis nevét az Eventum telepítéséhez."
 
 #: templates/setup.tpl.html
 msgid "Please enter the database username for this installation of Eventum."
 msgstr ""
+"Kérem adja meg az adatbázis felhasználónevét az Eventum telepítéséhez."
 
 #: templates/update_form.tpl.html
 msgid "Please enter the description for this issue."
@@ -4747,15 +4869,15 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the email of this user."
-msgstr ""
+msgstr "Kérem adja meg az email címét ennek a felhasználónak."
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the estimated development time for this task."
-msgstr ""
+msgstr "Kérjük, adja meg a becsült fejlesztési időt erre a feladatra."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the full name of this user."
-msgstr ""
+msgstr "Kérem adja meg a teljes nevét ennek a felhasználónak."
 
 #: templates/setup.tpl.html
 msgid ""
@@ -4789,11 +4911,11 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the message for this FAQ entry."
-msgstr ""
+msgstr "Kérjük írja be az üzenetet ebbe a FAQ bejegyzésbe."
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the message for this news entry."
-msgstr ""
+msgstr "Kérjük írja be az üzenetet ebbe az új hír bejegyzésbe."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please enter the message for this round robin entry."
@@ -4801,7 +4923,7 @@ msgstr ""
 
 #: templates/manage/groups.tpl.html
 msgid "Please enter the name of this group."
-msgstr ""
+msgstr "Kérem adja meg a nevét ennek a csoportnak."
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the new requirement for this issue."
@@ -4817,15 +4939,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the password for this email account."
-msgstr ""
+msgstr "Kérem adja meg a jelszavát ennek az e-mail fióknak."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the port number for this email account."
-msgstr ""
+msgstr "Kérem adja meg a port számát ennek az e-mail fióknak."
 
 #: templates/manage/reminders.tpl.html
 msgid "Please enter the rank for this reminder."
-msgstr ""
+msgstr "Kérem adjon rangot ennek az emlékeztetőnek."
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the rank of this FAQ entry."
@@ -4833,6 +4955,10 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the rank of this priority"
+msgstr ""
+
+#: templates/manage/resolution.tpl.html
+msgid "Please enter the rank of this resolution."
 msgstr ""
 
 #: templates/manage/statuses.tpl.html
@@ -4867,7 +4993,7 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the title for this FAQ entry."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek a FAQ bejegyzésnek."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Please enter the title for this action."
@@ -4876,7 +5002,7 @@ msgstr ""
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title for this category."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek a kategóriának."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please enter the title for this condition."
@@ -4896,12 +5022,12 @@ msgstr ""
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Please enter the title for this new action."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek az új eseménynek."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title for this new category."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek az új kategóriának."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please enter the title for this new condition."
@@ -4909,7 +5035,7 @@ msgstr ""
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please enter the title for this new customization."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek az új eseménynek."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title for this new email response."
@@ -4925,7 +5051,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title for this new project."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek az új projektnek."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title for this new release."
@@ -4937,7 +5063,7 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the title for this new status."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek az új státusznak."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please enter the title for this new time tracking category."
@@ -4953,7 +5079,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title for this project."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek a új projektnek."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title for this release."
@@ -4961,7 +5087,7 @@ msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Please enter the title for this reminder."
-msgstr ""
+msgstr "Kérem adja meg a címét az emlékeztetőnek."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please enter the title for this round robin entry."
@@ -4973,7 +5099,7 @@ msgstr ""
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the title for this status."
-msgstr ""
+msgstr "Kérem adja meg a címét a státusznak."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please enter the title for this time tracking category."
@@ -4981,12 +5107,12 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the title of this FAQ entry."
-msgstr ""
+msgstr "Kérem adja meg a címét a FAQ bejegyzésnek."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title of this category"
-msgstr ""
+msgstr "Kérem adja meg a nevét a kategóriának."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the title of this custom field."
@@ -4998,11 +5124,11 @@ msgstr ""
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the title of this news entry."
-msgstr ""
+msgstr "Kérem adja meg a címét az új bejegyzésnek."
 
 #: templates/post_note.tpl.html
 msgid "Please enter the title of this note."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek a megjegyzésnek."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title of this priority"
@@ -5010,7 +5136,7 @@ msgstr ""
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title of this project."
-msgstr ""
+msgstr "Kérem adja meg a címét ennek a projektnek."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title of this release."
@@ -5032,29 +5158,33 @@ msgstr ""
 msgid "Please enter the updated value."
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the user dn."
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the username for this email account."
-msgstr ""
+msgstr "Kérem adja meg a felhasználónevét az e-mail fióknak."
 
 #: templates/forgot_password.tpl.html
 msgid "Please enter your account email address."
-msgstr ""
+msgstr "Kérlek add meg az e-mail fiók címedet."
 
 #: templates/signup.tpl.html
 msgid "Please enter your email address."
-msgstr ""
+msgstr "Adja meg e-mail címét."
 
 #: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter your full name."
-msgstr ""
+msgstr "Adja meg a teljes nevét."
 
 #: templates/preferences.tpl.html
 msgid "Please enter your new password with at least 6 characters."
-msgstr ""
+msgstr "A meg az új jelszava, ami minimum 6 karakter hosszú."
 
 #: templates/signup.tpl.html
 msgid "Please enter your password."
-msgstr ""
+msgstr "Kérem adja meg jelszavát."
 
 #: templates/manage/monitor.tpl.html
 msgid "Please fill proper partition path"
@@ -5079,11 +5209,11 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Please provide your email address."
-msgstr ""
+msgstr "Kérlek a meg az e-mail címed."
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Kérlek add meg a jelszavad."
 
 #: templates/help/main.tpl.html
 msgid ""
@@ -5109,11 +5239,11 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please select a valid date for when the phone call took place."
-msgstr ""
+msgstr "Kérem vűlasszon egy érvényes dátumot, amikor a telefonhívás történt."
 
 #: templates/add_time_tracking.tpl.html
 msgid "Please select a valid date of work."
-msgstr ""
+msgstr "Kérlek válassz egy érvényes dátumot a munkára."
 
 #: templates/update_form.tpl.html
 msgid "Please select an assignment for this issue"
@@ -5121,11 +5251,11 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select an option from the list."
-msgstr ""
+msgstr "Kérlek válassz egy opciót a listából."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select at least one link filter."
-msgstr ""
+msgstr "Kérlek válassz legalább egyet a link szűrőből."
 
 #: templates/manage/faq.tpl.html
 msgid "Please select at least one of the FAQ entries."
@@ -5248,7 +5378,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "Please select the new status for this issue."
-msgstr ""
+msgstr "Kérem válassza ki az új státuszt ebben a kérdésben."
 
 #: templates/impact_analysis.tpl.html
 msgid ""
@@ -5265,21 +5395,25 @@ msgstr ""
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Lengyel"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
+msgstr "Port"
+
+#: templates/manage/ldap.tpl.html
+msgid "Port:"
 msgstr ""
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugál"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
-msgstr ""
+msgstr "Hozzászólás Belső Feljegyzésből"
 
 #: templates/post_note.tpl.html
 msgid "Post New Internal Note"
@@ -5293,17 +5427,17 @@ msgstr ""
 msgid "Posted Date:"
 msgstr ""
 
-#: lib/eventum/class.support.php:483
+#: lib/eventum/class.support.php:484
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Preferences"
-msgstr ""
+msgstr "Tulajdonságok"
 
-#: lib/eventum/class.pager.php:120
+#: lib/eventum/class.pager.php:121
 msgid "Previous"
-msgstr ""
+msgstr "Előző"
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
@@ -5311,19 +5445,19 @@ msgstr ""
 
 #: templates/view_email.tpl.html
 msgid "Previous Message"
-msgstr ""
+msgstr "Előző üzenet"
 
 #: templates/view_note.tpl.html
 msgid "Previous Note"
-msgstr ""
+msgstr "Előző Megjegyzés"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Primary Technical Account Manager"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:631
-#: lib/eventum/class.notification.php:632 lib/eventum/class.project.php:1097
+#: lib/eventum/class.display_column.php:178 lib/eventum/class.filter.php:711
+#: lib/eventum/class.notification.php:632
+#: lib/eventum/class.notification.php:633 lib/eventum/class.project.php:1098
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5333,26 +5467,26 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Priority"
-msgstr ""
+msgstr "Prioritás"
 
-#: lib/eventum/class.help.php:62 templates/help/report_priority.tpl.html
+#: lib/eventum/class.help.php:63 templates/help/report_priority.tpl.html
 msgid "Priority Field"
-msgstr ""
+msgstr "Prioritás Mező"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Priority:"
-msgstr ""
+msgstr "Prioritás:"
 
-#: lib/eventum/class.project.php:1103 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
-msgstr ""
+msgstr "Privát"
 
 #: templates/update_form.tpl.html
 msgid "Private:"
-msgstr ""
+msgstr "Privát:"
 
-#: lib/eventum/class.reminder_action.php:586
+#: lib/eventum/class.reminder_action.php:587
 msgid "Processing Group Leader notification"
 msgstr ""
 
@@ -5366,10 +5500,14 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/select_project.tpl.html
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: templates/manage/projects.tpl.html
 msgid "Project Lead"
+msgstr "Projektvezető"
+
+#: templates/edit_reporter.tpl.html
+msgid "Project Reporters"
 msgstr ""
 
 #: templates/update_form.tpl.html
@@ -5384,21 +5522,21 @@ msgstr ""
 #: templates/manage/customize_listing.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/round_robin.tpl.html
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 #: templates/manage/email_responses.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Projects"
-msgstr ""
+msgstr "Projektek"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Projects:"
-msgstr ""
+msgstr "Projektek:"
 
 #: templates/file_upload.tpl.html
 msgid "Public"
-msgstr ""
+msgstr "Nyilvános"
 
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
@@ -5410,11 +5548,11 @@ msgstr ""
 
 #: templates/searchbar.tpl.html
 msgid "Quick Search"
-msgstr ""
+msgstr "Gyorskereső"
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
-msgstr ""
+msgstr "ELTÁVOLÍTVA"
 
 #: templates/adv_search.tpl.html
 msgid "RSS feed for this custom search"
@@ -5423,18 +5561,19 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/priorities.tpl.html
 #: templates/manage/reminder_actions.tpl.html
-#: templates/manage/reminders.tpl.html templates/manage/statuses.tpl.html
+#: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
+#: templates/manage/statuses.tpl.html
 msgid "Rank"
-msgstr ""
+msgstr "Rangsor"
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
-#: templates/manage/statuses.tpl.html
+#: templates/manage/resolution.tpl.html templates/manage/statuses.tpl.html
 msgid "Rank:"
-msgstr ""
+msgstr "Rangsor:"
 
 #: templates/view_email.tpl.html
 msgid "Raw Headers"
-msgstr ""
+msgstr "Nyers Fejlécek"
 
 #: templates/view_email.tpl.html
 msgid ""
@@ -5444,25 +5583,25 @@ msgstr ""
 
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
-#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
-#: lib/eventum/class.support.php:1598
+#: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
+#: lib/eventum/class.support.php:1604
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:820
+#: lib/eventum/class.issue.php:821
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr ""
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
-msgstr ""
+msgstr "Összes Közlemény Olvasása"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Reason"
-msgstr ""
+msgstr "Ok"
 
 #: templates/close.tpl.html
 msgid "Reason for closing issue"
@@ -5470,7 +5609,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Reason to close"
-msgstr ""
+msgstr "Ok bezáráshoz"
 
 #: templates/preferences.tpl.html
 msgid "Receive emails when all issues are created?"
@@ -5486,15 +5625,15 @@ msgstr ""
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
-msgstr ""
+msgstr "Érkeztetett"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent"
-msgstr ""
+msgstr "Legújabb"
 
 #: templates/reports/recent_activity.tpl.html templates/reports/tree.tpl.html
 msgid "Recent Activity"
-msgstr ""
+msgstr "Legutóbbi tevékenység"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Activity Report"
@@ -5502,23 +5641,23 @@ msgstr ""
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Drafts"
-msgstr ""
+msgstr "Legutóbbi tervezetek"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Emails"
-msgstr ""
+msgstr "Legutóbbi E-mailek"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Notes"
-msgstr ""
+msgstr "Legutóbbi jegyzetek"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Phone Calls"
-msgstr ""
+msgstr "Legutóbbi Telefonhívások"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Reminder Actions"
-msgstr ""
+msgstr "Legutóbbi Emlékeztető Műveletek"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Time Entries"
@@ -5526,7 +5665,7 @@ msgstr ""
 
 #: templates/mail_queue.tpl.html
 msgid "Recipient"
-msgstr ""
+msgstr "Címzett"
 
 #: templates/manage/general.tpl.html
 msgid "Recipient Type Flag:"
@@ -5535,15 +5674,15 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "Recipients"
-msgstr ""
+msgstr "Címzettek"
 
 #: templates/post_note.tpl.html
 msgid "Recipients:"
-msgstr ""
+msgstr "Címzettek:"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Record Phone Call"
-msgstr ""
+msgstr "Telefonhívás felvétele"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Record Time Worked"
@@ -5551,7 +5690,7 @@ msgstr ""
 
 #: templates/phone_support.tpl.html
 msgid "Recorded Date"
-msgstr ""
+msgstr "Felvétel időpontja"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Red values indicate value is higher than the aggregate one."
@@ -5593,14 +5732,14 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Register"
-msgstr ""
+msgstr "Regisztrál"
 
-#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:627
-#: lib/eventum/class.notification.php:628 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:210 lib/eventum/class.filter.php:736
+#: lib/eventum/class.notification.php:628
+#: lib/eventum/class.notification.php:629 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
-msgstr ""
+msgstr "Engedély"
 
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
@@ -5612,23 +5751,23 @@ msgid ""
 "prevent anyone else from changing your existing Eventum configuration."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:751
+#: lib/eventum/class.reminder_action.php:752
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
-msgstr ""
+msgstr "Emlékeztető"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Reminder Alert"
-msgstr ""
+msgstr "Emlékeztető Riasztás"
 
-#: lib/eventum/class.reminder_action.php:791
+#: lib/eventum/class.reminder_action.php:792
 msgid "Reminder Not Triggered"
 msgstr ""
 
 #: templates/manage/reminders.tpl.html
 msgid "Reminder Type"
-msgstr ""
+msgstr "Emlkéeztető Típusa"
 
 #: templates/manage/projects.tpl.html
 msgid "Remote Invocation"
@@ -5637,33 +5776,33 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: templates/view_form.tpl.html
 msgid "Remove Quarantine"
-msgstr ""
+msgstr "Karantén elvátoláítása"
 
 #: templates/adv_search.tpl.html templates/attached_emails.tpl.html
 #: templates/authorized_replier.tpl.html templates/checkins.tpl.html
 #: templates/impact_analysis.tpl.html templates/notification.tpl.html
 msgid "Remove Selected"
-msgstr ""
+msgstr "Kijelölt eltávolítása"
 
 #: templates/emails.tpl.html
 msgid "Remove Selected Emails"
-msgstr ""
+msgstr "Kiválasztott E-mail eltávolítása"
 
 #: templates/attached_emails.tpl.html
 msgid "Remove?"
-msgstr ""
+msgstr "Eltávolítja?"
 
 #: templates/main.tpl.html
 msgid "Removed"
-msgstr ""
+msgstr "Eltávolítva"
 
 #: templates/removed_emails.tpl.html
 msgid "Removed Emails"
-msgstr ""
+msgstr "Eltávolított E-mailek"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -5678,7 +5817,7 @@ msgstr ""
 
 #: templates/manage/link_filters.tpl.html
 msgid "Replacement"
-msgstr ""
+msgstr "Csere"
 
 #: templates/help/link_filters.tpl.html
 msgid "Replacement: \"%1\""
@@ -5688,11 +5827,11 @@ msgstr ""
 #: templates/view_email.tpl.html templates/view_form.tpl.html
 #: templates/view_note.tpl.html
 msgid "Reply"
-msgstr ""
+msgstr "Válasz"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Report"
-msgstr ""
+msgstr "Jelentés"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Report Form"
@@ -5700,20 +5839,20 @@ msgstr ""
 
 #: templates/post.tpl.html
 msgid "Report New Issue"
-msgstr ""
+msgstr "Új kérdés jelentése"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Report Type"
-msgstr ""
+msgstr "Jelentés típusa"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Report Type:"
-msgstr ""
+msgstr "Jelentés Típusa:"
 
 #: templates/new.tpl.html
 msgid "Report a New Issue"
-msgstr ""
+msgstr "Új kérdés jelentése"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5721,19 +5860,19 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "Reported By"
-msgstr ""
+msgstr "Által Jelentett"
 
-#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:792
-#: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
-#: templates/view_form.tpl.html
+#: lib/eventum/class.display_column.php:184 lib/eventum/class.filter.php:793
+#: templates/adv_search.tpl.html templates/edit_reporter.tpl.html
+#: templates/help/permission_levels.tpl.html templates/view_form.tpl.html
 msgid "Reporter"
-msgstr ""
+msgstr "Jelentő"
 
 #: templates/manage/anonymous.tpl.html templates/update_form.tpl.html
 msgid "Reporter:"
-msgstr ""
+msgstr "Jelentő:"
 
-#: lib/eventum/class.help.php:54
+#: lib/eventum/class.help.php:55
 msgid "Reporting Issues"
 msgstr ""
 
@@ -5743,11 +5882,11 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Reports"
-msgstr ""
+msgstr "Jelentések"
 
 #: templates/forgot_password.tpl.html
 msgid "Request a Password"
-msgstr ""
+msgstr "Jelszó kérése"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Required Field"
@@ -5755,20 +5894,20 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Required Fields"
-msgstr ""
+msgstr "Szükséges Mezők"
 
 #: templates/duplicate.tpl.html templates/new.tpl.html templates/post.tpl.html
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Required fields"
-msgstr ""
+msgstr "Szükséges mezők"
 
 #: templates/impact_analysis.tpl.html
 msgid "Requirement"
-msgstr ""
+msgstr "Feltétel"
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Requires Authentication?"
-msgstr ""
+msgstr "Hitelesítést Igényel?"
 
 #: templates/login_form.tpl.html
 msgid "Requires support for cookies and javascript in your browser"
@@ -5785,8 +5924,9 @@ msgstr ""
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
-#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/link_filters.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/news.tpl.html
+#: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -5798,13 +5938,13 @@ msgstr ""
 #: templates/post.tpl.html templates/preferences.tpl.html
 #: templates/send.tpl.html templates/update_form.tpl.html
 msgid "Reset"
-msgstr ""
+msgstr "Alapállapot"
 
-#: lib/eventum/class.notification.php:639
-#: lib/eventum/class.notification.php:640 templates/close.tpl.html
+#: lib/eventum/class.notification.php:640
+#: lib/eventum/class.notification.php:641 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
-msgstr ""
+msgstr "Felbontás"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Response Body:"
@@ -5812,7 +5952,7 @@ msgstr ""
 
 #: templates/removed_emails.tpl.html
 msgid "Restore Emails"
-msgstr ""
+msgstr "E-mailek Visszaállítása"
 
 #: templates/update_form.tpl.html
 msgid "Return to Issue #%1 Details Page"
@@ -5824,42 +5964,42 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Role"
-msgstr ""
+msgstr "Szerep"
 
-#: lib/eventum/class.filter.php:764 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:765 templates/adv_search.tpl.html
 msgid "Rows Per Page"
-msgstr ""
+msgstr "Sorok Száma Oldalanként"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Rows per Page:"
-msgstr ""
+msgstr "Sorok száma Oldalanként:"
 
 #: templates/adv_search.tpl.html
 msgid "Run Search"
-msgstr ""
+msgstr "Keresés indítása"
 
 #. TRANSLATORS: Translation of Russian language in preferences dropdown
 #: localization/LINGUAS.php:60
 msgid "Russian"
-msgstr ""
+msgstr "Orosz"
 
 #: templates/manage/general.tpl.html
 msgid "SCM <br />Integration:"
 msgstr ""
 
-#: lib/eventum/class.scm.php:214
+#: lib/eventum/class.scm.php:215
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
-#: lib/eventum/class.scm.php:93
+#: lib/eventum/class.scm.php:94
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.help.php:86 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:87 templates/help/main.tpl.html
 #: templates/help/scm_integration.tpl.html
 msgid "SCM Integration"
-msgstr ""
+msgstr "SCM Integráció"
 
 #: templates/checkins.tpl.html
 msgid "SCM Integration - Checkins"
@@ -5867,24 +6007,24 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "SMS Email Address"
-msgstr ""
+msgstr "SMS E-mail Cím"
 
 #: templates/manage/general.tpl.html
 msgid "SMTP (Outgoing Email) Settings:"
-msgstr ""
+msgstr "SMTP (Kimenő E-mail) Beállítások:"
 
 #: templates/setup.tpl.html
 msgid "SMTP Configuration"
-msgstr ""
+msgstr "SMTP beállítások"
 
 #: templates/setup.tpl.html
 msgid "SSL Server"
-msgstr ""
+msgstr "SSSL Szerver"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/email_alias.tpl.html
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: templates/send.tpl.html
 msgid "Save Draft Changes"
@@ -5892,7 +6032,7 @@ msgstr ""
 
 #: templates/associate.tpl.html
 msgid "Save Message"
-msgstr ""
+msgstr "Üzenet mentése"
 
 #: templates/associate.tpl.html
 msgid "Save Message as Reference Email"
@@ -5904,11 +6044,15 @@ msgstr ""
 
 #: templates/add_phone_entry.tpl.html
 msgid "Save Phone Call"
+msgstr "Telefonhívás Mentése"
+
+#: templates/edit_reporter.tpl.html
+msgid "Save Reporter"
 msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Save Search"
-msgstr ""
+msgstr "Keresés mentése"
 
 #: templates/manage/general.tpl.html
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
@@ -5916,18 +6060,18 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Save as Draft"
-msgstr ""
+msgstr "Mentés Piszkozatként"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Saved Searches"
-msgstr ""
+msgstr "Mentett keresések"
 
-#: lib/eventum/class.project.php:1099 templates/new.tpl.html
+#: lib/eventum/class.project.php:1100 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr ""
 
-#: lib/eventum/class.help.php:70 templates/help/report_release.tpl.html
+#: lib/eventum/class.help.php:71 templates/help/report_release.tpl.html
 msgid "Scheduled Release Field"
 msgstr ""
 
@@ -5938,7 +6082,7 @@ msgstr ""
 #: templates/email_filter_form.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 #: templates/opensearch.tpl.xml
 msgid "Search Eventum Issues"
@@ -5954,28 +6098,28 @@ msgstr ""
 
 #: templates/adv_search.tpl.html
 msgid "Search Title"
-msgstr ""
+msgstr "Keresés Címe"
 
-#: lib/eventum/class.filter.php:788
+#: lib/eventum/class.filter.php:789
 msgid "Search Type"
-msgstr ""
+msgstr "Keresés típusa"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Sections to Display"
-msgstr ""
+msgstr "Szakaszok Megjelenítése"
 
 #: templates/help/segregate_reporter.tpl.html
 msgid "Segregate Reporter"
 msgstr ""
 
-#: lib/eventum/class.help.php:142 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:143 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Segregate Reporters"
 msgstr ""
 
 #: templates/select_project.tpl.html
 msgid "Select Project"
-msgstr ""
+msgstr "Projekt Kiválasztása"
 
 #: templates/bulk_update.tpl.html
 msgid "Select closed status to close issue"
@@ -5983,11 +6127,11 @@ msgstr ""
 
 #: templates/send.tpl.html templates/support_emails.tpl.html
 msgid "Send Email"
-msgstr ""
+msgstr "E-mail küldése"
 
 #: templates/forgot_password.tpl.html
 msgid "Send New Password"
-msgstr ""
+msgstr "Új Jelszó Küldése"
 
 #: templates/close.tpl.html
 msgid "Send Notification About Issue Being Closed?"
@@ -6000,19 +6144,19 @@ msgstr ""
 #: templates/attached_emails.tpl.html templates/emails.tpl.html
 #: templates/setup.tpl.html
 msgid "Sender"
-msgstr ""
+msgstr "Küldő"
 
 #: templates/manage/general.tpl.html
 msgid "Sender Email"
-msgstr ""
+msgstr "E-mail küldése"
 
 #: templates/email_filter_form.tpl.html
 msgid "Sender:"
-msgstr ""
+msgstr "Feladó:"
 
 #: templates/reports/weekly.tpl.html
 msgid "Separate Closed Issues"
-msgstr ""
+msgstr "Külön Zárt Kérdések"
 
 #: templates/reports/weekly.tpl.html
 msgid "Separate Only Status Changes"
@@ -6020,11 +6164,11 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Server Hostname"
-msgstr ""
+msgstr "Szerver Gépnév"
 
 #: templates/emails.tpl.html templates/list.tpl.html
 msgid "Set"
-msgstr ""
+msgstr "Beállít"
 
 #: templates/bulk_update.tpl.html
 msgid "Set Close Message"
@@ -6036,7 +6180,7 @@ msgstr ""
 
 #: templates/bulk_update.tpl.html
 msgid "Set Message"
-msgstr ""
+msgstr "Üzenet beállítása"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Set available options"
@@ -6044,7 +6188,7 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Short Description"
-msgstr ""
+msgstr "Rövid leírás"
 
 #: templates/resize_textarea.tpl.html
 msgid "Shorten the field"
@@ -6052,15 +6196,15 @@ msgstr ""
 
 #: templates/quick_filter_form.tpl.html
 msgid "Show"
-msgstr ""
+msgstr "Mutat"
 
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
-msgstr ""
+msgstr "Össze Piszkozat Mutatása"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Show Custom Fields ?"
-msgstr ""
+msgstr "Egyéni Mezők Mutatása?"
 
 #: templates/manage/users.tpl.html
 msgid "Show Customers"
@@ -6076,11 +6220,11 @@ msgstr ""
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Priority"
-msgstr ""
+msgstr "Prioritás Mutatása"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Status"
-msgstr ""
+msgstr "Státusz Mutatása"
 
 #: templates/reports/weekly.tpl.html
 msgid "Show Times spent on issue"
@@ -6104,7 +6248,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Signup for an Account"
-msgstr ""
+msgstr "Jelentkezzen be egy fiókba"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -6123,11 +6267,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Szingaléz"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
-msgstr ""
+msgstr "Ugrás Hétvégére"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -6138,23 +6282,27 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Sorry, an error happened while trying to run your query"
-msgstr ""
+msgstr "Sajnáljuk, hiba történt, miközben futtatni próbálta a lekérdezést"
 
 #: templates/duplicate.tpl.html templates/update_form.tpl.html
 msgid "Sorry, an error happened while trying to run your query."
-msgstr ""
+msgstr "Sajnáljuk, hiba történt, miközben futtatni próbálta a lekérdezést."
 
 #: templates/send.tpl.html
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Sajnálom, de az e-mailt nem lehet várólistára tenni. Ez kapcsolatban állhat "
+"az SMTP fiók beállításaival."
 
 #: templates/send.tpl.html
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings."
 msgstr ""
+"Sajnálom, de az e-mailt nem lehet elküldeni. Ez kapcsolatban állhat az SMTP "
+"fiók beállításaival."
 
 #: templates/post.tpl.html
 msgid ""
@@ -6164,64 +6312,70 @@ msgstr ""
 
 #: templates/emails.tpl.html templates/signup.tpl.html
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr ""
+msgstr "Sajnáljuk, de ez a funkció le van tiltva a rendszergazda által."
 
 #: templates/emails.tpl.html
 msgid "Sorry, but you do not have access to this page."
-msgstr ""
+msgstr "Sajnálom, de nem férnek hozzá ezen az oldalon."
 
 #: templates/manage/manage.tpl.html templates/update.tpl.html
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
 msgstr ""
+"Sajnálom, de nem rendelkezik a szükséges jogosultsági szint eléréséhez a "
+"képernyőn."
 
 #: templates/permission_denied.tpl.html
 msgid "Sorry, you do not have permission to access this page."
-msgstr ""
+msgstr "Sajnálom, nincs jogod megtekinteni ezt az oldalt."
 
 #: templates/mail_queue.tpl.html
 msgid "Sorry, you do not have permission to view this page"
-msgstr ""
+msgstr "Sajnálom, nincs jogosultsága az oldal megtekintéséhez"
 
 #: templates/update.tpl.html
 msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr ""
+"Sajnálom nem rendelkezik a szükséges jogosultságokkal, hogy frissíteni tudja "
+"ezt a kérdést."
 
 #: templates/view.tpl.html
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr ""
+"Sajnálom, hogy nem rendelkezik a szükséges jogosultsággal, hogy "
+"megtekinthesse ezt a kérdést."
 
-#: lib/eventum/class.filter.php:768 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:769 templates/adv_search.tpl.html
 msgid "Sort By"
-msgstr ""
+msgstr "Rendezés"
 
-#: lib/eventum/class.filter.php:772 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:773 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
-msgstr ""
+msgstr "Rendezési sorrend"
 
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Spanyol"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
-msgstr ""
+msgstr "Helyesírás-ellenőrzés"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Staff"
-msgstr ""
+msgstr "Staff"
 
 #: templates/update_form.tpl.html
 msgid "Staff:"
-msgstr ""
+msgstr "Staff:"
 
 #: templates/reports/tree.tpl.html
 msgid "Stalled Issues"
-msgstr ""
+msgstr "Elakadt Kérdések"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Stalled Issues Report"
@@ -6229,7 +6383,7 @@ msgstr ""
 
 #: templates/help/permission_levels.tpl.html
 msgid "Standard User"
-msgstr ""
+msgstr "Standard Felhasználó"
 
 #: templates/manage/round_robin.tpl.html
 #: templates/reports/custom_fields.tpl.html
@@ -6238,23 +6392,23 @@ msgstr ""
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Start"
-msgstr ""
+msgstr "Kezdés"
 
 #: templates/setup.tpl.html
 msgid "Start Installation"
-msgstr ""
+msgstr "Telepítés Megkezdése"
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Start time in the future."
-msgstr ""
+msgstr "Kezdési időpont a jövőben."
 
 #: templates/navigation.tpl.html
 msgid "Stats"
-msgstr ""
+msgstr "Statisztika"
 
-#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:635
-#: lib/eventum/class.notification.php:636 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:219 lib/eventum/class.filter.php:731
+#: lib/eventum/class.notification.php:636
+#: lib/eventum/class.notification.php:637 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6268,25 +6422,25 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
-#: lib/eventum/class.display_column.php:218
+#: lib/eventum/class.display_column.php:222
 msgid "Status Change Date"
-msgstr ""
+msgstr "Állapot Módosítás Dátuma"
 
 #: templates/adv_search.tpl.html
 msgid "Status Closed"
-msgstr ""
+msgstr "Állapot Zárva"
 
 #: templates/manage/customize_listing.tpl.html
 #: templates/manage/releases.tpl.html templates/searchbar.tpl.html
 #: templates/update_form.tpl.html
 msgid "Status:"
-msgstr ""
+msgstr "Állapot:"
 
 #: templates/manage/projects.tpl.html
 msgid "Statuses"
-msgstr ""
+msgstr "Állapotok"
 
 #: templates/attached_emails.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/mail_queue.tpl.html
@@ -6294,40 +6448,40 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Subject"
-msgstr ""
+msgstr "Tárgy"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Tárgy Alapú Útválasztás:"
 
 #: templates/email_filter_form.tpl.html
 msgid "Subject/Body:"
-msgstr ""
+msgstr "Tárgy/Törzs"
 
 #: templates/new.tpl.html templates/post.tpl.html
 #: templates/reports/open_issues.tpl.html
 msgid "Submit"
-msgstr ""
+msgstr "Küldés"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Submitted"
-msgstr ""
+msgstr "Elküldve"
 
 #: templates/view_form.tpl.html
 msgid "Submitted Date"
-msgstr ""
+msgstr "Beküldés Dátuma"
 
 #: templates/update_form.tpl.html
 msgid "Submitted Date:"
-msgstr ""
+msgstr "Beküldés Dátuma:"
 
 #: templates/spell_check.tpl.html
 msgid "Suggestions:"
-msgstr ""
+msgstr "Javaslatok:"
 
-#: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:647
-#: lib/eventum/class.notification.php:648 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.display_column.php:231
+#: lib/eventum/class.notification.php:648
+#: lib/eventum/class.notification.php:649 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6347,26 +6501,26 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/time_tracking.tpl.html
 #: templates/view_form.tpl.html
 msgid "Summary"
-msgstr ""
+msgstr "Összegzés"
 
-#: lib/eventum/class.help.php:74 templates/help/report_summary.tpl.html
+#: lib/eventum/class.help.php:75 templates/help/report_summary.tpl.html
 msgid "Summary Field"
 msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
-msgstr ""
+msgstr "Összegzés:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
-msgstr ""
+msgstr "Összegzés: %1"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
-msgstr ""
+msgstr "Vasárnap"
 
-#: lib/eventum/class.customer_stats_report.php:666
-#: lib/eventum/class.display_column.php:212
+#: lib/eventum/class.customer_stats_report.php:667
+#: lib/eventum/class.display_column.php:216
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
@@ -6384,11 +6538,11 @@ msgstr ""
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Svéd"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
-msgstr ""
+msgstr "Vált"
 
 #: templates/help/notifications.tpl.html
 msgid ""
@@ -6412,34 +6566,37 @@ msgstr ""
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date"
-msgstr ""
+msgstr "Feltételes Dátum"
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date:"
-msgstr ""
+msgstr "Feltételes Dátum:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
-msgstr ""
+msgstr "Beállítások tesztelése"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Text Input"
-msgstr ""
+msgstr "Szöveg-bemenet"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
-msgstr ""
+msgstr "Szövegterület"
 
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: templates/setup.tpl.html
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
 msgstr ""
+"Köszönöm, most már helyesek az Eventum beállításai és készen áll a "
+"használatra. Nyissa meg a következő URL-t amin bejelentkezhet az első "
+"alkalommal:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6447,6 +6604,9 @@ msgid ""
 "instructions available in this message to confirm your password creation "
 "request."
 msgstr ""
+"Köszönöm, egy visszaigazoló üzenetet küldünk e-mailben Önnek. Kérjük, "
+"kövesse az utasításokat az üzenetben leírtak szerint, hogy megerősítse a "
+"jelszót létrehozása kérését."
 
 #: templates/manage/column_display.tpl.html
 msgid "Thank you, columns to display was saved successfully."
@@ -6454,7 +6614,7 @@ msgstr ""
 
 #: templates/manage/field_display.tpl.html
 msgid "Thank you, field display settings were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a mező megjelenítési beállítások sikeresen módosítva."
 
 #: templates/update_form.tpl.html
 msgid "Thank you, issue #%1 was updated successfully."
@@ -6462,10 +6622,14 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was added successfully."
-msgstr ""
+msgstr "Köszönöm, a GYIK bejegyzés sikeresen hozzáadásra került."
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was updated successfully."
+msgstr "Köszönöm, a GYIK bejegyzés frissÍtése sikeres volt."
+
+#: templates/edit_reporter.tpl.html
+msgid "Thank you, the Reporter was updated successfully."
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
@@ -6478,15 +6642,15 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the account was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a fiók frissítése sikeres volt."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was added successfully."
-msgstr ""
+msgstr "Köszönöm, az intézkedés sikeresen elküldve."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az intézkedés frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid ""
@@ -6495,7 +6659,7 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the attachment was removed successfully."
-msgstr ""
+msgstr "Köszönöm, a melléklet sikeresen eltávolítva."
 
 #: templates/authorized_replier.tpl.html
 msgid "Thank you, the authorized replier was inserted successfully."
@@ -6509,7 +6673,7 @@ msgstr ""
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Thank you, the category was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kategória frissítése sikeres volt."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Thank you, the condition was added successfully."
@@ -6525,47 +6689,47 @@ msgstr ""
 
 #: templates/custom_fields_form.tpl.html
 msgid "Thank you, the custom field values were updated successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mezőértékek sikeresen módosítva."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was added successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mezőny sikeresen hozzáadva."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was updated successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni mező frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the custom filter was saved successfully."
-msgstr ""
+msgstr "Köszönöm az egyéni szűrő sikeresen elmentve."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was added successfully."
-msgstr ""
+msgstr "Köszönöm, a testreszabás sikeresen elküldve."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a testreszabás sikeres volt."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the email account was added successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail fiók sikeresen elküldve."
 
 #: templates/manage/email_alias.tpl.html
 msgid "Thank you, the email aliases were removed successfully"
-msgstr ""
+msgstr "Köszönöm, az e-mail alias sikeresen eltávolították"
 
 #: templates/send.tpl.html
 msgid "Thank you, the email message was saved as a draft successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail üzenet mentése piszkozatként sikerült."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was added successfully."
-msgstr ""
+msgstr "Köszönöm a válasz e-mail sikeresen elküldve."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was updated successfully."
-msgstr ""
+msgstr "Köszönöm az e-mail válasz sikeres volt."
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was queued to be sent successfully."
@@ -6573,23 +6737,23 @@ msgstr ""
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was sent successfully."
-msgstr ""
+msgstr "Köszönöm az e-mailt sikeresen elküldtük."
 
 #: templates/view_email.tpl.html
 msgid "Thank you, the email was successfully moved."
-msgstr ""
+msgstr "Köszönöm az e-mail sikeresen áthelyeződött."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the emails were marked as removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kijelölt e-maileket sikeresen töröltük."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the file was removed successfully."
-msgstr ""
+msgstr "Köszönjük a fájl sikeresen törölve."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was added successfully."
-msgstr ""
+msgstr "Köszönöm, a csoport hozzáadása sikeresen elküldve."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was updated successfully."
@@ -6597,15 +6761,15 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the impact analysis was set successfully."
-msgstr ""
+msgstr "Köszönöm, a hatáselemzés beállítása sikeres volt."
 
 #: templates/requirement.tpl.html
 msgid "Thank you, the impact analysis was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a hatáselemzés frissítése sikeres volt."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Thank you, the information was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az információ frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the inital impact analysis was set successfully."
@@ -6613,7 +6777,7 @@ msgstr ""
 
 #: templates/post_note.tpl.html
 msgid "Thank you, the internal note was posted successfully."
-msgstr ""
+msgstr "Köszönöm, a belső feljegyzés sikeresen megírva."
 
 #: templates/manage/resolution.tpl.html
 msgid "Thank you, the issue resolution was added successfully."
@@ -6625,7 +6789,7 @@ msgstr ""
 
 #: templates/close.tpl.html
 msgid "Thank you, the issue was closed successfully"
-msgstr ""
+msgstr "Köszönöm a kérdést sikeresen lezárva"
 
 #: templates/duplicate.tpl.html
 msgid ""
@@ -6643,80 +6807,84 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the issue was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a probléma frissítése sikeres volt."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was added successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő sikeresen frissítve."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was deleted successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő sikeresen törlésre került."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was updated successfully."
-msgstr ""
+msgstr "Köszönöm a link szűrő frissítése sikeresen megtörtént."
 
 #: templates/new.tpl.html
 msgid "Thank you, the new issue was created successfully."
-msgstr ""
+msgstr "Köszönöm az új kérdés létrehozása sikeres volt."
 
 #: templates/post.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. For your records, the new "
 "issue ID is <font color=\"red\">%1</font>"
 msgstr ""
+"Köszönöm, az új kérdés létrehozása sikeres volt. A saját nyilvántartásában, "
+"az új kérdés azonosítója <font color=\"red\">% 1 </ font>"
 
 #: templates/new.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. Please choose from one of "
 "the options below"
 msgstr ""
+"Köszönöm, az új kérdés létrehozása sikeres volt. Kérjük, válasszon egyet az "
+"alábbi lehetőségek közül"
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the new note was created and associated with the issue below."
-msgstr ""
+msgstr "Köszönöm új jegyzet jött létre ezzel a kérdéssel kapcsolatban."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the new requirement was added successfully."
-msgstr ""
+msgstr "Köszönöm, az új követelményt sikeresen elküldve."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was added successfully."
-msgstr ""
+msgstr "Köszönöm a hír bejegyzés sikeresen hozzáadásra került."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was updated successfully."
-msgstr ""
+msgstr "Köszönöm a hír bejegyzés frissítése sikeres volt."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was added successfully."
-msgstr ""
+msgstr "Köszönöm a megjegyzés sikeresen hozzáadva."
 
 #: templates/convert_note.tpl.html
 msgid "Thank you, the note was converted successfully."
-msgstr ""
+msgstr "Köszönöm a feljegyzés konvertálása sikeres volt."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
-msgstr ""
+msgstr "Köszönöm, a megjegyzés törlése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
-msgstr ""
+msgstr "Köszönöm, a jegyzet sikeresen eltávolítva."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a jegyzet frissítése sikeres volt."
 
 #: templates/notification.tpl.html
 msgid "Thank you, the notification entry was updated successfully."
-msgstr ""
+msgstr "Köszönöm az értesítés bejegyzés sikeres volt."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Thank you, the phone entry was added successfully."
-msgstr ""
+msgstr "Köszönjük a telefon bejegyzés sikeresen hozzáadásra került."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the phone support entry was removed successfully."
@@ -6724,35 +6892,35 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was added successfully."
-msgstr ""
+msgstr "Köszönöm a prioritás sikeresen elküldve."
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was updated successfully."
-msgstr ""
+msgstr "Köszönöm a prioritás frissítése sikeres volt."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was added successfully."
-msgstr ""
+msgstr "Köszönjük, hogy a projekt hozzáadása sikeresen elküldve."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a projekt frissítése sikeres volt."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was added successfully."
-msgstr ""
+msgstr "Köszönöm, a kibocsátás sikeresen elküldve."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kibocsátás frissítése sikeres volt."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was added successfully."
-msgstr ""
+msgstr "Köszönöm, az emlékeztető sikeresen elküldve."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was updated successfully."
-msgstr ""
+msgstr "Köszönöm, az emlékeztető frissítése sikeres volt."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Thank you, the round robin entry was added successfully."
@@ -6767,10 +6935,12 @@ msgid ""
 "Thank you, the selected checkin information entries were removed "
 "successfully."
 msgstr ""
+"Köszönöm, a kiválasztott csekket információs bejegyzéseket eltávolították "
+"sikeresen."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected custom filters were removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott egyéni szűrőket sikeresen eltávolították."
 
 #: templates/associate.tpl.html
 msgid "Thank you, the selected email message was associated successfully."
@@ -6778,23 +6948,24 @@ msgstr ""
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott kérdések frissítése sikeresen módosítva."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected requirements were removed successfully."
-msgstr ""
+msgstr "Köszönöm, a kiválasztott követelményeket sikeresen eltávolították."
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
-msgstr ""
+msgstr "Köszönöm, a beállítási információk mentése sikeresen volt."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was added successfully."
-msgstr ""
+msgstr "Köszönöm az állapot hozzáadása sikeres volt."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was updated successfully."
-msgstr ""
+msgstr "Köszönöm az állapot frissítése sikeres volt."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Thank you, the time tracking category was added successfully."
@@ -6818,15 +6989,15 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was added successfully."
-msgstr ""
+msgstr "Köszönöm, a felhasználó sikeresen elküldve."
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a felhasználó frissítése sikeres volt."
 
 #: templates/popup.tpl.html
 msgid "Thank you, this issue was removed from quarantine."
-msgstr ""
+msgstr "Köszönöm, ez a kérdés lekerült a karanténból."
 
 #: templates/self_assign.tpl.html
 msgid "Thank you, you are now assigned to the issue"
@@ -6838,7 +7009,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Thank you, you are now logged out of %1"
-msgstr ""
+msgstr "Köszönöm, Ön most kijelentkezett 1%"
 
 #: templates/clock_status.tpl.html
 msgid "Thank you, your account clocked-in status was changed successfully."
@@ -6856,32 +7027,37 @@ msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
 msgstr ""
+"Köszönöm, fiókja már aktív, és készen áll a használatra. Használja az alábbi "
+"űrlapot a belépéshez."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
-msgstr ""
+msgstr "Köszönöm, a fiók beállítások sikeresen módosítva."
 
 #: templates/switch.tpl.html
 msgid "Thank you, your current selected project was changed successfully."
 msgstr ""
+"Köszönöm, az aktuális kiválasztott projektet sikeresen megváltoztatva."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your email address was updated successfully."
-msgstr ""
+msgstr "Köszönjük, az e-mail cím frissítése sikeres volt."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your full name was updated successfully."
-msgstr ""
+msgstr "Köszönöm, a teljes nevét sikeres frissítette."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your password was updated successfully."
-msgstr ""
+msgstr "Köszönöm, jelszavát sikeres módosította."
 
 #: templates/confirm.tpl.html
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
 msgstr ""
+"Köszönöm, a kérést megkaptuk, hogy egy új jelszót igényelt. Hamarosan kapnia "
+"kell egy e-mailt az új jelszóval rövidesen."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -6931,6 +7107,8 @@ msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
 msgstr ""
+"A jelenlegi projekt nem rendelkezik ügyfél-integrációval, így ezt a "
+"jelentést nem lehet megtekinteni."
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -6950,11 +7128,11 @@ msgstr ""
 #: templates/login_form.tpl.html
 msgid ""
 "The email address / password combination could not be found in the system."
-msgstr ""
+msgstr "Az e-mail cím / jelszó kombináció nem található a rendszerben."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
-msgstr ""
+msgstr "A fájlnév már foglalt"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -6966,6 +7144,8 @@ msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
 msgstr ""
+"A következő 1% emlékeztetőt nem lehet elküldeni, mert nem találhatóak a "
+"címzettek"
 
 #: templates/associate.tpl.html
 msgid ""
@@ -6980,7 +7160,7 @@ msgstr ""
 
 #: templates/self_assign.tpl.html
 msgid "The following user is already assigned to this issue"
-msgstr ""
+msgstr "A következő felhasználó már hozzá van rendelve ehhez a kérdésnek"
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -6990,7 +7170,7 @@ msgstr ""
 
 #: templates/notification.tpl.html
 msgid "The given email address"
-msgstr ""
+msgstr "Az adott e-mail cím"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -7009,7 +7189,7 @@ msgstr ""
 
 #: templates/notifications/updated.tpl.text
 msgid "The issue was updated by %1"
-msgstr ""
+msgstr "A kérdést frissítette 1%"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7020,15 +7200,15 @@ msgstr ""
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
-msgstr ""
+msgstr "A fájl új verziója"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The old revision of the file"
-msgstr ""
+msgstr "A fájl érégebbi verziója"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "The original message headers follow"
-msgstr ""
+msgstr "Az eredeti üzenet fejlécét kövesse"
 
 #: templates/confirm.tpl.html
 msgid ""
@@ -7057,22 +7237,25 @@ msgstr ""
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
-msgstr ""
+msgstr "A megadott megjegyzés nem létezik."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "The specified value already exists in the list of options."
-msgstr ""
+msgstr "A megadott érték már létezik a lehetőségek listáján."
 
 #: templates/preferences.tpl.html
 msgid ""
 "The two passwords do not match. Please review your information and try again."
 msgstr ""
+"A két jelszó nem egyezik. Kérjük, nézze át az adatait, és próbálja újra."
 
 #: templates/file_upload.tpl.html
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
 msgstr ""
+"A feltöltött fájl már csatolva van. Kérjük, nevezze át a fájlt, és próbálja "
+"újra."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
@@ -7102,7 +7285,7 @@ msgstr ""
 
 #: templates/view_form.tpl.html
 msgid "This Issue is Currently Quarantined"
-msgstr ""
+msgstr "Ez a kérdés karanténban van"
 
 #: templates/manage/users.tpl.html
 msgid "This action will change the status of the selected users."
@@ -7114,25 +7297,26 @@ msgstr ""
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected attachment."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt mellékletet."
 
 #: templates/adv_search.tpl.html templates/checkins.tpl.html
 #: templates/impact_analysis.tpl.html
 msgid "This action will permanently delete the selected entries."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt bejegyzéseket."
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected file."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a kijelölt fájlokat."
 
 #: templates/notes.tpl.html
 msgid "This action will permanently delete the specified note."
-msgstr ""
+msgstr "Ez a művelet véglegesen törli a megadott jegyzetet."
 
 #: templates/phone_support.tpl.html
 msgid ""
 "This action will permanently delete the specified phone support entry."
 msgstr ""
+"Ez a művelet véglegesen törli a megadott telefonos támogatási bejegyzést."
 
 #: templates/time_tracking.tpl.html
 msgid ""
@@ -7142,6 +7326,7 @@ msgstr ""
 #: templates/manage/faq.tpl.html
 msgid "This action will permanently remove the selected FAQ entries."
 msgstr ""
+"Ez a művelet véglegesen eltávolítja a kiválasztott GYIK bejegyzéseket."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "This action will permanently remove the selected custom fields."
@@ -7415,7 +7600,7 @@ msgstr ""
 msgid "Time Period"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
+#: lib/eventum/class.display_column.php:196 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
@@ -7430,7 +7615,7 @@ msgstr ""
 msgid "Time Spent:"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:731
+#: lib/eventum/class.customer_stats_report.php:732
 msgid "Time Statistics"
 msgstr ""
 
@@ -7442,13 +7627,13 @@ msgstr ""
 msgid "Time To First Response"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:732
+#: lib/eventum/class.customer_stats_report.php:733
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:330
+#: lib/eventum/class.phone_support.php:331
 msgid "Time entry inserted from phone call."
 msgstr ""
 
@@ -7464,17 +7649,17 @@ msgstr ""
 msgid "Time tracking category"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:409
+#: lib/eventum/class.time_tracking.php:410
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:459
+#: lib/eventum/class.time_tracking.php:460
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:502
+#: lib/eventum/class.time_tracking.php:503
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
@@ -7583,7 +7768,7 @@ msgstr ""
 msgid "Total Time Spent"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:681
+#: lib/eventum/class.customer_stats_report.php:682
 msgid "Total Workload by Support Level"
 msgstr ""
 
@@ -7639,12 +7824,12 @@ msgstr ""
 msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 
-#: lib/eventum/class.attachment.php:78
+#: lib/eventum/class.attachment.php:79
 msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:662
+#: lib/eventum/class.mime_helper.php:663
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7717,7 +7902,7 @@ msgstr ""
 msgid "Update Issue #%1"
 msgstr ""
 
-#: htdocs/update.php:65
+#: htdocs/update.php:66
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr ""
@@ -7776,7 +7961,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr ""
 
@@ -7800,11 +7985,11 @@ msgstr ""
 msgid "Update Values"
 msgstr ""
 
-#: lib/eventum/class.notification.php:695
+#: lib/eventum/class.notification.php:698
 msgid "Updated"
 msgstr ""
 
-#: lib/eventum/class.filter.php:744
+#: lib/eventum/class.filter.php:745
 msgid "Updated Date"
 msgstr ""
 
@@ -7825,7 +8010,7 @@ msgstr ""
 msgid "Urdu"
 msgstr ""
 
-#: lib/eventum/class.help.php:90 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:91 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
 msgid "Usage Examples"
 msgstr ""
@@ -7852,20 +8037,24 @@ msgstr ""
 msgid "User"
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "User DN:"
+msgstr ""
+
 #: templates/preferences.tpl.html
 msgid "User Details"
 msgstr ""
 
-#: lib/eventum/class.help.php:146 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:147 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
 msgid "User Permission Levels"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1393
+#: lib/eventum/class.notification.php:1399
 msgid "User account information updated"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1430
+#: lib/eventum/class.notification.php:1436
 msgid "User account password changed"
 msgstr ""
 
@@ -7925,7 +8114,7 @@ msgstr ""
 msgid "Viewing Emails (%1 email found)"
 msgstr ""
 
-#: lib/eventum/class.help.php:118 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:119 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
 msgid "Viewing Issues"
 msgstr ""
@@ -7952,7 +8141,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:470
+#: lib/eventum/class.mail_helper.php:471
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -8005,7 +8194,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:118
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8126,11 +8315,11 @@ msgid ""
 "'Checkout page' input field is:"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work ended"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work started"
 msgstr ""
 
@@ -8146,7 +8335,7 @@ msgstr ""
 msgid "Workload by Date Range Report"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:54
+#: htdocs/reports/workload_time_period_graph.php:55
 msgid "Workload by Time Period"
 msgstr ""
 
@@ -8158,7 +8347,7 @@ msgstr ""
 msgid "Workload by time period"
 msgstr ""
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:712
+#: lib/eventum/class.filter.php:677 lib/eventum/class.misc.php:713
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8263,7 +8452,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1596
+#: lib/eventum/class.notification.php:1602
 msgid "Your User Account Details"
 msgstr ""
 
@@ -8321,7 +8510,7 @@ msgid ""
 "13)\" form.php"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:55
+#: htdocs/reports/workload_time_period_graph.php:56
 msgid "actions"
 msgstr ""
 
@@ -8426,7 +8615,7 @@ msgid "download file"
 msgstr ""
 
 #. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
-#: lib/eventum/class.link_filter.php:312
+#: lib/eventum/class.link_filter.php:313
 #, php-format
 msgid "download file (%1$s - %2$s)"
 msgstr ""
@@ -8443,7 +8632,7 @@ msgstr ""
 msgid "edit this custom search"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:51
+#: htdocs/reports/workload_time_period_graph.php:52
 msgid "emails"
 msgstr ""
 
@@ -8515,7 +8704,7 @@ msgstr ""
 msgid "hide/show"
 msgstr ""
 
-#: lib/eventum/class.reminder_condition.php:219 templates/adv_search.tpl.html
+#: lib/eventum/class.reminder_condition.php:220 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
 msgstr ""
@@ -8618,18 +8807,18 @@ msgstr ""
 msgid "must be a valid email address"
 msgstr ""
 
-#: htdocs/adv_search.php:56 htdocs/list.php:85
-#: lib/eventum/class.filter.php:666
+#: htdocs/adv_search.php:57 htdocs/list.php:93
+#: lib/eventum/class.filter.php:667
 msgid "myself and my group"
 msgstr ""
 
-#: htdocs/adv_search.php:50 htdocs/list.php:80
-#: lib/eventum/class.filter.php:664
+#: htdocs/adv_search.php:51 htdocs/list.php:88
+#: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
 msgstr ""
 
-#: htdocs/adv_search.php:57 htdocs/list.php:86
-#: lib/eventum/class.filter.php:668
+#: htdocs/adv_search.php:58 htdocs/list.php:94
+#: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
 msgstr ""
 
@@ -8761,8 +8950,8 @@ msgstr ""
 msgid "to access this page."
 msgstr ""
 
-#: htdocs/adv_search.php:49 htdocs/list.php:79
-#: lib/eventum/class.filter.php:662
+#: htdocs/adv_search.php:50 htdocs/list.php:87
+#: lib/eventum/class.filter.php:663
 msgid "un-assigned"
 msgstr ""
 

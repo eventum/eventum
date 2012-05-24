@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-16 10:20+0300\n"
-"PO-Revision-Date: 2011-12-19 09:34+0000\n"
-"Last-Translator: Kemal Birinci <Unknown>\n"
+"POT-Creation-Date: 2012-05-17 20:12+0300\n"
+"PO-Revision-Date: 2012-04-28 13:23+0000\n"
+"Last-Translator: Cem İnceçınar <cem@3adam.net>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-12-20 04:51+0000\n"
-"X-Generator: Launchpad (build 14538)\n"
+"X-Launchpad-Export-Date: 2012-05-18 04:45+0000\n"
+"X-Generator: Launchpad (build 15259)\n"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
@@ -28,16 +28,16 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Bu sorunla ilgili daha fazla detayı görmek için yada güncellemek amacıyla, "
-"lütfen müteakip URL bağlantıyı ziyaret ediniz"
+"Bu konu ile ilgili daha fazla detayı görmey yada güncellemek için lütfen "
+"takip eden bağlantıyı ziyaret ediniz."
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
-#: htdocs/view.php:74
+#: htdocs/view.php:75
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
 
-#: lib/eventum/class.display_column.php:195
+#: lib/eventum/class.display_column.php:199
 msgid "% Complete"
 msgstr "% Tamamlandı"
 
@@ -45,17 +45,17 @@ msgstr "% Tamamlandı"
 msgid "%1 Field"
 msgstr "%1 Alan"
 
-#: lib/eventum/class.filter.php:670
+#: lib/eventum/class.filter.php:671
 #, php-format
 msgid "%1$s Group"
 msgstr "%1$s Grup"
 
-#: lib/eventum/class.filter.php:599
+#: lib/eventum/class.filter.php:600
 #, php-format
 msgid "%1$s or greater"
 msgstr "%1$s veya daha fazla"
 
-#: lib/eventum/class.filter.php:602
+#: lib/eventum/class.filter.php:603
 #, php-format
 msgid "%1$s or less"
 msgstr "%1$s veya daha az"
@@ -73,8 +73,8 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
-"'Not ile müzakere', 'Email ile müzakere' ve 'Telefon ile müzakere' "
-"kategorileri Eventum tarafından zorunludur ve silinemez."
+"'Not ile Görüşme', 'Email ile Görüşme' ve 'Telefon ile Görüşme' kategorileri "
+"Eventum için zorunludur ve silinemez."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -82,7 +82,7 @@ msgstr "(Bütün sorunlar)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "Barınma adresini gösteren alternatif isim sunucuları"
+msgstr "('Alan Adı' için alternatif alan adları)"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -90,47 +90,47 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "Aktif sorunlar"
+msgstr "(Aktif Konular)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr "(Bu gerçek bir email adresi içermeli, örnek \"%1\" yada \"%2\")"
+msgstr "(Bu gerçek bir email adresi OLMALIDIR, örnek: \"%1\" yada \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
-"(Bu Eventum tarafindan gönderilen bütün emaillerin, gönderenin email adresi "
-"alanında yer alacak)"
+"(Eventum tarafından gönderilen bütün emaillerde gönderen kısmında yer "
+"alacak.)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
-"(Bu Eventum tarafindan gönderilen bütün notların, gönderenin email adresi "
-"alanında yer alacak)"
+"(Eventum tarafından gönderilen bütün emaillerde gönderen kısmında yer "
+"alacak.)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
-"(İpucu: portlar default yani öntanımlı olarak POP3 sunucusu için 110 IMAP "
-"sunucusu icin 143 şeklindedir)"
+"(Öneri: varsayılan portlar POP3 sunucular için 110 ve IMAP sunucular için "
+"143 dür.)"
 
-#: lib/eventum/class.template_helper.php:173
+#: lib/eventum/class.template_helper.php:172
 msgid "(archived)"
-msgstr "(arşivlenmiştir)"
+msgstr "(arşivlendi)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr "(öntanımlı %1)"
+msgstr "(varsayılan %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr "(Öntanımlı klasör GELEN KUTUSU)"
+msgstr "(varsayılan klasör GELEN KUTUSU)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr "örnek olarak"
+msgstr "(örn. %1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
@@ -148,9 +148,13 @@ msgstr ""
 msgid "(in hours please)"
 msgstr "(lütfen saat olarak)"
 
+#: templates/close.tpl.html templates/post_note.tpl.html
+msgid "(in minutes)"
+msgstr "(dakika içinde)"
+
 #: templates/setup.tpl.html
 msgid "(literally)"
-msgstr "(yazı ile)"
+msgstr "(gerçekten)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
@@ -214,7 +218,7 @@ msgstr "Sizin için sistemde yeni bir kullanıcı oluşturuldu"
 msgid "ADDED"
 msgstr "EKLENDİ"
 
-#: lib/eventum/class.mail_helper.php:468
+#: lib/eventum/class.mail_helper.php:469
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "BİLGİ:Yanıtınız bildirim listesine gönderilecektir."
 
@@ -259,7 +263,7 @@ msgstr "Hesap Yöneticisi"
 msgid "Account Manager:"
 msgstr "Hesap Yöneticisi:"
 
-#: lib/eventum/class.help.php:110 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:111 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
 msgid "Account Preferences"
 msgstr "Hesap Tercihleri"
@@ -416,7 +420,7 @@ msgstr "Gelişmiş Seçenekler"
 msgid "Advanced Search"
 msgstr "Gelişmiş Arama"
 
-#: lib/eventum/class.help.php:102 templates/help/adv_search.tpl.html
+#: lib/eventum/class.help.php:103 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Gelişmiş Arama / Özelleştirilmiş Sorgulama oluşturma"
@@ -425,7 +429,7 @@ msgstr "Gelişmiş Arama / Özelleştirilmiş Sorgulama oluşturma"
 msgid "After Sender Name"
 msgstr "Gönderenin ismi sonrasında"
 
-#: lib/eventum/class.customer_stats_report.php:188
+#: lib/eventum/class.customer_stats_report.php:189
 msgid "Aggregate"
 msgstr "Topyekün"
 
@@ -498,6 +502,9 @@ msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Bu kullanıcıya kendisinin ilişkilendirildiği tüm projelerdeki konuları görme "
+"yetkisi verildi; Yeni konu yaratma ve varolan konular için email gönderme "
+"yetkisi verildi."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -505,6 +512,9 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
+"Bu kullanıcıya kendisinin ilişkilendirildiği tüm projelerdeki konuları görme "
+"yetkisi verildi; Yeni konu yaratma, varolan konuları güncelleme ayrıca email "
+"ve not gönderme izni verildi."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -514,12 +524,18 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
+"Bu kullanıcıya kendisinin ilişkilendirildiği tüm projelerdeki konuları görme "
+"yetkisi verildi; Yeni konu yaratma, varolan konuları güncelleme ayrıca email "
+"ve not gönderme izni verildi. Ayrıca bu tip kullanıcı Eventum özel yönetim "
+"bölümünde proje seviyesinde birçok özellik ve seçenek düzenleyebilir."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
+"Bu kullanıcıya kendisinin ilişkilendirildiği tüm projelerdeki konuları görme "
+"yetkisi verildi; yeni konu yaratamaz yada varolan konuları güncelleyemez."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
@@ -627,7 +643,7 @@ msgstr "Dönüşümlü zamanlama round robin girdisi eklenirken bir sorun oluşt
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
-msgstr ""
+msgstr "Seçilen emaili ilişiklendirmeye çalışırken bir hata oluştu."
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
@@ -674,6 +690,10 @@ msgstr "Ekran ayarlarını güncellemeye çalışırken bir hata oluştu"
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr "SSS bilgisi güncellenirken bir hata oluştu."
 
+#: templates/edit_reporter.tpl.html
+msgid "An error occurred while trying to update the Reporter."
+msgstr "Raporcuyu güncellemeye çalışırken bir hata oluştu."
+
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
 msgstr "Hesap bilgisini güncellemeye çalışırken hata oluştu."
@@ -685,7 +705,7 @@ msgstr "Hesap yönetim bilgisini yüklerken bir hata oluştu"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
-msgstr ""
+msgstr "Eylem bilgisi güncellenirken bir hata oluştu."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
@@ -699,12 +719,12 @@ msgstr "Durum bilgisi güncellenirken bir hata oluştu."
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "An error occurred while trying to update the custom field information."
-msgstr ""
+msgstr "Özelleştirilmiş alan bilgisi güncellenirken bir hata oluştu"
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
-msgstr ""
+msgstr "Özelleştirme bilgisi güncelenirken bir hata oluştu"
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
@@ -727,7 +747,7 @@ msgstr "Sorun çözme bilgilerini güncellemek için çalışırken bir hata olu
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr ""
+msgstr "Link filtresi güncellenirken bir hata oluştu."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
@@ -782,7 +802,7 @@ msgstr "Kullanıcı bilgilerini güncellemeye çalışırken bir hata oluştu."
 #: templates/clock_status.tpl.html
 msgid ""
 "An error was found while trying to change your account clocked-in status."
-msgstr ""
+msgstr "Hesabınızın durumu değiştirilirken bir hata oluştu."
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -817,13 +837,13 @@ msgstr "İsimsiz Raporlama Seçenekleri"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting of New Issues"
-msgstr ""
+msgstr "Yeni Konular için İsimsiz Raporlama"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
-msgstr ""
+msgstr "İsimsiz Raporlama:"
 
-#: htdocs/adv_search.php:48 htdocs/list.php:78 templates/adv_search.tpl.html
+#: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
 msgstr "Herhangi"
 
@@ -833,7 +853,7 @@ msgstr "Arşivlenmiş"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
-msgstr ""
+msgstr "Uyarı listesine bu adresi eklemek istediğinizden eminmisiniz?"
 
 #: templates/manage/manage.tpl.html
 msgid "Areas"
@@ -845,11 +865,11 @@ msgstr "Varış tarihi"
 
 #: templates/faq.tpl.html
 msgid "Article Entries"
-msgstr ""
+msgstr "Makale Yazıları"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Örnek olarak kullanın"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
@@ -868,7 +888,7 @@ msgstr "Atama Yapılabilecek Kullanıcılar"
 msgid "Assignable Users:"
 msgstr "Atama Yapılabilecek Kullanıcılar:"
 
-#: lib/eventum/class.display_column.php:189 lib/eventum/class.filter.php:720
+#: lib/eventum/class.display_column.php:193 lib/eventum/class.filter.php:721
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
 msgstr "Atanan"
@@ -897,11 +917,11 @@ msgstr "Atanmış Projeler"
 
 #: templates/manage/general.tpl.html
 msgid "Assigned Role:"
-msgstr ""
+msgstr "Atanan Kural:"
 
 #: templates/manage/faq.tpl.html
 msgid "Assigned Support"
-msgstr ""
+msgstr "Atanan Destek"
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
@@ -915,7 +935,7 @@ msgstr "Atayan"
 msgid "Assignee:"
 msgstr "Atayan"
 
-#: lib/eventum/class.project.php:1098 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -923,12 +943,12 @@ msgstr "Atayan"
 msgid "Assignment"
 msgstr "Atama"
 
-#: lib/eventum/class.help.php:66 templates/help/report_assignment.tpl.html
+#: lib/eventum/class.help.php:67 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
-msgstr ""
+msgstr "Atanan Alan"
 
-#: lib/eventum/class.notification.php:614
 #: lib/eventum/class.notification.php:615
+#: lib/eventum/class.notification.php:616
 msgid "Assignment List"
 msgstr "Atama Listesi"
 
@@ -944,13 +964,13 @@ msgstr "İlişkilendir"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "#%1 Konusu için Atanan Email"
 
-#: lib/eventum/class.help.php:106 templates/emails.tpl.html
+#: lib/eventum/class.help.php:107 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
 #: templates/navigation.tpl.html
 msgid "Associate Emails"
-msgstr ""
+msgstr "Atanan Emailler"
 
 #: templates/main.tpl.html
 msgid "Associated"
@@ -958,11 +978,11 @@ msgstr "İlişkilendirilmiş"
 
 #: templates/support_emails.tpl.html
 msgid "Associated Emails"
-msgstr ""
+msgstr "İlişkilendirilen Emailler"
 
 #: templates/view_form.tpl.html
 msgid "Associated Issues"
-msgstr ""
+msgstr "İlişkilendirilen Konular"
 
 #: templates/update_form.tpl.html
 msgid "Associated Issues:"
@@ -970,16 +990,16 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Associated Project"
-msgstr ""
+msgstr "İlişkilendirilen Proje"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Associated Project:"
-msgstr ""
+msgstr "İlişkilendirilen Proje:"
 
 #: templates/view_email.tpl.html
 msgid "Associated with Issue"
-msgstr ""
+msgstr "Konuyla ilişkilendirilmiş"
 
 #: templates/post.tpl.html
 msgid "Attach Files"
@@ -993,13 +1013,13 @@ msgstr "Ekli Emailler"
 msgid "Attached Files"
 msgstr "Ekli Dosyalar"
 
-#: lib/eventum/class.support.php:1450
+#: lib/eventum/class.support.php:1456
 msgid "Attachment originated from a note"
-msgstr ""
+msgstr "Nottan gelen ek"
 
-#: lib/eventum/class.support.php:1448
+#: lib/eventum/class.support.php:1454
 msgid "Attachment originated from an email"
-msgstr ""
+msgstr "Emailden gelen ek"
 
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
@@ -1012,36 +1032,37 @@ msgstr "Eklentiler:"
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
-msgstr ""
+msgstr "Yetkili cevaplayıcılar"
 
 #: templates/update_form.tpl.html
 msgid "Authorized Repliers:"
-msgstr ""
+msgstr "Yetkili Cevaplayıcılar:"
 
-#: lib/eventum/class.filter.php:780 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:781 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
-msgstr ""
+msgstr "Email Göndermek için Yetkilendirilmiş."
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Auto-Creation of Issues"
-msgstr ""
+msgstr "Konuların otomatik yaratıcısı"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
-msgstr ""
+msgstr "Otomatikleştirilmiş Konu"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Otomatikleştirilmiş Konu #%1 Hatırlatıcı Uyarı"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
-msgstr ""
+msgstr "İç notları oluştururken email imzasını otomatik olarak ilave et."
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing web based emails"
 msgstr ""
+"Web tabanlı mail oluştururken email imzasını otomatik olarak ilave et."
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
@@ -1049,7 +1070,7 @@ msgstr "Doğrulama penceresi otomatik olarak kapatılsın mı?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
-msgstr ""
+msgstr "Mevcut - Kullanıcılar bu sürümü kullanabilir"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
@@ -1061,7 +1082,7 @@ msgstr "Mevcut Diller"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Mevcut İlişkili Başlıklar"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
@@ -1071,29 +1092,29 @@ msgstr "Mevcut Raporlar"
 msgid ""
 "Average and median counts do not include customers who have never opened an "
 "issue."
-msgstr ""
+msgstr "Ortalama sayılar hiçbir konu oluşturmamış müşterileri içermez."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
 msgstr "Ortalama"
 
-#: lib/eventum/class.customer_stats_report.php:689
+#: lib/eventum/class.customer_stats_report.php:690
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Destek Seviyesinde Müşteri başına Ortalama İş Yükü"
 
-#: lib/eventum/class.customer_stats_report.php:698
+#: lib/eventum/class.customer_stats_report.php:699
 msgid "Avg and Median Time to Close by Support Level"
-msgstr ""
+msgstr "Destek Seviyesinde Ortalama Kapatma Süresi"
 
-#: lib/eventum/class.customer_stats_report.php:707
+#: lib/eventum/class.customer_stats_report.php:708
 msgid "Avg and Median Time to First Response by Support Level"
-msgstr ""
+msgstr "Destek Seviyesinde Ortalama İlk Cevap Süresi"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Avg/Med/Max Issues/Emails"
-msgstr ""
+msgstr "Ortalama/Maksimum Konular/Emailler"
 
-#: lib/eventum/class.notification.php:965
+#: lib/eventum/class.notification.php:973
 msgid "BLOCKED"
 msgstr "ENGELLENMİŞ"
 
@@ -1108,7 +1129,7 @@ msgstr "Giriş Formuna Geri Dön"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Back to Reminder Action List"
-msgstr ""
+msgstr "Hatırlatıcı Eyle Listesine Geri Dön"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Back to Reminder List"
@@ -1124,31 +1145,45 @@ msgstr "Yukarı Çık"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
+msgstr "Yedek Teknik Hesap Yönetimi"
+
+#: templates/manage/ldap.tpl.html
+msgid "Base DN:"
 msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
+"Eventum tarafından başlangıçtan şu anda kadar kaydedilen tüm konular baz "
+"alındı."
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Based on all open issue in Eventum for <b>%1</b>."
-msgstr ""
+msgstr "<b>%1</b> için Eventumdaki tüm açık konular baz alındı."
 
 #: templates/manage/general.tpl.html
 msgid "Before Sender Name"
-msgstr ""
+msgstr "Gönderenin Adından Önce"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
 msgstr "Arasında"
 
+#: templates/manage/ldap.tpl.html
+msgid "Bind DN:"
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Bind PW:"
+msgstr ""
+
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
-msgstr ""
+msgstr "Engelleme Zaman Aralığı"
 
 #: templates/view_note.tpl.html
 msgid "Blocked Message Raw Headers"
-msgstr ""
+msgstr "Engellenen Mesajın Temel Başlıkları"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Blue values indicate value is lower than the aggregate one."
@@ -1208,7 +1243,8 @@ msgstr ""
 msgid "Call Type"
 msgstr ""
 
-#: templates/post_note.tpl.html templates/send.tpl.html
+#: templates/edit_reporter.tpl.html templates/post_note.tpl.html
+#: templates/send.tpl.html
 msgid "Cancel"
 msgstr "İptal"
 
@@ -1223,15 +1259,15 @@ msgstr ""
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr "Katalonca"
+msgstr "Katalanca"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
 msgstr "Kategoriler ve Durumlar"
 
-#: lib/eventum/class.display_column.php:203 lib/eventum/class.filter.php:725
-#: lib/eventum/class.notification.php:623
-#: lib/eventum/class.notification.php:624 lib/eventum/class.project.php:1096
+#: lib/eventum/class.display_column.php:207 lib/eventum/class.filter.php:726
+#: lib/eventum/class.notification.php:624
+#: lib/eventum/class.notification.php:625 lib/eventum/class.project.php:1097
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1242,7 +1278,7 @@ msgstr "Kategoriler ve Durumlar"
 msgid "Category"
 msgstr "Kategori"
 
-#: lib/eventum/class.help.php:58 templates/help/report_category.tpl.html
+#: lib/eventum/class.help.php:59 templates/help/report_category.tpl.html
 msgid "Category Field"
 msgstr "Kategori Alanı"
 
@@ -1370,7 +1406,7 @@ msgstr ""
 msgid "Close Window"
 msgstr "Pencereyi Kapat"
 
-#: lib/eventum/class.notification.php:825
+#: lib/eventum/class.notification.php:833
 msgid "Closed"
 msgstr "Kapatıldı"
 
@@ -1378,7 +1414,7 @@ msgstr "Kapatıldı"
 msgid "Closed Context ?"
 msgstr ""
 
-#: lib/eventum/class.filter.php:759
+#: lib/eventum/class.filter.php:760
 msgid "Closed Date"
 msgstr "Kapatılma Tarihi"
 
@@ -1560,13 +1596,17 @@ msgstr "Kullanıcı Oluştur"
 msgid "Create User and Permissions"
 msgstr "Kullanıcı ve İzinleri Oluştur"
 
+#: templates/manage/ldap.tpl.html
+msgid "Create Users:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
 msgstr "Oluşturuldu"
 
-#: lib/eventum/class.display_column.php:183 lib/eventum/class.filter.php:739
+#: lib/eventum/class.display_column.php:187 lib/eventum/class.filter.php:740
 msgid "Created Date"
 msgstr "Oluşturulma Tarihi"
 
@@ -1598,7 +1638,7 @@ msgstr "Geçerli filtreler:"
 msgid "Custom Field"
 msgstr "Özel Alan"
 
-#: lib/eventum/class.display_column.php:224 templates/custom_fields.tpl.html
+#: lib/eventum/class.display_column.php:228 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
 msgstr "Özel Alanlar"
@@ -1612,13 +1652,13 @@ msgstr ""
 msgid "Custom Fields Weekly Report"
 msgstr ""
 
-#: lib/eventum/class.custom_field.php:311
+#: lib/eventum/class.custom_field.php:312
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:664
-#: lib/eventum/class.display_column.php:209 lib/eventum/class.filter.php:796
+#: lib/eventum/class.customer_stats_report.php:665
+#: lib/eventum/class.display_column.php:213 lib/eventum/class.filter.php:797
 #: templates/emails.tpl.html templates/help/permission_levels.tpl.html
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customer_notes.tpl.html templates/manage/users.tpl.html
@@ -1636,7 +1676,7 @@ msgstr "Müşteri"
 msgid "Customer Contract"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:728
+#: lib/eventum/class.customer_stats_report.php:729
 msgid "Customer Counts"
 msgstr ""
 
@@ -1669,10 +1709,14 @@ msgstr "Müşteri:"
 msgid "Customers"
 msgstr "Müşteriler"
 
-#: lib/eventum/class.help.php:138 templates/help/customize_listing.tpl.html
+#: lib/eventum/class.help.php:139 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
+msgstr ""
+
+#: templates/manage/manage.tpl.html
+msgid "Customize LDAP Config"
 msgstr ""
 
 #: templates/manage/manage.tpl.html
@@ -1691,7 +1735,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr "Danimarkaca"
+msgstr "Danca"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1748,7 +1792,7 @@ msgstr "Ayın Günü"
 msgid "Day of Week"
 msgstr "Haftanın Günü"
 
-#: lib/eventum/class.customer_stats_report.php:704
+#: lib/eventum/class.customer_stats_report.php:705
 msgid "Days"
 msgstr "Günler"
 
@@ -1774,6 +1818,10 @@ msgstr ""
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
 msgstr "Varsayılan Öncelik:"
+
+#: templates/manage/ldap.tpl.html
+msgid "Default Roles:"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid "Defaults"
@@ -1819,7 +1867,7 @@ msgstr ""
 msgid "Description"
 msgstr "Açıklama"
 
-#: lib/eventum/class.help.php:78 templates/help/report_description.tpl.html
+#: lib/eventum/class.help.php:79 templates/help/report_description.tpl.html
 msgid "Description Field"
 msgstr "Açıklama Alanı"
 
@@ -1859,7 +1907,7 @@ msgstr "Biliyor musunuz?"
 msgid "Diff Page:"
 msgstr ""
 
-#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
+#: htdocs/manage/monitor.php:55 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
@@ -1874,14 +1922,14 @@ msgstr ""
 msgid "Display on List Issues Page"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:690
+#: lib/eventum/class.customer_stats_report.php:691
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:699
-#: lib/eventum/class.customer_stats_report.php:708
+#: lib/eventum/class.customer_stats_report.php:700
+#: lib/eventum/class.customer_stats_report.php:709
 msgid "Displays time stats"
 msgstr ""
 
@@ -1897,7 +1945,7 @@ msgstr ""
 msgid "Draft Address Prefix:"
 msgstr ""
 
-#: lib/eventum/class.routing.php:417
+#: lib/eventum/class.routing.php:418
 msgid "Draft routed from"
 msgstr ""
 
@@ -1934,82 +1982,89 @@ msgstr "Hollandaca"
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:72
+#: lib/eventum/class.monitor.php:107
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:261
+#: lib/eventum/class.monitor.php:296
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr ""
 
-#: lib/eventum/class.monitor.php:238
+#: lib/eventum/class.monitor.php:273
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
 msgstr ""
 
-#: lib/eventum/class.monitor.php:139
+#: lib/eventum/class.monitor.php:174
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:146
+#: lib/eventum/class.monitor.php:181
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:97
+#: lib/eventum/class.monitor.php:132
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:108
+#: lib/eventum/class.monitor.php:143
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:104
+#: lib/eventum/class.monitor.php:139
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:114
+#: lib/eventum/class.monitor.php:149
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:119
+#: lib/eventum/class.monitor.php:154
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:76
+#: lib/eventum/class.monitor.php:111
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
 
-#: lib/eventum/class.monitor.php:54
+#: lib/eventum/class.monitor.php:90
+#, php-format
+msgid "ERROR: There is a total of %d emails not associated."
+msgstr ""
+
+#: lib/eventum/class.monitor.php:55
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
 msgstr ""
@@ -2022,13 +2077,13 @@ msgstr ""
 msgid "Edit Categories"
 msgstr "Kategorileri Düzenle"
 
-#: lib/eventum/class.help.php:134 templates/help/column_display.tpl.html
+#: lib/eventum/class.help.php:135 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
 msgstr ""
 
-#: lib/eventum/class.help.php:130 templates/help/field_display.tpl.html
+#: lib/eventum/class.help.php:131 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
@@ -2058,20 +2113,28 @@ msgstr "Öncelikleri Düzenle"
 msgid "Edit Releases"
 msgstr "Versiyonları Düzenle"
 
+#: templates/view_form.tpl.html
+msgid "Edit Reporter"
+msgstr ""
+
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
 msgstr "İmzayı Düzenle"
+
+#: templates/view_form.tpl.html
+msgid "Edit the Reporter for this issue"
+msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
 msgstr "Eposta"
 
-#: lib/eventum/class.support.php:1502
+#: lib/eventum/class.support.php:1508
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1846
+#: lib/eventum/class.support.php:1852
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2113,12 +2176,12 @@ msgstr ""
 msgid "Email Alias"
 msgstr ""
 
-#: lib/eventum/class.help.php:122 templates/help/email_blocking.tpl.html
+#: lib/eventum/class.help.php:123 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
 msgid "Email Blocking"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:730
+#: lib/eventum/class.customer_stats_report.php:731
 msgid "Email Counts"
 msgstr ""
 
@@ -2138,7 +2201,7 @@ msgstr ""
 msgid "Email List:"
 msgstr "Eposta Listesi:"
 
-#: lib/eventum/class.help.php:114 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:115 templates/help/main.tpl.html
 #: templates/help/notifications.tpl.html
 msgid "Email Notifications"
 msgstr "Eposta Bildirimleri"
@@ -2171,7 +2234,7 @@ msgstr ""
 msgid "Email Workload by Time of day"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:50
+#: htdocs/reports/workload_time_period_graph.php:51
 msgid "Email by Time Period"
 msgstr ""
 
@@ -2179,22 +2242,22 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2570
+#: lib/eventum/class.support.php:2576
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
 
-#: lib/eventum/class.draft.php:162
+#: lib/eventum/class.draft.php:163
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr ""
 
-#: lib/eventum/class.draft.php:118
+#: lib/eventum/class.draft.php:119
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr ""
 
-#: lib/eventum/class.routing.php:220 lib/eventum/class.support.php:794
+#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -2242,7 +2305,7 @@ msgstr ""
 msgid "Empty Subject Header"
 msgstr ""
 
-#: htdocs/manage/monitor.php:53 templates/manage/anonymous.tpl.html
+#: htdocs/manage/monitor.php:54 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
@@ -2260,7 +2323,7 @@ msgstr "Son"
 msgid "End date"
 msgstr "Bitiş tarihi"
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "End time in the future."
 msgstr ""
 
@@ -2312,17 +2375,17 @@ msgstr ""
 msgid "Error: No user account was found matching the entered email address."
 msgstr ""
 
-#: lib/eventum/class.routing.php:64 lib/eventum/class.routing.php:266
-#: lib/eventum/class.routing.php:382
+#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
+#: lib/eventum/class.routing.php:383
 msgid "Error: Please configure the email address domain."
 msgstr ""
 
-#: lib/eventum/class.routing.php:61 lib/eventum/class.routing.php:263
-#: lib/eventum/class.routing.php:379
+#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
+#: lib/eventum/class.routing.php:380
 msgid "Error: Please configure the email address prefix."
 msgstr ""
 
-#: lib/eventum/class.routing.php:110
+#: lib/eventum/class.routing.php:111
 msgid "Error: Please provide the email account ID."
 msgstr ""
 
@@ -2330,7 +2393,7 @@ msgstr ""
 msgid "Error: Please provide your email address."
 msgstr ""
 
-#: lib/eventum/class.routing.php:70
+#: lib/eventum/class.routing.php:71
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2341,23 +2404,23 @@ msgid ""
 "system."
 msgstr ""
 
-#: lib/eventum/class.routing.php:376
+#: lib/eventum/class.routing.php:377
 msgid "Error: The email draft interface is disabled."
 msgstr ""
 
-#: lib/eventum/class.routing.php:49
+#: lib/eventum/class.routing.php:50
 msgid "Error: The email message was empty"
 msgstr ""
 
-#: lib/eventum/class.routing.php:249 lib/eventum/class.routing.php:365
+#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
 msgid "Error: The email message was empty."
 msgstr ""
 
-#: lib/eventum/class.routing.php:58
+#: lib/eventum/class.routing.php:59
 msgid "Error: The email routing interface is disabled."
 msgstr ""
 
-#: lib/eventum/class.routing.php:260
+#: lib/eventum/class.routing.php:261
 msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 
@@ -2373,14 +2436,14 @@ msgstr ""
 msgid "Error: The issue could not be found."
 msgstr ""
 
-#: lib/eventum/class.routing.php:100 lib/eventum/class.routing.php:105
-#: lib/eventum/class.routing.php:398
+#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
+#: lib/eventum/class.routing.php:399
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
 
-#: lib/eventum/class.routing.php:281
+#: lib/eventum/class.routing.php:282
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2415,12 +2478,12 @@ msgstr ""
 msgid "Esperanto"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:199
+#: lib/eventum/class.display_column.php:203
 msgid "Est Dev Time"
 msgstr ""
 
-#: lib/eventum/class.notification.php:643
-#: lib/eventum/class.notification.php:644 lib/eventum/class.project.php:1100
+#: lib/eventum/class.notification.php:644
+#: lib/eventum/class.notification.php:645 lib/eventum/class.project.php:1101
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2438,7 +2501,7 @@ msgstr ""
 msgid "Estimated Development Time"
 msgstr ""
 
-#: lib/eventum/class.help.php:82
+#: lib/eventum/class.help.php:83
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid "Estimated Development Time Field"
 msgstr ""
@@ -2589,9 +2652,9 @@ msgstr ""
 msgid "Expand collapsed cell"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:232
-#: lib/eventum/class.notification.php:619
-#: lib/eventum/class.notification.php:620 templates/view_form.tpl.html
+#: lib/eventum/class.display_column.php:236
+#: lib/eventum/class.notification.php:620
+#: lib/eventum/class.notification.php:621 templates/view_form.tpl.html
 msgid "Expected Resolution Date"
 msgstr ""
 
@@ -2607,6 +2670,10 @@ msgstr ""
 msgid "Export to Excel"
 msgstr ""
 
+#: templates/manage/users.tpl.html
+msgid "External ID"
+msgstr ""
+
 #: templates/post_note.tpl.html
 msgid "Extra Note Recipients:"
 msgstr ""
@@ -2616,7 +2683,7 @@ msgstr ""
 msgid "Faroese"
 msgstr ""
 
-#: lib/eventum/class.reminder_condition.php:213
+#: lib/eventum/class.reminder_condition.php:214
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Field"
 msgstr "Alan"
@@ -2637,7 +2704,7 @@ msgstr ""
 msgid "Field:"
 msgstr "Alan:"
 
-#: lib/eventum/class.project.php:1102 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
 msgid "File"
 msgstr "Dosya"
 
@@ -2672,7 +2739,7 @@ msgstr "Fince"
 msgid "First Response By Staff"
 msgstr ""
 
-#: lib/eventum/class.filter.php:754
+#: lib/eventum/class.filter.php:755
 msgid "First Response Date"
 msgstr ""
 
@@ -2777,13 +2844,13 @@ msgstr ""
 msgid "Greater or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:605
+#: lib/eventum/class.filter.php:606
 #, php-format
 msgid "Greater than %1$s"
 msgstr ""
 
-#: htdocs/list.php:90 lib/eventum/class.display_column.php:186
-#: lib/eventum/class.project.php:1101 templates/manage/users.tpl.html
+#: htdocs/list.php:98 lib/eventum/class.display_column.php:190
+#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -2844,7 +2911,7 @@ msgstr ""
 msgid "Help"
 msgstr "Yardım"
 
-#: lib/eventum/class.help.php:50
+#: lib/eventum/class.help.php:51
 msgid "Help Topics"
 msgstr "Yardım Konuları"
 
@@ -2856,7 +2923,7 @@ msgstr "Gizle"
 msgid "Hide Associated Emails"
 msgstr ""
 
-#: lib/eventum/class.filter.php:776 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:777 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
 msgstr ""
@@ -2881,6 +2948,10 @@ msgstr ""
 msgid "Host Alias:"
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Host:"
+msgstr ""
+
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
 msgstr ""
@@ -2889,7 +2960,7 @@ msgstr ""
 msgid "Hostname:"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:713
+#: lib/eventum/class.customer_stats_report.php:714
 msgid "Hours"
 msgstr "Saat"
 
@@ -2998,12 +3069,12 @@ msgstr ""
 msgid "Impact Analysis"
 msgstr ""
 
-#: lib/eventum/class.impact_analysis.php:197
+#: lib/eventum/class.impact_analysis.php:198
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.impact_analysis.php:163
+#: lib/eventum/class.impact_analysis.php:164
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr ""
@@ -3012,7 +3083,7 @@ msgstr ""
 msgid "Important Notices"
 msgstr ""
 
-#: lib/eventum/class.filter.php:784 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:785 templates/adv_search.tpl.html
 msgid "In Notification List"
 msgstr ""
 
@@ -3020,7 +3091,7 @@ msgstr ""
 msgid "In Past"
 msgstr ""
 
-#: lib/eventum/class.filter.php:626
+#: lib/eventum/class.filter.php:627
 #, php-format
 msgid "In Past %1$s hours"
 msgstr ""
@@ -3054,7 +3125,7 @@ msgstr ""
 msgid "Include expired contracts"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:682
+#: lib/eventum/class.customer_stats_report.php:683
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -3081,7 +3152,7 @@ msgstr ""
 msgid "Initial Status for New Issues"
 msgstr ""
 
-#: lib/eventum/class.help.php:94 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:95 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
 msgstr ""
@@ -3110,7 +3181,7 @@ msgstr ""
 msgid "Interval"
 msgstr ""
 
-#: lib/eventum/class.filter.php:629
+#: lib/eventum/class.filter.php:630
 msgid "Is NULL"
 msgstr ""
 
@@ -3118,17 +3189,17 @@ msgstr ""
 msgid "Is Null"
 msgstr ""
 
-#: lib/eventum/class.filter.php:633
+#: lib/eventum/class.filter.php:634
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:637
+#: lib/eventum/class.filter.php:638
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: lib/eventum/class.filter.php:640
+#: lib/eventum/class.filter.php:641
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
@@ -3144,13 +3215,13 @@ msgid "Issue #"
 msgstr "Bildiri #"
 
 #. TRANSLATORS: %1 = issue id
-#: htdocs/view.php:57
+#: htdocs/view.php:58
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
 
 #. TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
-#: htdocs/view_email.php:49
+#: htdocs/view_email.php:50
 #, php-format
 msgid "Issue #%1$s Email #%3$s: %2$s"
 msgstr ""
@@ -3159,7 +3230,7 @@ msgstr ""
 msgid "Issue Count"
 msgstr "Bildiri Sayısı"
 
-#: lib/eventum/class.customer_stats_report.php:729
+#: lib/eventum/class.customer_stats_report.php:730
 msgid "Issue Counts"
 msgstr "Bildiri Sayısı"
 
@@ -3167,7 +3238,7 @@ msgstr "Bildiri Sayısı"
 msgid "Issue Details"
 msgstr "Bildiri Detayları"
 
-#: lib/eventum/class.display_column.php:177 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:181 templates/adv_search.tpl.html
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
@@ -3217,23 +3288,23 @@ msgstr "Bildiriler Kapatıldı"
 msgid "Issues are Updated"
 msgstr ""
 
-#: htdocs/stats_chart.php:73
+#: htdocs/stats_chart.php:74
 msgid "Issues by Assignment"
 msgstr ""
 
-#: htdocs/stats_chart.php:76 templates/main.tpl.html
+#: htdocs/stats_chart.php:77 templates/main.tpl.html
 msgid "Issues by Category"
 msgstr ""
 
-#: htdocs/stats_chart.php:70 templates/main.tpl.html
+#: htdocs/stats_chart.php:71 templates/main.tpl.html
 msgid "Issues by Priority"
 msgstr ""
 
-#: htdocs/stats_chart.php:67 templates/main.tpl.html
+#: htdocs/stats_chart.php:68 templates/main.tpl.html
 msgid "Issues by Release"
 msgstr ""
 
-#: htdocs/stats_chart.php:55 templates/main.tpl.html
+#: htdocs/stats_chart.php:56 templates/main.tpl.html
 msgid "Issues by Status"
 msgstr ""
 
@@ -3282,7 +3353,7 @@ msgstr ""
 msgid "Keep form open to report another issue"
 msgstr ""
 
-#: lib/eventum/class.filter.php:715 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:716 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Keyword(s)"
 msgstr ""
@@ -3296,6 +3367,10 @@ msgstr ""
 msgid "Korean"
 msgstr "Korece"
 
+#: templates/manage/ldap.tpl.html
+msgid "LDAP Setup"
+msgstr ""
+
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
 msgstr ""
@@ -3304,7 +3379,7 @@ msgstr ""
 msgid "Label:"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:221 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:225 templates/adv_search.tpl.html
 msgid "Last Action Date"
 msgstr ""
 
@@ -3317,7 +3392,7 @@ msgstr ""
 msgid "Last Response"
 msgstr ""
 
-#: lib/eventum/class.filter.php:749
+#: lib/eventum/class.filter.php:750
 msgid "Last Response Date"
 msgstr ""
 
@@ -3365,7 +3440,7 @@ msgstr ""
 msgid "Less or Equal"
 msgstr ""
 
-#: lib/eventum/class.filter.php:608
+#: lib/eventum/class.filter.php:609
 #, php-format
 msgid "Less than %1$s"
 msgstr ""
@@ -3378,7 +3453,7 @@ msgstr "Seviyeler"
 msgid "Line"
 msgstr ""
 
-#: lib/eventum/class.help.php:126 templates/help/link_filters.tpl.html
+#: lib/eventum/class.help.php:127 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
 msgstr ""
@@ -3400,7 +3475,7 @@ msgstr "Bildiri Listesi"
 msgid "List Removed Emails"
 msgstr ""
 
-#: lib/eventum/class.help.php:98 templates/help/list.tpl.html
+#: lib/eventum/class.help.php:99 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
 msgstr ""
@@ -3408,7 +3483,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr "Litvanyaca"
+msgstr "Litvanca"
 
 #: templates/manage/general.tpl.html
 msgid "Log Page:"
@@ -3688,7 +3763,7 @@ msgstr ""
 msgid "New Attachment"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1115 templates/emails.tpl.html
+#: lib/eventum/class.notification.php:1121 templates/emails.tpl.html
 msgid "New Issue"
 msgstr "Yeni Bildiri"
 
@@ -3704,11 +3779,11 @@ msgstr "Yeni Şifre"
 msgid "New Status for Issue"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1467
+#: lib/eventum/class.notification.php:1473
 msgid "New User information"
 msgstr ""
 
-#: lib/eventum/class.impact_analysis.php:72
+#: lib/eventum/class.impact_analysis.php:73
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr ""
@@ -3717,7 +3792,7 @@ msgstr ""
 msgid "News and Announcements"
 msgstr ""
 
-#: lib/eventum/class.pager.php:121 templates/post.tpl.html
+#: lib/eventum/class.pager.php:122 templates/post.tpl.html
 msgid "Next"
 msgstr "İleri"
 
@@ -3733,7 +3808,7 @@ msgstr "Sonraki Mesaj"
 msgid "Next Note"
 msgstr "Sonraki Not"
 
-#: lib/eventum/class.misc.php:714 templates/close.tpl.html
+#: lib/eventum/class.misc.php:715 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -3829,8 +3904,8 @@ msgstr ""
 msgid "No custom fields could be found."
 msgstr ""
 
-#: htdocs/reports/custom_fields.php:53
-#: htdocs/reports/custom_fields_weekly.php:52
+#: htdocs/reports/custom_fields.php:54
+#: htdocs/reports/custom_fields_weekly.php:53
 msgid "No custom fields for this project"
 msgstr ""
 
@@ -3863,7 +3938,7 @@ msgstr ""
 msgid "No entries could be found."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:592
+#: lib/eventum/class.reminder_action.php:593
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr ""
@@ -3991,7 +4066,7 @@ msgstr ""
 msgid "Note Recipient Type Flag:"
 msgstr ""
 
-#: lib/eventum/class.routing.php:340
+#: lib/eventum/class.routing.php:341
 #, php-format
 msgid "Note routed from %1$s"
 msgstr ""
@@ -4047,22 +4122,22 @@ msgstr ""
 msgid "Notification Options for Issue #%1"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2054
+#: lib/eventum/class.notification.php:2060
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:1894
+#: lib/eventum/class.notification.php:1900
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2140
+#: lib/eventum/class.notification.php:2146
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: lib/eventum/class.notification.php:2236
+#: lib/eventum/class.notification.php:2242
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -4075,7 +4150,7 @@ msgstr ""
 msgid "Number of Days"
 msgstr ""
 
-#: crons/monitor.php:101
+#: crons/monitor.php:103
 msgid "OK: No errors found"
 msgstr ""
 
@@ -4104,7 +4179,7 @@ msgstr ""
 msgid "Only for Known Customers?"
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:119
+#: lib/eventum/class.mail_helper.php:120
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -4194,7 +4269,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2204
+#: lib/eventum/class.support.php:2210
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -4270,8 +4345,8 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: lib/eventum/class.notification.php:651
 #: lib/eventum/class.notification.php:652
+#: lib/eventum/class.notification.php:653
 msgid "Percent complete"
 msgstr ""
 
@@ -4291,7 +4366,7 @@ msgstr ""
 msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:602
+#: lib/eventum/class.reminder_action.php:603
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr ""
@@ -4312,12 +4387,12 @@ msgstr "Telefon Aramaları"
 msgid "Phone Number"
 msgstr "Telefon Numarası"
 
-#: lib/eventum/class.phone_support.php:403
+#: lib/eventum/class.phone_support.php:404
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:344
+#: lib/eventum/class.phone_support.php:345
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr ""
@@ -4628,13 +4703,15 @@ msgid ""
 "Please contact the administrator of this application for further assistance."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4666,9 +4743,9 @@ msgstr ""
 msgid "Please enter a valid email address for the sender address."
 msgstr "Lütfen gönderici adresi için geçerli bir e-posta adresi girin."
 
-#: templates/authorized_replier.tpl.html templates/manage/users.tpl.html
-#: templates/notification.tpl.html templates/preferences.tpl.html
-#: templates/signup.tpl.html
+#: templates/authorized_replier.tpl.html templates/edit_reporter.tpl.html
+#: templates/manage/users.tpl.html templates/notification.tpl.html
+#: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter a valid email address."
 msgstr "Lütfen geçerli bir e-posta adresi girin."
 
@@ -4702,6 +4779,14 @@ msgstr ""
 msgid "Please enter the IMAP folder for this email account."
 msgstr ""
 
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP Host."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the LDAP port."
+msgstr ""
+
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
 msgstr "Lütfen SMTP sunucu adresini girin."
@@ -4728,6 +4813,10 @@ msgstr ""
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the analysis for the changes required by this issue."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the base dn."
 msgstr ""
 
 #: templates/manage/general.tpl.html
@@ -4866,6 +4955,10 @@ msgstr ""
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the rank of this priority"
+msgstr ""
+
+#: templates/manage/resolution.tpl.html
+msgid "Please enter the rank of this resolution."
 msgstr ""
 
 #: templates/manage/statuses.tpl.html
@@ -5063,6 +5156,10 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the updated value."
+msgstr ""
+
+#: templates/manage/ldap.tpl.html
+msgid "Please enter the user dn."
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
@@ -5305,6 +5402,10 @@ msgstr ""
 msgid "Port"
 msgstr "Port"
 
+#: templates/manage/ldap.tpl.html
+msgid "Port:"
+msgstr ""
+
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
@@ -5326,7 +5427,7 @@ msgstr ""
 msgid "Posted Date:"
 msgstr ""
 
-#: lib/eventum/class.support.php:483
+#: lib/eventum/class.support.php:484
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
@@ -5334,7 +5435,7 @@ msgstr ""
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: lib/eventum/class.pager.php:120
+#: lib/eventum/class.pager.php:121
 msgid "Previous"
 msgstr "Geri"
 
@@ -5354,9 +5455,9 @@ msgstr "Önceki Not"
 msgid "Primary Technical Account Manager"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:174 lib/eventum/class.filter.php:710
-#: lib/eventum/class.notification.php:631
-#: lib/eventum/class.notification.php:632 lib/eventum/class.project.php:1097
+#: lib/eventum/class.display_column.php:178 lib/eventum/class.filter.php:711
+#: lib/eventum/class.notification.php:632
+#: lib/eventum/class.notification.php:633 lib/eventum/class.project.php:1098
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5368,7 +5469,7 @@ msgstr ""
 msgid "Priority"
 msgstr "Öncelik"
 
-#: lib/eventum/class.help.php:62 templates/help/report_priority.tpl.html
+#: lib/eventum/class.help.php:63 templates/help/report_priority.tpl.html
 msgid "Priority Field"
 msgstr "Öncelik Alanı"
 
@@ -5376,7 +5477,7 @@ msgstr "Öncelik Alanı"
 msgid "Priority:"
 msgstr "Öncelik:"
 
-#: lib/eventum/class.project.php:1103 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr "Özel"
@@ -5385,7 +5486,7 @@ msgstr "Özel"
 msgid "Private:"
 msgstr "Özel:"
 
-#: lib/eventum/class.reminder_action.php:586
+#: lib/eventum/class.reminder_action.php:587
 msgid "Processing Group Leader notification"
 msgstr ""
 
@@ -5404,6 +5505,10 @@ msgstr "Proje"
 #: templates/manage/projects.tpl.html
 msgid "Project Lead"
 msgstr "Proje Lideri"
+
+#: templates/edit_reporter.tpl.html
+msgid "Project Reporters"
+msgstr ""
 
 #: templates/update_form.tpl.html
 msgid "Project automatically switched to '%1' from '%2'."
@@ -5456,12 +5561,13 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/priorities.tpl.html
 #: templates/manage/reminder_actions.tpl.html
-#: templates/manage/reminders.tpl.html templates/manage/statuses.tpl.html
+#: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
+#: templates/manage/statuses.tpl.html
 msgid "Rank"
 msgstr "Derece"
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
-#: templates/manage/statuses.tpl.html
+#: templates/manage/resolution.tpl.html templates/manage/statuses.tpl.html
 msgid "Rank:"
 msgstr "Derece:"
 
@@ -5477,14 +5583,14 @@ msgstr ""
 
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
-#: htdocs/post_note.php:85 lib/eventum/class.mail_helper.php:100
-#: lib/eventum/class.support.php:1598
+#: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
+#: lib/eventum/class.support.php:1604
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
-#: lib/eventum/class.issue.php:820
+#: lib/eventum/class.issue.php:821
 #, php-format
 msgid "Re: [#%1$s] %2$s"
 msgstr ""
@@ -5628,9 +5734,9 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:206 lib/eventum/class.filter.php:735
-#: lib/eventum/class.notification.php:627
-#: lib/eventum/class.notification.php:628 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:210 lib/eventum/class.filter.php:736
+#: lib/eventum/class.notification.php:628
+#: lib/eventum/class.notification.php:629 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
 msgstr "Versiyon"
@@ -5645,7 +5751,7 @@ msgid ""
 "prevent anyone else from changing your existing Eventum configuration."
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:751
+#: lib/eventum/class.reminder_action.php:752
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Reminder"
@@ -5655,7 +5761,7 @@ msgstr ""
 msgid "Reminder Alert"
 msgstr ""
 
-#: lib/eventum/class.reminder_action.php:791
+#: lib/eventum/class.reminder_action.php:792
 msgid "Reminder Not Triggered"
 msgstr ""
 
@@ -5756,9 +5862,9 @@ msgstr ""
 msgid "Reported By"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:180 lib/eventum/class.filter.php:792
-#: templates/adv_search.tpl.html templates/help/permission_levels.tpl.html
-#: templates/view_form.tpl.html
+#: lib/eventum/class.display_column.php:184 lib/eventum/class.filter.php:793
+#: templates/adv_search.tpl.html templates/edit_reporter.tpl.html
+#: templates/help/permission_levels.tpl.html templates/view_form.tpl.html
 msgid "Reporter"
 msgstr ""
 
@@ -5766,7 +5872,7 @@ msgstr ""
 msgid "Reporter:"
 msgstr ""
 
-#: lib/eventum/class.help.php:54
+#: lib/eventum/class.help.php:55
 msgid "Reporting Issues"
 msgstr ""
 
@@ -5818,8 +5924,9 @@ msgstr ""
 #: templates/manage/field_display.tpl.html templates/manage/general.tpl.html
 #: templates/manage/groups.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/link_filters.tpl.html templates/manage/monitor.tpl.html
-#: templates/manage/news.tpl.html templates/manage/phone_categories.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/link_filters.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/news.tpl.html
+#: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/releases.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -5833,8 +5940,8 @@ msgstr ""
 msgid "Reset"
 msgstr "Temizle"
 
-#: lib/eventum/class.notification.php:639
-#: lib/eventum/class.notification.php:640 templates/close.tpl.html
+#: lib/eventum/class.notification.php:640
+#: lib/eventum/class.notification.php:641 templates/close.tpl.html
 #: templates/view_form.tpl.html
 msgid "Resolution"
 msgstr ""
@@ -5859,7 +5966,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: lib/eventum/class.filter.php:764 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:765 templates/adv_search.tpl.html
 msgid "Rows Per Page"
 msgstr ""
 
@@ -5880,16 +5987,16 @@ msgstr "Rusça"
 msgid "SCM <br />Integration:"
 msgstr ""
 
-#: lib/eventum/class.scm.php:214
+#: lib/eventum/class.scm.php:215
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
-#: lib/eventum/class.scm.php:93
+#: lib/eventum/class.scm.php:94
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.help.php:86 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:87 templates/help/main.tpl.html
 #: templates/help/scm_integration.tpl.html
 msgid "SCM Integration"
 msgstr ""
@@ -5939,6 +6046,10 @@ msgstr ""
 msgid "Save Phone Call"
 msgstr ""
 
+#: templates/edit_reporter.tpl.html
+msgid "Save Reporter"
+msgstr ""
+
 #: templates/adv_search.tpl.html
 msgid "Save Search"
 msgstr ""
@@ -5955,12 +6066,12 @@ msgstr ""
 msgid "Saved Searches"
 msgstr ""
 
-#: lib/eventum/class.project.php:1099 templates/new.tpl.html
+#: lib/eventum/class.project.php:1100 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr ""
 
-#: lib/eventum/class.help.php:70 templates/help/report_release.tpl.html
+#: lib/eventum/class.help.php:71 templates/help/report_release.tpl.html
 msgid "Scheduled Release Field"
 msgstr ""
 
@@ -5989,7 +6100,7 @@ msgstr ""
 msgid "Search Title"
 msgstr ""
 
-#: lib/eventum/class.filter.php:788
+#: lib/eventum/class.filter.php:789
 msgid "Search Type"
 msgstr ""
 
@@ -6001,7 +6112,7 @@ msgstr ""
 msgid "Segregate Reporter"
 msgstr ""
 
-#: lib/eventum/class.help.php:142 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:143 templates/help/main.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Segregate Reporters"
 msgstr ""
@@ -6225,11 +6336,11 @@ msgstr ""
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr ""
 
-#: lib/eventum/class.filter.php:768 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:769 templates/adv_search.tpl.html
 msgid "Sort By"
 msgstr ""
 
-#: lib/eventum/class.filter.php:772 templates/adv_search.tpl.html
+#: lib/eventum/class.filter.php:773 templates/adv_search.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Sort Order"
@@ -6277,7 +6388,7 @@ msgstr ""
 msgid "Start Installation"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Start time in the future."
 msgstr ""
 
@@ -6285,9 +6396,9 @@ msgstr ""
 msgid "Stats"
 msgstr "İstatistikler"
 
-#: lib/eventum/class.display_column.php:215 lib/eventum/class.filter.php:730
-#: lib/eventum/class.notification.php:635
-#: lib/eventum/class.notification.php:636 templates/adv_search.tpl.html
+#: lib/eventum/class.display_column.php:219 lib/eventum/class.filter.php:731
+#: lib/eventum/class.notification.php:636
+#: lib/eventum/class.notification.php:637 templates/adv_search.tpl.html
 #: templates/attachments.tpl.html templates/bulk_update.tpl.html
 #: templates/close.tpl.html templates/email_drafts.tpl.html
 #: templates/emails.tpl.html templates/file_upload.tpl.html
@@ -6303,7 +6414,7 @@ msgstr "İstatistikler"
 msgid "Status"
 msgstr "Durum"
 
-#: lib/eventum/class.display_column.php:218
+#: lib/eventum/class.display_column.php:222
 msgid "Status Change Date"
 msgstr ""
 
@@ -6358,9 +6469,9 @@ msgstr ""
 msgid "Suggestions:"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:227
-#: lib/eventum/class.notification.php:647
-#: lib/eventum/class.notification.php:648 templates/add_time_tracking.tpl.html
+#: lib/eventum/class.display_column.php:231
+#: lib/eventum/class.notification.php:648
+#: lib/eventum/class.notification.php:649 templates/add_time_tracking.tpl.html
 #: templates/adv_search.tpl.html templates/history.tpl.html
 #: templates/list.tpl.html templates/new.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -6382,7 +6493,7 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-#: lib/eventum/class.help.php:74 templates/help/report_summary.tpl.html
+#: lib/eventum/class.help.php:75 templates/help/report_summary.tpl.html
 msgid "Summary Field"
 msgstr ""
 
@@ -6398,8 +6509,8 @@ msgstr ""
 msgid "Sunday"
 msgstr "Pazar"
 
-#: lib/eventum/class.customer_stats_report.php:666
-#: lib/eventum/class.display_column.php:212
+#: lib/eventum/class.customer_stats_report.php:667
+#: lib/eventum/class.display_column.php:216
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
@@ -6499,6 +6610,10 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was updated successfully."
+msgstr ""
+
+#: templates/edit_reporter.tpl.html
+msgid "Thank you, the Reporter was updated successfully."
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html
@@ -6817,7 +6932,8 @@ msgstr ""
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 
-#: templates/manage/general.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
+#: templates/manage/monitor.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 
@@ -7448,7 +7564,7 @@ msgstr ""
 msgid "Time Period"
 msgstr ""
 
-#: lib/eventum/class.display_column.php:192 templates/add_phone_entry.tpl.html
+#: lib/eventum/class.display_column.php:196 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/issue_user.tpl.html
@@ -7463,7 +7579,7 @@ msgstr ""
 msgid "Time Spent:"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:731
+#: lib/eventum/class.customer_stats_report.php:732
 msgid "Time Statistics"
 msgstr ""
 
@@ -7475,13 +7591,13 @@ msgstr ""
 msgid "Time To First Response"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:732
+#: lib/eventum/class.customer_stats_report.php:733
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:330
+#: lib/eventum/class.phone_support.php:331
 msgid "Time entry inserted from phone call."
 msgstr ""
 
@@ -7497,17 +7613,17 @@ msgstr ""
 msgid "Time tracking category"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:409
+#: lib/eventum/class.time_tracking.php:410
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:459
+#: lib/eventum/class.time_tracking.php:460
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:502
+#: lib/eventum/class.time_tracking.php:503
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
@@ -7616,7 +7732,7 @@ msgstr ""
 msgid "Total Time Spent"
 msgstr ""
 
-#: lib/eventum/class.customer_stats_report.php:681
+#: lib/eventum/class.customer_stats_report.php:682
 msgid "Total Workload by Support Level"
 msgstr ""
 
@@ -7672,12 +7788,12 @@ msgstr ""
 msgid "Unavailable - Users may NOT use this release"
 msgstr ""
 
-#: lib/eventum/class.attachment.php:78
+#: lib/eventum/class.attachment.php:79
 msgid "Untitled"
 msgstr ""
 
 #. TRANSLATORS: filename for inline image attachments, where %s is file extension
-#: lib/eventum/class.mime_helper.php:662
+#: lib/eventum/class.mime_helper.php:663
 #: upgrade/patches/06_iaf_attachment_filename.php:31
 #, php-format
 msgid "Untitled.%s"
@@ -7750,7 +7866,7 @@ msgstr "Bildiriyi Güncelle"
 msgid "Update Issue #%1"
 msgstr ""
 
-#: htdocs/update.php:65
+#: htdocs/update.php:66
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr ""
@@ -7809,7 +7925,7 @@ msgstr ""
 
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
 msgid "Update Setup"
 msgstr ""
 
@@ -7833,11 +7949,11 @@ msgstr ""
 msgid "Update Values"
 msgstr ""
 
-#: lib/eventum/class.notification.php:695
+#: lib/eventum/class.notification.php:698
 msgid "Updated"
 msgstr ""
 
-#: lib/eventum/class.filter.php:744
+#: lib/eventum/class.filter.php:745
 msgid "Updated Date"
 msgstr ""
 
@@ -7858,7 +7974,7 @@ msgstr ""
 msgid "Urdu"
 msgstr ""
 
-#: lib/eventum/class.help.php:90 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:91 templates/help/main.tpl.html
 #: templates/help/scm_integration_usage.tpl.html
 msgid "Usage Examples"
 msgstr ""
@@ -7885,20 +8001,24 @@ msgstr ""
 msgid "User"
 msgstr "Kullanıcı"
 
+#: templates/manage/ldap.tpl.html
+msgid "User DN:"
+msgstr ""
+
 #: templates/preferences.tpl.html
 msgid "User Details"
 msgstr "Kullanıcı Detayları"
 
-#: lib/eventum/class.help.php:146 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:147 templates/help/main.tpl.html
 #: templates/help/permission_levels.tpl.html
 msgid "User Permission Levels"
 msgstr "Kullanıcı Erişim Seviyeleri"
 
-#: lib/eventum/class.notification.php:1393
+#: lib/eventum/class.notification.php:1399
 msgid "User account information updated"
 msgstr "Kullanıcı hesap bilgileri güncellendi"
 
-#: lib/eventum/class.notification.php:1430
+#: lib/eventum/class.notification.php:1436
 msgid "User account password changed"
 msgstr "Kullanıcı şifresi değiştirildi"
 
@@ -7958,7 +8078,7 @@ msgstr ""
 msgid "Viewing Emails (%1 email found)"
 msgstr ""
 
-#: lib/eventum/class.help.php:118 templates/help/main.tpl.html
+#: lib/eventum/class.help.php:119 templates/help/main.tpl.html
 #: templates/help/view.tpl.html
 msgid "Viewing Issues"
 msgstr ""
@@ -7985,7 +8105,7 @@ msgid ""
 "customers that may be listed in this issue's notification list."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:470
+#: lib/eventum/class.mail_helper.php:471
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
@@ -8038,7 +8158,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: lib/eventum/class.mail_helper.php:118
+#: lib/eventum/class.mail_helper.php:119
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8159,11 +8279,11 @@ msgid ""
 "'Checkout page' input field is:"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work ended"
 msgstr "İş Bitiş Tarihi"
 
-#: templates/add_time_tracking.tpl.html
+#: templates/add_time_tracking.tpl.html templates/post_note.tpl.html
 msgid "Work started"
 msgstr "İş Başlangıç Tarihi"
 
@@ -8179,7 +8299,7 @@ msgstr ""
 msgid "Workload by Date Range Report"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:54
+#: htdocs/reports/workload_time_period_graph.php:55
 msgid "Workload by Time Period"
 msgstr ""
 
@@ -8191,7 +8311,7 @@ msgstr ""
 msgid "Workload by time period"
 msgstr ""
 
-#: lib/eventum/class.filter.php:676 lib/eventum/class.misc.php:712
+#: lib/eventum/class.filter.php:677 lib/eventum/class.misc.php:713
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8296,7 +8416,7 @@ msgid ""
 "comfortable with."
 msgstr ""
 
-#: lib/eventum/class.notification.php:1596
+#: lib/eventum/class.notification.php:1602
 msgid "Your User Account Details"
 msgstr ""
 
@@ -8354,7 +8474,7 @@ msgid ""
 "13)\" form.php"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:55
+#: htdocs/reports/workload_time_period_graph.php:56
 msgid "actions"
 msgstr ""
 
@@ -8459,7 +8579,7 @@ msgid "download file"
 msgstr "dosyayı indir"
 
 #. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
-#: lib/eventum/class.link_filter.php:312
+#: lib/eventum/class.link_filter.php:313
 #, php-format
 msgid "download file (%1$s - %2$s)"
 msgstr "dosyayı indir (%1$s - %2$s)"
@@ -8476,7 +8596,7 @@ msgstr ""
 msgid "edit this custom search"
 msgstr ""
 
-#: htdocs/reports/workload_time_period_graph.php:51
+#: htdocs/reports/workload_time_period_graph.php:52
 msgid "emails"
 msgstr "E-postalar"
 
@@ -8548,7 +8668,7 @@ msgstr ""
 msgid "hide/show"
 msgstr "gizle/göster"
 
-#: lib/eventum/class.reminder_condition.php:219 templates/adv_search.tpl.html
+#: lib/eventum/class.reminder_condition.php:220 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
 msgstr ""
@@ -8651,18 +8771,18 @@ msgstr "Alanı yukarı taşı"
 msgid "must be a valid email address"
 msgstr "geçerli bir e-posta adresi olmalıdır"
 
-#: htdocs/adv_search.php:56 htdocs/list.php:85
-#: lib/eventum/class.filter.php:666
+#: htdocs/adv_search.php:57 htdocs/list.php:93
+#: lib/eventum/class.filter.php:667
 msgid "myself and my group"
 msgstr ""
 
-#: htdocs/adv_search.php:50 htdocs/list.php:80
-#: lib/eventum/class.filter.php:664
+#: htdocs/adv_search.php:51 htdocs/list.php:88
+#: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
 msgstr ""
 
-#: htdocs/adv_search.php:57 htdocs/list.php:86
-#: lib/eventum/class.filter.php:668
+#: htdocs/adv_search.php:58 htdocs/list.php:94
+#: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
 msgstr ""
 
@@ -8794,8 +8914,8 @@ msgstr ""
 msgid "to access this page."
 msgstr "sayfaya ulaşmak için"
 
-#: htdocs/adv_search.php:49 htdocs/list.php:79
-#: lib/eventum/class.filter.php:662
+#: htdocs/adv_search.php:50 htdocs/list.php:87
+#: lib/eventum/class.filter.php:663
 msgid "un-assigned"
 msgstr ""
 
