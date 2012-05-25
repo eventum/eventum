@@ -137,7 +137,7 @@ INSERT INTO `%TABLE_PREFIX%history_type` SET htt_name = 'draft_routed',  htt_rol
 DROP TABLE IF EXISTS `%TABLE_PREFIX%issue`;
 CREATE TABLE `%TABLE_PREFIX%issue` (
   iss_id int(11) unsigned NOT NULL auto_increment,
-  iss_customer_id int(11) unsigned NULL,
+  iss_customer_id varchar(128) unsigned NULL,
   iss_customer_contact_id int(11) unsigned NULL,
   iss_customer_contract_id varchar(50) NULL,
   iss_usr_id int(10) unsigned NOT NULL default 0,
@@ -388,9 +388,7 @@ CREATE TABLE `%TABLE_PREFIX%resolution` (
   PRIMARY KEY  (res_id),
   UNIQUE KEY res_title (res_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
-INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (1, 'open', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (2, 'fixed', NOW());
-INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (3, 'reopened', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (4, 'unable to reproduce', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (5, 'not fixable', NOW());
 INSERT INTO `%TABLE_PREFIX%resolution` (res_id, res_title, res_created_date) VALUES (6, 'duplicate', NOW());
@@ -426,7 +424,7 @@ CREATE TABLE `%TABLE_PREFIX%support_email` (
   sup_parent_id int(11) unsigned NOT NULL default 0,
   sup_iss_id int(11) unsigned default 0,
   sup_usr_id int(11) unsigned default NULL,
-  sup_customer_id int(11) unsigned NULL,
+  sup_customer_id varchar(128) NULL,
   sup_message_id varchar(255) NOT NULL default '',
   sup_date datetime NOT NULL default '0000-00-00 00:00:00',
   sup_from varchar(255) NOT NULL default '',
@@ -491,7 +489,7 @@ DROP TABLE IF EXISTS `%TABLE_PREFIX%user`;
 CREATE TABLE `%TABLE_PREFIX%user` (
   usr_id int(11) unsigned NOT NULL auto_increment,
   usr_grp_id int(11) unsigned NULL default NULL,
-  usr_customer_id int(11) unsigned NULL default NULL,
+  usr_customer_id varchar(128) NULL default NULL,
   usr_customer_contact_id int(11) unsigned NULL default NULL,
   usr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   usr_status varchar(8) NOT NULL default 'active',
@@ -640,7 +638,7 @@ DROP TABLE IF EXISTS `%TABLE_PREFIX%customer_note`;
 CREATE TABLE `%TABLE_PREFIX%customer_note` (
   cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   cno_prj_id int(11) unsigned NOT NULL,
-  cno_customer_id INT(11) UNSIGNED NOT NULL,
+  cno_customer_id varchar(128) NOT NULL,
   cno_created_date DATETIME NOT NULL,
   cno_updated_date DATETIME NULL,
   cno_note TEXT,

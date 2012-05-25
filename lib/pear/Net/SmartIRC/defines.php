@@ -233,4 +233,3 @@ foreach ($SMARTIRC_replycodes as $key => $value) {
     define('SMARTIRC_'.$key, $value);
     $SMARTIRC_nreplycodes[$value] = $key;
 }
-?>

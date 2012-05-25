@@ -4,6 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2008 MySQL AB                                          |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |

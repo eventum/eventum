@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -675,8 +676,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
-                    // don't notify the user who made this change
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -717,6 +720,7 @@ class Notification
             return false;
         }
 
+        $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
@@ -725,8 +729,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
-                    // don't notify the user who made this change
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -778,8 +784,10 @@ class Notification
                     $email = $users[$i]["sub_email"];
                 }
             } else {
-                // don't send the notification email to the person who performed the action
-                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
+                $prefs = Prefs::get($users[$i]['sub_usr_id']);
+                if ((Auth::getUserID() == $users[$i]["sub_usr_id"]) &&
+                        ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
+                            ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
@@ -869,11 +877,11 @@ class Notification
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
-        if (is_null($_EVENTUM_LAST_NOTIFIED_LIST)) {
+        if ($_EVENTUM_LAST_NOTIFIED_LIST === null) {
             return null;
         }
 
-        if (is_null($issue_id)) {
+        if ($issue_id === null) {
             // return all addresses in flat view
             $ret = array_values($_EVENTUM_LAST_NOTIFIED_LIST);
         } else {
@@ -1027,7 +1035,6 @@ class Notification
                     usr_id,
                     usr_full_name,
                     usr_email,
-                    usr_preferences,
                     pru_role,
                     usr_customer_id,
                     usr_customer_contact_id
@@ -1046,15 +1053,15 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
-            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
             // don't send these emails to customers
             if (($res[$i]['pru_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id]))
-                    && (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id])
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            if ((!empty($prefs['receive_new_issue_email'][$prj_id]))
+                    && (@$prefs['receive_new_issue_email'][$prj_id])
                     && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
@@ -1064,8 +1071,7 @@ class Notification
         $stmt = "SELECT
                     usr_id,
                     usr_full_name,
-                    usr_email,
-                    usr_preferences
+                    usr_email
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
@@ -1075,11 +1081,11 @@ class Notification
                     usr_status = 'active'";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
-            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
-            if ((!empty($res[$i]['usr_preferences']['receive_assigned_email'][$prj_id])) &&
-            (@$res[$i]['usr_preferences']['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            if ((!empty($prefs['receive_assigned_email'][$prj_id])) &&
+            (@$prefs['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
@@ -1960,7 +1966,7 @@ class Notification
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
-        if (!is_null($workflow)) {
+        if ($workflow !== null) {
             return $workflow;
         }
 

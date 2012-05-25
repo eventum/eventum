@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -27,6 +28,7 @@
 // +----------------------------------------------------------------------+
 
 require_once 'Math/Stats.php';
+require_once 'Date.php';
 
 /**
  * Class to handle the business logic related to all aspects of the

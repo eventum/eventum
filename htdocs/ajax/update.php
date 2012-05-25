@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -70,7 +71,7 @@ switch ($field_name) {
             die("Update failed");
         }
 
-        if (!is_null($date)) {
+        if ($date !== null) {
             echo Date_Helper::getSimpleDate($date, false);
         }
     break;

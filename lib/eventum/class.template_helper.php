@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -207,6 +208,8 @@ class Template_Helper
             "cycle"          => APP_CYCLE_COLORS,
             "internal_color" => APP_INTERNAL_COLOR
         ));
+
+        $this->assign("app_auth_backend", APP_AUTH_BACKEND);
 
         $this->assign('app_messages', Misc::getMessages());
     }

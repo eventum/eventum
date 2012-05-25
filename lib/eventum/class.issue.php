@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -2313,13 +2314,13 @@ class Issue
 
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
-                    iss_customer_id=". Misc::escapeInteger($data['customer']) . ",";
+                    iss_customer_id='". Misc::escapeString($data['customer']) . "',";
             if (!empty($data['contact'])) {
             $stmt .= "
                     iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',";
             }
             $stmt .= "
-                    iss_customer_contact_id=". Misc::escapeInteger($data['contact']) . ",
+                    iss_customer_contact_id='". Misc::escapeString($data['contact']) . "',
                     iss_contact_person_lname='". Misc::escapeString($data['contact_person_lname']) . "',
                     iss_contact_person_fname='". Misc::escapeString($data['contact_person_fname']) . "',
                     iss_contact_email='". Misc::escapeString($data['contact_email']) . "',

@@ -84,6 +84,16 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="passwd"}
           </td>
         </tr>
+
+        <tr align="center">
+          <td colspan="2" class="default_white" bgcolor="#006486">
+            <label for="remember" accesskey="r">
+            <input type="checkbox" id="remember" name="remember" value="1">
+              <b>{t}Remember me{/t}</b>
+            </label>
+          </td>
+        </tr>
+
         <tr align="center">
           <td colspan="2" bgcolor="#006486">
             <input type="submit" name="Submit" value="{t}Login{/t}" class="button">

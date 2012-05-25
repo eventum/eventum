@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -32,9 +34,103 @@
  * workflow methods added in future releases will not break current backends.
  *
  * @author  Bryan Alsdorf <bryan@mysql.com>
+ * @author  Elan Ruusamäe <glen@delfi.ee>
  */
 class Abstract_Workflow_Backend
 {
+
+    /**
+     * Interface for using config values within Workflow class.
+     *
+     * To read an option:
+     * <code>
+     * $option = $this->getConfig('myoption');
+     * </code>
+     *
+     * to make change to option value::
+     * <code>
+     * $this->config['myoption'] = $new_value;
+     * $this->saveConfig();
+     * </code>
+     */
+
+    /**
+     * array to hold workflow settings, best accessed via ->getConfig()
+     */
+    protected $config = array();
+
+    /**
+     * Copy of whole loaded setup, needed if you need to save Setup data within workflow
+     * TODO: this would not be probably needed if Setup is not static.
+     */
+    private $config_setup_copy;
+
+    /**
+     * set to true by loadConfig() after loading workflow configuration variables
+     */
+    private $configLoaded = false;
+
+    /**
+     * getConfig($option)
+     *
+     * use this function to access workflow configuration variables
+     */
+    protected function getConfig($option) {
+        if (!$this->configLoaded) {
+            $this->loadConfig();
+        }
+
+        return $this->config[$option];
+    }
+
+    /**
+     * loadConfig()
+     * merges the workflow's default settings with any local settings
+     * this function is automatically called through getConfig()
+     */
+    private function loadConfig() {
+        $defaults = $this->getConfigDefaults();
+        $name = $this->getWorkflowName();
+        $setup = Setup::load();
+        $this->config_setup_copy = &$setup;
+
+        foreach ($defaults as $key => $value) {
+            if (isset($setup['workflow'][$name][$key])) {
+                continue;
+            }
+            $setup['workflow'][$name][$key] = $value;
+        }
+
+        $this->configLoaded = true;
+        $this->config = &$setup['workflow'][$name];
+    }
+
+    /**
+     * If you made changes to config, you may call this to persist the changes
+     * back to disk
+     */
+    protected function saveConfig() {
+        if (!$this->configLoaded || !$this->config_setup_copy) {
+            return;
+        }
+
+        Setup::save($this->config_setup_copy);
+    }
+
+    /**
+     * You should override this in your workflow class
+     */
+    protected function getConfigDefaults() {
+        return array();
+    }
+
+    /**
+     * Returns name of active workflow class
+     */
+    protected function getWorkflowName() {
+        return strtolower(current(explode('_', get_class($this), 2)));
+    }
+
     /**
      * Called when an issue is updated.
      *

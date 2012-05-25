@@ -4,7 +4,7 @@ require_once 'init.php';
 
 // on fresh install config is empty or missing
 if (!defined('APP_SQL_DBNAME')) {
-    fwrite(STDERR, "Eventum not configured. Please run setup.\n");
+    error_log("Eventum not configured. Please run setup.");
     exit(1);
 }
 
@@ -111,7 +111,7 @@ function patch_database() {
     $addCount = 0;
     foreach ($files as $number => $file) {
         if ($number > $last_patch) {
-            echo "* Applying patch: ", $number, "\n";
+            echo "* Applying patch: ", $number, " (", basename($file), ")\n";
             exec_sql_file($file);
             db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$number");
             $addCount++;

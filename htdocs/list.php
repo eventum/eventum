@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -64,10 +65,17 @@ if (isset($_REQUEST['view'])) {
         Auth::redirect("list.php?reporter=" . Misc::escapeInteger($_REQUEST['reporter_id']) .
                 "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
                 "&sort_order=" . $profile['sort_order']);
+    } elseif ($_REQUEST['view'] == 'clear') {
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php");
     }
 }
 
-$options = Search::saveSearchParams();
+if (!empty($_REQUEST['nosave'])) {
+	$options = Search::saveSearchParams(false);
+} else {
+	$options = Search::saveSearchParams();
+}
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Search::getSortingInfo($options));
 
@@ -79,9 +87,9 @@ $assign_options = array(
     "-1"    =>  ev_gettext("un-assigned"),
     "-2"    =>  ev_gettext("myself and un-assigned")
 );
-if (Auth::isAnonUser())
+if (Auth::isAnonUser()) {
     unset($assign_options["-2"]);
-else if (User::getGroupID($usr_id) != '') {
+} elseif (User::getGroupID($usr_id) != '') {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }

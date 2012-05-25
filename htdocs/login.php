@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -48,7 +49,7 @@ if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
 }
 
 // handle aliases since the user is now authenticated
-$_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
+$_POST['email'] = User::getEmail(Auth::getUserIDByLogin($_POST['email']));
 
 // check if this user did already confirm his account
 if (Auth::isPendingUser($_POST["email"])) {
@@ -62,8 +63,10 @@ if (!Auth::isActiveUser($_POST["email"])) {
 }
 
 Auth::saveLoginAttempt($_POST["email"], 'success');
-// redirect to the initial page
-@Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
+
+$remember = !empty($_POST['remember']);
+Auth::createLoginCookie(APP_COOKIE, $_POST["email"], $remember);
+
 Session::init(User::getUserIDByEmail($_POST['email']));
 if (!empty($_POST["url"])) {
     $extra = '?url=' . urlencode($_POST["url"]);

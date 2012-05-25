@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -90,6 +91,9 @@ define('APP_HASH_TYPE', 'MD5');
 // if full text searching is enabled
 define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
 define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+
+// auth backend. 'mysql_auth_backend' (default), 'ldap_auth_backend' for ldap
+//define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php

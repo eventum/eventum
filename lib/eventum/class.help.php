@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -40,7 +41,7 @@ class Help
 {
     static private $topics;
     private static function getTopics() {
-        if (!is_null(self::$topics)) {
+        if (self::$topics !== null) {
             return self::$topics;
         }
 

@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -42,7 +43,7 @@ if (!Auth::hasValidCookie(APP_COOKIE)) {
 
 if (@$_GET["err"] == '') {
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if ($cookie["remember"]) {
+    if ($cookie["remember"] && $cookie['prj_id'] != false) {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
@@ -112,7 +113,6 @@ if ($select_prj) {
         }
     }
 }
-
 $tpl->displayTemplate();
 
 function handleExpiredCustomer($prj_id)

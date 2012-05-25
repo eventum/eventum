@@ -34,3 +34,11 @@ UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id 
 
 * autocomplete="off"
 Add this to forms where you save OTHER USER passwords (admin screens)
+
+* Inline JavaScript must die.
+Move them to some common file, better to review code and make similar changes.
+
+* Integrate multiselect search
+
+Current multi selects are uncomfortable to use if you have lots of users in Eventum
+https://github.com/raul72/multiselect-search

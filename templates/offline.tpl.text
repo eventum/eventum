@@ -1,8 +1,8 @@
-{t}Database Error{/t}:
-{if $error_type == 'db'}
+{t}Database Error{/t}: {if $error_type == 'db'}
 {t}There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.{/t}
-
 {elseif $error_type == 'table'}
 {t}There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.{/t}
-
 {/if}
+
+
+{* note: keep here above two empty lines *}

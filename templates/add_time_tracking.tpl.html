@@ -13,38 +13,23 @@
     </center>
     <script type="text/javascript">
     <!--
-    {if $current_user_prefs.close_popup_windows == '1'}
-    setTimeout('closeAndRefresh()', 2000);
-    {/if}
+	var noparent = {$smarty.get.noparent|default:0};
+    {if $current_user_prefs.close_popup_windows|default:0 == '1'}{literal}
+		setTimeout(function() { closeAndRefresh(noparent) }, 2000);
+	{/literal}
     //-->
     </script>
+    {/if}
     <br />
     {if not $current_user_prefs.close_popup_windows}
     <center>
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh(noparent);">{t}Continue{/t}</a></span>
     </center>
     {/if}
 {else}
 {literal}
 <script type="text/javascript">
 <!--
-
-/**
- * Make javascript Date() object from datetime form selection.
- *
- * @param	Object	f		Form object.
- * @param	String	name	Form element prefix for date.
- */
-function makeDate(f, name) {
-	var d = new Date();
-	d.setFullYear(f.elements[name + '[Year]'].value);
-	d.setMonth(f.elements[name + '[Month]'].value - 1);
-	d.setDate(f.elements[name + '[Day]'].value);
-	d.setHours(f.elements[name + '[Hour]'].value);
-	d.setMinutes(f.elements[name + '[Minute]'].value);
-	d.setSeconds(0);
-	return d;
-}
 
 function validateTimeForm(f)
 {
@@ -120,9 +105,17 @@ function calcDateDiff(f, type, element)
 	} else if (type == 2) { // end time
 		duration = (d2.getTime() - d1.getTime()) / minute;
 	} else if (type == 11) { // refresh start time
-		d2.setTime(d1.getTime() + duration * minute);
+      if (duration) {
+        d2.setTime(d1.getTime() + duration * minute);
+      } else {
+        duration = (d2.getTime() - d1.getTime()) / minute;
+      }
 	} else if (type == 12) { // refresh end time
-		d1.setTime(d2.getTime() - duration * minute);
+      if (duration) {
+        d1.setTime(d2.getTime() - duration * minute);
+      } else {
+        duration = (d2.getTime() - d1.getTime()) / minute;
+      }
 	}
 
 	/* refill form after calculation */
@@ -142,7 +135,7 @@ function calcDateDiff(f, type, element)
   <tr>
     <td>
       <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center">
-      <form name="add_time_form" onSubmit="return validateTimeForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+      <form name="add_time_form" onSubmit="return validateTimeForm(this);" method="post" action="{$smarty.server.PHP_SELF}?{$smarty.server.QUERY_STRING}">
       <input type="hidden" name="cat" value="add_time">
       <input type="hidden" name="issue_id" value="{$issue_id}">
         <tr>

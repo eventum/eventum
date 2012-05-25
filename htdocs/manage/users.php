@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -45,9 +46,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", User::insert());
+        $tpl->assign("result", User::insertFromPost());
     } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", User::update());
+        $tpl->assign("result", User::updateFromPost());
     } elseif (@$_POST["cat"] == "change_status") {
         User::changeStatus();
     }

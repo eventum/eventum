@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2012 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -134,7 +135,7 @@ class Date_Helper
         if (is_a($date, 'Date')) {
             $dt->copy($date);
         } else {
-            if (!is_null($date)) {
+            if ($date !== null) {
                 $dt->setDate($date, $format);
             } else {
                 $dt->setDate(gmdate("Y-m-d H:i:s"));
