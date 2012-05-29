@@ -78,6 +78,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
 
     public function getUserIDByLogin($login)
     {
-        return User::getUserIDByEmail($login);
+        return User::getUserIDByEmail($login, true);
     }
 }
