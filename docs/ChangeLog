@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2012-05-24, Version 2.3.3 RC1
+2012-05-30, Version 2.3.3 RC1
 - Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 - Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
 - Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
