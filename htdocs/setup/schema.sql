@@ -138,8 +138,8 @@ INSERT INTO `%TABLE_PREFIX%history_type` SET htt_name = 'draft_routed',  htt_rol
 DROP TABLE IF EXISTS `%TABLE_PREFIX%issue`;
 CREATE TABLE `%TABLE_PREFIX%issue` (
   iss_id int(11) unsigned NOT NULL auto_increment,
-  iss_customer_id varchar(128) unsigned NULL,
-  iss_customer_contact_id int(11) unsigned NULL,
+  iss_customer_id varchar(128) NULL,
+  iss_customer_contact_id varchar(128) NULL,
   iss_customer_contract_id varchar(50) NULL,
   iss_usr_id int(10) unsigned NOT NULL default 0,
   iss_grp_id int(11) unsigned NULL default NULL,
@@ -504,7 +504,7 @@ CREATE TABLE `%TABLE_PREFIX%user` (
   usr_id int(11) unsigned NOT NULL auto_increment,
   usr_grp_id int(11) unsigned NULL default NULL,
   usr_customer_id varchar(128) NULL default NULL,
-  usr_customer_contact_id int(11) unsigned NULL default NULL,
+  usr_customer_contact_id varchar(128) NULL default NULL,
   usr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   usr_status varchar(8) NOT NULL default 'active',
   usr_password varchar(32) NOT NULL default '',
