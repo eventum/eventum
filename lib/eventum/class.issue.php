@@ -2209,7 +2209,7 @@ class Issue
                 $emails = $data['contact_extra_emails'];
             }
             // add the primary contact to the notification list
-            if ($data['add_primary_contact'] == 'yes') {
+            if (isset($data['add_primary_contact']) && ($data['add_primary_contact'] == 'yes')) {
                 $contact_email = User::getEmailByContactID($data['contact']);
                 if (!empty($contact_email)) {
                     $emails[] = $contact_email;
@@ -2407,7 +2407,7 @@ class Issue
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
                     iss_customer_id='". Misc::escapeString($data['customer']) . "',";
-            if (!empty($data['contact'])) {
+            if (!empty($data['contract'])) {
             $stmt .= "
                     iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',";
             }
