@@ -1,5 +1,31 @@
 #!/usr/bin/php
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2012 Eventum Team.                                     |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
+// +----------------------------------------------------------------------+
 require_once dirname(__FILE__) . "/../init.php";
 
 if (!defined('SPHINX_LOG_PATH')) {
@@ -12,7 +38,7 @@ if (!defined('SPHINX_DATA_PATH')) {
     define('SPHINX_DATA_PATH', '/var/lib/sphinx/eventum/');
 }
 if (!defined('SPHINX_SEARCHD_PORT')) {
-	define('SPHINX_SEARCHD_PORT', 3312);
+    define('SPHINX_SEARCHD_PORT', 3312);
 }
 
 // support localhost:/path/to/socket.sock syntax in db host
@@ -22,9 +48,9 @@ $sql_sock = '';
 
 $parts = explode(':', $sql_host, 2);
 if (count($parts) >= 2 && list($host, $socket) = $parts) {
-	$sql_sock_enabled = '';
-	$sql_host = $host;
-	$sql_sock = $socket;
+    $sql_sock_enabled = '';
+    $sql_host = $host;
+    $sql_sock = $socket;
 }
 ?>
 
@@ -53,11 +79,11 @@ searchd
 source eventum
 {
     type                = mysql
-	# connect over unix socket
-	<?php echo $sql_sock_enabled ?>sql_sock            = <?php echo $sql_sock. "\n"; ?>
+    # connect over unix socket
+    <?php echo $sql_sock_enabled ?>sql_sock            = <?php echo $sql_sock. "\n"; ?>
 
-	# connect over tcp
-	sql_host            = <?php echo $sql_host . "\n"; ?>
+    # connect over tcp
+    sql_host            = <?php echo $sql_host . "\n"; ?>
     sql_port            = <?php echo APP_SQL_DBPORT . "\n"; ?>
 
     sql_user            = <?php echo APP_SQL_DBUSER . "\n"; ?>
