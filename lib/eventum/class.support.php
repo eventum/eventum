@@ -1431,9 +1431,9 @@ class Support
         // figure out who should be the 'owner' of this attachment
         $sender_email = strtolower(Mail_Helper::getEmailAddress($input->headers['from']));
         $usr_id = User::getUserIDByEmail($sender_email);
+        $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
         if (empty($usr_id)) {
-            $prj_id = Issue::getProjectID($issue_id);
             if (Customer::hasCustomerIntegration($prj_id)) {
                 // try checking if a customer technical contact has this email associated with it
                 list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
@@ -1448,6 +1448,7 @@ class Support
                 $unknown_user = $input->headers['from'];
             }
         }
+
         // now for the real thing
         $attachments = Mime_Helper::getAttachments($input);
         if (count($attachments) > 0) {
@@ -1456,10 +1457,15 @@ class Support
             } else {
                 $history_log = ev_gettext("Attachment originated from a note");
             }
+
             $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
-            for ($i = 0; $i < count($attachments); $i++) {
-                Attachment::addFile($attachment_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
+            foreach ($attachments as &$attachment) {
+                $attach = WorkFlow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
+                if ($attach) {
+                    Attachment::addFile($attachment_id, $attachment['filename'], $attachment['filetype'], $attachment['blob']);
+                }
             }
+
             // mark the note as having attachments (poor man's caching system)
             if ($associated_note_id != false) {
                 Note::setAttachmentFlag($associated_note_id);
@@ -2470,7 +2476,7 @@ class Support
                 SET
                     sup_ema_id = " . Misc::escapeInteger($new_ema_id) . ",
                     sup_iss_id = " . Misc::escapeInteger($issue_id) . ",
-                    sup_customer_id = " . Misc::escapeInteger($customer_id) . "
+                    sup_customer_id = '" . Misc::escapeString($customer_id) . "'
                 WHERE
                     sup_id = " . Misc::escapeInteger($sup_id) . " AND
                     sup_ema_id = " . Misc::escapeInteger($current_ema_id);

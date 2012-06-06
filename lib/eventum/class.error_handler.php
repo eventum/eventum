@@ -57,7 +57,7 @@ class Error_Handler
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
-        if ($notify_error === false || is_null($dbh) || PEAR::isError($dbh)) {
+        if ($notify_error === false || $dbh === null || PEAR::isError($dbh)) {
             return;
         }
         

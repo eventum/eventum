@@ -548,7 +548,7 @@ class Search
             $stmt .= "\n) ";
         }
         if (!empty($options['customer_id'])) {
-            $stmt .= " AND iss_customer_id=" . Misc::escapeInteger($options["customer_id"]);
+            $stmt .= " AND iss_customer_id='" . Misc::escapeString($options["customer_id"]) . "'";
         }
         if (!empty($options["priority"])) {
             $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);

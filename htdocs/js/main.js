@@ -65,7 +65,6 @@ Eventum.close_and_refresh = function(noparent)
 
 Eventum.displayFixedWidth = function(element)
 {
-    console.debug('fixed');
     element.addClass('fixed_width')
 }
 
@@ -213,12 +212,12 @@ Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_
 {
     function padDateValue(str)
     {
+        str = new String(str);
         if (str.length == 1) {
             str = '0' + str;
         }
-        return str;
+        return str + '';// hack to make this a string
     }
-
     if (typeof date == 'undefined') {
         date = new Date();
     }
@@ -249,6 +248,86 @@ Eventum.show_selections = function(e)
 
         var display_div = $('#selection_' + select_box.attr('id'));
         display_div.html(selected.join(', '));
+}
+
+
+
+/**
+ * Make javascript Date() object from datetime form selection.
+ *
+ * @param   Object  f       Form object.
+ * @param   String  name    Form element prefix for date.
+ */
+Eventum.makeDate = function(f, name) {
+    var d = new Date();
+    d.setFullYear(Eventum.getField(name + '[Year]').val());
+    d.setMonth(Eventum.getField(name + '[Month]').val() - 1);
+    d.setDate(Eventum.getField(name + '[Day]').val());
+    d.setHours(Eventum.getField(name + '[Hour]').val());
+    d.setMinutes(Eventum.getField(name + '[Minute]').val());
+    d.setSeconds(0);
+    return d;
+}
+
+/**
+ * @param   Object  f       Form object
+ * @param   Integer type    The type of update occurring.
+ *                          0 = Duration was updated.
+ *                          1 = Start time was updated.
+ *                          2 = End time was updated.
+ *                          11 = Start time refresh icon was clicked.
+ *                          12 = End time refresh icon was clicked.
+ * @param String element Name of the element changed
+ */
+Eventum.calcDateDiff = function(f, type, element)
+{
+    var duration = Eventum.getField('time_spent').val();
+    // enforce 5 minute granularity.
+    duration = Math.floor(duration / 5) * 5;
+
+    var d1 = Eventum.makeDate(f, 'date');
+    var d2 = Eventum.makeDate(f, 'date2');
+
+    var minute = 1000 * 60;
+    /*
+    - if time is adjusted, duration is calculated,
+    - if duration is adjusted, the end time is adjusted,
+    - clicking refresh icon on either icons will make that time current date
+      and recalculate duration.
+    */
+
+    if (type == 0) { // duration
+        d1.setTime(d2.getTime() - duration * minute);
+    } else if (type == 1) { // start time
+        if (element == 'date[Year]' || element == 'date[Month]' || element == 'date[Day]') {
+            d2.setTime(d1.getTime() + duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    } else if (type == 2) { // end time
+        duration = (d2.getTime() - d1.getTime()) / minute;
+    } else if (type == 11) { // refresh start time
+        if (duration) {
+            d2.setTime(d1.getTime() + duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    } else if (type == 12) { // refresh end time
+        if (duration) {
+            d1.setTime(d2.getTime() - duration * minute);
+        } else {
+            duration = (d2.getTime() - d1.getTime()) / minute;
+        }
+    }
+
+    /* refill form after calculation */
+    Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]', d1)
+    Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]', d2)
+
+    duration = parseInt(duration);
+    if (duration > 0) {
+        Eventum.getField('time_spent').val(duration);
+    }
 }
 
 

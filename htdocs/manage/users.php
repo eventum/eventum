@@ -35,19 +35,20 @@ $tpl->setTemplate("manage/users.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
+
 if ($role_id < User::getRoleID('manager')) {
     Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
 if (@$_POST["cat"] == "new") {
-    $res = User::insert();
+    $res = User::insertFromPost();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the user was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new user.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "update") {
-    $res = User::update();
+    $res = User::updateFromPost();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the user was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the user information.'), Misc::MSG_ERROR),

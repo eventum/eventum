@@ -28,6 +28,18 @@ function validateForm()
     if (Validation.isFieldWhitespace('note')) {
         Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Body{/t}{literal}', 'note');
     }
+
+	var now = new Date();
+	var d1 = Eventum.makeDate(f, 'date');
+	if (d1 > now) {
+		alert('{/literal}{t}Start time in the future.{/t}{literal}');
+		return false;
+	}
+	var d2 = Eventum.makeDate(f, 'date2');
+	if (d2 > now) {
+		alert('{/literal}{t}End time in the future.{/t}{literal}');
+		return false;
+	}
     return true;
 }
 function clearExtraRecipients()
@@ -57,7 +69,7 @@ $().ready(function() {
 </script>
 {/literal}
 
-<form class="validate" data-validation-function='validateForm' name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="cat" value="post_note">
 <input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
 <input type="hidden" name="issue_id" value="{$issue_id}">
@@ -140,7 +152,7 @@ $().ready(function() {
         {t}Time Spent:{/t}
       </th>
       <td>
-        <input type="text" size="5" name="time_spent">
+        <input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)">
         <select name="time_category">
           {html_options options=$time_categories selected=$note_category_id}
         </select>
@@ -148,6 +160,22 @@ $().ready(function() {
         {include file="error_icon.tpl.html" field="time_spent"}
       </td>
     </tr>
+      <tr>
+        <th width="120" nowrap>{t}Work started{/t}:</th>
+        <td>
+          {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
+          {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false}
+          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+        </td>
+      </tr>
+      <tr>
+        <th width="120" nowrap>{t}Work ended{/t}:</th>
+        <td>
+          {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
+          {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false}
+          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+        </td>
+      </tr>
     {include file="include/issue_fields.tpl.html"}
     <tr class="buttons">
       <td colspan="2">

@@ -446,4 +446,3 @@ class Net_SmartIRC_irccommands extends Net_SmartIRC_base
         $this->disconnect(true);
     }
 }
-?>

@@ -44,7 +44,7 @@ class Auth
      */
     public static function privateKey() {
         static $private_key = null;
-        if (is_null($private_key)) {
+        if ($private_key === null) {
             require_once APP_CONFIG_PATH . "/private_key.php";
         }
         return $private_key;
@@ -93,7 +93,7 @@ class Auth
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                 self::createFakeCookie($anon_usr_id, $prj_id);
-                self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
                 self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
@@ -146,7 +146,7 @@ class Auth
         }
 
         // if the current session is still valid, then renew the expiration
-        self::createLoginCookie($cookie_name, $cookie['email']);
+        self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
         // renew the project cookie as well
         $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         self::setCurrentProject($prj_id, $prj_cookie["remember"]);
@@ -279,7 +279,7 @@ class Auth
     public static function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-               ($cookie["hash"] != md5(self::privateKey() . md5($cookie["login_time"]) . $cookie["email"]))) {
+               ($cookie["hash"] != md5(self::privateKey() . $cookie["login_time"] . $cookie["email"]))) {
             return false;
         } else {
             $usr_id = User::getUserIDByEmail(@$cookie["email"]);
@@ -298,18 +298,21 @@ class Auth
      * @access  public
      * @param   string $cookie_name The cookie name to be created
      * @param   string $email The email address to be stored in the cookie
+     * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      * @return  void
      */
-    function createLoginCookie($cookie_name, $email)
+    function createLoginCookie($cookie_name, $email, $permanent = true)
     {
+
         $time = time();
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $email),
+            "permanent"  => $permanent,
+            "hash"       => md5(self::privateKey() . $time . $email),
         );
         $cookie = base64_encode(serialize($cookie));
-        self::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
+        self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
     }
 
 
@@ -365,21 +368,21 @@ class Auth
      * Checks whether an user exists or not in the database.
      *
      * @access  public
-     * @param   string $email The email address to check for
+     * @param   string $login The email address to check for
      * @return  boolean
      */
-    function userExists($email)
+    function userExists($login)
     {
-        if (empty($email)) {
+        if (empty($login)) {
             return false;
         }
 
-        $usr_id = User::getUserIDByEmail($email, true);
-        if (empty($usr_id)) {
+        $usr_id = self::getAuthBackend()->getUserIDByLogin($login);
+        if ($usr_id == null) {
             return false;
+        } else {
+            return true;
         }
-
-        return true;
     }
 
 
@@ -394,13 +397,33 @@ class Auth
      */
     function isCorrectPassword($email, $password)
     {
-        $usr_id = User::getUserIDByEmail($email, true);
-        $user = User::getDetails($usr_id);
-        if ($user['usr_password'] != self::hashPassword($password)) {
-            return false;
-        } else {
-            return true;
+        return self::getAuthBackend()->verifyPassword($email, $password);
+    }
+
+    /**
+     * Method used to update the account password for a specific user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @param $password
+     * @param $password_confirm
+     * @param   boolean $send_notification Whether to send the notification email or not
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
+    {
+        if ($password != $password_confirm) {
+            return -2;
         }
+
+        $res = self::getAuthBackend()->updatePassword($usr_id, $password);
+        if (!$res) {
+            return -1;
+        }
+        if ($send_notification) {
+            Notification::notifyUserPassword($usr_id, $password);
+        }
+        return 1;
     }
 
 
@@ -428,7 +451,7 @@ class Auth
     public static function getCurrentProject()
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
-        if (empty($cookie)) {
+        if (empty($cookie) || @$cookie['prj_id'] == false) {
             return '';
         }
         $usr_id = self::getUserID();
@@ -498,7 +521,7 @@ class Auth
      * Creates a fake cookie so processes not run from a browser can access current user and project
      *
      * @param   integer $usr_id The ID of the user.
-     * @param   integer $prj_id The ID of the project.
+     * @param   bool|int $prj_id The ID of the project.
      */
     function createFakeCookie($usr_id, $prj_id = false)
     {
@@ -508,7 +531,7 @@ class Auth
         $cookie = array(
             "email" => $user_details['usr_email'],
             "login_time"    =>  $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $user_details['usr_email']),
+            "hash"       => md5(self::privateKey() . $time . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($prj_id) {
@@ -520,24 +543,6 @@ class Auth
         $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
     }
 
-
-    /**
-     * Hashes the password according to APP_HASH_TYPE constant
-     *
-     * @param   string $password The plain text password
-     * @return  string The hashed password
-     */
-    public static function hashPassword($password)
-    {
-        if (APP_HASH_TYPE == 'MD5-64') {
-            return base64_encode(pack('H*',md5($password)));
-        } else {
-            // default to md5
-            return md5($password);
-        }
-    }
-
-
     /**
      * Sets a cookie in the browser
      *
@@ -547,11 +552,82 @@ class Auth
      */
     public static function setCookie($name, $value, $expiration)
     {
-        if (is_null(APP_COOKIE_DOMAIN)) {
-
+        if (APP_COOKIE_DOMAIN === null) {
             setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
         }
+    }
+
+    /**
+     * @static
+     * @return Abstract_Auth_Backend
+     */
+    private static function getAuthBackend()
+    {
+        static $instance = false;
+
+        if ($instance == false) {
+            require_once APP_INC_PATH . "/auth/class." . APP_AUTH_BACKEND. ".php";
+            $class = APP_AUTH_BACKEND;
+            $instance = new $class();
+
+            if (!$instance->isSetup()) {
+                die("Unable to use auth backend: " . $class);
+            }
+        }
+        return $instance;
+    }
+
+    /**
+     * Returns an instance of the MySQL Auth Backend. This is used when the primary backend is not handling the user.
+     *
+     * @static
+     * @return Abstract_Auth_Backend
+     */
+    public static function getFallBackAuthBackend()
+    {
+        static $instance = false;
+
+        if ($instance == false) {
+            require_once APP_INC_PATH . "/auth/class.mysql_auth_backend.php";
+            $instance = new Mysql_Auth_Backend();
+        }
+        return $instance;
+    }
+
+
+    public static function hashPassword($password)
+    {
+        return self::getAuthBackend()->hashPassword($password);
+    }
+
+
+    /**
+     * Returns the user ID for the specified login. This can be the email address, an alias,
+     * the external login id or any other info the backend can handle.
+     *
+     * @abstract
+     * @param $login
+     * @return  int|null The user id or null
+     */
+    public static function getUserIDByLogin($login)
+    {
+        return self::getAuthBackend()->getUserIDByLogin($login);
+    }
+
+    public static function canUserUpdateName($usr_id)
+    {
+        return self::getAuthBackend()->canUserUpdateName($usr_id);
+    }
+
+    public static function canUserUpdateEmail($usr_id)
+    {
+        return self::getAuthBackend()->canUserUpdateEmail($usr_id);
+    }
+
+    public static function canUserUpdatePassword($usr_id)
+    {
+        return self::getAuthBackend()->canUserUpdatePassword($usr_id);
     }
 }

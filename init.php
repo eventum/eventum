@@ -42,7 +42,7 @@ ini_set('memory_limit', '128M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://launchpad.net/eventum/');
-define('APP_VERSION', '2.3.2');
+define('APP_VERSION', '2.3.3');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));
@@ -134,6 +134,10 @@ if (!defined('APP_ENABLE_FULLTEXT')) {
 
 if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
     define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+}
+
+if (!defined('APP_AUTH_BACKEND')) {
+    define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 }
 
 if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {

@@ -53,7 +53,7 @@ class User
     private static $localized_roles;
     private static function getLocalizedRoles()
     {
-        if (is_null(self::$localized_roles)) {
+        if (self::$localized_roles === null) {
             foreach (self::$roles as $id => $role) {
                 self::$localized_roles[$id] = ev_gettext($role);
             }
@@ -283,7 +283,7 @@ class User
             if ($res == NULL) {
                 return -2;
             } else {
-                $check_hash = md5($res . md5($email) . Auth::privateKey());
+                $check_hash = md5($res . $email . Auth::privateKey());
                 if ($hash != $check_hash) {
                     return -3;
                 } else {
@@ -338,7 +338,7 @@ class User
             Prefs::set($new_usr_id, Prefs::getDefaults($projects));
 
             // send confirmation email to user
-            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . Auth::privateKey());
+            $hash = md5($_POST["full_name"] . $_POST["email"] . Auth::privateKey());
 
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
@@ -371,7 +371,7 @@ class User
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . Auth::privateKey());
+        $hash = md5($info["usr_full_name"] . $info["usr_email"] . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
@@ -389,7 +389,6 @@ class User
         $mail->send($setup["smtp"]["from"], $info["usr_email"], APP_SHORT_NAME . ": New Password - Confirmation Required");
     }
 
-
     /**
      * Method used to confirm the request of a new password and send an email
      * to the user with the new random password.
@@ -402,9 +401,25 @@ class User
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
-        $_POST["new_password"] = substr(md5(microtime() . uniqid("")), 0, 12);
-        $_POST["confirm_password"] = $_POST["new_password"];
-        self::updatePassword($usr_id, true);
+        $password = substr(md5(microtime() . uniqid("")), 0, 12);
+        Auth::updatePassword($usr_id, $password, $password, true);
+    }
+
+
+    public static function getUserIDByExternalID($external_id)
+    {
+        $sql = "SELECT
+                    usr_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                WHERE
+                    usr_external_id=?";
+        $res = DB_Helper::getInstance()->getOne($sql, array($external_id));
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        }
+        return $res;
     }
 
 
@@ -769,7 +784,7 @@ class User
      * @param   integer $usr_id The user ID or user ids
      * @return  string The user' full name
      */
-    function getEmail($usr_id)
+    public static function getEmail($usr_id)
     {
         static $returns;
 
@@ -928,39 +943,6 @@ class User
         }
     }
 
-
-    /**
-     * Method used to update the account password for a specific user.
-     *
-     * @access  public
-     * @param   integer $usr_id The user ID
-     * @param   boolean $send_notification Whether to send the notification email or not
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    function updatePassword($usr_id, $send_notification = FALSE)
-    {
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            return -2;
-        }
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 SET
-                    usr_password='" . Auth::hashPassword($_POST["new_password"]) . "'
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            if ($send_notification) {
-                Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
-            }
-            return 1;
-        }
-    }
-
-
     /**
      * Method used to update the account full name for a specific user.
      *
@@ -1013,76 +995,123 @@ class User
         }
     }
 
+    public static function updateFromPost()
+    {
+        $usr_id = $_POST['id'];
+        $data = array(
+            'grp_id'    =>  $_POST['grp_id'],
+            'full_name' =>  $_POST['full_name'],
+            'email'     =>  $_POST['email'],
+            'password'  =>  $_POST['password'],
+            'role'      =>  $_POST['role'],
+        );
+        self::update($usr_id, $data);
+    }
+
 
     /**
      * Method used to update the account details for a specific user.
      *
      * @access  public
+     * @param $usr_id
+     * @param $data
+     * @param bool $notify
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    function update($usr_id, $data, $notify = true)
     {
         // system account should not be updateable
-        if ($_POST["id"] == APP_SYSTEM_USER_ID) {
+        if ($usr_id == APP_SYSTEM_USER_ID) {
             return 1;
         }
-        $group_id = ($_POST["grp_id"]) ? Misc::escapeInteger($_POST["grp_id"]) : 'NULL';
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "',
-                    usr_email='"     . Misc::escapeString($_POST["email"])     . "',
-                    usr_grp_id="     . $group_id;
-        if (!empty($_POST["password"])) {
+                    usr_full_name='" . Misc::escapeString($data["full_name"]) . "',
+                    usr_email='"     . Misc::escapeString($data["email"])     . "'";
+        if (isset($data["grp_id"])) {
+            $group_id = !empty($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
             $stmt .= ",
-                    usr_password='" . Auth::hashPassword($_POST["password"]) . "'";
+                    usr_grp_id='" . $group_id . "'";
+        }
+        if (!empty($data["password"])) {
+            $stmt .= ",
+                    usr_password='" . Auth::hashPassword($data["password"]) . "'";
+        }
+        if (isset($data["external_id"])) {
+            $stmt .= ",
+                    usr_external_id='" . Misc::escapeString($data["external_id"]) . "'";
         }
         $stmt .= "
                  WHERE
-                    usr_id=" . Misc::escapeInteger($_POST["id"]);
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
+        }
+
+        if (isset($data['role'])) {
             // update the project associations now
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                      WHERE
-                        pru_usr_id=" . Misc::escapeInteger($_POST["id"]);
+                        pru_usr_id=" . Misc::escapeInteger($usr_id);
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
-            } else {
-                foreach ($_POST["role"] as $prj_id => $role) {
-                    if ($role < 1) {
-                        continue;
-                    }
-                    $stmt = "INSERT INTO
-                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                             (
-                                pru_prj_id,
-                                pru_usr_id,
-                                pru_role
-                             ) VALUES (
-                                " . $prj_id . ",
-                                " . Misc::escapeInteger($_POST["id"]) . ",
-                                " . $role . "
-                             )";
-                    $res = DB_Helper::getInstance()->query($stmt);
-                    if (PEAR::isError($res)) {
-                        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                        return -1;
-                    }
+            }
+
+            foreach ($data["role"] as $prj_id => $role) {
+                if ($role < 1) {
+                    continue;
+                }
+                $stmt = "INSERT INTO
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                         (
+                            pru_prj_id,
+                            pru_usr_id,
+                            pru_role
+                         ) VALUES (
+                            " . $prj_id . ",
+                            " . Misc::escapeInteger($usr_id) . ",
+                            " . $role . "
+                         )";
+                $res = DB_Helper::getInstance()->query($stmt);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    return -1;
                 }
             }
-            if (!empty($_POST["password"])) {
-                Notification::notifyUserPassword($_POST["id"], $_POST["password"]);
+        }
+
+        if ($notify == true) {
+            if (!empty($data["password"])) {
+                Notification::notifyUserPassword($usr_id, $data["password"]);
             } else {
-                Notification::notifyUserAccount($_POST["id"]);
+                Notification::notifyUserAccount($usr_id);
             }
+        }
+        return 1;
+    }
+
+    public static function insertFromPost()
+    {
+        $user = array(
+            'password'  =>  $_POST['password'],
+            'full_name' =>  $_POST['full_name'],
+            'email'     =>  $_POST['email'],
+            'grp_id'    =>  $_POST['grp_id'],
+            'role'      =>  $_POST['role'],
+            'external_id'   =>  '',
+        );
+        $insert = self::insert($user);
+        if ($insert != -1) {
             return 1;
+        } else {
+            return -1;
         }
     }
 
@@ -1091,19 +1120,20 @@ class User
      * Method used to add a new user to the system.
      *
      * @access  public
+     * @param   array $user The array of user information
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function insert()
+    public static function insert($user)
     {
         $projects = array();
-        foreach ($_POST["role"] as $prj_id => $role) {
+        foreach ($user["role"] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
             }
             $projects[] = $prj_id;
         }
         $prefs = serialize(Prefs::getDefaults($projects));
-        $group_id = !empty($_POST["grp_id"]) ? Misc::escapeInteger($_POST["grp_id"]) : 'NULL';
+        $group_id = !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL';
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1113,15 +1143,17 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
-                    usr_grp_id
+                    usr_grp_id,
+                    usr_external_id
                  ) VALUES (
                     NULL,
                     NULL,
                     '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
-                    '" . Misc::escapeString($_POST["full_name"]) . "',
-                    '" . Misc::escapeString($_POST["email"]) . "',
-                    $group_id
+                    '" . Auth::hashPassword(Misc::escapeString($user["password"])) . "',
+                    '" . Misc::escapeString($user["full_name"]) . "',
+                    '" . Misc::escapeString($user["email"]) . "',
+                    $group_id,
+                    '" . Misc::escapeString($user['external_id']) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -1131,7 +1163,7 @@ class User
             $new_usr_id = DB_Helper::get_last_insert_id();
             // add the project associations!
             $projects = array();
-            foreach ($_POST["role"] as $prj_id => $role) {
+            foreach ($user["role"] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
@@ -1142,8 +1174,8 @@ class User
             Prefs::set($new_usr_id, Prefs::getDefaults($projects));
 
             // send email to user
-            Notification::notifyNewUser($new_usr_id, $_POST["password"]);
-            return 1;
+            Notification::notifyNewUser($new_usr_id, $user["password"]);
+            return $new_usr_id;
         }
     }
 
@@ -1155,7 +1187,7 @@ class User
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    function getList($show_customers)
+    function getList($show_customers = false)
     {
         $stmt = "SELECT
                     *
@@ -1557,5 +1589,12 @@ class User
             return '';
         }
         return $res;
+    }
+
+
+    public static function getExternalID($usr_id)
+    {
+        $details = User::getDetails($usr_id);
+        return $details['usr_external_id'];
     }
 }

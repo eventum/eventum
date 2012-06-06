@@ -61,7 +61,7 @@ if (@$_POST["cat"] == "update_account") {
 } elseif (@$_POST["cat"] == "update_email") {
     $res = User::updateEmail($usr_id);
 } elseif (@$_POST["cat"] == "update_password") {
-    $res = User::updatePassword($usr_id);
+    $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
 }
 
 if ($res == 1) {
@@ -80,5 +80,10 @@ $tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
 $tpl->assign("zones", Date_Helper::getTimezoneList());
 $tpl->assign('avail_langs', Language::getAvailableLanguages());
 $tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
+$tpl->assign(array(
+    'can_update_name'   =>  Auth::canUserUpdateName(Auth::getUserID()),
+    'can_update_email'  =>  Auth::canUserUpdateEmail(Auth::getUserID()),
+    'can_update_password'   =>  Auth::canUserUpdatePassword(Auth::getUserID()),
+));
 
 $tpl->displayTemplate();

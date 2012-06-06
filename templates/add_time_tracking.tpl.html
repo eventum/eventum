@@ -69,67 +69,6 @@ function validateTimeForm()
 	return true;
 }
 
-/**
- * @param	Object	f		Form object
- * @param	Integer	type	The type of update occouring.
- *							0 = Duration was updated.
- *							1 = Start time was updated.
- *							2 = End time was updated.
- *							11 = Start time refresh icon was clicked.
- *							12 = End time refresh icon was clicked.
- * @param String element Name of the element changed
- */
-function calcDateDiff(f, type, element)
-{
-	var duration = f.elements['time_spent'].value;
-	// enforce 5 minute granuality.
-	duration = Math.floor(duration / 5) * 5;
-
-	var d1 = makeDate(f, 'date');
-	var d2 = makeDate(f, 'date2');
-
-	var minute = 1000 * 60;
-	/*
-	- if time is adjusted, duration is calculated,
-	- if duration is adjusted, the end time is adjusted,
-	- clicking refresh icon on either icons will make that time current date
-	  and recalculate duration.
-	*/
-
-	if (type == 0) { // duration
-		d1.setTime(d2.getTime() - duration * minute);
-	} else if (type == 1) { // start time
-		if (element == 'date[Year]' || element == 'date[Month]' || element == 'date[Day]') {
-			d2.setTime(d1.getTime() + duration * minute);
-		} else {
-			duration = (d2.getTime() - d1.getTime()) / minute;
-		}
-	} else if (type == 2) { // end time
-		duration = (d2.getTime() - d1.getTime()) / minute;
-	} else if (type == 11) { // refresh start time
-      if (duration) {
-        d2.setTime(d1.getTime() + duration * minute);
-      } else {
-        duration = (d2.getTime() - d1.getTime()) / minute;
-      }
-	} else if (type == 12) { // refresh end time
-      if (duration) {
-        d1.setTime(d2.getTime() - duration * minute);
-      } else {
-        duration = (d2.getTime() - d1.getTime()) / minute;
-      }
-	}
-
-	/* refill form after calculation */
-	Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]', d1)
-	Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]', d2)
-
-	duration = parseInt(duration);
-	if (duration > 0) {
-		f.elements['time_spent'].value = duration;
-	}
-
-}
 $().ready(function() {
     var f = $('#add_time_form');
     Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
@@ -163,26 +102,24 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="190" nowrap>{t}Time Spent{/t}</th>
-            <td width="100%"><input type="text" size="5" name="time_spent" onChange="calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
+            <td width="100%"><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
           </tr>
-
-          <tr>
-            <th width="190" nowrap>{t}Work started{/t}</th>
-            <td width="100%">
-              {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
-              {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
-              <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
-            </td>
-          </tr>
-
-          <tr>
-            <th width="190" nowrap>{t}Work ended{/t}</th>
-            <td width="100%">
-              {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"'}&nbsp;
-              {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' onChange="calcDateDiff(this.form, 2)"' display_seconds=false}
-              <a href="javascript:void(null);" onClick="updateTimeFields('add_time_form', 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); calcDateDiff(getForm('add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
-            </td>
-          </tr>
+      <tr>
+        <th width="120" nowrap>{t}Work started{/t}:</th>
+        <td>
+          {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
+          {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false}
+          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+        </td>
+      </tr>
+      <tr>
+        <th width="120" nowrap>{t}Work ended{/t}:</th>
+        <td>
+          {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
+          {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false}
+          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+        </td>
+      </tr>
 
           <tr class="buttons">
             <td colspan="2">

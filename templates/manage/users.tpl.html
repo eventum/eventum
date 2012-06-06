@@ -145,7 +145,7 @@
                   {t}Password{/t}
                 </th>
                 <td>
-                  <input type="password" name="password" size="20">
+                  <input type="password" name="password" size="20" autocomplete="off">
                   {if $smarty.get.cat|default:'' == 'edit'}
                   <span>({t}leave empty to keep the current password{/t})</span>
                   {/if}
@@ -198,6 +198,14 @@
                     {/foreach}
                   </table>
                 </th>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>{t}External ID{/t}:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                    {$info.usr_external_id|escape:"html"}
+                </td>
               </tr>
               <tr class="buttons">
                 <td colspan="2">

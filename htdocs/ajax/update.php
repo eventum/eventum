@@ -71,7 +71,7 @@ switch ($field_name) {
             die("Update failed");
         }
 
-        if (!is_null($date)) {
+        if ($date !== null) {
             echo Date_Helper::getSimpleDate($date, false);
         }
     break;

@@ -877,11 +877,11 @@ class Notification
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
-        if (is_null($_EVENTUM_LAST_NOTIFIED_LIST)) {
+        if ($_EVENTUM_LAST_NOTIFIED_LIST === null) {
             return null;
         }
 
-        if (is_null($issue_id)) {
+        if ($issue_id === null) {
             // return all addresses in flat view
             $ret = array_values($_EVENTUM_LAST_NOTIFIED_LIST);
         } else {
@@ -1966,7 +1966,7 @@ class Notification
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
-        if (!is_null($workflow)) {
+        if ($workflow !== null) {
             return $workflow;
         }
 
