@@ -116,7 +116,7 @@ function sendEmail(account_id, issue_id)
         </table>
     </div>
     {if $core.current_role > $core.roles.viewer}
-    <div>
+    <div class="buttons">
         {if $ema_id != ""}
         <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
         {/if}
