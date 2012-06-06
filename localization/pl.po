@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
+"POT-Creation-Date: 2012-06-05 18:35+0300\n"
 "PO-Revision-Date: 2011-09-14 23:37+0000\n"
 "Last-Translator: NIXin <bart8472@gmail.com>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-02 05:39+0000\n"
-"X-Generator: Launchpad (build 15342)\n"
+"X-Launchpad-Export-Date: 2012-06-06 04:41+0000\n"
+"X-Generator: Launchpad (build 15353)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -966,11 +966,11 @@ msgstr ""
 msgid "Attached Files"
 msgstr "Załączone pliki"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr ""
 
@@ -2082,12 +2082,12 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (temat: '%1$s') przypisany przez %2$s"
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2195,7 +2195,7 @@ msgstr "Email wg czasowej ramy"
 msgid "Email by time period"
 msgstr "Emaili wg czasowych ram"
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email od '%1$s' został zablokowany"
@@ -4232,7 +4232,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email wysłany przez %1$s"
@@ -5550,7 +5550,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -5710,6 +5710,10 @@ msgstr "Wydanie"
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
 msgstr "Zapamiętaj wybór"
+
+#: templates/login_form.tpl.html
+msgid "Remember me"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""
