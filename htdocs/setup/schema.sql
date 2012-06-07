@@ -138,7 +138,7 @@ DROP TABLE IF EXISTS `%TABLE_PREFIX%issue`;
 CREATE TABLE `%TABLE_PREFIX%issue` (
   iss_id int(11) unsigned NOT NULL auto_increment,
   iss_customer_id varchar(128) NULL,
-  iss_customer_contact_id int(11) unsigned NULL,
+  iss_customer_contact_id varchar(128) NULL,
   iss_customer_contract_id varchar(50) NULL,
   iss_usr_id int(10) unsigned NOT NULL default 0,
   iss_grp_id int(11) unsigned NULL default NULL,
