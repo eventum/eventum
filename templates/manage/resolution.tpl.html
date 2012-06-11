@@ -77,15 +77,6 @@
                 </tr>
               </tr>
               <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Rank:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" name="rank" size="3" class="default" value="{$info.res_rank}">
-                  {include file="error_icon.tpl.html" field="rank"}
-                </td>
-              </tr>
-              <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input class="button" type="submit" value="{t}Update Resolution{/t}">
