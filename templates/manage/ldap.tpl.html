@@ -118,6 +118,24 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Customer ID attribute:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" class="default" name="customer_id_attribute" size="50" value="{$setup.customer_id_attribute|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="customer_id_attribute"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Contact ID attribute:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" class="default" name="contact_id_attribute" size="50" value="{$setup.contact_id_attribute|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="contact_id_attribute"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>{t}Create Users:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">

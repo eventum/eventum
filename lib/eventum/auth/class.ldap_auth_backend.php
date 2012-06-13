@@ -53,6 +53,9 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
     protected $user_dn_string;
 
+    protected $customer_id_attribute;
+    protected $contact_id_attribute;
+
     public function __construct() {
         $setup = self::loadSetup();
         $this->config = array (
@@ -64,6 +67,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         );
 
         $this->user_dn_string = $setup['userdn'];
+        $this->customer_id_attribute = $setup['customer_id_attribute'];
+        $this->contact_id_attribute = $setup['contact_id_attribute'];
 
         $this->conn = Net_LDAP2::connect($this->config);
 
@@ -125,8 +130,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'uid'   =>  $entry->get_value('uid'),
             'full_name'  =>  $entry->get_value('cn'),
             'email'  =>  $entry->get_value('mail', 'single'),
-            'customer_id'   =>  $entry->get_value('customer_id'),
-            'contact_id'  =>  $entry->get_value('contact_id'),
+            'customer_id'   =>  $entry->get_value($this->customer_id_attribute),
+            'contact_id'  =>  $entry->get_value($this->contact_id_attribute),
         );
 
         return $details;

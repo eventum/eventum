@@ -46,6 +46,8 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup['bindpw'] = $_POST['bindpw'];
         $setup['basedn'] = $_POST['basedn'];
         $setup['userdn'] = $_POST['userdn'];
+        $setup['customer_id_attribute'] = $_POST['customer_id_attribute'];
+        $setup['contact_id_attribute'] = $_POST['contact_id_attribute'];
         $setup['create_users'] = $_POST['create_users'];
         $setup['default_role'] = $_POST['default_role'];
         $res = LDAP_Auth_Backend::saveSetup($setup);
