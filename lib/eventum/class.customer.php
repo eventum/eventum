@@ -961,8 +961,7 @@ class Customer
      */
     function authenticateCustomer($prj_id, $customer_id, $contact_id)
     {
-        GLOBAL $tpl;
-
+        $tpl = new Template_Helper();
         $backend =& self::_getBackend($prj_id);
         if (method_exists($backend, 'authenticateCustomer')) {
             $backend->authenticateCustomer($customer_id, $contact_id);
