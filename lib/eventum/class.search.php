@@ -491,7 +491,7 @@ class Search
 
         $stmt = ' AND iss_usr_id = usr_id';
         if ($role_id == User::getRoleID('Customer')) {
-            $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
+            $stmt .= " AND iss_customer_id='" . User::getCustomerID($usr_id) . "'";
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
