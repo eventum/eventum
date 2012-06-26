@@ -33,6 +33,7 @@ Eventum Issue Tracking System
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
 - Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
+- Automatically uncompress gzip files when using the "view" link (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

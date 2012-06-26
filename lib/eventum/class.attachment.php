@@ -74,6 +74,10 @@ class Attachment
     {
         if ($force_inline == true) {
             header('Content-Type: text/plain');
+
+            if (stristr($mimetype, 'gzip')) {
+                header('Content-Encoding: gzip');
+            }
             header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
             header("Content-Length: " . $filesize);
             print $data;
