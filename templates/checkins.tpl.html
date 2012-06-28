@@ -21,14 +21,22 @@ function removeCheckins(f)
 /**
  * jQuery code that takes <table class=scrollTable> and makes it scrollable if content is over height of 300px
  * or defined data-max-height html5 attribute.
+ * The scroll is added only if data-limit-rows html attribute is exceeded,
+ * which defaults to 20 if undefined
  */
 $(function() {
+  var $table = $('table.scrollTable');
+
+  // do this only if there are over 20 entries
+  if ($table.find('tbody>tr').length < ($table.data('limit-rows') || 20)) {
+    return;
+  }
+
   // copy with into css
   $('table.scrollTable thead th, table.scrollTable tfoot th, table.scrollTable tbody tr:first-child td').each(function(){
     $(this).width($(this).width())
   });
 
-  var $table = $('table.scrollTable');
   var $parent = $($table).parent();
   var html = $parent.html();
   var max_height = $table.data('max-height') || 300;
