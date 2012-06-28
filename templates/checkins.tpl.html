@@ -54,11 +54,7 @@ $(function() {
 
   // scroll content to bottom
   var $scroll_el = $table.eq(1);
-  if ($scroll_el.length > 0) {
-    $scroll_el.parent('div').each(function(){
-      $(this).scrollTop($(this).scrollTop() + $scroll_el.height());
-    });
-  }
+  $scroll_el.parent('div').scrollTop($scroll_el.parent('div').scrollTop() + $scroll_el.height());
 });
 
 //-->
