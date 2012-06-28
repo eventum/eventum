@@ -40,8 +40,8 @@ $(function() {
   var $parent = $($table).parent();
   var html = $parent.html();
   var max_height = $table.data('max-height') || 300;
-  $(html).appendTo($parent).addClass('body');
-  $(html).appendTo($parent).addClass('foot');
+  $(html).appendTo($parent);
+  $(html).appendTo($parent);
 
   // refetch $table
   $table = $('table.scrollTable');
@@ -52,6 +52,13 @@ $(function() {
   $table.eq(2).find('tbody').remove()
   $table.eq(2).find('thead').remove();
 
+  // scroll content to bottom
+  var $scroll_el = $table.eq(1);
+  if ($scroll_el.length > 0) {
+    $scroll_el.parent('div').each(function(){
+      $(this).scrollTop($(this).scrollTop() + $scroll_el.height());
+    });
+  }
 });
 
 //-->
