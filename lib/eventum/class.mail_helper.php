@@ -771,7 +771,7 @@ class Mail_Helper
                     $new_headers['X-Eventum-Customer'] = $customer_details['customer_name'];
                 }
                 if (count($support_levels) > 0) {
-                    $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id, $contract_id)];
+                    $new_headers['X-Eventum-Level'] = @$support_levels[Customer::getSupportLevelID($prj_id, $customer_id, $contract_id)];
                 }
             }
             // add assignee header

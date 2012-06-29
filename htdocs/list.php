@@ -59,6 +59,12 @@ if (isset($_REQUEST['view'])) {
         Auth::redirect("list.php?customer_id=" . Misc::escapeInteger($_REQUEST['customer_id']) .
                 "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
                 "&sort_order=" . $profile['sort_order']);
+    } elseif (($_REQUEST['view'] == 'customer_all') && (isset($_REQUEST['customer_id']))) {
+        $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php?customer_id=" . Misc::escapeInteger($_REQUEST['customer_id']) .
+                "&hide_closed=0&rows=$rows&sort_by=" . $profile['sort_by'] .
+                "&sort_order=" . $profile['sort_order']);
     } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
         Search_Profile::remove($usr_id, $prj_id, 'issue');
