@@ -1138,7 +1138,7 @@ class User
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
-            $user['password'],
+            Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
             $user['grp_id'],
