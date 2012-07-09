@@ -803,6 +803,10 @@ class Notification
                 if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
+                if ($type == 'notes' && User::isPartner($users[$i]["sub_usr_id"]) &&
+                        !Partner::canUserAccessIssueSection($users[$i]["sub_usr_id"], 'notes')) {
+                    continue;
+                }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
             // now add it to the list of emails
