@@ -5,11 +5,11 @@ Eventum Issue Tracking System
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
+- Made SCM commits section scrollable using CSS (and jQuery) (Elan Ruusamäe)
 
 2012-06-05, Version 2.3.3 RC2
 - Added shouldAttachFile workflow method (Elan Ruusamäe)
 - Bug fixes for schema file relating to customer and contact id (Bryan Alsdorf)
-- Made SCM commits section scrollable using CSS (and jQuery) (Elan Ruusamäe)
 
 2012-05-30, Version 2.3.3 RC1
 - Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
