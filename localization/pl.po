@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-06-13 01:32+0000\n"
-"Last-Translator: Michał Lipok <michal@lipok.pl>\n"
+"PO-Revision-Date: 2012-07-16 15:09+0000\n"
+"Last-Translator: Marcin M <marcin@vao.pl>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-14 04:35+0000\n"
-"X-Generator: Launchpad (build 15405)\n"
+"X-Launchpad-Export-Date: 2012-07-17 04:49+0000\n"
+"X-Generator: Launchpad (build 15627)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -70,6 +70,8 @@ msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
 "are required by Eventum and cannot be deleted."
 msgstr ""
+"'Notatka z dyskusji','Dyskusja Email' i 'Dyskusja Telefoniczna' te kategorie "
+"są wymagane przez Eventum i nie mogą być usunięte."
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
@@ -89,21 +91,23 @@ msgstr "(Zgłoszenia otwarte)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
-msgstr ""
+msgstr "(MUSI zawierać prawdziwy adres email, np. \"%1\" or \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
+"Będzie zawarte w polu Od wszystkich wiadomości email wysyłanych przez Eventum"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
-msgstr ""
+msgstr "Będzie zawarte w polu Od wszystkich notatek wysyłanych przez Eventum"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Porada: domyślne porty to 110 dla serwerów POP3  i 143 dla serwerów IMAP)"
 
 #: lib/eventum/class.template_helper.php:172
 msgid "(archived)"
@@ -130,6 +134,8 @@ msgstr ""
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
+"(naciśnij klawisz 'ALT' i naciśnij klawisz '4' równocześnie) - w celu użycia "
+"'Go'"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
@@ -153,7 +159,7 @@ msgstr "(rozdziel wiele adresów za pomocą przecinków)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr ""
+msgstr "(ten kolor będzie używany na liście zgłoszeń)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
