@@ -229,6 +229,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                 'can_update'          => Issue::canUpdate($issue_id, $usr_id),
                 'enabled_partners'    => Partner::getPartnersByProject($prj_id),
                 'partners'            => Partner::getPartnersByIssue($issue_id),
+                'issue_access'       => Access::getIssueAccessArray($issue_id, $usr_id),
             ));
 
             if ($role_id != User::getRoleID('customer')) {
@@ -265,7 +266,6 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'statuses'           => $statuses,
                     'drafts'             => Draft::getList($issue_id, $show_all_drafts),
                     'groups'             => $groups,
-                    'issue_access'       => Access::getIssueAccessArray($issue_id, $usr_id),
                 ));
             }
         }

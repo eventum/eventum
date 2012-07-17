@@ -127,7 +127,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
             return true;
         }
         return false;
