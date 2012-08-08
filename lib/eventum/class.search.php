@@ -94,6 +94,7 @@ class Search
             'users'          => Misc::escapeInteger(self::getParam('users')),
             'status'         => Misc::escapeInteger(self::getParam('status')),
             'priority'       => Misc::escapeInteger(self::getParam('priority')),
+            'severity'       => Misc::escapeInteger(self::getParam('severity')),
             'category'       => Misc::escapeInteger(self::getParam('category')),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email')),
             // advanced search form

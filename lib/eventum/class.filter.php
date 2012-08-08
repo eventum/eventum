@@ -389,40 +389,73 @@ class Filter
             if ((count($res) > 0) && ($build_url == true)) {
                 $filter_info = self::getFiltersInfo();
                 for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]['url'] = '';
-                    foreach ($filter_info as $field => $filter) {
-                        if (@$filter['is_date'] == true) {
-                            $res[$i]['url'] .= $filter['param'] . '[filter_type]=' . $res[$i]['cst_' . $field . '_filter_type'] . '&';
-                            if ($res[$i]['cst_' . $field . '_filter_type'] == 'in_past') {
-                                $res[$i]['url'] .= $filter['param'] . '[time_period]=' . $res[$i]['cst_' . $field . '_time_period'] . '&';
-                            } else {
-                                $start_date = $res[$i]['cst_' . $field];
-                                if (!empty($start_date)) {
-                                    $start_date_parts = explode("-", $start_date);
-                                    $res[$i]['url'] .= $filter['param']  . '[Year]=' . $start_date_parts[0] . '&';
-                                    $res[$i]['url'] .= $filter['param']  . '[Month]=' . $start_date_parts[1] . '&';
-                                    $res[$i]['url'] .= $filter['param']  . '[Day]=' . $start_date_parts[2] . '&';
-                                }
-                                $end_date = $res[$i]['cst_' . $field . '_end'];
-                                if (!empty($end_date)) {
-                                    $end_date_parts = explode("-", $end_date);
-                                    $res[$i]['url'] .= $filter['param']  . '_end[Year]=' . $end_date_parts[0] . '&';
-                                    $res[$i]['url'] .= $filter['param']  . '_end[Month]=' . $end_date_parts[1] . '&';
-                                    $res[$i]['url'] .= $filter['param']  . '_end[Day]=' . $end_date_parts[2] . '&';
-                                }
-                            }
-                        } else {
-                            if ((@$filter['is_custom'] != 1) && (isset($res[$i]['cst_' . $field]))) {
-                                $res[$i]['url'] .= $filter['param'] . '=' . urlencode($res[$i]['cst_' . $field]) . '&';
-                            }
-                        }
-                    }
-                    $res[$i]['url'] .= 'custom_field=' . urlencode($res[$i]['cst_custom_field']);
+                    $res[$i]['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($res[$i]));
                 }
             }
 
             return $res;
         }
+    }
+
+    private static function removeCSTprefix($res)
+    {
+        $return = array();
+        foreach ($res as $key => $val) {
+            $return[str_replace('cst_', '', $key)] = $val;
+        }
+        return $return;
+    }
+
+
+    public static function buildUrl($filter_info, $options, $exclude_filter=false, $use_params=false)
+    {
+        $url = '';
+        foreach ($filter_info as $field => $filter) {
+            if ($use_params && isset($filter['param']) && isset($options[$filter['param']])) {
+                $value = $options[$filter['param']];
+            } elseif (isset($options[$field])) {
+                $value = $options[$field];
+            } else {
+                $value = null;
+            }
+
+            if ($field == $exclude_filter) {
+                if ($field == 'hide_closed') {
+                    $value = 0;
+                } else {
+                    continue;
+                }
+            }
+
+            if (@$filter['is_date'] == true) {
+                if (isset($value['filter_type'])) {
+                    $url .= $filter['param'] . '[filter_type]=' . $value['filter_type'] . '&';
+                    if ($value['filter_type'] == 'in_past') {
+                        $url .= $filter['param'] . '[time_period]=' . $value['time_period'] . '&';
+                    } else {
+                        $url .= $filter['param']  . '[Year]=' . $value['Year'] . '&';
+                        $url .= $filter['param']  . '[Month]=' . $value['Month'] . '&';
+                        $url .= $filter['param']  . '[Day]=' . $value['Day'] . '&';
+
+                        $end_date = $options[$field . '_end'];
+                        if (!empty($end_date)) {
+                            $url .= $filter['param']  . '_end[Year]=' . $end_date['Year'] . '&';
+                            $url .= $filter['param']  . '_end[Month]=' . $end_date['Month'] . '&';
+                            $url .= $filter['param']  . '_end[Day]=' . $end_date['Day'] . '&';
+                        }
+                    }
+                }
+            } else {
+                if ((@$filter['is_custom'] != 1) && ($value !== null)) {
+                    $url .= $filter['param'] . '=' . urlencode($value) . '&';
+                }
+            }
+        }
+        if (isset($options['custom_field'])) {
+            $url .= 'custom_field=' . urlencode($options['custom_field']);
+        }
+
+        return $url;
     }
 
 
@@ -571,6 +604,7 @@ class Filter
      * Returns an array of active filters
      *
      * @param   array $options The options array
+     * @return array
      */
     function getActiveFilters($options)
     {
@@ -693,10 +727,12 @@ class Filter
             }
 
             if ($display != false) {
-                $return[$filter['title']] = $display;
+                $return[$filter['title']] = array(
+                    'value' =>  $display,
+                    'remove_link'   =>  'list.php?view=clearandfilter&' . Filter::buildUrl($filter_info, $options, $filter_key, true)
+                );
             }
         }
-
         return $return;
     }
 

@@ -189,11 +189,11 @@ div.app_messages {
 /**
  * NEW CSS
  */
- 
+
 /* Bordered Table */
 table.bordered {
     border: 1px solid #255282;
-    background: #FFFFFF;  
+    background: #FFFFFF;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: .7em;
 }
@@ -301,4 +301,9 @@ ul.excerpts {
 ul.excerpts ul {
     list-style-type: none;
     padding-left: 1em;
+}
+
+.remove_filter {
+    vertical-align: super;
+    font-size: .8em;
 }
