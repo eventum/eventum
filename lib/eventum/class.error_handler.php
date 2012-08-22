@@ -105,7 +105,7 @@ class Error_Handler
             }
 
             if (!empty($_SERVER['HTTP_REFERER'])) {
-                $msg  .= "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
+                $msg  .= " coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
             }
             $msg .= ".\n\nThe user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
         }
