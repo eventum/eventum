@@ -101,7 +101,7 @@ class Error_Handler
 
             $login = Auth::getUserLogin();
             if ($login) {
-                $msg .= " by user '$login'";
+                $msg .= " for user '$login'";
             }
 
             if (!empty($_SERVER['HTTP_REFERER'])) {
