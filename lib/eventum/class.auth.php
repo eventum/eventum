@@ -265,8 +265,14 @@ class Auth
      */
     public static function getCookieInfo($cookie_name)
     {
-        $cookie = @$_COOKIE[$cookie_name];
-        return unserialize(base64_decode($cookie));
+        if (!isset($_COOKIE[$cookie_name])) {
+            return null;
+        }
+        $data = base64_decode($_COOKIE[$cookie_name], true);
+        if ($data === false) {
+            return null;
+        }
+        return unserialize($data);
     }
 
 
@@ -440,6 +446,21 @@ class Auth
         }
 
         return User::getUserIDByEmail($info['email']);
+    }
+
+    /**
+     * Gets the current user login.
+     *
+     * @return  string  The login of the user
+     */
+    public static function getUserLogin()
+    {
+        $info = self::getCookieInfo(APP_COOKIE);
+        if (empty($info) || !isset($info['email'])) {
+            return null;
+        }
+
+        return $info['email'];
     }
 
 

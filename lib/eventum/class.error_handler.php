@@ -97,7 +97,13 @@ class Error_Handler
 
         // this checks that we're not running from commandline (cron for example)
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $msg .= "That happened on page '" . $_SERVER['SCRIPT_NAME'] . "' from IP Address '" . $_SERVER['REMOTE_ADDR'];
+            $msg .= "That happened on page '{$_SERVER['SCRIPT_NAME']}' from IP Address '{$_SERVER['REMOTE_ADDR']}'";
+
+            $login = Auth::getUserLogin();
+            if ($login) {
+                $msg .= " by user '$login'";
+            }
+
             if (!empty($_SERVER['HTTP_REFERER'])) {
                 $msg  .= "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
             }
