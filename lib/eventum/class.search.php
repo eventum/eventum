@@ -37,14 +37,17 @@ class Search
      * Method used to get a specific parameter in the issue listing cookie.
      *
      * @param   string $name The name of the parameter
+     * @param   bool $request_only If only $_GET and $_POST should be checked
      * @return  mixed The value of the specified parameter
      */
-    public static function getParam($name)
+    public static function getParam($name, $request_only = false)
     {
         if (isset($_GET[$name])) {
             return $_GET[$name];
         } elseif (isset($_POST[$name])) {
             return $_POST[$name];
+        } elseif ($request_only) {
+            return '';
         }
 
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
@@ -59,50 +62,52 @@ class Search
      * Method used to save the current search parameters in a cookie.
      * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
-     * @param   string $save_db Whether to save search parameters also to database
+     * @param   bool $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
     public static function saveSearchParams($save_db = true)
     {
-        $sort_by = self::getParam('sort_by');
-        $sort_order = self::getParam('sort_order');
-        $rows = self::getParam('rows');
-        $hide_closed = self::getParam('hide_closed');
+        $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
+
+        $sort_by = self::getParam('sort_by', $request_only);
+        $sort_order = self::getParam('sort_order', $request_only);
+        $rows = self::getParam('rows', $request_only);
+        $hide_closed = self::getParam('hide_closed', $request_only);
         if ($hide_closed === '') {
             $hide_closed = 1;
         }
-        $search_type = self::getParam('search_type');
+        $search_type = self::getParam('search_type', $request_only);
         if (empty($search_type)) {
             $search_type = 'all_text';
         }
-        $custom_field = self::getParam('custom_field');
+        $custom_field = self::getParam('custom_field', $request_only);
         if (is_string($custom_field)) {
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = array(
             'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
-            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow')),
+            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
             "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
             // quick filter form
-            'keywords'       => self::getParam('keywords'),
-            'match_mode'     => self::getParam('match_mode'),
-            'hide_excerpts'  => self::getParam('hide_excerpts'),
+            'keywords'       => self::getParam('keywords', $request_only),
+            'match_mode'     => self::getParam('match_mode', $request_only),
+            'hide_excerpts'  => self::getParam('hide_excerpts', $request_only),
             'search_type'    => Misc::stripHTML($search_type),
-            'users'          => Misc::escapeInteger(self::getParam('users')),
-            'status'         => Misc::escapeInteger(self::getParam('status')),
-            'priority'       => Misc::escapeInteger(self::getParam('priority')),
-            'severity'       => Misc::escapeInteger(self::getParam('severity')),
-            'category'       => Misc::escapeInteger(self::getParam('category')),
-            'customer_email' => Misc::stripHTML(self::getParam('customer_email')),
+            'users'          => Misc::escapeInteger(self::getParam('users', $request_only)),
+            'status'         => Misc::escapeInteger(self::getParam('status', $request_only)),
+            'priority'       => Misc::escapeInteger(self::getParam('priority', $request_only)),
+            'severity'       => Misc::escapeInteger(self::getParam('severity', $request_only)),
+            'category'       => Misc::escapeInteger(self::getParam('category', $request_only)),
+            'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues')),
-            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues')),
-            'reporter'       => Misc::escapeInteger(self::getParam('reporter')),
+            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues', $request_only)),
+            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues', $request_only)),
+            'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
             // other fields
-            'release'        => Misc::escapeInteger(self::getParam('release')),
+            'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
             'custom_field'   => Misc::stripHTML($custom_field)
         );
@@ -115,7 +120,7 @@ class Search
             'closed_date'
         );
         foreach ($date_fields as $field_name) {
-            $field = Misc::stripHTML(self::getParam($field_name));
+            $field = Misc::stripHTML(self::getParam($field_name, $request_only));
             if (empty($field)) {
                 continue;
             }
@@ -126,7 +131,7 @@ class Search
                 );
             } else {
                 $end_field_name = $field_name . '_end';
-                $end_field = Misc::stripHTML(self::getParam($end_field_name));
+                $end_field = Misc::stripHTML(self::getParam($end_field_name, $request_only));
                 @$cookie[$field_name] = array(
                     'past_hour'   => $field['past_hour'],
                     'Year'        => $field['Year'],
