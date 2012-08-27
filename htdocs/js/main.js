@@ -18,7 +18,7 @@ $(document).ready(function() {
     });
 
     // focus on the first text input field in the first field on the page
-    $(":text:visible:enabled").not(".noautofocus").first().focus();
+    $(":text:visible:enabled .autofocus").first().focus();
 
     $('.close_window').click(function() { window.close(); });
 
@@ -255,10 +255,9 @@ Eventum.show_selections = function(e)
 /**
  * Make javascript Date() object from datetime form selection.
  *
- * @param   Object  f       Form object.
  * @param   String  name    Form element prefix for date.
  */
-Eventum.makeDate = function(f, name) {
+Eventum.makeDate = function(name) {
     var d = new Date();
     d.setFullYear(Eventum.getField(name + '[Year]').val());
     d.setMonth(Eventum.getField(name + '[Month]').val() - 1);
@@ -285,8 +284,8 @@ Eventum.calcDateDiff = function(f, type, element)
     // enforce 5 minute granularity.
     duration = Math.floor(duration / 5) * 5;
 
-    var d1 = Eventum.makeDate(f, 'date');
-    var d2 = Eventum.makeDate(f, 'date2');
+    var d1 = Eventum.makeDate('date');
+    var d2 = Eventum.makeDate('date2');
 
     var minute = 1000 * 60;
     /*

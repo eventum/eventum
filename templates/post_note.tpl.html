@@ -30,12 +30,12 @@ function validateForm()
     }
 
 	var now = new Date();
-	var d1 = Eventum.makeDate(f, 'date');
+	var d1 = Eventum.makeDate('date');
 	if (d1 > now) {
 		alert('{/literal}{t}Start time in the future.{/t}{literal}');
 		return false;
 	}
-	var d2 = Eventum.makeDate(f, 'date2');
+	var d2 = Eventum.makeDate('date2');
 	if (d2 > now) {
 		alert('{/literal}{t}End time in the future.{/t}{literal}');
 		return false;
