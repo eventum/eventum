@@ -211,9 +211,24 @@ table.bordered th {
 }
 
 table.bordered th.internal, table.bordered td.internal {
-    background: #9c494b !important;
+    background: #9c494b;
     color: #FFFFFF;
 }
+
+table.bordered.internal {
+    border-color:  #9c494b;
+}
+
+table.bordered.internal th, table.bordered .internal th {
+    background: #9c494b;
+    color: #FFFFFF;
+}
+
+table.bordered.internal .title th {
+    background: #FFFFFF;
+    color: #000000;
+}
+
 
 table.bordered th a {
     color: white;
@@ -229,7 +244,7 @@ table.bordered td {
     color: #FFFFFF;
 }
 
-.bordered.internal .buttons, .bordered.internal .buttons td {
+.bordered.internal .buttons, .bordered.internal .buttons td, .bordered .buttons.internal td {
     background: #9c494b;
     color: #FFFFFF;
 }

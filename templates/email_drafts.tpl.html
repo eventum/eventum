@@ -55,7 +55,8 @@ function showAllDrafts(thisBox)
             <th width="40%">{t}Subject{/t}</th>
           </tr>
           {section name="i" loop=$drafts}
-          <tr class="{cycle values='odd,even'}{if $drafts[i].emd_status != 'pending'} deleted{/if}">
+          {cycle values='odd,even' assign="row_class"}
+          <tr class="{$row_class}{if $drafts[i].emd_status != 'pending'} deleted{/if}">
             <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id}</td>
             <td width="5">{$smarty.section.i.iteration}</td>
             {if $smarty.request.show_all_drafts|default:0 == 1}
@@ -68,7 +69,7 @@ function showAllDrafts(thisBox)
               <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewDraft({$drafts[i].emd_id}, {$smarty.get.id|intval});">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
             </td>
           </tr>
-          {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan=$draft_col_count}
+          {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan=$draft_col_count class=$row_class}
           {sectionelse}
           <tr class="no_results">
             <td colspan="{$draft_col_count}">

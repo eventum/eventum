@@ -1,19 +1,17 @@
 {strip}
 {if $list_id|default:'' == ''}
-    {assign var="js_expand_func" value="expandAll('$core.rel_url', '$ec_id')"}
     {capture assign="expand_all"}{t}Expand all collapsed cells{/t}{/capture}
     {assign var="expand_tip" value=$expand_all}
-    {assign var="js_collapse_func" value="collapseAll('$ec_id')"}
     {capture assign="collapse_all"}{t}Collapse all expanded cells{/t}{/capture}
     {assign var="collapse_tip" value=$collapse_all}
 {else}
-    {assign var="js_expand_func" value="expand('$core.rel_url', '$ec_id', '$list_id')"}
     {capture assign="expand"}{t}Expand collapsed cell{/t}{/capture}
     {assign var="expand_tip" value=$expand}
-    {assign var="js_collapse_func" value="collapse('$ec_id', '$list_id')"}
     {capture assign="collapse"}{t}Collapse expanded cell{/t}{/capture}
     {assign var="collapse_tip" value=$collapse}
 {/if}
-&nbsp;<a href="javascript:{$js_expand_func}" style="text-decoration: none"><img src="{$core.rel_url}images/icons/plus.gif" border="0" alt="{$expand_tip}"></a>&nbsp;
-<a href="javascript:{$js_collapse_func}"  style="text-decoration: none"><img src="{$core.rel_url}images/icons/minus.gif" border="0" alt="{$collapse_tip}"></a>&nbsp;
+<div class="expandable_buttons {$ec_id}" data-expand-type="{$ec_id}" data-list-id="{$list_id|default:''}">
+    &nbsp;<img class="expand" src="{$core.rel_url}images/icons/plus.gif" border="0" alt="{$expand_tip}">
+    &nbsp;<img class="collapse" src="{$core.rel_url}images/icons/minus.gif" border="0" alt="{$collapse_tip}">
+</div>
 {/strip}

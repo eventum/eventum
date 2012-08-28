@@ -24,7 +24,11 @@ $(document).ready(function() {
 
     window.onbeforeunload = Eventum.handleClose;
 
-    $('form.validate').submit(Validation.callback)
+    $('form.validate').submit(Validation.callback);
+
+    ExpandableCell.ready();
+
+    Eventum.rel_url = $('head').attr('data-rel-url');
 });
 
 
@@ -35,6 +39,7 @@ function Eventum()
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 Eventum.checkClose = false;
 Eventum.closeConfirmMessage = 'Do you want to close this window?';
+Eventum.rel_url = '';
 
 Eventum.toggle_section_visibility = function(id) {
     var element = $('#' + id);
@@ -595,4 +600,53 @@ CustomField.loadFieldInfo = function()
 CustomField.getFieldInfo = function()
 {
     return CustomField.field_info;
+}
+
+
+
+function ExpandableCell()
+{
+}
+
+ExpandableCell.ready = function()
+{
+    $('.expandable_buttons .expand').click(function(e) {
+        var target = $(e.target).parent();
+        var expand_type = target.attr('data-expand-type');
+        var list_id = target.attr('data-list-id');
+        if (list_id != '') {
+            ExpandableCell.expand(expand_type, list_id);
+        } else {
+            $('.expandable_buttons.' + expand_type + ' .expand').each(function() {
+                this.click();
+            })
+        }
+    });
+    $('.expandable_buttons .collapse').click(function(e) {
+        var target = $(e.target).parent();
+        var expand_type = target.attr('data-expand-type');
+        var list_id = target.attr('data-list-id');
+        if (list_id != '') {
+            ExpandableCell.collapse(expand_type, list_id);
+        } else {
+            $('.expandable_buttons.' + expand_type + ' .collapse').each(function() {
+                this.click();
+            })
+        }
+    });
+}
+
+ExpandableCell.expand = function(expand_type, list_id) {
+    var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
+    var cell = row.find('td');
+    if (cell.html() == '') {
+        cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
+            '&list_id=' + list_id);
+    }
+    row.show();
+}
+
+ExpandableCell.collapse = function(expand_type, list_id) {
+    var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
+    row.hide();
 }

@@ -45,7 +45,8 @@ function addPhoneCall()
             <th width="20%">{t}Phone Number{/t}</th>
           </tr>
           {section name="i" loop=$phone_entries}
-          <tr class="{cycle values='odd,even'}">
+          {cycle values='odd,even' assign="row_class"}
+          <tr class="{$row_class}">
             <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
             <td nowrap>{$smarty.section.i.iteration}</td>
             <td nowrap>{$phone_entries[i].phs_created_date}</td>
@@ -61,7 +62,7 @@ function addPhoneCall()
             <td nowrap>{$phone_entries[i].phc_title}</td>
             <td nowrap>{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
           </tr>
-          {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="9"}
+          {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="9" class=$row_class}
           {sectionelse}
           <tr class="no_results">
             <td colspan="9">

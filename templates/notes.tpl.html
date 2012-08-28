@@ -62,7 +62,8 @@ function replyNote(note_id, issue_id)
             <th width="60%">{t}Title{/t}</th>
           </tr>
           {section name="i" loop=$notes}
-          <tr class="{cycle values='odd,even'}">
+          {cycle values='odd,even' assign="row_class"}
+          <tr class="{$row_class}">
             <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
             <td align="center">{$smarty.section.i.iteration}</td>
             <td align="center">
@@ -81,7 +82,7 @@ function replyNote(note_id, issue_id)
               {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});">{t}convert note{/t}</a>){/if}
             </td>
           </tr>
-          {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
+          {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6" class=$row_class}
           {sectionelse}
           <tr class="no_results">
             <td colspan="6">
