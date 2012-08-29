@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-07-16 15:09+0000\n"
-"Last-Translator: Marcin M <marcin@vao.pl>\n"
+"PO-Revision-Date: 2012-08-28 13:39+0000\n"
+"Last-Translator: Michał Lipok <michal@lipok.pl>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-07-17 04:49+0000\n"
-"X-Generator: Launchpad (build 15627)\n"
+"X-Launchpad-Export-Date: 2012-08-29 05:06+0000\n"
+"X-Generator: Launchpad (build 15864)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -163,7 +163,7 @@ msgstr "(ten kolor będzie używany na liście zgłoszeń)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "(skrót trzy literowy)"
 
 #: templates/manage/groups.tpl.html templates/manage/users.tpl.html
 msgid "-- Select One --"
@@ -338,7 +338,7 @@ msgstr "Dodaj podpis"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr ""
+msgstr "Dodaj dodatkowego odbiorcę do listy powiadamiania"
 
 #: templates/new.tpl.html
 msgid "Add Files"
@@ -366,7 +366,7 @@ msgstr "Dodaj rozmowę telefoniczną"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
+msgstr "Dodaj numer telefonu"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
@@ -382,11 +382,11 @@ msgstr ""
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
+msgstr "Dodaj nadawcę odpowiedzi do listy autoryzowanych osób"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr ""
+msgstr "Adres - Nazwa hosta"
 
 #: templates/navigation.tpl.html
 msgid "Administration"
