@@ -738,6 +738,7 @@ class Mail_Helper
      */
     function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
     {
+
         $new_headers = array();
         if (!empty($issue_id)) {
             $prj_id = Issue::getProjectID($issue_id);
@@ -760,6 +761,7 @@ class Mail_Helper
                     $new_headers['X-Eventum-Group-Assignee'] = @Group::getName(User::getGroupID($assignees[0]));
                 }
             }
+
             if (Customer::hasCustomerIntegration($prj_id)) {
                 if (empty($support_levels)) {
                     $support_levels = Customer::getSupportLevelAssocList($prj_id);
@@ -774,13 +776,18 @@ class Mail_Helper
                     $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id, $contract_id)];
                 }
             }
+
             // add assignee header
             $new_headers['X-Eventum-Assignee'] = join(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
 
             $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
             $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
+
+            $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
         }
+
         $new_headers['X-Eventum-Type'] = $type;
+
         return $new_headers;
     }
 
