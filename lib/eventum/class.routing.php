@@ -447,8 +447,6 @@ class Routing
 
         $mail_domain = quotemeta($settings['address_host']);
 
-        // it is not checked for type when host alias is asked. this leaves
-        // room for adding host_alias for other than email routing.
         if (!empty($settings['host_alias'])) {
             // XXX: legacy split by '|' as well
             if (strchr($settings['host_alias'], '|')) {
