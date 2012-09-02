@@ -189,7 +189,7 @@
                   <b>{t}Password{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="password" class="default" name="password" size="20" value="{$info.ema_password|escape:"html"}">
+                  <input type="password" class="default" name="password" size="20" value="{$info.ema_password|escape:"html"}"  autocomplete="off">
                   {include file="error_icon.tpl.html" field="password"}
                 </td>
               </tr>
