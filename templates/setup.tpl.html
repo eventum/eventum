@@ -258,7 +258,7 @@ function disableAuthFields(f, bool)
             <b>{t}MySQL Password:{/t}</b>
           </td>
           <td>
-            <input type="password" name="db_password" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password}">
+            <input type="password" name="db_password" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password}" autocomplete="off">
           </td>
         </tr>
         <tr>
@@ -294,7 +294,7 @@ function disableAuthFields(f, bool)
                               <nobr>&nbsp;<b>{t}Password{/t}:</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="password" name="eventum_password" size="20" value="{$smarty.post.eventum_password}" tabindex="{$tabindex}">&nbsp;</nobr>
+                              <nobr><input type="password" name="eventum_password" size="20" value="{$smarty.post.eventum_password}" tabindex="{$tabindex}" autocomplete="off">&nbsp;</nobr>
                             </td>
                           </tr>
                           <tr>
@@ -419,7 +419,7 @@ function disableAuthFields(f, bool)
             <b>{t}Password{/t}:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="password" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}" tabindex="{$tabindex}">
+            <input type="password" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}" tabindex="{$tabindex}" autocomplete="off">
             {include file="error_icon.tpl.html" field="setup[smtp][password]"}
           </td>
         </tr>

@@ -5,6 +5,9 @@ Eventum Issue Tracking System
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
 - Add logged in username in automated error reports (Elan Ruusamäe)
+- Added X-Eventum-Priority header to outgoing emails (Elan Ruusamäe)
+- Disable autocomplete on forms that fill somebody else's password (Elan Ruusamäe)
+- Add host aliases support for notes and drafts as well (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)

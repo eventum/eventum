@@ -412,7 +412,7 @@
                     {t}Password{/t}
                   </td>
                   <td width="80%">
-                    <input type="password" name="smtp[password]" size="20" value="{$setup.smtp.password|default:''|escape:"html"}">
+                    <input type="password" name="smtp[password]" size="20" value="{$setup.smtp.password|default:''|escape:"html"}" autocomplete="off">
                     {include file="error_icon.tpl.html" field="smtp[password]"}
                   </td>
                 </tr>

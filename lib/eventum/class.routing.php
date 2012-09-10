@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -424,7 +425,7 @@ class Routing
      *
      * @param   mixed   $addresses to check
      * @param   string  Type of address match to find (email, note, draft)
-     * @return  mixed   $issue_id in case of match otherwise false
+     * @return  int|bool $issue_id in case of match otherwise false
      */
     function getMatchingIssueIDs($addresses, $type)
     {
@@ -443,13 +444,19 @@ class Routing
         if (empty($settings['address_host'])) {
             return false;
         }
+
         $mail_domain = quotemeta($settings['address_host']);
 
-        // it is not checked for type when host alias is asked. this leaves
-        // room foradding host_alias for other than email routing.
-        if (isset($settings['host_alias'])) {
-            // TODO: can't quotemeta() host alias as it can contain multiple hosts separated with pipe
-            $mail_domain = '(?:' . $mail_domain . '|' . $settings['host_alias'] . ')';
+        if (!empty($settings['host_alias'])) {
+            // XXX: legacy split by '|' as well
+            if (strchr($settings['host_alias'], '|')) {
+                $host_aliases = explode('|', $settings['host_alias']);
+            } else {
+                $host_aliases = explode(' ', $settings['host_alias']);
+            }
+            $host_aliases = implode('|', array_map('quotemeta', $host_aliases));
+
+            $mail_domain = '(?:' . $mail_domain . '|' . $host_aliases . ')';
         }
 
         // if there are multiple CC or To headers Mail_Mime creates array.
@@ -461,7 +468,7 @@ class Routing
         // everything safely escaped and checked, try matching address
         foreach ($addresses as $address) {
             if (preg_match("/$prefix(\d*)@$mail_domain/i", $address, $matches)) {
-                return $matches[1];
+                return (int )$matches[1];
             }
         }
 

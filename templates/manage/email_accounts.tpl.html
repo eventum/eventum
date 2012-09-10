@@ -183,7 +183,7 @@
       {t}Password{/t}
     </th>
     <td width="80%">
-      <input type="password" name="password" size="20" value="{$info.ema_password|default:''|escape:"html"}">
+      <input type="password" name="password" size="20" value="{$info.ema_password|default:''|escape:"html"}" autocomplete="off">
       {include file="error_icon.tpl.html" field="password"}
     </td>
   </tr>
