@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2011-08-30 19:16+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2012-09-11 21:01+0000\n"
+"Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-06 04:38+0000\n"
-"X-Generator: Launchpad (build 15353)\n"
+"X-Launchpad-Export-Date: 2012-09-12 04:37+0000\n"
+"X-Generator: Launchpad (build 15930)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -24,7 +24,7 @@ msgid ""
 "following URL"
 msgstr ""
 "\n"
-"Pro zobrazení detailů tohoto problému, nebo pro aktualizaci, prosím "
+"Pro zobrazení podrobností této úlohy, nebo pro jeho aktualizaci, prosím "
 "navštivte následující URL"
 
 #. TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
@@ -49,12 +49,12 @@ msgstr "%1$s Skupina"
 #: lib/eventum/class.filter.php:600
 #, php-format
 msgid "%1$s or greater"
-msgstr "%1$s nebo více"
+msgstr "%1$s nebo větší"
 
 #: lib/eventum/class.filter.php:603
 #, php-format
 msgid "%1$s or less"
-msgstr "%1$s nebo méně"
+msgstr "%1$s nebo nižší"
 
 #: templates/list.tpl.html
 msgid ""
@@ -62,7 +62,7 @@ msgid ""
 "%2 ago"
 msgstr ""
 "%1:\n"
-"%2 dříve"
+"před %2"
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
@@ -74,11 +74,11 @@ msgstr ""
 
 #: templates/main.tpl.html
 msgid "(All Issues)"
-msgstr "(Všechny problémy)"
+msgstr "(Všechny úlohy)"
 
 #: templates/manage/general.tpl.html
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Alternativní domény které ukazjí na 'Address Hostname' )"
+msgstr "(Alternativní domény které odkazují na 'Adresu hostitele' )"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -86,62 +86,65 @@ msgstr "(GMT)"
 
 #: templates/main.tpl.html
 msgid "(Open Issues)"
-msgstr "(Otevřené problémy)"
+msgstr "(Otevřené úlohy)"
 
 #: templates/manage/general.tpl.html
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
-"(Toto musí obsahovat reálnou emailovou adresu např.  \"%1\" or \"%2\")"
+"(Toto MUSÍ obsahovat skutečnou emailovou adresu např.  \"%1\" or \"%2\")"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
-"Toto bude použito v kolonce \"Od\" ve všech e-mailech odeslaných od Eventum."
+"(Toto bude zahrnuto v poli \"Od\" ve všech emailech odeslaných z Eventum)"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
-"Toto bude použito v kolonce \"Od\" ve všech poznámkách odeslaných od Eventum."
+"(Toto bude zahrnuto v poli \"Od\" ve všech poznámkách odeslaných z Eventum)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
-"(Tip: standardní nastavení portu je 110 pro POP3 servery a 143 pro servery "
-"IMAP)"
+"(Tip: výchozí porty jsou 110 pro POP3 servery a 143 pro servery IMAP)"
 
 #: lib/eventum/class.template_helper.php:172
 msgid "(archived)"
-msgstr ""
+msgstr "(archivováno)"
 
 #: templates/manage/monitor.tpl.html
 msgid "(default %1)"
-msgstr ""
+msgstr "(výchozí %1)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(výchosí složka v DORUČENÝCH)"
 
 #: templates/manage/general.tpl.html
 msgid "(e.g. %1)"
-msgstr ""
+msgstr "(např. %1)"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
 msgstr ""
+"(podržte klávesu 'ALT' a jednou stiskněte '3') - pro vstup do rámečku "
+"'Hledání'"
 
 #: templates/tips/keyboard_shortcuts.tpl.html
 msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
+"(podržte klávesu 'ALT' a jednou stiskněte '4') - pro vstup do rámečku "
+"'Přejít'"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "(in hours please)"
-msgstr ""
+msgstr "(prosíme v hodinách)"
 
 #: templates/close.tpl.html templates/post_note.tpl.html
 msgid "(in minutes)"
-msgstr ""
+msgstr "(v minutách)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -149,15 +152,15 @@ msgstr "(doslovně)"
 
 #: templates/manage/general.tpl.html
 msgid "(requires %1 installed in your server)"
-msgstr "(vyžadováno %1 instalované na Vašem serveru)"
+msgstr "(na vašem serveru je třeba nainstalovat %1)"
 
 #: templates/manage/general.tpl.html
 msgid "(separate multiple addresses with commas)"
-msgstr "(oddělte více adres čárkami)"
+msgstr "(více adres oddělujte čárkami)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(this color will be used in the issue listing page)"
-msgstr ""
+msgstr "(tato barva bude použita na stránce výpisu úloh)"
 
 #: templates/manage/statuses.tpl.html
 msgid "(three letter abbreviation)"
@@ -173,30 +176,37 @@ msgid ""
 "option if chosen. This is useful as way to backload a set of emails into an "
 "existing issue."
 msgstr ""
+"<b>POZNÁMKA:</b> Pokud bude zvolena tato volba, email <b>nebude</b> odeslán "
+"do seznamu oznámení. To je užitečné, když chcete zpětně vložit sadu emailů "
+"do existující úlohy."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be broadcasted to the full notification list, "
 "including any customers, if this option is chosen."
 msgstr ""
+"<b>POZNÁMKA:</b> Při zvolení této volby bude email odeslán do úplného "
+"seznamu oznámení zahrnující všechny zákazníky."
 
 #: templates/associate.tpl.html
 msgid ""
 "<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
 "users."
 msgstr ""
+"<b>POZNÁMKA:</b> Email bude uložen jako poznámka a bude odeslán pouze členům "
+"obsluhy."
 
 #: templates/notifications/new.tpl.text
 msgid "A new issue was just created and assigned to you."
-msgstr "Nový problém byl vytvořen a přiřazen k vám."
+msgstr "Nová úloha byla vytvořena a k Vám přiřazena."
 
 #: templates/notifications/new_issue.tpl.text
 msgid "A new issue was just created in the system."
-msgstr "Nový problém byl právě vytvořen v systému."
+msgstr "Nová úloha byla právě v systému vytvořena."
 
 #: templates/notifications/new_user.tpl.text
 msgid "A new user was just created for you in the system."
-msgstr "V systému byl pro vás právě vytvořen nový uživatel."
+msgstr "V systému byl pro Vás právě vytvořen nový uživatel."
 
 #: templates/checkins.tpl.html
 msgid "ADDED"
@@ -204,7 +214,7 @@ msgstr "PŘIDÁNO"
 
 #: lib/eventum/class.mail_helper.php:469
 msgid "ADVISORY: Your reply will be sent to the notification list."
-msgstr ""
+msgstr "UPOZORNĚNÍ: Vaše odpověď bude odeslána do seznamu upozornění."
 
 #: templates/convert_note.tpl.html
 msgid "ALERT:"
@@ -241,11 +251,11 @@ msgstr "Vytvoření účtu"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager"
-msgstr ""
+msgstr "Správce účtu"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Account Manager:"
-msgstr ""
+msgstr "Správce účtu:"
 
 #: lib/eventum/class.help.php:111 templates/help/main.tpl.html
 #: templates/help/preferences.tpl.html templates/preferences.tpl.html
@@ -264,11 +274,11 @@ msgstr "Činnost"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type"
-msgstr ""
+msgstr "Typ činnosti"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Action Type:"
-msgstr ""
+msgstr "Typ činnosti:"
 
 #: templates/manage/projects.tpl.html templates/notification.tpl.html
 #: templates/reports/workload_time_period.tpl.html
@@ -281,6 +291,9 @@ msgid ""
 "user or a developer updating an issue, uploading a file, sending an email, "
 "etc."
 msgstr ""
+"Činnosti jsou všechny události, které jsou zobrazeny v historii úlohy, např "
+"když uživatel či vývojář úlohu aktualizuje, nahraje soubor, odešle email, "
+"atd."
 
 #: templates/manage/news.tpl.html templates/manage/projects.tpl.html
 #: templates/manage/users.tpl.html
@@ -293,7 +306,7 @@ msgstr "Typ aktivity"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Activity in Past"
-msgstr ""
+msgstr "Historie aktivit"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/reminder_actions.tpl.html
@@ -302,19 +315,19 @@ msgstr "Přidat"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Categories"
-msgstr "Přidat / Upravit Kategorie"
+msgstr "Přidat / Upravit kategorie"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Phone Support Categories"
-msgstr "Přidat / Upravit Kategorie telefoní podpory"
+msgstr "Přidat / Upravit kategorie telefonní podpory"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Priorities"
-msgstr "Přidat / Upravit Priority"
+msgstr "Přidat / Upravit priority"
 
 #: templates/manage/manage.tpl.html
 msgid "Add / Edit Releases"
-msgstr "Přidat / Upravit Vydání"
+msgstr "Přidat / Upravit verze"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Add Action"
@@ -322,11 +335,11 @@ msgstr "Přidat činnost"
 
 #: templates/authorized_replier.tpl.html
 msgid "Add Authorized Replier"
-msgstr ""
+msgstr "Přidat oprávněného odpovídače"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Add Condition"
-msgstr ""
+msgstr "Přidat podmínku"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "Add Email Signature"
@@ -334,7 +347,7 @@ msgstr "Přidat emailový podpis"
 
 #: templates/post_note.tpl.html
 msgid "Add Extra Recipients To Notification List?"
-msgstr ""
+msgstr "Přidat dodatečné příjemce do seznamu oznámení?"
 
 #: templates/new.tpl.html
 msgid "Add Files"
@@ -342,11 +355,11 @@ msgstr "Přidat soubory"
 
 #: templates/view_form.tpl.html
 msgid "Add Me To Notification"
-msgstr ""
+msgstr "Přidat mě do oznámení"
 
 #: templates/self_assign.tpl.html
 msgid "Add Myself to list of assignees."
-msgstr ""
+msgstr "Přidat sebe do seznamu řešitelů"
 
 #: templates/file_upload.tpl.html
 msgid "Add New Files"
@@ -354,27 +367,27 @@ msgstr "Přidat nové soubory"
 
 #: templates/impact_analysis.tpl.html
 msgid "Add New Requirement"
-msgstr ""
+msgstr "Přidat nový požadavek"
 
 #: templates/phone_support.tpl.html
 msgid "Add Phone Call"
-msgstr ""
+msgstr "Přidat telefonní hovor"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Add Phone Entry"
-msgstr ""
+msgstr "Přidat záznam telefonu"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr ""
+msgstr "Přidat odběr"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
-msgstr ""
+msgstr "Přidat časový záznam"
 
 #: templates/send.tpl.html
 msgid "Add Unknown Recipients to Issue Notification List"
-msgstr ""
+msgstr "Přidat neznámého přijemce do seznamu oznámení úlohy"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
