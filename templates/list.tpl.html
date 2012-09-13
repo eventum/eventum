@@ -265,8 +265,8 @@ function updateCustomFields(issue_id)
               {$list[i].pri_title|escape:"html"}
             {elseif $field_name == 'sev_rank'}
               {$list[i].sev_title|escape:"html"}
-            {elseif $field_name == 'iss_grp_id'}
-              {$list[i].group}
+            {elseif $field_name == 'grp_name'}
+              {$list[i].grp_name}
             {elseif $field_name == 'assigned'}
               {$list[i].assigned_users}
             {elseif $field_name == 'time_spent'}

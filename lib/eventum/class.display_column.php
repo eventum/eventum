@@ -189,7 +189,7 @@ class Display_Column
                 "iss_created_date"    =>  array(
                     "title" =>  ev_gettext("Created Date")
                 ),
-                "iss_grp_id"    =>  array(
+                "grp_name"    =>  array(
                     "title" =>  ev_gettext("Group")
                 ),
                 "assigned"  =>  array(

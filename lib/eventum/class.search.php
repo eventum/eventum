@@ -171,6 +171,7 @@ class Search
         // for textual fields, like summary, ascending is reasonable
         $fields = array(
             "pri_rank" => "desc",
+            "sev_rank" => "asc",
             "iss_id" => "desc",
             "iss_customer_id" => "desc",
             "prc_title" => "asc",
@@ -182,6 +183,7 @@ class Search
             "iss_expected_resolution_date" => "desc",
             "pre_title" => "asc",
             "assigned" => "asc",
+            "grp_name"  =>  "asc",
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
@@ -254,7 +256,7 @@ class Search
                     sta_color status_color,
                     sta_id,
                     iqu_status,
-                    grp_name ". DB_Helper::getInstance()->quoteIdentifier("group") .",
+                    grp_name,
                     pre_title,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
@@ -437,7 +439,7 @@ class Search
             // hide the group column from the output if no
             // groups are available in the database
             if (count($groups) > 0) {
-                $fields[] = $res[$i]['group'];
+                $fields[] = $res[$i]['grp_name'];
             }
             $fields[] = $res[$i]['assigned_users'];
             $fields[] = $res[$i]['time_spent'];
