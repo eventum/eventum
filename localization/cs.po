@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-09-11 21:01+0000\n"
+"PO-Revision-Date: 2012-09-15 21:29+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-12 04:37+0000\n"
-"X-Generator: Launchpad (build 15930)\n"
+"X-Launchpad-Export-Date: 2012-09-16 04:39+0000\n"
+"X-Generator: Launchpad (build 15944)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -391,11 +391,11 @@ msgstr "Přidat neznámého přijemce do seznamu oznámení úlohy"
 
 #: templates/convert_note.tpl.html
 msgid "Add sender to authorized repliers list?"
-msgstr ""
+msgstr "Přidat odeslílatele do seznamu oprávněných odpovídačů?"
 
 #: templates/manage/general.tpl.html
 msgid "Address Hostname:"
-msgstr ""
+msgstr "Adresa názvu hostitele:"
 
 #: templates/navigation.tpl.html
 msgid "Administration"
@@ -412,38 +412,38 @@ msgstr "Pokročilé volby"
 #: templates/adv_search.tpl.html templates/navigation.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Advanced Search"
-msgstr ""
+msgstr "Pokročilé hledání"
 
 #: lib/eventum/class.help.php:103 templates/help/adv_search.tpl.html
 #: templates/help/main.tpl.html
 msgid "Advanced Search / Creating Custom Queries"
-msgstr ""
+msgstr "Pokročilé hledání / Vytváření vlastních dotazů"
 
 #: templates/manage/general.tpl.html
 msgid "After Sender Name"
-msgstr ""
+msgstr "Po jméně odesílatele"
 
 #: lib/eventum/class.customer_stats_report.php:189
 msgid "Aggregate"
-msgstr ""
+msgstr "Shrnout"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert Group Leader:"
-msgstr ""
+msgstr "Upozornit vedoucího skupiny:"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Alert IRC:"
-msgstr ""
+msgstr "Upozornění v IRC:"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Query"
-msgstr ""
+msgstr "Dotaz upozornění"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text
 msgid "Alert Reason"
-msgstr ""
+msgstr "Důvod upozornění"
 
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/checkins.tpl.html templates/close.tpl.html
@@ -469,31 +469,35 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: templates/manage/reminders.tpl.html
 msgid "All Issues"
-msgstr ""
+msgstr "Všechny úlohy"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "All Text (emails, notes, etc)"
-msgstr ""
+msgstr "Všechen text (emaily, ponámky, atd.)"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "All time tracking information for the given support level or customer. "
 "Issues without any time tracking data do not affect the average or median."
 msgstr ""
+"Všechny informace o sledování času pro danou úroveň podpory nebo zákazníka. "
+"Úlohy bez dat sledování času neovlivňují průměr nebo medián."
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr ""
+msgstr "Povolit nepřidělené úlohy?"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; Allowed "
 "to create new issues and to send emails on existing issues."
 msgstr ""
+"Může zobrazit všechny úlohy v projektech přidělené tomuto uživateli; Může "
+"vytvářet nové úlohy a posílat emaily pro existující úlohy."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -501,6 +505,9 @@ msgid ""
 "to create new issues, update existing issues, and to send emails and notes "
 "to existing issues."
 msgstr ""
+"Může zobrazit všechny úlohy v projektech přidělené tomuto uživateli; Může "
+"vytvářet nové úlohy, aktualizovat existující a posílat emaily či poznámky "
+"pro existující úlohy."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -510,140 +517,148 @@ msgid ""
 "administration section of Eventum to tweak most project-level features and "
 "options."
 msgstr ""
+"Může zobrazit všechny úlohy v projektech přidělené tomuto uživateli; Může "
+"vytvářet nové úlohy, aktualizovat existující a posílat emaily či poznámky "
+"pro existující úlohy. Také je tomuto typu uživateli umožněn přístup ke "
+"speciální správcovské části Eventum, kde je možné upravit většinu možnosti a "
+"funkcí na úrovni projektu."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "Allowed to view all issues on the projects associated to this user; cannot "
 "create new issues or edit existing issues."
 msgstr ""
+"M\"že zobrazit všechny úlohy v projektech přidělené tomuto uživateli; nemůže "
+"vytvářet nové úlohy nebo upravovat stávající."
 
 #: templates/manage/reminders.tpl.html
 msgid "Also Filter By Issue Priorities"
-msgstr ""
+msgstr "Také filtrovat podle priorit úloh"
 
 #: templates/update_form.tpl.html
 msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
+"Také všechny úlohy označené z této jako duplikáty budou také aktualizovány."
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
-msgstr ""
+msgstr "Byla nalezena chyba"
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to add the FAQ entry."
-msgstr ""
+msgstr "Při pokusu o přidání položky nejčastějších otázek došlo k chybě."
 
 #: templates/manage/account_managers.tpl.html
 msgid "An error occurred while trying to add the new account manager."
-msgstr ""
+msgstr "Při pokusu o přidání nového správce účtů došlo k chybě."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to add the new account."
-msgstr ""
+msgstr "Při pokusu o přidání nového účtu došlo k chybě."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to add the new action."
-msgstr ""
+msgstr "Při pokusu o přidání nové činnosti došlo k chybě."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to add the new category."
-msgstr ""
+msgstr "Při pokusu o přidání nové kategorie došlo k chybě"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to add the new condition."
-msgstr ""
+msgstr "Při pokusu o přidání podmínky došlo k chybě."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
+msgstr "Při pokusu o přidání nového vlastního pole došlo k chybě."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "An error occurred while trying to add the new customization."
-msgstr ""
+msgstr "Při pokusu o přidání nového přizpůsobení došlo k chybě."
 
 #: templates/manage/email_responses.tpl.html
 msgid "An error occurred while trying to add the new email response."
-msgstr ""
+msgstr "Při pokusu o přidání nové emailové odpovědi došlo k chybě."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to add the new group."
-msgstr ""
+msgstr "Při pokusu o přidání nové skupiny došlo k chybě."
 
 #: templates/manage/resolution.tpl.html
 msgid "An error occurred while trying to add the new issue resolution."
-msgstr ""
+msgstr "Při pokusu o přidání nového řešení úlohy došlo k chybě."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to add the new link filter."
-msgstr ""
+msgstr "Při pokusu o přidání nového filtru spojení došlo k chybě."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to add the new note."
-msgstr ""
+msgstr "Při pokusu o přidání nové role došlo k chybě."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to add the new priority."
-msgstr ""
+msgstr "Při pokusu o přidání nové pripority došlo k chybě."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to add the new project."
-msgstr ""
+msgstr "Při pokusu o přidání nového projektu došlo k chybě."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to add the new release."
-msgstr ""
+msgstr "Při pokusu o přidání nové verze došlo k chybě."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to add the new reminder."
-msgstr ""
+msgstr "Při pokusu o přidání nové upomínky došlo k chybě."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to add the new status."
-msgstr ""
+msgstr "Při pokusu o přidání nového stavu došlo k chybě."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "An error occurred while trying to add the new time tracking category."
-msgstr ""
+msgstr "Při pokusu o přidání nové kategorie sledování času došlo k chybě."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to add the new user."
-msgstr ""
+msgstr "Při pokusu o přidání nového uživatele došlo k chybě."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to add the news entry."
-msgstr ""
+msgstr "Při pokusu o přidání nové aktuality došlo k chybě."
 
 #: templates/manage/round_robin.tpl.html
 msgid "An error occurred while trying to add the round robin entry."
-msgstr ""
+msgstr "Při pokusu o přidání položky kruhového přidělení došlo k chybě."
 
 #: templates/associate.tpl.html
 msgid ""
 "An error occurred while trying to associate the selected email message"
-msgstr ""
+msgstr "Při pokusu o přidělení zvolené emailové zprávy došlo k chybě"
 
 #: templates/convert_note.tpl.html
 msgid "An error occurred while trying to convert the selected note."
-msgstr ""
+msgstr "Při pokusu o převod zvolené poznámky došlo k chybě."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to delete the link filter."
-msgstr ""
+msgstr "Při pokusu o smazání filtru spojení došlo k chybě."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to delete the note."
-msgstr ""
+msgstr "Při pokusu o smazání poznámky došlo k chybě."
 
 #: templates/authorized_replier.tpl.html
 msgid "An error occurred while trying to insert the authorized replier."
-msgstr ""
+msgstr "Při pokusu o vložení oprávněného odpovídače došlo k chybě."
 
 #: templates/file_upload.tpl.html
 msgid "An error occurred while trying to process the uploaded file."
-msgstr ""
+msgstr "Při pokusu o zpracování nahraného souboru došlo k chybě."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
@@ -652,133 +667,138 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "An error occurred while trying to run your query"
-msgstr ""
+msgstr "Při pokusu o spuštění vašeho dotatu došlo k chybě"
 
 #: templates/preferences.tpl.html
 msgid "An error occurred while trying to run your query."
-msgstr ""
+msgstr "Při pokusu o spuštění vašeho dotatu došlo k chybě."
 
 #: templates/manage/column_display.tpl.html
 msgid "An error occurred while trying to save columns to display."
-msgstr ""
+msgstr "Při pokusu o pokudu o uložení sloupců k zobrazení došlo k chybě"
 
 #: templates/manage/field_display.tpl.html
 msgid "An error occurred while trying to update field display settings."
-msgstr ""
+msgstr "Při pokusu o aktualizaci nastavení zobrazení polí došlo k chybě."
 
 #: templates/manage/faq.tpl.html
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr ""
+"Při pokusu o aktualizaci informací o položkách nejčastějších otázek došlo k "
+"chybě."
 
 #: templates/edit_reporter.tpl.html
 msgid "An error occurred while trying to update the Reporter."
-msgstr ""
+msgstr "Při pokusu o aktualizaci referenta došlo k chybě."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o účtu došlo k chybě."
 
 #: templates/manage/account_managers.tpl.html
 msgid ""
 "An error occurred while trying to update the account manager information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o správci účtů došlo k chybě."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "An error occurred while trying to update the action information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o činnosti došlo k chybě."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "An error occurred while trying to update the category information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o kategorii došlo k chybě."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "An error occurred while trying to update the condition information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o podmínce došlo k chybě."
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "An error occurred while trying to update the custom field information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o vlastním poli došlo k chybě."
 
 #: templates/manage/customize_listing.tpl.html
 msgid ""
 "An error occurred while trying to update the customization information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o přizpůsobení došlo k chybě."
 
 #: templates/manage/email_responses.tpl.html
 msgid ""
 "An error occurred while trying to update the email response information."
 msgstr ""
+"Při pokusu o aktualizaci informací o emailové odpovědi došlo k chybě."
 
 #: templates/manage/groups.tpl.html
 msgid "An error occurred while trying to update the group information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o skupině došlo k chybě."
 
 #: templates/manage/anonymous.tpl.html
 msgid "An error occurred while trying to update the information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací došlo k chybě."
 
 #: templates/manage/resolution.tpl.html
 msgid ""
 "An error occurred while trying to update the issue resolution information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o řešení úlohy došlo k chybě."
 
 #: templates/manage/link_filters.tpl.html
 msgid "An error occurred while trying to update the link filter."
-msgstr ""
+msgstr "Při pokusu o aktualizaci filtru spojení došlo k chybě."
 
 #: templates/manage/news.tpl.html
 msgid "An error occurred while trying to update the news entry information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o aktualitě došlo k chybě."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "An error occurred while trying to update the note."
-msgstr ""
+msgstr "Při pokusu o aktualizaci poznámky došlo k chybě."
 
 #: templates/notification.tpl.html
 msgid "An error occurred while trying to update the notification entry."
-msgstr ""
+msgstr "Při pokusu o aktualizaci položky upozornění došlo k chybě."
 
 #: templates/manage/priorities.tpl.html
 msgid "An error occurred while trying to update the priority information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o prioritě došlo k chybě."
 
 #: templates/manage/projects.tpl.html
 msgid "An error occurred while trying to update the project information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o projektu došlo k chybě."
 
 #: templates/manage/releases.tpl.html
 msgid "An error occurred while trying to update the release information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o verzi došlo k chybě."
 
 #: templates/manage/reminders.tpl.html
 msgid "An error occurred while trying to update the reminder information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o upomínce došlo k chybě."
 
 #: templates/manage/round_robin.tpl.html
 msgid ""
 "An error occurred while trying to update the round robin entry information."
 msgstr ""
+"Při pokusu o aktualizaci informací o kruhovém přiřazení došlo k chybě."
 
 #: templates/manage/statuses.tpl.html
 msgid "An error occurred while trying to update the status information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o stavu došlo k chybě."
 
 #: templates/manage/time_tracking.tpl.html
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
 msgstr ""
+"Při pokusu o aktualizaci informací o kategorii sledování času došlo k chybě."
 
 #: templates/manage/users.tpl.html
 msgid "An error occurred while trying to update the user information."
-msgstr ""
+msgstr "Při pokusu o aktualizaci informací o uživateli došlo k chybě."
 
 #: templates/clock_status.tpl.html
 msgid ""
 "An error was found while trying to change your account clocked-in status."
-msgstr ""
+msgstr "Při pokusu o změně stavu přihlášení vašeho účtu došlo k chybě."
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
