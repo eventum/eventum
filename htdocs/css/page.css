@@ -234,3 +234,8 @@ body#popup div.popup {
     font-weight: bold;
     margin: 1em;
 }
+
+
+body#adv_search #date_fields, body#adv_search #custom_fields_row {
+    display: none;
+}

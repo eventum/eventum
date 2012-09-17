@@ -256,6 +256,12 @@ Eventum.show_selections = function(e)
 }
 
 
+Eventum.changeVisibility = function(dom_id, visibility)
+{
+    $('#' + dom_id).toggle(visibility);
+}
+
+
 
 /**
  * Make javascript Date() object from datetime form selection.

@@ -334,3 +334,194 @@ close_issue.validateForm = function()
     }
     return true;
 }
+
+
+/*
+ * Adv search page
+ */
+function adv_search() {}
+
+adv_search.ready = function()
+{
+    $('#show_date_fields_checkbox').click(function() {
+        adv_search.toggle_date_row();
+    });
+
+    $('.date_filter_type').change(function(e) {
+        var target = $(e.target);
+        adv_search.checkDateFilterType(target.attr('name').replace("[filter_type]", ""));
+    });
+
+    $('#show_custom_fields_checkbox').click(function() {
+        adv_search.toggle_custom_fields()
+    });
+
+    $('.date_filter_checkbox').click(function(e) {
+        var target = $(e.target);
+        var field_name = target.attr('name').replace('filter[', '').replace(']', '')
+        adv_search.toggle_date_field(field_name);
+    });
+
+    $('#save_search').click(function(e) {
+        adv_search.saveCustomFilter();
+    });
+    $('#remove_filter').submit(function(e) {
+        return adv_search.validateRemove();
+    });
+
+    $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
+
+
+    var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
+    for (var i = 0; i < elements_to_hide.length; i++) {
+        adv_search.checkDateFilterType(elements_to_hide[i]);
+        adv_search.toggle_date_field(elements_to_hide[i]);
+    }
+
+    $('form[name=custom_filter_form]').submit(function() {
+        return Validation.checkFormSubmission($('form[name=custom_filter_form]'), adv_search.validateForm);
+    });
+
+    if ($('#show_date_fields_checkbox').is(':checked')) {
+        adv_search.toggle_date_row(true);
+    }
+
+    if ($('#show_custom_fields_checkbox').is(':checked')) {
+        adv_search.toggle_custom_fields(true);
+    }
+}
+
+adv_search.checkDateFilterType = function(field_name)
+{
+    var filter_type = Eventum.getField(field_name + '[filter_type]').val()
+
+    if (filter_type == 'between') {
+        Eventum.changeVisibility(field_name + '1', true);
+        Eventum.changeVisibility(field_name + '2', true);
+        Eventum.changeVisibility(field_name + '_last', false);
+    } else if (filter_type == 'in_past') {
+        Eventum.changeVisibility(field_name + '1', false);
+        Eventum.changeVisibility(field_name + '2', false);
+        Eventum.changeVisibility(field_name + '_last', true);
+    } else {
+        Eventum.changeVisibility(field_name + '1', true);
+        Eventum.changeVisibility(field_name + '2', false);
+        Eventum.changeVisibility(field_name + '_last', false);
+    }
+}
+
+adv_search.toggle_custom_fields = function(show)
+{
+    if (show == undefined) {
+        if ($('#show_custom_fields_checkbox').is(':checked')) {
+            show = true;
+        } else {
+            show = false;
+        }
+    }
+    $('tr#custom_fields_row').toggle(show);
+
+    $('#custom_fields_row select').add('#custom_fields_row input').each(function(index) {
+        this.disabled = !show;
+    });
+
+    // enable/disable hidden field
+    $('#custom_field_hidden').attr('disabled', show);
+}
+
+adv_search.toggle_date_row = function(show)
+{
+    if (show == undefined) {
+        if ($('#show_date_fields_checkbox').is(':checked')) {
+            show = true;
+        } else {
+            show = false;
+        }
+    }
+    $('tr#date_fields').toggle(show);
+
+    if (show == false) {
+        $('#date_fields select').add('#date_fields input').not('.date_filter_checkbox').each(function(index) {
+            this.disabled = !show;
+        });
+        $('.date_filter_checkbox').attr('checked', false);
+    }
+}
+
+
+
+adv_search.validateForm = function()
+{
+    if (!Eventum.getField('hide_closed').is(':checked')) {
+        Eventum.getField('hidden1').attr('name', 'hide_closed').val(0);
+    }
+    if (!Eventum.getField('show_authorized_issues').is(':checked')) {
+        Eventum.getField('hidden2').attr('name', 'show_authorized_issues').val('');
+    }
+    if (!Eventum.getField('show_notification_list_issues').is(':checked')) {
+        Eventum.getField('hidden3').attr('name', 'show_notification_list_issues').val('');
+    }
+    return true;
+}
+
+
+adv_search.toggle_date_field = function(field_name)
+{
+    var checkbox = Eventum.getField('filter[' + field_name + ']');
+    var filter_type = Eventum.getField(field_name + '[filter_type]');
+    var month_field = Eventum.getField(field_name + '[Month]');
+    var day_field = Eventum.getField(field_name + '[Day]');
+    var year_field = Eventum.getField(field_name + '[Year]');
+    var month_end_field = Eventum.getField(field_name + '_end[Month]');
+    var day_end_field = Eventum.getField(field_name + '_end[Day]');
+    var year_end_field = Eventum.getField(field_name + '_end[Year]');
+    var time_period_field = Eventum.getField(field_name + '[time_period]');
+    if (checkbox.is(':checked')) {
+        var disabled = false;
+    } else {
+        var disabled = true;
+    }
+    filter_type.attr('disabled', disabled);
+    month_field.attr('disabled', disabled);
+    day_field.attr('disabled', disabled);
+    year_field.attr('disabled', disabled);
+    month_end_field.attr('disabled', disabled);
+    day_end_field.attr('disabled', disabled);
+    year_end_field.attr('disabled', disabled);
+    time_period_field.attr('disabled', disabled);
+
+    Eventum.getField(field_name + '_hidden').disabled = !disabled;
+}
+
+
+adv_search.saveCustomFilter = function()
+{
+    var form = $('form[name=custom_filter_form]');
+    if (Validation.isFieldWhitespace('title')) {
+        Validation.selectField('title');
+        alert('Please enter the title for this saved search.');
+        return false;
+    }
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('', '_customFilter', features);
+    popupWin.focus();
+
+    Eventum.getField('cat').val('save_filter');
+    form.attr('target', '_customFilter').attr('method', 'post').attr('action', 'popup.php').submit();
+}
+
+adv_search.validateRemove = function()
+{
+    if (!Validation.hasOneChecked('item[]')) {
+        alert('Please choose which entries need to be removed.');
+        return false;
+    }
+    if (!confirm('This action will permanently delete the selected entries.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('', '_removeFilter', features);
+        popupWin.focus();
+        return true;
+    }
+}

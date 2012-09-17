@@ -239,7 +239,7 @@ table.bordered td {
     padding: .3em;
 }
 
-.bordered .buttons, .bordered .buttons td, .bordered .buttons td a  {
+.bordered .buttons, .bordered .buttons td, .bordered .buttons td a, .bordered.white .buttons td {
     background: #255282;
     color: #FFFFFF;
 }
@@ -248,6 +248,11 @@ table.bordered td {
     background: #9c494b;
     color: #FFFFFF;
 }
+
+.bordered.white td {
+    background: #ffffff;
+}
+
 /* End Bordered Table */
 
 /* Grid table */
