@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-09-15 21:29+0000\n"
+"PO-Revision-Date: 2012-09-17 21:14+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-16 04:39+0000\n"
-"X-Generator: Launchpad (build 15944)\n"
+"X-Launchpad-Export-Date: 2012-09-18 04:54+0000\n"
+"X-Generator: Launchpad (build 15966)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -489,7 +489,7 @@ msgstr ""
 
 #: templates/manage/general.tpl.html
 msgid "Allow Un-Assigned Issues?"
-msgstr "Povolit nepřidělené úlohy?"
+msgstr "Povolit nepřiřazené úlohy?"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -808,84 +808,89 @@ msgid ""
 "to the appropriate files will be associated with existing issue mentioned in "
 "your commit message."
 msgstr ""
+"Do vašeho kořenového úložiště CVS je třeba nainstalovat integrační skript, "
+"čímž bude umožněno odesílání zpráv do Eventum při odevzdávání změn do "
+"úložiště. Tyto zprávy jsou následně zpracovány a změny v odpovídajících "
+"souborech budou přiděleny k existujícím úlohám, které byly zmíněny ve vaší "
+"zprávě odevzdání."
 
 #: templates/notifications/assigned.tpl.text
 msgid "An issue was assigned to you by %1"
-msgstr ""
+msgstr "%1 Vám přiřadil úlohu"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Anonymous Form"
-msgstr ""
+msgstr "Anonymní formulář"
 
 #: templates/manage/projects.tpl.html
 msgid "Anonymous Reporting"
-msgstr ""
+msgstr "Anonymní hlášení"
 
 #: templates/manage/manage.tpl.html
 msgid "Anonymous Reporting Options"
-msgstr ""
+msgstr "Možnosti anonymního hlášení"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting of New Issues"
-msgstr ""
+msgstr "Anonymní hlášení nových úloh"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Anonymous Reporting:"
-msgstr ""
+msgstr "Anonymní hlášení:"
 
 #: htdocs/adv_search.php:49 htdocs/list.php:86 templates/adv_search.tpl.html
 msgid "Any"
-msgstr ""
+msgstr "Vše"
 
 #: templates/manage/projects.tpl.html
 msgid "Archived"
-msgstr ""
+msgstr "Archivováno"
 
 #: templates/notification.tpl.html
 msgid "Are you sure you want to add this address to the notification list?"
-msgstr ""
+msgstr "Opravdu chcete přidat tuto adresu do seznamu oznamovaných?"
 
 #: templates/manage/manage.tpl.html
 msgid "Areas"
-msgstr ""
+msgstr "Oblasti"
 
 #: templates/email_filter_form.tpl.html
 msgid "Arrival Date:"
-msgstr ""
+msgstr "Termín dodání:"
 
 #: templates/faq.tpl.html
 msgid "Article Entries"
-msgstr ""
+msgstr "Články zpráv"
 
 #: templates/help/scm_integration.tpl.html
 msgid "As an example, using the"
-msgstr ""
+msgstr "Jako příklad za použití"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Ascending"
-msgstr ""
+msgstr "Vzestupně"
 
 #: templates/view_form.tpl.html
 msgid "Assign Issue To Myself"
-msgstr ""
+msgstr "Přiřadit úlohu sobě"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users"
-msgstr ""
+msgstr "Přiřaditelní uživatelé"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Assignable Users:"
-msgstr ""
+msgstr "Přiřaditelní uživatelé:"
 
 #: lib/eventum/class.display_column.php:193 lib/eventum/class.filter.php:721
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid "Assigned"
-msgstr ""
+msgstr "Přiřazeno"
 
 #: templates/main.tpl.html
 msgid "Assigned Issues"
-msgstr ""
+msgstr "Přiřazené úlohy"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
@@ -894,36 +899,36 @@ msgstr ""
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
 msgid "Assigned Projects"
-msgstr ""
+msgstr "Přiřazené projekty"
 
 #: templates/manage/users.tpl.html
 msgid "Assigned Projects and Roles"
-msgstr ""
+msgstr "Přiřazené projekty a role:"
 
 #: templates/manage/general.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Assigned Projects:"
-msgstr ""
+msgstr "Přiřazené projekty:"
 
 #: templates/manage/general.tpl.html
 msgid "Assigned Role:"
-msgstr ""
+msgstr "Přiřazené role:"
 
 #: templates/manage/faq.tpl.html
 msgid "Assigned Support"
-msgstr ""
+msgstr "Přiřazená podpora"
 
 #: templates/searchbar.tpl.html
 msgid "Assigned:"
-msgstr ""
+msgstr "Přiřazené:"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Assignee"
-msgstr ""
+msgstr "Nabyvatel"
 
 #: templates/include/issue_fields/assignee.tpl.html
 msgid "Assignee:"
-msgstr ""
+msgstr "Nabyvatel:"
 
 #: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
@@ -931,198 +936,201 @@ msgstr ""
 #: templates/reminders/alert_no_recipients.tpl.text
 #: templates/reminders/email_alert.tpl.text templates/view_form.tpl.html
 msgid "Assignment"
-msgstr ""
+msgstr "Přiřazení"
 
 #: lib/eventum/class.help.php:67 templates/help/report_assignment.tpl.html
 msgid "Assignment Field"
-msgstr ""
+msgstr "Pole přiřazení"
 
 #: lib/eventum/class.notification.php:615
 #: lib/eventum/class.notification.php:616
 msgid "Assignment List"
-msgstr ""
+msgstr "Seznam přiřazení"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/update_form.tpl.html
 msgid "Assignment:"
-msgstr ""
+msgstr "Přiřazení:"
 
 #: templates/emails.tpl.html
 msgid "Associate"
-msgstr ""
+msgstr "Připojit"
 
 #: templates/associate.tpl.html
 msgid "Associate Email Message to Issue #%1"
-msgstr ""
+msgstr "Připojit emailovou zprávu k úloze #%1"
 
 #: lib/eventum/class.help.php:107 templates/emails.tpl.html
 #: templates/help/main.tpl.html templates/help/support_emails.tpl.html
 #: templates/navigation.tpl.html
 msgid "Associate Emails"
-msgstr ""
+msgstr "Připojit emaily"
 
 #: templates/main.tpl.html
 msgid "Associated"
-msgstr ""
+msgstr "Připojeno"
 
 #: templates/support_emails.tpl.html
 msgid "Associated Emails"
-msgstr ""
+msgstr "Připojené emaily"
 
 #: templates/view_form.tpl.html
 msgid "Associated Issues"
-msgstr ""
+msgstr "Připojené úlohy"
 
 #: templates/update_form.tpl.html
 msgid "Associated Issues:"
-msgstr ""
+msgstr "Připojené úlohy:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Associated Project"
-msgstr ""
+msgstr "Připojené projekty"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Associated Project:"
-msgstr ""
+msgstr "Přiřazený projekt:"
 
 #: templates/view_email.tpl.html
 msgid "Associated with Issue"
-msgstr ""
+msgstr "Přiřazený k úloze"
 
 #: templates/post.tpl.html
 msgid "Attach Files"
-msgstr ""
+msgstr "Přiložit soubory"
 
 #: templates/attached_emails.tpl.html
 msgid "Attached Emails"
-msgstr ""
+msgstr "Přiložené emaily"
 
 #: templates/attachments.tpl.html
 msgid "Attached Files"
-msgstr ""
+msgstr "Přiložené soubory"
 
 #: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
-msgstr ""
+msgstr "Příloha má původ v poznámce"
 
 #: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
-msgstr ""
+msgstr "Příloha má původ v emailu"
 
 #: templates/help/view_attachment.tpl.html
 #: templates/notifications/new_issue.tpl.text templates/view_email.tpl.html
 msgid "Attachments"
-msgstr ""
+msgstr "Přílohy"
 
 #: templates/view_note.tpl.html
 msgid "Attachments:"
-msgstr ""
+msgstr "Přílohy:"
 
 #: templates/authorized_replier.tpl.html templates/view_form.tpl.html
 msgid "Authorized Repliers"
-msgstr ""
+msgstr "Oprávnění odpovídači"
 
 #: templates/update_form.tpl.html
 msgid "Authorized Repliers:"
-msgstr ""
+msgstr "Oprávnění odpovídači:"
 
 #: lib/eventum/class.filter.php:781 templates/adv_search.tpl.html
 msgid "Authorized to Send Emails"
-msgstr ""
+msgstr "Oprávněni k posílání emailů"
 
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Auto-Creation of Issues"
-msgstr ""
+msgstr "Automatické vytváření úloh"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid "Automated Issue"
-msgstr ""
+msgstr "Automatizovaná úloha"
 
 #: templates/reminders/email_alert.tpl.text
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Automatizovaná úloha #%1 Připomenutí upozornění"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing internal notes"
-msgstr ""
+msgstr "Automaticky přiložit podpis emailu při vytváření interních poznámek"
 
 #: templates/preferences.tpl.html
 msgid "Automatically append email signature when composing web based emails"
 msgstr ""
+"Automaticky přiložit podpis emailu při vytváření internetových emailů"
 
 #: templates/preferences.tpl.html
 msgid "Automatically close confirmation popup windows?"
-msgstr ""
+msgstr "Zavírat automaticky vyskakovací okna potvrzení?"
 
 #: templates/manage/releases.tpl.html
 msgid "Available - Users may use this release"
-msgstr ""
+msgstr "Dostupné - Uživatelé mohou tuto verzi použít"
 
 #: templates/help/main.tpl.html
 msgid "Available Help Topics"
-msgstr ""
+msgstr "Dostupná témata nápovědy"
 
 #: templates/preferences.tpl.html
 msgid "Available Languages"
-msgstr ""
+msgstr "Dostupné jazyky"
 
 #: templates/help/index.tpl.html
 msgid "Available Related Topics"
-msgstr ""
+msgstr "Dostupná příbuzná témata"
 
 #: templates/reports/tree.tpl.html
 msgid "Available Reports"
-msgstr ""
+msgstr "Dostupná hlášení"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Average and median counts do not include customers who have never opened an "
 "issue."
 msgstr ""
+"Výpočty průměru a mediánu nezahrnují zákazníky, kteří nikdy nevytvořili "
+"úlohu."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Avg"
-msgstr ""
+msgstr "Prùm"
 
 #: lib/eventum/class.customer_stats_report.php:690
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Prům pracovní zátěž na zákazníka dle úrovně podpory"
 
 #: lib/eventum/class.customer_stats_report.php:699
 msgid "Avg and Median Time to Close by Support Level"
-msgstr ""
+msgstr "Prům doba a medián do uzavření dle úrovně podpory"
 
 #: lib/eventum/class.customer_stats_report.php:708
 msgid "Avg and Median Time to First Response by Support Level"
-msgstr ""
+msgstr "Prům doba a medián do první odpovědi dle úrovně podpory"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Avg/Med/Max Issues/Emails"
-msgstr ""
+msgstr "Prům/Med/Max úloh/emailů"
 
 #: lib/eventum/class.notification.php:973
 msgid "BLOCKED"
-msgstr ""
+msgstr "ZABLOKOVÁNO"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 msgid "Back"
-msgstr ""
+msgstr "Zpět"
 
 #: templates/confirm.tpl.html templates/forgot_password.tpl.html
 #: templates/post.tpl.html templates/signup.tpl.html
 msgid "Back to Login Form"
-msgstr ""
+msgstr "Zpět na formulář přihlášení"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Back to Reminder Action List"
-msgstr ""
+msgstr "Zpět na seznam připomenutí činnosti"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Back to Reminder List"
-msgstr ""
+msgstr "Zpět na seznam připomenutí"
 
 #: templates/attachments.tpl.html templates/checkins.tpl.html
 #: templates/custom_fields.tpl.html templates/email_drafts.tpl.html
@@ -1130,127 +1138,128 @@ msgstr ""
 #: templates/support_emails.tpl.html templates/time_tracking.tpl.html
 #: templates/top_link.tpl.html
 msgid "Back to Top"
-msgstr ""
+msgstr "Nahoru"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Backup Technical Account Manager"
-msgstr ""
+msgstr "Správce záložního technického účtu"
 
 #: templates/manage/ldap.tpl.html
 msgid "Base DN:"
-msgstr ""
+msgstr "Base DN:"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
+"Na základě všech úloh zaznamenaných v Eventum od začátku do současnosti."
 
 #: templates/reports/estimated_dev_time.tpl.html
 msgid "Based on all open issue in Eventum for <b>%1</b>."
-msgstr ""
+msgstr "Na základě všech otevřených úloh v Eventum za <b>%1</b>."
 
 #: templates/manage/general.tpl.html
 msgid "Before Sender Name"
-msgstr ""
+msgstr "Před jménem odesílatele"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 msgid "Between"
-msgstr ""
+msgstr "Mezi"
 
 #: templates/manage/ldap.tpl.html
 msgid "Bind DN:"
-msgstr ""
+msgstr "Svázat DN:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Bind PW:"
-msgstr ""
+msgstr "Svázat PW:"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Blackout Time Range:"
-msgstr ""
+msgstr "Doba času výpadku:"
 
 #: templates/view_note.tpl.html
 msgid "Blocked Message Raw Headers"
-msgstr ""
+msgstr "Prosté hlavičky zablokovaných zpráv"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Blue values indicate value is lower than the aggregate one."
-msgstr ""
+msgstr "Modré hodnoty označují hodnoty nižší než celková."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Boilerplate:"
-msgstr ""
+msgstr "Často používaný:"
 
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Brazilská portugalština"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Bretonština"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
-msgstr ""
+msgstr "Hromadná aktualizace"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update Tool"
-msgstr ""
+msgstr "Nástroj hromadné aktualizace"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Customer"
-msgstr ""
+msgstr "Podle zákazníka"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Issue ID"
-msgstr ""
+msgstr "Podle ID úlohy"
 
 #: templates/manage/reminders.tpl.html
 msgid "By Support Level"
-msgstr ""
+msgstr "Podle úrovně podpory"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED IN"
-msgstr ""
+msgstr "PÍCHNUT PŘÍCHOD"
 
 #: templates/navigation.tpl.html
 msgid "CLOCKED OUT"
-msgstr ""
+msgstr "PÍCHNUT ODCHOD"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call From"
-msgstr ""
+msgstr "Volání od"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Call To"
-msgstr ""
+msgstr "Volání do"
 
 #: templates/phone_support.tpl.html
 msgid "Call Type"
-msgstr ""
+msgstr "Typ volání"
 
 #: templates/edit_reporter.tpl.html templates/post_note.tpl.html
 #: templates/send.tpl.html
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: templates/update_form.tpl.html
 msgid "Cancel Update"
-msgstr ""
+msgstr "Zrušit aktualizaci"
 
 #: templates/send.tpl.html
 msgid "Canned Responses"
-msgstr ""
+msgstr "Předpřipravené odpovědi"
 
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Katalánština"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "Kategorie a stavy"
 
 #: lib/eventum/class.display_column.php:207 lib/eventum/class.filter.php:726
 #: lib/eventum/class.notification.php:624
@@ -1263,113 +1272,113 @@ msgstr ""
 #: templates/reports/workload_date_range.tpl.html
 #: templates/time_tracking.tpl.html templates/view_form.tpl.html
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 #: lib/eventum/class.help.php:59 templates/help/report_category.tpl.html
 msgid "Category Field"
-msgstr ""
+msgstr "Pole kategorie"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Category:"
-msgstr ""
+msgstr "Kategorie:"
 
 #: templates/send.tpl.html templates/view_email.tpl.html
 msgid "Cc"
-msgstr ""
+msgstr "Kopie"
 
 #: templates/update_form.tpl.html
 msgid "Change Assignments:"
-msgstr ""
+msgstr "Změnit přiřazení:"
 
 #: templates/preferences.tpl.html
 msgid "Change Password"
-msgstr ""
+msgstr "Změnit heslo"
 
 #: templates/view_form.tpl.html
 msgid "Change Status To"
-msgstr ""
+msgstr "Změnit stav na"
 
 #: templates/notifications/updated.tpl.text
 msgid "Changed Fields"
-msgstr ""
+msgstr "Změněná pole"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Changing field types can result in loss of data."
-msgstr ""
+msgstr "Změna typů polí může mít za následek ztrátu dat."
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Disk Space:"
-msgstr ""
+msgstr "Zkontrolovat kapacitu disku:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check IRC Bot:"
-msgstr ""
+msgstr "Zkontrolovat bota v IRC:"
 
 #: templates/manage/monitor.tpl.html
 msgid "Check Paths:"
-msgstr ""
+msgstr "Zkontrolovat cesty:"
 
 #: templates/setup.tpl.html
 msgid "Check Permissions"
-msgstr ""
+msgstr "Zkontrolovat oprávnění"
 
 #: templates/send.tpl.html
 msgid "Check Spelling"
-msgstr ""
+msgstr "Zkontrolovat pravopis"
 
 #: templates/manage/general.tpl.html
 msgid "Checkout Page:"
-msgstr ""
+msgstr "Stránka získání:"
 
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Čínština (zjednodušená)"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Choose Custom Field Backend"
-msgstr ""
+msgstr "Zvolte vlastní podpůrnou vrstvu pole"
 
 #: templates/spell_check.tpl.html
 msgid "Choose a misspelled word"
-msgstr ""
+msgstr "Zvolte chybně napsané slovo"
 
 #: templates/help/scm_integration.tpl.html
 msgid "Chora CVS viewer"
-msgstr ""
+msgstr "Prohlížeč chora CVS"
 
 #: templates/email_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "Clear"
-msgstr ""
+msgstr "Vyčistit"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Clear Date"
-msgstr ""
+msgstr "Vyčistit datum"
 
 #: templates/view_form.tpl.html
 msgid "Clear Duplicate Status"
-msgstr ""
+msgstr "Vyčistit dvojí stavy"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Clear Filters"
-msgstr ""
+msgstr "Vyčistit filtry"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/post_note.tpl.html templates/update_form.tpl.html
 msgid "Clear Selections"
-msgstr ""
+msgstr "Vyčistit výběr."
 
 #: templates/view_form.tpl.html
 msgid "Click to expand."
-msgstr ""
+msgstr "Klikněte pro rozbalení."
 
 #: templates/navigation.tpl.html
 msgid "Clock In"
-msgstr ""
+msgstr "Píchnout příchod"
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
-msgstr ""
+msgstr "Píchnout odchod"
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
 #: templates/custom_fields_form.tpl.html templates/history.tpl.html
@@ -1377,85 +1386,85 @@ msgstr ""
 #: templates/removed_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_headers.tpl.html templates/view_note.tpl.html
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Close Form"
-msgstr ""
+msgstr "Zavřít formulář"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Close Issue"
-msgstr ""
+msgstr "Zavřít úlohu"
 
 #: templates/associate.tpl.html templates/faq.tpl.html
 #: templates/help/banner.tpl.html
 msgid "Close Window"
-msgstr ""
+msgstr "Zavřít okno"
 
 #: lib/eventum/class.notification.php:833
 msgid "Closed"
-msgstr ""
+msgstr "Zavřeno"
 
 #: templates/manage/statuses.tpl.html
 msgid "Closed Context ?"
-msgstr ""
+msgstr "Uzavřený kontext ?"
 
 #: lib/eventum/class.filter.php:760
 msgid "Closed Date"
-msgstr ""
+msgstr "Uzavřené datum"
 
 #: templates/bulk_update.tpl.html
 msgid "Closed Message"
-msgstr ""
+msgstr "Uzavřená zpráva"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse all expanded cells"
-msgstr ""
+msgstr "Sbalit všechny rozbalené buňky"
 
 #: templates/expandable_cell/buttons.tpl.html
 msgid "Collapse expanded cell"
-msgstr ""
+msgstr "Sbalit rozbalenou buňku"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color"
-msgstr ""
+msgstr "Barva"
 
 #: templates/manage/statuses.tpl.html
 msgid "Color:"
-msgstr ""
+msgstr "Barva:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Column Name"
-msgstr ""
+msgstr "Název sloupce"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Combo Box"
-msgstr ""
+msgstr "Rozbalovací seznam"
 
 #: templates/duplicate.tpl.html
 msgid "Comments:"
-msgstr ""
+msgstr "Komentáře:"
 
 #: templates/checkins.tpl.html
 msgid "Commit Message"
-msgstr ""
+msgstr "Zpráva odevzdání"
 
 #: templates/view_form.tpl.html
 msgid "Complete Details"
-msgstr ""
+msgstr "Kompletní podrobnosti"
 
 #: templates/manage/manage.tpl.html
 msgid "Configuration"
-msgstr ""
+msgstr "Nastavení"
 
 #: templates/help/main.tpl.html
 msgid "Configuration Parameters"
-msgstr ""
+msgstr "Parametry nastavení"
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Potvrď te nové heslo"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1465,170 +1474,172 @@ msgstr ""
 #: templates/self_assign.tpl.html templates/send.tpl.html
 #: templates/switch.tpl.html templates/view_email.tpl.html
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovat"
 
 #: templates/convert_note.tpl.html
 msgid "Convert Note To Email"
-msgstr ""
+msgstr "Převést poznámku na email"
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Draft and Save For Later Editing"
-msgstr ""
+msgstr "Převést na návrh a uložit pro pozdější úpravy"
 
 #: templates/convert_note.tpl.html
 msgid "Convert to Email and Send Now"
-msgstr ""
+msgstr "Převést na email a ihned poslat"
 
 #: templates/login_form.tpl.html
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
 msgstr ""
+"Podpora cookies ve vašem prohlížeči se zdá být vypnuta. Prosím povolte tuto "
+"funkci a zkuste to znovu."
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Count"
-msgstr ""
+msgstr "Počet"
 
 #: templates/manage/email_accounts.tpl.html templates/signup.tpl.html
 msgid "Create Account"
-msgstr ""
+msgstr "Vytvořit účet"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Create Account Manager"
-msgstr ""
+msgstr "Vytvořit správce účtů"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Create Category"
-msgstr ""
+msgstr "Vytvořit kategorii"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Create Custom Field"
-msgstr ""
+msgstr "Vytvořit vlastní pole"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Create Customization"
-msgstr ""
+msgstr "Vytvořit přizpůsobení"
 
 #: templates/email_drafts.tpl.html templates/send.tpl.html
 msgid "Create Draft"
-msgstr ""
+msgstr "Vytvořit návrh"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Create Email Response"
-msgstr ""
+msgstr "Vytvořit odpověď na email"
 
 #: templates/manage/faq.tpl.html
 msgid "Create FAQ Entry"
-msgstr ""
+msgstr "Vytvořit položku nejčastějších otázek"
 
 #: templates/manage/groups.tpl.html
 msgid "Create Group"
-msgstr ""
+msgstr "Vytvořit skupinu"
 
 #: templates/navigation.tpl.html
 msgid "Create Issue"
-msgstr ""
+msgstr "Vytvořit úlohu"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Vytvořit filtr odkazů"
 
 #: templates/new.tpl.html
 msgid "Create New Issue"
-msgstr ""
+msgstr "Vytvořit novou úlohu"
 
 #: templates/manage/news.tpl.html
 msgid "Create News Entry"
-msgstr ""
+msgstr "Vytvořit článek zpráv"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Create Note"
-msgstr ""
+msgstr "Vytvořit poznámku"
 
 #: templates/manage/priorities.tpl.html
 msgid "Create Priority"
-msgstr ""
+msgstr "Vytvořit prioritu"
 
 #: templates/manage/projects.tpl.html
 msgid "Create Project"
-msgstr ""
+msgstr "Vytvořit projekt"
 
 #: templates/manage/releases.tpl.html
 msgid "Create Release"
-msgstr ""
+msgstr "Vytvořit verzi"
 
 #: templates/manage/reminders.tpl.html
 msgid "Create Reminder"
-msgstr ""
+msgstr "Vytvořit upomínku"
 
 #: templates/manage/resolution.tpl.html
 msgid "Create Resolution"
-msgstr ""
+msgstr "Vytvořit řešení"
 
 #: templates/manage/round_robin.tpl.html
 msgid "Create Round Robin Entry"
-msgstr ""
+msgstr "Vytvořit položku kruhového přiřazení"
 
 #: templates/manage/statuses.tpl.html
 msgid "Create Status"
-msgstr ""
+msgstr "Vytvořit stav"
 
 #: templates/manage/users.tpl.html
 msgid "Create User"
-msgstr ""
+msgstr "Vytvořit uživatele"
 
 #: templates/setup.tpl.html
 msgid "Create User and Permissions"
-msgstr ""
+msgstr "Vytvořit uživatele a oprávnění"
 
 #: templates/manage/ldap.tpl.html
 msgid "Create Users:"
-msgstr ""
+msgstr "Vytvořit uživatele:"
 
 #: templates/adv_search.tpl.html templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Created"
-msgstr ""
+msgstr "Vytvořeno"
 
 #: lib/eventum/class.display_column.php:187 lib/eventum/class.filter.php:740
 msgid "Created Date"
-msgstr ""
+msgstr "Datum vytvoření"
 
 #: templates/manage/reminders.tpl.html
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Vytváření nové upomínky"
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/column_display.tpl.html
 #: templates/manage/phone_categories.tpl.html
 #: templates/manage/priorities.tpl.html templates/new.tpl.html
 msgid "Current Project"
-msgstr ""
+msgstr "Současný projekt"
 
 #: templates/manage/anonymous.tpl.html templates/manage/releases.tpl.html
 msgid "Current Project:"
-msgstr ""
+msgstr "Současný projekt:"
 
 #: templates/include/issue_fields/assignee.tpl.html
 #: templates/update_form.tpl.html
 msgid "Current Selections:"
-msgstr ""
+msgstr "Současné výběry:"
 
 #: templates/current_filters.tpl.html
 msgid "Current filters:"
-msgstr ""
+msgstr "Současné filtry:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Custom Field"
-msgstr ""
+msgstr "Vlastní pole"
 
 #: lib/eventum/class.display_column.php:228 templates/custom_fields.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields"
-msgstr ""
+msgstr "Vlastní pole"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
