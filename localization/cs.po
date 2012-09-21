@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-09-17 21:14+0000\n"
+"PO-Revision-Date: 2012-09-20 21:08+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-18 04:54+0000\n"
-"X-Generator: Launchpad (build 15966)\n"
+"X-Launchpad-Export-Date: 2012-09-21 04:43+0000\n"
+"X-Generator: Launchpad (build 15985)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1643,17 +1643,17 @@ msgstr "Vlastní pole"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Custom Fields Report"
-msgstr ""
+msgstr "Hlášení vlastních polí"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/tree.tpl.html
 msgid "Custom Fields Weekly Report"
-msgstr ""
+msgstr "Týdeníí hlášení vlastních polí"
 
 #: lib/eventum/class.custom_field.php:312
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
-msgstr ""
+msgstr "Vlastní pole aktualizována (%1$s) od %2$s"
 
 #: lib/eventum/class.customer_stats_report.php:665
 #: lib/eventum/class.display_column.php:213 lib/eventum/class.filter.php:797
@@ -1668,76 +1668,77 @@ msgstr ""
 #: templates/reports/workload_time_period.tpl.html
 #: templates/view_form.tpl.html
 msgid "Customer"
-msgstr ""
+msgstr "Zákazník"
 
 #: templates/view_form.tpl.html
 msgid "Customer Contract"
-msgstr ""
+msgstr "Smlouva se zákazníkem"
 
 #: lib/eventum/class.customer_stats_report.php:729
 msgid "Customer Counts"
-msgstr ""
+msgstr "Počty zákazníků"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
+"Identita zákazníka (např. \"Příklad s.r.o.\", \"jannovak@priklad.cz\", 12345)"
 
 #: templates/manage/projects.tpl.html
 msgid "Customer Integration Backend"
-msgstr ""
+msgstr "Podpárná vrstva zavedení zákazníků"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Customer Phone Number"
-msgstr ""
+msgstr "Telefonní číslo zákazníka"
 
 #: templates/reports/tree.tpl.html
 msgid "Customer Profile Stats"
-msgstr ""
+msgstr "Statistiky profilu zákazníka"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customer Stats Report"
-msgstr ""
+msgstr "Hlášení statistik zákazníka"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Customer:"
-msgstr ""
+msgstr "Zákazník:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Customers"
-msgstr ""
+msgstr "Zákazníci"
 
 #: lib/eventum/class.help.php:139 templates/help/customize_listing.tpl.html
 #: templates/help/main.tpl.html templates/manage/customize_listing.tpl.html
 #: templates/manage/manage.tpl.html
 msgid "Customize Issue Listing Screen"
-msgstr ""
+msgstr "Obrazovka výpisu úloh od zázkazníka"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize LDAP Config"
-msgstr ""
+msgstr "Přizpůsobit natavení LDAP"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
-msgstr ""
+msgstr "Přizpůsobit parametry sledování"
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Čeština"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
-msgstr ""
+msgstr "Denní tipy:"
 
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr ""
+msgstr "Dánština"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
-msgstr ""
+msgstr "Chyba databáze"
 
 #: templates/attachments.tpl.html templates/checkins.tpl.html
 #: templates/emails.tpl.html templates/history.tpl.html
@@ -1745,85 +1746,87 @@ msgstr ""
 #: templates/notifications/files.tpl.text templates/removed_emails.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field"
-msgstr ""
+msgstr "Datové pole"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Date Field:"
-msgstr ""
+msgstr "Datové pole:"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 msgid "Date Range"
-msgstr ""
+msgstr "Časové období"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Date Triggered"
-msgstr ""
+msgstr "Datum spuštění"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Date issue was opened - Date issue was closed for all closed issues."
 msgstr ""
+"Datum kdy úloha byla otevřena - Datum kdy úloha byla uzavřena pro všechny "
+"uzavřené úlohy."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Date of Call"
-msgstr ""
+msgstr "Datum volání"
 
 #: templates/reports/recent_activity.tpl.html templates/time_tracking.tpl.html
 msgid "Date of Work"
-msgstr ""
+msgstr "Datum práce"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day"
-msgstr ""
+msgstr "Den"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Month"
-msgstr ""
+msgstr "Den v měsíci"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Day of Week"
-msgstr ""
+msgstr "Den v týdnu"
 
 #: lib/eventum/class.customer_stats_report.php:705
 msgid "Days"
-msgstr ""
+msgstr "Dny"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Days and Hours Since"
-msgstr ""
+msgstr "Dny a hodiny od té doby"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Dear"
-msgstr ""
+msgstr "Vážení"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Category:"
-msgstr ""
+msgstr "Výchozí kategorie:"
 
 #: templates/manage/general.tpl.html
 msgid "Default Options for Notifications:"
-msgstr ""
+msgstr "Výchozí volby pro oznámení:"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Default Priority:"
-msgstr ""
+msgstr "Výchozí priorita:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Default Roles:"
-msgstr ""
+msgstr "Výchozí role:"
 
 #: templates/setup.tpl.html
 msgid "Defaults"
-msgstr ""
+msgstr "Výchozí"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -1842,16 +1845,16 @@ msgstr ""
 #: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
 #: templates/manage/time_tracking.tpl.html
 msgid "Delete"
-msgstr ""
+msgstr "Smazat"
 
 #: templates/manage/email_alias.tpl.html
 msgid "Delete Alias"
-msgstr ""
+msgstr "Odstranit přezdívku"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Descending"
-msgstr ""
+msgstr "Sestupně"
 
 #: templates/add_phone_entry.tpl.html templates/attachments.tpl.html
 #: templates/file_upload.tpl.html templates/manage/groups.tpl.html
@@ -1863,105 +1866,107 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/reports/recent_activity.tpl.html
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #: lib/eventum/class.help.php:79 templates/help/report_description.tpl.html
 msgid "Description Field"
-msgstr ""
+msgstr "Pole popisu"
 
 #: templates/view_form.tpl.html
 msgid "Description is currently collapsed"
-msgstr ""
+msgstr "Popis je v současnosti sbalen"
 
 #: templates/manage/groups.tpl.html templates/update_form.tpl.html
 msgid "Description:"
-msgstr ""
+msgstr "Popis:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Description: %1"
-msgstr ""
+msgstr "Popis: %1"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: templates/help/permission_levels.tpl.html
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/weekly.tpl.html
 #: templates/reports/workload_time_period.tpl.html
 msgid "Developer"
-msgstr ""
+msgstr "Vývojář"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Developers"
-msgstr ""
+msgstr "Vývojáři"
 
 #: templates/main.tpl.html
 msgid "Did you Know?"
-msgstr ""
+msgstr "Věděli jste, že...?"
 
 #: templates/manage/general.tpl.html
 msgid "Diff Page:"
-msgstr ""
+msgstr "Stránka rozdílu:"
 
 #: htdocs/manage/monitor.php:55 templates/manage/anonymous.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
 msgid "Disabled"
-msgstr ""
+msgstr "Zakázáno"
 
 #: templates/support_emails.tpl.html
 msgid "Disassociate Selected"
-msgstr ""
+msgstr "Vybrané odloučit"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Display on List Issues Page"
-msgstr ""
+msgstr "Zobrazit na stránce výpisu úloh"
 
 #: lib/eventum/class.customer_stats_report.php:691
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
+"Zobrazí průměrný počet úloh, emaily vývojářů a zákazníků na úlohu podle "
+"úrovně priority"
 
 #: lib/eventum/class.customer_stats_report.php:700
 #: lib/eventum/class.customer_stats_report.php:709
 msgid "Displays time stats"
-msgstr ""
+msgstr "Zobrazí časové údaje"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Do you want to continue?"
-msgstr ""
+msgstr "Chcete pokračovat?"
 
 #: templates/view_email.tpl.html
 msgid "Download Raw Email"
-msgstr ""
+msgstr "Stáhnout prostý email"
 
 #: templates/manage/general.tpl.html
 msgid "Draft Address Prefix:"
-msgstr ""
+msgstr "Předpona adresy návrhu:"
 
 #: lib/eventum/class.routing.php:418
 msgid "Draft routed from"
-msgstr ""
+msgstr "Návrh směrován z"
 
 #: templates/email_drafts.tpl.html
 msgid "Drafts"
-msgstr ""
+msgstr "Návrhy"
 
 #: templates/setup.tpl.html
 msgid "Drop Tables If They Already Exist"
-msgstr ""
+msgstr "SMazat tabulky, pokud již existují"
 
 #: templates/view_form.tpl.html
 msgid "Duplicate of"
-msgstr ""
+msgstr "Stejné jako"
 
 #: templates/duplicate.tpl.html
 msgid "Duplicated Issue:"
-msgstr ""
+msgstr "Stejná úloha:"
 
 #: templates/view_form.tpl.html
 msgid "Duplicated by"
@@ -1974,16 +1979,17 @@ msgstr ""
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
 msgid "Dutch"
-msgstr ""
+msgstr "Holandština"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
-msgstr ""
+msgstr "Email o aktualizaci úlohy byl poslán na"
 
 #: lib/eventum/class.monitor.php:107
 #, php-format
 msgid "ERROR: Almost no free disk space left (percentage left: %.2f%%)"
 msgstr ""
+"CHYBA: Skoro již není žádné volné místo na disku (zbývá %.2f%%) procent)"
 
 #: lib/eventum/class.monitor.php:296
 msgid "ERROR: Could not find IRC bot pid from process list."
