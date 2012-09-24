@@ -25,7 +25,6 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 
-require_once 'PHPUnit/Framework.php';
 require_once 'TestSetup.php';
 
 /**
