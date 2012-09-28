@@ -53,6 +53,9 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
     protected $user_dn_string;
 
+    protected $customer_id_attribute;
+    protected $contact_id_attribute;
+
     public function __construct() {
         $setup = self::loadSetup();
         $this->config = array (
@@ -64,6 +67,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         );
 
         $this->user_dn_string = $setup['userdn'];
+        $this->customer_id_attribute = $setup['customer_id_attribute'];
+        $this->contact_id_attribute = $setup['contact_id_attribute'];
 
         $this->conn = Net_LDAP2::connect($this->config);
 
@@ -82,30 +87,40 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     private function isValidUser($uid, $password)
     {
         $setup = self::loadSetup();
+        $errors = array();
 
-        // TODO: Load from setup
-        $config = array (
-            'binddn'    =>  $this->getUserDNstring($uid),
-            'bindpw'    =>  $password,
-            'basedn'    =>  $setup['basedn'],
-            'host'      =>  $setup['host'],
-            'port'      =>  $setup['port'],
-        );
+        foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
+            $config = array (
+                'binddn'    =>  $userDNstring,
+                'bindpw'    =>  $password,
+                'basedn'    =>  $setup['basedn'],
+                'host'      =>  $setup['host'],
+                'port'      =>  $setup['port'],
+            );
 
-        // Connecting using the configuration:
-        $ldap = Net_LDAP2::connect($config);
+            // Connecting using the configuration:
+            $ldap = Net_LDAP2::connect($config);
 
-        // Testing for connection error
-        if (PEAR::isError($ldap)) {
-            return false;
-        } else {
-            return true;
+            // Testing for connection error
+            if (PEAR::isError($ldap)) {
+                $errors[] = $ldap;
+            } else {
+                return true;
+            }
         }
+
+        foreach ($errors as $error) {
+            Auth::saveLoginAttempt($uid, 'failure', $error->getMessage());
+        }
+        return false;
     }
 
     public function getRemoteUserInfo($uid)
     {
-        $entry = $this->conn->getEntry($this->getUserDNstring($uid), array('cn', 'uid', 'mail'));
+
+        $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
+        $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
+        $entry = $search->shiftEntry();
 
         if (PEAR::isError($entry)) {
             return null;
@@ -115,6 +130,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'uid'   =>  $entry->get_value('uid'),
             'full_name'  =>  $entry->get_value('cn'),
             'email'  =>  $entry->get_value('mail', 'single'),
+            'customer_id'   =>  $entry->get_value($this->customer_id_attribute),
+            'contact_id'  =>  $entry->get_value($this->contact_id_attribute),
         );
 
         return $details;
@@ -144,10 +161,20 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'email'     =>  $remote['email'],
             'grp_id'    =>  '',
             'external_id'   =>  $remote['uid'],
+            'customer_id'   =>  $remote['customer_id'],
+            'contact_id'   =>  $remote['contact_id'],
         );
         if ($local_usr_id == null) {
             $setup = $this->loadSetup();
             $data['role'] = $setup['default_role'];
+
+            if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
+                foreach ($data['role'] as $prj_id => $role)  {
+                    if ($role > 0) {
+                        $data['role'][$prj_id] = User::getRoleID('Customer');
+                    }
+                }
+            }
             $return = User::insert($data);
             return $return;
         } else {

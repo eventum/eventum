@@ -42,11 +42,13 @@ ini_set('memory_limit', '128M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://launchpad.net/eventum/');
-define('APP_VERSION', '2.3.2');
+define('APP_VERSION', '2.3.3');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));
-define('APP_CONFIG_PATH', APP_PATH . '/config');
+if (!defined('APP_CONFIG_PATH')) {
+    define('APP_CONFIG_PATH', APP_PATH . '/config');
+}
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';

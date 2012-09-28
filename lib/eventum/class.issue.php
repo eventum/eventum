@@ -2964,7 +2964,7 @@ class Issue
                 if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
-                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
+                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id'], $res['iss_customer_contact_id']);
                     $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);

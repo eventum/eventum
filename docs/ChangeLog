@@ -1,7 +1,37 @@
 Eventum Issue Tracking System
 =============================
 
-2011-12-??, Version 2.3.2
+2012-??-??, Version 2.3.4
+- Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
+- Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
+- Add logged in username in automated error reports (Elan Ruusamäe)
+- Added X-Eventum-Priority header to outgoing emails (Elan Ruusamäe)
+- Disable autocomplete on forms that fill somebody else's password (Elan Ruusamäe)
+- Add host aliases support for notes and drafts as well (Elan Ruusamäe)
+- Add custom fields to mail headers as X-Eventum-CustomField-<FieldName> (Elan Ruusamäe)
+
+2012-07-09, Version 2.3.3 RC3
+- Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
+- Made SCM commits section scrollable using CSS (and jQuery) (Elan Ruusamäe)
+
+2012-06-05, Version 2.3.3 RC2
+- Added shouldAttachFile workflow method (Elan Ruusamäe)
+- Bug fixes for schema file relating to customer and contact id (Bryan Alsdorf)
+
+2012-05-30, Version 2.3.3 RC1
+- Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
+- Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
+- Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
+- Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
+- Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
+- Added option to check if IRC bot process is still running (Bryan)
+- Added pluggable auth user backends (Bryan, Elan Ruusamäe)
+- Added LDAP user backend (Bryan)
+- Added option to clear list filters by passing in url parameter view=clear (Bryan)
+- Changed customer_id and contact_id to be strings (Bryan)
+- Added "remember me" option to login (Elan Ruusamäe)
+
+2011-12-03, Version 2.3.2 RC1
 - Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 - Separate search methods to new Search class (Elan Ruusamäe)
 - fix new users are creation groups (group id was 0, should be NULL) bug #806083
@@ -18,17 +48,7 @@ Eventum Issue Tracking System
 - Port expandable cell to jQuery (Elan Ruusamäe)
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
 - Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
-- Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
-- Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
-- Timetracking: do not move start or stop time if refreshing and duration not yet filled (Raul Raat)
-- Add similar time tracking to post note window as there is in add time window (Elan Ruusamäe)
-- Add possibility to set rank to issue resolutions so their order can be changed (Elan Ruusamäe)
-- Added option to check if IRC bot process is still running (Bryan)
-- Added pluggable auth user backends (Bryan, Elan Ruusamäe)
-- Added LDAP user backend (Bryan)
-- Added option to clear list filters by passing in url parameter view=clear (Bryan)
-- Changed customer_id and contact_id to be strings (Bryan)
 
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)

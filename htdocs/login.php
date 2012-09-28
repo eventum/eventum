@@ -63,8 +63,10 @@ if (!Auth::isActiveUser($_POST["email"])) {
 }
 
 Auth::saveLoginAttempt($_POST["email"], 'success');
-// redirect to the initial page
-Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
+
+$remember = !empty($_POST['remember']);
+Auth::createLoginCookie(APP_COOKIE, $_POST["email"], $remember);
+
 Session::init(User::getUserIDByEmail($_POST['email']));
 if (!empty($_POST["url"])) {
     $extra = '?url=' . urlencode($_POST["url"]);

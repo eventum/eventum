@@ -121,7 +121,7 @@ var option_to_fld_id = new Array();
     option_to_fld_id[{$smarty.foreach.option_list.iteration-1}] = {$fld_id};
     options[{$smarty.foreach.option_list.iteration-1}] = new Array();
     {foreach from=$option_list key=cfo_id item=cfo_value name=option}
-        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option('{$cfo_value}', '{$cfo_id}');
+        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option({$cfo_value|json_encode}, {$cfo_id|json_encode});
     {/foreach}
 {/foreach}
 
@@ -164,7 +164,7 @@ setOptions('{$custom_field}', false);
     {foreach from=$custom_options key=option_index item=option}
       {literal}
       for (i = 0; i < options_field.options.length; i++) {
-        if (options_field.options[i].value == '{/literal}{$option}{literal}') {
+        if (options_field.options[i].value == {/literal}{$option|json_encode}{literal}) {
           options_field.options[i].selected = true;
         }
       }

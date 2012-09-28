@@ -358,7 +358,7 @@
                         {t}Password{/t}:&nbsp;
                       </td>
                       <td width="80%">
-                        <input type="password" class="default" name="smtp[password]" size="20" value="{$setup.smtp.password|escape:"html"}">
+                        <input type="password" class="default" name="smtp[password]" size="20" value="{$setup.smtp.password|escape:"html"}" autocomplete="off">
                         {include file="error_icon.tpl.html" field="smtp[password]"}
                       </td>
                     </tr>
@@ -503,8 +503,8 @@
                       <td width="80%">
                         <input type="text" name="email_routing[host_alias]" class="default" value="{$setup.email_routing.host_alias}">
                         {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
-                        <span class="small_default">{t}(Alternate domains that point to 'Address Hostname'){/t}</span>
-                      </td
+                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
+                      </td>
                     </tr>
                     <tr>
                       <td width="100" class="default" align="right">
@@ -578,6 +578,16 @@
                         <span class="small_default">{t escape=no 1="note_51@<b>example.com</b>"}(e.g. %1){/t}</span>
                       </td>
                     </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        {t}Host Alias:{/t}&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" name="note_routing[host_alias]" class="default" value="{$setup.note_routing.host_alias}">
+                        {include file="error_icon.tpl.html" field="note_routing[host_alias]"}
+                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
+                      </td>
+                    </tr>
                   </table>
                 </td>
               </tr>
@@ -613,6 +623,16 @@
                         <input type="text" name="draft_routing[address_host]" class="default" value="{$setup.draft_routing.address_host}">
                         {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
                         <span class="small_default">{t escape=no 1="draft_51@<b>example.com</b>"}(e.g. %1){/t}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        {t}Host Alias:{/t}&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" name="draft_routing[host_alias]" class="default" value="{$setup.draft_routing.host_alias}">
+                        {include file="error_icon.tpl.html" field="draft_routing[host_alias]"}
+                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
                       </td>
                     </tr>
                   </table>

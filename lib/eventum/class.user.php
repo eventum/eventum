@@ -53,7 +53,7 @@ class User
     private static $localized_roles;
     private static function getLocalizedRoles()
     {
-        if (is_null(self::$localized_roles)) {
+        if (self::$localized_roles === null) {
             foreach (self::$roles as $id => $role) {
                 self::$localized_roles[$id] = ev_gettext($role);
             }
@@ -283,7 +283,7 @@ class User
             if ($res == NULL) {
                 return -2;
             } else {
-                $check_hash = md5($res . md5($email) . Auth::privateKey());
+                $check_hash = md5($res . $email . Auth::privateKey());
                 if ($hash != $check_hash) {
                     return -3;
                 } else {
@@ -338,7 +338,7 @@ class User
             Prefs::set($new_usr_id, Prefs::getDefaults($projects));
 
             // send confirmation email to user
-            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . Auth::privateKey());
+            $hash = md5($_POST["full_name"] . $_POST["email"] . Auth::privateKey());
 
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
@@ -371,7 +371,7 @@ class User
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . Auth::privateKey());
+        $hash = md5($info["usr_full_name"] . $info["usr_email"] . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
@@ -1181,6 +1181,17 @@ class User
         }
         $prefs = serialize(Prefs::getDefaults($projects));
         $group_id = !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL';
+        $params = array(
+            isset($user['customer_id']) ? $user['customer_id'] : null,
+            isset($user['contact_id']) ? $user['contact_id'] : null,
+            Date_Helper::getCurrentDateGMT(),
+            Auth::hashPassword($user['password']),
+            $user['full_name'],
+            $user['email'],
+            $user['grp_id'],
+            $user['external_id'],
+            $user['par_code'],
+        );
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1194,17 +1205,17 @@ class User
                     usr_external_id,
                     usr_par_code
                  ) VALUES (
-                    NULL,
-                    NULL,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($user["password"])) . "',
-                    '" . Misc::escapeString($user["full_name"]) . "',
-                    '" . Misc::escapeString($user["email"]) . "',
-                    $group_id,
-                    '" . Misc::escapeString($user['external_id']) . "',
-                    '" . Misc::escapeString($user['par_code']) . "'
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt, $params);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

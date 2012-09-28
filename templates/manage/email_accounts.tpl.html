@@ -168,7 +168,7 @@
               </tr>
               <tr id="imap_folder">
                 <td width="100" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}IMAP Folder{/t}:/b>
+                  <b>{t}IMAP Folder{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
                   <input type="text" class="default" name="folder" size="20" value="{if $info.ema_folder == ""}INBOX{else}{$info.ema_folder}{/if}"> <span class="default">{t}(default folder is INBOX){/t}</span>
@@ -189,7 +189,7 @@
                   <b>{t}Password{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="password" class="default" name="password" size="20" value="{$info.ema_password|escape:"html"}">
+                  <input type="password" class="default" name="password" size="20" value="{$info.ema_password|escape:"html"}"  autocomplete="off">
                   {include file="error_icon.tpl.html" field="password"}
                 </td>
               </tr>

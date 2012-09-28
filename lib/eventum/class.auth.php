@@ -44,7 +44,7 @@ class Auth
      */
     public static function privateKey() {
         static $private_key = null;
-        if (is_null($private_key)) {
+        if ($private_key === null) {
             require_once APP_CONFIG_PATH . "/private_key.php";
         }
         return $private_key;
@@ -96,7 +96,7 @@ class Auth
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                 self::createFakeCookie($anon_usr_id, $prj_id);
-                self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
                 self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
@@ -165,7 +165,7 @@ class Auth
         }
 
         // if the current session is still valid, then renew the expiration
-        self::createLoginCookie($cookie_name, $cookie['email']);
+        self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
         // renew the project cookie as well
         $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         self::setCurrentProject($prj_id, $prj_cookie["remember"]);
@@ -284,8 +284,14 @@ class Auth
      */
     public static function getCookieInfo($cookie_name)
     {
-        $cookie = @$_COOKIE[$cookie_name];
-        return unserialize(base64_decode($cookie));
+        if (!isset($_COOKIE[$cookie_name])) {
+            return null;
+        }
+        $data = base64_decode($_COOKIE[$cookie_name], true);
+        if ($data === false) {
+            return null;
+        }
+        return unserialize($data);
     }
 
 
@@ -298,7 +304,7 @@ class Auth
     public static function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-               ($cookie["hash"] != md5(self::privateKey() . md5($cookie["login_time"]) . $cookie["email"]))) {
+               ($cookie["hash"] != md5(self::privateKey() . $cookie["login_time"] . $cookie["email"]))) {
             return false;
         } else {
             $usr_id = User::getUserIDByEmail(@$cookie["email"]);
@@ -317,18 +323,21 @@ class Auth
      * @access  public
      * @param   string $cookie_name The cookie name to be created
      * @param   string $email The email address to be stored in the cookie
+     * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      * @return  void
      */
-    function createLoginCookie($cookie_name, $email)
+    function createLoginCookie($cookie_name, $email, $permanent = true)
     {
+
         $time = time();
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $email),
+            "permanent"  => $permanent,
+            "hash"       => md5(self::privateKey() . $time . $email),
         );
         $cookie = base64_encode(serialize($cookie));
-        self::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
+        self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
     }
 
 
@@ -458,6 +467,21 @@ class Auth
         return User::getUserIDByEmail($info['email']);
     }
 
+    /**
+     * Gets the current user login.
+     *
+     * @return  string  The login of the user
+     */
+    public static function getUserLogin()
+    {
+        $info = self::getCookieInfo(APP_COOKIE);
+        if (empty($info) || !isset($info['email'])) {
+            return null;
+        }
+
+        return $info['email'];
+    }
+
 
     /**
      * Gets the current selected project from the project cookie.
@@ -551,7 +575,7 @@ class Auth
         $cookie = array(
             "email" => $user_details['usr_email'],
             "login_time"    =>  $time,
-            "hash"       => md5(self::privateKey() . md5($time) . $user_details['usr_email']),
+            "hash"       => md5(self::privateKey() . $time . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($prj_id) {
@@ -572,8 +596,7 @@ class Auth
      */
     public static function setCookie($name, $value, $expiration)
     {
-        if (is_null(APP_COOKIE_DOMAIN)) {
-
+        if (APP_COOKIE_DOMAIN === null) {
             setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);

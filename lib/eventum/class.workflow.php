@@ -209,6 +209,24 @@ class Workflow
         return $backend->handleAttachment($prj_id, $issue_id, $usr_id);
     }
 
+    /**
+     * Determines if the attachment should be added
+     *
+     * @param   integer $prj_id The project ID.
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The id of the user who attached the file
+     * @param   array $attachment attachment object
+     * @return  boolean
+     */
+    function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& self::_getBackend($prj_id);
+        return $backend->shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
+    }
+
 
     /**
      * Called when the priority of an issue changes.

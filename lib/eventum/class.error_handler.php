@@ -57,7 +57,7 @@ class Error_Handler
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
-        if ($notify_error === false || is_null($dbh) || PEAR::isError($dbh)) {
+        if ($notify_error === false || $dbh === null || PEAR::isError($dbh)) {
             return;
         }
 
@@ -97,9 +97,15 @@ class Error_Handler
 
         // this checks that we're not running from commandline (cron for example)
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $msg .= "That happened on page '" . $_SERVER['SCRIPT_NAME'] . "' from IP Address '" . $_SERVER['REMOTE_ADDR'];
+            $msg .= "That happened on page '{$_SERVER['SCRIPT_NAME']}' from IP Address '{$_SERVER['REMOTE_ADDR']}'";
+
+            $login = Auth::getUserLogin();
+            if ($login) {
+                $msg .= " for user '$login'";
+            }
+
             if (!empty($_SERVER['HTTP_REFERER'])) {
-                $msg  .= "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
+                $msg  .= " coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
             }
             $msg .= ".\n\nThe user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
         }

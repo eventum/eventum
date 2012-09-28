@@ -33,7 +33,6 @@
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16MB on PHP4 versions
 
 ini_set('memory_limit', '64M');
-set_magic_quotes_runtime(0);
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);

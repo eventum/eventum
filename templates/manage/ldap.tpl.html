@@ -20,18 +20,6 @@
                       selectField(f, 'port');
                       return false;
                   }
-                  field = getFormElement(f, 'binddn');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the bind dn.{/t}{literal}');
-                      selectField(f, 'binddn');
-                      return false;
-                  }
-                  field = getFormElement(f, 'bindpw');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the bind password.{/t}{literal}');
-                      selectField(f, 'bindpw');
-                      return false;
-                  }
                   field = getFormElement(f, 'basedn');
                   if (isWhitespace(field.value)) {
                       alert('{/literal}{t escape=js}Please enter the base dn.{/t}{literal}');
@@ -126,6 +114,24 @@
                   <input type="text" class="default" name="userdn" size="50" value="{$setup.userdn|escape:"html"}">
                   <span class="small_default">Use %UID% to specify where the UID should be substituted.</span>
                   {include file="error_icon.tpl.html" field="userdn"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Customer ID attribute:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" class="default" name="customer_id_attribute" size="50" value="{$setup.customer_id_attribute|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="customer_id_attribute"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Contact ID attribute:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" class="default" name="contact_id_attribute" size="50" value="{$setup.contact_id_attribute|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="contact_id_attribute"}
                 </td>
               </tr>
               <tr>

@@ -185,6 +185,25 @@ class Abstract_Workflow_Backend
     {
     }
 
+    /**
+     * Determines if the attachment should be added
+     *
+     * Attachment array contains:
+     * - $attachment['filename']
+     * - $attachment['filetype']
+     * - $attachment['blob']
+     *
+     * @param   integer $prj_id The project ID.
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The id of the user who attached the file
+     * @param   array $attachment attachment object
+     * @return  boolean
+     */
+    function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    {
+        return true;
+    }
+
 
     /**
      * Called when the priority of an issue changes.
