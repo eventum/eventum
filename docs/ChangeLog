@@ -1,6 +1,13 @@
 Eventum Issue Tracking System
 =============================
 
+- Added "Product" filter to adv search page (Bryan)
+- Changed close issue to default to sending to all users instead of internal only (Bryan)
+- Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
+- Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
+- Automatically uncompress gzip files when using the "view" link (Bryan)
+- Send notification on private file uploads to internal users (Bryan)
+
 2012-??-??, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
@@ -49,12 +56,6 @@ Eventum Issue Tracking System
 - Updated PEAR packages to latest versions (Elan Ruusamäe)
 - Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
-
-- Changed close issue to default to sending to all users instead of internal only (Bryan)
-- Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
-- Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
-- Automatically uncompress gzip files when using the "view" link (Bryan)
-- Send notification on private file uploads to internal users (Bryan)
 
 2011-02-10, Version 2.3.1
 - Improve getCustomFieldWeeklyReport (merge request 31659)

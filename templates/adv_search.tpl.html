@@ -281,6 +281,17 @@ function disableCustomFields(disable)
             </select>
           </td>
           {/if}
+          {if $products|@count > 0}
+          <td>
+            <span class="default">{t}Product{/t}:</span><br />
+            <select name="product" class="default">
+              <option value="">{t}any{/t}</option>
+              {foreach key=pro_id item=pro_title from=$products}
+              <option value="{$pro_id}" {if $pro_id == $options.cst_pro_id}selected{/if}>{$pro_title}</option>
+              {/foreach}
+            </select>
+          </td>
+          {/if}
         </tr>
         <tr>
           <td align="center" class="default">

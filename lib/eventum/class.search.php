@@ -106,6 +106,7 @@ class Search
             'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues', $request_only)),
             'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues', $request_only)),
             'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
+            'product'        => Misc::escapeInteger(self::getParam('product', $request_only)),
             // other fields
             'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
@@ -337,6 +338,13 @@ class Search
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  ON
                     sub_iss_id=iss_id";
+        }
+        if (!empty($options["product"])) {
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                 ON
+                    ipv_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
@@ -595,6 +603,9 @@ class Search
         }
         if (!empty($options['release'])) {
             $stmt .= " AND iss_pre_id = " . Misc::escapeInteger($options['release']);
+        }
+        if (!empty($options["product"])) {
+            $stmt .= " AND ipv_pro_id = " . Misc::escapeInteger($options['product']);
         }
         // now for the date fields
         $date_fields = array(

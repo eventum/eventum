@@ -73,7 +73,8 @@ $tpl->assign(array(
     "releases"      => Release::getAssocList($prj_id, TRUE),
     "custom"        => Filter::getListing($prj_id),
     "custom_fields" =>  Custom_Field::getListByProject($prj_id, ''),
-    "reporters"     => Project::getReporters($prj_id)
+    "reporters"     => Project::getReporters($prj_id),
+    "products"      => Product::getAssocList(false)
 ));
 
 if (!empty($_GET["custom_id"])) {

@@ -42,6 +42,7 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'show_notification_list_issues', '');
     setHiddenFieldValue(f, 'reporter', '');
     setHiddenFieldValue(f, 'customer_id', '');
+    setHiddenFieldValue(f, 'product', '');
     //other fields
     setHiddenFieldValue(f, 'release', '');
     setHiddenFieldValue(f, 'custom_field', '');
@@ -104,6 +105,7 @@ function runCustomFilter(f)
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
         <input type="hidden" name="reporter" value="{$options.reporter}">
         <input type="hidden" name="customer_id" value="{$options.customer_id}">
+        <input type="hidden" name="product" value="">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}

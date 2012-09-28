@@ -169,6 +169,7 @@ class Filter
                         cst_iss_sta_id='" . Misc::escapeInteger($_POST["status"]) . "',
                         cst_iss_pre_id='" . Misc::escapeInteger(@$_POST["release"]) . "',
                         cst_iss_prc_id='" . Misc::escapeInteger(@$_POST["category"]) . "',
+                        cst_pro_id='" . Misc::escapeInteger(@$_POST["product"]) . "',
                         cst_rows='" . Misc::escapeString($_POST["rows"]) . "',
                         cst_sort_by='" . Misc::escapeString($_POST["sort_by"]) . "',
                         cst_sort_order='" . Misc::escapeString($_POST["sort_order"]) . "',
@@ -215,6 +216,7 @@ class Filter
                         cst_iss_sta_id,
                         cst_iss_pre_id,
                         cst_iss_prc_id,
+                        cst_pro_id,
                         cst_rows,
                         cst_sort_by,
                         cst_sort_order,
@@ -256,6 +258,7 @@ class Filter
                         '" . Misc::escapeInteger($_POST["status"]) . "',
                         '" . Misc::escapeInteger(@$_POST["release"]) . "',
                         '" . Misc::escapeInteger(@$_POST["category"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["product"]) . "',
                         '" . Misc::escapeString($_POST["rows"]) . "',
                         '" . Misc::escapeString($_POST["sort_by"]) . "',
                         '" . Misc::escapeString($_POST["sort_order"]) . "',
@@ -722,6 +725,8 @@ class Filter
                 $display = Release::getTitle($filter_details);
             } elseif ($filter['param'] == 'customer_id') {
                 $display = Customer::getTitle($prj_id, $filter_details);
+            } elseif ($filter['param'] == 'product') {
+                $display = Product::getTitle($filter_details);
             } else {
                 $display = $filter_details;
             }
@@ -843,6 +848,10 @@ class Filter
             'customer_id'=>  array(
                 'title' =>  ev_gettext("Customer"),
                 'param' =>  'customer_id'
+            ),
+            'pro_id'   =>  array(
+                'title' =>  ev_gettext("Product"),
+                'param' =>  'product'
             )
         );
 

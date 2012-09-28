@@ -88,6 +88,7 @@ if (!empty($_REQUEST['nosave'])) {
 } else {
 	$options = Search::saveSearchParams();
 }
+
 $options += $options_override;
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Search::getSortingInfo($options));
@@ -131,6 +132,9 @@ $tpl->assign("active_filters", Filter::getActiveFilters($options));
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("releases", Release::getAssocList($prj_id, true));
 $tpl->assign("reporters", Project::getReporters($prj_id));
+$tpl->assign(array(
+    "products"      => Product::getAssocList(false)
+));
 
 $prefs = Prefs::get($usr_id);
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
