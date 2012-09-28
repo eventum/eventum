@@ -446,10 +446,7 @@ class Attachment
         Workflow::handleAttachment(Issue::getProjectID($_POST["issue_id"]), $_POST["issue_id"], $usr_id);
 
         // send notifications for the issue being updated
-        // XXX: eventually need to restrict the list of people who receive a notification about this in a better fashion
-        if ($status == 'public') {
-            Notification::notify($_POST["issue_id"], 'files', $attachment_id);
-        }
+        Notification::notify($_POST["issue_id"], 'files', $attachment_id, $internal_only);
         return 1;
     }
 
