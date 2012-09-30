@@ -1000,11 +1000,11 @@ msgstr "Bifogad e-post"
 msgid "Attached Files"
 msgstr "Bifogade filer"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr "Bifogad fil härstammar från en notering"
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr "Denna bifogade fil kommer från ett e-postmeddelande"
 
@@ -2129,12 +2129,12 @@ msgstr ""
 msgid "Email"
 msgstr "E-post"
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2242,7 +2242,7 @@ msgstr "E-post per tidsperiod"
 msgid "Email by time period"
 msgstr "E-post per tidsperiod"
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "E-post från '%1$s' blockeras"
@@ -4342,7 +4342,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -5692,7 +5692,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr "Sv: %1$s"
@@ -5852,6 +5852,10 @@ msgstr "Utgåva"
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
 msgstr "Kom ihåg val"
+
+#: templates/login_form.tpl.html
+msgid "Remember me"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""

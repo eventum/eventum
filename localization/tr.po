@@ -1013,11 +1013,11 @@ msgstr "Ekli Emailler"
 msgid "Attached Files"
 msgstr "Ekli Dosyalar"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr "Nottan gelen ek"
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr "Emailden gelen ek"
 
@@ -1468,7 +1468,7 @@ msgstr "Yapılandırma Parametreleri"
 
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
-msgstr "Yeni şifreyi onaylayın"
+msgstr "Yeni Parola Onayı"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -2129,12 +2129,12 @@ msgstr ""
 msgid "Email"
 msgstr "Eposta"
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2242,7 +2242,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2975,7 +2975,7 @@ msgstr "Macarca"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
-msgstr "Şifremi Unuttum"
+msgstr "Parolamı Unuttum"
 
 #: templates/manage/reminders.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -3715,7 +3715,7 @@ msgstr ""
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
-msgstr "MySQL Şifre"
+msgstr "MySQL Parolası:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
@@ -3773,7 +3773,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "New Password"
-msgstr "Yeni Şifre"
+msgstr "Yeni Parola"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "New Status for Issue"
@@ -4269,7 +4269,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -4319,19 +4319,19 @@ msgstr ""
 #: templates/notifications/new_user.tpl.text
 #: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
 msgid "Password"
-msgstr "Şifre"
+msgstr "Parola"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation"
-msgstr ""
+msgstr "Parola Doğrulaması"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation Success"
-msgstr ""
+msgstr "Parola Doğrulama Başarılı"
 
 #: templates/signup.tpl.html
 msgid "Password:"
-msgstr "Şifre"
+msgstr "Parola:"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Pattern"
@@ -4729,7 +4729,7 @@ msgstr ""
 
 #: templates/manage/users.tpl.html
 msgid "Please enter a password of at least 6 characters."
-msgstr ""
+msgstr "En az 6 karakterden oluşan bir parola yazın lütfen."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a pattern."
@@ -4793,7 +4793,7 @@ msgstr "Lütfen SMTP sunucu adresini girin."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server password."
-msgstr "Lütfen SMTP şifresini girin."
+msgstr "Lütfen SMTP sunucu parolasını yazın."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server port number."
@@ -4939,7 +4939,7 @@ msgstr ""
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the password for this email account."
-msgstr ""
+msgstr "Bu e-posta hesabı için olan parolayı yazın lütfen."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the port number for this email account."
@@ -5180,11 +5180,11 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Please enter your new password with at least 6 characters."
-msgstr ""
+msgstr "Lütfen en az 6 karakterden oluşan yeni parolanızı yazın."
 
 #: templates/signup.tpl.html
 msgid "Please enter your password."
-msgstr ""
+msgstr "Lütfen parolanızı yazın."
 
 #: templates/manage/monitor.tpl.html
 msgid "Please fill proper partition path"
@@ -5213,7 +5213,7 @@ msgstr ""
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Lütfen bir parola edinin."
 
 #: templates/help/main.tpl.html
 msgid ""
@@ -5584,7 +5584,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -5745,6 +5745,10 @@ msgstr "Versiyon"
 msgid "Remember Selection"
 msgstr ""
 
+#: templates/login_form.tpl.html
+msgid "Remember me"
+msgstr ""
+
 #: templates/setup.tpl.html
 msgid ""
 "Remember to protect your '%1' directory (like changing its permissions) to "
@@ -5886,7 +5890,7 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Request a Password"
-msgstr ""
+msgstr "Bir Parola İste"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Required Field"
@@ -6131,7 +6135,7 @@ msgstr ""
 
 #: templates/forgot_password.tpl.html
 msgid "Send New Password"
-msgstr ""
+msgstr "Yeni Parola Gönder"
 
 #: templates/close.tpl.html
 msgid "Send Notification About Issue Being Closed?"
@@ -7893,7 +7897,7 @@ msgstr ""
 
 #: templates/preferences.tpl.html
 msgid "Update Password"
-msgstr ""
+msgstr "Parolayı Güncelle"
 
 #: templates/preferences.tpl.html
 msgid "Update Preferences"
@@ -8020,7 +8024,7 @@ msgstr "Kullanıcı hesap bilgileri güncellendi"
 
 #: lib/eventum/class.notification.php:1436
 msgid "User account password changed"
-msgstr "Kullanıcı şifresi değiştirildi"
+msgstr "Kullanıcı hesabı parolası değiştirildi"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -8713,7 +8717,7 @@ msgstr "soyad"
 
 #: templates/manage/users.tpl.html
 msgid "leave empty to keep the current password"
-msgstr ""
+msgstr "mevcut parolayı kullanmak için boş bırakın"
 
 #: templates/manage/users.tpl.html
 msgid "list all email aliases"
