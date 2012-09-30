@@ -223,13 +223,15 @@ class Customer
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
      * @param   boolean $force_refresh If the cache should not be used.
-     * @param   integer $contract_id The contract ID
+     * @param   bool|int $contract_id The contract ID
+     * @param   bool|int $contact_id
      * @return  array The customer details
      */
-    public static function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false)
+    public static function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false,
+                                      $contact_id = false)
     {
         $backend =& self::_getBackend($prj_id);
-        return $backend->getDetails($customer_id, $force_refresh, $contract_id);
+        return $backend->getDetails($customer_id, $force_refresh, $contract_id, $contact_id);
     }
 
 
@@ -959,6 +961,7 @@ class Customer
      */
     function authenticateCustomer($prj_id, $customer_id, $contact_id)
     {
+        $tpl = new Template_Helper();
         $backend =& self::_getBackend($prj_id);
         if (method_exists($backend, 'authenticateCustomer')) {
             $backend->authenticateCustomer($customer_id, $contact_id);

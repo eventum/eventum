@@ -23,61 +23,35 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
-//
 
+require_once dirname(__FILE__) . '/../../init.php';
 
-/**
- * Abstract class for auth backend
- */
-class Mysql_Auth_Backend extends Abstract_Auth_Backend
-{
-    /**
-     * Checks whether the provided password match against the email
-     * address provided.
-     *
-     * @access  public
-     * @param   string $login The email address to check for
-     * @param   string $password The password of the user to check for
-     * @return  boolean
-     */
-    public function verifyPassword($login, $password)
-    {
-        $usr_id = User::getUserIDByEmail($login, true);
-        $user = User::getDetails($usr_id);
-        return $user['usr_password'] == self::hashPassword($password);
+$tpl = new Template_Helper();
+$tpl->setTemplate("manage/index.tpl.html");
+
+Auth::checkAuthentication(APP_COOKIE);
+
+$tpl->assign("type", "scm");
+
+$role_id = Auth::getCurrentRole();
+if ($role_id == User::getRoleID('administrator')) {
+    $tpl->assign("show_setup_links", true);
+    if (@$_POST["cat"] == "update") {
+        $setup = Setup::load();
+
+        $setup["scm_integration"] = $_POST["scm_integration"];
+        $setup["checkout_url"] = isset($_POST["checkout_url"]) ? $_POST["checkout_url"] : null;
+        $setup["diff_url"] = isset($_POST["diff_url"]) ? $_POST["diff_url"] : null;
+        $setup["scm_log_url"] = $_POST["scm_log_url"];
+
+        $res = Setup::save($setup);
+        $tpl->assign("result", $res);
     }
-
-    /**
-     * Method used to update the account password for a specific user.
-     *
-     * @access  public
-     * @param   integer $usr_id The user ID
-     * @param   string  $password The password.
-     * @return  boolean
-     */
-    function updatePassword($usr_id, $password)
-    {
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 SET
-                    usr_password='" . self::hashPassword($password) . "'
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
-        }
-
-        # NOTE: this will say updated failed if password is identical to old one
-        $updated = DB_Helper::getInstance()->affectedRows();
-        return $updated > 0;
-    }
-
-    public function getUserIDByLogin($login)
-    {
-        return User::getUserIDByEmail($login, true);
-    }
+    $options = Setup::load(true);
+    $tpl->assign("setup", $options);
+} else {
+    $tpl->assign("show_not_allowed_msg", true);
 }
+
+$tpl->displayTemplate();

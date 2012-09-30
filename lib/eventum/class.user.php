@@ -1134,6 +1134,16 @@ class User
         }
         $prefs = serialize(Prefs::getDefaults($projects));
         $group_id = !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL';
+        $params = array(
+            isset($user['customer_id']) ? $user['customer_id'] : null,
+            isset($user['contact_id']) ? $user['contact_id'] : null,
+            Date_Helper::getCurrentDateGMT(),
+            Auth::hashPassword($user['password']),
+            $user['full_name'],
+            $user['email'],
+            $user['grp_id'],
+            $user['external_id'],
+        );
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1146,16 +1156,16 @@ class User
                     usr_grp_id,
                     usr_external_id
                  ) VALUES (
-                    NULL,
-                    NULL,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($user["password"])) . "',
-                    '" . Misc::escapeString($user["full_name"]) . "',
-                    '" . Misc::escapeString($user["email"]) . "',
-                    $group_id,
-                    '" . Misc::escapeString($user['external_id']) . "'
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt, $params);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

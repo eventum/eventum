@@ -37,6 +37,12 @@ $eventum_url = 'http://eventum.example.com/';
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
 //
 
+// load eventum-cvs-hook.conf.php from dir of this script if it exists
+$configfile = dirname(__FILE__) . DIRECTORY_SEPARATOR . basename(__FILE__, '.php') . '.conf.php';
+if (file_exists($configfile)) {
+    require_once $configfile;
+}
+
 // save name of this script
 $PROGRAM = basename(array_shift($argv));
 // save who is committing these changes

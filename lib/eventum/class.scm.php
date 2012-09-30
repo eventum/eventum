@@ -25,21 +25,19 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the source control management
  * integration features of the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class SCM
 {
     /**
-     * Method used to remove all checkins associates with a list of issues.
+     * Method used to remove all checkins associated with a list of issues.
      *
      * @access  public
      * @param   array $ids The list of issues
@@ -56,9 +54,9 @@ class SCM
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
 
@@ -66,11 +64,12 @@ class SCM
      * Method used to remove a specific list of checkins
      *
      * @access  public
+     * @param   int[] $isc_id list to remove
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function remove()
+    function remove($items)
     {
-        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
+        $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
                     isc_iss_id
                  FROM
@@ -87,13 +86,13 @@ class SCM
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // need to mark this issue as updated
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID())));
-            return 1;
         }
+
+        // need to mark this issue as updated
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID())));
+        return 1;
     }
 
 

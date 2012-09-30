@@ -17,6 +17,46 @@ function removeCheckins(f)
         return true;
     }
 }
+
+/**
+ * jQuery code that takes <table class=scrollTable> and makes it scrollable if content is over height of 300px
+ * or defined data-max-height html5 attribute.
+ * The scroll is added only if data-limit-rows html attribute is exceeded,
+ * which defaults to 20 if undefined
+ */
+$(function() {
+  var $table = $('table.scrollTable');
+
+  // do this only if there are over 20 entries
+  if ($table.find('tbody>tr').length < ($table.data('limit-rows') || 20)) {
+    return;
+  }
+
+  // copy with into css
+  $('table.scrollTable thead th, table.scrollTable tfoot th, table.scrollTable tbody tr:first-child td').each(function(){
+    $(this).width($(this).width())
+  });
+
+  var $parent = $($table).parent();
+  var html = $parent.html();
+  var max_height = $table.data('max-height') || 300;
+  $(html).appendTo($parent);
+  $(html).appendTo($parent);
+
+  // refetch $table
+  $table = $('table.scrollTable');
+  $table.eq(0).find('tbody').remove();
+  $table.eq(0).find('tfoot').remove();
+  $table.wrap('<div style="overflow:auto; height:100%; max-height:' + max_height + 'px;">').eq(1).find('thead').remove();
+  $table.eq(1).find('tfoot').remove();
+  $table.eq(2).find('tbody').remove()
+  $table.eq(2).find('thead').remove();
+
+  // scroll content to bottom
+  var $scroll_el = $table.eq(1);
+  $scroll_el.parent('div').scrollTop($scroll_el.parent('div').scrollTop() + $scroll_el.height());
+});
+
 //-->
 </script>
 {/literal}
@@ -39,19 +79,24 @@ function removeCheckins(f)
         </tr>
         <tr id="checkins1" {get_display_style element_name="checkins" total=$checkins|@count}>
           <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
+            <div>
+            <table width="100%" cellpadding="2" cellspacing="1" class="scrollTable">
+              <thead>
               <tr bgcolor="{$cell_color}">
-                <td width="5">
+                <th width="5">
                   {if $checkins != ""}
                   <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   {/if}
-                </td>
-                <td class="default_white" nowrap>{t}Date{/t}</td>
-                <td class="default_white">{t}User{/t}</td>
-                <td class="default_white" nowrap>{t}Module / Directory{/t}</td>
-                <td class="default_white" nowrap>{t}File{/t}</td>
-                <td width="55%" class="default_white">{t}Commit Message{/t}</td>
+                </th>
+                <th class="default_white" nowrap>{t}Date{/t}</th>
+                <th class="default_white">{t}User{/t}</th>
+                <th class="default_white" nowrap>{t}Module / Directory{/t}</th>
+                <th class="default_white" nowrap>{t}File{/t}</th>
+                <th width="55%" class="default_white">{t}Commit Message{/t}</th>
               </tr>
+              </thead>
+
+              <tbody>
               {section name="i" loop=$checkins}
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
@@ -63,19 +108,19 @@ function removeCheckins(f)
                 <td class="default" valign="top">{$checkins[i].isc_module|escape:"html"}</td>
                 <td class="default" valign="top" nowrap>
                   {if $checkins[i].checkout_url}
-                    <a title="{t 1=$checkins[i].isc_filename}see the log of of %1{/t}" target="_checkout" class="link" href="{$checkins[i].scm_log_url}">{$checkins[i].isc_filename|escape:"html"}</a>
+                    <a title="{t 1=$checkins[i].isc_filename}see the log of of %1{/t}" target="_blank" class="link" href="{$checkins[i].scm_log_url}">{$checkins[i].isc_filename|escape:"html"}</a>
                     {if $checkins[i].added}
                       ({t}ADDED{/t})
                     {elseif $checkins[i].removed}
                       ({t}REMOVED{/t})
                     {else}
-                      <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">({$checkins[i].isc_new_version})</a>
+                      <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_blank" class="link" href="{$checkins[i].checkout_url}">({$checkins[i].isc_new_version})</a>
                     {/if}
                   {else}
                   {$checkins[i].isc_filename|escape:"html"}
                   {/if}
                   {if $checkins[i].diff_url && !$checkins[i].added && !$checkins[i].removed}
-                    [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_checkout" class="link" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
+                    [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_blank" class="link" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
                   {/if}
                 </td>
                 <td class="default" valign=top>
@@ -89,6 +134,9 @@ function removeCheckins(f)
                 </td>
               </tr>
               {/section}
+              </tbody>
+
+              <tfoot>
               <tr>
                 <td colspan="6" bgcolor="{$cell_color}">
                   {if $checkins != ""}
@@ -97,7 +145,10 @@ function removeCheckins(f)
                   {/if}
                 </td>
               </tr>
+              </tfoot>
+
             </table>
+            </div>
           </td>
         </tr>
       </table>

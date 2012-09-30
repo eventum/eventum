@@ -12,7 +12,7 @@ IMPORTANT:
 When upgrading to a new version of Eventum, please follow these
 instructions:
 
-- Upgrading from version 2.2 to 2.3 or updating 2.3.x to 2.3.3:
+- Upgrading from version 2.2 and from versions upwards:
 ----------------------------------------
 1) Move your current copy of Eventum to a new directory.
 2) Extract the new Eventum files to a directory.

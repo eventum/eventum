@@ -73,7 +73,7 @@ if (@$_GET["cat"] == "delete_note") {
     $res = Attachment::removeIndividualFile($_GET["id"]);
     $tpl->assign("remove_file_result", $res);
 } elseif (@$_POST["cat"] == "remove_checkin") {
-    $res = SCM::remove();
+    $res = SCM::remove($_POST["item"]);
     $tpl->assign("remove_checkin_result", $res);
 } elseif (@$_GET['cat'] == 'unassign') {
     $res = Issue::deleteUserAssociation($_GET["iss_id"], $usr_id);
