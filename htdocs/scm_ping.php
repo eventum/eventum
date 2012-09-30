@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 // shortcut to exit out when no issue id-s are passed in request
@@ -36,29 +37,48 @@ if (empty($_GET['issue'])) {
 
 require_once dirname(__FILE__) . '/../init.php';
 
+$module = $_GET['module'];
+$username = $_GET['username'];
+$commit_msg = $_GET['commit_msg'];
+$scm_name = isset($_GET['scm_name']) ? $_GET['scm_name'] : null;
+
+// module is per file (svn hook)
+if (is_array($module)) {
+    $module = null;
+}
+
+// process checkins for each issue
 foreach ($_GET['issue'] as $issue_id) {
-    $module = $_GET['module'];
-    $username = $_GET['username'];
-    $commit_msg = $_GET['commit_msg'];
-
-    $files = array();
-    $nfiles = count($_GET['files']);
-    for ($y = 0; $y < $nfiles; $y++) {
-        $file = array(
-            'file' => $_GET['files'][$y],
-            'old_version' => $_GET['old_versions'][$y],
-            'new_version' => $_GET['new_versions'][$y],
-        );
-
-        SCM::logCheckin($issue_id, $module, $file, $username, $commit_msg);
-        $files[] = $file;
-    }
-
+    // check early if issue exists to report proper message back
     // workflow needs to know project_id to find out which workflow class to use.
     $prj_id = Issue::getProjectID($issue_id);
     if (empty($prj_id)) {
         echo "issue #$issue_id not found\n";
         continue;
     }
-    Workflow::handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
+
+    $files = array();
+    $nfiles = count($_GET['files']);
+    for ($y = 0; $y < $nfiles; $y++) {
+        $file = array(
+            'file' => $_GET['files'][$y],
+            // version may be missing to indicate 'added' or ''removed'' state
+            'old_version' => isset($_GET['old_versions'][$y]) ? $_GET['old_versions'][$y] : null,
+            'new_version' => isset($_GET['new_versions'][$y]) ? $_GET['new_versions'][$y] : null,
+            // there may be per file module (svn) or global (cvs)
+            'module' => isset($_GET['module'][$y]) ? $_GET['module'][$y] : $module,
+        );
+
+        $files[] = $file;
+    }
+
+    $commit_time = Date_Helper::getCurrentDateGMT();
+    try {
+        SCM::addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files);
+    } catch (Exception $e) {
+        // echo, to give some indication to user about error
+        echo "ERROR: ", $e->getMessage(), "\n";
+        error_log($e->getMessage());
+        error_log($e->getTraceAsString());
+    }
 }

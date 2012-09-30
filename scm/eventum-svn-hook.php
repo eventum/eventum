@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -31,11 +31,22 @@
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-// See http://forge.mysql.com/wiki/Eventum:Subversion_integration about SVN integration.
+/**
+ * @see http://forge.mysql.com/wiki/Eventum:Subversion_integration about SVN integration.
+ *
+ * Setup in your svn server hooks/post-commit:
+ *
+ * #!/bin/sh
+ * REPOS="$1"
+ * REV="$2"
+ * /path/toeventum-svn-hook.php "$REPOS" "$REV"
+ */
 
 // URL to your Eventum installation.
 // https is supported transparently by PHP 5 if you have openssl module enabled.
 $eventum_url = 'http://eventum.example.com/';
+// SCM repository name. Needed if multiple repositories configured
+$scm_name = 'svn';
 
 //
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
@@ -68,12 +79,12 @@ $repos = $argv[0];
 $new_revision = $argv[1];
 $old_revision = $new_revision - 1;
 
-$scm_module = rawurlencode(basename($repos));
-
-exec($svnlook . ' info ' . $repos . ' -r ' . $new_revision, $results);
+// get commit date and username and commit message
+$command = $svnlook . ' info ' . $repos . ' -r ' . $new_revision;
+exec($command, $results);
 $username = array_shift($results);
 $date = array_shift($results);
-// ignore file length
+// ignore commit message length value
 array_shift($results);
 
 // get the full commit message
@@ -81,11 +92,20 @@ $commit_msg = join("\n", $results);
 
 // now parse the list of modified files
 $modified_files = array();
-exec($svnlook . ' changed ' . $repos . ' -r ' . $new_revision, $files);
+$command = $svnlook . ' changed ' . $repos . ' -r ' . $new_revision;
+exec($command, $files);
+
 foreach ($files as $file_info) {
-    $pieces = explode('   ', $file_info);
-    $filename = $pieces[1];
+    // http://svnbook.red-bean.com/en/1.7/svn.ref.svnlook.c.changed.html
+    // flags:
+    // - 'A ' Item added to repository
+    // - 'D ' Item deleted from repository
+    // - 'U ' File contents changed
+    // - '_U' Properties of item changed; note the leading underscore
+    // - 'UU' File contents and properties changed
+    list($flags, $filename) = preg_split('/\s+/', $file_info, 2);
     $modified_files[] = array(
+        'flags'        => preg_split('//', $flags, -1, PREG_SPLIT_NO_EMPTY),
         'filename'     => $filename,
         'old_revision' => $old_revision,
         'new_revision' => $new_revision
@@ -98,19 +118,29 @@ preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
 if (count($matches[1]) > 0) {
     // need to encode all of the url arguments
     $commit_msg = rawurlencode($commit_msg);
-    $scm_module = rawurlencode($scm_module);
     $username = rawurlencode($username);
+    $scm_name = rawurlencode($scm_name);
 
     // build the GET url to use
-    $ping_url = $eventum_url. "scm_ping.php?module=$scm_module&username=$username&commit_msg=$commit_msg";
+    $ping_url = $eventum_url. "scm_ping.php?scm_name=$scm_name&username=$username&commit_msg=$commit_msg";
     foreach ($matches[1] as $issue_id) {
         $ping_url .= "&issue[]=$issue_id";
     }
 
-    for ($i = 0; $i < count($modified_files); $i++) {
-        $ping_url .= "&files[$i]=" . rawurlencode($modified_files[$i]['filename']);
-        $ping_url .= "&old_versions[$i]=" . rawurlencode($modified_files[$i]['old_revision']);
-        $ping_url .= "&new_versions[$i]=" . rawurlencode($modified_files[$i]['new_revision']);
+    foreach ($modified_files as $i => &$file) {
+        list($scm_module, $filename) = fileparts($file['filename']);
+
+        $ping_url .= "&module[$i]=" . rawurlencode($scm_module);
+        $ping_url .= "&files[$i]=" . rawurlencode($filename);
+
+        // add old revision if content was changed
+        if (array_search('A', $file['flags']) === false) {
+            $ping_url .= "&old_versions[$i]=" . rawurlencode($file['old_revision']);
+        }
+        // add new revision if it was not removed
+        if (array_search('D', $file['flags']) === false) {
+            $ping_url .= "&new_versions[$i]=" . rawurlencode($file['new_revision']);
+        }
     }
 
     $res = wget($ping_url, true);
@@ -132,6 +162,18 @@ if (count($matches[1]) > 0) {
     foreach (explode("\n", trim($data)) as $line) {
         echo "$PROGRAM: $line\n";
     }
+}
+
+function fileparts($filename) {
+    // special for "dirname/" case, pathinfo would set dir to '.' and filename to 'dirname'
+    $length = strlen($filename);
+    if ($filename[$length - 1] == '/') {
+        return array(rtrim($filename, '/'), '');
+    }
+
+    $fi = pathinfo($filename);
+
+    return array($fi['dirname'], $fi['basename']);
 }
 
 /**

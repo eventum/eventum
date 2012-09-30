@@ -93,32 +93,6 @@ class SCM
     }
 
     /**
-     * Method used to parse an user provided URL and substitute a known set of
-     * placeholders for the appropriate information.
-     *
-     * @param   string $url The user provided URL
-     * @return  string The parsed URL
-     */
-    public function parseURL($url, $info)
-    {
-        $url = str_replace('{MODULE}', $info["isc_module"], $url);
-        $url = str_replace('{FILE}', $info["isc_filename"], $url);
-        $url = str_replace('{OLD_VERSION}', $info["isc_old_version"], $url);
-        $url = str_replace('{NEW_VERSION}', $info["isc_new_version"], $url);
-
-        // the current version to look log from
-        if ($info['added']) {
-            $url = str_replace('{VERSION}', $info["isc_new_version"], $url);
-        } elseif ($info['removed']) {
-            $url = str_replace('{VERSION}', $info["isc_old_version"], $url);
-        } else {
-            $url = str_replace('{VERSION}', $info["isc_new_version"], $url);
-        }
-
-        return $url;
-    }
-
-    /**
      * Method used to get the full list of checkins associated with an issue.
      *
      * @param   integer $issue_id The issue ID
@@ -126,7 +100,6 @@ class SCM
      */
     public static function getCheckinList($issue_id)
     {
-        $setup = Setup::load();
         $stmt = "SELECT
                     *
                  FROM
@@ -145,37 +118,82 @@ class SCM
             return array();
         }
 
-        foreach ($res as $i => $row) {
-            // add ADDED and REMOVED fields
-            $res[$i]['added'] = $res[$i]['isc_old_version'] == 'NONE';
-            $res[$i]['removed'] = $res[$i]['isc_new_version'] == 'NONE';
+        foreach ($res as $i => &$checkin) {
+            $scm = self::getScmCheckinByName($checkin['isc_reponame']);
 
-            $res[$i]["isc_commit_msg"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
-            $res[$i]["checkout_url"] = self::parseURL($setup["checkout_url"], $res[$i]);
-            $res[$i]["diff_url"] = self::parseURL($setup["diff_url"], $res[$i]);
-            $res[$i]["scm_log_url"] = self::parseURL($setup["scm_log_url"], $res[$i]);
-            $res[$i]["isc_created_date"] = Date_Helper::getFormattedDate($res[$i]["isc_created_date"]);
+            // add ADDED and REMOVED fields
+            $checkin['added'] = $checkin['isc_old_version'] == 'NONE' || !isset($checkin['isc_old_version']);
+            $checkin['removed'] = $checkin['isc_new_version'] == 'NONE' || !isset($checkin['isc_new_version']);
+
+            $checkin["isc_commit_msg"] = Link_Filter::processText(
+                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin["isc_commit_msg"]))
+            );
+            $checkin["checkout_url"] = $scm->getCheckoutUrl($checkin);
+            $checkin["diff_url"] = $scm->getDiffUrl($checkin);
+            $checkin["scm_log_url"] = $scm->getLogUrl($checkin);
+            $checkin["isc_created_date"] = Date_Helper::getFormattedDate($checkin["isc_created_date"]);
         }
 
         return $res;
     }
 
     /**
-     * Method used to associate a new checkin with an existing issue
+     * Method used to associate checkins to an existing issue
      *
      * @param   integer $issue_id The ID of the issue.
-     * @param   string $module The SCM module commit was made.
+     * @param   string $commit_time Time when commit occurred (in UTC)
+     * @param   string $scm_name SCM definition name in Eventum
+     * @param   string $username SCM user doing the checkin.
+     * @param   string $commit_msg Message associated with the SCM commit.
+     * @param   array $files Files info with their version numbers changes made on.
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    public static function addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files)
+    {
+        // validate that $scm_name is valid
+        // this will throw if invalid
+        self::getScmCheckinByName($scm_name);
+
+        // run workflow first, it may modify username, etc
+        $usr_id = APP_SYSTEM_USER_ID;
+
+        // workflow needs to know project_id to find out which workflow class to use.
+        $prj_id = Issue::getProjectID($issue_id);
+        Workflow::handleSCMCheckins($prj_id, $usr_id, $issue_id, $files, $username, $commit_msg);
+
+        foreach ($files as $file) {
+            self::insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg);
+        }
+
+        // need to mark this issue as updated
+        Issue::markAsUpdated($issue_id, 'scm checkin');
+
+        // need to save a history entry for this
+        // TRANSLATORS: %1: scm username
+        $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
+        History::add($issue_id, $usr_id, History::getTypeID('scm_checkin_associated'), $summary);
+
+        return 1;
+    }
+
+    /**
+     * insert single checkin to database
+     *
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string $commit_time Time when commit occurred (in UTC)
+     * @param   string $scm_name SCM definition name in Eventum
      * @param   array $file File info with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function logCheckin($issue_id, $module, $file, $username, $commit_msg)
+    protected static function insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {
         $stmt = "INSERT INTO
                     {{%issue_checkin}}
                  (
                     isc_iss_id,
+                    isc_reponame,
                     isc_module,
                     isc_filename,
                     isc_old_version,
@@ -184,15 +202,16 @@ class SCM
                     isc_username,
                     isc_commit_msg
                  ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?
                  )";
         $params = array(
             $issue_id,
-            $module,
+            $scm_name,
+            $file['module'],
             $file['file'],
             $file['old_version'],
             $file['new_version'],
-            Date_Helper::getCurrentDateGMT(),
+            $commit_time,
             $username,
             $commit_msg,
         );
@@ -202,14 +221,42 @@ class SCM
             return -1;
         }
 
-        // need to mark this issue as updated
-        Issue::markAsUpdated($issue_id, 'scm checkin');
-        // need to save a history entry for this
-
-        // TRANSLATORS: %1: username
-        $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
-        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'), $summary);
-
         return 1;
+    }
+
+    /**
+     * Get ScmCheckin based on SCM name
+     *
+     * @param string $scm_name
+     * @return ScmCheckin
+     * @throws Exception
+     */
+    private static function getScmCheckinByName($scm_name)
+    {
+        static $instances;
+
+        if (isset($instances[$scm_name])) {
+            return $instances[$scm_name];
+        }
+
+        $setup = &Setup::load();
+
+        // handle legacy setup, convert existing config to be known under name 'default'
+        if (!isset($setup['scm'])) {
+            $scm = array(
+                'name' => 'default',
+                'checkout_url' => $setup['checkout_url'],
+                'diff_url' => $setup['diff_url'],
+                'log_url' => $setup['scm_log_url'],
+            );
+            $setup['scm'][$scm['name']] = $scm;
+            Setup::save($setup);
+        }
+
+        if (!isset($setup['scm'][$scm_name])) {
+            throw new Exception("SCM '$scm_name' not defined");
+        }
+
+        return $instances[$scm_name] = new ScmCheckin($setup['scm'][$scm_name]);
     }
 }
