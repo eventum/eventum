@@ -35,15 +35,22 @@
         }
         function disableSCMFields(f, bool)
         {
+            var field, bgcolor;
             if (bool) {
-                var bgcolor = '#CCCCCC';
+                bgcolor = '#CCCCCC';
             } else {
-                var bgcolor = '#FFFFFF';
+                bgcolor = '#FFFFFF';
             }
-            var field = getFormElement(f, 'checkout_url');
+
+            field = getFormElement(f, 'checkout_url');
             field.disabled = bool;
             field.style.backgroundColor = bgcolor;
+
             field = getFormElement(f, 'diff_url');
+            field.disabled = bool;
+            field.style.backgroundColor = bgcolor;
+
+            field = getFormElement(f, 'scm_log_url');
             field.disabled = bool;
             field.style.backgroundColor = bgcolor;
         }
