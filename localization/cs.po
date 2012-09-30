@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-05 18:35+0300\n"
-"PO-Revision-Date: 2012-09-20 21:08+0000\n"
+"PO-Revision-Date: 2012-09-29 21:52+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-09-21 04:43+0000\n"
-"X-Generator: Launchpad (build 15985)\n"
+"X-Launchpad-Export-Date: 2012-09-30 04:46+0000\n"
+"X-Generator: Launchpad (build 16049)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -1958,7 +1958,7 @@ msgstr "Návrhy"
 
 #: templates/setup.tpl.html
 msgid "Drop Tables If They Already Exist"
-msgstr "SMazat tabulky, pokud již existují"
+msgstr "Smazat tabulky, pokud již existují"
 
 #: templates/view_form.tpl.html
 msgid "Duplicate of"
@@ -1970,11 +1970,11 @@ msgstr "Stejná úloha:"
 
 #: templates/view_form.tpl.html
 msgid "Duplicated by"
-msgstr ""
+msgstr "Duplikováno"
 
 #: templates/view_form.tpl.html
 msgid "Duplicates"
-msgstr ""
+msgstr "Duplikáty"
 
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
@@ -1993,17 +1993,17 @@ msgstr ""
 
 #: lib/eventum/class.monitor.php:296
 msgid "ERROR: Could not find IRC bot pid from process list."
-msgstr ""
+msgstr "CHYBA: V seznamu procesů nelze najít pid bota IRC."
 
 #: lib/eventum/class.monitor.php:273
 #, php-format
 msgid "ERROR: Could not find required table \"%s\""
-msgstr ""
+msgstr "CHYBA: Nelze najít požadovanou tabulku \"%s\""
 
 #: lib/eventum/class.monitor.php:174
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
-msgstr ""
+msgstr "CHYBA: Nelze najít adresář (cesta: %1$s)"
 
 #: lib/eventum/class.monitor.php:181
 #, php-format
@@ -2011,11 +2011,13 @@ msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
+"CHYBA: Neshoda oprávnění adresáře (cesta: %1$s; současné oprávnění: %2$s; "
+"správné oprávnění: %3$s)"
 
 #: lib/eventum/class.monitor.php:132
 #, php-format
 msgid "ERROR: File could not be found (path: %s)"
-msgstr ""
+msgstr "CHYBA: Nelze najít soubor (cesta: %s)"
 
 #: lib/eventum/class.monitor.php:143
 #, php-format
@@ -2023,6 +2025,8 @@ msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
 "%3$s)"
 msgstr ""
+"CHYBA: Neshoda skupiny souboru (cesta: %1$s; současné skupina: %2$s; správná "
+"skupina: %3$s)"
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
@@ -2030,6 +2034,8 @@ msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
 "%3$s)"
 msgstr ""
+"CHYBA: Neshoda vlastníka souboru (cesta: %1$s; současný vlastník: %2$s; "
+"správný vlastník: %3$s)"
 
 #: lib/eventum/class.monitor.php:149
 #, php-format
@@ -2037,17 +2043,22 @@ msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
+"CHYBA: Neshoda oprávnění souboru (cesta: %1$s; současné oprávnění: %2$s; "
+"správné oprávnění: %3$s)"
 
 #: lib/eventum/class.monitor.php:154
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
+"Chyba: Neshoda velikosti souboru (cesta %1$s; současná velikost: %2$s)"
 
 #: lib/eventum/class.monitor.php:111
 #, php-format
 msgid ""
 "ERROR: Free disk space left is getting very low (percentage left: %.2f%%)"
 msgstr ""
+"CHYBA: Zbývající volné místo na disku začíná být velmi malé (procento "
+"zbývajícího místa: %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
 #: templates/manage/monitor.tpl.html
@@ -2055,6 +2066,8 @@ msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
+"CHYBA: Systém nemá odpovídající oprávnění pro vytvoření souboru nastavení v "
+"adresáři instalace"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
 #: templates/manage/monitor.tpl.html
@@ -2062,90 +2075,92 @@ msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
 msgstr ""
+"CHYBA: Systém nemá odpovídající oprávnění pro aktualizaci souboru nastavení "
+"v adresáři instalace"
 
 #: lib/eventum/class.monitor.php:90
 #, php-format
 msgid "ERROR: There is a total of %d emails not associated."
-msgstr ""
+msgstr "CHYBA: Existuje celkem %d nepřidělených emailů."
 
 #: lib/eventum/class.monitor.php:55
 #, php-format
 msgid "ERROR: There is a total of %d queued emails with errors."
-msgstr ""
+msgstr "CHYBA: Existuje celkem %d emailů ve frontě s chybami."
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Authorized Replier List"
-msgstr ""
+msgstr "Upravit seznam oprávněných odpovídačů"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Categories"
-msgstr ""
+msgstr "Upravit kategorie"
 
 #: lib/eventum/class.help.php:135 templates/help/column_display.tpl.html
 #: templates/manage/column_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Edit Columns to Display"
-msgstr ""
+msgstr "Upravit zobrazované sloupce"
 
 #: lib/eventum/class.help.php:131 templates/help/field_display.tpl.html
 #: templates/help/main.tpl.html templates/manage/field_display.tpl.html
 #: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
 msgid "Edit Fields to Display"
-msgstr ""
+msgstr "Upravit zobrazovaná pole"
 
 #: templates/view_form.tpl.html
 msgid "Edit Incident Redemption"
-msgstr ""
+msgstr "Upravit splnění incidentů"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Edit Notification List"
-msgstr ""
+msgstr "Upravit seznam oznámení"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Edit Option"
-msgstr ""
+msgstr "Upravit volbu"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Phone Support Categories"
-msgstr ""
+msgstr "Upravit kategorie podpory po telefonu"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Priorities"
-msgstr ""
+msgstr "Upravit priority"
 
 #: templates/manage/projects.tpl.html
 msgid "Edit Releases"
-msgstr ""
+msgstr "Upravit verze"
 
 #: templates/view_form.tpl.html
 msgid "Edit Reporter"
-msgstr ""
+msgstr "Upravit referenta"
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
-msgstr ""
+msgstr "Upravit podpis"
 
 #: templates/view_form.tpl.html
 msgid "Edit the Reporter for this issue"
-msgstr ""
+msgstr "Upravit referenta této úlohy"
 
 #: templates/authorized_replier.tpl.html templates/notification.tpl.html
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
-msgstr ""
+msgstr "Email (předmět: '%1$s') přidělený %2$s"
 
 #: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
-msgstr ""
+msgstr "Email (předmět: '%1$s') oddělený %2$s"
 
 #: templates/email_filter_form.tpl.html
 msgid "Email Account:"
-msgstr ""
+msgstr "Emailový účet:"
 
 #: templates/login_form.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2154,31 +2169,31 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Email Address"
-msgstr ""
+msgstr "Emailová adresa"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address Prefix:"
-msgstr ""
+msgstr "Předpona emailové adresy"
 
 #: templates/manage/general.tpl.html
 msgid "Email Address to Send Saved Messages:"
-msgstr ""
+msgstr "Emailová adresa kam odesílat uložené zprávy:"
 
 #: templates/forgot_password.tpl.html templates/signup.tpl.html
 msgid "Email Address:"
-msgstr ""
+msgstr "Emailová adresa:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Errors To:"
-msgstr ""
+msgstr "Emailová adresa kam posílat chyby:"
 
 #: templates/manage/general.tpl.html
 msgid "Email Addresses To Send Information To:"
-msgstr ""
+msgstr "Emailová adresa kam posílat informace:"
 
 #: templates/manage/email_alias.tpl.html templates/manage/users.tpl.html
 msgid "Email Alias"
-msgstr ""
+msgstr "Emailová přezdívka"
 
 #: lib/eventum/class.help.php:123 templates/help/email_blocking.tpl.html
 #: templates/help/main.tpl.html
