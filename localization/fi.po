@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
-"PO-Revision-Date: 2011-11-20 18:24+0000\n"
+"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"PO-Revision-Date: 2012-10-01 00:03+0000\n"
 "Last-Translator: Juhani Numminen <juhaninumminen0@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-18 04:42+0000\n"
-"X-Generator: Launchpad (build 15259)\n"
+"X-Launchpad-Export-Date: 2012-10-01 04:47+0000\n"
+"X-Generator: Launchpad (build 16049)\n"
 "X-Poedit-Country: FINLAND\n"
 "X-Poedit-Language: Finnish\n"
 
@@ -76,9 +76,9 @@ msgid "(All Issues)"
 msgstr "(Kaikki vikailmoitukset)"
 
 #: templates/manage/general.tpl.html
-msgid "(Alternate domains that point to 'Address Hostname')"
+msgid ""
+"(Alternate domains separated by space that point to 'Address Hostname')"
 msgstr ""
-"(Vaihtoehtoiset toimialueet, jotka viittaavat osoitteeseen 'osoitteen nimi')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -1291,7 +1291,7 @@ msgstr ""
 msgid "Check Spelling"
 msgstr "Tarkista oikeinkirjoitus"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Checkout Page:"
 msgstr "Ulosmerkitsemissivu:"
 
@@ -1430,6 +1430,10 @@ msgstr "Asetuksien parametrit"
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
 msgstr "Vahvista uusi salasana"
+
+#: templates/manage/ldap.tpl.html
+msgid "Contact ID attribute:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1641,6 +1645,10 @@ msgstr "Asiakassopimus"
 msgid "Customer Counts"
 msgstr "Asiakaslaskuri"
 
+#: templates/manage/ldap.tpl.html
+msgid "Customer ID attribute:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1684,6 +1692,10 @@ msgstr ""
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
+msgstr ""
+
+#: templates/manage/manage.tpl.html
+msgid "Customize SCM Integration"
 msgstr ""
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
@@ -1868,7 +1880,7 @@ msgstr "Kehittäjät"
 msgid "Did you Know?"
 msgstr "Tiesitkö?"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Diff Page:"
 msgstr "Diff-sivu:"
 
@@ -1876,6 +1888,7 @@ msgstr "Diff-sivu:"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Disabled"
 msgstr "Pois"
 
@@ -1913,7 +1926,7 @@ msgstr ""
 msgid "Draft Address Prefix:"
 msgstr "Luonnoksen osoitteen etuliite:"
 
-#: lib/eventum/class.routing.php:418
+#: lib/eventum/class.routing.php:419
 msgid "Draft routed from"
 msgstr "Luonnos välitetty"
 
@@ -2023,14 +2036,14 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2234,7 +2247,7 @@ msgstr "Sähköpostiviestin luonnoksen päivitti %1$s"
 msgid "Email message saved as a draft by %1$s"
 msgstr "Sähköpostiviestin tallensi luonnokseksi %1$s"
 
-#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
+#: lib/eventum/class.routing.php:222 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Sähköposti välitetty %1$s"
@@ -2288,6 +2301,7 @@ msgstr "Tyhjennä aihe-kenttä"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Enabled"
 msgstr "Päällä"
 
@@ -2355,17 +2369,17 @@ msgid "Error: No user account was found matching the entered email address."
 msgstr ""
 "Virhe: Yksikään käyttäjätili ei vastannut antamaasi sähköpostiosoitetta."
 
-#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
-#: lib/eventum/class.routing.php:383
+#: lib/eventum/class.routing.php:66 lib/eventum/class.routing.php:268
+#: lib/eventum/class.routing.php:384
 msgid "Error: Please configure the email address domain."
 msgstr "Virhe: Aseta sähköpostiosoitteen toimialue."
 
-#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
-#: lib/eventum/class.routing.php:380
+#: lib/eventum/class.routing.php:63 lib/eventum/class.routing.php:265
+#: lib/eventum/class.routing.php:381
 msgid "Error: Please configure the email address prefix."
 msgstr "Virhe: Aseta sähköpostiosoitteen etuliite."
 
-#: lib/eventum/class.routing.php:111
+#: lib/eventum/class.routing.php:112
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 
@@ -2373,7 +2387,7 @@ msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 msgid "Error: Please provide your email address."
 msgstr "Virhe: Anna sähköpostiosoitteesi."
 
-#: lib/eventum/class.routing.php:71
+#: lib/eventum/class.routing.php:72
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2386,23 +2400,23 @@ msgid ""
 msgstr ""
 "Virhe: Sähköpostiosoite on jo liitetty käyttäjään tässä järjestelmässä."
 
-#: lib/eventum/class.routing.php:377
+#: lib/eventum/class.routing.php:378
 msgid "Error: The email draft interface is disabled."
 msgstr "Virhe: Sähköpostiviestin luonnosrajapinta on pois päältä."
 
-#: lib/eventum/class.routing.php:50
+#: lib/eventum/class.routing.php:51
 msgid "Error: The email message was empty"
 msgstr "Virhe: Sähköpostiviesti oli tyhjä"
 
-#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
+#: lib/eventum/class.routing.php:251 lib/eventum/class.routing.php:367
 msgid "Error: The email message was empty."
 msgstr "Virhe: Sähköpostin viesti oli tyhjä."
 
-#: lib/eventum/class.routing.php:59
+#: lib/eventum/class.routing.php:60
 msgid "Error: The email routing interface is disabled."
 msgstr "Virhe: Sähköpostin välitysrajapinta on pois päältä."
 
-#: lib/eventum/class.routing.php:261
+#: lib/eventum/class.routing.php:262
 msgid "Error: The internal note routing interface is disabled."
 msgstr "Virhe: Sisäisten viestin välitysrajapinta on pois päältä."
 
@@ -2418,8 +2432,8 @@ msgstr "Virhe: Vikailmoitusta #%1 ei löytynyt."
 msgid "Error: The issue could not be found."
 msgstr "Virhe: Vikailmoitusta ei löydetty"
 
-#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
-#: lib/eventum/class.routing.php:399
+#: lib/eventum/class.routing.php:102 lib/eventum/class.routing.php:107
+#: lib/eventum/class.routing.php:400
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2427,7 +2441,7 @@ msgstr ""
 "Virhe: Reititetty sähköpostiviesti ei sisältänyt Eventum vikailmoitus ID:tä "
 "tai vastaanottaja oli virheellisesti asetettu."
 
-#: lib/eventum/class.routing.php:282
+#: lib/eventum/class.routing.php:283
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -3506,7 +3520,7 @@ msgstr "Luetteloi / Etsii vikailmoituksia"
 msgid "Lithuanian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Log Page:"
 msgstr ""
 
@@ -4096,7 +4110,7 @@ msgstr "Viestin osoitteen etuliite:"
 msgid "Note Recipient Type Flag:"
 msgstr "Viestin vastaanottajien tyyppilippu:"
 
-#: lib/eventum/class.routing.php:341
+#: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Viesti välitetty %1$s"
@@ -4663,7 +4677,7 @@ msgid ""
 msgstr ""
 "Valitse sähköpostipalvelimen tyyppi, joka liitetään sähköpostitiliin."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr "Valitse on SCM-integraatio päällä vai pois."
@@ -4754,14 +4768,14 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4869,7 +4883,7 @@ msgstr "Syötä arvio muutoksista, joita tämä vikailmoitus vaatii"
 msgid "Please enter the base dn."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr "Syötä uloskirjaussivun URL omaan SCM-integraatiotyökaluusi."
 
@@ -4897,7 +4911,7 @@ msgstr "Syötä selitys vikailmoitukselle."
 msgid "Please enter the description for this new phone support entry."
 msgstr "Syötä uuden puhelintukimerkinnän selite."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr "Syötä diff-sivun URL omaan SCM-integraatiotyökaluusi."
 
@@ -4948,7 +4962,7 @@ msgid ""
 "Please enter the issue IDs that will be associated with this reminder."
 msgstr "Valitse vikailmoitus ID:eet, joihin muistutus liitetään."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
 
@@ -6002,11 +6016,12 @@ msgstr "Vaatii tukea evästeille ja javascriptille selaimessasi"
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
-#: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
-#: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/new.tpl.html templates/notification.tpl.html
-#: templates/post.tpl.html templates/preferences.tpl.html
-#: templates/send.tpl.html templates/update_form.tpl.html
+#: templates/manage/round_robin.tpl.html templates/manage/scm.tpl.html
+#: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/users.tpl.html templates/new.tpl.html
+#: templates/notification.tpl.html templates/post.tpl.html
+#: templates/preferences.tpl.html templates/send.tpl.html
+#: templates/update_form.tpl.html
 msgid "Reset"
 msgstr "Tyhjennä"
 
@@ -6053,11 +6068,11 @@ msgstr "Suorita haku"
 msgid "Russian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "SCM <br />Integration:"
 msgstr "SCM <br />integraatio:"
 
-#: lib/eventum/class.scm.php:215
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 
@@ -6067,7 +6082,7 @@ msgid "SCM Checkins removed by %1$s"
 msgstr "SCM:n sisäänkirjaukset poistajana %1$s"
 
 #: lib/eventum/class.help.php:87 templates/help/main.tpl.html
-#: templates/help/scm_integration.tpl.html
+#: templates/help/scm_integration.tpl.html templates/manage/scm.tpl.html
 msgid "SCM Integration"
 msgstr "SCM integraatio"
 
@@ -7017,7 +7032,7 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Kiitos, valitut vaatimukset poistettiin onnistuneesti."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Kiitos, asetukset tallennettiin onnistuneesti."
 
@@ -8044,6 +8059,7 @@ msgstr "Päivitä kiertovuorottelu"
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Update Setup"
 msgstr "Päivitä asetukset"
 
@@ -9149,3 +9165,7 @@ msgstr "viikko"
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr "vuosi"
+
+#~ msgid "(Alternate domains that point to 'Address Hostname')"
+#~ msgstr ""
+#~ "(Vaihtoehtoiset toimialueet, jotka viittaavat osoitteeseen 'osoitteen nimi')"
