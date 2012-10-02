@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-01 04:49+0000\n"
-"X-Generator: Launchpad (build 16049)\n"
+"X-Launchpad-Export-Date: 2012-10-02 05:24+0000\n"
+"X-Generator: Launchpad (build 16061)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -9033,6 +9033,3 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
 msgstr ""
-
-#~ msgid "(Alternate domains that point to 'Address Hostname')"
-#~ msgstr "Tên miền phụ trỏ đến 'Địa chỉ Tên máy chủ'"
