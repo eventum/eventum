@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-01 00:17+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2012-10-05 21:16+0000\n"
+"Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-02 05:22+0000\n"
+"X-Launchpad-Export-Date: 2012-10-06 04:59+0000\n"
 "X-Generator: Launchpad (build 16061)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -80,6 +80,8 @@ msgstr "(Všechny úlohy)"
 msgid ""
 "(Alternate domains separated by space that point to 'Address Hostname')"
 msgstr ""
+"(Náhradní domény, oddělené mezerou, které odkazují na 'adresu názvu "
+"hostitele')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -1469,7 +1471,7 @@ msgstr "Potvrď te nové heslo"
 
 #: templates/manage/ldap.tpl.html
 msgid "Contact ID attribute:"
-msgstr ""
+msgstr "Vlastnost ID kontaktu:"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1685,7 +1687,7 @@ msgstr "Počty zákazníků"
 
 #: templates/manage/ldap.tpl.html
 msgid "Customer ID attribute:"
-msgstr ""
+msgstr "Vlastnost ID zákazníka:"
 
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
@@ -1733,7 +1735,7 @@ msgstr "Přizpůsobit parametry sledování"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize SCM Integration"
-msgstr ""
+msgstr "Přizpůsobit začlenění SCM"
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
@@ -2795,15 +2797,15 @@ msgstr "Datum první odpovědi"
 
 #: templates/adv_search.tpl.html
 msgid "First Response by Staff"
-msgstr ""
+msgstr "První odpověď od obsluhy"
 
 #: templates/spell_check.tpl.html
 msgid "Fix Spelling"
-msgstr ""
+msgstr "Opravit pravopis"
 
 #: templates/help/link_filters.tpl.html
 msgid "For example"
-msgstr ""
+msgstr "Například"
 
 #: templates/help/field_display.tpl.html
 msgid ""
@@ -2811,22 +2813,25 @@ msgid ""
 "\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
 "category or release fields when reporting a new issue."
 msgstr ""
+"Například byste mohli tuto stránku použít tak, že pouze uživatelé s rolí "
+"\"<i>standardní uživatel</i>\" (a výše postavené role) mohou při vytváření "
+"úlohy nastavit kategorii nebo uvolnit pole."
 
 #. TRANSLATORS: Translation of French language in preferences dropdown
 #: localization/LINGUAS.php:30
 msgid "French"
-msgstr ""
+msgstr "Francouzština"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: templates/post_note.tpl.html templates/view_note.tpl.html
 msgid "From:"
-msgstr ""
+msgstr "Od:"
 
 #: templates/manage/users.tpl.html
 #: templates/notifications/account_details.tpl.text
@@ -2835,19 +2840,19 @@ msgstr ""
 #: templates/notifications/updated_password.tpl.text
 #: templates/preferences.tpl.html
 msgid "Full Name"
-msgstr ""
+msgstr "Jméno a příjmení"
 
 #: templates/signup.tpl.html
 msgid "Full Name:"
-msgstr ""
+msgstr "Jméno a příjmení:"
 
 #: templates/impact_analysis.tpl.html
 msgid "Further Requirements"
-msgstr ""
+msgstr "Další požadavky"
 
 #: templates/manage/general.tpl.html templates/manage/manage.tpl.html
 msgid "General Setup"
-msgstr ""
+msgstr "Základní nastavení"
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
@@ -2856,77 +2861,77 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/reports/weekly.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "Generate"
-msgstr ""
+msgstr "Vytvořit"
 
 #. TRANSLATORS: Translation of German language in preferences dropdown
 #: localization/LINGUAS.php:12
 msgid "German"
-msgstr ""
+msgstr "Němčina"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
-msgstr ""
+msgstr "Obdržet oznámení když"
 
 #: templates/adv_search.tpl.html
 msgid "Global Search"
-msgstr ""
+msgstr "Globální hledání"
 
 #: templates/list.tpl.html templates/navigation.tpl.html
 msgid "Go"
-msgstr ""
+msgstr "Přejít"
 
 #: templates/close.tpl.html templates/emails.tpl.html
 #: templates/manage/manage.tpl.html templates/permission_denied.tpl.html
 #: templates/signup.tpl.html templates/update.tpl.html templates/view.tpl.html
 msgid "Go Back"
-msgstr ""
+msgstr "Jít zpět"
 
 #: templates/main.tpl.html
 msgid "Graphical Stats"
-msgstr ""
+msgstr "Grafické statistiky"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Greater Than"
-msgstr ""
+msgstr "Větší než"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Greater or Equal"
-msgstr ""
+msgstr "Větší nebo rovno"
 
 #: lib/eventum/class.filter.php:606
 #, php-format
 msgid "Greater than %1$s"
-msgstr ""
+msgstr "Větší než %1$s"
 
 #: htdocs/list.php:98 lib/eventum/class.display_column.php:190
 #: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
-msgstr ""
+msgstr "Seskupit"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Group By"
-msgstr ""
+msgstr "Seskupit podle"
 
 #: templates/manage/users.tpl.html templates/update_form.tpl.html
 msgid "Group:"
-msgstr ""
+msgstr "Skupina:"
 
 #. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
 #: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
-msgstr ""
+msgstr "Haitská kreolština"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
-msgstr ""
+msgstr "Obslužná rutina"
 
 #. TRANSLATORS: Translation of Hebrew language in preferences dropdown
 #: localization/LINGUAS.php:32
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebrejština"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -2941,6 +2946,16 @@ msgid ""
 "request will be erased automatically. However, if you would like to confirm "
 "the new account, please do so by visiting the URL below:\n"
 msgstr ""
+"Dobrý den,\n"
+"\n"
+"Právě jsme obdrželi žádost o vytvoření nového účtu na %1\n"
+"Z bezpečnostních důvodů od Vás potřebujeme potvrzení tohoto požadavku, "
+"abychom mohli dokončit proces vytváření účtu.\n"
+"\n"
+"Pokud jste tento proces nezahájili, nebo již o vytvoření účtu nemáte zájem, "
+"pak tento email prosím ignorujte. Za týden bude požadavek automaticky "
+"smazán. Pokud byste ale chtěli nový účet potvrdit, pak můžete tak provést "
+"navštívením níže uvedené URL:\n"
 
 #: templates/notifications/password_confirmation.tpl.text
 msgid ""
@@ -2956,76 +2971,87 @@ msgid ""
 "However, if you would like to confirm this request, please do so by visiting "
 "the URL below:\n"
 msgstr ""
+"Dobrý den,\n"
+"\n"
+"Právě jsme obdrželi žádost o vytvoření nového náhodného hesla na %1. Z "
+"bezpečnostních důvodů od Vás potřebujeme potvrzení tohoto požadavku, abychom "
+"mohli dokončit proces vytváření hesla.\n"
+"\n"
+"Pokud jste tento proces nezahájili, nebo již o nové heslo nemáte zájem, pak "
+"tento email prosím ignorujte.\n"
+"\n"
+"Pokud byste ale chtěli tuto žádost potvrdit, můžete tak provést navštívením "
+"níže uvedené URL:\n"
 
 #: templates/navigation.tpl.html
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: lib/eventum/class.help.php:51
 msgid "Help Topics"
-msgstr ""
+msgstr "Témata nápovědy"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Hide"
-msgstr ""
+msgstr "Skrýt"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
-msgstr ""
+msgstr "Skrýt přidělené emaily"
 
 #: lib/eventum/class.filter.php:777 templates/adv_search.tpl.html
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "Hide Closed Issues"
-msgstr ""
+msgstr "Skrýt uzavřené úlohy"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "History of Changes"
-msgstr ""
+msgstr "Historie změn"
 
 #: templates/history.tpl.html
 msgid "History of Changes to Issue"
-msgstr ""
+msgstr "Historie změn v úloze"
 
 #: templates/history.tpl.html
 msgid "History of Reminders Triggered for Issue"
-msgstr ""
+msgstr "Historie upomínek odeslaných v úloze"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Home"
-msgstr ""
+msgstr "Domů"
 
 #: templates/manage/general.tpl.html
 msgid "Host Alias:"
-msgstr ""
+msgstr "Přezdívka hostitele:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Host:"
-msgstr ""
+msgstr "Hostitel:"
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
-msgstr ""
+msgstr "Název hostitele"
 
 #: templates/manage/general.tpl.html
 msgid "Hostname:"
-msgstr ""
+msgstr "Název hostitele:"
 
 #: lib/eventum/class.customer_stats_report.php:714
 msgid "Hours"
-msgstr ""
+msgstr "Hodin"
 
 #: templates/new.tpl.html
 msgid "However, the following errors were encountered:"
-msgstr ""
+msgstr "Nicméně došlo k následujícím chybám:"
 
 #. TRANSLATORS: Translation of Hungarian language in preferences dropdown
 #: localization/LINGUAS.php:36
 msgid "Hungarian"
-msgstr ""
+msgstr "Maďarština"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
-msgstr ""
+msgstr "Zapomněl jsem své heslo"
 
 #: templates/manage/reminders.tpl.html
 #: templates/notifications/assigned.tpl.text
@@ -3034,45 +3060,47 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/notes.tpl.text
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP Folder"
-msgstr ""
+msgstr "Složka IMAP"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL"
-msgstr ""
+msgstr "IMAP přes SSL"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP over SSL (self-signed)"
-msgstr ""
+msgstr "IMAP přes SSL (podepsán sám sebou)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, no TLS"
-msgstr ""
+msgstr "IMAP, bez TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS"
-msgstr ""
+msgstr "IMAP, pomocí TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "IMAP, with TLS (self-signed)"
-msgstr ""
+msgstr "IMAP, pomocí TLS (podepsán sám sebou)"
 
 #: templates/manage/general.tpl.html
 msgid "IRC Notifications:"
-msgstr ""
+msgstr "Oznámení IRC:"
 
 #: templates/manage/general.tpl.html
 msgid ""
 "If enabled, Eventum will look in the subject line of incoming notes/emails "
 "to determine which issue they should be associated with."
 msgstr ""
+"Pokud povoleno, Eventum prohledá řádek předmětu v příchozích "
+"poznámkách/emailech pro zjištění ke kterým úlohám by měly být přiděleny."
 
 #: templates/tips/canned_responses.tpl.html
 msgid ""
@@ -3080,81 +3108,94 @@ msgid ""
 "contact an user with the appropriate permissions (administrator or manager) "
 "to add some for you."
 msgstr ""
+"Pokud v okně emailu nejsou dostupné žádné uložené emailové odpovědi, prosím "
+"kontaktujte uživatele s odpovídajícími oprávněními (správce nebo obsluha) "
+"aby nějaké přidali."
 
 #: templates/help/segregate_reporter.tpl.html
 msgid ""
 "If this option is enabled, users with a role of Reporter will only be able "
 "to see issues they reported."
 msgstr ""
+"Pokud je tato volba zapnuta, uživatelé s rolí Referent budou moci zobrazit "
+"pouze ty úlohy, které nahlásili."
 
 #: templates/manage/reminders.tpl.html
 msgid ""
 "If yes, this reminder will not activate on weekends and time will not "
 "accumulate on the weekends."
 msgstr ""
+"Pokud ano, pak tato upomínka nebude aktivována o víkendech a čas nebude "
+"během této doby narůstat."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "If you check this, you cannot leave a copy of messages on the server."
 msgstr ""
+"Pokud toto zaškrtnete, nebudete moci na serveru zanechat kopii zpráv."
 
 #: templates/send.tpl.html
 msgid "If you close this window, you will lose your message"
-msgstr ""
+msgstr "Pokud toto okno zavřete, přijdete o zprávu"
 
 #: templates/help/report_assignment.tpl.html
 msgid ""
 "If you don't know who should be the assigned person for this new issue, "
 "assign it to your Project Lead."
 msgstr ""
+"Pokud nevíte, kdo by v nové úloze měl být přidělenou osobou, předejte ji "
+"vedoucímu projektu."
 
 #: templates/reports/weekly.tpl.html
 msgid "Ignore Issue Status Changes"
-msgstr ""
+msgstr "Ignorovat změny stavu úlohy"
 
 #: templates/requirement.tpl.html
 msgid "Impact <br />Analysis"
-msgstr ""
+msgstr "Analýza <br />dopadu"
 
 #: templates/help/view_impact.tpl.html templates/impact_analysis.tpl.html
 msgid "Impact Analysis"
-msgstr ""
+msgstr "Analýza dopadu"
 
 #: lib/eventum/class.impact_analysis.php:198
 #, php-format
 msgid "Impact analysis removed by %1$s"
-msgstr ""
+msgstr "%1$s odstranil(a) analýzu dopadu"
 
 #: lib/eventum/class.impact_analysis.php:164
 #, php-format
 msgid "Impact analysis submitted by %1$s"
-msgstr ""
+msgstr "%1$s předložil(a) analýzu dopadu"
 
 #: templates/news.tpl.html
 msgid "Important Notices"
-msgstr ""
+msgstr "Důležitá oznámení"
 
 #: lib/eventum/class.filter.php:785 templates/adv_search.tpl.html
 msgid "In Notification List"
-msgstr ""
+msgstr "V seznamu oznámení"
 
 #: templates/adv_search.tpl.html
 msgid "In Past"
-msgstr ""
+msgstr "V minulosti"
 
 #: lib/eventum/class.filter.php:627
 #, php-format
 msgid "In Past %1$s hours"
-msgstr ""
+msgstr "V předchozích %1$s hodinách"
 
 #: templates/login_form.tpl.html
 msgid ""
 "In order for %1 to work properly, you must enable cookie support in your "
 "browser. Please login again and accept all cookies coming from it."
 msgstr ""
+"Aby %1 mohlo fungovat správně, musíte ve vašem prohlížeči povolit podporu "
+"cookies. Prosím přihlaste se znovu a přijměte všechny příchozí cookies."
 
 #: templates/setup.tpl.html
 msgid "In order to check if your permissions are setup correctly visit the"
 msgstr ""
+"Abyste zkontrolovali, že vaše oprávnění jsou správně nastavena, navštivte"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -3162,131 +3203,135 @@ msgid ""
 "configure email accounts to make the software download the email messages "
 "from the appropriate POP3/IMAP server."
 msgstr ""
+"Pro toto ale musí správce systému nastavit emailové účty, aby software mohl "
+"stahovat emailové zprávy od daného serveru POP3/IMAP"
 
 #: templates/manage/news.tpl.html templates/manage/users.tpl.html
 msgid "Inactive"
-msgstr ""
+msgstr "Neaktivní"
 
 #: templates/close.tpl.html
 msgid "Incident Types to Redeem"
-msgstr ""
+msgstr "Které typy incidentů použít"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Include expired contracts"
-msgstr ""
+msgstr "Zahrnout prošlé smlouvy"
 
 #: lib/eventum/class.customer_stats_report.php:683
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
 msgstr ""
+"Zahrnout počet úloh, počet emailů vývojáře, počet emailů zákazníka, počet "
+"zákazníků podle úrovně podpory"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Incoming"
-msgstr ""
+msgstr "Příchozí"
 
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonézština"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
-msgstr ""
+msgstr "Počáteční popis"
 
 #: templates/impact_analysis.tpl.html
 msgid "Initial Impact Analysis"
-msgstr ""
+msgstr "Počáteční analýza dopadu"
 
 #: templates/manage/projects.tpl.html
 msgid "Initial Status for New Issues"
-msgstr ""
+msgstr "Počáteční stav pro nové úlohy"
 
 #: lib/eventum/class.help.php:95 templates/help/main.tpl.html
 #: templates/help/scm_integration_installation.tpl.html
 msgid "Installation Instructions"
-msgstr ""
+msgstr "Pokyny pro instalaci"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Integer"
-msgstr ""
+msgstr "Celé číslo"
 
 #: templates/navigation.tpl.html
 msgid "Internal FAQ"
-msgstr ""
+msgstr "Vnitřní nejčastější otázky"
 
 #: templates/manage/general.tpl.html
 msgid "Internal Note Routing Interface:"
-msgstr ""
+msgstr "Interní poznámky rozhraní přesměrování:"
 
 #: templates/notes.tpl.html
 msgid "Internal Notes"
-msgstr ""
+msgstr "Interní poznámky"
 
 #: templates/bulk_update.tpl.html templates/close.tpl.html
 msgid "Internal Users"
-msgstr ""
+msgstr "Interní uživatelé"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Interval"
-msgstr ""
+msgstr "Interval"
 
 #: lib/eventum/class.filter.php:630
 msgid "Is NULL"
-msgstr ""
+msgstr "Je PRÁZDNÝ"
 
 #: templates/adv_search.tpl.html
 msgid "Is Null"
-msgstr ""
+msgstr "Je prázdný"
 
 #: lib/eventum/class.filter.php:634
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
-msgstr ""
+msgstr "je mezi %1$s-%2$s-%3$s A %4$s-%5$s-%6$s"
 
 #: lib/eventum/class.filter.php:638
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Je větší než %1$s-%2$s-%3$s"
 
 #: lib/eventum/class.filter.php:641
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
-msgstr ""
+msgstr "Je menší než %1$s-%2$s-%3$s"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/notifications/new_auto_created_issue.tpl.text
 #: templates/reports/custom_fields.tpl.html templates/send.tpl.html
 msgid "Issue"
-msgstr ""
+msgstr "Úloha"
 
 #: templates/notifications/updated.tpl.text
 msgid "Issue #"
-msgstr ""
+msgstr "Úloha č."
 
 #. TRANSLATORS: %1 = issue id
 #: htdocs/view.php:58
 #, php-format
 msgid "Issue #%1$s Details"
-msgstr ""
+msgstr "Úloha č.%1$s - Podrobnosti"
 
 #. TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id
 #: htdocs/view_email.php:50
 #, php-format
 msgid "Issue #%1$s Email #%3$s: %2$s"
-msgstr ""
+msgstr "Úloha č.%1$s Email #%3$s: %2$s"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Issue Count"
-msgstr ""
+msgstr "Počet úloh"
 
 #: lib/eventum/class.customer_stats_report.php:730
 msgid "Issue Counts"
-msgstr ""
+msgstr "Počty úloh"
 
 #: templates/notifications/new_issue.tpl.text
 msgid "Issue Details"
-msgstr ""
+msgstr "Podrobnosti úlohy"
 
 #: lib/eventum/class.display_column.php:181 templates/adv_search.tpl.html
 #: templates/reports/custom_fields.tpl.html
@@ -3296,19 +3341,19 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Issue ID"
-msgstr ""
+msgstr "ID úlohy"
 
 #: templates/duplicate.tpl.html
 msgid "Issue ID:"
-msgstr ""
+msgstr "ID úlohy:"
 
 #: templates/view_form.tpl.html
 msgid "Issue Overview"
-msgstr ""
+msgstr "Přehled úlohy"
 
 #: templates/manage/reminders.tpl.html
 msgid "Issue Priorities"
-msgstr ""
+msgstr "Priority úlohy"
 
 #: templates/help/notifications.tpl.html
 msgid "Issue details are updated"
