@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-11 21:01+0000\n"
+"PO-Revision-Date: 2012-10-15 22:00+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-12 05:10+0000\n"
-"X-Generator: Launchpad (build 16130)\n"
+"X-Launchpad-Export-Date: 2012-10-16 04:47+0000\n"
+"X-Generator: Launchpad (build 16137)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -3444,116 +3444,116 @@ msgstr "Japonština"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
-msgstr ""
+msgstr "Ponechat současná přidělení:"
 
 #: templates/new.tpl.html
 msgid "Keep form open to report another issue"
-msgstr ""
+msgstr "Ponechat formulář otevřen pro nahlášení další úlohy"
 
 #: lib/eventum/class.filter.php:716 templates/adv_search.tpl.html
 #: templates/quick_filter_form.tpl.html
 msgid "Keyword(s)"
-msgstr ""
+msgstr "Klíčová slova"
 
 #: templates/searchbar.tpl.html
 msgid "Keyword(s):"
-msgstr ""
+msgstr "Klíčová slova:"
 
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
-msgstr ""
+msgstr "Korejština"
 
 #: templates/manage/ldap.tpl.html
 msgid "LDAP Setup"
-msgstr ""
+msgstr "Nastavení LDAP"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label"
-msgstr ""
+msgstr "štítek"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Label:"
-msgstr ""
+msgstr "Štítek:"
 
 #: lib/eventum/class.display_column.php:225 templates/adv_search.tpl.html
 msgid "Last Action Date"
-msgstr ""
+msgstr "Datum poslední činnosti"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Outgoing Msg"
-msgstr ""
+msgstr "Poslední odchozí zpráva"
 
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Response"
-msgstr ""
+msgstr "Poslední odpověď"
 
 #: lib/eventum/class.filter.php:750
 msgid "Last Response Date"
-msgstr ""
+msgstr "Datum poslední odpovědi"
 
 #: templates/adv_search.tpl.html
 msgid "Last Response by Staff"
-msgstr ""
+msgstr "Poslední odpověď od obsluhy"
 
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html
 msgid "Last Update"
-msgstr ""
+msgstr "Poslední aktualizace"
 
 #: templates/adv_search.tpl.html
 msgid "Last Updated"
-msgstr ""
+msgstr "Naposledy aktualizováno"
 
 #: templates/email_drafts.tpl.html templates/faq.tpl.html
 #: templates/view_form.tpl.html
 msgid "Last Updated Date"
-msgstr ""
+msgstr "Datum poslední aktualizace"
 
 #: templates/faq.tpl.html
 msgid "Last updated"
-msgstr ""
+msgstr "Poslední aktualizace"
 
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
 #: localization/LINGUAS.php:48
 msgid "Latvian"
-msgstr ""
+msgstr "Lotyština"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Leave Copy of Messages On Server"
-msgstr ""
+msgstr "Zanechat kopii zpráv na serveru"
 
 #: templates/redeem_incident.tpl.html
 msgid "Left"
-msgstr ""
+msgstr "Doleva"
 
 #: templates/adv_search.tpl.html templates/adv_search_custom_fields.tpl.html
 #: templates/email_filter_form.tpl.html
 msgid "Less Than"
-msgstr ""
+msgstr "Méně než"
 
 #: templates/adv_search_custom_fields.tpl.html
 msgid "Less or Equal"
-msgstr ""
+msgstr "Méně nebo rovno"
 
 #: lib/eventum/class.filter.php:609
 #, php-format
 msgid "Less than %1$s"
-msgstr ""
+msgstr "Méně než %1$s"
 
 #: templates/manage/faq.tpl.html
 msgid "Levels:"
-msgstr ""
+msgstr "Úrovně:"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Line"
-msgstr ""
+msgstr "Řádek"
 
 #: lib/eventum/class.help.php:127 templates/help/link_filters.tpl.html
 #: templates/help/main.tpl.html
 msgid "Link Filters"
-msgstr ""
+msgstr "Filtry řádků"
 
 #: templates/help/link_filters.tpl.html
 msgid ""
@@ -3563,61 +3563,66 @@ msgid ""
 "the entire string you would like to use as a replacement with $x to insert "
 "the matched text."
 msgstr ""
+"Filtry řádků jsou používány pro nahrazení textu jako např. '%1' automatickým "
+"odkazem do určitého vnějšího zdroje. Pro nahrazení textu používá regulární "
+"výrazy. V poli vzor zadejte vzor pro hledání bez oddělovačů. Zadejte celý "
+"řetězec, který byste chtěli použít jako náhradu pomocí $x pro vložení "
+"odpovídajícího textu."
 
 #: templates/navigation.tpl.html
 msgid "List Issues"
-msgstr ""
+msgstr "Vypsat úlohy"
 
 #: templates/emails.tpl.html
 msgid "List Removed Emails"
-msgstr ""
+msgstr "Vypsat odstraněné emaily"
 
 #: lib/eventum/class.help.php:99 templates/help/list.tpl.html
 #: templates/help/main.tpl.html
 msgid "Listing / Searching for Issues"
-msgstr ""
+msgstr "Výpisy / Hledání úloh"
 
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litevština"
 
 #: templates/manage/scm.tpl.html
 msgid "Log Page:"
-msgstr ""
+msgstr "Stránka záznamu:"
 
 #: templates/login_form.tpl.html templates/navigation.tpl.html
 #: templates/preferences.tpl.html
 msgid "Login"
-msgstr ""
+msgstr "Přihlášení"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Login Time Spent"
-msgstr ""
+msgstr "Čas strávený přihlášením"
 
 #: templates/navigation.tpl.html
 msgid "Logout"
-msgstr ""
+msgstr "Odhlášení"
 
 #: templates/support_emails.tpl.html
 msgid "Mail Queue Log"
-msgstr ""
+msgstr "Záznam fronty pošty"
 
 #: templates/mail_queue.tpl.html
 msgid "Mail Queue for Issue #%1"
-msgstr ""
+msgstr "Fronta pošty pro úlohu #%1"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Mailbox"
-msgstr ""
+msgstr "Poštovní schránka"
 
 #: templates/manage/email_responses.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Canned Email Responses"
-msgstr ""
+msgstr "Správa uložených emailových odpovědí"
 
 #: templates/manage/categories.tpl.html
 msgid "Manage Categories"
-msgstr ""
+msgstr "Správa kategorií"
 
 #: templates/manage/column_display.tpl.html
 msgid "Manage Columns to Display"
