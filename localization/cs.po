@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-15 22:00+0000\n"
+"PO-Revision-Date: 2012-10-17 20:57+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-16 04:47+0000\n"
-"X-Generator: Launchpad (build 16137)\n"
+"X-Launchpad-Export-Date: 2012-10-18 04:42+0000\n"
+"X-Generator: Launchpad (build 16160)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -543,7 +543,7 @@ msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
-"Také všechny úlohy označené z této jako duplikáty budou také aktualizovány."
+"Také všechny úlohy označené z této jako stejné budou také aktualizovány."
 
 #: templates/setup.tpl.html
 msgid "An Error Was Found"
@@ -3626,171 +3626,171 @@ msgstr "Správa kategorií"
 
 #: templates/manage/column_display.tpl.html
 msgid "Manage Columns to Display"
-msgstr ""
+msgstr "Správa zobrazených sloupců"
 
 #: templates/manage/custom_fields.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Custom Fields"
-msgstr ""
+msgstr "Správa vlastních polí"
 
 #: templates/manage/account_managers.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Account Managers"
-msgstr ""
+msgstr "Správa řízení uživatelských účtů"
 
 #: templates/manage/customer_notes.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Customer Quick Notes"
-msgstr ""
+msgstr "Správa rychlých poznámek zákazníků"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Email Accounts"
-msgstr ""
+msgstr "Správa emailových účtů"
 
 #: templates/manage/groups.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Groups"
-msgstr ""
+msgstr "Správa skupin"
 
 #: templates/manage/faq.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Internal FAQ"
-msgstr ""
+msgstr "Správa vnitřních nejčastějších otázek"
 
 #: templates/manage/manage.tpl.html templates/manage/reminders.tpl.html
 msgid "Manage Issue Reminders"
-msgstr ""
+msgstr "Správa upomínek úloh"
 
 #: templates/manage/manage.tpl.html templates/manage/resolution.tpl.html
 msgid "Manage Issue Resolutions"
-msgstr ""
+msgstr "Správa řešení úloh"
 
 #: templates/manage/link_filters.tpl.html templates/manage/manage.tpl.html
 msgid "Manage Link Filters"
-msgstr ""
+msgstr "Správa filtrů propojení"
 
 #: templates/manage/manage.tpl.html templates/manage/news.tpl.html
 msgid "Manage News"
-msgstr ""
+msgstr "Správa novinek"
 
 #: templates/manage/phone_categories.tpl.html
 msgid "Manage Phone Support Categories"
-msgstr ""
+msgstr "Správa kategorií telefonické podpory"
 
 #: templates/manage/priorities.tpl.html
 msgid "Manage Priorities"
-msgstr ""
+msgstr "Správa priorit"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html templates/manage/manage.tpl.html
 #: templates/manage/projects.tpl.html
 msgid "Manage Projects"
-msgstr ""
+msgstr "Správa projektů"
 
 #: templates/manage/releases.tpl.html
 msgid "Manage Releases"
-msgstr ""
+msgstr "Správa verzí"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Manage Reminder Actions"
-msgstr ""
+msgstr "Správa činností upomínky"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Manage Reminder Conditions"
-msgstr ""
+msgstr "Správa podmínek upomínky"
 
 #: templates/manage/manage.tpl.html templates/manage/round_robin.tpl.html
 msgid "Manage Round Robin Assignments"
-msgstr ""
+msgstr "Správa kruhového přiřazení"
 
 #: templates/manage/manage.tpl.html templates/manage/statuses.tpl.html
 msgid "Manage Statuses"
-msgstr ""
+msgstr "Správa stavů"
 
 #: templates/manage/manage.tpl.html templates/manage/time_tracking.tpl.html
 msgid "Manage Time Tracking Categories"
-msgstr ""
+msgstr "Správa kategorií sledování času"
 
 #: templates/manage/manage.tpl.html templates/manage/users.tpl.html
 msgid "Manage Users"
-msgstr ""
+msgstr "Správa uživatelů"
 
 #: templates/help/permission_levels.tpl.html templates/manage/groups.tpl.html
 msgid "Manager"
-msgstr ""
+msgstr "Správce"
 
 #: templates/manage/groups.tpl.html
 msgid "Manager:"
-msgstr ""
+msgstr "Správce:"
 
 #: templates/duplicate.tpl.html
 msgid "Mark Issue as Duplicate"
-msgstr ""
+msgstr "Označit úlohu jako stejnou"
 
 #: templates/view_form.tpl.html
 msgid "Mark as Duplicate"
-msgstr ""
+msgstr "Označit jako stejná"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Match Mode"
-msgstr ""
+msgstr "Režim shody"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Med"
-msgstr ""
+msgstr "Med"
 
 #: templates/send.tpl.html
 msgid "Members"
-msgstr ""
+msgstr "Členové"
 
 #: templates/manage/news.tpl.html templates/view_email.tpl.html
 msgid "Message"
-msgstr ""
+msgstr "Zpráva"
 
 #: templates/manage/faq.tpl.html templates/view_note.tpl.html
 msgid "Message:"
-msgstr ""
+msgstr "Zpráva:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Min. Role"
-msgstr ""
+msgstr "Min. role"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/custom_fields.tpl.html
 #: templates/manage/link_filters.tpl.html
 msgid "Minimum Role"
-msgstr ""
+msgstr "Minimální role"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Minimum User Role"
-msgstr ""
+msgstr "Minimální uživatelská role"
 
 #: templates/spell_check.tpl.html
 msgid "Misspelled Words:"
-msgstr ""
+msgstr "Pravopisné chyby"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilní"
 
 #: templates/checkins.tpl.html
 msgid "Module / Directory"
-msgstr ""
+msgstr "Modul / Adresář"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Monday"
-msgstr ""
+msgstr "Pondělí"
 
 #: templates/manage/monitor.tpl.html
 msgid "Monitor Setup"
-msgstr ""
+msgstr "Nastavení monitoru"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "Month"
-msgstr ""
+msgstr "Měsíc"
 
 #: templates/help/adv_search.tpl.html
 msgid ""
@@ -3798,121 +3798,129 @@ msgid ""
 "issue database, and this is a feature perfect for such situations, just "
 "create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
+"Většinu času budou uživatelé chtít v databázi úloh spustit běžně používané "
+"dotazy a tato funkce se v těchto situacích dokonale hodí, stačí zde vytvořit "
+"vlastní dotaz a spusťte ji ze stránky výpisu úloh."
 
 #: templates/update_form.tpl.html
 msgid "Move"
-msgstr ""
+msgstr "Přesunout"
 
 #: templates/view_email.tpl.html
 msgid "Move Message To"
-msgstr ""
+msgstr "Přesunout zprávu do"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Multiple Combo Box"
-msgstr ""
+msgstr "Mnohonásobný rozbalovací seznam"
 
 #: templates/navigation.tpl.html
 msgid "My Assignments"
-msgstr ""
+msgstr "Má přidělení"
 
 #: templates/setup.tpl.html
 msgid "MySQL Database"
-msgstr ""
+msgstr "Databáze MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Password:"
-msgstr ""
+msgstr "Heslo MySQL:"
 
 #: templates/setup.tpl.html
 msgid "MySQL Server Hostname"
-msgstr ""
+msgstr "Název hostitele serveru MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Table Prefix"
-msgstr ""
+msgstr "Předpona tabulky MySQL"
 
 #: templates/setup.tpl.html
 msgid "MySQL Username"
-msgstr ""
+msgstr "Uživatelské jméno MySQL"
 
 #: templates/setup.tpl.html
 msgid ""
 "NOTE: For security reasons it is highly recommended that the default "
 "password be changed as soon as possible."
 msgstr ""
+"Poznámky: Z bezpečnostních důvodů se velmi doporučuje změnit výchozí heslo "
+"hned jak to bude možné."
 
 #: templates/view_form.tpl.html
 msgid ""
 "NOTE: If you need to send new information regarding this issue, please use "
 "the EMAIL related buttons available at the bottom of the screen."
 msgstr ""
+"Poznámka: Pokud potřebujete zaslat nové informace ohledně této úlohy, prosím "
+"použijte tlačítka související s EMAIL, dostupné na konci této stránky."
 
 #: templates/login_form.tpl.html
 msgid ""
 "NOTE: You may report issues without the need to login by using the following "
 "URL:"
 msgstr ""
+"Poznámka: Úlohy můžete nahlašovat bez přihlášení pomocí následující URL:"
 
 #: templates/manage/groups.tpl.html
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: templates/manage/groups.tpl.html
 msgid "Name:"
-msgstr ""
+msgstr "Jméno:"
 
 #: templates/manage/email_alias.tpl.html
 msgid "New Alias"
-msgstr ""
+msgstr "Nová přezdívka"
 
 #: templates/notifications/files.tpl.text
 msgid "New Attachment"
-msgstr ""
+msgstr "Nová příloha"
 
 #: lib/eventum/class.notification.php:1121 templates/emails.tpl.html
 msgid "New Issue"
-msgstr ""
+msgstr "Nová úloha"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "New Issues Assigned"
-msgstr ""
+msgstr "Přiděleny nové úlohy"
 
 #: templates/preferences.tpl.html
 msgid "New Password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 msgid "New Status for Issue"
-msgstr ""
+msgstr "Nový stav úlohy"
 
 #: lib/eventum/class.notification.php:1473
 msgid "New User information"
-msgstr ""
+msgstr "Nové informace o uživateli"
 
 #: lib/eventum/class.impact_analysis.php:73
 #, php-format
 msgid "New requirement submitted by %1$s"
-msgstr ""
+msgstr "%1$s odeslal(a) nový požadavek"
 
 #: templates/latest_news.tpl.html
 msgid "News and Announcements"
-msgstr ""
+msgstr "Novinky a oznámení"
 
 #: lib/eventum/class.pager.php:122 templates/post.tpl.html
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: templates/view_form.tpl.html
 msgid "Next Issue"
-msgstr ""
+msgstr "Další úloha"
 
 #: templates/view_email.tpl.html
 msgid "Next Message"
-msgstr ""
+msgstr "Další zpráva"
 
 #: templates/view_note.tpl.html
 msgid "Next Note"
-msgstr ""
+msgstr "Další poznámka"
 
 #: lib/eventum/class.misc.php:715 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
@@ -3924,7 +3932,7 @@ msgstr ""
 #: templates/preferences.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: templates/manage/projects.tpl.html
 msgid "No Customer Integration"
