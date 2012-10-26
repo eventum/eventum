@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-17 20:57+0000\n"
+"PO-Revision-Date: 2012-10-25 21:24+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-18 04:42+0000\n"
-"X-Generator: Launchpad (build 16160)\n"
+"X-Launchpad-Export-Date: 2012-10-26 04:57+0000\n"
+"X-Generator: Launchpad (build 16194)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -3936,258 +3936,259 @@ msgstr "Ne"
 
 #: templates/manage/projects.tpl.html
 msgid "No Customer Integration"
-msgstr ""
+msgstr "Žádné začlenění zákazníků"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Drafts Found"
-msgstr ""
+msgstr "Nenalezeny žádné návrhy"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Emails Found"
-msgstr ""
+msgstr "Nenalezeny žádné emaily"
 
 #: templates/manage/faq.tpl.html
 msgid "No FAQ entries could be found."
-msgstr ""
+msgstr "Položky nejčastějších otázek nebyly nalezeny"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Notes Found"
-msgstr ""
+msgstr "Nenalezeny žádné poznámky"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Phone Calls Found"
-msgstr ""
+msgstr "Nenalezeny žádné telefonní hovory"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Reminder Entries Found"
-msgstr ""
+msgstr "Nenalezeny žádné položky upomínky"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "No Time Entries Found"
-msgstr ""
+msgstr "Nenalezeny žádné časové položky"
 
 #: templates/manage/projects.tpl.html
 msgid "No Workflow Management"
-msgstr ""
+msgstr "Nenalezena žádná správa postupu práce"
 
 #: templates/manage/account_managers.tpl.html
 msgid "No account managers could be found."
-msgstr ""
+msgstr "Nenalezeny žádní správci účtů."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "No actions could be found."
-msgstr ""
+msgstr "Žádné činnosti nenalezeny."
 
 #: templates/manage/email_alias.tpl.html
 msgid "No aliases could be found."
-msgstr ""
+msgstr "Nenalezeny žádné přezdívky"
 
 #: templates/support_emails.tpl.html
 msgid "No associated emails could be found."
-msgstr ""
+msgstr "Žádné připojené emaily nenalezeny."
 
 #: templates/attachments.tpl.html
 msgid "No attachments could be found."
-msgstr ""
+msgstr "Nenalezeny žádné přílohy."
 
 #: templates/authorized_replier.tpl.html
 msgid "No authorized repliers could be found."
-msgstr ""
+msgstr "Nenalezeny žádní oprávnění odpovídači."
 
 #: templates/manage/email_responses.tpl.html
 msgid "No canned email responses could be found."
-msgstr ""
+msgstr "Žádné uložené emailové odpovědi nenalezeny."
 
 #: templates/manage/categories.tpl.html
 msgid "No categories could be found."
-msgstr ""
+msgstr "Žádné kategorie nenalezeny."
 
 #: templates/history.tpl.html
 msgid "No changes could be found."
-msgstr ""
+msgstr "Nenalezeny žádné změny."
 
 #: templates/checkins.tpl.html
 msgid "No checkins could be found."
-msgstr ""
+msgstr "Žádné zápisy nemohly být nalezeny."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "No conditions could be found."
-msgstr ""
+msgstr "Nenalezeny žádné podmínky."
 
 #: templates/custom_fields.tpl.html templates/manage/custom_fields.tpl.html
 msgid "No custom fields could be found."
-msgstr ""
+msgstr "Žádná vlastní pole nenalezena."
 
 #: htdocs/reports/custom_fields.php:54
 #: htdocs/reports/custom_fields_weekly.php:53
 msgid "No custom fields for this project"
-msgstr ""
+msgstr "Žádná vlastní pole pro tento projekt"
 
 #: templates/adv_search.tpl.html
 msgid "No custom searches could be found."
-msgstr ""
+msgstr "Nenalezena žádná vlastní hledání."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "No customizations could be found."
-msgstr ""
+msgstr "Žádná přizpůsobení nenalezena."
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "No data found"
-msgstr ""
+msgstr "Nenalezena žádná data"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "No email accounts could be found."
-msgstr ""
+msgstr "Žádné emailové účty nenalezeny."
 
 #: templates/email_drafts.tpl.html
 msgid "No email drafts could be found."
-msgstr ""
+msgstr "Nenalezeny žádné rozepsané emaily."
 
 #: templates/emails.tpl.html templates/removed_emails.tpl.html
 msgid "No emails could be found."
-msgstr ""
+msgstr "Žádné emaily nenalezeny."
 
 #: templates/impact_analysis.tpl.html
 msgid "No entries could be found."
-msgstr ""
+msgstr "Nenalezeny žádné položky"
 
 #: lib/eventum/class.reminder_action.php:593
 #, php-format
 msgid "No group associated with issue %1$s"
-msgstr ""
+msgstr "Žádná skupina připojená k úloze %1$s"
 
 #: templates/manage/groups.tpl.html
 msgid "No groups could be found."
-msgstr ""
+msgstr "Žádná skupina nenalezena."
 
 #: templates/notes.tpl.html
 msgid "No internal notes could be found."
-msgstr ""
+msgstr "Nenalezeny žádné interní poznámky."
 
 #: templates/view_form.tpl.html
 msgid "No issues associated"
-msgstr ""
+msgstr "Žádné úlohy nepřipojeny"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues closed this time period"
-msgstr ""
+msgstr "V tomto časovém období nebyly uzavřeny žádné úlohy"
 
 #: templates/list.tpl.html templates/main.tpl.html
 msgid "No issues could be found."
-msgstr ""
+msgstr "Žádné úlohy nenalezeny."
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues touched this time period"
-msgstr ""
+msgstr "Žádné úlohy se nedotýkají tohoto časového období"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "No issues with only status changed this time period"
 msgstr ""
+"V tomto časovém období není žádná úloha kde byl změněn pouze její stav"
 
 #: templates/manage/link_filters.tpl.html
 msgid "No link filters could be found."
-msgstr ""
+msgstr "Nenalezeny žádné filtry propojení."
 
 #: templates/mail_queue.tpl.html
 msgid "No mail queue could be found."
-msgstr ""
+msgstr "Žádná frotna emailů nenalezena."
 
 #: templates/manage/news.tpl.html
 msgid "No news entries could be found."
-msgstr ""
+msgstr "Nenalezeny žádné položky novinek."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "No notes could be found."
-msgstr ""
+msgstr "Žádné poznámky nenalezeny."
 
 #: templates/phone_support.tpl.html
 msgid "No phone calls recorded yet."
-msgstr ""
+msgstr "Žádné telefonáty zatím nezaznamenány."
 
 #: templates/manage/phone_categories.tpl.html
 msgid "No phone support categories could be found."
-msgstr ""
+msgstr "Nenalezeny žádné kategorie telefonické podpory."
 
 #: templates/manage/priorities.tpl.html
 msgid "No priorities could be found."
-msgstr ""
+msgstr "Žádné priority nemohly být nalezeny."
 
 #: templates/manage/projects.tpl.html
 msgid "No projects could be found."
-msgstr ""
+msgstr "Nenalezeny žádné projekty."
 
 #: templates/manage/releases.tpl.html
 msgid "No releases could be found."
-msgstr ""
+msgstr "Žádné verze nenalezeny"
 
 #: templates/history.tpl.html templates/manage/reminders.tpl.html
 msgid "No reminders could be found."
-msgstr ""
+msgstr "Nenalezeny žádné upomínky."
 
 #: templates/view_form.tpl.html
 msgid "No resolution date given"
-msgstr ""
+msgstr "Nezadáno datum vyřešení"
 
 #: templates/manage/resolution.tpl.html
 msgid "No resolutions could be found."
-msgstr ""
+msgstr "Nebylo nalezeno žádné řešení"
 
 #: templates/manage/round_robin.tpl.html
 msgid "No round robin entries could be found."
-msgstr ""
+msgstr "Žádné položky kruhového přidělení nenalezeny."
 
 #: templates/spell_check.tpl.html
 msgid "No spelling mistakes could be found."
-msgstr ""
+msgstr "Žádné chyby v pravopise nenalezeny."
 
 #: templates/manage/statuses.tpl.html
 msgid "No statuses could be found."
-msgstr ""
+msgstr "Nenalezeny žádné stavy."
 
 #: templates/notification.tpl.html
 msgid "No subscribers could be found."
-msgstr ""
+msgstr "Žádní odběratelé nenalezeny."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "No time tracking categories could be found."
-msgstr ""
+msgstr "Nenalezeny žádné kategorie sledování času."
 
 #: templates/time_tracking.tpl.html
 msgid "No time tracking entries could be found."
-msgstr ""
+msgstr "Žádné položky pro sledování času nenalezeny."
 
 #: templates/manage/users.tpl.html
 msgid "No users could be found."
-msgstr ""
+msgstr "Nenalezeni žádní uživatelé."
 
 #: templates/current_filters.tpl.html templates/view_form.tpl.html
 msgid "None"
-msgstr ""
+msgstr "Žádné"
 
 #: templates/manage/customer_notes.tpl.html
 #: templates/manage/email_accounts.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/setup.tpl.html
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "Note"
-msgstr ""
+msgstr "Poznámka"
 
 #: templates/manage/general.tpl.html
 msgid "Note Address Prefix:"
-msgstr ""
+msgstr "Předpona adresy poznámky:"
 
 #: templates/manage/general.tpl.html
 msgid "Note Recipient Type Flag:"
-msgstr ""
+msgstr "Typ příznaku příjemce poznámky:"
 
 #: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
-msgstr ""
+msgstr "Poznámky přesměrována z %1$s"
 
 #: templates/setup.tpl.html
 msgid "Note:"
-msgstr ""
+msgstr "Poznámka:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -4213,7 +4214,7 @@ msgstr ""
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
-msgstr ""
+msgstr "Poznámky"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
@@ -4221,16 +4222,16 @@ msgstr ""
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
-msgstr ""
+msgstr "Poznámky:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
 msgid "Notification List"
-msgstr ""
+msgstr "Seznam oznámeni"
 
 #: templates/update_form.tpl.html
 msgid "Notification List:"
-msgstr ""
+msgstr "Seznam oznámení:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
