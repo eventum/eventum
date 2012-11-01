@@ -321,7 +321,7 @@ class Link_Filter
 
         foreach ($files as $file => $link) {
             // we use attachment prefix, so we don't accidentally match already processed urls
-            $text = preg_replace("/attachment:?\s*\Q$file\E\b/", $link, $text);
+            $text = preg_replace('/attachment:?\s*'.preg_quote($file, '/').'\b/', $link, $text);
         }
         return $text;
     }

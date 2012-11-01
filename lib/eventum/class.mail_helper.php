@@ -784,6 +784,32 @@ class Mail_Helper
             $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
 
             $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
+
+            // handle custom fields
+            $cf_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
+            $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
+            foreach ($cf_values as $fld_id => $values) {
+                // skip empty titles
+                // TODO: why the are empty?
+                if (!isset($cf_titles[$fld_id])) {
+                    continue;
+                }
+                // skip empty values
+                if (empty($values)) {
+                    continue;
+                }
+                $cf_value = join(', ', (array)$values);
+
+                // value could be empty after multivalued field join
+                if (empty($cf_value)) {
+                    continue;
+                }
+
+                // convert spaces for header fields
+                $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
+                $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+
+            }
         }
 
         $new_headers['X-Eventum-Type'] = $type;

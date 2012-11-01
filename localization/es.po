@@ -35,11 +35,11 @@ msgstr "#%1$s - %2$s"
 
 #: lib/eventum/class.display_column.php:199
 msgid "% Complete"
-msgstr "% Completo"
+msgstr "% Terminado"
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
-msgstr "Campo %1"
+msgstr "%1 Field"
 
 #: lib/eventum/class.filter.php:671
 #, php-format
@@ -1077,11 +1077,11 @@ msgstr "Emails Adjuntados"
 msgid "Attached Files"
 msgstr "Archivos Adjuntos"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr "Adjuntos originados desde una nota"
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr "Adjuntos originados desde un email"
 
@@ -2236,12 +2236,12 @@ msgstr ""
 msgid "Email"
 msgstr "Email"
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (asunto: '%1$s') asociado por %2$s"
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (asunto: '%1$s') desasociado por %2$s"
@@ -2351,7 +2351,7 @@ msgstr "Emails por Período de Tiempo"
 msgid "Email by time period"
 msgstr "Correo por período de tiempo"
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"
@@ -4503,7 +4503,7 @@ msgstr "Dirección del Remitente del Correo Saliente"
 msgid "Outgoing Email Sender Name"
 msgstr "Nombre del Remitente del Correo Saliente"
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email saliente enviado por %1$s"
@@ -5957,7 +5957,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr "Re: %1$s"
@@ -6128,6 +6128,10 @@ msgstr "Release"
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
 msgstr "Recordar Selección"
+
+#: templates/login_form.tpl.html
+msgid "Remember me"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""

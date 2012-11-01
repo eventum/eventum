@@ -78,30 +78,6 @@
               return false;
           }
       }
-      if ((!f.scm_integration[0].checked) && (!f.scm_integration[1].checked))  {
-          alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
-          return false;
-      }
-      if (f.scm_integration[0].checked) {
-          field = getFormElement(f, 'checkout_url');
-          if (isWhitespace(field.value)) {
-              alert('{/literal}{t escape=js}Please enter the checkout page URL for your SCM integration tool.{/t}{literal}');
-              selectField(f, 'checkout_url');
-              return false;
-          }
-          field = getFormElement(f, 'diff_url');
-          if (isWhitespace(field.value)) {
-              alert('{/literal}{t escape=js}Please enter the diff page URL for your SCM integration tool.{/t}{literal}');
-              selectField(f, 'diff_url');
-              return false;
-          }
-          field = getFormElement(f, 'scm_log_url');
-          if (isWhitespace(field.value)) {
-              alert('{/literal}{t escape=js}Please enter the log page URL for your SCM integration tool.{/t}{literal}');
-              selectField(f, 'scm_log_url');
-              return false;
-          }
-      }
       if ((!f.support_email[0].checked) && (!f.support_email[1].checked))  {
           alert('{/literal}{t escape=js}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
           return false;
@@ -140,20 +116,6 @@
           var bgcolor = '#FFFFFF';
       }
       field = getFormElement(f, 'smtp[save_address]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-  }
-  function disableSCMFields(f, bool)
-  {
-      if (bool) {
-          var bgcolor = '#CCCCCC';
-      } else {
-          var bgcolor = '#FFFFFF';
-      }
-      var field = getFormElement(f, 'checkout_url');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'diff_url');
       field.disabled = bool;
       field.style.backgroundColor = bgcolor;
   }
@@ -276,12 +238,6 @@
               disableAuthFields(f, true);
           }
           checkDebugField(f);
-          if (f.scm_integration[0].checked) {
-              disableSCMFields(f, false);
-          } else {
-              f.scm_integration[1].checked = true;
-              disableSCMFields(f, true);
-          }
           if (f.open_signup[0].checked) {
               disableSignupFields(f, false);
           } else {
@@ -714,56 +670,6 @@
                     <input type="text" name="draft_routing[address_host]" value="{$setup.draft_routing.address_host|default:''}">
                     {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
                     <span>{t escape=no 1="draft-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <th width="120">
-              {t escape=no}SCM <br />Integration:{/t} {include file="help_link.tpl.html" topic="scm_integration"}
-            </th>
-            <td>
-              <table>
-                <tr>
-                  <td colspan="2">
-                    <label>
-                        <input type="radio" name="scm_integration" value="enabled"
-                            {if $setup.scm_integration|default:'' == 'enabled'}checked{/if} onClick="disableSCMFields(this.form, false);">
-                        {t}Enabled{/t}
-                    </label>
-                    <label>
-                        <input type="radio" name="scm_integration" value="disabled"
-                            {if not $setup.scm_integration|default:'' == 'enabled'}checked{/if} onClick="disableSCMFields(this.form, true);">
-                        {t}Disabled{/t}
-                    </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td width="100" align="right">
-                    {t}Checkout Page{/t}
-                  </td>
-                  <td width="80%">
-                    <input type="text" name="checkout_url" size="50" value="{$setup.checkout_url|default:''|escape:"html"}">
-                    {include file="error_icon.tpl.html" field="checkout_url"}
-                  </td>
-                </tr>
-                <tr>
-                  <td width="100" align="right">
-                    {t}Diff Page{/t}
-                  </td>
-                  <td width="80%">
-                    <input type="text" name="diff_url" size="50" value="{$setup.diff_url|default:''|escape:"html"}">
-                    {include file="error_icon.tpl.html" field="diff_url"}
-                  </td>
-                </tr>
-                <tr>
-                  <td width="100" align="right">
-                    {t}Log Page{/t}
-                  </td>
-                  <td width="80%">
-                    <input type="text" name="scm_log_url" size="50" value="{$setup.scm_log_url|default:''|escape:"html"}">
-                    {include file="error_icon.tpl.html" field="scm_log_url"}
                   </td>
                 </tr>
               </table>

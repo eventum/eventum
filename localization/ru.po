@@ -145,7 +145,7 @@ msgstr "(в часах пожалуйста)"
 
 #: templates/close.tpl.html templates/post_note.tpl.html
 msgid "(in minutes)"
-msgstr ""
+msgstr "(в минутах)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -681,7 +681,7 @@ msgstr "Возникла ошибка при попытке обновить и�
 
 #: templates/edit_reporter.tpl.html
 msgid "An error occurred while trying to update the Reporter."
-msgstr ""
+msgstr "Произошла ошибка во время попытки обновления Reporter."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
@@ -997,11 +997,11 @@ msgstr "Прикрепленные эл.письма"
 msgid "Attached Files"
 msgstr "Вложенные файлы"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr "Приложение создано из примечания"
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr "Приложение создано из эл. почты"
 
@@ -2136,12 +2136,12 @@ msgstr ""
 msgid "Email"
 msgstr "Email"
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') связанно пользователем %2$s"
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') разъединено пользователем %2$s"
@@ -2249,7 +2249,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr "Кол-во эл.почты за период"
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Эл. письмо от  '%1$s'  заблокировано"
@@ -4336,7 +4336,7 @@ msgstr "Адрес отправителя для исходящей эл.поч�
 msgid "Outgoing Email Sender Name"
 msgstr "Имя отправителя для исходящей эл.почты"
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Исходящее эл. писмо отправлено пользователем %1$s"
@@ -5733,7 +5733,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -5897,6 +5897,10 @@ msgstr "Релиз"
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
 msgstr "Запомнить выбор"
+
+#: templates/login_form.tpl.html
+msgid "Remember me"
+msgstr ""
 
 #: templates/setup.tpl.html
 msgid ""

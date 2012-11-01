@@ -8,6 +8,9 @@ Eventum Issue Tracking System
 - Added X-Eventum-Priority header to outgoing emails (Elan Ruusamäe)
 - Disable autocomplete on forms that fill somebody else's password (Elan Ruusamäe)
 - Add host aliases support for notes and drafts as well (Elan Ruusamäe)
+- Add custom fields to mail headers as X-Eventum-CustomField-<FieldName> (Elan Ruusamäe)
+- Load local config for CVS/SVN integration from script dir (Elan Ruusamäe)
+- Fix preg_replace warning, when someone managed to upload file containing slash in it's name (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
