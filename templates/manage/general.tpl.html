@@ -4,108 +4,107 @@
   {literal}
   <script type="text/javascript">
   <!--
-  function validateForm(f)
+  function validateForm()
   {
-      var field = getFormElement(f, 'smtp[from]');
-      if (isWhitespace(field.value)) {
+      if (Validation.isFieldWhitespace('smtp[from]')) {
           alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
-          selectField(f, 'smtp[from]');
+          Validation.selectField('smtp[from]');
           return false;
       }
-      field = getFormElement(f, 'smtp[host]');
-      if (isWhitespace(field.value)) {
+      if (Validation.isFieldWhitespace('smtp[host]')) {
           alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
-          selectField(f, 'smtp[host]');
+          Validation.selectField('smtp[host]');
           return false;
       }
-      field = getFormElement(f, 'smtp[port]');
-      if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
+      if ((Validation.isFieldWhitespace('smtp[port]')) || (!Validation.isNumberOnly(Eventum.getField('smtp[port]').val()))) {
           alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
-          selectField(f, 'smtp[port]');
+          Validation.selectField('smtp[port]');
           return false;
       }
-      var field1 = getFormElement(f, 'smtp[auth]', 0);
-      var field2 = getFormElement(f, 'smtp[auth]', 1);
-      if ((!field1.checked) && (!field2.checked)) {
+      if (!Validation.hasOneChecked('smtp[auth]')) {
           alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
           return false;
       }
-      if (field1.checked) {
-          field = getFormElement(f, 'smtp[username]');
-          if (isWhitespace(field.value)) {
+      if (Eventum.getField('smtp[auth]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('smtp[username]')) {
               alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
-              selectField(f, 'smtp[username]');
+              Validation.selectField('smtp[username]');
               return false;
           }
-          field = getFormElement(f, 'smtp[password]');
-          if (isWhitespace(field.value)) {
+          if (Validation.isFieldWhitespace('smtp[password]')) {
               alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
-              selectField(f, 'smtp[password]');
+              Validation.selectField('smtp[password]');
               return false;
           }
       }
-      var field1 = getFormElement(f, 'smtp[save_outgoing_email]', 0);
-      var field2 = getFormElement(f, 'smtp[save_address]');
-      if ((field1.checked) && (!isEmail(field2.value))) {
+      if (Eventum.getField('smtp[save_outgoing_email]').is(':checked') && (!Validation.isEmail(Eventum.getField('smtp[save_address]').val()))) {
           alert('{/literal}{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
-          selectField(f, 'smtp[save_address]');
+          Validation.selectField('smtp[save_address]');
           return false;
       }
-      if ((!f.open_signup[0].checked) && (!f.open_signup[1].checked))  {
+      if (!Validation.hasOneChecked('open_signup'))  {
           alert('{/literal}{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
           return false;
       }
-      if (f.open_signup[0].checked) {
-          field = getFormElement(f, 'accounts_projects[]');
-          if (!hasOneSelected(f, 'accounts_projects[]')) {
+      if (Eventum.getField('open_signup').first().is(':checked')) {
+          if (!Validation.hasOneSelected('accounts_projects[]')) {
               alert('{/literal}{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
-              selectField(f, 'accounts_projects[]');
+              Validation.selectField('accounts_projects[]');
               return false;
           }
       }
-      field1 = getFormElement(f, 'email_routing[status]', 0);
-      if (field1.checked) {
-          field1 = getFormElement(f, 'email_routing[address_prefix]');
-          if (isWhitespace(field1.value)) {
+      if (Eventum.getField('email_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('email_routing[address_prefix]')) {
               alert('{/literal}{t escape=js}Please enter the email address prefix for the email routing interface.{/t}{literal}');
-              selectField(f, 'email_routing[address_prefix]');
+              Validation.selectField('email_routing[address_prefix]');
               return false;
           }
-          field1 = getFormElement(f, 'email_routing[address_host]');
-          if (isWhitespace(field1.value)) {
+          if (Validation.isFieldWhitespace('email_routing[address_host]')) {
               alert('{/literal}{t escape=js}Please enter the email address hostname for the email routing interface.{/t}{literal}');
-              selectField(f, 'email_routing[address_host]');
+              Validation.selectField('email_routing[address_host]');
               return false;
           }
       }
-      if ((!f.support_email[0].checked) && (!f.support_email[1].checked))  {
-          alert('{/literal}{t escape=js}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
-          return false;
+      if (Eventum.getField('note_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('note_routing[address_prefix]')) {
+              alert('{/literal}{t escape=js}Please enter the email address prefix for the note routing interface.{/t}{literal}');
+              Validation.selectField('note_routing[address_prefix]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('note_routing[address_host]')) {
+              alert('{/literal}{t escape=js}Please enter the email address hostname for the note routing interface.{/t}{literal}');
+              Validation.selectField('note_routing[address_host]');
+              return false;
+          }
       }
-      if ((!f.daily_tips[0].checked) && (!f.daily_tips[1].checked))  {
-          alert('{/literal}{t escape=js}Please choose whether the daily tips feature should be enabled or not.{/t}{literal}');
-          return false;
+      if (Eventum.getField('draft_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('draft_routing[address_prefix]')) {
+              alert('{/literal}{t escape=js}Please enter the email address prefix for the draft routing interface.{/t}{literal}');
+              Validation.selectField('draft_routing[address_prefix]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('draft_routing[address_host]')) {
+              alert('{/literal}{t escape=js}Please enter the email address hostname for the draft routing interface.{/t}{literal}');
+              Validation.selectField('draft_routing[address_host]');
+              return false;
+          }
       }
       return true;
   }
-  function disableAuthFields(f, bool)
+  function toggleAuthFields()
   {
+      var bool = !Eventum.getField('smtp[auth]').first().is(':checked');
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'smtp[username]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'smtp[password]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('smtp[username]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('smtp[password]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function checkDebugField(f)
+  function checkDebugField()
   {
-      var field = getFormElement(f, 'smtp[save_outgoing_email]');
-      if (field.checked) {
+      if (Eventum.getField('smtp[save_outgoing_email]').is(':checked')) {
           var bool = false;
       } else {
           var bool = true;
@@ -115,181 +114,113 @@
       } else {
           var bgcolor = '#FFFFFF';
       }
-      field = getFormElement(f, 'smtp[save_address]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('smtp[save_address]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function disableSignupFields(f, bool)
+  function toggleSignupFields()
   {
+      var bool = !Eventum.getField('open_signup').first().is(':checked')
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'accounts_projects[]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'accounts_role');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('accounts_projects[]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('accounts_role').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function disableEmailRoutingFields(f, bool)
+  function toggleSubjectBasedRouting()
   {
-      if (bool) {
-          var bgcolor = '#CCCCCC';
-      } else {
-          var bgcolor = '#FFFFFF';
-      }
+      var subject_based_enabled = Eventum.getField('subject_based_routing[status]').first().is(':checked');
 
-      var field = getFormElement(f, 'email_routing[address_prefix]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'email_routing[address_host]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'email_routing[host_alias]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'email_routing[warning][status]', 0);
-      field.disabled = bool;
-      field = getFormElement(f, 'email_routing[warning][status]', 1);
-      field.disabled = bool;
+      // disable email routing if subject based routing is enabled
+      if (subject_based_enabled == true) {
+          Eventum.getField('email_routing[status]').slice(1,2).click();
+          Eventum.getField('note_routing[status]').slice(1,2).click();
+      }
+      Eventum.getField('email_routing[status]').attr('disabled', subject_based_enabled);
+      Eventum.getField('note_routing[status]').attr('disabled', subject_based_enabled);
   }
-  function disableNoteRoutingFields(f, bool)
+  function toggleEmailRoutingFields()
   {
+      var bool = !Eventum.getField('email_routing[status]').first().is(':checked');
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'note_routing[address_prefix]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'note_routing[address_host]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('email_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[host_alias]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function disableDraftRoutingFields(f, bool)
+  function toggleNoteRoutingFields()
   {
+      var bool = !Eventum.getField('note_routing[status]').first().is(':checked');
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'draft_routing[address_prefix]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
-      field = getFormElement(f, 'draft_routing[address_host]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('note_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('note_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function disableErrorEmailFields(f, bool)
+  function toggleDraftRoutingFields()
   {
+      var bool = !Eventum.getField('draft_routing[status]').first().is(':checked');
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'email_error[addresses]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('draft_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('draft_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function disableReminderEmailFields(f, bool)
+  function toggleErrorEmailFields()
   {
+      var bool = !Eventum.getField('email_error[status]').first().is(':checked');
       if (bool) {
           var bgcolor = '#CCCCCC';
       } else {
           var bgcolor = '#FFFFFF';
       }
-      var field = getFormElement(f, 'email_reminder[addresses]');
-      field.disabled = bool;
-      field.style.backgroundColor = bgcolor;
+      Eventum.getField('email_error[addresses]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
-  function toggleSubjectBasedRouting(f, enabled)
+  function toggleReminderEmailFields()
   {
-
-      var email_routing_enabled = getFormElement(f, 'email_routing[status]', 0);
-      email_routing_enabled.disabled = enabled;
-      if ((enabled != true) && (email_routing_enabled.checked != true)) {
-          disableEmailRoutingFields(f, true);
+      var bool = !Eventum.getField('email_reminder[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
       } else {
-          disableEmailRoutingFields(f, enabled);
+          var bgcolor = '#FFFFFF';
       }
-      getFormElement(f, 'email_routing[status]', 1).disabled = enabled;
-
-      var note_routing_enabled = getFormElement(f, 'note_routing[status]', 0);
-      note_routing_enabled.disabled = enabled;
-      if ((enabled != true) && (note_routing_enabled.checked != true)) {
-          disableNoteRoutingFields(f, true);
-      } else {
-          disableNoteRoutingFields(f, enabled);
-      }
-      getFormElement(f, 'note_routing[status]', 1).disabled = enabled;
+      Eventum.getField('email_reminder[addresses]').attr('disabled', bool).css('backgroundColor', bgcolor);
   }
 
-      window.onload = setDisabledFields;
-      function setDisabledFields()
-      {
-          var f = getForm('general_setup_form');
-          var field1 = getFormElement(f, 'smtp[auth]', 0);
-          if (field1.checked) {
-              disableAuthFields(f, false);
-          } else {
-              disableAuthFields(f, true);
-          }
-          checkDebugField(f);
-          if (f.open_signup[0].checked) {
-              disableSignupFields(f, false);
-          } else {
-              f.open_signup[1].checked = true;
-              disableSignupFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_routing[status]', 0);
-          var field2 = getFormElement(f, 'email_routing[status]', 1);
-          if (field1.checked) {
-              disableEmailRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableEmailRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'note_routing[status]', 0);
-          field2 = getFormElement(f, 'note_routing[status]', 1);
-          if (field1.checked) {
-              disableNoteRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableNoteRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'draft_routing[status]', 0);
-          field2 = getFormElement(f, 'draft_routing[status]', 1);
-          if (field1.checked) {
-              disableDraftRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableDraftRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_reminder[status]', 0);
-          field2 = getFormElement(f, 'email_reminder[status]', 1);
-          if (field1.checked) {
-              disableReminderEmailFields(f, false);
-          } else {
-              field2.checked = true;
-              disableReminderEmailFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_error[status]', 0);
-          field2 = getFormElement(f, 'email_error[status]', 1);
-          if (field1.checked) {
-              disableErrorEmailFields(f, false);
-          } else {
-              field2.checked = true;
-              disableErrorEmailFields(f, true);
-          }
-          toggleSubjectBasedRouting(f, getFormElement(f, 'subject_based_routing[status]', 0).checked);
-      }
+$().ready(function() {
+    $('#general_setup_form').submit(validateForm);
+    Eventum.getField('smtp[auth]').change(toggleAuthFields)
+    Eventum.getField('open_signup').change(toggleSignupFields)
+    Eventum.getField('subject_based_routing[status]').change(toggleSubjectBasedRouting)
+    Eventum.getField('email_routing[status]').change(toggleEmailRoutingFields);
+    Eventum.getField('note_routing[status]').change(toggleNoteRoutingFields);
+    Eventum.getField('draft_routing[status]').change(toggleDraftRoutingFields);
+    Eventum.getField('email_reminder[status]').change(toggleReminderEmailFields);
+    Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
+
+    toggleAuthFields();
+    checkDebugField();
+    toggleSignupFields();
+    toggleEmailRoutingFields();
+    toggleNoteRoutingFields();
+    toggleDraftRoutingFields();
+    toggleSubjectBasedRouting();
+    toggleReminderEmailFields();
+    toggleErrorEmailFields();
+});
   //-->
   </script>
   {/literal}
-  <form name="general_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+  <form id="general_setup_form" method="post" action="{$smarty.server.PHP_SELF}">
   <input type="hidden" name="cat" value="update">
         <table class="bordered">
           <tr class="title">
@@ -345,11 +276,11 @@
                   </td>
                   <td width="80%">
                     <label>
-                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth|default:''}checked{/if} onClick="disableAuthFields(this.form, false);">
+                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth|default:''}checked{/if}">
                         {t}Yes{/t}
                     </label>
                     <label>
-                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth|default:''}checked{/if} onClick="disableAuthFields(this.form, true);">
+                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth|default:''}checked{/if}>
                         {t}No{/t}
                     </label>
                   </td>
@@ -401,11 +332,11 @@
                 <tr>
                   <td colspan="2">
                       <label>
-                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup|default:'' == 'enabled'}checked{/if} onClick="disableSignupFields(this.form, false);">
+                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
-                        <input type="radio" name="open_signup" value="disabled" {if not $setup.open_signup|default:'' == 'enabled'}checked{/if} onClick="disableSignupFields(this.form, true);">
+                        <input type="radio" name="open_signup" value="disabled" {if $setup.open_signup|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
@@ -445,12 +376,12 @@
                   <td>
                     <label>
                         <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled"
-                        {if $setup.subject_based_routing.status|default:'' == 'enabled'}checked{/if} onChange="toggleSubjectBasedRouting(this.form, true);">
+                        {if $setup.subject_based_routing.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                     </label>
                     <label>
                         <input id="subject_based_routing_disabled" type="radio" name="subject_based_routing[status]" value="disabled"
-                        {if $setup.subject_based_routing.status|default:'' != 'enabled'}checked{/if} onClick="toggleSubjectBasedRouting(this.form, false);">
+                        {if $setup.subject_based_routing.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                     </label>
                     <div>{t}If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.{/t}</div>
@@ -499,12 +430,12 @@
                   <td colspan="2">
                       <label>
                         <input type="radio" name="email_routing[status]" value="enabled"
-                          {if $setup.email_routing.status|default:'' == 'enabled'}checked{/if} onClick="disableEmailRoutingFields(this.form, false);">
+                          {if $setup.email_routing.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
                         <input type="radio" name="email_routing[status]" value="disabled"
-                          {if $setup.email_routing.status|default:'' != 'enabled'}checked{/if} onClick="disableEmailRoutingFields(this.form, true);">
+                          {if $setup.email_routing.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
@@ -599,12 +530,12 @@
                   <td colspan="2">
                       <label>
                         <input type="radio" name="note_routing[status]" value="enabled"
-                          {if $setup.note_routing.status|default:'' == 'enabled'}checked{/if} onClick="disableNoteRoutingFields(this.form, false);">
+                          {if $setup.note_routing.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
                         <input type="radio" name="note_routing[status]" value="disabled"
-                          {if $setup.note_routing.status|default:'' != 'enabled'}checked{/if} onClick="disableNoteRoutingFields(this.form, true);">
+                          {if $setup.note_routing.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
@@ -642,12 +573,12 @@
                   <td colspan="2">
                       <label>
                         <input type="radio" name="draft_routing[status]" value="enabled"
-                          {if $setup.draft_routing.status|default:'' == 'enabled'}checked{/if} onClick="disableDraftRoutingFields(this.form, false);">
+                          {if $setup.draft_routing.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
                         <input type="radio" name="draft_routing[status]" value="disabled"
-                          {if $setup.draft_routing.status|default:'' != 'enabled'}checked{/if} onClick="disableDraftRoutingFields(this.form, true);">
+                          {if $setup.draft_routing.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
@@ -773,12 +704,12 @@
                   <td colspan="2">
                       <label>
                         <input type="radio" name="email_reminder[status]" value="enabled"
-                          {if $setup.email_reminder.status|default:'' == 'enabled'}checked{/if} onClick="disableReminderEmailFields(getForm('general_setup_form'), false);">
+                          {if $setup.email_reminder.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
                         <input type="radio" name="email_reminder[status]" value="disabled"
-                          {if $setup.email_reminder.status|default:'' != 'enabled'}checked{/if} onClick="disableReminderEmailFields(getForm('general_setup_form'), true);">
+                          {if $setup.email_reminder.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
@@ -805,12 +736,12 @@
                   <td colspan="2">
                       <label>
                         <input type="radio" name="email_error[status]" value="enabled"
-                            {if $setup.email_error.status|default:'' == 'enabled'}checked{/if} onClick="disableErrorEmailFields(getForm('general_setup_form'), false);">
+                            {if $setup.email_error.status|default:'' == 'enabled'}checked{/if}>
                         {t}Enabled{/t}
                       </label>
                       <label>
                         <input type="radio" name="email_error[status]" value="disabled"
-                            {if $setup.email_error.status|default:'' != 'enabled'}checked{/if} onClick="disableErrorEmailFields(getForm('general_setup_form'), true);">
+                            {if $setup.email_error.status|default:'' != 'enabled'}checked{/if}>
                         {t}Disabled{/t}
                       </label>
                   </td>
