@@ -206,6 +206,7 @@ $().ready(function() {
     Eventum.getField('draft_routing[status]').change(toggleDraftRoutingFields);
     Eventum.getField('email_reminder[status]').change(toggleReminderEmailFields);
     Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
+    Eventum.getField('smtp[save_outgoing_email]').change(checkDebugField);
 
     toggleAuthFields();
     checkDebugField();
@@ -306,7 +307,7 @@ $().ready(function() {
                 <tr>
                   <td colspan="2">
                     <label>
-                        <input type="checkbox" name="smtp[save_outgoing_email]" value="yes" {if $setup.smtp.save_outgoing_email|default:'' == 'yes'}checked{/if} onClick="checkDebugField(this.form);">
+                        <input type="checkbox" name="smtp[save_outgoing_email]" value="yes" {if $setup.smtp.save_outgoing_email|default:'' == 'yes'}checked{/if}>
                         {t}Save a Copy of Every Outgoing Issue Notification Email{/t}
                     </label>
                   </td>
