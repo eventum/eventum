@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-25 21:24+0000\n"
+"PO-Revision-Date: 2012-11-03 22:40+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-26 04:57+0000\n"
-"X-Generator: Launchpad (build 16194)\n"
+"X-Launchpad-Export-Date: 2012-11-04 04:56+0000\n"
+"X-Generator: Launchpad (build 16218)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -4197,10 +4197,15 @@ msgid ""
 "confirmation message will be sent to your email address and after confirming "
 "it the new password will be then activated and sent to you."
 msgstr ""
+"Poznámka: Prosím níže zadejte vaši emailovou adresu a k vašemu účtu bude "
+"přiřazeno nové náhodné heslo. Z bezpečnostních důvodů Vám bude zaslána "
+"potvrzující emailová zpráva a poté, co ji potvrdíte, bude noé heslo "
+"aktivováno a Vám zasláno."
 
 #: templates/file_upload.tpl.html templates/new.tpl.html
 msgid "Note: The current maximum allowed upload file size is %1"
 msgstr ""
+"námkPoznámka: Současná povolená maximální velkost nahrávaného souboru je %1"
 
 #: templates/help/report_category.tpl.html
 #: templates/help/report_priority.tpl.html
@@ -4211,6 +4216,10 @@ msgid ""
 "project. If you do not have the needed permissions to do so, please contact "
 "your local Eventum administrator."
 msgstr ""
+"Poznámka: Hodnoty v tomto poli mohou být změněny vstupem do správcovské "
+"části této aplikace a úpravou odpovídajících vlastností projektu. Pokud k "
+"tomu nemáte potřebná oprávnění, prosím kontaktujte vašeho místního správce "
+"Eventum."
 
 #: templates/help/view_note.tpl.html
 msgid "Notes"
@@ -4218,7 +4227,7 @@ msgstr "Poznámky"
 
 #: templates/help/notifications.tpl.html
 msgid "Notes are added to existing issues"
-msgstr ""
+msgstr "Poznámky jsou přidávány k existujícím úlohám"
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
@@ -4235,48 +4244,48 @@ msgstr "Seznam oznámení:"
 
 #: templates/notification.tpl.html
 msgid "Notification Options for Issue #%1"
-msgstr ""
+msgstr "Možnosti oznamování pro úlohu #%1"
 
 #: lib/eventum/class.notification.php:2060
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
-msgstr ""
+msgstr "%2$s přidal položku seznamu oznámení (%1$s)"
 
 #: lib/eventum/class.notification.php:1900
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
-msgstr ""
+msgstr "%2$s odstranil položku seznamu oznámení (%1$s)"
 
 #: lib/eventum/class.notification.php:2146
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
-msgstr ""
+msgstr "%2$s přidal položku seznamu oznámení ('%1$s')"
 
 #: lib/eventum/class.notification.php:2242
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
-msgstr ""
+msgstr "%2$s aktualizoval položku seznamu oznámení ('%1$s')"
 
 #: templates/attached_emails.tpl.html
 msgid "Notify Sender?"
-msgstr ""
+msgstr "Upozornit odesílatele?"
 
 #: templates/reports/open_issues.tpl.html
 msgid "Number of Days"
-msgstr ""
+msgstr "Počet dní"
 
 #: crons/monitor.php:103
 msgid "OK: No errors found"
-msgstr ""
+msgstr "V pořádku: Nenalezeny chyby"
 
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
-msgstr ""
+msgstr "Okcitánština (po 1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
-msgstr ""
+msgstr "Kancelář"
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -4285,236 +4294,244 @@ msgid ""
 "support questions, issues or suggestions to that mailbox. Eventum will then "
 "download the emails and provide them to the users of the system."
 msgstr ""
+"Jeden z optimálních použití této funkce je vytváření odděleného účtu "
+"POP3/IMAP pro 'úlohy' nebo 'podporu' a požádat své zákazníky, aby své "
+"otázky, problémy, či návrhy odesílali do této schránky. Eventum pak emaily "
+"stáhne a zpřístupní je uživatelům v systému."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Only Download Unread Messages"
-msgstr ""
+msgstr "Stáhnout pouze nepřečtené zprávy"
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Only for Known Customers?"
-msgstr ""
+msgstr "Pouze pro známé zákazníky?"
 
 #: lib/eventum/class.mail_helper.php:120
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
 msgstr ""
+"Pouze členové obsluhy uvedené v přidělení nebo pole oprávněného odpovídače "
+"mohou poštu odesílat."
 
 #: templates/manage/general.tpl.html
 msgid "Open Account Signup:"
-msgstr ""
+msgstr "Otevřené vytváření účtů:"
 
 #: templates/reports/tree.tpl.html
 msgid "Open Issues By Assignee"
-msgstr ""
+msgstr "Otevřené úlohy podle řešitele"
 
 #: templates/reports/tree.tpl.html
 msgid "Open Issues By Reporter"
-msgstr ""
+msgstr "Otevřené úlohy podle referenta"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 #: templates/new.tpl.html
 msgid "Open the Emails Listing Page"
-msgstr ""
+msgstr "Otevřít stránku seznamu emailů"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 #: templates/new.tpl.html
 msgid "Open the Issue Details Page"
-msgstr ""
+msgstr "Otevřít stránku podrobností úlohy"
 
 #: templates/close.tpl.html templates/duplicate.tpl.html
 #: templates/new.tpl.html
 msgid "Open the Issue Listing Page"
-msgstr ""
+msgstr "Otevřít stránku seznamu úloh"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator"
-msgstr ""
+msgstr "Operátor"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Operator:"
-msgstr ""
+msgstr "Operátor:"
 
 #: templates/manage/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 #: templates/reports/customer_stats.tpl.html templates/reports/weekly.tpl.html
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Options to Graph"
-msgstr ""
+msgstr "Volby do grafu"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Options:"
-msgstr ""
+msgstr "Možnosti:"
 
 #: templates/manage/column_display.tpl.html
 msgid "Order"
-msgstr ""
+msgstr "Řazení"
 
 #: templates/add_phone_entry.tpl.html templates/update_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Other"
-msgstr ""
+msgstr "Ostatní"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Other Emails"
-msgstr ""
+msgstr "Ostatní emaily:"
 
 #: templates/update_form.tpl.html
 msgid "Other:"
-msgstr ""
+msgstr "Ostatní:"
 
 #: templates/duplicate.tpl.html templates/new.tpl.html
 msgid ""
 "Otherwise, you will be automatically redirected to the Issue Details Page in "
 "5 seconds."
 msgstr ""
+"Jinak budete za 5 sekund automaticky přesměrováni  na stránku podrobností "
+"úlohy."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Outgoing"
-msgstr ""
+msgstr "Odchozí"
 
 #: templates/manage/projects.tpl.html
 msgid "Outgoing Email Sender Address"
-msgstr ""
+msgstr "Emailová adresa odchozího odesílatele"
 
 #: templates/manage/projects.tpl.html
 msgid "Outgoing Email Sender Name"
-msgstr ""
+msgstr "Název odchozího odesílatele"
 
 #: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
-msgstr ""
+msgstr "Odchozí email odeslán %1$s"
 
 #: templates/main.tpl.html
 msgid "Overall Stats"
-msgstr ""
+msgstr "Celkové statistiky"
 
 #: templates/notification.tpl.html
 msgid "Overview or Details are Changed"
-msgstr ""
+msgstr "Souhrn nebo podrobnosti byly změněny"
 
 #: templates/attachments.tpl.html templates/notifications/files.tpl.text
 msgid "Owner"
-msgstr ""
+msgstr "Vlastník"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3"
-msgstr ""
+msgstr "POP3"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL"
-msgstr ""
+msgstr "POP3 přes SSL"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3 over SSL (self-signed)"
-msgstr ""
+msgstr "POP3 přes SSL (podepsán sám sebou)"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, no TLS"
-msgstr ""
+msgstr "POP3, bez TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS"
-msgstr ""
+msgstr "POP3, s TLS"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "POP3, with TLS (self-signed)"
-msgstr ""
+msgstr "POP3, s TLS (podepsán sám sebou)"
 
 #: templates/manage/monitor.tpl.html
 msgid "Partition:"
-msgstr ""
+msgstr "Oddíl:"
 
 #: templates/login_form.tpl.html templates/manage/email_accounts.tpl.html
 #: templates/manage/general.tpl.html templates/manage/users.tpl.html
 #: templates/notifications/new_user.tpl.text
 #: templates/notifications/updated_password.tpl.text templates/setup.tpl.html
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation"
-msgstr ""
+msgstr "Potvrzení hesla"
 
 #: templates/confirm.tpl.html
 msgid "Password Confirmation Success"
-msgstr ""
+msgstr "Potvrzení hesla bylo úspěšné"
 
 #: templates/signup.tpl.html
 msgid "Password:"
-msgstr ""
+msgstr "Heslo:"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Pattern"
-msgstr ""
+msgstr "Vzor"
 
 #: templates/help/link_filters.tpl.html
 msgid "Pattern: \"%1\""
-msgstr ""
+msgstr "Vzor: \"%1\""
 
 #: templates/main.tpl.html
 msgid "Pending"
-msgstr ""
+msgstr "Nevyřízený"
 
 #: lib/eventum/class.notification.php:652
 #: lib/eventum/class.notification.php:653
 msgid "Percent complete"
-msgstr ""
+msgstr "Procent dokončeno"
 
 #: templates/view_form.tpl.html
 msgid "Percentage Complete"
-msgstr ""
+msgstr "Procento dokončení"
 
 #: templates/update_form.tpl.html
 msgid "Percentage Complete:"
-msgstr ""
+msgstr "Procento dokončení:"
 
 #: templates/update_form.tpl.html
 msgid "Percentage complete should be between 0 and 100"
-msgstr ""
+msgstr "Procento dokončení by mělo být mezi 0 a 100"
 
 #: templates/reports/custom_fields.tpl.html
 msgid "Percentages may not add up to exactly 100% due to rounding."
-msgstr ""
+msgstr "Procenta nesmí dohromady dávat přesně 100% kvůli zaokrouhlování."
 
 #: lib/eventum/class.reminder_action.php:603
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
-msgstr ""
+msgstr "Provádění činnosti %1$s v úloze # %2$s"
 
 #: templates/removed_emails.tpl.html
 msgid "Permanently Remove"
-msgstr ""
+msgstr "Natrvalo odstranit"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Calls"
-msgstr ""
+msgstr "Telefonní hovory"
 
 #: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
-msgstr ""
+msgstr "Telefonní hovory:"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefonní číslo"
 
 #: lib/eventum/class.phone_support.php:404
 #, php-format
 msgid "Phone Support entry removed by %1$s"
-msgstr ""
+msgstr "Záznam telefonní podpory odstranil %1$s"
 
 #: lib/eventum/class.phone_support.php:345
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
-msgstr ""
+msgstr "Záznam telefonní podpory předložil %1$s"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Phone Time Spent"
-msgstr ""
+msgstr "Čas stráveného telefonního času"
 
 #: templates/notifications/new.tpl.text
 msgid ""
@@ -4522,6 +4539,9 @@ msgid ""
 "notifications from %1, please change your account preferences by\n"
 "visiting the URL below"
 msgstr ""
+"Nezapomeňte prosím: Pokud již nechcete dostávat žádné\n"
+"další emailová oznámení od %1, pak pomocí níže uvedené\n"
+"URL změňte vaše nastavení účtu."
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -4533,85 +4553,90 @@ msgid ""
 "Please Note: If you do not wish to receive any future email notifications "
 "from %1, please change your account preferences by visiting the URL below"
 msgstr ""
+"Nezapomeňte prosím: Pokud již nechcete dostávat žádné další emailová "
+"oznámení od %1, pak pomocí níže uvedené URL změňte vaše nastavení účtu."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please assign the appropriate projects for this custom field."
-msgstr ""
+msgstr "Prosím přidělte odpovídající projekty do tohoto vlastního pole."
 
 #: templates/manage/groups.tpl.html
 msgid "Please assign the appropriate projects for this group."
-msgstr ""
+msgstr "Prosím přidělte odpovídající projekty do této skupiny."
 
 #: templates/manage/news.tpl.html
 msgid "Please assign the appropriate projects for this news entry."
-msgstr ""
+msgstr "Prosím přidělte odpovídající projekty do této zprávy."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please assign the appropriate projects for this status."
-msgstr ""
+msgstr "Prosím přidělte odpovídající projekty k tomuto stavu."
 
 #: templates/manage/users.tpl.html
 msgid "Please assign the appropriate projects for this user."
-msgstr ""
+msgstr "Prosím přidělte odpovídající projekty k tomuto uživateli."
 
 #: templates/manage/faq.tpl.html
 msgid "Please assign the appropriate support levels for this FAQ entry."
 msgstr ""
+"Prosím přidělte odpovídající úrovně podpory k této položce nejčastějších "
+"otázek."
 
 #: templates/manage/groups.tpl.html
 msgid "Please assign the appropriate users for this group."
-msgstr ""
+msgstr "Prosím přidělte odpovídající uživatele k této skupině."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please assign the appropriate users for this round robin entry."
 msgstr ""
+"Prosím přidělte odpovídající uživatele k této položce kruhového přidělení."
 
 #: templates/manage/groups.tpl.html
 msgid "Please assign the manager of this group."
-msgstr ""
+msgstr "Prosím přidělte správce k této skupině."
 
 #: templates/manage/projects.tpl.html
 msgid "Please assign the statuses for this project."
-msgstr ""
+msgstr "Prosím přidělte stavy pro tento projekt."
 
 #: templates/manage/projects.tpl.html
 msgid "Please assign the users for this project."
-msgstr ""
+msgstr "Prosím přidělte uživatele k tomuto projektu."
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "Please choose"
-msgstr ""
+msgstr "Prosím zvolte"
 
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a category"
-msgstr ""
+msgstr "Prosím vyberte kategorii"
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please choose a customer"
-msgstr ""
+msgstr "Vyberte prosím zákazníka"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please choose a field"
-msgstr ""
+msgstr "Prosím vyberte pole"
 
 #: templates/manage/anonymous.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html templates/new.tpl.html
 msgid "Please choose a priority"
-msgstr ""
+msgstr "Vyberte prosím prioritu"
 
 #: templates/post.tpl.html
 msgid "Please choose a project"
-msgstr ""
+msgstr "Prosím vyberte projekt"
 
 #: templates/manage/reminders.tpl.html
 msgid "Please choose a project that will be associated with this reminder."
-msgstr ""
+msgstr "Vyberte prosím projekt, který bude přidělen k této upomínce."
 
 #: templates/close.tpl.html
 msgid "Please choose a status"
-msgstr ""
+msgstr "Prosím vyberte stav"
 
 #: templates/edit_custom_fields.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -4621,94 +4646,99 @@ msgstr ""
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/round_robin.tpl.html
 msgid "Please choose an option"
-msgstr ""
+msgstr "Vyberte prosím možnost"
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose an user"
-msgstr ""
+msgstr "Vyberte prosím uživatele"
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
 "Please choose at least one person to assign the new issues created remotely."
 msgstr ""
+"Prosím vyberte alespoň jednoho člověka, abyste nové úlohy přidělovali "
+"vzdáleně."
 
 #: templates/close.tpl.html
 msgid "Please choose from one of the options below"
-msgstr ""
+msgstr "Vyberte prosím jednu z možností níže"
 
 #: templates/new.tpl.html
 msgid "Please choose from one of the options below:"
-msgstr ""
+msgstr "Vyberte prosím jednu z možností níže:"
 
 #: templates/list.tpl.html
 msgid "Please choose new values for the selected issues"
-msgstr ""
+msgstr "Prosím vyberte nové hodnoty pro zvolené úlohy"
 
 #: templates/associate.tpl.html
 msgid ""
 "Please choose one of the following actions to take in regards to the "
 "selected email message"
 msgstr ""
+"Prosím vyberte jednu z následujících činností, kterou provést, vzhledem k "
+"ezvolené emailové zprávě."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please choose the category for this new phone support entry."
-msgstr ""
+msgstr "Vyberte prosím kategorii pro novou položku telefonické podpory."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please choose the customer for this new note."
-msgstr ""
+msgstr "Prosím vyberte zákazníka pro tuto novou poznámku."
 
 #: templates/manage/reminders.tpl.html
 msgid ""
 "Please choose the customers that will be associated with this reminder."
-msgstr ""
+msgstr "Vyberte prosím zákazníky, které budou přiděleny k této upomínce."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the default category for remote invocations."
-msgstr ""
+msgstr "Prosím vyberte výchozí kategorii pro vzdálená spouštění."
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default category."
-msgstr ""
+msgstr "Prosím zvolte výchozí kategorii."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the default priority for remote invocations."
-msgstr ""
+msgstr "Prosím zvolte výchozí prioritu pro vzdálená spuštění."
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid "Please choose the default priority."
-msgstr ""
+msgstr "Vyberte prosím výchozí prioritu."
 
 #: templates/redeem_incident.tpl.html
 msgid "Please choose the incident types to redeem for this issue."
-msgstr ""
+msgstr "Prosím vyberte typ nehody pro uplatnění v této úloze."
 
 #: templates/manage/projects.tpl.html
 msgid ""
 "Please choose the initial status from one of the assigned statuses of this "
 "project."
 msgstr ""
+"Vyberte prosím počáteční stav z jednoho z přidělených stavů v tomto projektu."
 
 #: templates/manage/reminders.tpl.html
 msgid ""
 "Please choose the priorities that will be associated with this reminder."
-msgstr ""
+msgstr "Prosím vyberte priority, které budou přiděleny k této upomínce."
 
 #: templates/manage/faq.tpl.html
 msgid "Please choose the project for this FAQ entry."
-msgstr ""
+msgstr "Vyberte prosím projekt pro tuto položku nejčastějších otázek."
 
 #: templates/post.tpl.html
 msgid "Please choose the project that this new issue will apply to"
-msgstr ""
+msgstr "Prosím vyberte projekt, ke kterému se tato úloha bude vztahovat"
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please choose the project that you wish to customize."
-msgstr ""
+msgstr "Vyberte prosím projekt, který chcete přizpůsobit"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please choose the project to be associated with this email account."
-msgstr ""
+msgstr "Prosím vyberte projekt, kterému bude přidělen tento emailový účet."
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
