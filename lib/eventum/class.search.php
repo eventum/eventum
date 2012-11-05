@@ -96,7 +96,7 @@ class Search
             'match_mode'     => self::getParam('match_mode', $request_only),
             'hide_excerpts'  => self::getParam('hide_excerpts', $request_only),
             'search_type'    => Misc::stripHTML($search_type),
-            'users'          => Misc::escapeInteger(self::getParam('users', $request_only)),
+            'users'          => Misc::escapeString(self::getParam('users', $request_only)),
             'status'         => Misc::escapeInteger(self::getParam('status', $request_only)),
             'priority'       => Misc::escapeInteger(self::getParam('priority', $request_only)),
             'severity'       => Misc::escapeInteger(self::getParam('severity', $request_only)),
