@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-11-03 22:40+0000\n"
+"PO-Revision-Date: 2012-11-05 22:35+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-04 04:56+0000\n"
-"X-Generator: Launchpad (build 16218)\n"
+"X-Launchpad-Export-Date: 2012-11-06 04:51+0000\n"
+"X-Generator: Launchpad (build 16232)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -4742,111 +4742,123 @@ msgstr "Prosím vyberte projekt, kterému bude přidělen tento emailový účet
 
 #: templates/select_project.tpl.html
 msgid "Please choose the project."
-msgstr ""
+msgstr "Prosím zvolte projekt."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Please choose the reporter for remote invocations."
-msgstr ""
+msgstr "Prosím zvolte referenta pro vzdálená spouštění."
 
 #: templates/manage/reminders.tpl.html
 msgid ""
 "Please choose the support levels that will be associated with this reminder."
-msgstr ""
+msgstr "Zvolte prosím úrovně podpory, které budou připojeny k této upomínce."
 
 #: templates/add_time_tracking.tpl.html
 msgid "Please choose the time tracking category for this new entry."
-msgstr ""
+msgstr "Zvolte prosím kategorii sledování času pro tuto novou položku."
 
 #: templates/manage/email_accounts.tpl.html
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
 msgstr ""
+"Prosím zvolte typ emailového serveru, který bude spojen s tímto emailovým "
+"účtem."
 
 #: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
+"Zvolte prosím zdali funkce zavedení systémů správy verzí by měla být "
+"povolena či nikoliv."
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
 "Please choose whether the anonymous posting feature should be allowed or not "
 "for this project"
 msgstr ""
+"Prosím zvolte zdali funkce anonymních příspěvků by pro tento projekt měla "
+"být povolena či nikoliv."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please choose whether the daily tips feature should be enabled or not."
 msgstr ""
+"Zvolte prosím zdali funkce užitečných rad by měla být povolena či nikoliv."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
+"Prosím zvolte zdali funkce zavedení emailů by měla být povolena či nikoliv."
 
 #: templates/manage/issue_auto_creation.tpl.html
 msgid ""
 "Please choose whether the issue auto creation feature should be allowed or "
 "not for this email account"
 msgstr ""
+"Zvolte prosím zdali funkce automatického vytváření úloh by pro tento "
+"emailový účet měla být povolena či nikoliv."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please choose whether the system should allow visitors to signup for new "
 "accounts or not."
 msgstr ""
+"Prosím zvolte zdali má systém umožnit návštěvníkům se zaregistrovat nebo ne."
 
 #: templates/manage/anonymous.tpl.html
 msgid ""
 "Please choose whether to show custom fields for remote invocations or not."
 msgstr ""
+"Zvolte prosím zdali zobrazit vlastní pole pro vzdálená spouštění, či nikoliv."
 
 #: templates/manage/email_alias.tpl.html
 msgid "Please choose which aliases need to be removed."
-msgstr ""
+msgstr "Prosím zvolte které přezdívky mají být odstraněny."
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be associated."
-msgstr ""
+msgstr "Prosím zvolte které emaily mají být připojeny."
 
 #: templates/emails.tpl.html
 msgid "Please choose which emails need to be marked as deleted."
-msgstr ""
+msgstr "Prosím zvolte které emaily mají být označeny pro smazání."
 
 #: templates/removed_emails.tpl.html
 msgid "Please choose which emails need to be permanently removed."
-msgstr ""
+msgstr "Prosím zvolte které emaily je třeba natrvalo odstranit."
 
 #: templates/manage/email_alias.tpl.html templates/removed_emails.tpl.html
 msgid "Please choose which emails need to be restored."
-msgstr ""
+msgstr "Prosím zvolte které emaily je třeba obnovit."
 
 #: templates/support_emails.tpl.html
 msgid ""
 "Please choose which entries need to be disassociated with the current issue."
-msgstr ""
+msgstr "Prosím zvolte které položky je třeba připojit k současné úloze."
 
 #: templates/adv_search.tpl.html templates/attached_emails.tpl.html
 #: templates/checkins.tpl.html templates/impact_analysis.tpl.html
 msgid "Please choose which entries need to be removed."
-msgstr ""
+msgstr "Prosím zvolte které položky je třeba odstranit."
 
 #: templates/list.tpl.html
 msgid "Please choose which issues to update."
-msgstr ""
+msgstr "Prosím zvolte které úlohy mají být aktualizovány."
 
 #: templates/manage/groups.tpl.html templates/manage/link_filters.tpl.html
 msgid "Please click OK to confirm."
-msgstr ""
+msgstr "Prosím klikněte na OK pro potrvrzení."
 
 #: templates/send.tpl.html
 msgid "Please contact the administrator of this application for assistance."
-msgstr ""
+msgstr "Pro pomoc prosím kontaktujte správce této aplikace."
 
 #: templates/send.tpl.html
 msgid ""
 "Please contact the administrator of this application for further assistance."
-msgstr ""
+msgstr "Pro další pomoc prosím kontaktujte správce této aplikace."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
@@ -4854,6 +4866,8 @@ msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
+"Prosím kontaktujte vašeho místního správce a požádejte ho o oprávnění k "
+"zápisu do zadaného souboru."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
@@ -4861,362 +4875,380 @@ msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
 msgstr ""
+"Prosím kontaktujte vašeho místního správce a požádejte ho o oprávnění k "
+"zápisu do zadané cesty."
 
 #: templates/manage/projects.tpl.html
 msgid ""
 "Please enter a comma separated list of valid mail address aliases for this "
 "project"
 msgstr ""
+"Prosím zadejte čárkou oddělený seznam přezdívek platných emailových adres "
+"pro tento projekt"
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter a number for the rank of this FAQ entry."
 msgstr ""
+"Prosím zadejte číslo pro ohodnocení této položky nejčastějších otázek."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter a password of at least 6 characters."
-msgstr ""
+msgstr "Prosím zadejte heslo které má alespoň 6 znaků."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a pattern."
-msgstr ""
+msgstr "Prosím zadejte vzor."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please enter a replacement value."
-msgstr ""
+msgstr "Prosím zadejte nahrazující hodnotu."
 
 #: templates/setup.tpl.html
 msgid "Please enter a valid email address for the sender address."
-msgstr ""
+msgstr "Zadejte prosím platnoou emailovou adresu do adresy odesílatele."
 
 #: templates/authorized_replier.tpl.html templates/edit_reporter.tpl.html
 #: templates/manage/users.tpl.html templates/notification.tpl.html
 #: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter a valid email address."
-msgstr ""
+msgstr "Prosím zadejte platnou emailovou adresu."
 
 #: templates/navigation.tpl.html
 msgid "Please enter a valid issue ID."
-msgstr ""
+msgstr "Zadejte prosím platné ID úlohy."
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter a valid outgoing sender address for this project."
-msgstr ""
+msgstr "Prosím zadejte platnou adresu odesílatele pro tento projekt."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter a valid port number for this email account."
-msgstr ""
+msgstr "Zadejte prosím platné číslo portu pro tento emailový účet."
 
 #: templates/emails.tpl.html
 msgid "Please enter an issue to associate these emails with."
-msgstr ""
+msgstr "Prosím zadejte úlohu ke které připojit tyto emaily."
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/close.tpl.html
 msgid ""
 "Please enter integers (or floating point numbers) on the time spent field."
-msgstr ""
+msgstr "V poli stráveného času zadejte prosím celá (nebo desetinná) čísla."
 
 #: templates/duplicate.tpl.html
 msgid "Please enter the ID of the duplicated issue."
-msgstr ""
+msgstr "Prosím zadejte ID kopírované úlohy."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the IMAP folder for this email account."
-msgstr ""
+msgstr "Zadejte prosím složku IMAP pro tento emailový účet."
 
 #: templates/manage/ldap.tpl.html
 msgid "Please enter the LDAP Host."
-msgstr ""
+msgstr "Prosím zadejte hostitele LDAP."
 
 #: templates/manage/ldap.tpl.html
 msgid "Please enter the LDAP port."
-msgstr ""
+msgstr "Zadejte prosím port LDAP."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server hostname."
-msgstr ""
+msgstr "Prosím zadejte název hostitele serveru SMTP."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server password."
-msgstr ""
+msgstr "Zadejte prosím heslo serveru SMTP."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server port number."
-msgstr ""
+msgstr "Prosím zadejte číslo portu serveru SMTP."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid "Please enter the SMTP server username."
-msgstr ""
+msgstr "Zadejte prosím uživatelské jméno serveru SMTP."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the abbreviation of this status."
-msgstr ""
+msgstr "Prosím zadejte zkratku tohoto stavu."
 
 #: templates/setup.tpl.html
 msgid "Please enter the alternate username for this installation of Eventum."
 msgstr ""
+"Zadejte prosím alternativní uživatelské jméno této instalace Eventum."
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the analysis for the changes required by this issue."
-msgstr ""
+msgstr "Prosím zadejte analýzu změn vyžadovaných touto úlohou."
 
 #: templates/manage/ldap.tpl.html
 msgid "Please enter the base dn."
-msgstr ""
+msgstr "Zadejte prosím základní dn."
 
 #: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
+"Prosím zadejte URL stránky získání pro váš nástroj zavedení systému správy "
+"verzí."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the color of this status."
-msgstr ""
+msgstr "Zadejte prosím barvu pro tento stav."
 
 #: templates/setup.tpl.html
 msgid "Please enter the database hostname for this installation of Eventum."
-msgstr ""
+msgstr "Prosím zadejte název hostitele databáze pro tuto instalaci Eventum."
 
 #: templates/setup.tpl.html
 msgid "Please enter the database name for this installation of Eventum."
-msgstr ""
+msgstr "Zadejte prosím název databáze pro tuto instalaci Eventum."
 
 #: templates/setup.tpl.html
 msgid "Please enter the database username for this installation of Eventum."
 msgstr ""
+"Prosím zadejte uživatelské jméno databáze pro tuto instalaci Eventum."
 
 #: templates/update_form.tpl.html
 msgid "Please enter the description for this issue."
-msgstr ""
+msgstr "Zadejte prosím popis této úlohy."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please enter the description for this new phone support entry."
-msgstr ""
+msgstr "Prosím zadejte popis této nové položky telefonické podpory."
 
 #: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
+"Zadejte prosím URL stránky rozdílu pro váš nástroj zavedení systému správy "
+"verzí."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address hostname for the email routing interface."
 msgstr ""
+"Prosím zadejte emailovou adresu hostitele pro rozhraní směrování emailů."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address of where copies of outgoing emails should be "
 "sent to."
 msgstr ""
+"Zadejte prosím emailovou adresu, kam budou odesílány kopie odchozích emailů."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please enter the email address prefix for the email routing interface."
 msgstr ""
+"Prosím zadejte předponu emailové adresy pro rozhraní směrování emailů."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the email of this user."
-msgstr ""
+msgstr "Zadejte prosím email tohoto uživatele."
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the estimated development time for this task."
-msgstr ""
+msgstr "Prosím zadejte odhadovaný čas vývoje pro tento úkol."
 
 #: templates/manage/users.tpl.html
 msgid "Please enter the full name of this user."
-msgstr ""
+msgstr "Zadejte prosím celé jméno tohoto uživatele."
 
 #: templates/setup.tpl.html
 msgid ""
 "Please enter the hostname for the server of this installation of Eventum."
-msgstr ""
+msgstr "Prosím zadejte název hostitele pro server této instalace Eventum."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the hostname for this email account."
-msgstr ""
+msgstr "Zadejte prosím název hostitele tohoto emailového účtu."
 
 #: templates/requirement.tpl.html
 msgid "Please enter the impact analysis for this new requirement."
-msgstr ""
+msgstr "Prosím zadejte analýzu dopadu tohoto nového požadavku."
 
 #: templates/manage/reminders.tpl.html
 msgid ""
 "Please enter the issue IDs that will be associated with this reminder."
-msgstr ""
+msgstr "Zadejte prosím ID chyby která bude připojena k tomuto členovi."
 
 #: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
+"Prosím zadejte URl stránky záznamu pro váš nástroj zavedení systému správy "
+"verzí."
 
 #: templates/send.tpl.html
 msgid "Please enter the message body of this email."
-msgstr ""
+msgstr "Zadejte prosím tělo zprávy tohoto emailu."
 
 #: templates/post_note.tpl.html
 msgid "Please enter the message body of this note."
-msgstr ""
+msgstr "Prosím zadejte tělo zprávy této poznámky."
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the message for this FAQ entry."
-msgstr ""
+msgstr "Porsím zadejte zprávu této položky nejčastějších otázek."
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the message for this news entry."
-msgstr ""
+msgstr "Zadejte prosím zprávu pro tuto novinku."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please enter the message for this round robin entry."
-msgstr ""
+msgstr "Prosím zadejte zprávu pro tuto položku kruhového přiřazení."
 
 #: templates/manage/groups.tpl.html
 msgid "Please enter the name of this group."
-msgstr ""
+msgstr "Zadejte prosím název této skupiny."
 
 #: templates/impact_analysis.tpl.html
 msgid "Please enter the new requirement for this issue."
-msgstr ""
+msgstr "Prosím zadejte nový požadavek této úlohy."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the new value for the combo box."
-msgstr ""
+msgstr "Zadejte prosím novou hodnotu pro rozbalovací seznam."
 
 #: templates/popup.tpl.html
 msgid "Please enter the note text on the input box below."
-msgstr ""
+msgstr "Prosím zadejte text poznámky v rámečku vstupu níže."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the password for this email account."
-msgstr ""
+msgstr "Zadejte prosím heslo pro tento emailový účet."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the port number for this email account."
-msgstr ""
+msgstr "Prosím zadejte číslo portu pro tento emailový účet."
 
 #: templates/manage/reminders.tpl.html
 msgid "Please enter the rank for this reminder."
-msgstr ""
+msgstr "Zadejte prosím hodnost této upomínky."
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the rank of this FAQ entry."
-msgstr ""
+msgstr "Zadejte prosím hodnocení této položky nejčastějších otázek."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the rank of this priority"
-msgstr ""
+msgstr "Prosím zadejte hodnocení této priority"
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the rank of this resolution."
-msgstr ""
+msgstr "Zadejte prosím hodnocení tohoto řešení"
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the rank of this status."
-msgstr ""
+msgstr "Prosím zadejte hodnocení tohoto stavu."
 
 #: templates/send.tpl.html
 msgid "Please enter the recipient of this email."
-msgstr ""
+msgstr "Zadejte prosím příjemce tohoto emailu."
 
 #: templates/setup.tpl.html
 msgid "Please enter the relative URL of this installation of Eventum."
-msgstr ""
+msgstr "Prosím zadejte relativní URL této instalace Eventum."
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
 "Please enter the sender address that will be used for all outgoing "
 "notification emails."
 msgstr ""
+"Zadejte prosím adresu odesílatele, která bude použita pro všechny odchozí "
+"zprávy."
 
 #: templates/send.tpl.html
 msgid "Please enter the subject of this email."
-msgstr ""
+msgstr "Prosím zadejte předmět této zprávy."
 
 #: templates/update_form.tpl.html
 msgid "Please enter the summary for this issue."
-msgstr ""
+msgstr "Zadejte prosím souhrn této úlohy."
 
 #: templates/add_time_tracking.tpl.html
 msgid "Please enter the summary for this new time tracking entry."
-msgstr ""
+msgstr "Prosím zadejte souhrn pro tuto novou položku sledování času."
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the title for this FAQ entry."
-msgstr ""
+msgstr "Zadejte prosím název pro tuto položku nejčastějších otázek."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Please enter the title for this action."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto činnost."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title for this category."
-msgstr ""
+msgstr "Zadejte prosím název této kategorie."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please enter the title for this condition."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto podmínku."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please enter the title for this customization."
-msgstr ""
+msgstr "Zadejte prosím název pro toto přizpůsobení."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title for this email response."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto odpověď na email."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the title for this issue resolution."
-msgstr ""
+msgstr "Zadejte prosím název pro toto řešení úlohy."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Please enter the title for this new action."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto novou činnost."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title for this new category."
-msgstr ""
+msgstr "Zadejte prosím název této nové kategorie."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please enter the title for this new condition."
-msgstr ""
+msgstr "Prosím zadejte název této nové podmínky."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please enter the title for this new customization."
-msgstr ""
+msgstr "Zadejte prosím název tohoto névého přizpůsobení"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title for this new email response."
-msgstr ""
+msgstr "Prosím zadejte název této nové odpovědi emailem."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the title for this new issue resolution."
-msgstr ""
+msgstr "Zadejte prosím název pro toto névo řešení úlohy."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title for this new priority."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto novou prioritu"
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title for this new project."
-msgstr ""
+msgstr "Zadejte prosím název tohoto nového projektu."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title for this new release."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto novou verzi."
 
 #: templates/manage/reminders.tpl.html
 msgid "Please enter the title for this new reminder."
-msgstr ""
+msgstr "Zadejte prosím název pro tuto novou upomínku."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the title for this new status."
-msgstr ""
+msgstr "Prosím zadejte název pro tento nový stav."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please enter the title for this new time tracking category."
-msgstr ""
+msgstr "Zadejte prosím název pro tuto novou kategorii sledování času."
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the title for this news entry."
-msgstr ""
+msgstr "Prosím zadejte název pro tuto položku novinek."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title for this priority."
