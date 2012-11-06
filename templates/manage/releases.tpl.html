@@ -1,185 +1,136 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              <script type="text/javascript" src="{$core.rel_url}js/dynCalendar.js"></script>
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this release.{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  return true;
-              }
-              function calendarCallback(day, month, year)
-              {
-                  selectOption(this.document.release_form, 'scheduled_date[Day]', day);
-                  selectOption(this.document.release_form, 'scheduled_date[Month]', month);
-                  selectOption(this.document.release_form, 'scheduled_date[Year]', year);
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="release_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              <input type="hidden" name="prj_id" value="{$project.prj_id}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+{block "manage_content"}
+      {literal}
+      <script type="text/javascript">
+      <!--
+      function validateForm()
+      {
+          if (Validation.isFieldWhitespace('title')) {
+              alert('{/literal}{t escape=js}Please enter the title of this release.{/t}{literal}');
+              Validation.selectField('title');
+              return false;
+          }
+          return true;
+      }
+      function checkDelete()
+      {
+          if (!Validation.hasOneChecked('items[]')) {
+              alert('{/literal}{t escape=js}Please select at least one of the releases.{/t}{literal}');
+              return false;
+          }
+          if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+              return false;
+          } else {
+              return true;
+          }
+      }
+      $().ready(function() {
+          $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+          $('#delete_form').submit(checkDelete);
+          $('#release_form').submit(validateForm);
+      });
+      //-->
+      </script>
+      {/literal}
+      <form name="release_form" method="post" action="{$smarty.server.PHP_SELF}">
+      <input type="hidden" name="prj_id" value="{$project.prj_id}">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="hidden" name="cat" value="update">
+      <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+      {else}
+      <input type="hidden" name="cat" value="new">
+      {/if}
+        <table class="bordered">
+          <tr class="title">
+            <th colspan="2">
+              {t}Manage Releases{/t}
+                <div class="right">
+                    ({t}Current Project:{/t} {$project.prj_title})
+                </div>
+            </th>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Title:{/t}
+            </th>
+            <td>
+              <input type="text" name="title" size="40" value="{$info.pre_title|default:''}">
+              {include file="error_icon.tpl.html" field="title"}
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Tentative Date:{/t}
+            </th>
+            <td>
+              {html_select_date field_array="scheduled_date" prefix="" time=$info.pre_scheduled_date|default:'' start_year="-10" end_year="+10" all_extra='class="default"'}
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Status:{/t}
+            </th>
+            <td>
+              <select name="status">
+                <option value="available" {if $info.pre_status|default:'' == 'available'}selected{/if}>{t}Available - Users may use this release{/t}</option>
+                <option value="unavailable" {if $info.pre_status|default:'' == 'unavailable'}selected{/if}>{t}Unavailable - Users may NOT use this release{/t}</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="buttons">
+            <td colspan="2">
+              {if $smarty.get.cat|default:'' == 'edit'}
+              <input type="submit" value="{t}Update Release{/t}">
               {else}
-              <input type="hidden" name="cat" value="new">
+              <input type="submit" value="{t}Create Release{/t}">
               {/if}
-              <tr>
-                <td>
-                  <b>{t}Manage Releases{/t}</b>
-                </td>
-                <td align="right">
-                  ({t}Current Project:{/t} {$project.prj_title})
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new release.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this new release.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the release was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the release information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this release.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the release was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120">
-                  <b>{t}Title:{/t}</b>
-                </td>
-                <td>
-                  <input type="text" name="title" size="40" value="{$info.pre_title}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120">
-                  <b>{t}Tentative Date:{/t}</b>
-                </td>
-                <td>
-                  {html_select_date field_array="scheduled_date" prefix="" time=$info.pre_scheduled_date start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar = new dynCalendar('tCalendar', 'calendarCallback', '{$core.rel_url}images/');
-                  tCalendar.setMonthCombo(false);
-                  tCalendar.setYearCombo(false);
-                  {if $info.scheduled_month}
-                  tCalendar.setCurrentMonth({$info.scheduled_month}-1);
-                  tCalendar.setCurrentYear({$info.scheduled_year});
-                  {/if}
-                  //-->
-                  </script>
-                </td>
-              </tr>
-              <tr>
-                <td width="120">
-                  <b>{t}Status:{/t}</b>
-                </td>
-                <td>
-                  <select name="status">
-                    <option value="available" {if $info.pre_status == 'available'}selected{/if}>{t}Available - Users may use this release{/t}</option>
-                    <option value="unavailable" {if $info.pre_status == 'unavailable'}selected{/if}>{t}Unavailable - Users may NOT use this release{/t}</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input type="submit" value="{t}Update Release{/t}">
-                  {else}
-                  <input type="submit" value="{t}Create Release{/t}">
-                  {/if}
-                  <input type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2">
-                  <b>{t}Existing Releases:{/t}</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the releases.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="prj_id" value="{$project.prj_id}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td>&nbsp;<b>{t}Title{/t}</b></td>
-                      <td>&nbsp;<b>{t}Tentative Date{/t}</b></td>
-                      <td>&nbsp;<b>{t}Status{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
-                      <td width="40%">
-                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
-                      </td>
-                      <td>&nbsp;{$list[i].pre_scheduled_date}</td>
-                      <td>&nbsp;{$list[i].pre_status}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="4" align="center">
-                        <i>{t}No releases could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td colspan="3" align="center">
-                        <input type="submit" value="{t}Delete{/t}">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
+              <input type="reset" value="{t}Reset{/t}">
+            </td>
+          </tr>
+        </table>
+        </form>
 
+        <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+        <input type="hidden" name="prj_id" value="{$project.prj_id}">
+        <input type="hidden" name="cat" value="delete">
+        <table class="bordered">
+          <tr class="title">
+            <th colspan="4">
+              {t}Existing Releases:{/t}
+            </th>
+          </tr>
+            <tr>
+              <th width="4" nowrap><input type="button" class="select_all" value="{t}All{/t}"></th>
+              <th>&nbsp;{t}Title{/t}</th>
+              <th>&nbsp;{t}Tentative Date{/t}</th>
+              <th>&nbsp;{t}Status{/t}</th>
+            </tr>
+            {section name="i" loop=$list}
+            <tr class="{cycle values='odd,even'}">
+              <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
+              <td width="40%">
+                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
+              </td>
+              <td>&nbsp;{$list[i].pre_scheduled_date}</td>
+              <td>&nbsp;{$list[i].pre_status}</td>
+            </tr>
+            {sectionelse}
+            <tr class="no_results">
+              <td colspan="4" align="center">
+                {t}No releases could be found.{/t}
+              </td>
+            </tr>
+            {/section}
+            <tr class="buttons">
+              <td width="4">
+                <input type="button" class="select_all" value="{t}All{/t}">
+              </td>
+              <td colspan="3">
+                <input type="submit" value="{t}Delete{/t}">
+              </td>
+            </tr>
+        </table>
+        </form>
+{/block}

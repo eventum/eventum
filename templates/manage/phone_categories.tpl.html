@@ -1,144 +1,111 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this category{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="phone_category_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              <input type="hidden" name="prj_id" value="{$project.prj_id}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-              {else}
-              <input type="hidden" name="cat" value="new">
-              {/if}
-              <tr>
-                <td nowrap>
-                  <b>{t}Manage Phone Support Categories{/t}</b>
-                </td>
-                <td align="right">
-                  ({t}Current Project{/t}: {$project.prj_title})
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new category.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this new category.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the category was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the category information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this category.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the category was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120">
-                  <b>{t}Title{/t}: *</b>
-                </td>
-                <td width="100%">
-                  <input type="text" name="title" size="40" value="{$info.phc_title}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input type="submit" value="{t}Update Category{/t}">
-                  {else}
-                  <input type="submit" value="{t}Create Category{/t}">
-                  {/if}
-                  <input type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2">
-                  <b>{t}Existing Phone Support Categories{/t}:</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the categories.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="prj_id" value="{$project.prj_id}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="100%">&nbsp;<b>{t}Title{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].phc_id}"></td>
-                      <td width="100%">
-                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].phc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].phc_title}</a>
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="2" align="center">
-                        <i>{t}No phone support categories could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td align="center">
-                        <input type="submit" value="{t}Delete{/t}">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
+{block "manage_content"}
+{literal}
+<script type="text/javascript">
+    <!--
+    function validateForm()
+    {
+        if (Validation.isFieldWhitespace('title')) {
+            alert('{/literal}{t escape=js}Please enter the title of this category{/t}{literal}');
+            Validation.selectField('title');
+            return false;
+        }
+        return true;
+    }
+    function checkDelete()
+    {
+        if (!Validation.hasOneChecked('items[]')) {
+            alert('{/literal}{t escape=js}Please select at least one of the categories.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    $().ready(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+        $('#delete_form').submit(checkDelete);
+        $('#phone_category_form').submit(validateForm);
+    });
+    //-->
+</script>
+{/literal}
+<form id="phone_category_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="prj_id" value="{$project.prj_id}">
+    {if $smarty.get.cat|default:'' == 'edit'}
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+    {else}
+    <input type="hidden" name="cat" value="new">
+    {/if}
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}Manage Phone Support Categories{/t}
+                <div class="right">({t}Current Project{/t}: {$project.prj_title})</div>
+            </th>
         </tr>
-      </table>
+        <tr>
+            <th width="120">
+                {t}Title{/t}: *
+            </th>
+            <td>
+                <input type="text" name="title" size="40" value="{$info.phc_title|default:''}">
+                {include file="error_icon.tpl.html" field="title"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                {if $smarty.get.cat|default:'' == 'edit'}
+                <input type="submit" value="{t}Update Category{/t}">
+                {else}
+                <input type="submit" value="{t}Create Category{/t}">
+                {/if}
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
 
+<form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="prj_id" value="{$project.prj_id}">
+    <input type="hidden" name="cat" value="delete">
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}Existing Phone Support Categories{/t}:
+            </th>
+        </tr>
+        <tr>
+            <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+            <th width="100%">&nbsp;{t}Title{/t}</th>
+        </tr>
+        {section name="i" loop=$list}
+        <tr class="{cycle values='odd,even'}">
+            <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].phc_id}"></td>
+            <td width="100%">
+                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].phc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].phc_title}</a>
+            </td>
+        </tr>
+        {sectionelse}
+        <tr>
+            <td colspan="2" class="no_results">
+                {t}No phone support categories could be found.{/t}
+            </td>
+        </tr>
+        {/section}
+        <tr class="buttons">
+            <td width="4" align="center">
+                <input type="button" value="{t}All{/t}" class="select_all">
+            </td>
+            <td>
+                <input type="submit" value="{t}Delete{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}

@@ -1,54 +1,38 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
 {if $prj_id == ''}
-    <span>
+<span>
     {t}This page can only be accessed in relation to a project. Please go to the project page and choose{/t}&nbsp;"{t}Edit Fields to Display{/t}"&nbsp;{t}to access this page.{/t}<br />
     <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
 <form name="display_form" method="post" action="{$smarty.server.PHP_SELF}?prj_id={$prj_id}">
-<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-    <tr>
-        <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-                <tr>
-                    <td colspan="2">
-                        <b>{t}Edit Fields to Display{/t}</b> {include file="help_link.tpl.html" topic="field_display"}
-                    </td>
-                </tr>
-                {if $result != ""}
-                <tr>
-                    <td colspan="2" align="center" class="error">
-                      {if $result == -1}
-                        {t}An error occurred while trying to update field display settings.{/t}
-                      {elseif $result == 1}
-                        {t}Thank you, field display settings were updated successfully.{/t}
-                      {/if}
-                    </td>
-                </tr>
-                {/if}
-                {foreach from=$fields item=field_title key=field_name}
-                {cycle values=$cycle assign="row_color"}
-                <tr>
-                    <td align="center" width="150">
-                        {t 1=$field_title}%1 Field{/t}:
-                    </td>
-                    <td>
-                        <select name="min_role[{$field_name}]">
-                            {html_options options=$user_roles selected=$display_settings[$field_name]}
-                        </select>
-                    </td>
-                </tr>
-                {/foreach}
-                <tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="{t}Set Display Preferences{/t}">
-                        <input type="reset" value="{t}Reset{/t}">
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="2">
+                {t}Edit Fields to Display{/t} {include file="help_link.tpl.html" topic="field_display"}
+            </th>
+        </tr>
+        {foreach from=$fields item=field_title key=field_name}
+        <tr class="{cycle values='odd,even'}">
+            <th width="150">
+                {t 1=$field_title}%1 Field{/t}:
+            </th>
+            <td>
+                <select name="min_role[{$field_name}]">
+                    {html_options options=$user_roles selected=$display_settings[$field_name]}
+                </select>
+            </td>
+        </tr>
+        {/foreach}
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Set Display Preferences{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
 </form>
 {/if}
-
+{/block}

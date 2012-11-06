@@ -1,209 +1,159 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
+{block "manage_content"}
+{literal}
+<script type="text/javascript">
+    <!--
+    function validateForm()
+    {
+        if (Eventum.getField('anonymous_post').first().is(':checked')) {
+            if (!Validation.hasOneChecked('options[show_custom_fields]')) {
+                alert('{/literal}{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
+                Validation.selectField('options[show_custom_fields]');
+                return false;
+            }
+            if (Eventum.getField('options[reporter]').val() == '-1') {
+                alert('{/literal}{t escape=js}Please choose the reporter for remote invocations.{/t}{literal}');
+                Validation.selectField('options[reporter]');
+                return false;
+            }
+            if (Eventum.getField('options[category]').val() == '-1') {
+                alert('{/literal}{t escape=js}Please choose the default category for remote invocations.{/t}{literal}');
+                Validation.selectField('options[category]');
+                return false;
+            }
+            if (Eventum.getField('options[priority]').val() == '-1') {
+                alert('{/literal}{t escape=js}Please choose the default priority for remote invocations.{/t}{literal}');
+                Validation.selectField('options[priority]');
+                return false;
+            }
+            {/literal}
+            {if $allow_unassigned_issues != 'yes'}
+                {literal}
+                if (!Validation.hasOneSelected('options[users][]')) {
+                    alert('{/literal}{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
+                    Validation.selectField('options[users][]');
+                    return false;
+                }
+                {/literal}
+            {/if}
+            {literal}
+                }
+                return true;
+            }
+            function toggleDisableFields()
+            {
+                var bool = !Eventum.getField('anonymous_post').first().is(':checked');
+                if (bool) {
+                    var bgcolor = '#CCCCCC';
+                } else {
+                    var bgcolor = '#FFFFFF';
+                }
+                var fields = $('#anon_form select').
+                        add(Eventum.getField('options[show_custom_fields]')).
+                        attr('disabled', bool).
+                        css('backgroundColor', bgcolor);
+            }
+
+            $().ready(function() {
+                $('#anon_form').submit(validateForm);
+                toggleDisableFields();
+                Eventum.getField('anonymous_post').change(toggleDisableFields);
+            });
+    //-->
+</script>
+{/literal}
+<form id="anon_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="prj_id" value="{$prj_id}">
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}Anonymous Reporting of New Issues{/t}
+                <div class="right">({t}Current Project:{/t} {$project.prj_title})</div>
+            </th>
+        </tr>
         <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  var field1 = getFormElement(f, 'anonymous_post', 0);
-                  var field2 = getFormElement(f, 'anonymous_post', 1);
-                  if ((!field1.checked) && (!field2.checked)) {
-                      alert('{/literal}{t escape=js}Please choose whether the anonymous posting feature should be allowed or not for this project{/t}{literal}');
-                      return false;
-                  }
-                  if (field1.checked) {
-                      var field = getFormElement(f, 'options[show_custom_fields]');
-                      var field1 = getFormElement(f, 'options[show_custom_fields]', 1);
-                      if (!field.checked && !field1.checked) {
-                          alert('{/literal}{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
-                          selectField(f, 'options[show_custom_fields]');
-                          return false;
-                      }
-                      field = getFormElement(f, 'options[reporter]');
-                      if (field.selectedIndex == 0) {
-                          alert('{/literal}{t escape=js}Please choose the reporter for remote invocations.{/t}{literal}');
-                          selectField(f, 'options[reporter]');
-                          return false;
-                      }
-                      field = getFormElement(f, 'options[category]');
-                      if (field.selectedIndex == 0) {
-                          alert('{/literal}{t escape=js}Please choose the default category for remote invocations.{/t}{literal}');
-                          selectField(f, 'options[category]');
-                          return false;
-                      }
-                      field = getFormElement(f, 'options[priority]');
-                      if (field.selectedIndex == 0) {
-                          alert('{/literal}{t escape=js}Please choose the default priority for remote invocations.{/t}{literal}');
-                          selectField(f, 'options[priority]');
-                          return false;
-                      }
-             {/literal}
-                    {if $allow_unassigned_issues != 'yes'}
-             {literal}
-                      if (!hasOneSelected(f, 'options[users][]')) {
-                          alert('{/literal}{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
-                          selectField(f, 'options[users][]');
-                          return false;
-                      }
-             {/literal}
-                    {/if}
-             {literal}
-                  }
-                  return true;
-              }
-              function disableFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'options[show_custom_fields]');
-                  var field1 = getFormElement(f, 'options[show_custom_fields]', 1);
-                  field.disabled = bool;
-                  field1.disabled = bool;
-                  field = getFormElement(f, 'options[category]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'options[reporter]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'options[priority]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'options[users][]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="anon_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="prj_id" value="{$prj_id}">
-              <tr>
-                <td colspan="2">
-                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                      <td><b>{t}Anonymous Reporting of New Issues{/t}</b></td>
-                      <td align="right">({t}Current Project:{/t} {$project.prj_title})</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" align="center" class="error">
-                  {if $result == -1}
-                    {t}An error occurred while trying to update the information.{/t}
-                  {elseif $result == 1}
-                    {t}Thank you, the information was updated successfully.{/t}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="130" nowrap>
-                  <b>{t}Anonymous Reporting:{/t} *</b>
-                </td>
-                <td width="80%">
-                  <input type="radio" name="anonymous_post" value="enabled" {if $project.prj_anonymous_post == 'enabled'}checked{/if} onClick="disableFields(getForm('anon_form'), false);">
-                  <a id="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'anonymous_post', 0);disableFields(getForm('anon_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="anonymous_post" value="disabled" {if $project.prj_anonymous_post == 'disabled'}checked{/if} onClick="disableFields(getForm('anon_form'), true);">
-                  <a id="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'anonymous_post', 1);disableFields(getForm('anon_form'), true);">{t}Disabled{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="130" nowrap>
-                  <b>{t}Show Custom Fields ?{/t} *</b>
-                </td>
-                <td width="80%">
-                  <input type="radio" name="options[show_custom_fields]" value="yes" {if $options.show_custom_fields == 'yes'}checked{/if}>
-                  <a id="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'options[show_custom_fields]', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="options[show_custom_fields]" value="no" {if $options.show_custom_fields == 'no'}checked{/if}>
-                  <a id="link" href="javascript:void(null);" onClick="checkRadio('anon_form', 'options[show_custom_fields]', 1);">{t}Disabled{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="130">
-                  <b>{t}Reporter:{/t} *</b>
-                </td>
-                <td>
-                  <select name="options[reporter]" tabindex="1">
+            <th width="130" nowrap>
+                {t}Anonymous Reporting:{/t} *
+            </th>
+            <td width="80%">
+                <label>
+                    <input type="radio" name="anonymous_post" value="enabled" {if $project.prj_anonymous_post == 'enabled'}checked{/if}>
+                    {t}Enabled{/t}</label>
+                <label>
+                    <input type="radio" name="anonymous_post" value="disabled" {if $project.prj_anonymous_post != 'enabled'}checked{/if}>
+                    {t}Disabled{/t}</label>
+            </td>
+        </tr>
+        <tr>
+            <th width="130" nowrap>
+                {t}Show Custom Fields ?{/t} *
+            </th>
+            <td width="80%">
+                <label>
+                    <input type="radio" name="options[show_custom_fields]" value="yes" {if $options.show_custom_fields == 'yes'}checked{/if}>
+                    {t}Enabled{/t}</label>
+                <label>
+                    <input type="radio" name="options[show_custom_fields]" value="no" {if $options.show_custom_fields != 'yes'}checked{/if}>
+                    {t}Disabled{/t}</label>
+            </td>
+        </tr>
+        <tr>
+            <th width="130">
+                {t}Reporter:{/t} *
+            </th>
+            <td>
+                <select name="options[reporter]" tabindex="1">
                     <option value="-1">{t}Please choose an user{/t}</option>
                     {html_options options=$users selected=$options.reporter}
-                  </select>
-                  {include file="error_icon.tpl.html" field="options[reporter]"}
-                </td>
-              </tr>
-              <tr>
-                <td width="130">
-                  <b>{t}Default Category:{/t} *</b>
-                </td>
-                <td>
-                  <select name="options[category]" tabindex="2">
+                </select>
+                {include file="error_icon.tpl.html" field="options[reporter]"}
+            </td>
+        </tr>
+        <tr>
+            <th width="130">
+                {t}Default Category:{/t} *
+            </th>
+            <td>
+                <select name="options[category]" tabindex="2">
                     <option value="-1">{t}Please choose a category{/t}</option>
                     {html_options options=$cats selected=$options.category}
-                  </select>
-                  {include file="error_icon.tpl.html" field="options[category]"}
-                </td>
-              </tr>
-              <tr>
-                <td width="130">
-                  <b>{t}Default Priority:{/t} *</b>
-                </td>
-                <td>
-                  <select name="options[priority]" tabindex="3">
+                </select>
+                {include file="error_icon.tpl.html" field="options[category]"}
+            </td>
+        </tr>
+        <tr>
+            <th width="130">
+                {t}Default Priority:{/t} *
+            </th>
+            <td>
+                <select name="options[priority]" tabindex="3">
                     <option value="-1">{t}Please choose a priority{/t}</option>
                     {section name="i" loop=$priorities}
                     <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
                     {/section}
-                  </select>
-                  {include file="error_icon.tpl.html" field="options[priority]"}
-                </td>
-              </tr>
-              <tr>
-                <td width="150">
-                  <b>{t}Assignment:{/t}{if $allow_unassigned_issues != 'yes'} *{/if}</b>
-                </td>
-                <td>
-                  <select name="options[users][]" multiple size="3" tabindex="4">
-                    {html_options options=$users selected=$options.users}
-                  </select>
-                  {include file="error_icon.tpl.html" field="options[users][]"}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" align="center">
-                  <input type="submit" value="{t}Update Setup{/t}">
-                  <input type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-            </table>
-          </td>
+                </select>
+                {include file="error_icon.tpl.html" field="options[priority]"}
+            </td>
         </tr>
-      </table>
-      {literal}
-      <script type="text/javascript">
-      <!--
-      window.onload = setDisabledFields;
-      function setDisabledFields()
-      {
-          var f = getForm('anon_form');
-          var field1 = getFormElement(f, 'anonymous_post', 0);
-          if (field1.checked) {
-              disableFields(f, false);
-          } else {
-              field1 = getFormElement(f, 'anonymous_post', 1);
-              field1.checked = true;
-              disableFields(f, true);
-          }
-      }
-      //-->
-      </script>
-      {/literal}
-
+        <tr>
+            <th width="150">
+                {t}Assignment:{/t}{if $allow_unassigned_issues != 'yes'} *{/if}
+            </th>
+            <td>
+                <select name="options[users][]" multiple size="3" tabindex="4">
+                    {html_options options=$users selected=$options.users|default:''}
+                </select>
+                {include file="error_icon.tpl.html" field="options[users][]"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Update Setup{/t}">
+                <input type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}
