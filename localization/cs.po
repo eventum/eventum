@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-11-05 22:35+0000\n"
+"PO-Revision-Date: 2012-11-14 23:07+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-06 04:51+0000\n"
-"X-Generator: Launchpad (build 16232)\n"
+"X-Launchpad-Export-Date: 2012-11-15 04:44+0000\n"
+"X-Generator: Launchpad (build 16265)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -5252,130 +5252,131 @@ msgstr "Prosím zadejte název pro tuto položku novinek."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title for this priority."
-msgstr ""
+msgstr "Zadejte prosím název této priority"
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title for this project."
-msgstr ""
+msgstr "Zadejte prosím název tohoto projektu."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title for this release."
-msgstr ""
+msgstr "Zadejte prosím název této verze."
 
 #: templates/manage/reminders.tpl.html
 msgid "Please enter the title for this reminder."
-msgstr ""
+msgstr "Zadejte prosím název této upomínky."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please enter the title for this round robin entry."
-msgstr ""
+msgstr "Zadejte prosím název této položky kruhového přiřazení."
 
 #: templates/adv_search.tpl.html
 msgid "Please enter the title for this saved search."
-msgstr ""
+msgstr "Zadejte prosím název tohoto uloženého hledání."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the title for this status."
-msgstr ""
+msgstr "Zadejte prosím název tohoto stavu."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please enter the title for this time tracking category."
-msgstr ""
+msgstr "Zadejte prosím název této kategorie sledování času."
 
 #: templates/manage/faq.tpl.html
 msgid "Please enter the title of this FAQ entry."
-msgstr ""
+msgstr "Zadejte prosím název této položky nejčastějších otázek."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please enter the title of this category"
-msgstr ""
+msgstr "Zadejte prosím název této kategorie"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the title of this custom field."
-msgstr ""
+msgstr "Zadejte prosím název tohoto vlastního pole."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please enter the title of this email response."
-msgstr ""
+msgstr "Zadejte prosím název této emailové odpovědi."
 
 #: templates/manage/news.tpl.html
 msgid "Please enter the title of this news entry."
-msgstr ""
+msgstr "Zadejte prosím název této novinky."
 
 #: templates/post_note.tpl.html
 msgid "Please enter the title of this note."
-msgstr ""
+msgstr "Zadejte prosím název této poznámky."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please enter the title of this priority"
-msgstr ""
+msgstr "Zadejte prosím název této priority"
 
 #: templates/manage/projects.tpl.html
 msgid "Please enter the title of this project."
-msgstr ""
+msgstr "Zadejte prosím název tohoto projektu."
 
 #: templates/manage/releases.tpl.html
 msgid "Please enter the title of this release."
-msgstr ""
+msgstr "Zadejte prosím název této verze."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please enter the title of this resolution."
-msgstr ""
+msgstr "Zadejte prosím název tohoto řešení."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please enter the title of this status."
-msgstr ""
+msgstr "Zadejte prosím název tohoto stavu."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please enter the title of this time tracking category"
-msgstr ""
+msgstr "Zadejte prosím název této kategorie sledování času"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please enter the updated value."
-msgstr ""
+msgstr "Zadejte prosím aktualizovanou hodnotu."
 
 #: templates/manage/ldap.tpl.html
 msgid "Please enter the user dn."
-msgstr ""
+msgstr "Zadejte prosím dn uživatele."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please enter the username for this email account."
-msgstr ""
+msgstr "Zadejte prosím uživatelské jméno tohoto emailového účtu."
 
 #: templates/forgot_password.tpl.html
 msgid "Please enter your account email address."
-msgstr ""
+msgstr "Zadejte prosím emailovou adresu svého účtu."
 
 #: templates/signup.tpl.html
 msgid "Please enter your email address."
-msgstr ""
+msgstr "Zadejte prosím svoji emailovou adresu."
 
 #: templates/preferences.tpl.html templates/signup.tpl.html
 msgid "Please enter your full name."
-msgstr ""
+msgstr "Zadejte prosím své celé jméno."
 
 #: templates/preferences.tpl.html
 msgid "Please enter your new password with at least 6 characters."
-msgstr ""
+msgstr "Zadejte prosím své nové heslo o délce alespoň 6 znaků."
 
 #: templates/signup.tpl.html
 msgid "Please enter your password."
-msgstr ""
+msgstr "Zadejte prosím své heslo."
 
 #: templates/manage/monitor.tpl.html
 msgid "Please fill proper partition path"
-msgstr ""
+msgstr "Vyplňte prosím správnou cestu k oddílu"
 
 #: templates/manage/general.tpl.html templates/setup.tpl.html
 msgid ""
 "Please indicate whether the SMTP server requires authentication or not."
-msgstr ""
+msgstr "Prosím uveďte , zda server SMTP vyžaduje ověření či nikoliv."
 
 #: templates/associate.tpl.html
 msgid ""
 "Please make sure you have selected the correct email messages to associate."
 msgstr ""
+"Ujistěte se prosím, že jste vybrali správné emailové zprávy k přidělení."
 
 #: templates/help/column_display.tpl.html
 msgid ""
@@ -5383,125 +5384,134 @@ msgid ""
 "be shown. For example, if no releases are defined in the system the "
 "'Release' column will be hidden."
 msgstr ""
+"Nezapomeňte prosím, že některé sloupce mohou být skryty i když by měly být "
+"zobrazeny. Například, pokud nejsou v systému zadány žádné verze, pak bude "
+"sloupec 'Verze' skryt."
 
 #: templates/login_form.tpl.html
 msgid "Please provide your email address."
-msgstr ""
+msgstr "Zadejte prosím svoji emailovou adresu."
 
 #: templates/login_form.tpl.html
 msgid "Please provide your password."
-msgstr ""
+msgstr "Zadejte prosím své heslo."
 
 #: templates/help/main.tpl.html
 msgid ""
 "Please refer to the following help sections for more information on specific "
 "parts of the application:"
 msgstr ""
+"Pro další informace o konkrétních částech aplikaci si prosím prohlédněte "
+"následující oddíly nápovědy:"
 
 #: templates/view_form.tpl.html
 msgid ""
 "Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
+"Prosím prohlédněte si <a class=\"link\" href=\"%1\">nejčastější otázky</a> "
+"pro informace o úlohách v karanténě."
 
 #: templates/new.tpl.html
 msgid ""
 "Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined "
 "issues."
 msgstr ""
+"Prosím prohlédněte si <a href=\"%1\">nejčastější otázky</a> pro informace o "
+"úlohách v karanténě."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select a backend"
-msgstr ""
+msgstr "Prosím zvolte podpůrnou vrstvu"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Please select a valid date for when the phone call took place."
-msgstr ""
+msgstr "Prosím zvolte platné datum kdy byl telefonní hovor uskutečněn."
 
 #: templates/add_time_tracking.tpl.html
 msgid "Please select a valid date of work."
-msgstr ""
+msgstr "Prosím zvolte platné datum práce."
 
 #: templates/update_form.tpl.html
 msgid "Please select an assignment for this issue"
-msgstr ""
+msgstr "Prosím zvolte přidělení k této úloze"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select an option from the list."
-msgstr ""
+msgstr "Zvotle prosím možnost ze seznamu."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select at least one link filter."
-msgstr ""
+msgstr "Prosím zvolte alespoň jeden filtr propojení."
 
 #: templates/manage/faq.tpl.html
 msgid "Please select at least one of the FAQ entries."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednu z položek nejčastějších otázek."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Please select at least one of the account managers."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednoho ze správců účtu."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Please select at least one of the accounts."
-msgstr ""
+msgstr "Zvolte prosím alespoň jeden z účtů."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Please select at least one of the actions."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z činností."
 
 #: templates/authorized_replier.tpl.html
 msgid "Please select at least one of the authorized repliers."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednoho z oprávněných odpovídačů."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Please select at least one of the categories."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z kategorií."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Please select at least one of the conditions."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednu z podmínek."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Please select at least one of the custom fields."
-msgstr ""
+msgstr "Prosím zvolte alespoň jeden z vlastních polí."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Please select at least one of the customizations."
-msgstr ""
+msgstr "Zvolte prosím alespoň jedno z přizpůsobení."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Please select at least one of the email responses."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z emailových odpovědí."
 
 #: templates/manage/groups.tpl.html
 msgid "Please select at least one of the groups."
-msgstr ""
+msgstr "Zvolte prosím alespoň jenu ze skupin."
 
 #: templates/manage/news.tpl.html
 msgid "Please select at least one of the news entries."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z novinek."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Please select at least one of the notes."
-msgstr ""
+msgstr "Zvolte prosím alespoň jendu z poznámek."
 
 #: templates/manage/priorities.tpl.html
 msgid "Please select at least one of the priorities."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z priorit."
 
 #: templates/manage/projects.tpl.html
 msgid "Please select at least one of the projects."
-msgstr ""
+msgstr "Zvolte prosím alespoň jeden z projektů."
 
 #: templates/manage/releases.tpl.html
 msgid "Please select at least one of the releases."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z verzí."
 
 #: templates/manage/reminders.tpl.html
 msgid "Please select at least one of the reminders."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednu z upomínek."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please select at least one of the resolutions."
