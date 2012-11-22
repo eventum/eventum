@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-11-14 23:07+0000\n"
+"PO-Revision-Date: 2012-11-21 22:43+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-16 04:37+0000\n"
-"X-Generator: Launchpad (build 16272)\n"
+"X-Launchpad-Export-Date: 2012-11-22 05:08+0000\n"
+"X-Generator: Launchpad (build 16293)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -5515,132 +5515,140 @@ msgstr "Zvolte prosím alespoň jednu z upomínek."
 
 #: templates/manage/resolution.tpl.html
 msgid "Please select at least one of the resolutions."
-msgstr ""
+msgstr "Prosím zvolte alespoň jedno z řešení."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Please select at least one of the round robin entries."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednu z položek kruhového přiřazení."
 
 #: templates/manage/statuses.tpl.html
 msgid "Please select at least one of the statuses."
-msgstr ""
+msgstr "Prosím zvolte alespoň jeden ze stavů."
 
 #: templates/notification.tpl.html
 msgid "Please select at least one of the subscribers."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednoho z odběratelů."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Please select at least one of the time tracking categories."
-msgstr ""
+msgstr "Prosím zvolte alespoň jednu z kategorií sledování času"
 
 #: templates/manage/users.tpl.html
 msgid "Please select at least one of the users."
-msgstr ""
+msgstr "Zvolte prosím alespoň jednoho z uživatelů"
 
 #: templates/manage/link_filters.tpl.html
 msgid "Please select projects this link filter should be active for."
 msgstr ""
+"Prosím zvolte projekty v kterých by tento filtr propojení měl být aktivní."
 
 #: templates/manage/general.tpl.html
 msgid ""
 "Please select the assigned projects for users that create their own accounts."
 msgstr ""
+"Zvolte prosím přidělení projektů pro uživatele, kteří si vytvořili vlastní "
+"účty."
 
 #: templates/reports/custom_fields.tpl.html
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
-msgstr ""
+msgstr "Prosím zvolte vlastní pole, pro který byste chtěli vytvořit výkaz."
 
 #: templates/quick_filter_form.tpl.html
 msgid "Please select the custom filter to search against."
-msgstr ""
+msgstr "Zvolte prosím vlastní filtr, který použít při hldání."
 
 #: templates/manage/link_filters.tpl.html
 msgid ""
 "Please select the minimum user role that should be able to see this link "
 "filter."
 msgstr ""
+"Zvolte prosím minimální uživatelskou roli, která může vidět tento filtr "
+"propojení."
 
 #: templates/view_form.tpl.html
 msgid "Please select the new status for this issue."
-msgstr ""
+msgstr "Prosím zvolte nový stav této úlohy."
 
 #: templates/impact_analysis.tpl.html
 msgid ""
 "Please use only floating point numbers (or integers) on the estimated "
 "development time field."
 msgstr ""
+"Prosím v poli odhadované doby vývoje používejte pouze desetinná (nebo celá) "
+"čísla."
 
 #: templates/requirement.tpl.html
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
 msgstr ""
+"Prosím v poli odhadované doby vývoje používejte pouze desetinná čísla."
 
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Polština"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/manage/ldap.tpl.html
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugalština"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
-msgstr ""
+msgstr "Odeslat interní poznámku"
 
 #: templates/post_note.tpl.html
 msgid "Post New Internal Note"
-msgstr ""
+msgstr "Odeslat novou interní poznámku"
 
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Posted Date"
-msgstr ""
+msgstr "Datum zveřejnění"
 
 #: templates/view_note.tpl.html
 msgid "Posted Date:"
-msgstr ""
+msgstr "Datum zveřejnění:"
 
 #: lib/eventum/class.support.php:484
 msgid "Postmaster notify: see transcript for details"
-msgstr ""
+msgstr "Oznámení správce pošty: viz přepis pro podrobnosti"
 
 #: templates/navigation.tpl.html
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavení"
 
 #: lib/eventum/class.pager.php:121
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: templates/view_form.tpl.html
 msgid "Previous Issue"
-msgstr ""
+msgstr "Předchozí úloha"
 
 #: templates/view_email.tpl.html
 msgid "Previous Message"
-msgstr ""
+msgstr "Předchozí zpráva"
 
 #: templates/view_note.tpl.html
 msgid "Previous Note"
-msgstr ""
+msgstr "Předchozí poznámka"
 
 #: templates/manage/account_managers.tpl.html
 msgid "Primary Technical Account Manager"
-msgstr ""
+msgstr "Správce hlavního technického účtu"
 
 #: lib/eventum/class.display_column.php:178 lib/eventum/class.filter.php:711
 #: lib/eventum/class.notification.php:632
@@ -5654,28 +5662,28 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/quick_filter_form.tpl.html
 #: templates/view_form.tpl.html
 msgid "Priority"
-msgstr ""
+msgstr "Priorita"
 
 #: lib/eventum/class.help.php:63 templates/help/report_priority.tpl.html
 msgid "Priority Field"
-msgstr ""
+msgstr "Pole priority"
 
 #: templates/searchbar.tpl.html templates/update_form.tpl.html
 msgid "Priority:"
-msgstr ""
+msgstr "Priorita:"
 
 #: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
-msgstr ""
+msgstr "Soukromé"
 
 #: templates/update_form.tpl.html
 msgid "Private:"
-msgstr ""
+msgstr "Soukromé:"
 
 #: lib/eventum/class.reminder_action.php:587
 msgid "Processing Group Leader notification"
-msgstr ""
+msgstr "Oznámení vedoucího skupinu zpracování"
 
 #: templates/manage/customer_notes.tpl.html
 #: templates/manage/customize_listing.tpl.html
@@ -5687,63 +5695,63 @@ msgstr ""
 #: templates/notifications/notes.tpl.text templates/post.tpl.html
 #: templates/select_project.tpl.html
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #: templates/manage/projects.tpl.html
 msgid "Project Lead"
-msgstr ""
+msgstr "Vedoucí projektu"
 
 #: templates/edit_reporter.tpl.html
 msgid "Project Reporters"
-msgstr ""
+msgstr "Referenti projektu"
 
 #: templates/update_form.tpl.html
 msgid "Project automatically switched to '%1' from '%2'."
-msgstr ""
+msgstr "Projekt automaticky převeden na '%1' z '%2'."
 
 #: templates/manage/projects.tpl.html
 msgid "Project mail aliases"
-msgstr ""
+msgstr "Zkratky emailu projektu"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/customize_listing.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/round_robin.tpl.html
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 #: templates/manage/email_responses.tpl.html templates/manage/groups.tpl.html
 #: templates/manage/link_filters.tpl.html templates/manage/news.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Projects"
-msgstr ""
+msgstr "Projekty"
 
 #: templates/manage/email_responses.tpl.html
 msgid "Projects:"
-msgstr ""
+msgstr "Projekty:"
 
 #: templates/file_upload.tpl.html
 msgid "Public"
-msgstr ""
+msgstr "Veřejné"
 
 #: templates/view_form.tpl.html
 msgid "Quarantine expires in %1"
-msgstr ""
+msgstr "Karanténa vyprší v %1"
 
 #: templates/mail_queue.tpl.html
 msgid "Queued Date"
-msgstr ""
+msgstr "Datum zařazení"
 
 #: templates/searchbar.tpl.html
 msgid "Quick Search"
-msgstr ""
+msgstr "Rychlé hledání"
 
 #: templates/checkins.tpl.html
 msgid "REMOVED"
-msgstr ""
+msgstr "ODSTRANĚNO"
 
 #: templates/adv_search.tpl.html
 msgid "RSS feed for this custom search"
-msgstr ""
+msgstr "Kanál RSS pro toto vlastní hledání"
 
 #: templates/manage/custom_fields.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/priorities.tpl.html
@@ -5751,22 +5759,24 @@ msgstr ""
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/statuses.tpl.html
 msgid "Rank"
-msgstr ""
+msgstr "Hodnocení"
 
 #: templates/manage/faq.tpl.html templates/manage/reminder_actions.tpl.html
 #: templates/manage/resolution.tpl.html templates/manage/statuses.tpl.html
 msgid "Rank:"
-msgstr ""
+msgstr "Hodnocení:"
 
 #: templates/view_email.tpl.html
 msgid "Raw Headers"
-msgstr ""
+msgstr "Prosté záhlaví"
 
 #: templates/view_email.tpl.html
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
 msgstr ""
+"Přesměrování nadřazeného okna na stránku hlášení úloh. Toto okno bude "
+"automaticky uzavřeno."
 
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
@@ -5774,163 +5784,168 @@ msgstr ""
 #: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
-msgstr ""
+msgstr "Re: %1$s"
 
 #. TRANSLATORS: %1 = issue_id, %2 = issue summary
 #: lib/eventum/class.issue.php:821
 #, php-format
 msgid "Re: [#%1$s] %2$s"
-msgstr ""
+msgstr "Re: [#%1$s] %2$s"
 
 #: templates/latest_news.tpl.html
 msgid "Read All Notices"
-msgstr ""
+msgstr "Přečíst všechna oznámení"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Reason"
-msgstr ""
+msgstr "Důvod"
 
 #: templates/close.tpl.html
 msgid "Reason for closing issue"
-msgstr ""
+msgstr "Důvod k uzavření úlohy"
 
 #: templates/close.tpl.html
 msgid "Reason to close"
-msgstr ""
+msgstr "Důvod k uzavření"
 
 #: templates/preferences.tpl.html
 msgid "Receive emails when all issues are created?"
-msgstr ""
+msgstr "Obdržovat emaily když jsou všechny úlohy vytvořeny?"
 
 #: templates/preferences.tpl.html
 msgid "Receive emails when new issues are assigned to you?"
-msgstr ""
+msgstr "Obdržovat emaily když Vám byly přiděleny nové úlohy?"
 
 #: templates/preferences.tpl.html
 msgid "Receive notifications for your own actions?"
-msgstr ""
+msgstr "Obdžovat oznámení o vašich vlastních činnostech?"
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "Received"
-msgstr ""
+msgstr "Obdrženo"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent"
-msgstr ""
+msgstr "Nedávné"
 
 #: templates/reports/recent_activity.tpl.html templates/reports/tree.tpl.html
 msgid "Recent Activity"
-msgstr ""
+msgstr "Nedávná činnost"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Activity Report"
-msgstr ""
+msgstr "Hlášení nedávné činnosti"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Drafts"
-msgstr ""
+msgstr "Nedávné návrhy"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Emails"
-msgstr ""
+msgstr "Nedávné emaily"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Notes"
-msgstr ""
+msgstr "Nedávné poznámky"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Phone Calls"
-msgstr ""
+msgstr "Nedávné telefonické hovory"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Reminder Actions"
-msgstr ""
+msgstr "Nedávné činnosti upomínky"
 
 #: templates/reports/recent_activity.tpl.html
 msgid "Recent Time Entries"
-msgstr ""
+msgstr "Nedávné časové záznamy"
 
 #: templates/mail_queue.tpl.html
 msgid "Recipient"
-msgstr ""
+msgstr "Příjemce"
 
 #: templates/manage/general.tpl.html
 msgid "Recipient Type Flag:"
-msgstr ""
+msgstr "Příznak typu příjemce:"
 
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "Recipients"
-msgstr ""
+msgstr "Příjemci"
 
 #: templates/post_note.tpl.html
 msgid "Recipients:"
-msgstr ""
+msgstr "Příjemci:"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Record Phone Call"
-msgstr ""
+msgstr "Zaznamenat telefonický hovor"
 
 #: templates/add_time_tracking.tpl.html
 msgid "Record Time Worked"
-msgstr ""
+msgstr "Zaznamenat odpracovanou dobu"
 
 #: templates/phone_support.tpl.html
 msgid "Recorded Date"
-msgstr ""
+msgstr "Datum záznamu"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Red values indicate value is higher than the aggregate one."
-msgstr ""
+msgstr "Červené hodnoty označují hodnotu která je vyšší než souhrnná."
 
 #: templates/redeem_incident.tpl.html
 msgid "Redeem Incidents"
-msgstr ""
+msgstr "Uplatnit incidenty"
 
 #: templates/view_form.tpl.html
 msgid "Redeemed Incident Types"
-msgstr ""
+msgstr "Uplatnené typy incidentů"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Refers to the number of emails sent by customers in eventum per issue. Does "
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
+"Vyjadřuje počet emailů odeslaných zákazníkem v eventum na úlohu. "
+"<b>Nezahrnuje</b> emaily odeslané do poštovní schránky obecné podpory."
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Refers to the number of emails sent by developers in eventum per issue. Does "
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
+"Vyjadřuje počet emailů odeslaných vývojáři v eventum na úlohu. "
+"<b>Nezahrnuje</b> emaily odeslané do poštovní schránky obecné podpory."
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "Refers to the number of issues in eventum for the given support level or "
 "customer."
 msgstr ""
+"Vyjadřuje počet úloh v eventum pro danou úroveň podpory nebo zákazníka."
 
 #: templates/preferences.tpl.html
 msgid "Refresh Rate for Email Listing Page"
-msgstr ""
+msgstr "Obnovovací frekvence pro stránku výpisu emailů"
 
 #: templates/preferences.tpl.html
 msgid "Refresh Rate for Issue Listing Page"
-msgstr ""
+msgstr "Obnovovací frekvence pro stránku výpisu úloh"
 
 #: templates/navigation.tpl.html
 msgid "Register"
-msgstr ""
+msgstr "Registrovat se"
 
 #: lib/eventum/class.display_column.php:210 lib/eventum/class.filter.php:736
 #: lib/eventum/class.notification.php:628
 #: lib/eventum/class.notification.php:629 templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html
 msgid "Release"
-msgstr ""
+msgstr "Verze"
 
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
-msgstr ""
+msgstr "Zapamatovat si výběr"
 
 #: templates/login_form.tpl.html
 msgid "Remember me"
