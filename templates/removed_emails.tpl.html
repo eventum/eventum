@@ -1,120 +1,113 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
+{block "title"}Removed Emails{/block}
+{block "page_id"}view_email{/block}
 
-{if $result_msg != ''}
+{block "content"}
+{if $result_msg|default:'' != ''}
 <br />
 <center>
   <span>
 {if $result_msg == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
+  {t}An error occurred while trying to run your query{/t}
 {elseif $result_msg == 1}
-  <b>{t}Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully{/t}</b>
+  {t}Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully{/t}
 {/if}
   </span>
 </center>
 <script type="text/javascript">
-<!--
-opener.location.href = opener.location;
-setTimeout('window.close()', 2000);
-//-->
+    <!--
+    opener.location.href = opener.location;
+    setTimeout('window.close()', 2000);
+    //-->
 </script>
 {else}
 <br />
-<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <tr>
-          <td>
-            <b>{t}Removed Emails{/t}</b>
-          </td>
+{literal}
+<script type="text/javascript">
+    <!--
+    function validateForm()
+    {
+        if (!Validation.hasOneChecked('item[]')) {
+            alert('{/literal}{t escape=js}Please choose which emails need to be restored.{/t}{literal}');
+            return false;
+        }
+        return true;
+    }
+    function removeEmails()
+    {
+        if (!Validation.hasOneChecked('item[]')) {
+            alert('{/literal}{t escape=js}Please choose which emails need to be permanently removed.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
+            return false;
+        } else {
+            var f = $('#removed_emails')[0];
+            f.cat.value = 'remove';
+            f.submit();
+        }
+    }
+    $().ready(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
+        $('#removed_emails').submit(validateForm);
+        $('#remove').click(removeEmails);
+    });
+    //-->
+</script>
+{/literal}
+<form method="post" action="{$smarty.server.PHP_SELF}" id="removed_emails">
+    <input type="hidden" name="cat" value="restore">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="4">
+                {t}Removed Emails{/t}
+            </th>
         </tr>
         <tr>
-          <td>
-            {literal}
-            <script type="text/javascript">
-            <!--
-            function validateForm(f)
-            {
-                if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t escape=js}Please choose which emails need to be restored.{/t}{literal}');
-                    return false;
-                }
-                f.submit();
-            }
-            function removeEmails(f)
-            {
-                if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t escape=js}Please choose which emails need to be permanently removed.{/t}{literal}');
-                    return false;
-                }
-                if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
-                    return false;
-                } else {
-                    f.cat.value = 'remove';
-                    f.submit();
-                }
-            }
-            //-->
-            </script>
-            {/literal}
-            <form method="post" action="{$smarty.server.PHP_SELF}">
-            <input type="hidden" name="cat" value="restore">
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-              <tr>
-                <td width="1%">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                </td>
-                <td>{t}Date{/t}</td>
-                <td width="20%">{t}From{/t}</td>
-                <td width="50%">{t}Subject{/t}</td>
-              </tr>
-              {section name="i" loop=$list}
-              {cycle values=$cycle assign="row_color"}
-              <tr>
-                <td width="1%" align="center" bgcolor="{$row_color}">
-                  <input type="checkbox" name="item[]" value="{$list[i].sup_id}">
-                </td>
-                <td align="center" bgcolor="{$row_color}" nowrap>
-                  {$list[i].sup_date}
-                </td>
-                <td bgcolor="{$row_color}" width="20%">
-                  {$list[i].sup_from|escape:"html"}
-                </td>
-                <td bgcolor="{$row_color}" width="50%">
-                  {$list[i].sup_subject|escape:"html"}
-                </td>
-              </tr>
-              {sectionelse}
-              <tr>
-                <td colspan="4" align="center">
-                  <i>{t}No emails could be found.{/t}</i>
-                </td>
-              </tr>
-              {/section}
-              <tr>
-                <td width="1%" align="center">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                </td>
-                <td colspan="3">
-                  <input type="button" value="{t}Restore Emails{/t}" onClick="validateForm(this.form);">
-                  <input type="button" value="{t}Close{/t}" onClick="window.close();">
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4" bgcolor="{$dark_color}" align="left">
-                  <input type="button" value="{t}Permanently Remove{/t}" onClick="removeEmails(this.form);">
-                </td>
-              </tr>
-            </table>
-            </form>
-          </td>
+            <th width="1%">
+                <input type="button" value="{t}All{/t}" class="select_all">
+            </th>
+            <th>{t}Date{/t}</th>
+            <th width="20%">{t}From{/t}</th>
+            <th width="50%">{t}Subject{/t}</th>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
-{include file="app_info.tpl.html"}
+        {section name="i" loop=$list}
+        <tr class="{cycle values='odd,even'}">
+            <td width="1%" align="center">
+                <input type="checkbox" name="item[]" value="{$list[i].sup_id}">
+            </td>
+            <td align="center" nowrap>
+                {$list[i].sup_date}
+            </td>
+            <td width="20%">
+                {$list[i].sup_from|escape:"html"}
+            </td>
+            <td  width="50%">
+                {$list[i].sup_subject|escape:"html"}
+            </td>
+        </tr>
+        {sectionelse}
+        <tr class="no_results">
+            <td colspan="4">
+                {t}No emails could be found.{/t}
+            </td>
+        </tr>
+        {/section}
+        <tr class="buttons">
+            <td width="1%" align="center">
+                <input type="button" value="{t}All{/t}" class="select_all">
+            </td>
+            <td colspan="3">
+                <input type="submit" value="{t}Restore Emails{/t}">
+                <input type="button" value="{t}Close{/t}" onClick="window.close();">
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="4">
+                <input type="button" value="{t}Permanently Remove{/t}" id="remove">
+            </td>
+        </tr>
+    </table>
+</form>
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

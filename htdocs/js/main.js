@@ -103,7 +103,7 @@ Eventum.getField = function(name_or_obj)
 
 Eventum.toggleCheckAll = function(field_name)
 {
-    var fields = Eventum.getField(field_name);
+    var fields = Eventum.getField(field_name).not(':disabled');
     fields.prop('checked', !fields.prop('checked'));
 }
 

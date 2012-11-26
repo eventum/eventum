@@ -1,4 +1,8 @@
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block "title"}{$extra_title}{/block}
+{block "page_id"}view_email{/block}
+
+{block "content"}
 
 <script type="text/javascript">
 <!--
@@ -19,8 +23,8 @@ function loadReport(id)
 {
 {/literal}
     document.writeln('<link rel="stylesheet" href="{$core.rel_url}css/style.css" type="text/css">');
-    document.writeln('<span><b>Please wait a few moments.</b></span><br />');
-    document.writeln('<br /><span><b>{t}Re-directing the parent window to the issue report page. This window will be closed automatically.{/t}</b></span>');
+    document.writeln('<span>Please wait a few moments.</span><br />');
+    document.writeln('<br /><span>{t}Re-directing the parent window to the issue report page. This window will be closed automatically.{/t}</span>');
     window.opener.location.href = 'new.php?cat=associate&item[]=' + id;
     window.setTimeout('window.close()', 2000);
 {literal}
@@ -69,17 +73,21 @@ function moveMessage()
 
     window.location = 'view_email.php?cat=move_email&id=' + sup_id + '&ema_id=' + ema_id + '&new_ema_id=' + new_ema_id;
 }
+
+$().ready(function(e) {
+    $('.display_fixed_width').click(function() { Eventum.displayFixedWidth($('#email_message')); });
+});
 //-->
 </script>
 {/literal}
-{if $move_email_result != ''}
+{if $move_email_result|default:'' != ''}
 <br />
 <center>
   <span>
     {if $move_email_result == -1}
-      <b>{t}An error occurred while trying to run your query{/t}</b>
+      {t}An error occurred while trying to run your query{/t}
     {else}
-      <b>{t}Thank you, the email was successfully moved.{/t}</b>
+      {t}Thank you, the email was successfully moved.{/t}
     {/if}
   </span>
 </center>
@@ -100,17 +108,14 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 <form method="post" action="popup.php" name="view_email">
 <input type="hidden" name="cat" value="associate">
 <input type="hidden" name="item[]" value="{$smarty.get.id|intval}">
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2">
-            <b>{t}View Email Details{/t}{if $issue_id} ({t}Associated with Issue{/t} <a href="view.php?id={$issue_id}">#{$issue_id}</a>){/if}</b>
-          </td>
+      <table class="bordered">
+        <tr class="title">
+          <th colspan="2">
+            {t}View Email Details{/t}{if $issue_id} ({t}Associated with Issue{/t} <a href="view.php?id={$issue_id}">#{$issue_id}</a>){/if}
+          </th>
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
-        <tr>
+        <tr class="buttons">
           <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
@@ -130,25 +135,25 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
         <tr>
-          <td width="120">
-            <b>{t}Received{/t}:</b>
-          </td>
+          <th width="120">
+            {t}Received{/t}:
+          </th>
           <td>
             {$email.sup_date}
           </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}From{/t}:</b>
-          </td>
+          <th width="120">
+            {t}From{/t}:
+          </th>
           <td>
             {$email.sup_from|escape:"html"}
           </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}To{/t}:</b>
-          </td>
+          <th width="120">
+            {t}To{/t}:
+          </th>
           <td>
             {if $email.sup_to == ""}
             <i>{t}sent to notification list{/t}</i>
@@ -157,11 +162,11 @@ setTimeout('Eventum.close_and_refresh()', 2000);
             {/if}
           </td>
         </tr>
-        {if $role != $core.roles.customer && $recipients|@count > 0}
+        {if $role|default:'' != $core.roles.customer && $recipients|@count > 0}
         <tr>
-          <td width="120">
-            <b>{t}Recipients{/t}:</b>
-          </td>
+          <th width="120">
+            {t}Recipients{/t}:
+          </th>
           <td>
             {strip}
             {section name="i" loop=$recipients}
@@ -173,27 +178,27 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
         <tr>
-          <td width="120">
-            <b>{t}Cc{/t}:</b>
-          </td>
+          <th width="120">
+            {t}Cc{/t}:
+          </th>
           <td>
             {$email.sup_cc|escape:"html"}
           </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Subject{/t}:</b>
-          </td>
+          <th width="120">
+            {t}Subject{/t}:
+          </th>
           <td>
             {$email.sup_subject|escape:"html"}
           </td>
         </tr>
         {if $email.attachments}
         <tr>
-          <td width="120">
-            <b>{t}Attachments{/t}:</b>
-          </td>
-          <td bgcolor="{$dark_color}">
+          <th width="120">
+            {t}Attachments{/t}:
+          </th>
+          <td >
             {section name="i" loop=$email.attachments}
             <a title="{t}download file{/t}" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
             <a title="{t}download file{/t}" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}">{$email.attachments[i].filename}</a><br />
@@ -201,17 +206,17 @@ setTimeout('Eventum.close_and_refresh()', 2000);
           </td>
         </tr>
         {/if}
-        <tr>
+        <tr class="buttons">
           <td colspan="2">
             <table width="100%">
               <tr>
                 <td>
-                  <span><b>{t}Message{/t}:</b></span>
-                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="displayFixedWidth('email_message');">{t}display in fixed width font{/t}</a>)</span>
+                  <span>{t}Message{/t}:</span>
+                  <span>(<a class="js_link display_fixed_width">{t}display in fixed width font{/t}</a>)</span>
                 </td>
                 <td align="right">
-                  <a class="white_link" href="get_attachment.php?sup_id={$email.sup_id}&raw=1">{t}Download Raw Email{/t}</a>
-                  <a class="white_link" href="javascript:void(null);" onClick="openRawHeaders();">{t}Raw Headers{/t}</a>
+                  <a href="get_attachment.php?sup_id={$email.sup_id}&raw=1">{t}Download Raw Email{/t}</a>
+                  <a href="javascript:void(null);" onClick="openRawHeaders();">{t}Raw Headers{/t}</a>
                 </td>
               </tr>
             </table>
@@ -222,14 +227,14 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 {$email.seb_body|highlight_quoted|nl2br|activateLinks}
           </td>
         </tr>
-        <tr>
-          <td colspan="2" align="center">
+        <tr class="buttons">
+          <td colspan="2">
             <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.ema_id}, {$smarty.get.id|intval});">
             <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
-        <tr>
+        <tr class="buttons">
           <td colspan="2" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
@@ -259,11 +264,6 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         {/if}
       </table>
-    </td>
-  </tr>
-</table>
 </form>
-{include file="app_info.tpl.html"}
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

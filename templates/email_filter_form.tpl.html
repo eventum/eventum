@@ -1,199 +1,125 @@
-
-<script type="text/javascript" src="{$core.rel_url}js/dynCalendar.js"></script>
 {literal}
 <script type="text/javascript">
-<!--
-function clearFilters(f)
-{
-    f.keywords.value = '';
-    f.sender.value = '';
-    f.to.value = '';
-    f.ema_id.selectedIndex = 0;
-    var field = getFormElement(f, 'filter[arrival_date]');
-    field.checked = false;
-    toggleDateFields(f, 'arrival_date');
-    var checkbox = getFormElement(f, 'filter[arrival_date]');
-    // need to hack this value in the query string so the saved search options don't override this one
-    if (!checkbox.checked) {
-        var field = getFormElement(f, 'hidden1');
-        field.name = 'filter[arrival_date]';
-        field.value = 'no';
+    <!--
+    function clearFilters()
+    {
+        Eventum.getField('keywords').val('');
+        Eventum.getField('sender').val('');
+        Eventum.getField('to').val('');
+        Eventum.getField('ema_id').val('');
+        Eventum.getField('filter[arrival_date]').attr('checked', false);
+        toggleDateFields('arrival_date');
+        // need to hack this value in the query string so the saved search options don't override this one
+        if (!Eventum.getField('filter[arrival_date]').is(':checked')) {
+            Eventum.getField('hidden1').attr('name', 'filter[arrival_date]').val('no');
+        }
+        $('#email_filter_form').submit();
     }
-    f.submit();
-}
-function toggleDateFields(f, field_name)
-{
-    var checkbox = getFormElement(f, 'filter[' + field_name + ']');
-    var filter_type = getFormElement(f, field_name + '[filter_type]');
-    var month_field = getFormElement(f, field_name + '[Month]');
-    var day_field = getFormElement(f, field_name + '[Day]');
-    var year_field = getFormElement(f, field_name + '[Year]');
-    var month_end_field = getFormElement(f, field_name + '_end[Month]');
-    var day_end_field = getFormElement(f, field_name + '_end[Day]');
-    var year_end_field = getFormElement(f, field_name + '_end[Year]');
-    if (checkbox.checked) {
-        var bool = false;
-    } else {
-        var bool = true;
+    function toggleDateFields()
+    {
+        var field_name = 'arrival_date';
+
+        if (Eventum.getField('filter[' + field_name + ']').is(':checked')) {
+            var bool = false;
+        } else {
+            var bool = true;
+        }
+        Eventum.getField(field_name + '[Month]').attr('disabled', bool);
+        Eventum.getField(field_name + '_end[Month]').attr('disabled', bool);
+        Eventum.getField(field_name + '[Day]').attr('disabled', bool);
+        Eventum.getField(field_name + '[Year]').attr('disabled', bool);
+        Eventum.getField(field_name + '_end[Day]').attr('disabled', bool);
+        Eventum.getField(field_name + '_end[Year]').attr('disabled', bool);
+        Eventum.getField(field_name + '[filter_type]').attr('disabled', bool);
     }
-    filter_type.disabled = bool;
-    month_field.disabled = bool;
-    day_field.disabled = bool;
-    year_field.disabled = bool;
-    month_end_field.disabled = bool;
-    day_end_field.disabled = bool;
-    year_end_field.disabled = bool;
-}
-function selectDateOptions(field_prefix, date_str)
-{
-    if (date_str.length != 10) {
-        return false;
-    } else {
-        var year = date_str.substring(0, date_str.indexOf('-'));
-        var month = date_str.substring(date_str.indexOf('-')+1, date_str.lastIndexOf('-'));
-        var day = date_str.substring(date_str.lastIndexOf('-')+1);
-        selectDateField(field_prefix, day, month, year);
+    function selectDateOptions(field_prefix, date_str)
+    {
+        if (date_str.length != 10) {
+            return false;
+        } else {
+            var year = date_str.substring(0, date_str.indexOf('-'));
+            var month = date_str.substring(date_str.indexOf('-')+1, date_str.lastIndexOf('-'));
+            var day = date_str.substring(date_str.lastIndexOf('-')+1);
+            selectDateField(field_prefix, day, month, year);
+        }
     }
-}
-function selectDateField(field_name, day, month, year)
-{
-    selectOption(getForm('email_filter_form'), field_name + '[Day]', day);
-    selectOption(getForm('email_filter_form'), field_name + '[Month]', month);
-    selectOption(getForm('email_filter_form'), field_name + '[Year]', year);
-}
-function checkDateFilterType(f, type_field)
-{
-    var option = getSelectedOption(f, type_field.name);
-    var element_name = type_field.name.substring(0, type_field.name.indexOf('['));
-    var element = getPageElement(element_name + 1);
-    if ((option == 'between') && (!isElementVisible(element))) {
-        toggleVisibility(element_name, false);
-    } else if ((option != 'between') && (isElementVisible(element))) {
-        toggleVisibility(element_name, false);
+    function selectDateField(field_name, day, month, year)
+    {
+        selectOption(getForm('email_filter_form'), field_name + '[Day]', day);
+        selectOption(getForm('email_filter_form'), field_name + '[Month]', month);
+        selectOption(getForm('email_filter_form'), field_name + '[Year]', year);
     }
-}
-function calendarCallback_arrival(day, month, year) { selectDateField('arrival_date', day, month, year); }
-function calendarCallback_arrival_end(day, month, year) { selectDateField('arrival_date_end', day, month, year); }
-function validateForm(f)
-{
-    var checkbox = getFormElement(f, 'filter[arrival_date]');
-    // need to hack this value in the query string so the saved search options don't override this one
-    if (!checkbox.checked) {
-        var field = getFormElement(f, 'hidden1');
-        field.name = 'filter[arrival_date]';
-        field.value = 'no';
+    function checkDateFilterType()
+    {
+        var option = Eventum.getField('arrival_date[filter_type]').val();
+        $('#arrival_end_date').toggle(option == 'between');
     }
-    return true;
-}
-//-->
+
+    $().ready(function() {
+        $('#clear_button').click(clearFilters);
+        Eventum.getField('arrival_date[filter_type]').change(checkDateFilterType);
+        Eventum.getField('filter[arrival_date]').change(toggleDateFields);
+
+        checkDateFilterType();
+        toggleDateFields();
+    });
+    //-->
 </script>
 {/literal}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr id="filter_form1" {get_display_style element_name="filter_form"}>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <form action="emails.php" method="get" name="email_filter_form" onSubmit="return validateForm(this);">
-        <input type="hidden" name="cat" value="search">
-        <input type="hidden" name="hidden1" value="">
-        <tr>
-          <td>
+<form action="emails.php" method="get" id="email_filter_form" onSubmit="return validateForm(this);">
+    <input type="hidden" name="cat" value="search">
+    <input type="hidden" name="hidden1" value="">
+    <table class="bordered" id="email_filters" {get_display_style element_name="email_filters"}>
+    <tr>
+        <td>
             <span>{t}Subject/Body:{/t}</span><br />
             <input type="text" name="keywords" size="20" value="{$options.keywords|escape:"html"}">
-          </td>
-          <td>
+        </td>
+        <td>
             <span>{t}Sender:{/t}</span><br />
             <input type="text" name="sender" size="20" value="{$options.sender|escape:"html"}">
-          </td>
-          <td>
+        </td>
+        <td>
             <span>{t}To:{/t}</span><br />
             <input type="text" name="to" size="20" value="{$options.to|escape:"html"}">
-          </td>
-          <td>
+        </td>
+        <td>
             <span>{t}Email Account:{/t}</span><br />
             <select name="ema_id">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$accounts selected=$options.ema_id}
+                <option value="">{t}any{/t}</option>
+                {html_options options=$accounts selected=$options.ema_id}
             </select>
-          </td>
-          <td>
+        </td>
+        <td>
             <input type="submit" value="{t}Search{/t}">
-            <input type="button" value="{t}Clear{/t}" onClick="clearFilters(this.form);">
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
+            <input type="button" value="{t}Clear{/t}" id="clear_button">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="50%">
-                  <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="toggleDateFields(this.form, 'arrival_date');">
-                  <span><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
-                  <select name="arrival_date[filter_type]" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                  </select>&nbsp;
-                  {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_arrival', '{$core.rel_url}images/');
-                  tCalendar7.setMonthCombo(false);
-                  tCalendar7.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                </td>
-                <td nowrap id="arrival_date1" width="50%" valign="bottom">
-                  <span>{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
-                  {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_arrival_end', '{$core.rel_url}images/');
-                  tCalendar8.setMonthCombo(false);
-                  tCalendar8.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
+                <tr>
+                    <td nowrap width="50%">
+                        <label>
+                        <input {if $options.filter.arrival_date|default:'' == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" id="arrival_date">
+                            {t}Filter by Arrival Date:{/t}
+                        </label><br />
+                        <select name="arrival_date[filter_type]">
+                            <option {if $options.filter.arrival_date|default:'no' != 'no' && $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                            <option {if $options.filter.arrival_date|default:'no' != 'no' && $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                            <option {if $options.filter.arrival_date|default:'no' != 'no' && $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                        </select>&nbsp;
+                        {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                    </td>
+                    <td nowrap id="arrival_end_date" width="50%" valign="bottom">
+                        <span>{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
+                        {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                    </td>
+                </tr>
             </table>
-          </td>
-        </tr>
-        </form>
-      </table>
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
-</table>
+        </td>
+    </tr>
+    </table>
+</form>
 
 <br />
-
-{literal}
-<script type="text/javascript">
-<!--
-var f = getForm('email_filter_form');
-
-{/literal}
-var date_fields = new Array();
-date_fields[date_fields.length] = new Option('arrival_date', '{$options.arrival_date.start}');
-date_fields[date_fields.length] = new Option('arrival_date_end', '{$options.arrival_date.end}');
-{literal}
-
-var elements_to_hide = new Array('arrival_date');
-for (var i = 0; i < elements_to_hide.length; i++) {
-    toggleVisibility(elements_to_hide[i]);
-    toggleDateFields(f, elements_to_hide[i]);
-    var filter_type = getFormElement(f, elements_to_hide[i] + '[filter_type]');
-    checkDateFilterType(f, filter_type);
-}
-
-for (var i = 0; i < date_fields.length; i++) {
-    if (!isWhitespace(date_fields[i].value)) {
-        selectDateOptions(date_fields[i].text, date_fields[i].value);
-    }
-}
-//-->
-</script>
-{/literal}

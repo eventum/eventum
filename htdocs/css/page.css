@@ -219,6 +219,14 @@ body#list_issues #bulk_update table {
 
 /* End List Issue page */
 
+/*
+ * Emails page
+ */
+body#emails  table#email_filters {
+    width: 80%;
+    margin: 0 auto;
+}
+
 
 /* Begin preferences page */
 body#preferences table.bordered {
