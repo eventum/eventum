@@ -587,7 +587,8 @@ class Custom_Field
                     icf_value,
                     icf_value_date,
                     icf_value_integer,
-                    fld_min_role
+                    fld_min_role,
+                    fld_description
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
