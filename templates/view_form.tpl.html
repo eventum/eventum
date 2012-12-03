@@ -194,7 +194,9 @@ function collapseDescription()
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
+                {if $issue_access.change_reporter}
                 [ <a class="link" title="{t}Edit the Reporter for this issue{/t}" href="javascript:void(null);" onClick="openReporter({$smarty.get.id|intval});">{t}Edit Reporter{/t}</a> ]
+                {/if}
                 {if $issue_access.notification_list}
                 [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
                 {/if}

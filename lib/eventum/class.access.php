@@ -256,6 +256,24 @@ class Access
         return false;
     }
 
+    public static function canChangeReporter($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+        $prj_id = Auth::getCurrentProject();
+        if (User::isPartner($usr_id)) {
+            $partner = Partner::canUserAccessIssueSection($usr_id, 'change_reporter');
+            if (is_bool($partner)) {
+                return $partner;
+            }
+        }
+        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+            return true;
+        }
+        return false;
+    }
+
     public static function canChangeStatus($issue_id, $usr_id)
     {
         if (!self::canAccessIssue($issue_id, $usr_id)) {
@@ -284,6 +302,7 @@ class Access
             'history'   =>  self::canViewHistory($issue_id, $usr_id),
             'notification_list' =>  self::canViewNotificationList($issue_id, $usr_id),
             'authorized_repliers'   =>  self::canViewAuthorizedRepliers($issue_id, $usr_id),
+            'change_reporter'   =>  self::canChangeReporter($issue_id, $usr_id),
             'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
         );
     }
