@@ -147,7 +147,7 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect("select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+            self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID($usr_id);
