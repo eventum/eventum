@@ -289,6 +289,21 @@ class Access
         return self::canUpdateIssue($issue_id, $usr_id);
     }
 
+    public static function canConvertNote($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+        $prj_id = Auth::getCurrentProject();
+        if (User::isPartner($usr_id)) {
+            $partner = Partner::canUserAccessIssueSection($usr_id, 'convert_note');
+            if (is_bool($partner)) {
+                return $partner;
+            }
+        }
+        return self::canUpdateIssue($issue_id, $usr_id);
+    }
+
 
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
@@ -304,6 +319,7 @@ class Access
             'authorized_repliers'   =>  self::canViewAuthorizedRepliers($issue_id, $usr_id),
             'change_reporter'   =>  self::canChangeReporter($issue_id, $usr_id),
             'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
+            'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
         );
     }
 

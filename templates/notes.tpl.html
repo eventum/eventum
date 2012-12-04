@@ -87,7 +87,7 @@ function replyNote(note_id, issue_id)
                   {if $notes[i].not_has_attachment}
                   <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
                   {/if}
-                  {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
+                  {if $notes[i].has_blocked_message and $issue_access.convert_note} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
                 </td>
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
