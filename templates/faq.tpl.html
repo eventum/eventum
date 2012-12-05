@@ -1,85 +1,46 @@
-{include file="header.tpl.html" extra_title="Internal FAQ"}
-{if $faq == ''}{include file="navigation.tpl.html"}{/if}
+{extends "base_full.tpl.html"}
+{block page_id}issue_view{/block}
+{block title}Internal FAQ{if $faq|default:'' != ''} - {$faq.faq_title}{/if}{/block}
 
-{if $faq != ''}
-  {if $faq == -1}
-  <span><p><b>{t}Error: You are not allowed to view the requested FAQ entry.{/t}</b></p></span>
-  {else}
-  <table width="100%" border="0" cellspacing="0" cellpadding="3" align="center">
-    <tr>
-      <td width="100%">
-        <table width="100%" border="0" cellpadding="3" cellspacing="0">
-          <tr>
-            <td><b>{$faq.faq_title|escape:"html"}</b></td>
-          </tr>
-          <tr>
-            <td bgcolor="{$dark_color}">
-              <p><i>{t}Last updated{/t}: {$faq.faq_updated_date}</i></p>
-              {$faq.message}
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-  <br />
-  {/if}
-  {if not $current_user_prefs.close_popup_windows}
-  <center>
-    <span><a href="javascript:void(null);" onClick="window.close();">{t}Close Window{/t}</a></span>
-  </center>
-  {/if}
+{block "content"}
+
+{if $faq|default:'' != ''}
+{if $faq|default:'' == -1}
+<span><p><b>{t}Error: You are not allowed to view the requested FAQ entry.{/t}</b></p></span>
 {else}
-<table width="700" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td valign="top">
-      {literal}
-      <script type="text/javascript">
-      <!--
-      function openFAQEntry(faq_id)
-      {
-          var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-          var faqWin = window.open('faq.php?id=' + faq_id, '_faq' + faq_id, features);
-          faqWin.focus();
-      }
-      //-->
-      </script>
-      {/literal}
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-              <tr>
-                <td>
-                  <span><b>{t}Article Entries{/t}:</b></span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <table width="100%" border="0" cellpadding="3" cellspacing="1">
-                    <tr>
-                      <td><b>{t}Title{/t}</b></td>
-                      <td><b>{t}Last Updated Date{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$faqs}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr bgcolor="{$row_color}">
-                      <td><b><a href="javascript:void(null);" onClick="openFAQEntry({$faqs[i].faq_id});" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
-                      <td>{$faqs[i].faq_updated_date}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <br />
-    </td>
-  </tr>
+<table class="bordered">
+    <tr class="title">
+        <th>{$faq.faq_title|escape:"html"}</th>
+    </tr>
+    <tr>
+        <td bgcolor="{$dark_color}">
+            <p><i>{t}Last updated{/t}: {$faq.faq_updated_date}</i></p>
+            {$faq.message}
+        </td>
+    </tr>
+</table>
+        <a href="faq.php">Back to Internal FAQ</a>
+<br />
+{/if}
+{else}
+<table class="bordered grid">
+    <tr class="title">
+        <th colspan="2">
+            {t}Article Entries{/t}
+        </th>
+    </tr>
+    <tr>
+        <th>{t}Title{/t}</th>
+        <th>{t}Last Updated Date{/t}</th>
+    </tr>
+    {section name="i" loop=$faqs}
+    <tr class="{cycle value='odd,even'}">
+        <td><b><a href="faq.php?id={$faqs[i].faq_id}" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
+        <td>{$faqs[i].faq_updated_date}</td>
+    </tr>
+    {/section}
+    </tr>
 </table>
 {/if}
 
-{if $faq == ''}{include file="app_info.tpl.html"}{/if}
-{include file="footer.tpl.html"}
+{/block}
