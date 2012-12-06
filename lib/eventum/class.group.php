@@ -456,7 +456,6 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
-                    pgr_prj_id = " . Auth::getCurrentProject() . " AND
                     grp_name = '" . Misc::escapeString($name) . "'";
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
