@@ -33,6 +33,17 @@ $tpl = new Template_Helper();
 $tpl->setTemplate("convert_note.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+$usr_id = Auth::getUserID();
+
+$note_id = !empty($_GET['id']) ? $_GET['id'] : $_POST['note_id'];
+$note = Note::getDetails($note_id);
+$issue_id = $note['not_iss_id'];
+
+if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) || (!Access::canConvertNote($issue_id, Auth::getUserID()))) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
 
 if (@$_POST['cat'] == 'convert') {
     if (@$_POST["add_authorized_replier"] == 1) {

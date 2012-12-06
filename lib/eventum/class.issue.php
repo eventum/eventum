@@ -2544,6 +2544,7 @@ class Issue
     {
         $usr_id = Auth::getUserID();
         $role_id = Auth::getCurrentRole();
+        $usr_details = User::getDetails($usr_id);
 
         $stmt = "SELECT
                     iss_id,
@@ -2620,6 +2621,14 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  ON
                     iss_prc_id = prc_id";
+        }
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                 ON
+                    ipa_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
