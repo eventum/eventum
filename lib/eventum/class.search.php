@@ -532,7 +532,7 @@ class Search
 
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
-            $stmt .= " AND ipa_par_code = " . Misc::escapeInteger($usr_details['usr_par_code']);
+            $stmt .= " AND ipa_par_code = '" . Misc::escapeString($usr_details['usr_par_code']) . "'";
         }
 
         if (!empty($options["users"])) {

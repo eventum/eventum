@@ -96,6 +96,20 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
                 return false;
             case 'phone':
                 return false;
+            case 'files':
+                return false;
+            case 'history':
+                return false;
+            case 'notification_list':
+                return false;
+            case 'authorized_repliers':
+                return false;
+            case 'change_reporter':
+                return false;
+            case 'change_status':
+                return false;
+            case 'convert_note':
+                return false;
         }
     }
 
