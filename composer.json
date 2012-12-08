@@ -29,7 +29,7 @@
 			"type": "package",
 			"package": {
 				"name": "smarty/smarty",
-				"version": "2.6.26",
+				"version": "2.6.27",
 				"dist": {
 					"url": "http://www.smarty.net/files/Smarty-2.6.27.tar.gz",
 					"type": "tar"
