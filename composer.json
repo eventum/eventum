@@ -18,7 +18,7 @@
 	"support": {
 		"irc": "irc://irc.freenode.org/eventum",
 		"issues": "https://bugs.launchpad.net/eventum"
-	}
+	},
 	"repositories": [
 		{
 			"type": "pear",
@@ -84,5 +84,5 @@
 		"files": ["lib/eventum/autoload.php"],
 		"classmap": [ "lib/jpgraph/", "lib/php-gettext/", "lib/sphinxapi/"]
 	},
-	"minimum-stability": "stable",
+	"minimum-stability": "stable"
 }
