@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-12-07 22:16+0000\n"
+"PO-Revision-Date: 2012-12-10 21:59+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-08 05:10+0000\n"
-"X-Generator: Launchpad (build 16341)\n"
+"X-Launchpad-Export-Date: 2012-12-11 04:50+0000\n"
+"X-Generator: Launchpad (build 16356)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -6673,32 +6673,32 @@ msgstr "Předmět"
 
 #: templates/manage/general.tpl.html
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Přesměrování na základě předmětu:"
 
 #: templates/email_filter_form.tpl.html
 msgid "Subject/Body:"
-msgstr ""
+msgstr "Předmět/Tělo:"
 
 #: templates/new.tpl.html templates/post.tpl.html
 #: templates/reports/open_issues.tpl.html
 msgid "Submit"
-msgstr ""
+msgstr "Odeslat"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "Submitted"
-msgstr ""
+msgstr "Odesláno"
 
 #: templates/view_form.tpl.html
 msgid "Submitted Date"
-msgstr ""
+msgstr "Datum odeslání"
 
 #: templates/update_form.tpl.html
 msgid "Submitted Date:"
-msgstr ""
+msgstr "Datum odeslání:"
 
 #: templates/spell_check.tpl.html
 msgid "Suggestions:"
-msgstr ""
+msgstr "Návrhy:"
 
 #: lib/eventum/class.display_column.php:231
 #: lib/eventum/class.notification.php:648
@@ -6722,23 +6722,23 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/time_tracking.tpl.html
 #: templates/view_form.tpl.html
 msgid "Summary"
-msgstr ""
+msgstr "Souhrn"
 
 #: lib/eventum/class.help.php:75 templates/help/report_summary.tpl.html
 msgid "Summary Field"
-msgstr ""
+msgstr "Pole souhrnu"
 
 #: templates/update_form.tpl.html
 msgid "Summary:"
-msgstr ""
+msgstr "Souhrn:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Summary: %1"
-msgstr ""
+msgstr "Souhrn: %1"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Sunday"
-msgstr ""
+msgstr "Neděle"
 
 #: lib/eventum/class.customer_stats_report.php:667
 #: lib/eventum/class.display_column.php:216
@@ -6746,24 +6746,24 @@ msgstr ""
 #: templates/reminders/email_alert.tpl.text
 #: templates/reports/customer_stats.tpl.html templates/view_form.tpl.html
 msgid "Support Level"
-msgstr ""
+msgstr "Úroveň podpory"
 
 #: templates/manage/faq.tpl.html
 msgid "Support Levels"
-msgstr ""
+msgstr "Úrovně podpory"
 
 #: templates/view_form.tpl.html
 msgid "Support Options"
-msgstr ""
+msgstr "Možnosti podory"
 
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Švédština"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
-msgstr ""
+msgstr "Přepínač"
 
 #: templates/help/notifications.tpl.html
 msgid ""
@@ -6771,50 +6771,55 @@ msgid ""
 "they report new issues or by visiting the issue details screen and "
 "subscribing manually by using the 'Edit Notification List' link."
 msgstr ""
+"Uživatelé systému mohou dostávat oznámení o činnostech výše pro konkrétní "
+"úlohy, když je nahlásí, nebo navštívením stránky s podrobnostmi úlohy a "
+"zapsáním se k odběru ručně pomocí odkazu 'Upravit oznámení'."
 
 #. TRANSLATORS: Translation of Tamil language in preferences dropdown
 #: localization/LINGUAS.php:66
 msgid "Tamil"
-msgstr ""
+msgstr "Tamilština"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Target Forms"
-msgstr ""
+msgstr "Cílové formuláře"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Temp Number"
-msgstr ""
+msgstr "Dočasné číslo"
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date"
-msgstr ""
+msgstr "Předběžné datum"
 
 #: templates/manage/releases.tpl.html
 msgid "Tentative Date:"
-msgstr ""
+msgstr "Předběžné datum:"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Test Settings"
-msgstr ""
+msgstr "Vyzkoušet nastavení"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Text Input"
-msgstr ""
+msgstr "Textový vstup"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Textarea"
-msgstr ""
+msgstr "Oblast textu"
 
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Thajština"
 
 #: templates/setup.tpl.html
 msgid ""
 "Thank You, Eventum is now properly setup and ready to be used. Open the "
 "following URL to login on it for the first time:"
 msgstr ""
+"Děkujeme Vám, Eventum je nyní řádně nastaveno a připraveno k použití. "
+"Otevřete následující URL pro první přihlášení:"
 
 #: templates/forgot_password.tpl.html
 msgid ""
@@ -6822,260 +6827,270 @@ msgid ""
 "instructions available in this message to confirm your password creation "
 "request."
 msgstr ""
+"Děkujeme Vám, emailem Vám byla zaslána potvrzující zpráva. Prosím postupujte "
+"dle pokynů dostupných v této zprávě pro potvrzení požadavku pro vytvoření "
+"hesla."
 
 #: templates/manage/column_display.tpl.html
 msgid "Thank you, columns to display was saved successfully."
-msgstr ""
+msgstr "Děkujeme Vám, sloupce k zobrazení byly úspěšně uloženy."
 
 #: templates/manage/field_display.tpl.html
 msgid "Thank you, field display settings were updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, nastavení zobrazení pole bylo úspěšně aktualizováno."
 
 #: templates/update_form.tpl.html
 msgid "Thank you, issue #%1 was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, úloha #%1 byla úspěšně aktualizována."
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, položka nejčastějších otázek byla úspěšně přidána."
 
 #: templates/manage/faq.tpl.html
 msgid "Thank you, the FAQ entry was updated successfully."
 msgstr ""
+"Děkujeme Vám, položka nejčastějších otázek byla úspěšně aktualizována."
 
 #: templates/edit_reporter.tpl.html
 msgid "Thank you, the Reporter was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, oznamovatel byl úspěšně aktualizován."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, správce účtů byl úspěšně přidán."
 
 #: templates/manage/account_managers.tpl.html
 msgid "Thank you, the account manager was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, správce účtů byl úspěšně aktualizován."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the account was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, účet byl úspěšně aktualizován."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, činnost byla úspěšně přidána."
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "Thank you, the action was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, činnost byla úspěšně aktualizována."
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the association to the selected emails were removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, přidělení ke zvoleným emailům bylo úspěšně odstraněno."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the attachment was removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, příloha byla úspěšně odstraněna."
 
 #: templates/authorized_replier.tpl.html
 msgid "Thank you, the authorized replier was inserted successfully."
-msgstr ""
+msgstr "Děkujeme Vám, oprávněný odpovídač byl úspěšně přidán."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Thank you, the category was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, kategorie byla úspěšně přidána."
 
 #: templates/manage/categories.tpl.html
 #: templates/manage/phone_categories.tpl.html
 msgid "Thank you, the category was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, kategorie byla úspěšně aktualizována."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Thank you, the condition was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, podmínka byla úspěšně přidána."
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "Thank you, the condition was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, podmínka byla úspěšně aktualizována."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the current issue is no longer marked as a duplicate."
-msgstr ""
+msgstr "Děkujeme Vám, současná úloha již není označena jako stejná."
 
 #: templates/custom_fields_form.tpl.html
 msgid "Thank you, the custom field values were updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, hodnoty vlastního pole byly úspěšně aktualizováno."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vlastní pole bylo úspěšně přidáno."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "Thank you, the custom field was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vlastní pole bylo úspěšně aktualizováno."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the custom filter was saved successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vlastní filtr byl úspěšně uložen."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, přizpůsobení bylo úspěšně přidáno."
 
 #: templates/manage/customize_listing.tpl.html
 msgid "Thank you, the customization was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, přizpůsobení bylo úspěšně aktualizováno."
 
 #: templates/manage/email_accounts.tpl.html
 msgid "Thank you, the email account was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, emailový účet byl úspěšně přidán."
 
 #: templates/manage/email_alias.tpl.html
 msgid "Thank you, the email aliases were removed successfully"
-msgstr ""
+msgstr "Děkujeme Vám, emailové přezdívky byly úspěšně odstraněny"
 
 #: templates/send.tpl.html
 msgid "Thank you, the email message was saved as a draft successfully."
-msgstr ""
+msgstr "Děkujeme Vám, emailová zpráva byla úspěšně uložena jako návrh."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, emailová odpověď byla úspěšně přidána."
 
 #: templates/manage/email_responses.tpl.html
 msgid "Thank you, the email response was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, emailová odpověď byla úspěšně aktualizována."
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was queued to be sent successfully."
-msgstr ""
+msgstr "Děkujeme Vám, email byl úspěšně přidán do fronty k odeslání."
 
 #: templates/send.tpl.html
 msgid "Thank you, the email was sent successfully."
-msgstr ""
+msgstr "Děkujeme Vám, email byl úspěšně odeslán."
 
 #: templates/view_email.tpl.html
 msgid "Thank you, the email was successfully moved."
-msgstr ""
+msgstr "Děkujeme Vám, email byl úspěšně přesunut."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the emails were marked as removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, emaily byly úspěšně označeny jako odstraněné."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the file was removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, soubor byl úspěšně odstraněn."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, skupina byla úspěšně odstraněna."
 
 #: templates/manage/groups.tpl.html
 msgid "Thank you, the group was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, skupina byla úspěšně aktualizována."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the impact analysis was set successfully."
-msgstr ""
+msgstr "Děkujeme Vám, analýza dopadu byla úspěšně nastavena."
 
 #: templates/requirement.tpl.html
 msgid "Thank you, the impact analysis was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, analýza dopadu byla úspěšně aktualizována."
 
 #: templates/manage/anonymous.tpl.html
 msgid "Thank you, the information was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, informace byla úspěšně aktualizována."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the inital impact analysis was set successfully."
-msgstr ""
+msgstr "Děkujeme Vám, počáteční analýza dopadu byla úspěšně nastavena."
 
 #: templates/post_note.tpl.html
 msgid "Thank you, the internal note was posted successfully."
-msgstr ""
+msgstr "Děkujeme Vám, interní poznámka byla úspěšně odeslána."
 
 #: templates/manage/resolution.tpl.html
 msgid "Thank you, the issue resolution was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, řešení úlohy bylo úspěšně přidáno."
 
 #: templates/manage/resolution.tpl.html
 msgid "Thank you, the issue resolution was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, řešení úlohy bylo úspěšně přidáno."
 
 #: templates/close.tpl.html
 msgid "Thank you, the issue was closed successfully"
-msgstr ""
+msgstr "Děkujeme Vám, úloha byla úspěšně uzavřena"
 
 #: templates/duplicate.tpl.html
 msgid ""
 "Thank you, the issue was marked as a duplicate successfully. Please choose "
 "from one of the options below:"
 msgstr ""
+"Děkujeme Vám, úloha byla úspěšně označena jako stejná. Prosím zvolte jednu z "
+"možností níže:"
 
 #: templates/redeem_incident.tpl.html
 msgid "Thank you, the issue was successfully marked."
-msgstr ""
+msgstr "Děkujeme Vám, úloha byla úspěšně označena."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the issue was unassigned successfully."
-msgstr ""
+msgstr "Děkujeme Vám, řešitel byl úspěšně z úlohy odstraněn."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the issue was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, úloha byla úspěšně aktualizována."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, filtr spojení byl úspěšně přidán."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was deleted successfully."
-msgstr ""
+msgstr "Děkujeme Vám, filtr spojení byl úspěšně smazán."
 
 #: templates/manage/link_filters.tpl.html
 msgid "Thank you, the link filter was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, filtr spojení byl úspěšně aktualizován."
 
 #: templates/new.tpl.html
 msgid "Thank you, the new issue was created successfully."
-msgstr ""
+msgstr "Děkujeme Vám, nová úloha byla úspěšně vytvořena."
 
 #: templates/post.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. For your records, the new "
 "issue ID is <font color=\"red\">%1</font>"
 msgstr ""
+"Děkujeme Vám, nová úloha byla úspěšně vytvořena. Pro záznamy je ID nové "
+"úlohy <font color=\"red\">%1</font>"
 
 #: templates/new.tpl.html
 msgid ""
 "Thank you, the new issue was created successfully. Please choose from one of "
 "the options below"
 msgstr ""
+"Děkujeme Vám, nová úloha byla úspěšně vytvořena. Prosím zvolte jednu z "
+"možností níže"
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the new note was created and associated with the issue below."
-msgstr ""
+msgstr "Děkujeme Vám, nová poznámka byla vytvořena a přidělena k úloze níže."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the new requirement was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, nový požadavek byl úspěšně přidán."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, novinka byla úspěšně přidána."
 
 #: templates/manage/news.tpl.html
 msgid "Thank you, the news entry was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, novinka byla úspěšně aktualizována."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, poznámka byla úspěšně přidána."
 
 #: templates/convert_note.tpl.html
 msgid "Thank you, the note was converted successfully."
-msgstr ""
+msgstr "Děkujeme Vám, poznámka byla úspěšně převedena."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
