@@ -1,26 +1,22 @@
-{include file="header.tpl.html"}
-<br />
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-        <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
-          <tr>
-            <th>Category</th>
-          {foreach from=$statuses item=status}
-            <th>{$status}</th>
-          {/foreach}
-          </tr>
-        {foreach from=$data item=row}
-        {cycle values=$cycle assign="row_color"}
-          <tr bgcolor="{$row_color}">
-            <td>{$row.title}</td>
-            {foreach from=$row.statuses item=col}
-            <td align="right">{$col.count}</td>
-            {/foreach}
-          </tr>
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}category_statuses{/block}
+{block "title"}Categories and Statuses{/block}
+
+{block "report_content"}<br />
+<table class="bordered grid">
+    <tr>
+        <th>Category</th>
+        {foreach from=$statuses item=status}
+        <th>{$status}</th>
         {/foreach}
-        </table>
-    </td>
-  </tr>
+    </tr>
+    {foreach from=$data item=row}
+    <tr class="{cycle values='odd,even'}">
+        <td>{$row.title}</td>
+        {foreach from=$row.statuses item=col}
+        <td align="right">{$col.count}</td>
+        {/foreach}
+    </tr>
+    {/foreach}
 </table>
-{include file="footer.tpl.html"}
+{/block}

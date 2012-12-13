@@ -1,415 +1,374 @@
-{capture assign="extra_title"}{t}Recent Activity{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-<script type="text/javascript" src="{$core.rel_url}js/httpclient.js"></script>
-<script type="text/javascript" src="{$core.rel_url}js/expandable_cell.js"></script>
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}recent_activity_report{/block}
+{block "title"}Recent Activity{/block}
+
+{block "report_content"}
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
-<input type="hidden" name="cat" value="generate">
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2">
-            <b>{t}Recent Activity Report{/t}</b>
-          </td>
+    <input type="hidden" name="cat" value="generate">
+    <table class="bordered filters">
+        <tr class="title">
+            <th colspan="2">
+                {t}Recent Activity Report{/t}
+            </th>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Report Type{/t}:</b>
-          </td>
-          <td width="200" NOWRAP>
-            <input type="radio" name="report_type" value="recent" {if $smarty.request.report_type!='range'}checked{/if} onClick="changeType('recent');">
-                <a href="javascript:void(null)"
-                            onClick="checkRadio('recent_activity', 'report_type', 0);changeType('recent');">{t}Recent{/t}</a>&nbsp;
-            <input type="radio" name="report_type" value="range" {if $smarty.request.report_type=='range'}CHECKED{/if} onClick="changeType('range');">
-                <a href="javascript:void(null)"
-                            onClick="checkRadio('recent_activity', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
-          </td>
+            <th width="120">
+                {t}Report Type{/t}:
+            </th>
+            <td width="200" NOWRAP>
+                <label><input type="radio" name="report_type" value="recent" {if $smarty.request.report_type!='range'}checked{/if} onClick="changeType('recent');">
+                    {t}Recent{/t}</label>&nbsp;
+                <label><input type="radio" name="report_type" value="range" {if $smarty.request.report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+                    {t}Date Range{/t}</label>&nbsp;
+            </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Activity Type{/t}:</b>
-          </td>
-          <td width="200">
-            <select name="activity_types[]" size="5" multiple>
-              {html_options options=$type_list selected=$activity_types}
-            </select>
-          </td>
+            <th width="120">
+                {t}Activity Type{/t}:
+            </th>
+            <td width="200">
+                <select name="activity_types[]" size="5" multiple>
+                    {html_options options=$type_list selected=$activity_types}
+                </select>
+            </td>
         </tr>
         <tr id="recent_row">
-          <td width="120">
-            <b>{t}Activity in Past{/t}:</b>
-          </td>
-          <td width="200">
-            <input type="text" size="3" name="amount" value="{$amount|default:24}" style="text-align: right">&nbsp;
-            <select name="unit">
-                {html_options options=$units selected=$unit}
-            </select>
-          </td>
+            <th width="120">
+                {t}Activity in Past{/t}:
+            </th>
+            <td width="200">
+                <input type="text" size="3" name="amount" value="{$amount|default:24}" style="text-align: right">&nbsp;
+                <select name="unit">
+                    {html_options options=$units selected=$unit}
+                </select>
+            </td>
         </tr>
         <tr id="start_row">
-          <td width="120">
-            <b>{t}Start{/t}:</b>
-          </td>
-          <td width="200">
-            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-          </td>
+            <th width="120">
+                {t}Start{/t}:
+            </th>
+            <td width="200">
+                {html_select_date time=$start_date|default:'' prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+            </td>
         </tr>
         <tr id="end_row">
-          <td width="120">
-            <b>{t}End{/t}:</b>
-          </td>
-          <td width="200">
-            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-          </td>
+            <th width="120">
+                {t}End{/t}:
+            </th>
+            <td width="200">
+                {html_select_date time=$end_date|default:'' prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+            </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Developer{/t}:</b>
-          </td>
-          <td width="200">
-            <select name="developer">
-                <option value="" label="All">{t}All{/t}</option>
-                {html_options options=$users selected=$developer}
-            </select>
-          </td>
+            <th width="120">
+                {t}Developer{/t}:
+            </th>
+            <td width="200">
+                <select name="developer">
+                    <option value="" label="All">{t}All{/t}</option>
+                    {html_options options=$users selected=$developer}
+                </select>
+            </td>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Sort Order{/t}:</b>
-          </td>
-          <td width="200">
-            <select name="sort_order">
-                <option value="ASC" label="Ascending" {if $smarty.request.sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
-                <option value="DESC" label="Descending" {if $smarty.request.sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
-            </select>
-          </td>
+            <th width="120">
+                {t}Sort Order{/t}:
+            </th>
+            <td width="200">
+                <select name="sort_order">
+                    <option value="ASC" label="Ascending" {if $smarty.request.sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
+                    <option value="DESC" label="Descending" {if $smarty.request.sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
+                </select>
+            </td>
         </tr>
-        <tr>
-          <td align="center" colspan="2">
-            <input type="submit" value="{t}Generate{/t}" class="shortcut">
-          </td>
+        <tr class="buttons">
+            <td align="center" colspan="2">
+                <input type="submit" value="{t}Generate{/t}" class="shortcut">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
 </form>
-<script type="text/javascript">
-{literal}
-function changeType(type) {
-    if (type == 'range') {
-        document.getElementById('recent_row').style.display = 'none';
-        document.getElementById('start_row').style.display = getDisplayStyle();
-        document.getElementById('end_row').style.display = getDisplayStyle();
-    } else {
-        document.getElementById('recent_row').style.display = getDisplayStyle();
-        document.getElementById('start_row').style.display = 'none';
-        document.getElementById('end_row').style.display = 'none';
-    }
-}
-{/literal}
 
-changeType('{$smarty.request.report_type}');
+<script type="text/javascript">
+    {literal}
+    function changeType(type) {
+        if (type == 'range') {
+            $('#recent_row').hide();
+            $('#start_row').show();
+            $('#end_row').show();
+        } else {
+            $('#recent_row').show();
+            $('#start_row').hide();
+            $('#end_row').hide();
+        }
+    }
+    {/literal}
+
+        changeType("{$smarty.request.report_type|default:''}");
 </script>
 
-{if $data|@count > 0}
+{if $data|default:'' != ''}
+<br />
 {if $data.phone != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
-            <b>{t}Recent Phone Calls{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
-          <td>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}Date{/t}</td>
-          <td>{t}Developer{/t}</td>
-          <td>{t}Type{/t}</td>
-          <td>{t}Line{/t}</td>
-          <td>{t}Description{/t}</td>
-        </tr>
-        {foreach from=$data.phone item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$row.phs_id}</td>
-          <td bgcolor="{$row.sta_color}" align="right">
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
+            {t}Recent Phone Calls{/t}
+        </td>
+    </tr>
+    <tr>
+        <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
+        <td>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}Date{/t}</td>
+        <td>{t}Developer{/t}</td>
+        <td>{t}Type{/t}</td>
+        <td>{t}Line{/t}</td>
+        <td>{t}Description{/t}</td>
+    </tr>
+    {foreach from=$data.phone item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr>
+        <td bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$row.phs_id}</td>
+        <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.phs_iss_id}">{$row.phs_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
-          <td bgcolor="{$row_color}">{$row.phs_type}</td>
-          <td bgcolor="{$row_color}">{$row.phc_title}</td>
-          <td bgcolor="{$row_color}">{$row.phs_description|nl2br}</td>
-        </tr>
-        {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$row.phs_id colspan="8"}
-        {foreachelse}
-        <tr>
-            <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No Phone Calls Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+        </td>
+        {if $core.has_customer_integration}
+        <td bgcolor="{$row_color}">{$row.customer}</td>
+        {/if}
+        <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+        <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
+        <td bgcolor="{$row_color}">{$row.phs_type}</td>
+        <td bgcolor="{$row_color}">{$row.phc_title}</td>
+        <td bgcolor="{$row_color}">{$row.phs_description|nl2br}</td>
+    </tr>
+    {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$row.phs_id colspan="8"}
+    {foreachelse}
+    <tr>
+        <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No Phone Calls Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 
 {if $data.note != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}6{else}5{/if}">
-            <b>{t}Recent Notes{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
-          <td>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}Posted Date{/t}</td>
-          <td>{t}User{/t}</td>
-          <td>{t}Title{/t}</td>
-        </tr>
-        {foreach from=$data.note item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$row.not_id}</td>
-          <td bgcolor="{$row.sta_color}" align="right">
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}6{else}5{/if}">
+            {t}Recent Notes{/t}
+        </td>
+    </tr>
+    <tr>
+        <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
+        <td>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}Posted Date{/t}</td>
+        <td>{t}User{/t}</td>
+        <td>{t}Title{/t}</td>
+    </tr>
+    {foreach from=$data.note item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr>
+        <td bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$row.not_id}</td>
+        <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.not_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.not_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
-          <td bgcolor="{$row_color}">{$row.not_title|nl2br}</td>
-        </tr>
-        {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$row.not_id colspan="6"}
-        {foreachelse}
-        <tr>
-            <td colspan="6" align="center" bgcolor="{$dark_color}"><i>{t}No Notes Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+        </td>
+        {if $core.has_customer_integration}
+        <td bgcolor="{$row_color}">{$row.customer}</td>
+        {/if}
+        <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+        <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
+        <td bgcolor="{$row_color}">{$row.not_title|nl2br}</td>
+    </tr>
+    {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$row.not_id colspan="6"}
+    {foreachelse}
+    <tr>
+        <td colspan="6" align="center" bgcolor="{$dark_color}"><i>{t}No Notes Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 
 {if $data.email != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
-            <b>{t}Recent Emails{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
-          <td nowrap>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}From{/t}</td>
-          <td>{t}To{/t}</td>
-          <td>{t}Date{/t}</td>
-          <td>{t}Subject{/t}</td>
-        </tr>
-        {foreach from=$data.email item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+            {t}Recent Emails{/t}
+        </td>
+    </tr>
+    <tr>
+        <td align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
+        <td nowrap>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}From{/t}</td>
+        <td>{t}To{/t}</td>
+        <td>{t}Date{/t}</td>
+        <td>{t}Subject{/t}</td>
+    </tr>
+    {foreach from=$data.email item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr>
+        <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
             {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$row.composite_id}
-          </td>
-          <td bgcolor="{$row.sta_color}" align="right">
+        </td>
+        <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.sup_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.sup_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}">{$row.sup_from|escape:"html"}</td>
-          <td bgcolor="{$row_color}">
+        </td>
+        {if $core.has_customer_integration}
+        <td bgcolor="{$row_color}">{$row.customer}</td>
+        {/if}
+        <td bgcolor="{$row_color}">{$row.sup_from|escape:"html"}</td>
+        <td bgcolor="{$row_color}">
             {if $row.sup_to == ""}
-              <i>{t}sent to notification list{/t}</i>
+            <i>{t}sent to notification list{/t}</i>
             {else}
-              {$row.sup_to|escape:"html"}
+            {$row.sup_to|escape:"html"}
             {/if}
-          </td>
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.sup_subject|nl2br}</td>
-        </tr>
-        {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$row.composite_id colspan=7 row_color=$row_color}
-        {foreachelse}
-        <tr>
-            <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Emails Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+        </td>
+        <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+        <td bgcolor="{$row_color}">{$row.sup_subject|nl2br}</td>
+    </tr>
+    {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$row.composite_id colspan=7 row_color=$row_color}
+    {foreachelse}
+    <tr>
+        <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Emails Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 
 {if $data.draft != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
-            <b>{t}Recent Drafts{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
-          <td>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}Status{/t}</td>
-          <td>{t}From{/t}</td>
-          <td>{t}To{/t}</td>
-          <td>{t}Date{/t}</td>
-          <td>{t}Subject{/t}</td>
-        </tr>
-        {foreach from=$data.draft item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr {if $row.emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
-          <td NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$row.emd_id}</td>
-          <td bgcolor="{$row.sta_color}" align="right">
-            <a target="_blank" href="{$core.rel_url}view.php?id={$row.emd_iss_id}">{$row.emd_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}">{$row.emd_status}</td>
-          <td bgcolor="{$row_color}">{$row.from|escape:"html"}</td>
-          <td bgcolor="{$row_color}">{$row.to|escape:"html"}</td>
-          </td>
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.emd_subject|nl2br}</td>
-        </tr>
-        {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$row.emd_id colspan=8}
-        {foreachelse}
-        <tr>
-            <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No Drafts Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
+            {t}Recent Drafts{/t}
+        </td>
+    </tr>
+    <tr>
+        <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
+        <td>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}Status{/t}</td>
+        <td>{t}From{/t}</td>
+        <td>{t}To{/t}</td>
+        <td>{t}Date{/t}</td>
+        <td>{t}Subject{/t}</td>
+    </tr>
+    {foreach from=$data.draft item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr {if $row.emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
+    <td NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$row.emd_id}</td>
+    <td bgcolor="{$row.sta_color}" align="right">
+        <a target="_blank" href="{$core.rel_url}view.php?id={$row.emd_iss_id}">{$row.emd_iss_id}</a>
     </td>
-  </tr>
+    {if $core.has_customer_integration}
+    <td bgcolor="{$row_color}">{$row.customer}</td>
+    {/if}
+    <td bgcolor="{$row_color}">{$row.emd_status}</td>
+    <td bgcolor="{$row_color}">{$row.from|escape:"html"}</td>
+    <td bgcolor="{$row_color}">{$row.to|escape:"html"}</td>
+    </td>
+    <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+    <td bgcolor="{$row_color}">{$row.emd_subject|nl2br}</td>
+    </tr>
+    {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$row.emd_id colspan=8}
+    {foreachelse}
+    <tr>
+        <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No Drafts Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 
 {if $data.time != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
-            <b>{t}Recent Time Entries{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}Date of Work{/t}</td>
-          <td>{t}User{/t}</td>
-          <td>{t}Time Spent{/t}</td>
-          <td>{t}Category{/t}</td>
-          <td>{t}Summary{/t}</td>
-        </tr>
-        {foreach from=$data.time item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row.sta_color}" align="right">
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+            {t}Recent Time Entries{/t}
+        </td>
+    </tr>
+    <tr>
+        <td>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}Date of Work{/t}</td>
+        <td>{t}User{/t}</td>
+        <td>{t}Time Spent{/t}</td>
+        <td>{t}Category{/t}</td>
+        <td>{t}Summary{/t}</td>
+    </tr>
+    {foreach from=$data.time item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr>
+        <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.ttr_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.ttr_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
-          <td bgcolor="{$row_color}">{$row.time_spent}</td>
-          <td bgcolor="{$row_color}">{$row.ttc_title}</td>
-          <td bgcolor="{$row_color}">{$row.ttr_summary|nl2br}</td>
-        </tr>
-        {foreachelse}
-        <tr>
-            <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Time Entries Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+        </td>
+        {if $core.has_customer_integration}
+        <td bgcolor="{$row_color}">{$row.customer}</td>
+        {/if}
+        <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+        <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
+        <td bgcolor="{$row_color}">{$row.time_spent}</td>
+        <td bgcolor="{$row_color}">{$row.ttc_title}</td>
+        <td bgcolor="{$row_color}">{$row.ttr_summary|nl2br}</td>
+    </tr>
+    {foreachelse}
+    <tr>
+        <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Time Entries Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 
-{if $data.reminder != ''}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $core.has_customer_integration}4{else}3{/if}">
-            <b>{t}Recent Reminder Actions{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td>{t}Issue ID{/t}</td>
-          {if $core.has_customer_integration}
-          <td>{t}Customer{/t}</td>
-          {/if}
-          <td>{t}Date Triggered{/t}</td>
-          <td>{t}Title{/t}</td>
-        </tr>
-        {foreach from=$data.reminder item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row.sta_color}" align="right">
+{if $data.reminder|default:'' != ''}
+<table class="bordered grid">
+    <tr>
+        <td colspan="{if $core.has_customer_integration}4{else}3{/if}">
+            {t}Recent Reminder Actions{/t}
+        </td>
+    </tr>
+    <tr>
+        <td>{t}Issue ID{/t}</td>
+        {if $core.has_customer_integration}
+        <td>{t}Customer{/t}</td>
+        {/if}
+        <td>{t}Date Triggered{/t}</td>
+        <td>{t}Title{/t}</td>
+    </tr>
+    {foreach from=$data.reminder item=row}
+    {cycle values=$cycle assign="row_color"}
+    <tr>
+        <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.rmh_iss_id}">{$row.rmh_iss_id}</a>
-          </td>
-          {if $core.has_customer_integration}
-          <td bgcolor="{$row_color}">{$row.customer}</td>
-          {/if}
-          <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
-          <td bgcolor="{$row_color}">{$row.rma_title}</td>
+        </td>
+        {if $core.has_customer_integration}
+        <td bgcolor="{$row_color}">{$row.customer}</td>
+        {/if}
+        <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
+        <td bgcolor="{$row_color}">{$row.rma_title}</td>
         {foreachelse}
-        <tr>
-            <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Reminder Entries Found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+    <tr>
+        <td colspan="7" align="center" bgcolor="{$dark_color}"><i>{t}No Reminder Entries Found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/if}
 {/if}
 <br />
-{include file="footer.tpl.html"}
+{/block}

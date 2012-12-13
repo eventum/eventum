@@ -1,4 +1,8 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}customer_stats_report{/block}
+{block "title"}Customer Stats{/block}
+
+{block "report_content"}
 <br />
 {if $no_customer_integration == 1}
     <span>{t}The current project does not have customer integration so this report can not be viewed.{/t}</span>
@@ -330,5 +334,4 @@ function clearDate()
 
 {/if}
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

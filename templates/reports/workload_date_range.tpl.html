@@ -1,162 +1,151 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}recent_activity_report{/block}
+{block "title"}Workload Date Range{/block}
+
+{block "report_content"}
 <br />
 <form action="{$smarty.server.PHP_SELF}" name="workload_report" method="post">
-<table border="0" cellspacing="0" cellpadding="1" align="center" width="400">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2">
-            <b>{t}Workload by Date Range Report{/t}</b>
-          </td>
-        </tr>
-        <tr>
+    <table class="bordered filters">
+        <tr class="title">
+            <th colspan="2">
+                {t}Workload by Date Range Report{/t}
+            </th>
         </tr>
         {if $categories|@count > 0}
         <tr>
-          <td align="right">
-            <b>{t}Category{/t}:</b>
-          </td>
-          <td align="left">
-            &nbsp;&nbsp;
-            <select name="category">
-                <option value=""></option>
-                {html_options options=$categories selected=$category}
-            </select>
-          </td>
+            <th align="right">
+                {t}Category{/t}:
+            </th>
+            <td align="left">
+                &nbsp;&nbsp;
+                <select name="category">
+                    <option value=""></option>
+                    {html_options options=$categories selected=$category}
+                </select>
+            </td>
         </tr>
         {/if}
         <tr>
-          <td align="right">
-            <b>{t}Type{/t}:</b>
-          </td>
-          <td align="left">
-            &nbsp;&nbsp;
-            <select name="type" onChange="setIntervals('')">
-                {html_options options=$types selected=$type}
-            </select>
-          </td>
+            <th align="right">
+                {t}Type{/t}:
+            </th>
+            <td align="left">
+                &nbsp;&nbsp;
+                <select name="type" onChange="setIntervals('')">
+                    {html_options options=$types selected=$type}
+                </select>
+            </td>
         </tr>
         <tr>
-          <td align="right">
-            <b>{t}Interval{/t}:</b>
-          </td>
-          <td align="left">
-            &nbsp;&nbsp;
-            <select name="interval">
-            </select>
-          </td>
+            <th align="right">
+                {t}Interval{/t}:
+            </th>
+            <td align="left">
+                &nbsp;&nbsp;
+                <select name="interval">
+                </select>
+            </td>
         </tr>
         <tr>
-          <td align="right">
-            <b>{t}Start{/t}:</b>
-          </td>
-          <td align="left">
-            &nbsp;&nbsp;
-            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-          </td>
+            <th align="right">
+                {t}Start{/t}:
+            </th>
+            <td align="left">
+                &nbsp;&nbsp;
+                {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+            </td>
         </tr>
         <tr>
-          <td align="right">
-            <b>{t}End{/t}:</b>
-          </td>
-          <td align="left">
-            &nbsp;&nbsp;
-            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-          </td>
+            <th align="right">
+                {t}End{/t}:
+            </th>
+            <td align="left">
+                &nbsp;&nbsp;
+                {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+            </td>
         </tr>
-        <tr>
-          <td colspan="2" align="center">
-            <input type="submit" name="submit" value="{t}Generate{/t}" class="shortcut">
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" name="submit" value="{t}Generate{/t}">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<div style="color: red" align="center">
-   {t escape=no}Warning: Some type and interval options, combined with large <br />date ranges can produce extremely large graphs.{/t}
-</div>
+    </table>
+    <div style="color: red" align="center">
+        {t escape=no}Warning: Some type and interval options, combined with large <br />date ranges can produce extremely large graphs.{/t}
+    </div>
 </form>
 <script type="text/javascript">
-{literal}
-var f = document.forms["workload_report"];
-var options = new Array(2);
-options[0] = new Array(3);// individual
-options[0][0] = new Option('{/literal}{t escape=js}Day{/t}{literal}', '{/literal}{t}day{/t}{literal}');
-options[0][1] = new Option('{/literal}{t escape=js}Week{/t}{literal}', '{/literal}{t}week{/t}{literal}');
-options[0][2] = new Option('{/literal}{t escape=js}Month{/t}{literal}', '{/literal}{t}month{/t}{literal}')
+    {literal}
+    var f = document.forms["workload_report"];
+    var options = new Array(2);
+    options[0] = new Array(3);// individual
+    options[0][0] = new Option('{/literal}{t escape=js}Day{/t}{literal}', '{/literal}{t}day{/t}{literal}');
+    options[0][1] = new Option('{/literal}{t escape=js}Week{/t}{literal}', '{/literal}{t}week{/t}{literal}');
+    options[0][2] = new Option('{/literal}{t escape=js}Month{/t}{literal}', '{/literal}{t}month{/t}{literal}')
 
-options[1] = new Array(4);// aggregate
-options[1][0] = new Option('{/literal}{t escape=js}Day of Week{/t}{literal}', '{/literal}{t}dow{/t}{literal}');
-options[1][1] = new Option('{/literal}{t escape=js}Week{/t}{literal}', '{/literal}{t}week{/t}{literal}');
-options[1][2] = new Option('{/literal}{t escape=js}Day of Month{/t}{literal}', '{/literal}{t}dom{/t}{literal}');
-options[1][3] = new Option('{/literal}{t escape=js}Month{/t}{literal}', '{/literal}{t}month{/t}{literal}');
+    options[1] = new Array(4);// aggregate
+    options[1][0] = new Option('{/literal}{t escape=js}Day of Week{/t}{literal}', '{/literal}{t}dow{/t}{literal}');
+    options[1][1] = new Option('{/literal}{t escape=js}Week{/t}{literal}', '{/literal}{t}week{/t}{literal}');
+    options[1][2] = new Option('{/literal}{t escape=js}Day of Month{/t}{literal}', '{/literal}{t}dom{/t}{literal}');
+    options[1][3] = new Option('{/literal}{t escape=js}Month{/t}{literal}', '{/literal}{t}month{/t}{literal}');
 
-function setIntervals(selectedValue)
-{
-    f.interval.length = options[f.type.selectedIndex].length;
-    for (i = 0; i < options[f.type.selectedIndex].length; i++) {
-        f.interval.options[i] = options[f.type.selectedIndex][i];
-        if (options[f.type.selectedIndex][i].value == selectedValue) {
-            f.interval.options[i].selected = true;
+    function setIntervals(selectedValue)
+    {
+        f.interval.length = options[f.type.selectedIndex].length;
+        for (i = 0; i < options[f.type.selectedIndex].length; i++) {
+            f.interval.options[i] = options[f.type.selectedIndex][i];
+            if (options[f.type.selectedIndex][i].value == selectedValue) {
+                f.interval.options[i].selected = true;
+            }
         }
     }
-}
-{/literal}
-setIntervals('{$interval}');
+    {/literal}
+        setIntervals('{$interval}');
 </script>
-{if $data != ''}
+{if $data|default:'' != ''}
 <center>
-<h3>Project: {$core.project_name}</h3>
+    <h3>Project: {$core.project_name}</h3>
 </center>
-<table width="400" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <th>
+<table class="bordered">
+    <tr>
+        <th>
             &nbsp;
-          </th>
-          <th>
+        </th>
+        <th>
             Total
-          </th>
-          <th>
+        </th>
+        <th>
             Avg
-          </th>
-          <th>
+        </th>
+        <th>
             Med
-          </th>
-          <th>
+        </th>
+        <th>
             Max
-          </th>
-        </tr>
-        {foreach name="workload" from=$data key=loop_name item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr bgcolor="{$row_color}">
-          <td align="center">{$loop_name}</td>
-          <td align="center">{$row.stats.total}</td>
-          <td align="center">{$row.stats.avg|round:2}</td>
-          <td align="center">{$row.stats.median}</td>
-          <td align="center">{$row.stats.max}</td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+        </th>
+    </tr>
+    {foreach name="workload" from=$data key=loop_name item=row}
+    <tr class="{cycle values='odd,even'}">
+        <td align="center">{$loop_name}</td>
+        <td align="center">{$row.stats.total}</td>
+        <td align="center">{$row.stats.avg|round:2}</td>
+        <td align="center">{$row.stats.median}</td>
+        <td align="center">{$row.stats.max}</td>
+    </tr>
+    {/foreach}
 </table>
 <div align="center">
-{t}Avg/Med/Max Issues/Emails{/t}
-{if $interval == 'day'}
+    {t}Avg/Med/Max Issues/Emails{/t}
+    {if $interval == 'day'}
     per day
-{elseif $interval == 'week'}
+    {elseif $interval == 'week'}
     per week
-{elseif $interval == 'month'}
+    {elseif $interval == 'month'}
     per month
-{elseif $interval == 'dow'}
+    {elseif $interval == 'dow'}
     per day of week
-{/if}
-for {$start_date} through {$end_date}.
+    {/if}
+    for {$start_date} through {$end_date}.
 </div>
 <br />
 <div align="center">
@@ -166,4 +155,4 @@ for {$start_date} through {$end_date}.
     <img src="workload_date_range_graph.php?graph=email&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}&category={$category}">
 </div>
 {/if}
-{include file="footer.tpl.html"}
+{/block}

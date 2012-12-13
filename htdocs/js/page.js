@@ -233,7 +233,7 @@ issue_view.removeQuarantine = function()
 issue_view.replyIssue = function()
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('send.php?cat=reply&ema_id=' + ema_id + '&issue_id=' + issue_view.get_issue_id(), '_replyIssue' + issue_id, features);
+    var popupWin = window.open('send.php?cat=reply&ema_id=' + issue_view.get_ema_id() + '&issue_id=' + issue_view.get_issue_id(), '_replyIssue' + issue_view.get_issue_id(), features);
     popupWin.focus();
 }
 

@@ -1,221 +1,207 @@
-{include file="header.tpl.html"}
-<br />
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}custom_fields_report_weekly{/block}
+{block "title"}Custom Fields Weekly{/block}
+
+{block "report_content"}
 {literal}
 <script type="text/javascript">
-<!--
-function validateForm(f)
-{
-    if (getSelectedOption(f, 'custom_field') == -1) {
-        selectField(f, 'custom_field');
-        alert('{/literal}{t escape=js}Please select the custom field that you would like to generate a report against.{/t}{literal}');
-        return false;
+    <!--
+    function validateForm(f)
+    {
+        if (getSelectedOption(f, 'custom_field') == -1) {
+            selectField(f, 'custom_field');
+            alert('{/literal}{t escape=js}Please select the custom field that you would like to generate a report against.{/t}{literal}');
+            return false;
+        }
+        return true;
     }
-    return true;
-}
-//-->
+    //-->
 </script>
 {/literal}
 
 <form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="post" onSubmit="return validateForm(this);">
-<input type="hidden" name="cat" value="generate">
-<table border="0" cellspacing="0" cellpadding="1" align="center" width="400">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="3">
-            <b>{t}Custom Fields Weekly Report{/t}</b>
-          </td>
+    <input type="hidden" name="cat" value="generate">
+    <table class="bordered filters">
+        <tr class="title">
+            <th colspan="3">
+                {t}Custom Fields Weekly Report{/t}
+            </th>
         </tr>
         <tr>
-          <td width="120">
-            <b>{t}Report Type:{/t}</b>
-          </td>
-          <td width="200" NOWRAP>
-            <input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
-                <a id="link" href="javascript:void(null)"
-                            onClick="checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
-            <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
-                <a id="link" href="javascript:void(null)"
-                            onClick="checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
-          </td>
+            <th width="120">
+                {t}Report Type:{/t}
+            </th>
+            <td width="200" NOWRAP>
+                <label><input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
+                    {t}Weekly{/t}</label>&nbsp;
+                <label><input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+                    {t}Date Range{/t}</label>&nbsp;
+            </td>
         </tr>
         <tr id="week_row">
-          <td width="120">
-            <b>{t}Week{/t}:</b>
-          </td>
-          <td width="200">
-            <select name="week">
-                {html_options options=$weeks selected=$week}
-            </select>
-          </td>
+            <th width="120">
+                {t}Week{/t}:
+            </th>
+            <td width="200">
+                <select name="week">
+                    {html_options options=$weeks selected=$week}
+                </select>
+            </td>
         </tr>
         <tr id="start_row">
-          <td width="120">
-            <b>{t}Start{/t}:</b>
-          </td>
-          <td width="200">
-            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
-          </td>
+            <th width="120">
+                {t}Start{/t}:
+            </th>
+            <td width="200">
+                {html_select_date time=$start_date|default:'' prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
+            </td>
         </tr>
         <tr id="end_row">
-          <td width="120">
-            <b>{t}End:{/t}</b>
-          </td>
-          <td width="200">
-            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
-          </td>
+            <th width="120">
+                {t}End:{/t}
+            </th>
+            <td width="200">
+                {html_select_date time=$end_date|default:'' prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
+            </td>
         </tr>
         <tr>
-          <td width="30%" align="center">
-            <b>{t}Custom Field{/t}</b>
-          </td>
-          <td width="30%" align="center">
-            <b>{t}Options{/t}</b>
-          </td>
+            <th width="30%" align="center">
+                {t}Custom Field{/t}
+            </th>
+            <th width="30%" align="center">
+                {t}Options{/t}
+            </th>
         </tr>
         <tr>
-          <td align="center" valign="top" height="10">
-            <select name="custom_field" onChange="setOptions(this.options[this.selectedIndex].value, true)">
-                <option value="-1"></option>
-                {html_options options=$custom_fields selected=$custom_field}
-            </select>
-            {include file="error_icon.tpl.html" field="custom_field"}
-          </td>
-          <td align="center" valign="top">
-            <select name="custom_options[]" size="8" multiple>
-            </select>
+            <td align="center" valign="top" height="10">
+                <select name="custom_field" onChange="setOptions(this.options[this.selectedIndex].value, true)">
+                    <option value="-1"></option>
+                    {html_options options=$custom_fields selected=$custom_field}
+                </select>
+                {include file="error_icon.tpl.html" field="custom_field"}
+            </td>
+            <td align="center" valign="top">
+                <select name="custom_options[]" size="8" multiple>
+                </select>
 
-          </td>
+            </td>
         </tr>
         <tr>
-          <td width="120" valign="top">
-            <b>{t}Options:{/t}</b>
-          </td>
-          <td width="200" NOWRAP>
-            <input type="checkbox" name="time_in_min" value="1" {if $smarty.post.time_in_min == 1}checked{/if}>
-            <a id="link" href="javascript:void(null)"
-                            onClick="toggleCheckbox('custom_fields_report', 'time_in_min', 0)">{t}Time spent as minutes{/t}</a>&nbsp;
-            <br />
-            <input type="checkbox" name="time_per_user" value="1" {if $smarty.post.time_per_user == 1}checked{/if}>
-            <a id="link" href="javascript:void(null)"
-                            onClick="toggleCheckbox('custom_fields_report', 'time_per_user', 0)">{t}Time spent per user{/t}</a>&nbsp;
-            <br />
-          </td>
+            <th width="120" valign="top">
+                {t}Options:{/t}
+            </th>
+            <td width="200" NOWRAP>
+                <label><input type="checkbox" name="time_in_min" value="1" {if $smarty.post.time_in_min|default:'' == 1}checked{/if}>
+                    {t}Time spent as minutes{/t}</label>&nbsp;
+                <br />
+                <label>
+                    <input type="checkbox" name="time_per_user" value="1" {if $smarty.post.time_per_user|default:'' == 1}checked{/if}>
+                    {t}Time spent per user{/t}</label>&nbsp;
+                <br />
+            </td>
         </tr>
 
-        <tr>
-          <td colspan="2" align="center">
-            <input type="submit" name="cat" value="{t}Generate{/t}" class="shortcut">
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" name="cat" value="{t}Generate{/t}" class="shortcut">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
 </form>
 <script type="text/javascript">
-var options = new Array();
-var option_to_fld_id = new Array();
-{foreach from=$options key=fld_id item=option_list name=option_list}
+    var options = new Array();
+    var option_to_fld_id = new Array();
+    {foreach from=$options key=fld_id item=option_list name=option_list}
     option_to_fld_id[{$smarty.foreach.option_list.iteration-1}] = {$fld_id};
     options[{$smarty.foreach.option_list.iteration-1}] = new Array();
     {foreach from=$option_list key=cfo_id item=cfo_value name=option}
-        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option({$cfo_value|json_encode}, {$cfo_id|json_encode});
+    options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option({$cfo_value|json_encode}, {$cfo_id|json_encode});
     {/foreach}
-{/foreach}
+        {/foreach}
 
-{literal}
-var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
-function setOptions(fld_id, auto_select)
-{
-    fld_id_index = '';
-    for (i = 0; i < option_to_fld_id.length; i++) {
-        if (option_to_fld_id[i] == fld_id) {
-            fld_id_index = i;
-        }
-    }
+            {literal}
+            var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
+            function setOptions(fld_id, auto_select)
+            {
+                fld_id_index = '';
+                for (i = 0; i < option_to_fld_id.length; i++) {
+                    if (option_to_fld_id[i] == fld_id) {
+                        fld_id_index = i;
+                    }
+                }
 
-    options_field.length = 0;
-    if (options[fld_id_index]) {
-        options_field.length = options[fld_id_index].length;
-        for (i = 0; i < options[fld_id_index].length; i++) {
-            options_field.options[i] = options[fld_id_index][i];
-            options_field.options[i].selected = auto_select;
-        }
-    }
-}
-function changeType(type) {
-    if (type == 'range') {
-        document.getElementById('week_row').style.display = 'none';
-        document.getElementById('start_row').style.display = getDisplayStyle();
-        document.getElementById('end_row').style.display = getDisplayStyle();
-    } else {
-        document.getElementById('week_row').style.display = getDisplayStyle();
-        document.getElementById('start_row').style.display = 'none';
-        document.getElementById('end_row').style.display = 'none';
-    }
-}
-{/literal}
-changeType('{$report_type}');
+                options_field.length = 0;
+                if (options[fld_id_index]) {
+                    options_field.length = options[fld_id_index].length;
+                    for (i = 0; i < options[fld_id_index].length; i++) {
+                        options_field.options[i] = options[fld_id_index][i];
+                        options_field.options[i].selected = auto_select;
+                    }
+                }
+            }
+            function changeType(type) {
+                if (type == 'range') {
+                    $('#week_row').hide();
+                    $('#start_row').show();
+                    $('#end_row').show();
+                } else {
+                    $('#week_row').show();
+                    $('#start_row').hide();
+                    $('#end_row').hide();
+                }
+            }
+            {/literal}
+                changeType('{$report_type}');
 
-setOptions('{$custom_field}', false);
-{if $custom_options|@count > 0}
-    {foreach from=$custom_options key=option_index item=option}
-      {literal}
-      for (i = 0; i < options_field.options.length; i++) {
-        if (options_field.options[i].value == {/literal}{$option|json_encode}{literal}) {
-          options_field.options[i].selected = true;
-        }
-      }
-      {/literal}
-    {/foreach}
-{/if}
+                setOptions('{$custom_field}', false);
+                {if $custom_options|@count > 0}
+                {foreach from=$custom_options key=option_index item=option}
+                {literal}
+                for (i = 0; i < options_field.options.length; i++) {
+                    if (options_field.options[i].value == {/literal}{$option|json_encode}{literal}) {
+                    options_field.options[i].selected = true;
+                }
+            }
+            {/literal}
+                {/foreach}
+                    {/if}
 </script>
 
-{if $data|@count > 0}
+{if $data|default:'' != ''}
 {assign var="colspan" value=5}
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{$colspan}">
-            <b>{t}Issues/Customers matching criteria{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td>{t}Issue ID{/t}</td>
-          <td>{t}Summary{/t}</td>
-          <td>{t}Time Spent{/t}</td>
-          <td>{$field_info.fld_title}</td>
-          {if $per_user}
-              <td>{t}User{/t}</td>
-          {/if}
-        </tr>
-        {foreach from=$data item=row}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.iss_id}">{$row.iss_id}</a>
-          </td>
-          <td bgcolor="{$row_color}">{$row.iss_summary}</td>
-          <td bgcolor="{$row_color}">{if $smarty.post.time_in_min == 1}{$row.ttr_time_spent_sum}{else}{$row.ttr_time_spent_sum_formatted}{/if}</td>
-          <td bgcolor="{$row_color}">{$row.field_value}</td>
-          {if $per_user}
-              <td bgcolor="{$row_color}">{$row.usr_full_name|escape:html}</td>
-          {/if}
-        </tr>
-        {foreachelse}
-        <tr>
-            <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No data found{/t}</i></td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+<br />
+<table class="bordered grid">
+    <tr class="title">
+        <th colspan="{$colspan}">
+            {t}Issues/Customers matching criteria{/t}
+        </th>
+    </tr>
+    <tr>
+        <th>{t}Issue ID{/t}</th>
+        <th>{t}Summary{/t}</th>
+        <th>{t}Time Spent{/t}</th>
+        <th>{$field_info.fld_title}</th>
+        {if $per_user}
+        <th>{t}User{/t}</th>
+        {/if}
+    </tr>
+    {foreach from=$data item=row}
+    <tr class="{cycle values='odd,even'}">
+        <td align="right">
+            <a href="{$core.base_url}view.php?id={$row.iss_id}">{$row.iss_id}</a>
+        </td>
+        <td>{$row.iss_summary}</td>
+        <td>{if $smarty.post.time_in_min|default:'' == 1}{$row.ttr_time_spent_sum}{else}{$row.ttr_time_spent_sum_formatted}{/if}</td>
+        <td>{$row.field_value}</td>
+        {if $per_user}
+        <td>{$row.usr_full_name|escape:html}</td>
+        {/if}
+    </tr>
+    {foreachelse}
+    <tr>
+        <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No data found{/t}</i></td>
+    </tr>
+    {/foreach}
 </table>
 {/if}
-
-
-{include file="footer.tpl.html"}
+{/block}

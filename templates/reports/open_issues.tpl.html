@@ -1,12 +1,11 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "title"}Open Issues By User{/block}
 
+{block "report_content"}
 <br />
 <form method="get" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="group_by_reporter" value="{$smarty.request.group_by_reporter}">
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+      <table class="bordered">
         <tr>
           <td colspan="3">
             <b>{t}Showing all open issues older than {/t}{$cutoff_days} {t}days{/t}.</b>
@@ -24,24 +23,18 @@
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
-</table>
 </form>
 
 {foreach key=user_full_name item=assigned_issues from=$users}
 <h4>{$user_full_name|escape:"html"}</h4>
-<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+      <table class="bordered">
         <tr>
-          <td rowspan="2" align="center">{t}Issue ID{/t}</td>
-          <td rowspan="2" align="center">{t}Summary{/t}</td>
-          <td rowspan="2" align="center">{t}Status{/t}</td>
-          <td rowspan="2" align="center">{t}Time Spent{/t}</td>
-          <td rowspan="2" align="center">{t}Created{/t}</td>
-          <td colspan="2" align="center">{t}Days and Hours Since{/t}</td>
+          <th rowspan="2" align="center">{t}Issue ID{/t}</th>
+          <th rowspan="2" align="center">{t}Summary{/t}</th>
+          <th rowspan="2" align="center">{t}Status{/t}</th>
+          <th rowspan="2" align="center">{t}Time Spent{/t}</th>
+          <th rowspan="2" align="center">{t}Created{/t}</th>
+          <th colspan="2" align="center">{t}Days and Hours Since{/t}</th>
         </tr>
         <tr>
           <td align="center">{t}Last Update{/t}</td>
@@ -59,10 +52,6 @@
         </tr>
         {/foreach}
       </table>
-    </td>
-  </tr>
-</table>
 <br />
 {/foreach}
-
-{include file="footer.tpl.html"}
+{/block}

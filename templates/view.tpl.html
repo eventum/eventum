@@ -3,8 +3,6 @@
 {block title}{t 1=$smarty.get.id|intval}Issue #%1 Details{/t}{/block}
 
 {block "content"}
-<script type="text/javascript" src="{$core.rel_url}js/httpclient.js"></script>
-<script type="text/javascript" src="{$core.rel_url}js/expandable_cell.js"></script>
 {if $issue|default:'' != ''}
   {include file="view_form.tpl.html"}
 
@@ -28,11 +26,11 @@
   {if $core.current_role > $core.roles.customer}
   {include file="notes.tpl.html"}
   {/if}
-  
+
   {if $core.current_role > $core.roles.customer}
   {include file="phone_support.tpl.html"}
   {/if}
-  
+
   {if $core.app_setup.support_email == 'enabled'}
     {if $core.current_role > $core.roles.customer}
       {include file="email_drafts.tpl.html"}

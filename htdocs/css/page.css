@@ -247,3 +247,28 @@ body#popup div.popup {
 body#adv_search #date_fields, body#adv_search #custom_fields_row {
     display: none;
 }
+
+/* Begin reports pages */
+#report_sidebar {
+    width: 200px;
+    background: #dddddd;
+    float: left;
+    padding: .5em;
+    border-radius: 0.5em;
+    -webkit-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+
+#report_sidebar ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#report_sidebar ul ul {
+    margin-left: 1em;
+    padding-left: 0;
+}
+
+#report_content {
+    margin-left: 220px;
+}

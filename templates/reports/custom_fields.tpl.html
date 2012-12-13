@@ -1,4 +1,8 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}custom_fields_report{/block}
+{block "title"}Custom Fields{/block}
+
+{block "report_content"}
 <br />
 {literal}
 <script type="text/javascript">
@@ -17,22 +21,19 @@ function validateForm(f)
 {/literal}
 <form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
-<table border="0" cellspacing="0" cellpadding="1" align="center" width="400">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="3">
-            <b>{t}Custom Fields Report{/t}</b>
-          </td>
+      <table class="bordered filters">
+        <tr class="title">
+          <th colspan="3">
+            {t}Custom Fields Report{/t}
+          </th>
         </tr>
         <tr>
-          <td width="30%" align="center">
+          <th width="30%" align="center">
             <b>{t}Field to Graph{/t}</b>
-          </td>
-          <td width="30%" align="center">
+          </th>
+          <th width="30%" align="center">
             <b>{t}Options to Graph{/t}</b>
-          </td>
+          </th>
         </tr>
         <tr>
           <td align="center" valign="top" height="10">
@@ -228,10 +229,5 @@ setOptions('{$custom_field}', false);
         </tr>
         {/foreach}
       </table>
-    </td>
-  </tr>
-</table>
 {/if}
-
-
-{include file="footer.tpl.html"}
+{/block}
