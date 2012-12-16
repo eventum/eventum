@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-12-10 21:59+0000\n"
+"PO-Revision-Date: 2012-12-15 22:11+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-11 04:50+0000\n"
-"X-Generator: Launchpad (build 16356)\n"
+"X-Launchpad-Export-Date: 2012-12-16 04:56+0000\n"
+"X-Generator: Launchpad (build 16372)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7094,150 +7094,151 @@ msgstr "Děkujeme Vám, poznámka byla úspěšně převedena."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was deleted successfully."
-msgstr ""
+msgstr "Děkujeme Vám, poznámka byla úspěšně smazána."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the note was removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, poznámka byla úspěšně odstraněna."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "Thank you, the note was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, poznámka byla úspěšně aktualizována."
 
 #: templates/notification.tpl.html
 msgid "Thank you, the notification entry was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, oznámení bylo úspěšně aktualizováno."
 
 #: templates/add_phone_entry.tpl.html
 msgid "Thank you, the phone entry was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, telefonní záznam byl úspěšně přidán."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the phone support entry was removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, záznam telefonní podpory byl úspěšně odstraněn."
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, priorita byla úspěšně přidána."
 
 #: templates/manage/priorities.tpl.html
 msgid "Thank you, the priority was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, priorita byla úspěšně aktualizována."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, projekt byl úspěšně přidán."
 
 #: templates/manage/projects.tpl.html
 msgid "Thank you, the project was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, projekt byl úspěšně aktualizován."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, verze byla úspěšně přidána."
 
 #: templates/manage/releases.tpl.html
 msgid "Thank you, the release was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, verze byla úspěšně aktualizována."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, upomínka byla úspěšně přidána."
 
 #: templates/manage/reminders.tpl.html
 msgid "Thank you, the reminder was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, upomínka byla úspěšně aktualizována."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Thank you, the round robin entry was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, záznam kruhového přiřazení byl úspěšně přidán."
 
 #: templates/manage/round_robin.tpl.html
 msgid "Thank you, the round robin entry was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, záznam kruhového přiřazení byl úspěšně aktualizován."
 
 #: templates/popup.tpl.html
 msgid ""
 "Thank you, the selected checkin information entries were removed "
 "successfully."
 msgstr ""
+"Děkujeme Vám, zvolené záznamy infomrmací o odevzdání byly úspěšně odstraněny."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected custom filters were removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, zvolené vlastní filtry byly úspěšně odstraněny."
 
 #: templates/associate.tpl.html
 msgid "Thank you, the selected email message was associated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, zvolená emailová zpráva byla úspěšně přiřazena."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected issues were updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, zvolené úlohy byly úspěšně aktualizovány."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the selected requirements were removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, zvolené požadavky byly úspěšně odstraněny."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
-msgstr ""
+msgstr "Děkujeme Vám, informace o nastavení byly úspěšně uloženy."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, stav byl úspěšně přidán."
 
 #: templates/manage/statuses.tpl.html
 msgid "Thank you, the status was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, stav byl úspěšně aktualizován."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Thank you, the time tracking category was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, kategorie sledování času byla úspěšně přidána."
 
 #: templates/manage/time_tracking.tpl.html
 msgid "Thank you, the time tracking category was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, kategorie sledování času byla úspěšně aktualizována."
 
 #: templates/add_time_tracking.tpl.html
 msgid "Thank you, the time tracking entry was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, záznam sledování času byl úspěšně přidán."
 
 #: templates/popup.tpl.html
 msgid "Thank you, the time tracking entry was removed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, záznam sledování času byl úspěšně odstraněn."
 
 #: templates/file_upload.tpl.html
 msgid "Thank you, the uploaded file was associated with the issue below."
-msgstr ""
+msgstr "Děkujeme Vám, nahraný soubor byl přidělen k níže uvedené úloze ."
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was added successfully."
-msgstr ""
+msgstr "Děkujeme Vám, uživatel byl úspěšně přidán."
 
 #: templates/manage/users.tpl.html
 msgid "Thank you, the user was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, uživatel byl úspěšně aktualizován."
 
 #: templates/popup.tpl.html
 msgid "Thank you, this issue was removed from quarantine."
-msgstr ""
+msgstr "Děkujeme Vám, úloha byla odstraněna z karantény."
 
 #: templates/self_assign.tpl.html
 msgid "Thank you, you are now assigned to the issue"
-msgstr ""
+msgstr "Děkujeme Vám, nyní jste přiřazeni k úloze"
 
 #: templates/popup.tpl.html
 msgid "Thank you, you are now authorized to send emails in this issue."
-msgstr ""
+msgstr "Děkujeme Vám, nyní máte oprávnění k odeslání emailů do této úlohy."
 
 #: templates/login_form.tpl.html
 msgid "Thank you, you are now logged out of %1"
-msgstr ""
+msgstr "Děkujeme Vám, nyní jste odhlášeni z %1"
 
 #: templates/clock_status.tpl.html
 msgid "Thank you, your account clocked-in status was changed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, stav přihlášení vašeho účtu byl úspěšně změněn."
 
 #: templates/signup.tpl.html
 msgid ""
@@ -7245,38 +7246,45 @@ msgid ""
 "security reasons a confirmation email was sent to the provided email address "
 "with instructions on how to confirm your request and activate your account."
 msgstr ""
+"Děkujeme Vám, vaše žádost o vytvoření účtu byla úspěšně zpracována. Z "
+"bezpečnostních důvodů byla na vaši zadanou emailovou adresu zaslána zpráva s "
+"pokyny, jak vaši žádost potvrdit a účet aktivovat."
 
 #: templates/login_form.tpl.html
 msgid ""
 "Thank you, your account is now active and ready to be used. Use the form "
 "below to login."
 msgstr ""
+"Děkujeme Vám, váš účet je nyní aktivní a je připraven k použití. Použijte "
+"formulář níže pro přihlášení."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your account preferences were updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vaše nastavení účtu byla úspěšně aktualizována."
 
 #: templates/switch.tpl.html
 msgid "Thank you, your current selected project was changed successfully."
-msgstr ""
+msgstr "Děkujeme Vám, váš v současnosti zvolený projekt byl úspěšně změněn."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your email address was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vaše emailová adresa byla úspěšně aktualizována."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your full name was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vaše celé jméno bylo úspěšně aktualizováno."
 
 #: templates/preferences.tpl.html
 msgid "Thank you, your password was updated successfully."
-msgstr ""
+msgstr "Děkujeme Vám, vaše heslo bylo úspěšně změněno."
 
 #: templates/confirm.tpl.html
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
 msgstr ""
+"Děkujeme Vám, vaše žádost o nové heslo byla úspěšně zpracována. Za chvíli "
+"byste měli obdržet email s novým heslem."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7284,10 +7292,13 @@ msgid ""
 "installation directory, will need to be installed in your CVSROOT CVS module "
 "by following the procedure below:"
 msgstr ""
+"Skript %1, který je dostupný z podadresáře %2 v adresáři vaší instalace "
+"Eventum, je třeba nainstalovat do vašeho modulu CVSROOT CVS pomocí "
+"následujícího postupu:"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The CVS module name"
-msgstr ""
+msgstr "Název modulu CVS"
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7295,6 +7306,9 @@ msgid ""
 ">>' links that are related to the previous and next issues for the current "
 "active filter, if appropriate."
 msgstr ""
+"Stránka s podrobnostmi úlohy také zobrazí odkazy '<< Předchozí úloha' a "
+"'Následující úloha >>', které souvisí s předchozí a následující úlohou v "
+"současně aktivním filtru, pokud existují."
 
 #: templates/help/list.tpl.html
 msgid ""
@@ -7303,16 +7317,22 @@ msgid ""
 "and users with the appropriate permissions may also assign selected issues "
 "to another user."
 msgstr ""
+"Stránka seznamu úloh používá mřížkové rozložení k zjednodušení ručního "
+"hledání úloh v projektu. Můžete řadit podle (skoro) všech sloupců v "
+"mřížkovém formuláři a uživatelé s odpovídajícími oprávněními mohou také "
+"přiřadit zvolené úlohy jiným uživatelům."
 
 #: templates/setup.tpl.html
 msgid ""
 "The SMTP (outgoing mail) configuration is needed to make sure emails are "
 "properly sent when creating new users/projects."
 msgstr ""
+"Je nutné nastavit SMTP (odchozí pošta), aby bylo zajištěno, že pošta je "
+"správně odesílána, při vytváření nových uživatelů/projektů."
 
 #: templates/popup.tpl.html
 msgid "The associated time tracking entry was also deleted."
-msgstr ""
+msgstr "Přidělený záznam sledování času byl také smazán."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7320,12 +7340,16 @@ msgid ""
 "will need to work with. Next, open the <b>loginfo</b> file and add the "
 "following line:"
 msgstr ""
+"Příkaz výše získá a vytvoří adresář CVSROOT, s kterým budete pracovat. Dále "
+"otevřete soubor <b>loginfo</b> a přidejte následující řádek:"
 
 #: templates/reports/customer_stats.tpl.html
 msgid ""
 "The current project does not have customer integration so this report can "
 "not be viewed."
 msgstr ""
+"Současný projekt nemá zavedeny zákazníky, takže toto hlášení nemůže být "
+"zobrazeno."
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -7333,6 +7357,9 @@ msgid ""
 "notification related fields when you report a new issue, or subscribe "
 "manually for changes in the issue details page."
 msgstr ""
+"Výchozí možnosti pro emailová oznámení jsou použity k předvybrání "
+"souvisejících polí oznámení, při hlášení nové úlohy, nebo se ručně přihlaste "
+"k odběru změn na stránce podrobností úlohy."
 
 #: templates/help/report_description.tpl.html
 msgid ""
@@ -7341,51 +7368,62 @@ msgid ""
 "happened, steps to reproduce the problem/issue and what you expected to "
 "happen instead."
 msgstr ""
+"Pole popisu by mělo být použito k popisu nové úlohy. Podle osvědčených "
+"postupů by mělo toto pole obsahovat popis toho, co se stalo, postup ke "
+"zopakování problému a co se místo toho očekávalo, že se stane."
 
 #: templates/login_form.tpl.html
 msgid ""
 "The email address / password combination could not be found in the system."
-msgstr ""
+msgstr "Kombinace emailové adresy / hesla nebyla v systému nalezena."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The filename that was committed"
-msgstr ""
+msgstr "Název souboru byl odevzdán"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
 "The first thing to do is to checkout the %1 module from your CVS repository:"
 msgstr ""
+"První věc, kterou musíte provést, je získat modul %1 z vašeho úložiště CVS:"
 
 #: templates/reminders/alert_no_recipients.tpl.text
 msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
 msgstr ""
+"Následující upomínka %1 nemohla být odeslána, protože příjemce nemohl být "
+"nalezen"
 
 #: templates/associate.tpl.html
 msgid ""
 "The following addresses could not be matched against the system user records:"
 msgstr ""
+"Nebyla nalezena shoda s následujícími adresami a záznamy uživatelů systému:"
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "The following is a brief overview of the available user permission levels in "
 "Eventum:"
 msgstr ""
+"Následuje stručný přehled dostupných úrovní uživatelských oprávnění v "
+"Eventum:"
 
 #: templates/self_assign.tpl.html
 msgid "The following user is already assigned to this issue"
-msgstr ""
+msgstr "Následující uživatel již je přiřazen k úloze"
 
 #: templates/help/view.tpl.html
 msgid ""
 "The full history of changes related to the current issue is available by "
 "clickin on the 'History of Changes' link."
 msgstr ""
+"Úplná historie změn, souvisejících se současnou úlohou, je dostupná při "
+"kliknutí na odkaz 'Historie změn'."
 
 #: templates/notification.tpl.html
 msgid "The given email address"
-msgstr ""
+msgstr "Zadaná emailová adresa"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
@@ -7394,6 +7432,10 @@ msgid ""
 "required information for the checkout page and diff page input fields, use "
 "the following placeholders:"
 msgstr ""
+"Zavedení je prováděno takovým způsobem, že bude dopředu kompatibilní se "
+"skoro všemi systémy správy verzí, jako například CVS. Při zadávání "
+"požadovaných informací ve vstupních polích stránky získání a porovnání, "
+"použijte následující zástupné symboly."
 
 #: templates/help/view.tpl.html
 msgid ""
@@ -7401,10 +7443,12 @@ msgid ""
 "field in the top of your browser window. Just enter the issue number and it "
 "will take you to the appropriate screen."
 msgstr ""
+"Na obrazovku s podrobnostmi o úloze můžete rychle přejít pomocí vstupního "
+"pole 'Přejít', v horní části vašeho internetového prohlížeče."
 
 #: templates/notifications/updated.tpl.text
 msgid "The issue was updated by %1"
-msgstr ""
+msgstr "Úlohu aktualizoval %1"
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -7412,36 +7456,45 @@ msgid ""
 "and copy the %1 script into the %2 directory. Make sure you give the "
 "appropriate permissions to the script."
 msgstr ""
+"Poslední krok v tomto procesu instalace je se přihlásit na server CVS a "
+"zkopírovat skript %1 do adresáře %2. Ujistěte se, že skriptu udělíte "
+"patřičná oprávnění."
 
 #: templates/help/scm_integration.tpl.html
 msgid "The new revision of the file"
-msgstr ""
+msgstr "Nová revize souboru"
 
 #: templates/help/scm_integration.tpl.html
 msgid "The old revision of the file"
-msgstr ""
+msgstr "Stará revize souboru"
 
 #: templates/notifications/bounced_email.tpl.text
 msgid "The original message headers follow"
-msgstr ""
+msgstr "Následují hlavičky původní zprávy"
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account email address could not be confirmed. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
+"Zadaná emailová adresa zkušebního účtu nemohla být potvrzena. Pro další "
+"pomoc prosím kontaktuje místní obsluhu technické podpory."
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account email address could not be found. Please contact "
 "the local Technical Support staff for further assistance."
 msgstr ""
+"Zadaná emailová adresa zkušebního účtu nemohla být nalezena. Pro další pomoc "
+"prosím kontaktuje místní obsluhu technické podpory."
 
 #: templates/confirm.tpl.html
 msgid ""
 "The provided trial account encrypted hash could not be authenticated. Please "
 "contact the local Technical Support staff for further assistance."
 msgstr ""
+"Zadaný zakódovaný kontrolní součet zkušebního účtu nemohl být ověřen. Pro "
+"další pomoc prosím kontaktuje místní obsluhu technické podpory."
 
 #: templates/help/list.tpl.html
 msgid ""
@@ -7449,25 +7502,31 @@ msgid ""
 "issues they want quickly. More advanced searches may be created using the "
 "Advanced Search tool."
 msgstr ""
+"Tabulka rychlého hledání v horní části obrazovky pomáhá uživatelům rychle "
+"najít úlohy, které chtějí. Další pokročilá hledání lze vytvořit pomocí "
+"nástroje pokročilého hledání."
 
 #: templates/view_note.tpl.html
 msgid "The specified note does not exist."
-msgstr ""
+msgstr "Zadaná poznámka neexistuje"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "The specified value already exists in the list of options."
-msgstr ""
+msgstr "Zadaná hodnota již existuje v seznamu možností."
 
 #: templates/preferences.tpl.html
 msgid ""
 "The two passwords do not match. Please review your information and try again."
 msgstr ""
+"Hesla se neshodují. Prosím zkontrolujte své informace a zkuste to znovu."
 
 #: templates/file_upload.tpl.html
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
 msgstr ""
+"Nahraný soubor již je připojen k současné úloze. Prosím soubor přejmenujte a "
+"zkuste to znovu."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
@@ -7475,6 +7534,9 @@ msgid ""
 "your configuration file. Please contact your local system administrator for "
 "further assistance."
 msgstr ""
+"Zdá se, že se vyskytl problém v připojení k databázovému serveru zadaném ve "
+"vašem souboru nastavení. Pro další pomoc prosím kontaktuje svého místního "
+"správce systému."
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid ""
@@ -7482,87 +7544,90 @@ msgid ""
 "database server specified in your configuration file. Please contact your "
 "local system administrator for further assistance."
 msgstr ""
+"Zdá se, že se vyskytl problém při hledání potřebných tabulek databáze v "
+"databázovému serveru zadaném ve vašem souboru nastavení. Pro další pomoc "
+"prosím kontaktuje svého místního správce systému."
 
 #: templates/new.tpl.html
 msgid "There was an error creating your issue."
-msgstr ""
+msgstr "Při vytváření úlohy nastala chyba."
 
 #: templates/redeem_incident.tpl.html
 msgid "There was an error marking this issue as redeemed"
-msgstr ""
+msgstr "Při značení úlohy jako  uplatněné nastala chyba"
 
 #: templates/notifications/notes.tpl.text
 msgid "These are the current issue details"
-msgstr ""
+msgstr "Toto jsou podrobnosti současné úlohy"
 
 #: templates/view_form.tpl.html
 msgid "This Issue is Currently Quarantined"
-msgstr ""
+msgstr "Tato úloha je nyní v karanténě"
 
 #: templates/manage/users.tpl.html
 msgid "This action will change the status of the selected users."
-msgstr ""
+msgstr "Tato činnost změní stav vybraných uživatelů."
 
 #: templates/emails.tpl.html
 msgid "This action will mark the selected email messages as deleted."
-msgstr ""
+msgstr "Tato činnost označí zvolené emailové adresy jako smazané."
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected attachment."
-msgstr ""
+msgstr "Tato činnost trvale smaže zvolenou přílohu."
 
 #: templates/adv_search.tpl.html templates/checkins.tpl.html
 #: templates/impact_analysis.tpl.html
 msgid "This action will permanently delete the selected entries."
-msgstr ""
+msgstr "Tato činnost trvale smaže zvolené záznamy."
 
 #: templates/attachments.tpl.html
 msgid "This action will permanently delete the selected file."
-msgstr ""
+msgstr "Tato činnost trvale smaže zvolený soubor."
 
 #: templates/notes.tpl.html
 msgid "This action will permanently delete the specified note."
-msgstr ""
+msgstr "Tato činnost trvale smaže zadanou poznámku."
 
 #: templates/phone_support.tpl.html
 msgid ""
 "This action will permanently delete the specified phone support entry."
-msgstr ""
+msgstr "Tato činnost trvale smaže zadaný záznam telefonické podpory."
 
 #: templates/time_tracking.tpl.html
 msgid ""
 "This action will permanently delete the specified time tracking entry."
-msgstr ""
+msgstr "Tato činnost trvale smaže zvolený záznam sledování času."
 
 #: templates/manage/faq.tpl.html
 msgid "This action will permanently remove the selected FAQ entries."
-msgstr ""
+msgstr "Tato činnost trvale odstraní zvolené položky nejčastějších otázek."
 
 #: templates/manage/custom_fields.tpl.html
 msgid "This action will permanently remove the selected custom fields."
-msgstr ""
+msgstr "Tato činnost trvale odstraní zvolená vlastní pole."
 
 #: templates/manage/customer_notes.tpl.html
 msgid "This action will permanently remove the selected entries."
-msgstr ""
+msgstr "Tato činnost trvale odstraní zvolené položky."
 
 #: templates/manage/news.tpl.html
 msgid "This action will permanently remove the selected news entries."
-msgstr ""
+msgstr "Tato činnost trvale odstraní zvolené novinky."
 
 #: templates/manage/round_robin.tpl.html
 msgid "This action will permanently remove the selected round robin entries."
-msgstr ""
+msgstr "Tato činnost trvale odstraní zvolené položky kruhového přiřazení."
 
 #: templates/support_emails.tpl.html
 msgid ""
 "This action will remove the association of the selected entries to the "
 "current issue."
-msgstr ""
+msgstr "Tato činnost odstraní přiřazení zvolených položek k současné úloze."
 
 #: templates/manage/account_managers.tpl.html
 msgid "This action will remove the selected account managers."
-msgstr ""
+msgstr "Tato činnost odstraní zvolené správce účtů."
 
 #: templates/authorized_replier.tpl.html templates/manage/categories.tpl.html
 #: templates/manage/customize_listing.tpl.html
@@ -7575,13 +7640,15 @@ msgstr ""
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
 #: templates/manage/time_tracking.tpl.html templates/notification.tpl.html
 msgid "This action will remove the selected entries."
-msgstr ""
+msgstr "Tato činnost odstraní zvolené položky."
 
 #: templates/manage/statuses.tpl.html
 msgid ""
 "This action will remove the selected entries. This will also update any "
 "issues currently set to this status to a new status 'undefined'."
 msgstr ""
+"Tato činnost odstraní zvolené položky, Také automaticky aktualizuje všechny "
+"úlohy, které nyní tento stav používají na nový stav 'neurčeno'."
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -7590,6 +7657,10 @@ msgid ""
 "'Closed', you could configure Eventum to display the difference in time "
 "between \"now\" and the date value stored in the closed date field."
 msgstr ""
+"Tento sloupec je užitečný k zobrazení doby od poslední změny stavu v každé "
+"úloze. Například, pokud úloha #1234 je ve stavu 'Uzavřeno', můžete Eventum "
+"nastavit, aby byl zobrazen časový rozdíl mezi \"nyní\" a hodnotou data, jenž "
+"je uložená v datovém poli uzavření."
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
@@ -7597,12 +7668,17 @@ msgid ""
 "and available in %1) and it will notify Eventum that these changes are to be "
 "associated with issue #13."
 msgstr ""
+"Tento příkaz bude zpracován skriptem zavedení CVS (který Vám byl poskytnut a "
+"je dostupný v %1) a oznámí Eventum, že tyto změny budou přiděleny k úloze "
+"#13."
 
 #: templates/close.tpl.html
 msgid ""
 "This customer has a per incident contract. You have chosen not to redeem any "
 "incidents. Press 'OK' to confirm or 'Cancel' to revise."
 msgstr ""
+"Teto zákazník má smlouvu podle incidentů. Zvolili jste, že žádné incidenty "
+"neuplatníte. Stiskněte 'OK' pro potvrzení, nebo 'Zrušit' pro úpravy."
 
 #: templates/help/notifications.tpl.html
 msgid ""
@@ -7610,12 +7686,17 @@ msgid ""
 "changes are done to specific issues. The current actions that trigger email "
 "notifications are:"
 msgstr ""
+"Tato funkce umožňuje uživatelům systému odebírat emailová oznámení, pokud "
+"jsou v konkrétních úlohách provedeny změny. Činnosti které nyní spouštějí "
+"emailová oznámení jsou:"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
 "This feature allows your software development teams to integrate your Source "
 "Control Management system with your Issue Tracking System."
 msgstr ""
+"Tato funkce umožňuje vašim týmům pro vývoj softwaru začlenit váš systém pro "
+"správu verzí do systému sledování úloh."
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
@@ -7626,6 +7707,11 @@ msgid ""
 "the developers, and this way get more experience estimating the required "
 "time for new projects."
 msgstr ""
+"Toto pole může být také použito jako způsob kontroly schopností odhadu "
+"vedoucích projektu v porovnání s analýzou dopadu od samotných vývojářů. "
+"Tedy, hodnota zadaná vedoucím projektu zde může být porovnána s analýzou "
+"dopadu / odhadovaným časem vývoje zadaným vývojáři a takto lze získat další "
+"zkušenosti při odhadování času vyžadovaného novými projekty."
 
 #: templates/help/report_summary.tpl.html
 msgid ""
@@ -7633,6 +7719,9 @@ msgid ""
 "suggestion, it should be descriptive and short enough to be used by other "
 "users to remember quickly what the issue was all about."
 msgstr ""
+"Toto pole je použito jako jednoduchý a popisný název této nové úlohy. Jako "
+"návrh doporučujeme, aby byl dostatečně krátký a popisný, což pomáhá ostatním "
+"uživatelům rychle si zapamatovat o čem úloha je."
 
 #: templates/help/report_estimated_dev_time.tpl.html
 msgid ""
@@ -7641,12 +7730,18 @@ msgid ""
 "to get a simple estimate of how much time each issue will take from "
 "discovery, going through implementation and testing up until release time."
 msgstr ""
+"Toto pole používají oznamovatelé nových úloh k odhadu celkového času vývoje "
+"úlohy. Je zvláště důležité jako nástroj pro měření k získání jednoduchého "
+"odhadu času, který je potřeba na objevení problému, přes zavedení a "
+"vyzkoušení opravy až po vydání."
 
 #: templates/help/report_category.tpl.html
 msgid ""
 "This field is used to categorize issues by a common denominator, such as "
 "'Feature Request', 'Bug' or 'Support Inquiry'."
 msgstr ""
+"Toto pole je použit pro kategorizaci úloh pomocí společného prvku, např. "
+"'Žádost o funkci', 'Chyba', nebo 'Žádost o podporu'."
 
 #: templates/help/report_release.tpl.html
 msgid ""
