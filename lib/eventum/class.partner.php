@@ -48,10 +48,8 @@ class Partner
 
             if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
                 require_once(APP_LOCAL_PATH . "/partner/$file_name");
-            } elseif (file_exists(APP_INC_PATH . "/partner/$file_name")) {
-                require_once APP_INC_PATH . "/partner/$file_name";
             } else {
-                return false;
+                require_once APP_INC_PATH . "/partner/$file_name";
             }
 
             $setup_backends[$par_code] = new $class_name;
@@ -69,10 +67,7 @@ class Partner
         $partners = self::getPartnerCodesByIssue($iss_id);
         $backends = array();
         foreach ($partners as $par_code) {
-            $backend = self::getBackend($par_code);
-            if ($backend != false) {
-                $backends[] = $backend;
-            }
+            $backends[] = self::getBackend($par_code);
         }
         return $backends;
     }
