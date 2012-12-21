@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-12-15 22:11+0000\n"
+"PO-Revision-Date: 2012-12-20 22:50+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-16 04:56+0000\n"
-"X-Generator: Launchpad (build 16372)\n"
+"X-Launchpad-Export-Date: 2012-12-21 04:51+0000\n"
+"X-Generator: Launchpad (build 16378)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -7750,12 +7750,17 @@ msgid ""
 "deadline should be for this new issue, leave the field as 'un-scheduled', "
 "and a project manager will set it appropriately."
 msgstr ""
+"Toto pole je pro co by tento termín měl být, pokud je tato nová úloha "
+"dokončena a vyřešena. Pokud nevíte, nechejte pole na  'un-scheduled' a "
+"správce projektu ho pak nastaví."
 
 #: templates/help/report_assignment.tpl.html
 msgid ""
 "This field is used to determine who should be assigned to this new issue. "
 "You are be able to assign a new issue to several persons at the same time."
 msgstr ""
+"Toto pole je pro určení řešitele této úlohy. Úlohu můžete přidělit několika "
+"lidem najednou."
 
 #: templates/help/report_priority.tpl.html
 msgid ""
@@ -7764,6 +7769,9 @@ msgid ""
 "priority should be for new issues, choose 'not prioritized' as the option "
 "and leave the issue to be prioritized by a project manager."
 msgstr ""
+"Toto pole je pro upřednostnění úloh, což usnadňuje správu projektu. Pokud si "
+"nejste jisti, nebo nevíte jaká je odpovídající priorita pro nové úlohy, "
+"zvolte 'not prioritized' a nastavení přenechejte správcovi projektu."
 
 #: templates/reminders/sms_alert.tpl.text
 msgid ""
@@ -7771,6 +7779,8 @@ msgid ""
 "triggered this action, and this issue may require immediate action in your "
 "part."
 msgstr ""
+"Toto je SMS upomínka ohledně úlohy # %1. Jisté podmínky spustili tuto "
+"událost a tato úloha může vyžadovat okamžitý zásah z vaší strany."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
@@ -7780,36 +7790,43 @@ msgid ""
 "their own customer. Allowed to create new issues, update and send emails to "
 "existing issues."
 msgstr ""
+"Toto je zvláštní oprávnění vyhrazené pro API začlenění zákazníků, což Vám "
+"umožní začlenit vaši databázi CRM do Eventum. Při povolení této funkce má "
+"tento typ uživatele přístup pouze k úlohám spojeným s konkrétními zákazníky. "
+"Má umožněno vytvářet nové úlohy, aktualizovat je a odesílat emaily do "
+"existujících úloh."
 
 #: templates/notifications/files.tpl.text
 msgid "This is an automated message sent at your request from"
-msgstr ""
+msgstr "Toto je automatická zpráva zaslaná na váš požadavek z"
 
 #: templates/notifications/assigned.tpl.text
 #: templates/notifications/new.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/notifications/updated.tpl.text
 msgid "This is an automated message sent at your request from %1"
-msgstr ""
+msgstr "Toto je automatická zpráva zaslaná na váš požadavek z %1"
 
 #: templates/notifications/account_details.tpl.text
 #: templates/notifications/closed.tpl.text
 msgid "This is an automated message sent at your request from %1."
-msgstr ""
+msgstr "Toto je automatická zpráva zaslaná na váš požadavek z %1."
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "This is an automated message sent from %1"
-msgstr ""
+msgstr "Toto je automatická zpráva z %1"
 
 #: templates/redeem_incident.tpl.html
 msgid "This issue already has been marked as redeemed"
-msgstr ""
+msgstr "Tato úloha již byla označena jako uplatněná"
 
 #: templates/view_form.tpl.html
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
 msgstr ""
+"Tato úloha je označena jako soukromá. Mohou ji zobrazit pouze správcové, "
+"oznamovatel a uživatelé k ní přiřazeni."
 
 #: templates/notifications/closed.tpl.text
 msgid ""
@@ -7817,26 +7834,33 @@ msgid ""
 "\n"
 "%2."
 msgstr ""
+"Tuto úlohu právě uzavřel %1 se zprávou:\n"
+"\n"
+"%2."
 
 #: templates/notifications/closed.tpl.text
 msgid "This issue was just closed by %1."
-msgstr ""
+msgstr "Tuto úlohu právě uzavřel %1."
 
 #: templates/view_email.tpl.html
 msgid "This message already belongs to that account"
-msgstr ""
+msgstr "Tato zpráva již patří k tomuto účtu"
 
 #: templates/notes.tpl.html
 msgid ""
 "This note will be deleted & converted to an email, one either sent "
 "immediately or saved as a draft."
 msgstr ""
+"Tato poznámka bude smazána a převedena na email, který je buď okamžitě "
+"odeslán, nebo uložen jako návrh."
 
 #: templates/help/adv_search.tpl.html
 msgid ""
 "This page allows you to create and modify saved custom searches, which will "
 "save searches that can be executed from the Issue Listing screen."
 msgstr ""
+"Tato stránka Vám umožňuje vytvářet a měnit uložená vlastní hledání, což "
+"uloží hledání, která mohou být spuštěna z obrazovky výpisu úloh."
 
 #: templates/help/customize_listing.tpl.html
 msgid ""
@@ -7844,18 +7868,24 @@ msgid ""
 "\"Status Change Date\" column in the issue listing screen, for a particular "
 "project."
 msgstr ""
+"Tato stránka Vám umožňuje dynamicky nastavit hodnoty zobrazené ve sloupci "
+"\"Datum změny stavu\" v obrazovce výpisu úloh pro konkrétní projekt."
 
 #: templates/help/column_display.tpl.html
 msgid ""
 "This page allows you to dynamically control which columns are displayed on "
 "the list issues page."
 msgstr ""
+"Tato stránka vám umožňuje dynamicky kontrolovat které sloupce jsou zobrazeny "
+"ve výpisu úloh."
 
 #: templates/help/field_display.tpl.html
 msgid ""
 "This page allows you to dynamically control which fields are displayed to "
 "users of a certain minimum role."
 msgstr ""
+"Tato stránka vám umožňuje dynamicky kontrolovat, jaké jsou minimální role "
+"potřebné k zobrazení konkrétních polí."
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
@@ -7863,6 +7893,8 @@ msgid ""
 "This page can only be accessed in relation to a project. Please go to the "
 "project page and choose"
 msgstr ""
+"Na tuto stránku můžete vstoupit pouze v souvislosti s projektem. Prosím "
+"přejděte na stránku projektů a tam vyberte"
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -7871,6 +7903,9 @@ msgid ""
 "email notifications whenever details about issues you are subscribed to "
 "changes."
 msgstr ""
+"Tato obrazovka umožňuje uživatelům změnit jejich odpovídající celé jméno, "
+"heslo k účtu a emailovou adresu. Tato adresa bude použita systémem k "
+"odeslání upozornění, když jsou podrobnosti úlohy, kterou odebíráte, změněny."
 
 #: templates/help/support_emails.tpl.html
 msgid ""
@@ -7878,32 +7913,40 @@ msgid ""
 "emails with existing issues, or create new issues and associate emails with "
 "them."
 msgstr ""
+"Tato obrazovka umožňuje uživatelům s odpovídajícími oprávněními přidělit "
+"emaily k existujícím úlohám, nebo vytvořit nové a k nim emaily přidělit."
 
 #: templates/help/permission_levels.tpl.html
 msgid ""
 "This type of user has full access to Eventum, including the low level "
 "configuration parameters available through the administration interface."
 msgstr ""
+"Tento typ uživatele má úplný přístup k Eventum, včetně nízko úrovňových "
+"parametrů nastavení dostupných přes správcovské rozhraní."
 
 #: templates/setup.tpl.html
 msgid ""
 "This user requires permission to create and drop tables in the specified "
 "database."
 msgstr ""
+"Tento uživatel vyžaduje oprávnění pro vytváření a mazání tabulek v dané "
+"databázi."
 
 #: templates/setup.tpl.html
 msgid ""
 "This value is used only for these installation procedures, and is not saved "
 "if you provide a separate user below."
 msgstr ""
+"Tato hodnota je použita pouze pro tyto instalační procedury a není uložena, "
+"pokud níže zadáte jiného uživatele."
 
 #: templates/close.tpl.html
 msgid "Time Category"
-msgstr ""
+msgstr "Kategorie času"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Time Period"
-msgstr ""
+msgstr "Časové období"
 
 #: lib/eventum/class.display_column.php:196 templates/add_phone_entry.tpl.html
 #: templates/add_time_tracking.tpl.html templates/close.tpl.html
@@ -7914,64 +7957,64 @@ msgstr ""
 #: templates/reports/stalled_issues.tpl.html templates/send.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Spent"
-msgstr ""
+msgstr "Strávený čas"
 
 #: templates/post_note.tpl.html
 msgid "Time Spent:"
-msgstr ""
+msgstr "Strávený čas:"
 
 #: lib/eventum/class.customer_stats_report.php:732
 msgid "Time Statistics"
-msgstr ""
+msgstr "Časové statistiky"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Time To Close"
-msgstr ""
+msgstr "Doba do uzavření"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "Time To First Response"
-msgstr ""
+msgstr "Doba do první odpovědi"
 
 #: lib/eventum/class.customer_stats_report.php:733
 #: templates/help/view_time.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/time_tracking.tpl.html
 msgid "Time Tracking"
-msgstr ""
+msgstr "Sledování času"
 
 #: lib/eventum/class.phone_support.php:331
 msgid "Time entry inserted from phone call."
-msgstr ""
+msgstr "Časový záznam byl vložen z telefoního hovoru"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Time spent as minutes"
-msgstr ""
+msgstr "Strávený čas v minutách"
 
 #: templates/reports/custom_fields_weekly.tpl.html
 msgid "Time spent per user"
-msgstr ""
+msgstr "Čas strávený na uživatele"
 
 #: templates/close.tpl.html
 msgid "Time tracking category"
-msgstr ""
+msgstr "Kategorie sledování času"
 
 #: lib/eventum/class.time_tracking.php:410
 #, php-format
 msgid "Time tracking entry removed by %1$s"
-msgstr ""
+msgstr "%1$s odstranil záznam sledování času"
 
 #: lib/eventum/class.time_tracking.php:460
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
-msgstr ""
+msgstr "%1$s zaslal záznam sledování času"
 
 #: lib/eventum/class.time_tracking.php:503
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
-msgstr ""
+msgstr "%1$s vzdáleně zaslal kategorii sledování času"
 
 #: templates/preferences.tpl.html templates/setup.tpl.html
 msgid "Timezone"
-msgstr ""
+msgstr "Časové pásmo"
 
 #: templates/faq.tpl.html templates/manage/categories.tpl.html
 #: templates/manage/custom_fields.tpl.html
@@ -7984,7 +8027,7 @@ msgstr ""
 #: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
 #: templates/notes.tpl.html templates/reports/recent_activity.tpl.html
 msgid "Title"
-msgstr ""
+msgstr "Název"
 
 #: templates/manage/email_responses.tpl.html templates/manage/faq.tpl.html
 #: templates/manage/releases.tpl.html
@@ -7993,18 +8036,19 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html templates/post_note.tpl.html
 #: templates/view_note.tpl.html
 msgid "Title:"
-msgstr ""
+msgstr "Název:"
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/phone_support.tpl.html templates/reports/customer_stats.tpl.html
 #: templates/reports/recent_activity.tpl.html templates/send.tpl.html
 #: templates/view_email.tpl.html
 msgid "To"
-msgstr ""
+msgstr "Komu"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
+"Pro přidání dalších informací k této úloze, stačí odpovědět na tento email."
 
 #: templates/help/email_blocking.tpl.html
 msgid ""
