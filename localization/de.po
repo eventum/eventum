@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-10-01 00:16+0000\n"
-"Last-Translator: Elan Ruusamäe <Unknown>\n"
+"PO-Revision-Date: 2012-12-27 15:04+0000\n"
+"Last-Translator: Dennis Baudys <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-02 05:22+0000\n"
-"X-Generator: Launchpad (build 16061)\n"
+"X-Launchpad-Export-Date: 2012-12-28 05:12+0000\n"
+"X-Generator: Launchpad (build 16378)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -378,7 +378,7 @@ msgstr "Telefoneintrag hinzufügen"
 
 #: templates/notification.tpl.html
 msgid "Add Subscription"
-msgstr "Abonement hinzufügen"
+msgstr "Abonnement hinzufügen"
 
 #: templates/add_time_tracking.tpl.html templates/time_tracking.tpl.html
 msgid "Add Time Entry"
@@ -8294,7 +8294,7 @@ msgstr "Status aktualisieren"
 
 #: templates/notification.tpl.html
 msgid "Update Subscription"
-msgstr "Abonement aktualisieren"
+msgstr "Abonnement aktualisieren"
 
 #: templates/manage/users.tpl.html
 msgid "Update User"
