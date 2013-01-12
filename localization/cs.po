@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 00:30+0300\n"
-"PO-Revision-Date: 2012-12-29 21:29+0000\n"
+"PO-Revision-Date: 2013-01-11 21:47+0000\n"
 "Last-Translator: Zbyněk Schwarz <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-30 05:20+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2013-01-12 04:57+0000\n"
+"X-Generator: Launchpad (build 16420)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -8830,21 +8830,22 @@ msgstr "Nemáte oprávnění k odstranění této položky telefonické podpory.
 
 #: templates/file_upload.tpl.html
 msgid "You do not have the correct role to access this page"
-msgstr ""
+msgstr "Nemáte potřebnou roli pro přístup na tuto stránku"
 
 #: templates/popup.tpl.html
 msgid "You do not have the permission to remove this attachment."
-msgstr ""
+msgstr "Nemáte oprávnění k odstranění této přílohy."
 
 #: templates/popup.tpl.html
 msgid "You do not have the permission to remove this file."
-msgstr ""
+msgstr "Nemáte oprávnění k odstranění tohoto souboru."
 
 #: templates/post.tpl.html
 msgid ""
 "You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so "
 "wish."
 msgstr ""
+"Pokud chcete, můžete <a class=\"link\" href=\"%1\">předložit další úlohu</a>."
 
 #: templates/help/preferences.tpl.html
 msgid ""
@@ -8852,6 +8853,8 @@ msgid ""
 "all of the software will adjust the dates displayed in the system "
 "accordingly."
 msgstr ""
+"Na této obrazovce můžete také nastavit odpovídající časové pásmo vašeho "
+"bydliště a software pro Vás přizpůsobí data zobrazena v systému."
 
 #: templates/help/scm_integration_installation.tpl.html
 msgid ""
@@ -8859,43 +8862,49 @@ msgid ""
 "module by substituting the 'ALL' in the line above to the appropriate CVS "
 "module name, as in:"
 msgstr ""
+"Můžete také vypnout zpracování zpráv odevzdání pro jednotlivé moduly CVS "
+"nahrazením 'ALL' v řádku výše odpovídajícím názvem modulu CVS, jako:"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
 "You may also use 'bug' to specify the issue ID - whichever you are more "
 "comfortable with."
 msgstr ""
+"Můžete také použít 'bug' pro zadání ID úlohy - podle toho co Vám lépe "
+"vyhovuje."
 
 #: lib/eventum/class.notification.php:1602
 msgid "Your User Account Details"
-msgstr ""
+msgstr "Podrobnosti vašeho uživatelského účtu"
 
 #: templates/notifications/updated_account.tpl.text
 #: templates/notifications/updated_password.tpl.text
 msgid "Your account information as it now exists appears below."
-msgstr ""
+msgstr "Níže jsou uvedeny současné informace o vašem účtu."
 
 #: templates/notifications/account_details.tpl.text
 msgid "Your full account information is available below."
-msgstr ""
+msgstr "Úplné informace o vašem účtu jsou zobrazeny níže."
 
 #: templates/login_form.tpl.html
 msgid "Your session has expired. Please login again to continue."
-msgstr ""
+msgstr "Vaše sezení vypršelo. Pro pokračování se prosím znovu přihlaste."
 
 #: templates/notifications/updated_account.tpl.text
 msgid "Your user account has been updated in %1"
-msgstr ""
+msgstr "Váš uživatelský účet na %1 byl aktualizován"
 
 #: templates/notifications/updated_password.tpl.text
 msgid "Your user account password has been updated in %1"
-msgstr ""
+msgstr "Vaše heslo účtu na %1 bylo aktualizováno"
 
 #: templates/login_form.tpl.html
 msgid ""
 "Your user status is currently set as inactive. Please contact your local "
 "system administrator for further information."
 msgstr ""
+"Stav vašeho uživatelského účtu je nyní nastaven na neaktivní. Pro další "
+"informace prosím kontaktujte vašeho místního správce systému."
 
 #: templates/login_form.tpl.html
 msgid ""
@@ -8903,479 +8912,488 @@ msgid ""
 "to confirm your account creation request. Please contact your local system "
 "administrator for further information."
 msgstr ""
+"Stav vašeho uživatelského účtu je nyní nastaven na nevyřízeno. To znamená, "
+"že stále potřebujete potvrdit vaši žádost o vytvoření účtu. Pro další "
+"informace prosím kontaktujte vašeho místního správce systému."
 
 #: templates/list.tpl.html
 msgid "[Private]"
-msgstr ""
+msgstr "[Soukromé]"
 
 #: templates/list.tpl.html
 msgid "[Redeemed]"
-msgstr ""
+msgstr "[Uplatněno]"
 
 #: templates/help/scm_integration.tpl.html
 msgid ""
 "[highly recommended] from the Horde project you would usually have the "
 "following URL as the diff page:"
 msgstr ""
+"[doporučujeme] z projektu Horde byste měli většinou mít následující URL jako "
+"stránku porovnání:"
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
 "[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
 "13)\" form.php"
 msgstr ""
+"[výzva]$ cvs -q commit -m \"Přidávám formulář ověření podle požadavků "
+"(issue: 13)\" form.php"
 
 #: htdocs/reports/workload_time_period_graph.php:56
 msgid "actions"
-msgstr ""
+msgstr "činnosti"
 
 #: templates/list.tpl.html
 msgid "advanced search"
-msgstr ""
+msgstr "pokročilé hledání"
 
 #: templates/associate.tpl.html
 msgid "an"
-msgstr ""
+msgstr "an"
 
 #: templates/adv_search.tpl.html templates/email_filter_form.tpl.html
 #: templates/quick_filter_form.tpl.html templates/searchbar.tpl.html
 msgid "any"
-msgstr ""
+msgstr "vše"
 
 #: templates/associate.tpl.html
 msgid "as"
-msgstr ""
+msgstr "jako"
 
 #: templates/adv_search.tpl.html
 msgid "ascending"
-msgstr ""
+msgstr "vzestupně"
 
 #: templates/emails.tpl.html
 msgid "associated"
-msgstr ""
+msgstr "přiděleno"
 
 #: templates/list.tpl.html
 msgid "bulk update tool"
-msgstr ""
+msgstr "nástroj hromadné aktualizace"
 
 #: templates/navigation.tpl.html
 msgid "change your account clocked-in status"
-msgstr ""
+msgstr "změnit stav přítomnosti vašeho účtu"
 
 #: templates/notification.tpl.html
 msgid "click to edit"
-msgstr ""
+msgstr "klikněte pro úpravu"
 
 #: templates/notes.tpl.html
 msgid "convert note"
-msgstr ""
+msgstr "převést poznámku"
 
 #: templates/navigation.tpl.html
 msgid "create a new issue"
-msgstr ""
+msgstr "vytvořit novou úlohu"
 
 #: templates/quick_filter_form.tpl.html
 msgid "create advanced searches"
-msgstr ""
+msgstr "vytvořit pokročilá hledání"
 
 #: templates/list.tpl.html
 msgid "current filters"
-msgstr ""
+msgstr "současné filtry"
 
 #: templates/reports/customer_stats.tpl.html
 #: templates/reports/workload_date_range.tpl.html
 msgid "day"
-msgstr ""
+msgstr "den"
 
 #: templates/reports/open_issues.tpl.html
 msgid "days"
-msgstr ""
+msgstr "dnů"
 
 #: templates/attachments.tpl.html templates/notes.tpl.html
 #: templates/phone_support.tpl.html templates/time_tracking.tpl.html
 msgid "delete"
-msgstr ""
+msgstr "smazat"
 
 #: templates/attachments.tpl.html
 msgid "delete attachment"
-msgstr ""
+msgstr "smazat přílohu"
 
 #: templates/attachments.tpl.html
 msgid "delete file"
-msgstr ""
+msgstr "smazat soubor"
 
 #: templates/adv_search.tpl.html
 msgid "descending"
-msgstr ""
+msgstr "sestupně"
 
 #: templates/checkins.tpl.html
 msgid "diff to %1"
-msgstr ""
+msgstr "porovnat s %1"
 
 #: templates/view_email.tpl.html templates/view_note.tpl.html
 msgid "display in fixed width font"
-msgstr ""
+msgstr "zobrazit písmem s pevnou šířkou"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "dom"
-msgstr ""
+msgstr "dom"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "dow"
-msgstr ""
+msgstr "dow"
 
 #: templates/attachments.tpl.html templates/view_email.tpl.html
 #: templates/view_note.tpl.html
 msgid "download file"
-msgstr ""
+msgstr "stáhnout soubor"
 
 #. TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
 #: lib/eventum/class.link_filter.php:313
 #, php-format
 msgid "download file (%1$s - %2$s)"
-msgstr ""
+msgstr "stáhnout soubor (%1$s - %2$s)"
 
 #: templates/update_form.tpl.html templates/view_form.tpl.html
 msgid "edit the authorized repliers list for this issue"
-msgstr ""
+msgstr "upravit seznam oprávněných odpovídačů pro tuto úlohu"
 
 #: templates/view_form.tpl.html
 msgid "edit the notification list for this issue"
-msgstr ""
+msgstr "upravit seznam oznámení pro tuto úlohu"
 
 #: templates/adv_search.tpl.html
 msgid "edit this custom search"
-msgstr ""
+msgstr "upravit toto vlastní hledání"
 
 #: htdocs/reports/workload_time_period_graph.php:52
 msgid "emails"
-msgstr ""
+msgstr "emaily"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "enter a new option above"
-msgstr ""
+msgstr "výše zadejte novou volbu"
 
 #: templates/error_icon.tpl.html
 msgid "error condition detected"
-msgstr ""
+msgstr "zjištěna chybová podmínka"
 
 #: templates/js/dynamic_custom_field.tpl.js
 msgid "first"
-msgstr ""
+msgstr "první"
 
 #: templates/add_phone_entry.tpl.html
 msgid "first name"
-msgstr ""
+msgstr "jméno"
 
 #: templates/view_form.tpl.html
 msgid "fixed width font"
-msgstr ""
+msgstr "písmo s pevnou šířkou"
 
 #: templates/list.tpl.html
 msgid "for all selected issues. Are you sure you want to continue?"
-msgstr ""
+msgstr "pro všechny zvolené úlohy. Jste si jisti, že chcete pokračovat?"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "from the list"
-msgstr ""
+msgstr "ze seznamu"
 
 #: templates/latest_news.tpl.html
 msgid "full news entry"
-msgstr ""
+msgstr "celá zpráva"
 
 #: templates/navigation.tpl.html
 msgid "general statistics"
-msgstr ""
+msgstr "obecné statistiky"
 
 #: templates/list.tpl.html
 msgid "generate excel-friendly report"
-msgstr ""
+msgstr "vytvořit hlášení otevíratelné v Excel"
 
 #: templates/navigation.tpl.html
 msgid "get access to advanced search parameters"
-msgstr ""
+msgstr "získat přístup k pokročilým parametrům hledání"
 
 #: templates/help_link.tpl.html
 msgid "get context sensitive help"
-msgstr ""
+msgstr "získat nápovědu závislou na kontextu"
 
 #: templates/adv_search.tpl.html
 msgid "global filter"
-msgstr ""
+msgstr "globální filtr"
 
 #: templates/navigation.tpl.html
 msgid "help documentation"
-msgstr ""
+msgstr "nápověda a dokumentace"
 
 #: templates/list.tpl.html
 msgid "hide / show the advanced search form"
-msgstr ""
+msgstr "skrýt / zobrazit formulář pokročilého hledání"
 
 #: templates/list.tpl.html
 msgid "hide / show the quick search form"
-msgstr ""
+msgstr "skrýt / zobrazit formulář rychlého hledání"
 
 #: templates/list.tpl.html
 msgid "hide/show"
-msgstr ""
+msgstr "skrýt/zobrazit"
 
 #: lib/eventum/class.reminder_condition.php:220 templates/adv_search.tpl.html
 #: templates/impact_analysis.tpl.html templates/view_form.tpl.html
 msgid "hours"
-msgstr ""
+msgstr "hodin"
 
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/update_form.tpl.html
 msgid "in hours"
-msgstr ""
+msgstr "v hodinách"
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/preferences.tpl.html templates/send.tpl.html
 msgid "in minutes"
-msgstr ""
+msgstr "v minutách"
 
 #: templates/navigation.tpl.html
 msgid "internal faq"
-msgstr ""
+msgstr "vnitřní seznam nejčastějších otázek"
 
 #: templates/notification.tpl.html
 msgid "is neither a known staff member or customer technical contact."
-msgstr ""
+msgstr "není ani známý člen obsluhy nebo technická podpora pro zákazníky."
 
 #: templates/view_form.tpl.html
 msgid "issue"
-msgstr ""
+msgstr "úloha"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "issues worked on"
-msgstr ""
+msgstr "úlohy na kterých se pracovalo"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "it will show up by the side of the field"
-msgstr ""
+msgstr "bude zobrazeno na straně pole"
 
 #: templates/navigation.tpl.html
 msgid "keywords"
-msgstr ""
+msgstr "klíčová slova"
 
 #: templates/add_phone_entry.tpl.html
 msgid "last name"
-msgstr ""
+msgstr "příjmení"
 
 #: templates/manage/users.tpl.html
 msgid "leave empty to keep the current password"
-msgstr ""
+msgstr "zanechejte prázdné, abye heslo nebylo změněno"
 
 #: templates/manage/users.tpl.html
 msgid "list all email aliases"
-msgstr ""
+msgstr "vypsat všechny emailové přezdívky"
 
 #: templates/navigation.tpl.html
 msgid "list all issues assigned to you"
-msgstr ""
+msgstr "vypsat všechny úlohy které jsou Vám přiděleny"
 
 #: templates/emails.tpl.html
 msgid "list all removed emails"
-msgstr ""
+msgstr "vypsat všechny odstraněné emaily"
 
 #: templates/navigation.tpl.html
 msgid "list available emails"
-msgstr ""
+msgstr "vypsat všechny dostupné emaily"
 
 #: templates/navigation.tpl.html
 msgid "list the issues stored in the system"
-msgstr ""
+msgstr "vypsat úlohy uložené v systému"
 
 #: templates/navigation.tpl.html
 msgid "logout from"
-msgstr ""
+msgstr "odhlásit se z"
 
 #: templates/manage/users.tpl.html
 msgid "manage alias"
-msgstr ""
+msgstr "spravovat přezdívku"
 
 #: templates/navigation.tpl.html
 msgid "manage the application settings, users, projects, etc"
-msgstr ""
+msgstr "správa nastavení aplikace, uživatelů, projektů, atd."
 
 #: templates/navigation.tpl.html
 msgid "modify your account details and preferences"
-msgstr ""
+msgstr "změnit nastavení a podrobnosti vašeho účtu"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "mon"
-msgstr ""
+msgstr "měs"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "month"
-msgstr ""
+msgstr "měsíc"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "move field down"
-msgstr ""
+msgstr "posunout pole dolů"
 
 #: templates/manage/custom_fields.tpl.html
 msgid "move field up"
-msgstr ""
+msgstr "posunout pole nahoru"
 
 #: templates/setup.tpl.html
 msgid "must be a valid email address"
-msgstr ""
+msgstr "musí být platná emailová adresa"
 
 #: htdocs/adv_search.php:57 htdocs/list.php:93
 #: lib/eventum/class.filter.php:667
 msgid "myself and my group"
-msgstr ""
+msgstr "já a moje skupina"
 
 #: htdocs/adv_search.php:51 htdocs/list.php:88
 #: lib/eventum/class.filter.php:665
 msgid "myself and un-assigned"
-msgstr ""
+msgstr "já a nepřidělení"
 
 #: htdocs/adv_search.php:58 htdocs/list.php:94
 #: lib/eventum/class.filter.php:669
 msgid "myself, un-assigned and my group"
-msgstr ""
+msgstr "já, nepřidělení a moje skupina"
 
 #: templates/view_form.tpl.html
 msgid "next issue on your current active filter"
-msgstr ""
+msgstr "další úloha ve vašem nynějším aktivním filtru"
 
 #: templates/manage/custom_fields.tpl.html
 msgid ""
 "of associated projects. This will remove all data for this field from the "
 "selected project(s)."
 msgstr ""
+"z přidělených projektů. Toto odstraní všechna data v tomto poli ze zvolených "
+"projektů."
 
 #: templates/preferences.tpl.html
 msgid "only used for automatic issue reminders"
-msgstr ""
+msgstr "použit pouze pro automatické upomínky úloh"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "or"
-msgstr ""
+msgstr "nebo"
 
 #: templates/setup.tpl.html
 msgid "page"
-msgstr ""
+msgstr "stránka"
 
 #: templates/lookup_field.tpl.html
 msgid "paste or start typing here"
-msgstr ""
+msgstr "vložte nebo zde začněte psát"
 
 #: templates/emails.tpl.html
 msgid "pending"
-msgstr ""
+msgstr "nevyřízeno"
 
 #: templates/view_form.tpl.html
 msgid "previous issue on your current active filter"
-msgstr ""
+msgstr "předchozí úloha ve vašem nynejším aktivním filtru"
 
 #: templates/list.tpl.html
 msgid "quick search"
-msgstr ""
+msgstr "rychlé hledání"
 
 #: templates/quick_filter_form.tpl.html
 msgid "quick search bar"
-msgstr ""
+msgstr "lišta rychlého hledání"
 
 #: templates/faq.tpl.html
 msgid "read faq entry"
-msgstr ""
+msgstr "přečíst si položku nejčastějších otázek"
 
 #: templates/support_emails.tpl.html
 msgid "reply to this email"
-msgstr ""
+msgstr "odpovědět na tento email"
 
 #: templates/notes.tpl.html
 msgid "reply to this note"
-msgstr ""
+msgstr "odpovědět na tuto poznámku"
 
 #: templates/navigation.tpl.html
 msgid "reporting system"
-msgstr ""
+msgstr "systém hlášení"
 
 #: templates/checkins.tpl.html
 msgid "see the diff to revision %1"
-msgstr ""
+msgstr "zobrazit rozdíl po revizi %1"
 
 #: templates/checkins.tpl.html
 msgid "see the log of of %1"
-msgstr ""
+msgstr "zobrazit záznam %1"
 
 #: templates/checkins.tpl.html
 msgid "see the source of revision %1 of %2"
-msgstr ""
+msgstr "zobrazit zdroj revize %1 z %2"
 
 #: templates/manage/users.tpl.html
 msgid "send email to"
-msgstr ""
+msgstr "odeslat email do"
 
 #: templates/reports/recent_activity.tpl.html
 #: templates/support_emails.tpl.html templates/view_email.tpl.html
 msgid "sent to notification list"
-msgstr ""
+msgstr "odeslat do seznamu oznámení"
 
 #: templates/list.tpl.html
 msgid "sort by"
-msgstr ""
+msgstr "seřadit podle"
 
 #: templates/emails.tpl.html
 msgid "sort by customer"
-msgstr ""
+msgstr "seřadit podle zákazníka"
 
 #: templates/emails.tpl.html
 msgid "sort by date"
-msgstr ""
+msgstr "seřadit podle data"
 
 #: templates/emails.tpl.html
 msgid "sort by recipient"
-msgstr ""
+msgstr "seřadit podle příjemce"
 
 #: templates/emails.tpl.html
 msgid "sort by sender"
-msgstr ""
+msgstr "seřadit podle odesílatele"
 
 #: templates/emails.tpl.html
 msgid "sort by status"
-msgstr ""
+msgstr "seřadit podle stavu"
 
 #: templates/emails.tpl.html
 msgid "sort by subject"
-msgstr ""
+msgstr "seřadit podle předmětu"
 
 #: templates/list.tpl.html
 msgid "sort by summary"
-msgstr ""
+msgstr "seřadit podle souhrnu"
 
 #: templates/file_upload.tpl.html
 msgid "standard user and above only"
-msgstr ""
+msgstr "pouze standardní uživatel a výše"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will determine the order in which actions are triggered"
-msgstr ""
+msgstr "toto určí pořadí v kterém jsou činnosti spuštěny"
 
 #: templates/manage/reminder_actions.tpl.html
 msgid "this will show up on the bottom of the reminder messages"
-msgstr ""
+msgstr "toto bude zobrazeno v dolní části upomínkových zpráv"
 
 #: templates/manage/column_display.tpl.html
 #: templates/manage/field_display.tpl.html
 msgid "to access this page."
-msgstr ""
+msgstr "pro přístup na tuto stránku."
 
 #: htdocs/adv_search.php:50 htdocs/list.php:87
 #: lib/eventum/class.filter.php:663
 msgid "un-assigned"
-msgstr ""
+msgstr "nepřiděleno"
 
 #: templates/new.tpl.html
 msgid "un-scheduled"
-msgstr ""
+msgstr "nenaplánováno"
 
 #: templates/impact_analysis.tpl.html
 msgid "update entry"
-msgstr ""
+msgstr "aktualizovat záznam"
 
 #: templates/manage/account_managers.tpl.html
 #: templates/manage/categories.tpl.html
@@ -9394,49 +9412,49 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
 #: templates/notification.tpl.html
 msgid "update this entry"
-msgstr ""
+msgstr "atkualizovat tento záznam"
 
 #: templates/email_drafts.tpl.html templates/emails.tpl.html
 #: templates/support_emails.tpl.html
 msgid "view email details"
-msgstr ""
+msgstr "zobrazit podrobnosti emailu"
 
 #: templates/close.tpl.html templates/emails.tpl.html templates/list.tpl.html
 #: templates/reports/issue_user.tpl.html
 #: templates/reports/open_issues.tpl.html
 #: templates/reports/stalled_issues.tpl.html templates/view_form.tpl.html
 msgid "view issue details"
-msgstr ""
+msgstr "zobrazit podrobnosti úlohy"
 
 #: templates/notes.tpl.html
 msgid "view note details"
-msgstr ""
+msgstr "zobrazit podrobnosti poznámky"
 
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder action details"
-msgstr ""
+msgstr "zobrazit podrobnosti upomínkové činnosti"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 msgid "view reminder details"
-msgstr ""
+msgstr "zobrazit podrobnosti upomínky"
 
 #: templates/view_form.tpl.html
 msgid "view the full history of changes on this issue"
-msgstr ""
+msgstr "zobrazit úplnou historii změn v této úloze"
 
 #: templates/support_emails.tpl.html
 msgid "view the history of sent emails"
-msgstr ""
+msgstr "zobrazit historii odeslaných emailů"
 
 #: templates/file_upload.tpl.html
 msgid "visible to all"
-msgstr ""
+msgstr "zobrazitelné všemi"
 
 #: templates/reports/workload_date_range.tpl.html
 msgid "week"
-msgstr ""
+msgstr "týden"
 
 #: templates/reports/customer_stats.tpl.html
 msgid "year"
-msgstr ""
+msgstr "rok"
