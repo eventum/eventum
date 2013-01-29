@@ -2080,13 +2080,10 @@ class Issue
         History::add($issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
         $emails = array();
-        $manager_usr_ids = array();
-        if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
-            // if there are any technical account managers associated with this customer, add these users to the notification list
-            $managers = Customer::getAccountManagers($prj_id, $customer_id);
-            $manager_usr_ids = array_keys($managers);
-            $manager_emails = array_values($managers);
-            $emails = array_merge($emails, $manager_emails);
+        // if there are any technical account managers associated with this customer, add these users to the notification list
+        $managers = Customer::getAccountManagers($prj_id, $data['customer']);
+        foreach ($managers as $manager) {
+            $emails[] = $manager['usr_email'];
         }
         // add the reporter to the notification list
         $emails[] = $sender;
@@ -2098,11 +2095,15 @@ class Issue
 
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-            foreach ($manager_usr_ids as $manager_usr_id) {
-                $users[] = $manager_usr_id;
-                self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $manager_usr_id, false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+        $has_TAM = false;
+        if ((Customer::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+            foreach ($managers as $manager) {
+                if ($manager['cam_type'] == 'intpart') {
+                    continue;
+                }
+                $users[] = $manager['cam_usr_id'];
+                self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
             }
             $has_TAM = true;
         }
@@ -2118,7 +2119,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($manager_usr_ids) < 1) {
+            if (@count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
@@ -2217,9 +2218,9 @@ class Issue
             }
             // if there are any technical account managers associated with this customer, add these users to the notification list
             $managers = Customer::getAccountManagers($prj_id, $data['customer']);
-            $manager_usr_ids = array_keys($managers);
-            $manager_emails = array_values($managers);
-            $emails = array_merge($emails, $manager_emails);
+            foreach ($managers as $manager) {
+                $emails[] = $manager['usr_email'];
+            }
         }
         // add the reporter to the notification list
         $emails[] = $info['usr_email'];
@@ -2231,11 +2232,14 @@ class Issue
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
         $has_TAM = false;
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-            foreach ($manager_usr_ids as $manager_usr_id) {
-                $users[] = $manager_usr_id;
-                self::addUserAssociation($usr_id, $issue_id, $manager_usr_id, false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+        if ((Customer::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+            foreach ($managers as $manager) {
+                if ($manager['cam_type'] == 'intpart') {
+                    continue;
+                }
+                $users[] = $manager['cam_usr_id'];
+                self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
             }
             $has_TAM = true;
         }
@@ -2252,7 +2256,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($manager_usr_ids) < 1) {
+            if (@count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {

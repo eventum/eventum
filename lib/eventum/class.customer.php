@@ -1216,7 +1216,8 @@ class Customer
     {
         $stmt = "SELECT
                     cam_usr_id,
-                    usr_email
+                    usr_email,
+                    cam_type
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1224,7 +1225,7 @@ class Customer
                     cam_usr_id=usr_id AND
                     cam_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     cam_customer_id='" . Misc::escapeString($customer_id) . "'";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
