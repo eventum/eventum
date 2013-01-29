@@ -312,7 +312,7 @@ class Partner
         for ($i = 0; $i < count($files); $i++) {
             // display a prettyfied backend name in the admin section
             if (preg_match('/^class\.(.*)\.php$/', $files[$i], $matches)) {
-                if ($matches[1] == 'abstract_partner_backend') {
+                if (substr($matches[1], 0, 8) == 'abstract') {
                     continue;
                 }
                 $list[$files[$i]] = $matches[1];
