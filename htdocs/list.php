@@ -89,7 +89,7 @@ $assign_options = array(
 );
 if (Auth::isAnonUser()) {
     unset($assign_options["-2"]);
-} elseif (User::getGroupID($usr_id) != '') {
+} elseif (User::getGroupID($usr_id)) {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
