@@ -22,7 +22,7 @@ function reply(ema_id, id)
 function loadReport(id)
 {
 {/literal}
-    document.writeln('<link rel="stylesheet" href="{$core.rel_url}css/style.css" type="text/css">');
+    document.writeln('<link rel="stylesheet" href="{$core.rel_url}css/main.css" type="text/css">');
     document.writeln('<span>Please wait a few moments.</span><br />');
     document.writeln('<br /><span>{t}Re-directing the parent window to the issue report page. This window will be closed automatically.{/t}</span>');
     window.opener.location.href = 'new.php?cat=associate&item[]=' + id;
