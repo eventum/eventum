@@ -1,0 +1,31 @@
+{extends "base_full.tpl.html"}
+
+{block "title"}Reports{/block}
+
+{block "content"}
+        <div id="report_sidebar">
+            <ul>
+                <li>Issues
+                    <ul>
+                        <li><a href="issue.php?cat=user">Issues by User</a></li>
+                        <li><a href="open_issues.php">Open Issues By Assignee</a></li>
+                        <li><a href="open_issues.php?group_by_reporter=1">Open Issues By Reporter</a></li>
+                    </ul>
+                </li>
+                <li><a href="weekly.php">Weekly Report</a></li>
+                <li><a href="workload_time_period.php">Workload by time period</a></li>
+                <li><a href="workload_time_period.php?type=email">Email by time period</a></li>
+                <li><a href="custom_fields.php">Custom Fields</a></li>
+                <li><a href="custom_fields_weekly.php">Custom Fields Weekly Report</a></li>
+                <li><a href="customer_stats.php">Customer Profile Stats</a></li>
+                <li><a href="recent_activity.php">Recent Activity</a></li>
+                <li><a href="workload_date_range.php">Workload By Date Range</a></li>
+                <li><a href="stalled_issues.php">Stalled Issues</a></li>
+                <li><a href="estimated_dev_time.php">Estimated Development Time</a></li>
+                <li><a href="category_statuses.php">Categories and Statuses</a></li>
+            </ul>
+        </div>
+        <div id="report_content">
+        {block "report_content"}{/block}
+        </div>
+{/block}
