@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
-"PO-Revision-Date: 2012-02-22 18:50+0000\n"
-"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
+"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"PO-Revision-Date: 2012-12-22 19:01+0000\n"
+"Last-Translator: Victor Roman <Unknown>\n"
 "Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-18 04:44+0000\n"
-"X-Generator: Launchpad (build 15259)\n"
+"X-Launchpad-Export-Date: 2012-12-23 04:43+0000\n"
+"X-Generator: Launchpad (build 16378)\n"
 "Language: es\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -78,8 +78,11 @@ msgid "(All Issues)"
 msgstr "(Todos los casos)"
 
 #: templates/manage/general.tpl.html
-msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Dominios alternativos que apuntan a 'Address Hostname')"
+msgid ""
+"(Alternate domains separated by space that point to 'Address Hostname')"
+msgstr ""
+"(Separa con espacios los diferentes dominios que redirijan a la 'Dirección "
+"del host')"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -147,7 +150,7 @@ msgstr "(en horas por favor)"
 
 #: templates/close.tpl.html templates/post_note.tpl.html
 msgid "(in minutes)"
-msgstr ""
+msgstr "(en minutos)"
 
 #: templates/setup.tpl.html
 msgid "(literally)"
@@ -713,7 +716,7 @@ msgstr ""
 
 #: templates/edit_reporter.tpl.html
 msgid "An error occurred while trying to update the Reporter."
-msgstr ""
+msgstr "Ha ocurrido un error mientras se intentaba actualizar el Reportador"
 
 #: templates/manage/email_accounts.tpl.html
 msgid "An error occurred while trying to update the account information."
@@ -1215,7 +1218,7 @@ msgstr "Responsable de Cuenta Técnico de Respaldo"
 
 #: templates/manage/ldap.tpl.html
 msgid "Base DN:"
-msgstr ""
+msgstr "DN base:"
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "Based on all issues recorded in Eventum since start to present."
@@ -1237,11 +1240,11 @@ msgstr "Entre"
 
 #: templates/manage/ldap.tpl.html
 msgid "Bind DN:"
-msgstr ""
+msgstr "DN de enlace:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Bind PW:"
-msgstr ""
+msgstr "Contraseña de enlace"
 
 # Por verificar el contexto
 #: templates/manage/round_robin.tpl.html
@@ -1266,12 +1269,12 @@ msgstr "Modelo:"
 #. TRANSLATORS: Translation of Brasiliant Portugese language in preferences dropdown
 #: localization/LINGUAS.php:58
 msgid "Brasiliant Portugese"
-msgstr ""
+msgstr "Portugués Brasileño"
 
 #. TRANSLATORS: Translation of Breton language in preferences dropdown
 #: localization/LINGUAS.php:4
 msgid "Breton"
-msgstr ""
+msgstr "Bretón"
 
 #: templates/bulk_update.tpl.html
 msgid "Bulk Update"
@@ -1329,7 +1332,7 @@ msgstr "Respuestas Envasadas"
 #. TRANSLATORS: Translation of Catalan language in preferences dropdown
 #: localization/LINGUAS.php:6
 msgid "Catalan"
-msgstr ""
+msgstr "Catalán"
 
 #: templates/reports/tree.tpl.html
 msgid "Categories and Statuses"
@@ -1401,14 +1404,14 @@ msgstr "Verificar Permisos"
 msgid "Check Spelling"
 msgstr "Corrector Ortográfico"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Checkout Page:"
 msgstr "Página de Salida:"
 
 #. TRANSLATORS: Translation of Chinese (Simplified) language in preferences dropdown
 #: localization/LINGUAS.php:78
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Chino (simplificado)"
 
 # ¿Escoja Backend de Campo Personalizado?
 # ¿Backend?
@@ -1544,6 +1547,10 @@ msgstr "Configuración de Parámetros"
 msgid "Confirm New Password"
 msgstr "Confirmar Nueva Contraseña"
 
+#: templates/manage/ldap.tpl.html
+msgid "Contact ID attribute:"
+msgstr "Atributo ID de contacto:"
+
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
 #: templates/custom_fields_form.tpl.html templates/file_upload.tpl.html
@@ -1674,7 +1681,7 @@ msgstr "Crear Usuario y Permisos"
 
 #: templates/manage/ldap.tpl.html
 msgid "Create Users:"
-msgstr ""
+msgstr "Crear usuarios:"
 
 # Se usa <a href="http://incidencias.printingroup.com.ar/reports/issue.php?cat=user>aquí</a>
 # "Creados" no aplica
@@ -1758,6 +1765,10 @@ msgstr "Contrato del Cliente"
 msgid "Customer Counts"
 msgstr "Conteos de Clientes"
 
+#: templates/manage/ldap.tpl.html
+msgid "Customer ID attribute:"
+msgstr "ID del cliente:"
+
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1799,16 +1810,20 @@ msgstr "Personalizar Pantalla de Listado de Casos"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize LDAP Config"
-msgstr ""
+msgstr "Personalizar configuración LDAP"
 
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr "Personalizar parámetros de monitoreo"
 
+#: templates/manage/manage.tpl.html
+msgid "Customize SCM Integration"
+msgstr "Personalizar integración con control de versiones"
+
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
 msgid "Czech"
-msgstr ""
+msgstr "Checo"
 
 #: templates/manage/general.tpl.html
 msgid "Daily Tips:"
@@ -1817,7 +1832,7 @@ msgstr "Consejos Diarios:"
 #. TRANSLATORS: Translation of Danish language in preferences dropdown
 #: localization/LINGUAS.php:10
 msgid "Danish"
-msgstr ""
+msgstr "Danés"
 
 #: templates/offline.tpl.html templates/offline.tpl.text
 msgid "Database Error"
@@ -1906,7 +1921,7 @@ msgstr "Prioridad Predeterminada:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Default Roles:"
-msgstr ""
+msgstr "Roles por defecto:"
 
 #: templates/setup.tpl.html
 msgid "Defaults"
@@ -1966,7 +1981,7 @@ msgstr "Descripción:"
 
 #: templates/list_excerpts.tpl.html
 msgid "Description: %1"
-msgstr ""
+msgstr "Descripción: %1"
 
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminders.tpl.html templates/setup.tpl.html
@@ -1988,7 +2003,7 @@ msgstr "Desarrolladores"
 msgid "Did you Know?"
 msgstr "¿Sabía que?"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Diff Page:"
 msgstr "Página de Diferencias:"
 
@@ -1996,6 +2011,7 @@ msgstr "Página de Diferencias:"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Disabled"
 msgstr "Deshabilitado"
 
@@ -2032,7 +2048,7 @@ msgstr "Descargar Formato Original Email"
 msgid "Draft Address Prefix:"
 msgstr "Prefijo de la Dirección de Borrador:"
 
-#: lib/eventum/class.routing.php:418
+#: lib/eventum/class.routing.php:419
 msgid "Draft routed from"
 msgstr "Borrador enrutado desde"
 
@@ -2063,7 +2079,7 @@ msgstr "Duplicados"
 #. TRANSLATORS: Translation of Dutch language in preferences dropdown
 #: localization/LINGUAS.php:50
 msgid "Dutch"
-msgstr ""
+msgstr "Danes"
 
 #: templates/close.tpl.html templates/update_form.tpl.html
 msgid "E-mail about issue update was sent to"
@@ -2146,7 +2162,7 @@ msgstr ""
 # setup: ya aparece la palabra configuración.
 # Al parecer falta agregar los espacios
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2156,7 +2172,7 @@ msgstr ""
 
 # al parecer falta agregar los espacios
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2167,7 +2183,7 @@ msgstr ""
 #: lib/eventum/class.monitor.php:90
 #, php-format
 msgid "ERROR: There is a total of %d emails not associated."
-msgstr ""
+msgstr "ERROR: Hay un total de %d emails no asociados"
 
 #: lib/eventum/class.monitor.php:55
 #, php-format
@@ -2222,7 +2238,7 @@ msgstr "Editar Releases"
 
 #: templates/view_form.tpl.html
 msgid "Edit Reporter"
-msgstr ""
+msgstr "Editar Reportero"
 
 #: templates/preferences.tpl.html
 msgid "Edit Signature"
@@ -2366,7 +2382,7 @@ msgstr "Borrador de correo actualizado por %1$s"
 msgid "Email message saved as a draft by %1$s"
 msgstr "Mensaje de correo guardado como borrador por %1$s"
 
-#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
+#: lib/eventum/class.routing.php:222 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Correo electrónico enrutado desde %1$s"
@@ -2422,6 +2438,7 @@ msgstr "Cabecera de Asunto Vacía"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Enabled"
 msgstr "Habilitado"
 
@@ -2448,17 +2465,17 @@ msgstr "Fin:"
 #. TRANSLATORS: Translation of English (Australia) language in preferences dropdown
 #: localization/LINGUAS.php:14
 msgid "English (Australia)"
-msgstr ""
+msgstr "Inglés (Australia)"
 
 #. TRANSLATORS: Translation of English (Canada) language in preferences dropdown
 #: localization/LINGUAS.php:16
 msgid "English (Canada)"
-msgstr ""
+msgstr "Inglés (Canadá)"
 
 #. TRANSLATORS: Translation of English (United Kingdom) language in preferences dropdown
 #: localization/LINGUAS.php:18
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Inglés (Reino Unido)"
 
 #: templates/requirement.tpl.html
 msgid "Enter Impact Analysis"
@@ -2490,19 +2507,19 @@ msgstr ""
 "Error: No se encontró ninguna cuenta de usuario para la dirección de correo "
 "ingresada."
 
-#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
-#: lib/eventum/class.routing.php:383
+#: lib/eventum/class.routing.php:66 lib/eventum/class.routing.php:268
+#: lib/eventum/class.routing.php:384
 msgid "Error: Please configure the email address domain."
 msgstr ""
 "Error: Por favor, configure el dominio de la dirección de correo electrónico."
 
-#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
-#: lib/eventum/class.routing.php:380
+#: lib/eventum/class.routing.php:63 lib/eventum/class.routing.php:265
+#: lib/eventum/class.routing.php:381
 msgid "Error: Please configure the email address prefix."
 msgstr ""
 "Error: Por favor, configure el prefijo de la dirección de correo electrónico."
 
-#: lib/eventum/class.routing.php:111
+#: lib/eventum/class.routing.php:112
 msgid "Error: Please provide the email account ID."
 msgstr "Error: Por favor ingrese el ID de la cuenta de correo electrónico."
 
@@ -2510,7 +2527,7 @@ msgstr "Error: Por favor ingrese el ID de la cuenta de correo electrónico."
 msgid "Error: Please provide your email address."
 msgstr "Error: Por favor, especifique su dirección de email."
 
-#: lib/eventum/class.routing.php:71
+#: lib/eventum/class.routing.php:72
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2525,26 +2542,26 @@ msgstr ""
 "Error: La dirección de correo especificada ya está asociada con un usuario "
 "en el sistema."
 
-#: lib/eventum/class.routing.php:377
+#: lib/eventum/class.routing.php:378
 msgid "Error: The email draft interface is disabled."
 msgstr ""
 "Error: La interfaz para borradores de correos electrónicos está "
 "deshabilitada."
 
-#: lib/eventum/class.routing.php:50
+#: lib/eventum/class.routing.php:51
 msgid "Error: The email message was empty"
 msgstr "Error: El mensaje del correo electrónico estaba vacío"
 
-#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
+#: lib/eventum/class.routing.php:251 lib/eventum/class.routing.php:367
 msgid "Error: The email message was empty."
 msgstr "Error: El mensaje del correo electrónico estaba vacío."
 
-#: lib/eventum/class.routing.php:59
+#: lib/eventum/class.routing.php:60
 msgid "Error: The email routing interface is disabled."
 msgstr ""
 "Error: La interfaz de enrutamiento de correo electrónico está deshabilitada."
 
-#: lib/eventum/class.routing.php:261
+#: lib/eventum/class.routing.php:262
 msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 "Error: La interfaz de enrutamiento de notas internas está deshabilitada."
@@ -2561,8 +2578,8 @@ msgstr "Error: No se encontró el caso #%1."
 msgid "Error: The issue could not be found."
 msgstr "Error: No se encontró el caso."
 
-#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
-#: lib/eventum/class.routing.php:399
+#: lib/eventum/class.routing.php:102 lib/eventum/class.routing.php:107
+#: lib/eventum/class.routing.php:400
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2570,7 +2587,7 @@ msgstr ""
 "Error: El correo electrónico enrutado no tiene ningún identificador de caso "
 "asociado o tiene una dirección de destinatario inválida."
 
-#: lib/eventum/class.routing.php:282
+#: lib/eventum/class.routing.php:283
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2609,7 +2626,7 @@ msgstr "Error: ya está autorizado a enviar correos en este caso."
 #. TRANSLATORS: Translation of Esperanto language in preferences dropdown
 #: localization/LINGUAS.php:20
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lib/eventum/class.display_column.php:203
 msgid "Est Dev Time"
@@ -2651,7 +2668,7 @@ msgstr "Tiempo Estimado (Horas)"
 #. TRANSLATORS: Translation of Estonian language in preferences dropdown
 #: localization/LINGUAS.php:24
 msgid "Estonian"
-msgstr ""
+msgstr "Estonio"
 
 #: templates/reports/weekly_data.tpl.html
 msgid "Eventum Emails"
@@ -2815,7 +2832,7 @@ msgstr "Destinatarios Extras de la Nota:"
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
-msgstr ""
+msgstr "Faroés"
 
 #: lib/eventum/class.reminder_condition.php:214
 #: templates/manage/reminder_conditions.tpl.html
@@ -2868,7 +2885,7 @@ msgstr "Filtrar por Fecha de Llegada:"
 #. TRANSLATORS: Translation of Finnish language in preferences dropdown
 #: localization/LINGUAS.php:26
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandés"
 
 #: templates/adv_search.tpl.html
 msgid "First Response By Staff"
@@ -2903,7 +2920,7 @@ msgstr ""
 #. TRANSLATORS: Translation of French language in preferences dropdown
 #: localization/LINGUAS.php:30
 msgid "French"
-msgstr ""
+msgstr "Francés"
 
 #: templates/email_drafts.tpl.html templates/phone_support.tpl.html
 #: templates/removed_emails.tpl.html templates/reports/customer_stats.tpl.html
@@ -2949,7 +2966,7 @@ msgstr "Generar"
 #. TRANSLATORS: Translation of German language in preferences dropdown
 #: localization/LINGUAS.php:12
 msgid "German"
-msgstr ""
+msgstr "Alemán"
 
 #: templates/notification.tpl.html
 msgid "Get a Notification When"
@@ -3005,7 +3022,7 @@ msgstr "Grupo:"
 #. TRANSLATORS: Translation of Haitian; Haitian Creole language in preferences dropdown
 #: localization/LINGUAS.php:34
 msgid "Haitian; Haitian Creole"
-msgstr ""
+msgstr "Hawayano (haitiano criollo)"
 
 #: templates/impact_analysis.tpl.html
 msgid "Handler"
@@ -3014,7 +3031,7 @@ msgstr "Manejador"
 #. TRANSLATORS: Translation of Hebrew language in preferences dropdown
 #: localization/LINGUAS.php:32
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreo"
 
 #: templates/notifications/visitor_account.tpl.text
 msgid ""
@@ -3077,7 +3094,7 @@ msgstr "Temas de Ayuda"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 #: templates/emails.tpl.html
 msgid "Hide Associated Emails"
@@ -3110,7 +3127,7 @@ msgstr "Alias de Host:"
 
 #: templates/manage/ldap.tpl.html
 msgid "Host:"
-msgstr ""
+msgstr "Anfitrión :"
 
 #: templates/manage/email_accounts.tpl.html templates/setup.tpl.html
 msgid "Hostname"
@@ -3131,7 +3148,7 @@ msgstr "No obstante, se encontró los siguientes errores:"
 #. TRANSLATORS: Translation of Hungarian language in preferences dropdown
 #: localization/LINGUAS.php:36
 msgid "Hungarian"
-msgstr ""
+msgstr "Húngaro"
 
 #: templates/login_form.tpl.html
 msgid "I Forgot My Password"
@@ -3321,7 +3338,7 @@ msgstr "Entrante"
 #. TRANSLATORS: Translation of Indonesian language in preferences dropdown
 #: localization/LINGUAS.php:38
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesio"
 
 #: templates/new.tpl.html templates/view_form.tpl.html
 msgid "Initial Description"
@@ -3529,7 +3546,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Japanese language in preferences dropdown
 #: localization/LINGUAS.php:42
 msgid "Japanese"
-msgstr ""
+msgstr "Japonés"
 
 #: templates/update_form.tpl.html
 msgid "Keep Current Assignments:"
@@ -3551,7 +3568,7 @@ msgstr "Palabra(s) clave:"
 #. TRANSLATORS: Translation of Korean language in preferences dropdown
 #: localization/LINGUAS.php:44
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: templates/manage/ldap.tpl.html
 msgid "LDAP Setup"
@@ -3674,9 +3691,9 @@ msgstr "Listado / Búsqueda de Casos"
 #. TRANSLATORS: Translation of Lithuanian language in preferences dropdown
 #: localization/LINGUAS.php:46
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lituano"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Log Page:"
 msgstr "Página de Registro:"
 
@@ -4280,7 +4297,7 @@ msgstr "Prefijo de la Dirección de Nota:"
 msgid "Note Recipient Type Flag:"
 msgstr "Marcador del Tipo de Destinatario de Nota:"
 
-#: lib/eventum/class.routing.php:341
+#: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Nota enrutada desde %1$s"
@@ -4329,7 +4346,7 @@ msgstr "Al agregar notas a casos existentes"
 
 #: templates/list_excerpts.tpl.html
 msgid "Notes:"
-msgstr ""
+msgstr "Notas:"
 
 #: templates/post_note.tpl.html templates/send.tpl.html
 #: templates/view_form.tpl.html
@@ -4379,7 +4396,7 @@ msgstr "OK: No se produjo ningún error"
 #. TRANSLATORS: Translation of Occitan (post 1500) language in preferences dropdown
 #: localization/LINGUAS.php:52
 msgid "Occitan (post 1500)"
-msgstr ""
+msgstr "Occitano (posterior a 1500)"
 
 #: templates/add_phone_entry.tpl.html
 msgid "Office"
@@ -4616,7 +4633,7 @@ msgstr "Llamadas Telefónicas"
 
 #: templates/list_excerpts.tpl.html
 msgid "Phone Calls:"
-msgstr ""
+msgstr "Llamadas telefónicas:"
 
 #: templates/phone_support.tpl.html
 msgid "Phone Number"
@@ -4887,7 +4904,7 @@ msgstr ""
 "Por favor, escoja el tipo de servidor de correo a asociar con esta cuenta de "
 "correo."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
@@ -4993,7 +5010,7 @@ msgstr ""
 
 # espacios
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
@@ -5002,7 +5019,7 @@ msgstr ""
 "de escritura para el nombre de archivo provisto."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -5125,7 +5142,7 @@ msgstr ""
 msgid "Please enter the base dn."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
 "Por favor, ingrese la URL de la página de salida para su herramienta de "
@@ -5164,7 +5181,7 @@ msgstr ""
 "telefónico."
 
 # diff: diff, diferencias, comparación.
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
 "Por favor, ingrese la URL de la página de diferencias para su herramienta de "
@@ -5228,7 +5245,7 @@ msgstr ""
 "recordatorio."
 
 # diff: diff, diferencias, comparación.
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
 "Por favor, ingrese la URL de la página de registro de su herramienta de "
@@ -5765,7 +5782,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Polish language in preferences dropdown
 #: localization/LINGUAS.php:54
 msgid "Polish"
-msgstr ""
+msgstr "Polaco"
 
 #: templates/manage/email_accounts.tpl.html templates/manage/general.tpl.html
 #: templates/setup.tpl.html
@@ -5774,12 +5791,12 @@ msgstr "Puerto"
 
 #: templates/manage/ldap.tpl.html
 msgid "Port:"
-msgstr ""
+msgstr "Puerto:"
 
 #. TRANSLATORS: Translation of Portuguese language in preferences dropdown
 #: localization/LINGUAS.php:56
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugués"
 
 #: templates/notes.tpl.html templates/post_note.tpl.html
 msgid "Post Internal Note"
@@ -6325,11 +6342,12 @@ msgstr "Se requiere soporte para cookies y javascript en su navegador"
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
-#: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
-#: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/new.tpl.html templates/notification.tpl.html
-#: templates/post.tpl.html templates/preferences.tpl.html
-#: templates/send.tpl.html templates/update_form.tpl.html
+#: templates/manage/round_robin.tpl.html templates/manage/scm.tpl.html
+#: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/users.tpl.html templates/new.tpl.html
+#: templates/notification.tpl.html templates/post.tpl.html
+#: templates/preferences.tpl.html templates/send.tpl.html
+#: templates/update_form.tpl.html
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -6374,13 +6392,13 @@ msgstr "Ejecutar Búsqueda"
 #. TRANSLATORS: Translation of Russian language in preferences dropdown
 #: localization/LINGUAS.php:60
 msgid "Russian"
-msgstr ""
+msgstr "Ruso"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "SCM <br />Integration:"
 msgstr "Integración <br />SCM:"
 
-#: lib/eventum/class.scm.php:215
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Ingresos SCM asociados por usuario SCM '"
 
@@ -6390,7 +6408,7 @@ msgid "SCM Checkins removed by %1$s"
 msgstr "Ingresos SCM removidos por %1$s"
 
 #: lib/eventum/class.help.php:87 templates/help/main.tpl.html
-#: templates/help/scm_integration.tpl.html
+#: templates/help/scm_integration.tpl.html templates/manage/scm.tpl.html
 msgid "SCM Integration"
 msgstr "Integración SCM"
 
@@ -6595,7 +6613,7 @@ msgstr "Acorte el Campo"
 
 #: templates/quick_filter_form.tpl.html
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: templates/email_drafts.tpl.html
 msgid "Show All Drafts"
@@ -6672,7 +6690,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Sinhalese language in preferences dropdown
 #: localization/LINGUAS.php:62
 msgid "Sinhalese"
-msgstr ""
+msgstr "Cingalés"
 
 #: templates/manage/reminders.tpl.html
 msgid "Skip Weekends"
@@ -6772,7 +6790,7 @@ msgstr "Ordenar Por"
 #. TRANSLATORS: Translation of Spanish language in preferences dropdown
 #: localization/LINGUAS.php:22
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: templates/spell_check.tpl.html
 msgid "Spell Check"
@@ -6953,7 +6971,7 @@ msgstr "Opciones de Soporte"
 #. TRANSLATORS: Translation of Swedish language in preferences dropdown
 #: localization/LINGUAS.php:64
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: templates/navigation.tpl.html
 msgid "Switch"
@@ -6973,7 +6991,7 @@ msgstr ""
 #. TRANSLATORS: Translation of Tamil language in preferences dropdown
 #: localization/LINGUAS.php:66
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 # Puede ser "Forms Objetivo"
 # Contexto: Esta opción es la que indica en cuál de los 3 forms deben desplegarse los campos personalizados: crear caso, form anónimo, y cerrar caso.
@@ -7009,7 +7027,7 @@ msgstr "Area de texto"
 #. TRANSLATORS: Translation of Thai language in preferences dropdown
 #: localization/LINGUAS.php:68
 msgid "Thai"
-msgstr ""
+msgstr "Tailandés"
 
 #: templates/setup.tpl.html
 msgid ""
@@ -7400,7 +7418,7 @@ msgstr ""
 "satisfactoriamente."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 "Gracias, la información de configuración fue guardada satisfactoriamente."
@@ -8431,7 +8449,7 @@ msgstr "Recordatorio Disparado"
 #. TRANSLATORS: Translation of Turkish language in preferences dropdown
 #: localization/LINGUAS.php:70
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: templates/add_phone_entry.tpl.html
 #: templates/manage/account_managers.tpl.html
@@ -8457,7 +8475,7 @@ msgstr "URL"
 #. TRANSLATORS: Translation of Ukrainian language in preferences dropdown
 #: localization/LINGUAS.php:72
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ucraniano"
 
 #: templates/view_form.tpl.html
 msgid "Unassign Issue"
@@ -8605,6 +8623,7 @@ msgstr "Actualizar Entrada de Round Robin"
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Update Setup"
 msgstr "Actualizar Configuración"
 

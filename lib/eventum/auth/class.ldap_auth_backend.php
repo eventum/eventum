@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 Eventum Team.                                     |
+// | Copyright (c) 2012 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -71,7 +71,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
         $this->conn = Net_LDAP2::connect($this->config);
-
     }
 
     public function isSetup()
@@ -254,19 +253,24 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     {
         static $setup;
         if (empty($setup) || $force == true) {
-            $eventum_setup_string = null;
             if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
                 return array();
             }
+
+            $ldap_setup_string = $ldap_setup = null;
             require APP_CONFIG_PATH . '/ldap.php';
-            if (empty($ldap_setup_string)) {
+            if ($ldap_setup_string == null and $ldap_setup == null) {
                 return null;
             }
-            $setup = unserialize(base64_decode($ldap_setup_string));
+            if (isset($ldap_setup)) {
+                $setup = $ldap_setup;
+            } else {
+                // support reading legacy base64 encoded config
+                $setup = unserialize(base64_decode($ldap_setup_string));
+            }
         }
         return $setup;
     }
-
 
     public static function saveSetup($options)
     {
@@ -282,7 +286,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 return -2;
             }
         }
-        $contents = "<"."?php\n\$ldap_setup_string='" . base64_encode(serialize($options)) . "';\n";
+        $contents = "<"."?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
         if ($res === false) {
             return -2;

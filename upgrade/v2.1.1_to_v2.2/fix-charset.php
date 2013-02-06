@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-require_once dirname(__file__) . '/../init.php';
+require_once dirname(__FILE__) . '/../init.php';
 
 function db_getAll($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);

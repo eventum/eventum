@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
-"PO-Revision-Date: 2011-09-04 19:43+0000\n"
-"Last-Translator: Alexander Strelchenko <Unknown>\n"
+"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"PO-Revision-Date: 2012-10-01 00:17+0000\n"
+"Last-Translator: Elan Ruusamäe <Unknown>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-18 04:44+0000\n"
-"X-Generator: Launchpad (build 15259)\n"
+"X-Launchpad-Export-Date: 2012-10-02 05:23+0000\n"
+"X-Generator: Launchpad (build 16061)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -80,8 +80,9 @@ msgid "(All Issues)"
 msgstr "(все запросы)"
 
 #: templates/manage/general.tpl.html
-msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Альтернативные домены, которые обращаются к \"Адрес хоста\")"
+msgid ""
+"(Alternate domains separated by space that point to 'Address Hostname')"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -1317,7 +1318,7 @@ msgstr "Проверка разрешений"
 msgid "Check Spelling"
 msgstr "Проверка орфографии"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Checkout Page:"
 msgstr "Страница отладки:"
 
@@ -1456,6 +1457,10 @@ msgstr "Конфигурационные параметры:"
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
 msgstr "Подтвердите новый пароль"
+
+#: templates/manage/ldap.tpl.html
+msgid "Contact ID attribute:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1669,6 +1674,10 @@ msgstr "Договор клиента"
 msgid "Customer Counts"
 msgstr "Кол-во клиентов"
 
+#: templates/manage/ldap.tpl.html
+msgid "Customer ID attribute:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1713,6 +1722,10 @@ msgstr ""
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr "Индивидуальные параметры мониторинга"
+
+#: templates/manage/manage.tpl.html
+msgid "Customize SCM Integration"
+msgstr ""
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
@@ -1895,7 +1908,7 @@ msgstr "Специалисты"
 msgid "Did you Know?"
 msgstr "Знаете ли вы?"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Diff Page:"
 msgstr "Страница версий:"
 
@@ -1903,6 +1916,7 @@ msgstr "Страница версий:"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Disabled"
 msgstr "Выключено"
 
@@ -1939,7 +1953,7 @@ msgstr ""
 msgid "Draft Address Prefix:"
 msgstr "Префикс адреса черновика:"
 
-#: lib/eventum/class.routing.php:418
+#: lib/eventum/class.routing.php:419
 msgid "Draft routed from"
 msgstr "Черновик маршрутизирован от"
 
@@ -2049,7 +2063,7 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2058,7 +2072,7 @@ msgstr ""
 "конфигурации в каталоге установки"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2264,7 +2278,7 @@ msgstr "Черновик почтового сообщения обновлен 
 msgid "Email message saved as a draft by %1$s"
 msgstr "Почтовое сообщение сохранено как черновик пользователем %1$s"
 
-#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
+#: lib/eventum/class.routing.php:222 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Эл. письмо маршутизировано от %1$s"
@@ -2318,6 +2332,7 @@ msgstr "Пустой заголовок темы"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Enabled"
 msgstr "Включено"
 
@@ -2386,17 +2401,17 @@ msgstr ""
 "Ошибка: Введенному адресу эл.почты не соответствует ни одна учетная запись "
 "пользователя."
 
-#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
-#: lib/eventum/class.routing.php:383
+#: lib/eventum/class.routing.php:66 lib/eventum/class.routing.php:268
+#: lib/eventum/class.routing.php:384
 msgid "Error: Please configure the email address domain."
 msgstr "Ошибка: Пожалуйста, сконфигурируйте домен адреса эл. почты."
 
-#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
-#: lib/eventum/class.routing.php:380
+#: lib/eventum/class.routing.php:63 lib/eventum/class.routing.php:265
+#: lib/eventum/class.routing.php:381
 msgid "Error: Please configure the email address prefix."
 msgstr "Ошибка: Пожалуйста, сконфигурируйте префикс адреса эл. почты."
 
-#: lib/eventum/class.routing.php:111
+#: lib/eventum/class.routing.php:112
 msgid "Error: Please provide the email account ID."
 msgstr "Ошибка: Пожалуйста, укажите идентификатор учетной записи эл. почты."
 
@@ -2404,7 +2419,7 @@ msgstr "Ошибка: Пожалуйста, укажите идентифика�
 msgid "Error: Please provide your email address."
 msgstr "Ошибка: Пожалуйста, укажите ваш адрес эл.почты."
 
-#: lib/eventum/class.routing.php:71
+#: lib/eventum/class.routing.php:72
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2418,23 +2433,23 @@ msgid ""
 msgstr ""
 "Ошибка: Указанный адрес эл.почты уже используется пользователем системы."
 
-#: lib/eventum/class.routing.php:377
+#: lib/eventum/class.routing.php:378
 msgid "Error: The email draft interface is disabled."
 msgstr "Ошибка: Интерфейс управления черновиками эл. писем отключен."
 
-#: lib/eventum/class.routing.php:50
+#: lib/eventum/class.routing.php:51
 msgid "Error: The email message was empty"
 msgstr "Ошибка: Почтовое сообщение было пустым"
 
-#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
+#: lib/eventum/class.routing.php:251 lib/eventum/class.routing.php:367
 msgid "Error: The email message was empty."
 msgstr "Ошибка: Сообщение эл. письмо было пустым."
 
-#: lib/eventum/class.routing.php:59
+#: lib/eventum/class.routing.php:60
 msgid "Error: The email routing interface is disabled."
 msgstr "Ошибка: интерфейс маршрутизации электронной почты отключен."
 
-#: lib/eventum/class.routing.php:261
+#: lib/eventum/class.routing.php:262
 msgid "Error: The internal note routing interface is disabled."
 msgstr "Ошибка: Интерфейс маршрутизация внутренних примечаний отключен."
 
@@ -2450,8 +2465,8 @@ msgstr "Ошибка: Запрос #%1 не найден."
 msgid "Error: The issue could not be found."
 msgstr "Ошибка: Запрос не найден."
 
-#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
-#: lib/eventum/class.routing.php:399
+#: lib/eventum/class.routing.php:102 lib/eventum/class.routing.php:107
+#: lib/eventum/class.routing.php:400
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2459,7 +2474,7 @@ msgstr ""
 "Ошибка: Маршутизируемое эл. письмо не имеет связанного ID запроса или адрес "
 "получателя неверный."
 
-#: lib/eventum/class.routing.php:282
+#: lib/eventum/class.routing.php:283
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -3539,7 +3554,7 @@ msgstr "Просмотр / Поиск запросов"
 msgid "Lithuanian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Log Page:"
 msgstr "Страница Log"
 
@@ -4129,7 +4144,7 @@ msgstr "Префикс адреса примечания:"
 msgid "Note Recipient Type Flag:"
 msgstr "Отличительный флаг получателя примечания:"
 
-#: lib/eventum/class.routing.php:341
+#: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Примечание маршутизировано от %1$s"
@@ -4709,7 +4724,7 @@ msgstr ""
 "Пожалуйста, выберите тип сервера эл.почты, связанного с этой учетной записью "
 "эл.почты."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
@@ -4811,14 +4826,14 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4931,7 +4946,7 @@ msgstr "Пожалуйста, укажите анализ для изменен�
 msgid "Please enter the base dn."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
 "Пожалуйста, введите ссылку URL для страницы отладки инструмента интеграции с "
@@ -4964,7 +4979,7 @@ msgstr "Пожалуйста, укажите описание для запро�
 msgid "Please enter the description for this new phone support entry."
 msgstr "Пожалуйста, укажите описание для новой телефонной записи."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
 "Пожалуйста, введите ссылку URL для страницы различий инструмента интеграции "
@@ -5023,7 +5038,7 @@ msgid ""
 msgstr ""
 "Пожалуйста, выберите ID запросов, которые будут связаны с этим напоминанием."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
 
@@ -6089,11 +6104,12 @@ msgstr "Ваш броузер должен поддерживать cookies и j
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
-#: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
-#: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/new.tpl.html templates/notification.tpl.html
-#: templates/post.tpl.html templates/preferences.tpl.html
-#: templates/send.tpl.html templates/update_form.tpl.html
+#: templates/manage/round_robin.tpl.html templates/manage/scm.tpl.html
+#: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/users.tpl.html templates/new.tpl.html
+#: templates/notification.tpl.html templates/post.tpl.html
+#: templates/preferences.tpl.html templates/send.tpl.html
+#: templates/update_form.tpl.html
 msgid "Reset"
 msgstr "Сбросить"
 
@@ -6140,11 +6156,11 @@ msgstr "Выполнить поиск"
 msgid "Russian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "SCM <br />Integration:"
 msgstr "Интеграция с SCM:"
 
-#: lib/eventum/class.scm.php:215
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Новые версии SCM связанные пользователем SCM '"
 
@@ -6154,7 +6170,7 @@ msgid "SCM Checkins removed by %1$s"
 msgstr "Новые версии в SCM удалены пользователем %1$s"
 
 #: lib/eventum/class.help.php:87 templates/help/main.tpl.html
-#: templates/help/scm_integration.tpl.html
+#: templates/help/scm_integration.tpl.html templates/manage/scm.tpl.html
 msgid "SCM Integration"
 msgstr "Интеграция с SCM"
 
@@ -7106,7 +7122,7 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Спасибо, выбранные требования удалены успешно."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Спасибо, информация о настройках сохранена успешно."
 
@@ -8148,6 +8164,7 @@ msgstr "Обновить запись круговой системы"
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Update Setup"
 msgstr "Обновить настройки"
 

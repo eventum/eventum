@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
-"PO-Revision-Date: 2012-03-26 01:35+0000\n"
+"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"PO-Revision-Date: 2012-10-01 00:16+0000\n"
 "Last-Translator: Georger Araújo <georger_br@yahoo.com.br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-18 04:45+0000\n"
-"X-Generator: Launchpad (build 15259)\n"
+"X-Launchpad-Export-Date: 2012-10-02 05:24+0000\n"
+"X-Generator: Launchpad (build 16061)\n"
 "Language: pt_BR\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
@@ -77,8 +77,9 @@ msgid "(All Issues)"
 msgstr "(Todos os Chamados)"
 
 #: templates/manage/general.tpl.html
-msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "(Domínios alternativos que apontam para o 'Hostname do Endereço')"
+msgid ""
+"(Alternate domains separated by space that point to 'Address Hostname')"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -1343,7 +1344,7 @@ msgstr "Verificar Permissões"
 msgid "Check Spelling"
 msgstr "Verificar Ortografia"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Checkout Page:"
 msgstr "Página de Checkout:"
 
@@ -1482,6 +1483,10 @@ msgstr "Parâmetros de Configuração"
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
 msgstr "Confirmar Nova Senha"
+
+#: templates/manage/ldap.tpl.html
+msgid "Contact ID attribute:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1695,6 +1700,10 @@ msgstr "Contrato do Cliente"
 msgid "Customer Counts"
 msgstr "Contagem de Clientes"
 
+#: templates/manage/ldap.tpl.html
+msgid "Customer ID attribute:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1739,6 +1748,10 @@ msgstr ""
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr "Personalizar Parâmetros de Monitoramento"
+
+#: templates/manage/manage.tpl.html
+msgid "Customize SCM Integration"
+msgstr ""
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
@@ -1922,7 +1935,7 @@ msgstr "Desenvolvedores"
 msgid "Did you Know?"
 msgstr "Você Sabia?"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Diff Page:"
 msgstr "Página de Diff:"
 
@@ -1930,6 +1943,7 @@ msgstr "Página de Diff:"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Disabled"
 msgstr "Desativado(a)"
 
@@ -1966,7 +1980,7 @@ msgstr "Baixar Email em Formato Original"
 msgid "Draft Address Prefix:"
 msgstr "Prefixo do Endereço de Rascunho:"
 
-#: lib/eventum/class.routing.php:418
+#: lib/eventum/class.routing.php:419
 msgid "Draft routed from"
 msgstr "Rascunho roteado de"
 
@@ -2078,7 +2092,7 @@ msgstr ""
 "restante: %.2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2087,7 +2101,7 @@ msgstr ""
 "parâmetros no diretório de configuração"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2293,7 +2307,7 @@ msgstr "Rascunho de mensagem de email atualizado por %1$s"
 msgid "Email message saved as a draft by %1$s"
 msgstr "Mensagem de email salva como rascunho por %1$s"
 
-#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
+#: lib/eventum/class.routing.php:222 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Email roteado de %1$s"
@@ -2349,6 +2363,7 @@ msgstr "Cabeçalho de Assunto Vazio"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Enabled"
 msgstr "Ativado(a)"
 
@@ -2417,17 +2432,17 @@ msgstr ""
 "Erro: Nenhuma conta de usuário correspondente ao endereço de email informado "
 "foi encontrada."
 
-#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
-#: lib/eventum/class.routing.php:383
+#: lib/eventum/class.routing.php:66 lib/eventum/class.routing.php:268
+#: lib/eventum/class.routing.php:384
 msgid "Error: Please configure the email address domain."
 msgstr "Erro: Por favor configure o domínio do endereço de email."
 
-#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
-#: lib/eventum/class.routing.php:380
+#: lib/eventum/class.routing.php:63 lib/eventum/class.routing.php:265
+#: lib/eventum/class.routing.php:381
 msgid "Error: Please configure the email address prefix."
 msgstr "Erro: Por favor configure o prefixo dos endereços de email."
 
-#: lib/eventum/class.routing.php:111
+#: lib/eventum/class.routing.php:112
 msgid "Error: Please provide the email account ID."
 msgstr "Erro: Por favor informe o ID da conta de email."
 
@@ -2435,7 +2450,7 @@ msgstr "Erro: Por favor informe o ID da conta de email."
 msgid "Error: Please provide your email address."
 msgstr "Erro: Por favor informe seu endereço de email."
 
-#: lib/eventum/class.routing.php:71
+#: lib/eventum/class.routing.php:72
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2450,23 +2465,23 @@ msgstr ""
 "Erro: o endereço de email informado já está associado a um usuário do "
 "sistema."
 
-#: lib/eventum/class.routing.php:377
+#: lib/eventum/class.routing.php:378
 msgid "Error: The email draft interface is disabled."
 msgstr "Erro: a interface de rascunho de email está desativada."
 
-#: lib/eventum/class.routing.php:50
+#: lib/eventum/class.routing.php:51
 msgid "Error: The email message was empty"
 msgstr "Erro: A mensagem de email estava vazia"
 
-#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
+#: lib/eventum/class.routing.php:251 lib/eventum/class.routing.php:367
 msgid "Error: The email message was empty."
 msgstr "Erro: A mensagem de email estava vazia."
 
-#: lib/eventum/class.routing.php:59
+#: lib/eventum/class.routing.php:60
 msgid "Error: The email routing interface is disabled."
 msgstr "Erro: A interface de roteamento de email está desativada."
 
-#: lib/eventum/class.routing.php:261
+#: lib/eventum/class.routing.php:262
 msgid "Error: The internal note routing interface is disabled."
 msgstr "Erro: A interface de roteamento de notas internas está desativada."
 
@@ -2482,8 +2497,8 @@ msgstr "Erro: O chamado #%1 não foi encontrado."
 msgid "Error: The issue could not be found."
 msgstr "Erro: O chamado não foi encontrado."
 
-#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
-#: lib/eventum/class.routing.php:399
+#: lib/eventum/class.routing.php:102 lib/eventum/class.routing.php:107
+#: lib/eventum/class.routing.php:400
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -2491,7 +2506,7 @@ msgstr ""
 "Erro: O email roteado não estava associado a nenhum número de chamado no "
 "Eventum ou continha um endereço de destinatário inválido."
 
-#: lib/eventum/class.routing.php:282
+#: lib/eventum/class.routing.php:283
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -3596,7 +3611,7 @@ msgstr "Listando / Buscando Chamados"
 msgid "Lithuanian"
 msgstr "Lituano"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Log Page:"
 msgstr "Página de Log:"
 
@@ -4191,7 +4206,7 @@ msgstr "Prefixo do Endereço de Nota:"
 msgid "Note Recipient Type Flag:"
 msgstr "Flag do Tipo de Destinatário de Nota"
 
-#: lib/eventum/class.routing.php:341
+#: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Nota roteada de %1$s"
@@ -4788,7 +4803,7 @@ msgid ""
 "account."
 msgstr "Por favor escolha o tipo de servidor de email desta conta de email."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
@@ -4893,7 +4908,7 @@ msgstr ""
 "informações."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
@@ -4902,7 +4917,7 @@ msgstr ""
 "de escrita no arquivo."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -5023,7 +5038,7 @@ msgstr ""
 msgid "Please enter the base dn."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
 "Por favor informe a URL da página de checkout de sua ferramenta de "
@@ -5057,7 +5072,7 @@ msgstr "Por favor informe a descrição do chamado."
 msgid "Please enter the description for this new phone support entry."
 msgstr "Por favor informe a descrição da nova entrada de suporte telefônico."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
 "Por favor informe a URL da página de diff de sua ferramenta de integração "
@@ -5118,7 +5133,7 @@ msgid ""
 msgstr ""
 "Por favor informe os números dos chamados que serão associados ao lembrete."
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
 "Por favor informe a URL da página de log de sua ferramenta de integração SCM."
@@ -6203,11 +6218,12 @@ msgstr "Requer suporte a cookies e a JavaScript em seu navegador"
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
-#: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
-#: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/new.tpl.html templates/notification.tpl.html
-#: templates/post.tpl.html templates/preferences.tpl.html
-#: templates/send.tpl.html templates/update_form.tpl.html
+#: templates/manage/round_robin.tpl.html templates/manage/scm.tpl.html
+#: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/users.tpl.html templates/new.tpl.html
+#: templates/notification.tpl.html templates/post.tpl.html
+#: templates/preferences.tpl.html templates/send.tpl.html
+#: templates/update_form.tpl.html
 msgid "Reset"
 msgstr "Redefinir"
 
@@ -6254,11 +6270,11 @@ msgstr "Rodar Busca"
 msgid "Russian"
 msgstr "Russo"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "SCM <br />Integration:"
 msgstr "Integração <br />SCM:"
 
-#: lib/eventum/class.scm.php:215
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Checkins SCM asociados pelo usuário SCM '"
 
@@ -6268,7 +6284,7 @@ msgid "SCM Checkins removed by %1$s"
 msgstr "Checkins SCM excluídos por %1$s"
 
 #: lib/eventum/class.help.php:87 templates/help/main.tpl.html
-#: templates/help/scm_integration.tpl.html
+#: templates/help/scm_integration.tpl.html templates/manage/scm.tpl.html
 msgid "SCM Integration"
 msgstr "Integração com SCM"
 
@@ -7248,7 +7264,7 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Obrigado, os requisitos selecionados foram excluídos com sucesso."
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Obrigado, as informações de configuração foram salvas com sucesso."
 
@@ -8421,6 +8437,7 @@ msgstr "Atualizar Designação Round Robin"
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Update Setup"
 msgstr "Atualizar Configuração"
 
