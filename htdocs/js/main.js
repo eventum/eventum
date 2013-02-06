@@ -29,6 +29,10 @@ $(document).ready(function() {
     ExpandableCell.ready();
 
     Eventum.rel_url = $('head').attr('data-rel-url');
+
+    $('#project_chooser').change(function() {
+        $(this).find('form').submit();
+    });
 });
 
 

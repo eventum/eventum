@@ -25,8 +25,8 @@ function addFileRow(element_name, field_name)
         return;
     }
 
-    newRow = fileTable.insertRow(rows);
-    cell = newRow.insertCell(0);
+    var newRow = fileTable.insertRow(rows);
+    var cell = newRow.insertCell(0);
     if (document.all) {
         cell.innerHTML = '<input id="' + field_name + '_' + (rows+1) + '" class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
     } else {

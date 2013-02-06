@@ -29,15 +29,12 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("switch.tpl.html");
-
 Auth::checkAuthentication(APP_COOKIE);
 
 // get the 'remember' setting of the project cookie
 $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
 Auth::setCurrentProject($_POST["current_project"], $cookie["remember"]);
 
-$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
+Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
 
-$tpl->displayTemplate();
+Auth::redirect($_REQUEST['current_page']);

@@ -47,6 +47,7 @@
                     <select name="current_project">
                       {html_options options=$core.active_projects selected=$core.project_id}
                     </select>
+                    <input type="hidden" name="current_page" value="{$core.current_url}" />
                   </form>
                 {/if}
             </div>

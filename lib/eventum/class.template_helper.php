@@ -145,6 +145,7 @@ class Template_Helper
             'messages'  =>  Misc::getMessages(),
             'roles'     =>  User::getAssocRoleIDs(),
             'auth_backend'  =>  APP_AUTH_BACKEND,
+            'current_url'   =>  $_SERVER['PHP_SELF'],
         );
 
         $usr_id = Auth::getUserID();
