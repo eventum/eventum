@@ -1403,7 +1403,8 @@ class Issue
      * @param   string  $send_notification_to Who this notification should be sent too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $send_notification_to = 'internal')
+    public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
+                                 $send_notification_to = 'internal')
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $issue_id = Misc::escapeInteger($issue_id);
