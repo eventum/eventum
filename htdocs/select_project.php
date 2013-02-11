@@ -83,6 +83,7 @@ if (@$_GET["err"] == '') {
             Auth::redirect($_GET["url"]);
         }
     }
+    $tpl->assign("active_projects", $assigned_projects);
 }
 
 if (@$_GET["err"] != '') {

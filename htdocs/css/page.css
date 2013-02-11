@@ -272,3 +272,13 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #report_content {
     margin-left: 220px;
 }
+
+
+/* Begin Select Project */
+#select_project table {
+    width: 400px;
+}
+
+#select_project table tr.title {
+    font-size: 2em;
+}

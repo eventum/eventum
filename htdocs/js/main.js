@@ -33,6 +33,8 @@ $(document).ready(function() {
     $('#project_chooser').change(function() {
         $(this).find('form').submit();
     });
+
+    $('#change_clock_status').click(Eventum.changeClockStatus);
 });
 
 
@@ -342,6 +344,12 @@ Eventum.calcDateDiff = function(f, type, element)
     if (duration > 0) {
         Eventum.getField('time_spent').val(duration);
     }
+}
+
+Eventum.changeClockStatus = function()
+{
+    window.location.href = Eventum.rel_url + 'clock_status.php?current_page=' + window.location.href;
+    return false;
 }
 
 
