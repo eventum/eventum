@@ -258,6 +258,11 @@ table.bordered td {
     margin: 0 auto;
 }
 
+.bordered.narrow {
+    width: 400px;
+    margin: 0 auto;
+}
+
 /* End Bordered Table */
 
 /* Grid table */

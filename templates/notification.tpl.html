@@ -85,7 +85,6 @@ function checkDelete(f)
       </td>
       <td nowrap>
         <input type="text" name="email" size="40" value="{if $info.sub_email|default:'' != ''}{$info.sub_email}{else}{$core.user.usr_email}{/if}">
-        <a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$core.rel_url}images/lookup.gif" border="0"></a>
         {include file="error_icon.tpl.html" field="email"}
       </td>
     </tr>
