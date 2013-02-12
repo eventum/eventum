@@ -100,7 +100,7 @@ body.issue_view div#issue_overview div.issue_field_display div.label {
     width: 150px;
     font-weight: bold;
     float: left;
-    background: #076486;
+    background: #255282;
     padding: .3em;
     color: #FFFFFF;
 }
@@ -123,7 +123,7 @@ body.issue_view div#issue_overview div#description div.label div a {
 }
 
 body.issue_view div#issue_overview div.buttons1 {
-    background: #076486;
+    background: #255282;
     padding: .3em;
 }
 

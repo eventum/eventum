@@ -44,9 +44,9 @@
               return false;
           }
       }
-      if ((f.field_type[2].checked) || (f.field_type[3].checked)) {
+      if ($('input[name=field_type].enable_custom_options:checked').length > 0) {
           // select all of the options in the select box
-          selectAllOptions(f, 'field_options[]');
+          Eventum.selectAllOptions('field_options[]');
       }
       return true;
   }
