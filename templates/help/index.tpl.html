@@ -1,6 +1,8 @@
-{include file="header.tpl.html"}
-{include file="help/banner.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}help{/block}
+{block "title"}Help{/block}
 
+{block "content"}
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
@@ -13,7 +15,7 @@
         <tr>
           <td bgcolor="#FFFFFF">
             {include file="help/$topic.tpl.html"}
-            {if $child_links != ""}
+            {if $child_links|default:"" != ""}
             <br /><br />
             <span>
             <b>{t}Available Related Topics{/t}:</b>
@@ -30,5 +32,4 @@
     </td>
   </tr>
 </table>
-
-{include file="footer.tpl.html"}
+{/block}
