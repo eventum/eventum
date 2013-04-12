@@ -90,6 +90,7 @@ if (!empty($_REQUEST['nosave'])) {
 }
 
 $options += $options_override;
+$options = array_merge($options, $options_override);
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Search::getSortingInfo($options));
 
