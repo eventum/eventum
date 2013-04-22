@@ -2008,6 +2008,41 @@ class Notification
 
 
     /**
+     * Returns the subscription ID for the specified email and issue ID
+     *
+     * @param $issue_id
+     * @param $email
+     * @return  string The email address
+     */
+    public static function getSubscriberID($issue_id, $email)
+    {
+        $usr_id = User::getUserIDByEmail($email);
+
+        $params = array($issue_id);
+        $stmt = "SELECT
+                    sub_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_iss_id = ? AND";
+        if ($usr_id) {
+            $stmt .= " sub_usr_id = ?";
+            $params[] = $usr_id;
+        } else {
+            $stmt .= " sub_email = ?";
+            $params[] = $email;
+        }
+        $res = DB_Helper::getInstance()->getOne($stmt, $params);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the full list of possible notification actions.
      *
      * @access  public

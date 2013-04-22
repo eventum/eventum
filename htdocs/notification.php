@@ -56,6 +56,8 @@ $tpl->assign("default_actions", $res);
 if (@$_GET['cat'] == "selfnotify") {
     $usr_email = User::getEmail($usr_id);
     $res = Notification::subscribeEmail($usr_id, $issue_id, $usr_email, $default);
+    $sub_id = Notification::getSubscriberID($issue_id, $usr_email);
+    Auth::redirect(APP_RELATIVE_URL . "notification.php?cat=edit&iss_id=" . $issue_id . "&id=" . $sub_id);
     $tpl->assign("insert_result", $res);
 } elseif (@$_POST["cat"] == "insert") {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
