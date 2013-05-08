@@ -97,16 +97,50 @@ class Time_Tracking
         }
     }
 
+    /**
+     * Get statistic of time categories usage
+     *
+     * @return  array $ttc_id => issue_count
+     */
+    private static function getCategoryStats($ttc_ids)
+    {
+        $list = implode(", ", Misc::escapeInteger($ttc_ids));
+        $stmt = "SELECT
+                    ttr_ttc_id,
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                 WHERE
+                    ttr_ttc_id IN ($list)
+                 GROUP BY 1";
+        $res = DB_Helper::getInstance()->getAssoc($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        }
+
+        return $res;
+    }
 
     /**
      * Method used to remove a specific set of time tracking categories
      *
      * @access  public
-     * @return  boolean
+     * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
     function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+
+        // check that none of the categories are in use
+        $usage = self::getCategoryStats($items);
+        foreach ($usage as $ttc_id => $res) {
+            if ($res[0] > 0) {
+                return -2;
+            }
+        }
+
+        $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
@@ -114,10 +148,10 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
-        } else {
-            return true;
+            return -1;
         }
+
+        return 1;
     }
 
 

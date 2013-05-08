@@ -50,6 +50,14 @@
                     {elseif $result == 1}
                       {t}Thank you, the time tracking category was updated successfully.{/t}
                     {/if}
+                  {elseif $smarty.post.cat == "delete"}
+                    {if $result == -1}
+                      {t}An error occurred while trying to remove time tracking category.{/t}
+                    {elseif $result == -2}
+                      {t}Could not delete time categories, because they were in use.{/t}
+                    {elseif $result == 1}
+                      {t}Thank you, the time tracking categories were removed successfully.{/t}
+                    {/if}
                   {/if}
                 </td>
               </tr>

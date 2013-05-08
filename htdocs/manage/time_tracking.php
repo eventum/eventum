@@ -50,7 +50,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Time_Tracking::update());
     } elseif (@$_POST["cat"] == "delete") {
-        Time_Tracking::remove();
+        $tpl->assign("result", Time_Tracking::remove());
     }
 
     if (@$_GET["cat"] == "edit") {
