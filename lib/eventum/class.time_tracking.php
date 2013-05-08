@@ -42,16 +42,26 @@ class Time_Tracking
      * Method used to get the ID of a given category.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @param   string $ttc_title The time tracking category title
-     * @return  integerThe time tracking category ID
+     * @return  integer The time tracking category ID
      */
-    function getCategoryID($ttc_title)
+    function getCategoryID($prj_id, $ttc_title = '')
     {
+        // LEGACY: handle swapped params, i.e one parameter call where
+        // $ttc_title was only arg. This is not needed by Eventum Core, but
+        // kept for the sake of Workflow and Customer integration.
+        if (func_num_args() == 1) {
+            $ttc_title = $prj_id;
+            $prj_id = Auth::getCurrentProject();
+        }
+
         $stmt = "SELECT
                     ttc_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     ttc_title='" . Misc::escapeString($ttc_title) . "'";
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
@@ -127,6 +137,7 @@ class Time_Tracking
                  SET
                     ttc_title='" . Misc::escapeString($_POST["title"]) . "'
                  WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
                     ttc_id=" . Misc::escapeInteger($_POST["id"]);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -152,9 +163,11 @@ class Time_Tracking
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  (
+                    ttc_prj_id,
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
+                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
                     '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
@@ -169,13 +182,14 @@ class Time_Tracking
 
 
     /**
-     * Method used to get the full list of time tracking categories available in
-     * the system exclusing those reserved by the system.
+     * Method used to get the full list of time tracking categories associated
+     * with a specific project.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
-    function getList()
+    function getList($prj_id)
     {
         $stmt = "SELECT
                     ttc_id,
@@ -183,6 +197,7 @@ class Time_Tracking
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     ttc_title NOT IN ('Note Discussion', 'Email Discussion', 'Telephone Discussion')
                  ORDER BY
                     ttc_title ASC";
@@ -203,13 +218,15 @@ class Time_Tracking
      * @access  public
      * @return  array The list of categories
      */
-    function getAssocCategories()
+    function getAssocCategories($prj_id)
     {
         $stmt = "SELECT
                     ttc_id,
                     ttc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                 WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     ttc_title ASC";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
