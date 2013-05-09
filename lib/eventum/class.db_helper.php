@@ -115,10 +115,14 @@ class DB_Helper
      *
      * @access  public
      * @param   string $str The string that needs to be escaped
+     * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
      */
-    static function escapeString($str)
+    static function escapeString($str, $add_quotes = false)
     {
+        if ($add_quotes) {
+            return "'". mysql_real_escape_string($str, self::getInstance()->connection) . "'";
+        }
         return mysql_real_escape_string($str, self::getInstance()->connection);
     }
 

@@ -345,14 +345,14 @@ class Misc
      * @param   string|array $input The original string
      * @return  string The escaped (or not) string
      */
-    public static function escapeString($input)
+    public static function escapeString($input, $add_quotes = false)
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
-                $input[$key] = self::escapeString($value);
+                $input[$key] = self::escapeString($value, $add_quotes);
             }
         } else {
-            $input = DB_Helper::escapeString($input);
+            $input = DB_Helper::escapeString($input, $add_quotes);
         }
         return $input;
     }
