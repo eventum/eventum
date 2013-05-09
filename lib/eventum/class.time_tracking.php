@@ -123,6 +123,11 @@ class Time_Tracking
             return null;
         }
 
+        // flatten
+        foreach ($res as $ttc_id => $value) {
+            $res[$ttc_id] = $value[0];
+        }
+
         return $res;
     }
 
@@ -138,8 +143,8 @@ class Time_Tracking
 
         // check that none of the categories are in use
         $usage = self::getCategoryStats($items);
-        foreach ($usage as $ttc_id => $res) {
-            if ($res[0] > 0) {
+        foreach ($usage as $ttc_id => $count) {
+            if ($count > 0) {
                 return -2;
             }
         }
