@@ -40,11 +40,11 @@ create temporary table migrate_issues_by_project
 select iss_id,iss_prj_id from %TABLE_PREFIX%issue where iss_prj_id!=@prj_id;
 
 create temporary table migrate_ttr_mapping
-select distinct ttr_ttc_id old_ttr_ttc_id,ttc_id new_ttr_ttc_id
+select distinct ttr_ttc_id old_ttr_ttc_id,ttc_id new_ttr_ttc_id, iss_id
 from %TABLE_PREFIX%time_tracking ttr, migrate_issues_by_project iss, migrate_ttc_prj ttc
 where ttr_iss_id=iss_id and orig_ttc_id=ttr_ttc_id and ttc_prj_id=iss_prj_id;
 
 alter table migrate_ttr_mapping add key (old_ttr_ttc_id);
 
 update %TABLE_PREFIX%time_tracking ttr, migrate_ttr_mapping m
-set ttr_ttc_id=new_ttr_ttc_id where ttr_ttc_id=old_ttr_ttc_id;
+set ttr_ttc_id=new_ttr_ttc_id where ttr_ttc_id=old_ttr_ttc_id and iss_id=ttr_iss_id;
