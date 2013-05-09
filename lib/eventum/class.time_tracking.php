@@ -39,6 +39,12 @@
 class Time_Tracking
 {
     /**
+     * These categories are required by Eventum and cannot be deleted.
+     * @var array
+     */
+    private static $default_categories = array('Note Discussion', 'Email Discussion', 'Telephone Discussion');
+
+    /**
      * Method used to get the ID of a given category.
      *
      * @access  public
@@ -225,6 +231,7 @@ class Time_Tracking
      */
     function getList($prj_id)
     {
+        $ttc_list = join(', ', Misc::escapeString(self::$default_categories, true));
         $stmt = "SELECT
                     ttc_id,
                     ttc_title
@@ -232,7 +239,7 @@ class Time_Tracking
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
                     ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    ttc_title NOT IN ('Note Discussion', 'Email Discussion', 'Telephone Discussion')
+                    ttc_title NOT IN ($ttc_list)
                  ORDER BY
                     ttc_title ASC";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
