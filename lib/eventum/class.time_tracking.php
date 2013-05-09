@@ -220,6 +220,21 @@ class Time_Tracking
     }
 
     /**
+     * Method used to add a default timetracking categories for project.
+     *
+     * @param   integer $prj_id The project ID
+     * @return  integer 1 if the inserts worked, -1 otherwise
+     */
+    public static function addProjectDefaults($prj_id)
+    {
+        $res = 1;
+        foreach (self::$default_categories as $title) {
+            $res = min($res, self::insert($prj_id, $title));
+        }
+        return $res;
+    }
+
+    /**
      * Method used to get the full list of time tracking categories associated
      * with a specific project.
      *

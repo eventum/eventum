@@ -563,6 +563,9 @@ class Project
         }
         Display_Column::setupNewProject($new_prj_id);
 
+        // insert default timetracking categories
+        $res = Time_Tracking::addProjectDefaults($new_prj_id);
+
         return 1;
     }
 
