@@ -4,28 +4,27 @@
 
 {block "content"}
 
-{* TODO:JS Fix this and focus on first text field *}
 {literal}
 <script type="text/javascript">
 <!--
-function validateForm(f)
+function validateForm()
 {
-    if (isWhitespace(f.email.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Email Address{/t}{literal}', 'email');
+    if (Validation.isFieldWhitespace(Eventum.getField('email'))) {
+        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Email Address{/t}{literal}', 'email');
     }
-    if (isWhitespace(f.passwd.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Password{/t}{literal}', 'passwd');
-    }
-    if (errors.length > 0) {
-        return false;
+    if (Validation.isFieldWhitespace(Eventum.getField('passwd'))) {
+        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Password{/t}{literal}', 'passwd');
     }
 }
+$().ready(function() {
+    Eventum.getField('email').focus();
+});
 //-->
 </script>
 {/literal}
 <form id="login_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
 <input type="hidden" name="cat" value="login">
-<input type="hidden" name="url" value="{$smarty.request.url|default:''}">
+<input type="hidden" name="url" value="{$smarty.request.url|default     :''}">
 
 <h1>{$core.app_title} - {t}Login{/t}</h1>
 <table>
