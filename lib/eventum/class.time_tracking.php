@@ -261,6 +261,18 @@ class Time_Tracking
             return "";
         }
 
+        $ids = array();
+        foreach ($res as $i => $ttc) {
+            $ids[] = $ttc['ttc_id'];
+        }
+        $ttc_usage = self::getCategoryStats($ids);
+        foreach ($res as &$row) {
+            $ttc_id = $row['ttc_id'];
+            if (isset($ttc_usage[$ttc_id])) {
+                $row['ttc_count'] = $ttc_usage[$ttc_id];
+            }
+        }
+
         return $res;
     }
 

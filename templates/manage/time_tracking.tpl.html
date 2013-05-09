@@ -120,7 +120,7 @@
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a> ({t 1=$list[i].ttc_count|default:0}%1 entries{/t})
                       </td>
                     </tr>
                     {sectionelse}
