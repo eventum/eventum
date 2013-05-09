@@ -117,15 +117,10 @@ class Time_Tracking
                  WHERE
                     ttr_ttc_id IN ($list)
                  GROUP BY 1";
-        $res = DB_Helper::getInstance()->getAssoc($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return null;
-        }
-
-        // flatten
-        foreach ($res as $ttc_id => $value) {
-            $res[$ttc_id] = $value[0];
         }
 
         return $res;
