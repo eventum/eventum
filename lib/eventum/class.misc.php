@@ -79,6 +79,30 @@ class Misc
         return $diffs;
     }
 
+    /**
+     * Retrieves values for fieldName from specified array.
+     *
+     * @param string $fieldName value to collect
+     * @param array|object $array array or object to search
+     * @return array new array containing the fieldName values from original array
+     */
+    public static function collect($fieldName, $array)
+    {
+        $result = array();
+        if (empty($array)) {
+            return $result;
+        }
+
+        foreach ($array as $object) {
+            if (is_object($object) && isset($object->$fieldName)) {
+                array_push($result, $object->$fieldName);
+            } elseif (is_array($object) && isset($object[$fieldName])) {
+                array_push($result, $object[$fieldName]);
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Method used to get the title given to the current installation of Eventum.
