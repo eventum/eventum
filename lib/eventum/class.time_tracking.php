@@ -73,9 +73,8 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+        return $res;
     }
 
 
@@ -98,9 +97,8 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -183,9 +181,8 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
+        return 1;
     }
 
 
@@ -217,11 +214,10 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
-    }
 
+        return 1;
+    }
 
     /**
      * Method used to get the full list of time tracking categories associated
@@ -248,9 +244,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -276,9 +272,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -311,10 +307,11 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
-            for ($i = 0; $i < count($result); $i++) {
-                @$result[$i]['time_spent'] = $res[$result[$i]['iss_id']];
-            }
+            return;
+        }
+
+        for ($i = 0; $i < count($result); $i++) {
+            @$result[$i]['time_spent'] = $res[$result[$i]['iss_id']];
         }
     }
 
@@ -338,9 +335,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -376,34 +373,34 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            $total_time_spent = 0;
-            $total_time_by_user = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
-                $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
-                $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
-
-                if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
-                   $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
-                } else {
-                    $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
-                        'usr_full_name' => $res[$i]['usr_full_name'],
-                        'time_spent'    => $res[$i]['ttr_time_spent']
-                    );
-                }
-                $total_time_spent += $res[$i]["ttr_time_spent"];
-            }
-            usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
-            foreach ($total_time_by_user as &$item) {
-                $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
-            }
-            return array(
-                "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
-                "total_time_by_user" => $total_time_by_user,
-                "list"               => $res
-            );
         }
+
+        $total_time_spent = 0;
+        $total_time_by_user = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
+            $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
+            $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
+
+            if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
+               $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+            } else {
+                $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
+                    'usr_full_name' => $res[$i]['usr_full_name'],
+                    'time_spent'    => $res[$i]['ttr_time_spent']
+                );
+            }
+            $total_time_spent += $res[$i]["ttr_time_spent"];
+        }
+        usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
+        foreach ($total_time_by_user as &$item) {
+            $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
+        }
+        return array(
+            "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
+            "total_time_by_user" => $total_time_by_user,
+            "list"               => $res
+        );
     }
 
 
@@ -426,9 +423,8 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
 
@@ -514,12 +510,12 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Issue::markAsUpdated($_POST["issue_id"], 'time added');
-            // need to save a history entry for this
-            History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
-            return 1;
         }
+
+        Issue::markAsUpdated($_POST["issue_id"], 'time added');
+        // need to save a history entry for this
+        History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
+        return 1;
     }
 
 
@@ -557,12 +553,12 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id)));
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id)));
+        return 1;
     }
 
 
@@ -597,14 +593,14 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            if (count($res) > 0) {
-                foreach ($res as $index => $row) {
-                    $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
-                }
-            }
-            return $res;
         }
+
+        if (count($res) > 0) {
+            foreach ($res as $index => $row) {
+                $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
+            }
+        }
+        return $res;
     }
 
     /**
@@ -632,9 +628,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
     /**
      * Method used to add time spent on issue to a list of user issues.
@@ -669,11 +665,11 @@ class Time_Tracking
         if (PEAR::isError($result)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            foreach($res as $key => $item) {
-                @$res[$key]['it_spent'] = $result[$item['iss_id']];
-                @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
-            }
+        }
+
+        foreach($res as $key => $item) {
+            @$res[$key]['it_spent'] = $result[$item['iss_id']];
+            @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
         }
     }
 }
