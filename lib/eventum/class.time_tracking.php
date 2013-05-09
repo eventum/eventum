@@ -192,14 +192,16 @@ class Time_Tracking
     /**
      * Method used to add a new time tracking category
      *
-     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   string $title The title of the time tracking category
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function insert()
+    public static function insert($prj_id, $title)
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($title)) {
             return -2;
         }
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  (
@@ -207,8 +209,8 @@ class Time_Tracking
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
-                    '" . Misc::escapeString($_POST["title"]) . "',
+                    " . Misc::escapeInteger($prj_id) . ",
+                    '" . Misc::escapeString($title) . "',
                     '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);

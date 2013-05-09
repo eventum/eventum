@@ -46,7 +46,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("project", Project::getDetails($prj_id));
 
     if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Time_Tracking::insert());
+        $prj_id = $_POST["prj_id"];
+        $title = $_POST["title"];
+        $tpl->assign("result", Time_Tracking::insert($prj_id, $title));
     } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Time_Tracking::update());
     } elseif (@$_POST["cat"] == "delete") {
