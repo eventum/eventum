@@ -150,7 +150,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'phone_entries'      => Phone_Support::getListing($issue_id),
                     'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
                     'checkins'           => SCM::getCheckinList($issue_id),
-                    'time_categories'    => Time_Tracking::getAssocCategories(),
+                    'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
                     'time_entries'       => $time_entries['list'],
                     'total_time_by_user' => $time_entries['total_time_by_user'],
                     'total_time_spent'   => $time_entries['total_time_spent'],

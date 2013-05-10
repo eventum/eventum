@@ -93,7 +93,7 @@ $tpl->assign(array(
     'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User")),
     'statuses'           => Status::getAssocStatusList($prj_id, false),
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
-    'time_categories'    => Time_Tracking::getAssocCategories(),
+    'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
     'note_category_id'   => Time_Tracking::getCategoryID($prj_id, 'Note Discussion'),
     'reply_subject'      => $reply_subject,
     'issue_fields'       => Issue_Field::getDisplayData($issue_id, 'post_note'),
