@@ -525,3 +525,59 @@ adv_search.validateRemove = function()
         return true;
     }
 }
+
+
+/*
+ * New Issue
+ */
+function new_issue() {}
+
+new_issue.ready = function()
+{
+    var report_form = $('form#report_form');
+    report_form.find('input,select').filter(':visible').first().focus();
+
+    report_form.submit(function() { return Validation.checkFormSubmission(report_form, new_issue.validateForm) });
+}
+
+new_issue.validateForm = function()
+{
+    var form = $('form#report_form');
+
+    var category_field = Eventum.getField('category')
+    if (category_field.attr('type') != 'hidden' && category_field.val() == -1) {
+        Validation.errors[Validation.errors.length] = new Option('Category', 'category');
+    }
+    var priority_field = Eventum.getField('priority')
+    if (priority_field.attr('type') != 'hidden' && priority_field.val() == -1) {
+        Validation.errors[Validation.errors.length] = new Option('Priority', 'priority');
+    }
+    var user_field = Eventum.getField('users[]');
+    if (user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
+        !Validation.hasOneSelected(user_field)) {
+            Validation.errors[Validation.errors.length] = new Option('Assignment', 'users');
+    }
+    if (Validation.isFieldWhitespace('summary')) {
+        Validation.errors[Validation.errors.length] = new Option('Summary', 'summary');
+    }
+
+    // replace special characters in description
+    var description_field = Eventum.getField('description');
+    description_field.val(Eventum.replaceSpecialCharacters(description_field.val()));
+
+    if (Validation.isFieldWhitespace('description')) {
+        Validation.errors[Validation.errors.length] = new Option('Description', 'description');
+    }
+
+    var estimated_dev_field = Eventum.getField('estimated_dev_time')
+    if (estimated_dev_field.attr('type') != 'hidden' && !Validation.isFieldWhitespace(estimated_dev_field) &&
+        !Validation.isFloat(estimated_dev_field.val())) {
+        Validation.errors[Validation.errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
+    }
+    Validation.checkCustomFields(form);
+
+    // check customer fields (if function exists
+    if (window.validateCustomer) {
+        validateCustomer(form);
+    }
+}

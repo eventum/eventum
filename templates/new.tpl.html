@@ -1,76 +1,18 @@
 {extends "base_full.tpl.html"}
 {block "page_id"}new_issue{/block}
+{block "page_classes"}CustomField{/block}
 
 {block name="content"}
 {literal}
 <script type="text/javascript">
 <!--
-function validateForm(f)
-{
-{/literal}
-    {* TODO:JS *}
-    // disable the main submit button to avoid double-clicks
-    f.main_submit_button.disabled = true;
 
-    {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category}
-    {literal}
-    if (hasSelected(f.category, -1)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Category{/t}{literal}', 'category');
-    }
-    {/literal}
-    {/if}
-    {if $core.current_role >= $field_display_settings.priority}
-    {literal}
-    if (hasSelected(f.priority, -1)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Priority{/t}{literal}', 'priority');
-    }
-    {/literal}
-    {/if}
-    {if $allow_unassigned_issues != 'yes' && $core.current_role >= $field_display_settings.assignment}
-    {literal}
-    if (!hasOneSelected(f, 'users[]')) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Assignment{/t}{literal}', 'users[]');
-    }
-    {/literal}
-    {/if}
-    {literal}
-    if (isWhitespace(f.summary.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Summary{/t}{literal}', 'summary');
-    }
-
-    // replace special characters in description
-    replaceSpecialCharacters(f.description);
-
-    if (isWhitespace(f.description.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Initial Description{/t}{literal}', 'description');
-    }
-    {/literal}
-    {if $core.current_role >= $field_display_settings.estimated_dev_time}
-    {literal}
-    if (!isWhitespace(f.estimated_dev_time.value)) {
-        if (!isFloat(f.estimated_dev_time.value)) {
-            errors[errors.length] = new Option('{/literal}{t escape=js}Estimated Dev. Time (only numbers){/t}{literal}', 'estimated_dev_time');
-        }
-    }
-    {/literal}
-    {/if}
-    {literal}
-    checkCustomFields(f);
-
-    // check customer fields (if function exists
-    if (window.validateCustomer) {
-        validateCustomer(f);
-    }
-    if (errors.length > 0 || errors_extra.length > 0) {
-        f.main_submit_button.disabled = false;
-    }
-}
 //-->
 </script>
 {/literal}
 <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?form_type=report_form"></script>
 
-<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateForm');">
+<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="prj_id" value="{$core.project_id}">
 <input type="hidden" name="customer" value="{$customer_id|default:''}" id="customer_id">
@@ -146,11 +88,11 @@ function validateForm(f)
         {if $new_issue_id == ''}
             {assign var='selected_users' value=$smarty.request.users|default:''}
         {/if}
-        <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}">
+        <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
+                data-allow-unassigned="{$allow_unassigned_issues}">
           {html_options options=$users selected=$selected_users}
         </select>
         {include file="error_icon.tpl.html" field="users[]"}
-        <script type="text/javascript">selectOnlyValidOption(document.forms['report_form'].elements['users[]']);</script>
       </td>
     </tr>
     {/if}
@@ -161,7 +103,7 @@ function validateForm(f)
       </th>
       <td>
         {if $new_issue_id == ''}
-            {assign var='selected_group' value=$smarty.post.group}
+            {assign var='selected_group' value=$smarty.post.group|default:''}
         {/if}
         <select name="group" tabindex="{$tabindex++}">
             <option value=""></option>
@@ -292,28 +234,4 @@ function validateForm(f)
     {include file="attached_emails.tpl.html"}
 {/if}
 </form>
-
-{literal}
-<script type="text/javascript">
-<!--
-window.onload = setFocus;
-function setFocus()
-{
-    var f = getForm('report_form');
-    var field = getFormElement(f, 'category');
-    if ((field != null) && (field.type != 'hidden') && (field.options.length > 1)) {
-        field.focus();
-    } else {
-        var field = getFormElement(f, 'priority');
-        if ((field != null) && (field.type != 'hidden')) {
-            field.focus();
-        } else {
-            var field = getFormElement(f, 'summary');
-            field.focus();
-        }
-    }
-}
-//-->
-</script>
-{/literal}
 {/block}

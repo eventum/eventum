@@ -267,6 +267,31 @@ Eventum.changeVisibility = function(dom_id, visibility)
     $('#' + dom_id).toggle(visibility);
 }
 
+// Replace special characters MS uses for quotes with normal versions
+Eventum.replaceSpecialCharacters = function(s)
+{
+    var newString = '';
+    var thisChar;
+    var charCode;
+    for (i = 0; i < s.length; i++) {
+        thisChar = s.charAt(i);
+        charCode = s.charCodeAt(i);
+        if ((charCode == 8220) || (charCode == 8221)) {
+            thisChar = '"';
+        } else if (charCode == 8217) {
+            thisChar = "'";
+        } else if (charCode == 8230) {
+            thisChar = "...";
+        } else if (charCode == 8226) {
+            thisChar = "*";
+        } else if (charCode == 8211) {
+            thisChar = "-";
+        }
+        newString = newString + thisChar;
+    }
+    return newString;
+}
+
 
 
 /**
@@ -582,6 +607,38 @@ Validation.callback = function(e)
 {
     var f = $(e.target);
     return Validation.checkFormSubmission(f, $(e.target).attr('data-validation-function'))
+}
+
+Validation.isDigit = function(c)
+{
+    return ((c >= "0") && (c <= "9"));
+}
+
+Validation.isFloat = function(s)
+{
+    if (Validation.isWhitespace(s)) {
+        return false;
+    }
+
+    var seenDecimalPoint = false;
+    if (s == '.') {
+        return false;
+    }
+    // Search through string's characters one by one
+    // until we find a non-numeric character.
+    // When we do, return false; if we don't, return true.
+    for (var i = 0; i < s.length; i++) {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if ((c == '.') && !seenDecimalPoint) {
+            seenDecimalPoint = true;
+        } else if (!Validation.isDigit(c)) {
+            return false;
+        }
+    }
+
+    // All characters are numbers.
+    return true;
 }
 
 
