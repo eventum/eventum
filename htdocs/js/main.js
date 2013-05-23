@@ -532,9 +532,9 @@ Validation.checkFormSubmission = function(form, callback_func)
     Validation.errors_extra = new Array();
 
     if (typeof(callback_func) == 'string') {
-        eval(callback_func + '()');
+        eval(callback_func + '(form)');
     } else {
-        callback_func();
+        callback_func(form);
     }
     if (Validation.errors.length > 0) {
         // loop through all of the broken fields and select them
@@ -724,4 +724,22 @@ ExpandableCell.expand = function(expand_type, list_id) {
 ExpandableCell.collapse = function(expand_type, list_id) {
     var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
     row.hide();
+}
+
+function GrowingFileField() {
+}
+
+GrowingFileField.ready = function()
+{
+    $('.growing_file_field').bind('change', GrowingFileField.copy_row);
+}
+
+GrowingFileField.copy_row = function(e)
+{
+    var target = $(e.target);
+    if (target.val() == '') {
+        return;
+    }
+    var new_row = target.parents('tr').first().clone(true);
+    target.parents('tbody').first().append(new_row);
 }

@@ -78,7 +78,6 @@ issue_view.ready = function(page_id)
 
 issue_view.toggle_issue_description = function()
 {
-    console.debug('foo');
     Eventum.toggle_section_visibility('issue_description');
 
     issue_view.display_description_collapse_message();
@@ -580,4 +579,45 @@ new_issue.validateForm = function()
     if (window.validateCustomer) {
         validateCustomer(form);
     }
+}
+
+function anon_post() {}
+
+anon_post.ready = function()
+{
+    var project_form = $('form#project_form');
+    project_form.find('input,select').filter(':visible').first().focus();
+
+    project_form.submit(function() { return Validation.checkFormSubmission(project_form, anon_post.validateProjectForm) });
+
+    var report_form = $('form#report_form');
+    report_form.find('input,select').filter(':visible').first().focus();
+
+    report_form.submit(function() { return Validation.checkFormSubmission(report_form, anon_post.validateForm) });
+}
+
+anon_post.validateProjectForm = function(form)
+{
+    var project_field = Eventum.getField('project');
+    if (project_field.val() == '-1') {
+        Validation.errors[Validation.errors.length] = new Option('Project', 'project');
+    }
+}
+
+anon_post.validateForm = function(form)
+{
+    if (Validation.isFieldWhitespace('summary')) {
+        Validation.errors[Validation.errors.length] = new Option('Summary', 'summary');
+    }
+
+    // replace special characters in description
+    var description_field = Eventum.getField('description');
+    description_field.val(Eventum.replaceSpecialCharacters(description_field.val()));
+
+    if (Validation.isFieldWhitespace('description')) {
+        Validation.errors[Validation.errors.length] = new Option('Description', 'description');
+    }
+
+    Validation.checkCustomFields(form);
+
 }

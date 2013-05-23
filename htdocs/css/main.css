@@ -393,6 +393,11 @@ div.html_box {
     overflow: scroll;
 }
 
+/* Table widths */
+table.narrow {
+    width: 500px;
+}
+
 
 /* Old compat styles */
 td.light {

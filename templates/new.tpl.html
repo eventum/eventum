@@ -1,15 +1,8 @@
 {extends "base_full.tpl.html"}
 {block "page_id"}new_issue{/block}
-{block "page_classes"}CustomField{/block}
+{block "page_classes"}CustomField GrowingFileField{/block}
 
 {block name="content"}
-{literal}
-<script type="text/javascript">
-<!--
-
-//-->
-</script>
-{/literal}
 <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?form_type=report_form"></script>
 
 <form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data">
@@ -204,12 +197,10 @@
         {t}Files{/t}:
       </th>
       <td>
-        {* TODO:CLEANUP *}
         <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
           <tr>
             <td>
-                {* TODO:JS *}
-              <input id="file[]_1" type="file" name="file[]" size="40" class="shortcut" onChange="addFileRow('file_table', 'file[]');">
+              <input type="file" name="file[]" size="40" class="growing_file_field">
             </td>
           </tr>
         </table>
