@@ -89,8 +89,8 @@
         </tr>
         <tr class="buttons">
           <td colspan="{$colspan}">
-            <input type="button" value="{t}Bulk Update{/t}" onclick="bulkUpdate()">
-            <input type="button" value="{t}Reset{/t}" onclick="resetBulkUpdate()">
+            <input type="button" value="{t}Bulk Update{/t}" id="bulk_update_button">
+            <input type="button" value="{t}Reset{/t}" id="reset_bulk_update">
           </td>
         </tr>
       </table>
@@ -100,7 +100,7 @@
 <script type="text/javascript">
 {literal}
 jQuery("#bulk_set_closed_message").bind("click", function (e) {
-    jQuery.blockUI({ 
+    jQuery.blockUI({
                 message: jQuery("#close_message_popup"),
                 css: {
                     width: '600px'

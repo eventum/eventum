@@ -9,12 +9,199 @@
 function list_issues()
 {
 }
+list_issues.current_page = 0;
+list_issues.last_page = 0;
+list_issues.page_url = '';
 
 list_issues.ready = function(page_id)
 {
+    var list_form = $('#list_form');
+    list_issues.current_page = parseInt(list_form.attr('data-current-page'));
+    list_issues.last_page = parseInt(list_form.attr('data-last-page'));
+    list_issues.page_url = Eventum.rel_url + 'list.php';
+
+
     $('#toggle_quick_filter').click(function() { Eventum.toggle_section_visibility('quick_filter'); });
     $('#toggle_current_filters').click(function() { Eventum.toggle_section_visibility('current_filters'); });
     $('#toggle_bulk_update').click(function() { Eventum.toggle_section_visibility('bulk_update'); });
+
+    $('#reset_bulk_update').click(list_issues.reset_bulk_update);
+    $('#bulk_update_button').click(list_issues.bulk_update);
+    $('#clear_filters').click(list_issues.clearFilters);
+    $('#hide_closed').click(list_issues.hideClosed);
+    $('#page_size').change(list_issues.resizePager);
+    $('#resize_page').click(list_issues.resizePager);
+    $('#custom_filter').change(list_issues.runCustomFilter);
+
+    $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
+
+    Eventum.getField('first').click(function() { list_issues.setPage(0)});
+    Eventum.getField('previous').click(function() { list_issues.setPage(list_issues.current_page-1)});
+    Eventum.getField('next').click(function() { list_issues.setPage(list_issues.current_page+1)});
+    Eventum.getField('last').click(function() { list_issues.setPage(list_issues.last_page)});
+    Eventum.getField('go').click(list_issues.goPage);
+    Eventum.getField('page').keydown(function(e) {
+        if (e.which == 13) {
+            list_issues.goPage();
+        }
+    });
+
+    $('#export_csv').click(list_issues.downloadCSV);
+    $('.custom_field').click(list_issues.updateCustomFields);
+
+    list_issues.disableFields();
+}
+
+list_issues.reset_bulk_update = function(e)
+{
+    Eventum.clearSelectedOptions('users[]');
+    Eventum.clearSelectedOptions('status');
+    Eventum.clearSelectedOptions('release');
+    Eventum.clearSelectedOptions('priority');
+    Eventum.clearSelectedOptions('category');
+    Eventum.clearSelectedOptions('closed_status');
+}
+
+list_issues.bulk_update = function(e)
+{
+    var form = $('#list_form');
+
+    if (!Validation.hasOneChecked('item[]')) {
+        alert('Please choose which issues to update.');
+        return false;
+    }
+
+    // figure out what is changing
+    var changed = new Array();
+    if (Validation.hasOneSelected('users[]')) {
+        changed[changed.length] = 'Assignment';
+    }
+    if (Eventum.getField('status').val() != '') {
+        changed[changed.length] = 'Status';
+    }
+    if (Eventum.getField('release', form).val() != '') {
+        changed[changed.length] = 'Release';
+    }
+    if (Eventum.getField('priority').val() != '') {
+        changed[changed.length] = 'Priority';
+    }
+    if (Eventum.getField('category').val() != '') {
+        changed[changed.length] = 'Category';
+    }
+    if (Eventum.getField('closed_status').val() != '') {
+        changed[changed.length] = 'Closed Status';
+    }
+    if (changed.length < 1) {
+        alert('Please choose new values for the selected issues');
+        return false;
+    }
+    var msg = 'Warning: If you continue, you will change the ';
+    for (var i = 0; i < changed.length; i++) {
+        msg += changed[i];
+        if ((changed.length > 1) && (i == (changed.length-2))) {
+            msg += ' and ';
+        } else {
+            if (i != (changed.length-1)) {
+                msg += ', ';
+            }
+        }
+    }
+    msg += ' for all selected issues. Are you sure you want to continue?';
+    if (!confirm(msg)) {
+        return false;
+    }
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('', '_popup', features);
+    popupWin.focus();
+    form.action = 'popup.php';
+    form.target = '_popup';
+    form.submit();
+}
+
+list_issues.clearFilters = function()
+{
+    var form = $('#quick_filter_form');
+    form.find('input,select').val('');
+    form.submit();
+}
+
+list_issues.runCustomFilter = function()
+{
+    var cst_url = $('#custom_filter').val();
+    if (Validation.isWhitespace(cst_url)) {
+        alert('Please select the custom filter to search against.');
+        $('#custom_filter').focus();
+        return false;
+    }
+    location.href = 'list.php?cat=search&' + cst_url;
+    return false;
+}
+
+list_issues.hideClosed = function()
+{
+    if ($('#hide_closed').is(':checked')) {
+        window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '1');
+    } else {
+        window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
+    }
+}
+
+list_issues.resizePager = function()
+{
+    window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'rows', $('#page_size').val());
+}
+
+
+list_issues.setPage =  function(new_page)
+{
+    if ((new_page > list_issues.last_page) || (new_page < 0) ||
+            (new_page == list_issues.current_page)) {
+        return false;
+    }
+    window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'pagerRow', new_page);
+}
+
+list_issues.goPage = function()
+{
+    var new_page = Eventum.getField('page').val();
+    if ((new_page > list_issues.last_page+1) || (new_page <= 0) ||
+            (new_page == list_issues.current_page+1) || (!Validation.isNumberOnly(new_page))) {
+        Eventum.getField('page').val(list_issues.current_page+1);
+        return false;
+    }
+    list_issues.setPage(new_page-1);
+}
+
+list_issues.disableFields = function ()
+{
+    if (list_issues.current_page == 0) {
+        Eventum.getField('first').attr('disabled', 'disabled');
+        Eventum.getField('previous').attr('disabled', 'disabled');
+    }
+    if ((list_issues.current_page == list_issues.last_page) || (list_issues.last_page <= 0)) {
+        Eventum.getField('next').attr('disabled', 'disabled');
+        Eventum.getField('last').attr('disabled', 'disabled');
+    }
+    if ((list_issues.current_page == 0) && (list_issues.last_page <= 0)) {
+        Eventum.getField('page').attr('disabled', 'disabled');
+        Eventum.getField('go').attr('disabled', 'disabled');
+    }
+}
+
+list_issues.downloadCSV = function()
+{
+    $('#csv_form').submit();
+    return false;
+}
+
+list_issues.updateCustomFields = function(e)
+{
+    var target = $(e.target);
+    var issue_id = target.parents('tr').attr('data-issue-id');
+    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
+    customWin.focus();
+    return false;
 }
 
 

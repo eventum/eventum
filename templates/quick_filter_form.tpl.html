@@ -1,76 +1,6 @@
-
-{literal}
-<script type="text/javascript">
-<!--
-function clearFilters(f)
-{
-    f.keywords.value = '';
-    f.users.selectedIndex = 0;
-    f.category.selectedIndex = 0;
-    f.status.selectedIndex = 0;
-    f.priority.selectedIndex = 0;
-    {/literal}
-    {if $core.has_customer_integration}
-    document.getElementById('search_type_customer').checked = true;
-    {else}
-    document.getElementById('search_type').value = 'all_text';
-    {/if}
-    {literal}
-    // now for the fields that are only available through the advanced search page
-    setHiddenFieldValue(f, 'created_date[Year]', '');
-    setHiddenFieldValue(f, 'created_date[Month]', '');
-    setHiddenFieldValue(f, 'created_date[Day]', '');
-    setHiddenFieldValue(f, 'created_date[filter_type]', '');
-    setHiddenFieldValue(f, 'updated_date[Year]', '');
-    setHiddenFieldValue(f, 'updated_date[Month]', '');
-    setHiddenFieldValue(f, 'updated_date[Day]', '');
-    setHiddenFieldValue(f, 'updated_date[filter_type]', '');
-    setHiddenFieldValue(f, 'last_response_date[Year]', '');
-    setHiddenFieldValue(f, 'last_response_date[Month]', '');
-    setHiddenFieldValue(f, 'last_response_date[Day]', '');
-    setHiddenFieldValue(f, 'last_response_date[filter_type]', '');
-    setHiddenFieldValue(f, 'first_response_date[Year]', '');
-    setHiddenFieldValue(f, 'first_response_date[Month]', '');
-    setHiddenFieldValue(f, 'first_response_date[Day]', '');
-    setHiddenFieldValue(f, 'first_response_date[filter_type]', '');
-    setHiddenFieldValue(f, 'closed_date[Year]', '');
-    setHiddenFieldValue(f, 'closed_date[Month]', '');
-    setHiddenFieldValue(f, 'closed_date[Day]', '');
-    setHiddenFieldValue(f, 'closed_date[filter_type]', '');
-    setHiddenFieldValue(f, 'show_authorized_issues', '');
-    setHiddenFieldValue(f, 'show_notification_list_issues', '');
-    setHiddenFieldValue(f, 'reporter', '');
-    setHiddenFieldValue(f, 'customer_id', '');
-    //other fields
-    setHiddenFieldValue(f, 'release', '');
-    setHiddenFieldValue(f, 'custom_field', '');
-
-    f.submit();
-}
-{/literal}
-var get_urls = new Array();
-{section name="i" loop=$csts}
-get_urls[{$csts[i].cst_id}] = '{$csts[i].url}';
-{/section}
-{literal}
-function runCustomFilter(f)
-{
-    var cst_id = getSelectedOption(f, 'custom_filter');
-    if (isWhitespace(cst_id)) {
-        alert('{/literal}{t escape=js}Please select the custom filter to search against.{/t}{literal}');
-        f.custom_filter.focus();
-        return false;
-    }
-    f.action = 'list.php?cat=search&' + get_urls[cst_id];
-    location.href = f.action;
-    return false;
-}
-//-->
-</script>
-{/literal}
 <div id="quick_filter" class="bordered" {get_display_style element_name='quick_filter'}>
+    <form id="quick_filter_form" action="list.php" method="get">
       <table>
-        <form action="list.php" method="get">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="pagerRow" value="0">
         <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year|default:''}">
@@ -139,7 +69,7 @@ function runCustomFilter(f)
           </td>
           <td rowspan="2" align="center" width="100">
             <input type="submit" value="{t}Search{/t}"><br /><br />
-            <input type="button" value="{t}Clear Filters{/t}" onClick="clearFilters(this.form);">
+            <input type="button" value="{t}Clear Filters{/t}" id="clear_filters">
           </td>
         </tr>
         <tr>
@@ -175,24 +105,25 @@ function runCustomFilter(f)
             </select>
           </td>
         </tr>
-        </form>
       </table>
+    </form>
   {if $core.current_role > $core.roles.reporter}
   <div class="bottom_bar">
       <table>
         <form action="list.php" method="get">
         <tr>
           <td>
-            [ <a href="javascript:void(open('{$core.rel_url}searchbar.php', '_search'));">{t}quick search bar{/t}</a> ]
           </td>
           <td align="center">
             <a target="_top" title="{t}create advanced searches{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a>
           </td>
           <td align="right">
             <span>{t}Saved Searches{/t}:</span>
-            <select name="custom_filter" onChange="runCustomFilter(this.form);">
+            <select name="custom_filter" id="custom_filter">
               <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-              {html_options options=$custom}
+                {section name="i" loop=$csts}
+                <option value="{$csts[i].url}">{$csts[i].cst_title}</option>
+                {/section}
             </select>
           </td>
         </tr>

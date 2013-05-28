@@ -99,10 +99,14 @@ Eventum.escapeSelector = function(selector)
     return selector.replace(/\[/, '\\[').replace(/\]/, '\\]');
 }
 
-Eventum.getField = function(name_or_obj)
+Eventum.getField = function(name_or_obj, form)
 {
     if ($.type(name_or_obj) == 'string') {
-        return $('[name="' + name_or_obj + '"]')
+        if (form != undefined) {
+            return form.find('[name="' + name_or_obj + '"]');
+        } else {
+            return $('[name="' + name_or_obj + '"]')
+        }
     }
     return name_or_obj;
 }
@@ -111,6 +115,12 @@ Eventum.toggleCheckAll = function(field_name)
 {
     var fields = Eventum.getField(field_name).not(':disabled');
     fields.prop('checked', !fields.prop('checked'));
+}
+
+Eventum.clearSelectedOptions = function(field)
+{
+    field = Eventum.getField(field);
+    field.val('');
 }
 
 Eventum.selectOption = function(field, new_values)
