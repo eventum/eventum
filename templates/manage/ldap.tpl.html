@@ -118,6 +118,16 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}User Filter:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" class="default" name="user_filter" size="50" value="{$setup.user_filter|escape:"html"}">
+                  <span class="small_default">Optional filter when binding the user</span>
+                  {include file="error_icon.tpl.html" field="user_filter"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>{t}Customer ID attribute:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
