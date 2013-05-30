@@ -1190,7 +1190,7 @@ class User
             $user['email'],
             $user['grp_id'],
             $user['external_id'],
-            $user['par_code'],
+            isset($user['par_code']) ? $user['par_code'] : null,
         );
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
