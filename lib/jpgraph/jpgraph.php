@@ -3012,7 +3012,7 @@ class Image {
     // Get the specific height for a text string
     function GetTextHeight($txt="",$angle=0) {
 	// Builtin font?
-	$tmp = split("\n",$txt);
+	$tmp = explode("\n",$txt);
 	$n = count($tmp);
 	$m=0;
 	for($i=0; $i<count($tmp); ++$i)
@@ -3033,7 +3033,7 @@ class Image {
 
     // Estimate font height
     function GetFontHeight($txt="XMg",$angle=0) {
-	$tmp = split("\n",$txt);
+	$tmp = explode("\n",$txt);
 	return $this->GetTextHeight($tmp[0],$angle);
     }
 
@@ -3045,7 +3045,7 @@ class Image {
     // Get actual width of text in absolute pixels
     function GetTextWidth($txt,$angle=0) {
 	// Builtin font?
-	$tmp = split("\n",$txt);
+	$tmp = explode("\n",$txt);
 	$n = count($tmp);
 	$m=0;
 	for($i=0; $i<count($tmp); ++$i)
@@ -3163,8 +3163,8 @@ class Image {
 	    if( $dir==90 )
 		imagestringup($this->img,$this->font_family,$x,$y,$txt,$this->current_color);
 	    else	{
-		if (ereg("\n",$txt)) {
-		    $tmp = split("\n",$txt);
+		if (strstr($txt, "\n")) {
+		    $tmp = explode("\n",$txt);
 		    for($i=0; $i<count($tmp); ++$i) {
 			$w1 = $this->GetTextWidth($tmp[$i]);
 			if( $paragraph_align=="left" ) {

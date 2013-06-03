@@ -426,18 +426,18 @@ class SpiderGraph extends Graph {
 	    JpGraphError::Raise("Illegal scale for spiderplot ($axtype). Must be \"lin\" or \"log\"");
 	}
 	if( $axtype=="lin" ) {
-	    $this->yscale = & new LinearScale(1,1);
-	    $this->yscale->ticks = & new SpiderLinearTicks();
+	    $this->yscale = new LinearScale(1,1);
+	    $this->yscale->ticks = new SpiderLinearTicks();
 	    $this->yscale->ticks->SupressMinorTickMarks();
 	}
 	elseif( $axtype=="log" ) {
-	    $this->yscale = & new LogScale(1,1);
-	    $this->yscale->ticks = & new SpiderLogTicks();
+	    $this->yscale = new LogScale(1,1);
+	    $this->yscale->ticks = new SpiderLogTicks();
 	    //JpGraphError::Raise("JpGraph Error: Logarithmic spider plots are not yet supported");
 	}
 
-	$this->axis = & new SpiderAxis($this->img,$this->yscale);
-	$this->grid = & new SpiderGrid();
+	$this->axis = new SpiderAxis($this->img,$this->yscale);
+	$this->grid = new SpiderGrid();
     }
 
     function SetPlotSize($s) {

@@ -386,7 +386,7 @@ class TextProperty {
     // width for each column.
     function GetWidth($aImg,$aUseTabs=false,$aTabExtraMargin=1.1) {
 	if( strlen($this->iText)== 0 ) return;
-	$tmp = split("\t",$this->iText);
+	$tmp = explode("\t",$this->iText);
 	$aImg->SetFont($this->iFFamily,$this->iFStyle,$this->iFSize);
 	if( count($tmp) <= 1 || !$aUseTabs ) {
 	    return $aImg->GetTextWidth($this->iText);
@@ -425,7 +425,7 @@ class TextProperty {
 		$aImg->StrokeText($aX,$aY,str_replace("\t"," ",$this->iText));
 	    }
 	    else {
-		$tmp = split("\t",$this->iText);
+		$tmp = explode("\t",$this->iText);
 		$n = min(count($tmp),count($aX));
 		for($i=0; $i<$n; ++$i) {
 		    $aImg->StrokeText($aX[$i],$aY,$tmp[$i]);
