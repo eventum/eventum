@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -353,7 +353,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
+            return -1;
         } else {
             self::removeUserByProjects($_POST["items"]);
             Category::removeByProjects($_POST["items"]);
@@ -367,7 +367,7 @@ class Project
                 Status::removeProjectAssociations($statuses, $prj_id);
             }
             Group::disassociateProjects($_POST["items"]);
-            return true;
+            return 1;
         }
     }
 

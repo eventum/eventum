@@ -2,9 +2,14 @@
 {literal}
 <script type="text/javascript">
 <!--
+$(function() {
+    $('.select_all').click(function() { Eventum.toggleCheckAll('item[]') });
+});
+
+
 function removeEmails(f)
 {
-    if (!hasOneChecked(f, 'item[]')) {
+    if (!Validation.hasOneChecked('item[]')) {
         alert('{/literal}{t escape="js"}Please choose which entries need to be disassociated with the current issue.{/t}{literal}');
         return false;
     }
@@ -40,118 +45,96 @@ function sendEmail(account_id, issue_id)
 //-->
 </script>
 {/literal}
-{if $current_role > $roles.viewer}
+{if $core.current_role > $core.roles.viewer}
     {assign var="email_col_count" value="8"}
 {else}
     {assign var="email_col_count" value="7"}
 {/if}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form onSubmit="return removeEmails(this);" target="_removeEmails" action="popup.php" method="post">
-<input type="hidden" name="cat" value="remove_support_email">
-  <tr>
-    <td width="100%">
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default" nowrap>
-            <b>{t}Associated Emails{/t} ({if $emails|@is_array}{$emails|@count}{else}0{/if})</b>
-          </td>
-          <td align="right" class="default">
-            [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $current_role > $roles.standard_user}
-            [ <a href="mail_queue.php?iss_id={$smarty.get.id|intval}" class="link" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
-            {/if}
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="support_emails_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('support_emails');">{get_innerhtml element_name="support_emails" total=$emails|@count}</a> ]
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
-              <tr id="support_emails1" {get_display_style element_name="support_emails" total=$emails|@count} bgcolor="{$cell_color}">
-                {if $emails != "" and $current_role > $roles.viewer and $current_role != $roles.customer}
-                <td width="5"><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');"></td>
-                {/if}
-                <td class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
-                <td width="5" class="default_white" align="center">#</td>
-                <td width="5" class="default_white">{t}Reply{/t}</td>
-                <td width="15%" class="default_white">{t}From{/t}</td>
-                <td width="20%" class="default_white">{t}Recipients{/t}</td>
-                <td width="15%" class="default_white" nowrap>{t}Received{/t}</td>
-                <td width="50%" class="default_white">{t}Subject{/t}</td>
-              </tr>
-              {section name="i" loop=$emails}
-              {cycle values=$cycle assign="row_color"}
-              <tr id="support_emails{$smarty.section.i.iteration+1}" {get_display_style element_name="support_emails" total=$emails|@count}>
-                {if $current_role > $roles.viewer and $current_role != $roles.customer}
-                <td align="center" bgcolor="{$row_color}">
-                  <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
-                </td>
-                {/if}
-                <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
-                    {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
-                </td>
-                <td class="default" align="center" bgcolor="{$row_color}">{$smarty.section.i.iteration}</td>
-                <td align="center" bgcolor="{$row_color}">
-                  <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
-                </td>
-                <td class="default" bgcolor="{$row_color}">{$emails[i].sup_from|escape:"html"}</td>
-                <td class="default" bgcolor="{$row_color}">
-                  {if $emails[i].sup_to == ""}
-                  <i>{t}sent to notification list{/t}</i>
-                  {else}
-                  {$emails[i].sup_to|escape:"html"}
-                  {/if}
-                  {if $emails[i].sup_cc != ""}
-                  <br/>
-                  {$emails[i].sup_cc|escape:"html"}
-                  {/if}
-                </td>
-                <td class="default" nowrap bgcolor="{$row_color}">{$emails[i].sup_date}</td>
-                <td class="default" bgcolor="{$row_color}">
-                  <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
-                  {if $emails[i].sup_has_attachment}
-                  <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
-                  {/if}
-                </td>
-              </tr>
-              {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count row_color=$row_color}
-              {sectionelse}
-              <tr id="support_emails2" {get_display_style element_name="support_emails" total=$emails|@count}>
-                <td colspan="{$email_col_count}" bgcolor="{$light_color}" class="default" align="center">
-                  <i>{t}No associated emails could be found.{/t}</i>
-                </td>
-              </tr>
-              {/section}
-              {if $current_role > $roles.viewer}
-              <tr>
-                <td colspan="{$email_col_count}" bgcolor="{$cell_color}">
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td nowrap width="10">
-                        <nobr>
-                        {if $emails != "" and $current_role != $roles.customer}
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                        <input type="submit" class="button" value="{t}Disassociate Selected{/t}">
-                        {/if}
-                        </nobr>
-                      </td>
-                      <td align="center">
-                        {if $ema_id != ""}
-                        <input type="button" class="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
-                        {/if}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              {/if}
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</form>
-</table>
 
+<div class="issue_section bordered" id="support_emails">
+    <form onSubmit="return removeEmails(this);" target="_removeEmails" action="popup.php" method="post">
+        <input type="hidden" name="cat" value="remove_support_email">
+    <div class="title">
+        {t}Associated Emails{/t} ({if $emails|@is_array}{$emails|@count}{else}0{/if})
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            {if $core.current_role > $core.roles.standard_user}
+            [ <a href="mail_queue.php?iss_id={$smarty.get.id|intval}" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
+            {/if}
+            [ <span id="toggle_support_emails" class="js_link">{get_display_label element_name="support_emails"}</span> ]
+        </span>
+    </div>
+    <div class="content" {get_display_style element_name='support_emails'}>
+        <table class="grid">
+          <tr>
+            {if $emails != "" and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+            <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
+            {/if}
+            <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</th>
+            <th width="5" align="center">#</th>
+            <th width="5">{t}Reply{/t}</th>
+            <th width="15%">{t}From{/t}</th>
+            <th width="20%">{t}Recipients{/t}</th>
+            <th width="15%" nowrap>{t}Received{/t}</th>
+            <th width="50%">{t}Subject{/t}</th>
+          </tr>
+          {section name="i" loop=$emails}
+          {cycle values='odd,even' assign="row_class"}
+          <tr class="{$row_class}">
+            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+            <td align="center">
+              <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
+            </td>
+            {/if}
+            <td align="center" nowrap align="center">
+                {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
+            </td>
+            <td align="center">{$smarty.section.i.iteration}</td>
+            <td align="center">
+              <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+            </td>
+            <td>{$emails[i].sup_from|escape:"html"}</td>
+            <td>
+              {if $emails[i].sup_to == ""}
+              <i>{t}sent to notification list{/t}</i>
+              {else}
+              {$emails[i].sup_to|escape:"html"}
+              {/if}
+              {if $emails[i].sup_cc != ""}
+              <br/>
+              {$emails[i].sup_cc|escape:"html"}
+              {/if}
+            </td>
+            <td nowrap>{$emails[i].sup_date}</td>
+            <td>
+              <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+              {if $emails[i].sup_has_attachment}
+              <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+              {/if}
+            </td>
+          </tr>
+          {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count class=$row_class}
+          {sectionelse}
+          <tr class="no_results">
+            <td colspan="{$email_col_count}">
+              {t}No associated emails could be found.{/t}
+            </td>
+          </tr>
+          {/section}
+        </table>
+    </div>
+    {if $core.current_role > $core.roles.viewer}
+    <div class="buttons">
+        {if $ema_id != ""}
+        <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
+        {/if}
+
+        {if $emails != "" and $core.current_role != $core.roles.customer}
+        <div class="right">
+            <input type="submit" value="{t}Disassociate Selected{/t}">
+        </div>
+        {/if}
+    </div>
+    {/if}
+    </form>
+</div>

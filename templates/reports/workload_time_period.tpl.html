@@ -1,10 +1,13 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "title"}Workload by Time Period{/block}
+
+{block "report_content"}
 {if $type == 'email'}
     <h3 align="center">{t}Email Workload by Time of day{/t}</h3>
-    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}</p>
+    <p align="center" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}</p>
 {else}
     <h3 align="center">{t}Workload by Time of day{/t}</h3>
-    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}<br />
+    <p align="center" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}<br />
         {t}Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.{/t}
     </p>
 {/if}
@@ -12,47 +15,39 @@
 <img src="workload_time_period_graph.php?type={$type}">
 </div>
 <br />
-<table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
-          <th class="default_white">
+      <table class="bordered grid">
+        <tr>
+          <th>
             {t}Time Period{/t}<br />
             {t}(GMT){/t}
           </th>
-          <th class="default_white">
+          <th>
             {t}Developer{/t} {if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
           </th>
-          <th class="default_white">
+          <th>
             {t}Customer{/t}{if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
           </th>
-          <th class="default_white">
+          <th>
             {t}Time Period{/t}<br />
             ({$user_tz})
           </th>
         </tr>
         {section name="workload" loop=$data}
-        {cycle values=$cycle assign="row_color"}
-        <tr bgcolor="{$row_color}">
-          <td align="center" class="default">{$data[workload].display_time_gmt}</td>
-          <td align="center" class="default" bgcolor="#ffcc00">
-              {if $data[workload].developer.rank == 1}<b>{/if}
-              {if $data[workload].developer.count != ''}{$data[workload].developer.count} ({$data[workload].developer.percentage|round}%){/if}
-              {if $data[workload].developer.rank == 1}</b>{/if}
+        <tr class="{cycle values='odd,even'}">
+          <td align="center">{$data[workload].display_time_gmt}</td>
+          <td align="center">
+              {if $data[workload].developer.rank|default:'' == 1}<b>{/if}
+              {if $data[workload].developer.count|default:'' != ''}{$data[workload].developer.count} ({$data[workload].developer.percentage|round}%){/if}
+              {if $data[workload].developer.rank|default:'' == 1}</b>{/if}
           </td>
-          <td align="center" class="default" bgcolor="#99ccff">
-              {if $data[workload].customer.rank == 1}<b>{/if}
-              {if $data[workload].customer.count}{$data[workload].customer.count} ({$data[workload].customer.percentage|round}%){/if}
-              {if $data[workload].customer.rank == 1}</b>{/if}
+          <td align="center">
+              {if $data[workload].customer.rank|default:'' == 1}<b>{/if}
+              {if $data[workload].customer.count|default:''}{$data[workload].customer.count} ({$data[workload].customer.percentage|round}%){/if}
+              {if $data[workload].customer.rank|default:'' == 1}</b>{/if}
           </td>
-          <td align="center" class="default">{$data[workload].display_time_user}</td>
+          <td align="center">{$data[workload].display_time_user}</td>
         </tr>
         {/section}
       </table>
-    </td>
-  </tr>
-</table>
 <br />
-
-{include file="footer.tpl.html"}
+{/block}

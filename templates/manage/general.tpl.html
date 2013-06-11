@@ -1,887 +1,770 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  var field = getFormElement(f, 'smtp[from]');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
-                      selectField(f, 'smtp[from]');
-                      return false;
-                  }
-                  field = getFormElement(f, 'smtp[host]');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
-                      selectField(f, 'smtp[host]');
-                      return false;
-                  }
-                  field = getFormElement(f, 'smtp[port]');
-                  if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
-                      alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
-                      selectField(f, 'smtp[port]');
-                      return false;
-                  }
-                  var field1 = getFormElement(f, 'smtp[auth]', 0);
-                  var field2 = getFormElement(f, 'smtp[auth]', 1);
-                  if ((!field1.checked) && (!field2.checked)) {
-                      alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
-                      return false;
-                  }
-                  if (field1.checked) {
-                      field = getFormElement(f, 'smtp[username]');
-                      if (isWhitespace(field.value)) {
-                          alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
-                          selectField(f, 'smtp[username]');
-                          return false;
-                      }
-                      field = getFormElement(f, 'smtp[password]');
-                      if (isWhitespace(field.value)) {
-                          alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
-                          selectField(f, 'smtp[password]');
-                          return false;
-                      }
-                  }
-                  var field1 = getFormElement(f, 'smtp[save_outgoing_email]', 0);
-                  var field2 = getFormElement(f, 'smtp[save_address]');
-                  if ((field1.checked) && (!isEmail(field2.value))) {
-                      alert('{/literal}{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
-                      selectField(f, 'smtp[save_address]');
-                      return false;
-                  }
-                  if ((!f.open_signup[0].checked) && (!f.open_signup[1].checked))  {
-                      alert('{/literal}{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
-                      return false;
-                  }
-                  if (f.open_signup[0].checked) {
-                      field = getFormElement(f, 'accounts_projects[]');
-                      if (!hasOneSelected(f, 'accounts_projects[]')) {
-                          alert('{/literal}{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
-                          selectField(f, 'accounts_projects[]');
-                          return false;
-                      }
-                  }
-                  field1 = getFormElement(f, 'email_routing[status]', 0);
-                  if (field1.checked) {
-                      field1 = getFormElement(f, 'email_routing[address_prefix]');
-                      if (isWhitespace(field1.value)) {
-                          alert('{/literal}{t escape=js}Please enter the email address prefix for the email routing interface.{/t}{literal}');
-                          selectField(f, 'email_routing[address_prefix]');
-                          return false;
-                      }
-                      field1 = getFormElement(f, 'email_routing[address_host]');
-                      if (isWhitespace(field1.value)) {
-                          alert('{/literal}{t escape=js}Please enter the email address hostname for the email routing interface.{/t}{literal}');
-                          selectField(f, 'email_routing[address_host]');
-                          return false;
-                      }
-                  }
-                  if ((!f.scm_integration[0].checked) && (!f.scm_integration[1].checked))  {
-                      alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
-                      return false;
-                  }
-                  if (f.scm_integration[0].checked) {
-                      field = getFormElement(f, 'checkout_url');
-                      if (isWhitespace(field.value)) {
-                          alert('{/literal}{t escape=js}Please enter the checkout page URL for your SCM integration tool.{/t}{literal}');
-                          selectField(f, 'checkout_url');
-                          return false;
-                      }
-                      field = getFormElement(f, 'diff_url');
-                      if (isWhitespace(field.value)) {
-                          alert('{/literal}{t escape=js}Please enter the diff page URL for your SCM integration tool.{/t}{literal}');
-                          selectField(f, 'diff_url');
-                          return false;
-                      }
-                      field = getFormElement(f, 'scm_log_url');
-                      if (isWhitespace(field.value)) {
-                          alert('{/literal}{t escape=js}Please enter the log page URL for your SCM integration tool.{/t}{literal}');
-                          selectField(f, 'scm_log_url');
-                          return false;
-                      }
-                  }
-                  if ((!f.support_email[0].checked) && (!f.support_email[1].checked))  {
-                      alert('{/literal}{t escape=js}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
-                      return false;
-                  }
-                  if ((!f.daily_tips[0].checked) && (!f.daily_tips[1].checked))  {
-                      alert('{/literal}{t escape=js}Please choose whether the daily tips feature should be enabled or not.{/t}{literal}');
-                      return false;
-                  }
-                  return true;
-              }
-              function disableAuthFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'smtp[username]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'smtp[password]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function checkDebugField(f)
-              {
-                  var field = getFormElement(f, 'smtp[save_outgoing_email]');
-                  if (field.checked) {
-                      var bool = false;
-                  } else {
-                      var bool = true;
-                  }
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  field = getFormElement(f, 'smtp[save_address]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableSCMFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'checkout_url');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'diff_url');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableSignupFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'accounts_projects[]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'accounts_role');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableEmailRoutingFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-
-                  var field = getFormElement(f, 'email_routing[address_prefix]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'email_routing[address_host]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'email_routing[host_alias]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'email_routing[warning][status]', 0);
-                  field.disabled = bool;
-                  field = getFormElement(f, 'email_routing[warning][status]', 1);
-                  field.disabled = bool;
-              }
-              function disableNoteRoutingFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'note_routing[address_prefix]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'note_routing[address_host]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableDraftRoutingFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'draft_routing[address_prefix]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'draft_routing[address_host]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableErrorEmailFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'email_error[addresses]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function disableReminderEmailFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'email_reminder[addresses]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-              }
-              function toggleSubjectBasedRouting(f, enabled)
-              {
-
-                  var email_routing_enabled = getFormElement(f, 'email_routing[status]', 0);
-                  email_routing_enabled.disabled = enabled;
-                  if ((enabled != true) && (email_routing_enabled.checked != true)) {
-                      disableEmailRoutingFields(f, true);
-                  } else {
-                      disableEmailRoutingFields(f, enabled);
-                  }
-                  getFormElement(f, 'email_routing[status]', 1).disabled = enabled;
-
-                  var note_routing_enabled = getFormElement(f, 'note_routing[status]', 0);
-                  note_routing_enabled.disabled = enabled;
-                  if ((enabled != true) && (note_routing_enabled.checked != true)) {
-                      disableNoteRoutingFields(f, true);
-                  } else {
-                      disableNoteRoutingFields(f, enabled);
-                  }
-                  getFormElement(f, 'note_routing[status]', 1).disabled = enabled;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="general_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              <input type="hidden" name="cat" value="update">
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}General Setup{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-                  {if $result == -1}
-                    {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
-                    ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
-                  {elseif $result == -2}
-                    {t}ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory{/t}
-                    ({$app_setup_file}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
-                  {elseif $result == 1}
-                    {t}Thank you, the setup information was saved successfully.{/t}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Tool Caption:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="tool_caption" size="50" value="{$setup.tool_caption|escape:"html"}">
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}SMTP (Outgoing Email) Settings:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Sender Email{/t}:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="smtp[from]" size="30" value="{$setup.smtp.from|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="smtp[from]"}
-                        <span class="small_default">{t 1="eventum@example.com" 2="Eventum <eventum@example.com>"}(This MUST contain a real email address, e.g. "%1" or "%2"){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Hostname:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="smtp[host]" size="30" value="{$setup.smtp.host|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="smtp[host]"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Port{/t}:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="smtp[port]" size="5" value="{$setup.smtp.port}">
-                        {include file="error_icon.tpl.html" field="smtp[port]"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Requires Authentication?{/t}&nbsp;
-                      </td>
-                      <td width="80%" class="default">
-                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth}checked{/if} onClick="disableAuthFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'smtp[auth]', 0);disableAuthFields(getForm('general_setup_form'), false);">{t}Yes{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth}checked{/if} onClick="disableAuthFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'smtp[auth]', 1);disableAuthFields(getForm('general_setup_form'), true);">{t}No{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Username{/t}:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="smtp[username]" size="20" value="{$setup.smtp.username|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="smtp[username]"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Password{/t}:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="password" class="default" name="smtp[password]" size="20" value="{$setup.smtp.password|escape:"html"}" autocomplete="off">
-                        {include file="error_icon.tpl.html" field="smtp[password]"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" class="default">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="checkbox" name="smtp[save_outgoing_email]" value="yes" {if $setup.smtp.save_outgoing_email == 'yes'}checked{/if} onClick="checkDebugField(this.form);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'smtp[save_outgoing_email]');checkDebugField(getForm('general_setup_form'));">{t}Save a Copy of Every Outgoing Issue Notification Email{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Email Address to Send Saved Messages:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="smtp[save_address]" class="default" size="30" value="{$setup.smtp.save_address}">
-                        {include file="error_icon.tpl.html" field="smtp[save_address]"}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Open Account Signup:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup == 'enabled'}checked{/if} onClick="disableSignupFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'open_signup', 0);disableSignupFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="open_signup" value="disabled" {if not $setup.open_signup == 'enabled'}checked{/if} onClick="disableSignupFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'open_signup', 1);disableSignupFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Assigned Projects:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <select name="accounts_projects[]" multiple size="3" class="default">
-                        {html_options options=$project_list selected=$setup.accounts_projects}
-                        </select>
-                        {include file="error_icon.tpl.html" field="accounts_projects[]"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Assigned Role:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <select name="accounts_role" class="default">
-                        {html_options options=$user_roles selected=$setup.accounts_role}
-                        </select>
-                        {include file="error_icon.tpl.html" field="accounts_role"}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Subject Based Routing:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td>
-                        <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled" {if $setup.subject_based_routing.status == 'enabled'}checked{/if} onChange="toggleSubjectBasedRouting(this.form, true);">
-                        <label for="subject_based_routing_enabled" class="default">{t}Enabled{/t}</label>&nbsp;&nbsp;
-                        <input id="subject_based_routing_disabled" type="radio" name="subject_based_routing[status]" value="disabled" {if $setup.subject_based_routing.status != 'enabled'}checked{/if} onClick="toggleSubjectBasedRouting(this.form, false);">
-                        <label for="subject_based_routing_disabled" class="default">{t}Disabled{/t}</label><br />
-                        <span class="small_default">{t}If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.{/t}</span><br />
-                      </td>
-                    </tr>
-                  </td>
-                </table>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Recipient Type Flag:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Recipient Type Flag:{/t}&nbsp;
-                      </td>
-                      <td>
-                        <input class="default" type="text" name="email_routing[recipient_type_flag]" value="{$setup.email_routing.recipient_type_flag|escape:"html"}">
-                        <span class="small_default">{t}(This will be included in the From address of all emails sent by Eventum){/t}</span><br />
-                        <span class="default">
-                        <input type="radio" name="email_routing[flag_location]" value="before" {if $setup.email_routing.flag_location == 'before'}checked{/if}>
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_routing[flag_location]', 0);">{t}Before Sender Name{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[flag_location]" value="after" {if $setup.email_routing.flag_location != 'before'}checked{/if}>
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_routing[flag_location]', 1);">{t}After Sender Name{/t}</a>
-                        </span>
-                      </td>
-                    </tr>
-                  </td>
-                </table>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Routing Interface:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="email_routing[status]" value="enabled" {if $setup.email_routing.status == 'enabled'}checked{/if} onClick="disableEmailRoutingFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_routing[status]', 0);disableEmailRoutingFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[status]" value="disabled" {if $setup.email_routing.status != 'enabled'}checked{/if} onClick="disableEmailRoutingFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_routing[status]', 1);disableEmailRoutingFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Email Address Prefix:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}issue_{/if}" class="default">
-                        {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
-                        <span class="small_default">{t escape=no 1="<b>issue_</b>51@example.com"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Address Hostname:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="email_routing[address_host]" class="default" value="{$setup.email_routing.address_host}">
-                        {include file="error_icon.tpl.html" field="email_routing[address_host]"}
-                        <span class="small_default">{t escape=no 1="issue_51@<b>example.com</b>"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Host Alias:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="email_routing[host_alias]" class="default" value="{$setup.email_routing.host_alias}">
-                        {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
-                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Warn Users Whether They Can Send Emails to Issue:{/t}&nbsp;
-                      </td>
-                      <td width="80%" class="default">
-                        <label><input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if}>
-                        {t}Yes{/t}</label>&nbsp;&nbsp;
-                        <label><input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if}>
-                        {t}No{/t}</label>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Note Recipient Type Flag:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Recipient Type Flag:{/t}&nbsp;
-                      </td>
-                      <td>
-                        <input class="default" type="text" name="note_routing[recipient_type_flag]" value="{$setup.note_routing.recipient_type_flag|escape:"html"}">
-                        <span class="small_default">{t}(This will be included in the From address of all notes sent by Eventum){/t}</span><br />
-                        <span class="default">
-                        <input type="radio" name="note_routing[flag_location]" value="before" {if $setup.note_routing.flag_location == 'before'}checked{/if}>
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'note_routing[flag_location]', 0);">{t}Before Sender Name{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="note_routing[flag_location]" value="after" {if $setup.note_routing.flag_location != 'before'}checked{/if}>
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'note_routing[flag_location]', 1);">{t}After Sender Name{/t}</a>
-                        </span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Internal Note Routing Interface:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="note_routing[status]" value="enabled" {if $setup.note_routing.status == 'enabled'}checked{/if} onClick="disableNoteRoutingFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'note_routing[status]', 0);disableNoteRoutingFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="note_routing[status]" value="disabled" {if $setup.note_routing.status != 'enabled'}checked{/if} onClick="disableNoteRoutingFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'note_routing[status]', 1);disableNoteRoutingFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Note Address Prefix:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}note_{/if}" class="default">
-                        {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
-                        <span class="small_default">{t escape=no 1="<b>note_</b>51@example.com"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Address Hostname:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="note_routing[address_host]" class="default" value="{$setup.note_routing.address_host}">
-                        {include file="error_icon.tpl.html" field="note_routing[address_host]"}
-                        <span class="small_default">{t escape=no 1="note_51@<b>example.com</b>"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Host Alias:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="note_routing[host_alias]" class="default" value="{$setup.note_routing.host_alias}">
-                        {include file="error_icon.tpl.html" field="note_routing[host_alias]"}
-                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Draft Interface:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="draft_routing[status]" value="enabled" {if $setup.draft_routing.status == 'enabled'}checked{/if} onClick="disableDraftRoutingFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'draft_routing[status]', 0);disableDraftRoutingFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="draft_routing[status]" value="disabled" {if $setup.draft_routing.status != 'enabled'}checked{/if} onClick="disableDraftRoutingFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'draft_routing[status]', 1);disableDraftRoutingFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Draft Address Prefix:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="draft_routing[address_prefix]" value="{if $setup.draft_routing.address_prefix}{$setup.draft_routing.address_prefix}{else}draft_{/if}" class="default">
-                        {include file="error_icon.tpl.html" field="draft_routing[address_prefix]"}
-                        <span class="small_default">{t escape=no 1="<b>draft_</b>51@example.com"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Address Hostname:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="draft_routing[address_host]" class="default" value="{$setup.draft_routing.address_host}">
-                        {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
-                        <span class="small_default">{t escape=no 1="draft_51@<b>example.com</b>"}(e.g. %1){/t}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Host Alias:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" name="draft_routing[host_alias]" class="default" value="{$setup.draft_routing.host_alias}">
-                        {include file="error_icon.tpl.html" field="draft_routing[host_alias]"}
-                        <span class="small_default">{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t escape=no}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="scm_integration" value="enabled" {if $setup.scm_integration == 'enabled'}checked{/if} onClick="disableSCMFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'scm_integration', 0);disableSCMFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="scm_integration" value="disabled" {if not $setup.scm_integration == 'enabled'}checked{/if} onClick="disableSCMFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'scm_integration', 1);disableSCMFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Checkout Page:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="checkout_url" size="50" value="{$setup.checkout_url|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="checkout_url"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Diff Page:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="diff_url" size="50" value="{$setup.diff_url|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="diff_url"}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Log Page:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input type="text" class="default" name="scm_log_url" size="50" value="{$setup.scm_log_url|escape:"html"}">
-                        {include file="error_icon.tpl.html" field="scm_log_url"}
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Integration Feature:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="support_email" value="enabled" {if $setup.support_email == 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'support_email', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="support_email" value="disabled" {if $setup.support_email != 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'support_email', 1);">{t}Disabled{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Daily Tips:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips == 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'daily_tips', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips != 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'daily_tips', 1);">{t}Disabled{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Spell Checker:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <span class="default">
-                  <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker == 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'spell_checker', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker != 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'spell_checker', 1);">{t}Disabled{/t}</a></span>
-                  &nbsp;&nbsp;<span class="small_default">{t escape=no 1='<a target="_blank" class="link" href="http://aspell.sourceforge.net/">aspell</a>'}(requires %1 installed in your server){/t}</span>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}IRC Notifications:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification == 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'irc_notification', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification != 'enabled'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'irc_notification', 1);">{t}Disabled{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Allow Un-Assigned Issues?{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'allow_unassigned_issues', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-                  <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues != 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'allow_unassigned_issues', 1);">{t}No{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Default Options for Notifications:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <input type="checkbox" name="update" {if $setup.update}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'update');">{t}Issues are Updated{/t}</a><br />
-                  <input type="checkbox" name="closed" {if $setup.closed}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'closed');">{t}Issues are Closed{/t}</a><br />
-                  <input type="checkbox" name="emails" {if $setup.emails}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'emails');">{t}Emails are Associated{/t}</a><br />
-                  <input type="checkbox" name="files" {if $setup.files}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('general_setup_form', 'files');">{t}Files are Attached{/t}</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Reminder System Status Information:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="email_reminder[status]" value="enabled" {if $setup.email_reminder.status == 'enabled'}checked{/if} onClick="disableReminderEmailFields(getForm('general_setup_form'), false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_reminder[status]', 0);disableReminderEmailFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_reminder[status]" value="disabled" {if $setup.email_reminder.status != 'enabled'}checked{/if} onClick="disableReminderEmailFields(getForm('general_setup_form'), true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_reminder[status]', 1);disableReminderEmailFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Email Addresses To Send Information To:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input class="default" type="text" name="email_reminder[addresses]" value="{$setup.email_reminder.addresses|escape:"html"}" size="50">
-                        <span class="small_default">{t}(separate multiple addresses with commas){/t}</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Email Error Logging System:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <table>
-                    <tr>
-                      <td colspan="2" class="default_white">
-                        <input type="radio" name="email_error[status]" value="enabled" {if $setup.email_error.status == 'enabled'}checked{/if} onClick="disableErrorEmailFields(getForm('general_setup_form'), false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_error[status]', 0);disableErrorEmailFields(getForm('general_setup_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_error[status]" value="disabled" {if $setup.email_error.status != 'enabled'}checked{/if} onClick="disableErrorEmailFields(getForm('general_setup_form'), true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'email_error[status]', 1);disableErrorEmailFields(getForm('general_setup_form'), true);">{t}Disabled{/t}</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        {t}Email Addresses To Send Errors To:{/t}&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input class="default" type="text" name="email_error[addresses]" value="{$setup.email_error.addresses|escape:"html"}" size="50">
-                        <span class="small_default">{t}(separate multiple addresses with commas){/t}</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input class="button" type="submit" value="{t}Update Setup{/t}">
-                  <input class="button" type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-            </table>
-          </td>
-        </tr>
-      </table>
-      {literal}
-      <script type="text/javascript">
-      <!--
-      window.onload = setDisabledFields;
-      function setDisabledFields()
-      {
-          var f = getForm('general_setup_form');
-          var field1 = getFormElement(f, 'smtp[auth]', 0);
-          if (field1.checked) {
-              disableAuthFields(f, false);
-          } else {
-              disableAuthFields(f, true);
-          }
-          checkDebugField(f);
-          if (f.scm_integration[0].checked) {
-              disableSCMFields(f, false);
-          } else {
-              f.scm_integration[1].checked = true;
-              disableSCMFields(f, true);
-          }
-          if (f.open_signup[0].checked) {
-              disableSignupFields(f, false);
-          } else {
-              f.open_signup[1].checked = true;
-              disableSignupFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_routing[status]', 0);
-          var field2 = getFormElement(f, 'email_routing[status]', 1);
-          if (field1.checked) {
-              disableEmailRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableEmailRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'note_routing[status]', 0);
-          field2 = getFormElement(f, 'note_routing[status]', 1);
-          if (field1.checked) {
-              disableNoteRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableNoteRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'draft_routing[status]', 0);
-          field2 = getFormElement(f, 'draft_routing[status]', 1);
-          if (field1.checked) {
-              disableDraftRoutingFields(f, false);
-          } else {
-              field2.checked = true;
-              disableDraftRoutingFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_reminder[status]', 0);
-          field2 = getFormElement(f, 'email_reminder[status]', 1);
-          if (field1.checked) {
-              disableReminderEmailFields(f, false);
-          } else {
-              field2.checked = true;
-              disableReminderEmailFields(f, true);
-          }
-          field1 = getFormElement(f, 'email_error[status]', 0);
-          field2 = getFormElement(f, 'email_error[status]', 1);
-          if (field1.checked) {
-              disableErrorEmailFields(f, false);
-          } else {
-              field2.checked = true;
-              disableErrorEmailFields(f, true);
-          }
-          toggleSubjectBasedRouting(f, getFormElement(f, 'subject_based_routing[status]', 0).checked);
+{block "manage_content"}
+  {literal}
+  <script type="text/javascript">
+  <!--
+  function validateForm()
+  {
+      if (Validation.isFieldWhitespace('smtp[from]')) {
+          alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
+          Validation.selectField('smtp[from]');
+          return false;
       }
-      //-->
-      </script>
-      {/literal}
+      if (Validation.isFieldWhitespace('smtp[host]')) {
+          alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
+          Validation.selectField('smtp[host]');
+          return false;
+      }
+      if ((Validation.isFieldWhitespace('smtp[port]')) || (!Validation.isNumberOnly(Eventum.getField('smtp[port]').val()))) {
+          alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
+          Validation.selectField('smtp[port]');
+          return false;
+      }
+      if (!Validation.hasOneChecked('smtp[auth]')) {
+          alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
+          return false;
+      }
+      if (Eventum.getField('smtp[auth]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('smtp[username]')) {
+              alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
+              Validation.selectField('smtp[username]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('smtp[password]')) {
+              alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
+              Validation.selectField('smtp[password]');
+              return false;
+          }
+      }
+      if (Eventum.getField('smtp[save_outgoing_email]').is(':checked') && (!Validation.isEmail(Eventum.getField('smtp[save_address]').val()))) {
+          alert('{/literal}{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
+          Validation.selectField('smtp[save_address]');
+          return false;
+      }
+      if (!Validation.hasOneChecked('open_signup'))  {
+          alert('{/literal}{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
+          return false;
+      }
+      if (Eventum.getField('open_signup').first().is(':checked')) {
+          if (!Validation.hasOneSelected('accounts_projects[]')) {
+              alert('{/literal}{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
+              Validation.selectField('accounts_projects[]');
+              return false;
+          }
+      }
+      if (Eventum.getField('email_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('email_routing[address_prefix]')) {
+              alert('{/literal}{t escape=js}Please enter the email address prefix for the email routing interface.{/t}{literal}');
+              Validation.selectField('email_routing[address_prefix]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('email_routing[address_host]')) {
+              alert('{/literal}{t escape=js}Please enter the email address hostname for the email routing interface.{/t}{literal}');
+              Validation.selectField('email_routing[address_host]');
+              return false;
+          }
+      }
+      if (Eventum.getField('note_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('note_routing[address_prefix]')) {
+              alert('{/literal}{t escape=js}Please enter the email address prefix for the note routing interface.{/t}{literal}');
+              Validation.selectField('note_routing[address_prefix]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('note_routing[address_host]')) {
+              alert('{/literal}{t escape=js}Please enter the email address hostname for the note routing interface.{/t}{literal}');
+              Validation.selectField('note_routing[address_host]');
+              return false;
+          }
+      }
+      if (Eventum.getField('draft_routing[status]').first().is(':checked')) {
+          if (Validation.isFieldWhitespace('draft_routing[address_prefix]')) {
+              alert('{/literal}{t escape=js}Please enter the email address prefix for the draft routing interface.{/t}{literal}');
+              Validation.selectField('draft_routing[address_prefix]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('draft_routing[address_host]')) {
+              alert('{/literal}{t escape=js}Please enter the email address hostname for the draft routing interface.{/t}{literal}');
+              Validation.selectField('draft_routing[address_host]');
+              return false;
+          }
+      }
+      return true;
+  }
+  function toggleAuthFields()
+  {
+      var bool = !Eventum.getField('smtp[auth]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('smtp[username]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('smtp[password]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function checkDebugField()
+  {
+      if (Eventum.getField('smtp[save_outgoing_email]').is(':checked')) {
+          var bool = false;
+      } else {
+          var bool = true;
+      }
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('smtp[save_address]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleSignupFields()
+  {
+      var bool = !Eventum.getField('open_signup').first().is(':checked')
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('accounts_projects[]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('accounts_role').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleSubjectBasedRouting()
+  {
+      var subject_based_enabled = Eventum.getField('subject_based_routing[status]').first().is(':checked');
 
+      // disable email routing if subject based routing is enabled
+      if (subject_based_enabled == true) {
+          Eventum.getField('email_routing[status]').slice(1,2).click();
+          Eventum.getField('note_routing[status]').slice(1,2).click();
+      }
+      Eventum.getField('email_routing[status]').attr('disabled', subject_based_enabled);
+      Eventum.getField('note_routing[status]').attr('disabled', subject_based_enabled);
+  }
+  function toggleEmailRoutingFields()
+  {
+      var bool = !Eventum.getField('email_routing[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('email_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[host_alias]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('email_routing[warning][status]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleNoteRoutingFields()
+  {
+      var bool = !Eventum.getField('note_routing[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('note_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('note_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleDraftRoutingFields()
+  {
+      var bool = !Eventum.getField('draft_routing[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('draft_routing[address_prefix]').attr('disabled', bool).css('backgroundColor', bgcolor);
+      Eventum.getField('draft_routing[address_host]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleErrorEmailFields()
+  {
+      var bool = !Eventum.getField('email_error[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('email_error[addresses]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+  function toggleReminderEmailFields()
+  {
+      var bool = !Eventum.getField('email_reminder[status]').first().is(':checked');
+      if (bool) {
+          var bgcolor = '#CCCCCC';
+      } else {
+          var bgcolor = '#FFFFFF';
+      }
+      Eventum.getField('email_reminder[addresses]').attr('disabled', bool).css('backgroundColor', bgcolor);
+  }
+
+$().ready(function() {
+    $('#general_setup_form').submit(validateForm);
+    Eventum.getField('smtp[auth]').change(toggleAuthFields)
+    Eventum.getField('open_signup').change(toggleSignupFields)
+    Eventum.getField('subject_based_routing[status]').change(toggleSubjectBasedRouting)
+    Eventum.getField('email_routing[status]').change(toggleEmailRoutingFields);
+    Eventum.getField('note_routing[status]').change(toggleNoteRoutingFields);
+    Eventum.getField('draft_routing[status]').change(toggleDraftRoutingFields);
+    Eventum.getField('email_reminder[status]').change(toggleReminderEmailFields);
+    Eventum.getField('email_error[status]').change(toggleErrorEmailFields);
+    Eventum.getField('smtp[save_outgoing_email]').change(checkDebugField);
+
+    toggleAuthFields();
+    checkDebugField();
+    toggleSignupFields();
+    toggleEmailRoutingFields();
+    toggleNoteRoutingFields();
+    toggleDraftRoutingFields();
+    toggleSubjectBasedRouting();
+    toggleReminderEmailFields();
+    toggleErrorEmailFields();
+});
+  //-->
+  </script>
+  {/literal}
+  <form id="general_setup_form" method="post" action="{$smarty.server.PHP_SELF}">
+  <input type="hidden" name="cat" value="update">
+        <table class="bordered">
+          <tr class="title">
+            <th colspan="2">
+              {t}General Setup{/t}
+            </th>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Tool Caption:{/t}
+            </th>
+            <td>
+              <input type="text" name="tool_caption" size="50" value="{$setup.tool_caption|default:''|escape:"html"}">
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}SMTP (Outgoing Email) Settings{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Sender Email{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="smtp[from]" size="30" value="{$setup.smtp.from|default:''|escape:"html"}">
+                    {include file="error_icon.tpl.html" field="smtp[from]"}
+                    <span>{t 1="eventum@example.com" 2="Eventum <eventum@example.com>"}(This MUST contain a real email address, e.g. "%1" or "%2"){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Hostname{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="smtp[host]" size="30" value="{$setup.smtp.host|default:''|escape:"html"}">
+                    {include file="error_icon.tpl.html" field="smtp[host]"}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Port{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="smtp[port]" size="5" value="{$setup.smtp.port|default:''}">
+                    {include file="error_icon.tpl.html" field="smtp[port]"}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Requires Authentication?{/t}
+                  </td>
+                  <td width="80%">
+                    <label>
+                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth|default:''}checked{/if}">
+                        {t}Yes{/t}
+                    </label>
+                    <label>
+                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth|default:''}checked{/if}>
+                        {t}No{/t}
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Username{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="smtp[username]" size="20" value="{$setup.smtp.username|default:''|escape:"html"}">
+                    {include file="error_icon.tpl.html" field="smtp[username]"}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Password{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="password" name="smtp[password]" size="20" value="{$setup.smtp.password|default:''|escape:"html"}" autocomplete="off">
+                    {include file="error_icon.tpl.html" field="smtp[password]"}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <label>
+                        <input type="checkbox" name="smtp[save_outgoing_email]" value="yes" {if $setup.smtp.save_outgoing_email|default:'' == 'yes'}checked{/if}>
+                        {t}Save a Copy of Every Outgoing Issue Notification Email{/t}
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Email Address to Send Saved Messages{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="smtp[save_address]" size="30" value="{$setup.smtp.save_address|default:''}">
+                    {include file="error_icon.tpl.html" field="smtp[save_address]"}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Open Account Signup{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="open_signup" value="disabled" {if $setup.open_signup|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Assigned Projects{/t}
+                  </td>
+                  <td width="80%">
+                    <select name="accounts_projects[]" multiple size="3">
+                    {html_options options=$project_list selected=$setup.accounts_projects|default:''}
+                    </select>
+                    {include file="error_icon.tpl.html" field="accounts_projects[]"}
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Assigned Role{/t}
+                  </td>
+                  <td width="80%">
+                    <select name="accounts_role">
+                    {html_options options=$user_roles selected=$setup.accounts_role|default:''}
+                    </select>
+                    {include file="error_icon.tpl.html" field="accounts_role"}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Subject Based Routing{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td>
+                    <label>
+                        <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled"
+                        {if $setup.subject_based_routing.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                    </label>
+                    <label>
+                        <input id="subject_based_routing_disabled" type="radio" name="subject_based_routing[status]" value="disabled"
+                        {if $setup.subject_based_routing.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                    </label>
+                    <div>{t}If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.{/t}</div>
+                  </td>
+                </tr>
+              </td>
+            </table>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Recipient Type Flag{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Recipient Type Flag{/t}
+                  </td>
+                  <td>
+                    <input type="text" name="email_routing[recipient_type_flag]" value="{$setup.email_routing.recipient_type_flag|default:''|escape:"html"}">
+                    <span>{t}(This will be included in the From address of all emails sent by Eventum){/t}</span>
+                    <div>
+                    <label>
+                        <input type="radio" name="email_routing[flag_location]" value="before"
+                            {if $setup.email_routing.flag_location|default:'' == 'before'}checked{/if}>
+                        {t}Before Sender Name{/t}
+                    </label>
+                    <label>
+                        <input type="radio" name="email_routing[flag_location]" value="after"
+                            {if $setup.email_routing.flag_location|default:'' != 'before'}checked{/if}>
+                        {t}After Sender Name{/t}
+                    </label>
+                    </div>
+                  </td>
+                </tr>
+              </td>
+            </table>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Routing Interface{/t}
+            </th>
+            <td>
+              <table width="100%">
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="email_routing[status]" value="enabled"
+                          {if $setup.email_routing.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="email_routing[status]" value="disabled"
+                          {if $setup.email_routing.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Email Address Prefix{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix|default:''}{$setup.email_routing.address_prefix}{else}issue-{/if}">
+                    {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
+                    <span>{t escape=no 1="<strong>issue-42</strong>@example.com"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Address Hostname{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="email_routing[address_host]" value="{$setup.email_routing.address_host|default:''}">
+                    {include file="error_icon.tpl.html" field="email_routing[address_host]"}
+                    <span>{t escape=no 1="issue-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Host Alias{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="email_routing[host_alias]" value="{$setup.email_routing.host_alias|default:''}">
+                    {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
+                    <span>{t}(Alternate domains that point to 'Address Hostname'){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Warn Users Whether They Can Send Emails to Issue{/t}
+                  </td>
+                  <td width="80%">
+                    <label>
+                        <input type="radio" name="email_routing[warning][status]" value="enabled"
+                            {if $setup.email_routing.warning.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Yes{/t}
+                    </label>
+                    <label>
+                        <input type="radio" name="email_routing[warning][status]" value="disabled"
+                            {if $setup.email_routing.warning.status|default:'' != 'enabled'}checked{/if}>
+                        {t}No{/t}
+                    </label>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Note Recipient Type Flag{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Recipient Type Flag{/t}
+                  </td>
+                  <td>
+                    <input type="text" name="note_routing[recipient_type_flag]" value="{$setup.note_routing.recipient_type_flag|default:''|escape:"html"}">
+                    <span>{t}(This will be included in the From address of all notes sent by Eventum){/t}</span><br />
+                    <div>
+                        <label>
+                            <input type="radio" name="note_routing[flag_location]" value="before"
+                            {if $setup.note_routing.flag_location|default:'' == 'before'}checked{/if}>
+                            {t}Before Sender Name{/t}
+                        </label>
+                        <label>
+                            <input type="radio" name="note_routing[flag_location]" value="after"
+                            {if $setup.note_routing.flag_location|default:'' != 'before'}checked{/if}>
+                            {t}After Sender Name{/t}
+                        </label>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Internal Note Routing Interface{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="note_routing[status]" value="enabled"
+                          {if $setup.note_routing.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="note_routing[status]" value="disabled"
+                          {if $setup.note_routing.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Note Address Prefix{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix|default:''}{$setup.note_routing.address_prefix}{else}note-{/if}">
+                    {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
+                    <span>{t escape=no 1="<strong>note-51</strong>@example.com"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Address Hostname{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="note_routing[address_host]" value="{$setup.note_routing.address_host|default:''}">
+                    {include file="error_icon.tpl.html" field="note_routing[address_host]"}
+                    <span>{t escape=no 1="note-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Draft Interface{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="draft_routing[status]" value="enabled"
+                          {if $setup.draft_routing.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="draft_routing[status]" value="disabled"
+                          {if $setup.draft_routing.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Draft Address Prefix{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="draft_routing[address_prefix]" value="{if $setup.draft_routing.address_prefix|default:''}{$setup.draft_routing.address_prefix}{else}draft-{/if}">
+                    {include file="error_icon.tpl.html" field="draft_routing[address_prefix]"}
+                    <span>{t escape=no 1="<strong>draft-51</strong>@example.com"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Address Hostname{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="draft_routing[address_host]" value="{$setup.draft_routing.address_host|default:''}">
+                    {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
+                    <span>{t escape=no 1="draft-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Integration Feature{/t}
+            </th>
+            <td>
+              <label>
+                <input type="radio" name="support_email" value="enabled" {if $setup.support_email|default:'' == 'enabled'}checked{/if}>
+                {t}Enabled{/t}
+              </label>
+              <label>
+                <input type="radio" name="support_email" value="disabled" {if $setup.support_email|default:'' != 'enabled'}checked{/if}>
+                {t}Disabled{/t}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Daily Tips{/t}
+            </th>
+            <td>
+              <label>
+                <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips|default:'' == 'enabled'}checked{/if}>
+                {t}Enabled{/t}
+              </label>
+              <label>
+                <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips|default:'' != 'enabled'}checked{/if}>
+                {t}Disabled{/t}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Spell Checker{/t}
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker|default:'' == 'enabled'}checked{/if}>
+                    {t}Enabled{/t}
+                </label>
+                <label>
+                    <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker|default:'' != 'enabled'}checked{/if}>
+                    {t}Disabled{/t}
+                </label>
+
+              <span>{t escape=no 1='<a target="_blank" href="http://aspell.sourceforge.net/">aspell</a>'}(requires %1 installed in your server){/t}</span>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}IRC Notifications{/t}
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification|default:'' == 'enabled'}checked{/if}>
+                    {t}Enabled{/t}
+                </label>
+                <label>
+                    <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification|default:'' != 'enabled'}checked{/if}>
+                    {t}Disabled{/t}
+                </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Allow Un-Assigned Issues?{/t}
+            </th>
+            <td>
+                <label>
+                    <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues|default:'' == 'yes'}checked{/if}>
+                    {t}Yes{/t}
+                </label>
+                <label>
+                    <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues|default:'' != 'yes'}checked{/if}>
+                    {t}No{/t}
+                </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Default Options for Notifications{/t}
+            </th>
+            <td>
+              <label><input type="checkbox" name="update" {if $setup.update|default:''}checked{/if} value="1"> {t}Issues are Updated{/t}</label><br />
+              <label><input type="checkbox" name="closed" {if $setup.closed|default:''}checked{/if} value="1"> {t}Issues are Closed{/t}</label><br />
+              <label><input type="checkbox" name="emails" {if $setup.emails|default:''}checked{/if} value="1"> {t}Emails are Associated{/t}</label><br />
+              <label><input type="checkbox" name="files" {if $setup.files|default:''}checked{/if} value="1"> {t}Files are Attached{/t}</label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Reminder System Status Information{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="email_reminder[status]" value="enabled"
+                          {if $setup.email_reminder.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="email_reminder[status]" value="disabled"
+                          {if $setup.email_reminder.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Email Addresses To Send Information To{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="email_reminder[addresses]" value="{$setup.email_reminder.addresses|default:''|escape:"html"}" size="50">
+                    <span>{t}(separate multiple addresses with commas){/t}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Email Error Logging System{/t}
+            </th>
+            <td>
+              <table>
+                <tr>
+                  <td colspan="2">
+                      <label>
+                        <input type="radio" name="email_error[status]" value="enabled"
+                            {if $setup.email_error.status|default:'' == 'enabled'}checked{/if}>
+                        {t}Enabled{/t}
+                      </label>
+                      <label>
+                        <input type="radio" name="email_error[status]" value="disabled"
+                            {if $setup.email_error.status|default:'' != 'enabled'}checked{/if}>
+                        {t}Disabled{/t}
+                      </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Email Addresses To Send Errors To{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="email_error[addresses]" value="{$setup.email_error.addresses|default:''|escape:"html"}" size="50">
+                    <span>{t}(separate multiple addresses with commas){/t}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr class="buttons">
+            <td colspan="2">
+              <input type="submit" value="{t}Update Setup{/t}">
+              <input type="reset" value="{t}Reset{/t}">
+            </td>
+          </tr>
+        </table>
+  </form>
+{/block}

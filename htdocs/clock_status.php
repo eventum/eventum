@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -29,17 +29,16 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("clock_status.tpl.html");
-
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 
 if (User::isClockedIn($usr_id)) {
-    $tpl->assign('result', User::ClockOut($usr_id));
+    User::ClockOut($usr_id);
+    Misc::setMessage("You have been clocked out", Misc::MSG_INFO);
 } else {
-    $tpl->assign('result', User::ClockIn($usr_id));
+    User::ClockIn($usr_id);
+    Misc::setMessage("You have been clocked in", Misc::MSG_INFO);
 }
 
-$tpl->displayTemplate();
+Auth::redirect(!empty($_REQUEST['current_page']) ? $_REQUEST['current_page'] : APP_RELATIVE_URL . 'list.php');

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -32,6 +32,8 @@ require_once APP_JPGRAPH_PATH . '/jpgraph.php';
 require_once APP_JPGRAPH_PATH . '/jpgraph_pie.php';
 
 Auth::checkAuthentication(APP_COOKIE);
+
+error_reporting(E_ALL ^ E_DEPRECATED ^ E_STRICT);
 
 // check to see if the TTF file is available or not
 $ttf_font = TTF_DIR . "verdana.ttf";

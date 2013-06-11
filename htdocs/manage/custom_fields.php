@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -30,43 +30,54 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/custom_fields.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "custom_fields");
 
 $role_id = Auth::getCurrentRole();
-if ($role_id == User::getRoleID('administrator')) {
-    $tpl->assign("show_setup_links", true);
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Custom_Field::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Custom_Field::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        Custom_Field::remove();
-    }elseif (@$_REQUEST["cat"] == "change_rank") {
-        Custom_Field::changeRank();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $tpl->assign("info", Custom_Field::getDetails($_GET["id"]));
-    }
-
-    $excluded_roles = array();
-    if (!Customer::hasCustomerIntegration(Auth::getCurrentProject())) {
-        $excluded_roles[] = "customer";
-    }
-    $user_roles = User::getRoles($excluded_roles);
-    $user_roles[9] = "Never Display";
-
-    $tpl->assign("list", Custom_Field::getList());
-    $tpl->assign("project_list", Project::getAll());
-    $tpl->assign("user_roles", $user_roles);
-    $tpl->assign("backend_list", Custom_Field::getBackendList());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('administrator')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+$tpl->assign("project_list", Project::getAll());
+
+if (@$_POST["cat"] == "new") {
+    $res = Custom_Field::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the custom field was added successfully.', Misc::MSG_INFO),
+            -1  =>  array("An error occurred while trying to add the new custom field.", Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Custom_Field::update();
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the custom field was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array("An error occurred while trying to update the custom field information.", Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    $res = Custom_Field::remove();
+    Misc::mapMessages($res, array(
+            true   =>  array('Thank you, the custom field was removed successfully.', Misc::MSG_INFO),
+            false  =>  array("An error occurred while trying to remove the custom field information.", Misc::MSG_ERROR),
+    ));
+}elseif (@$_REQUEST["cat"] == "change_rank") {
+    Custom_Field::changeRank();
+}
+
+if (@$_GET["cat"] == "edit") {
+    $tpl->assign("info", Custom_Field::getDetails($_GET["id"]));
+}
+
+$excluded_roles = array();
+if (!Customer::hasCustomerIntegration(Auth::getCurrentProject())) {
+    $excluded_roles[] = "customer";
+}
+$user_roles = User::getRoles($excluded_roles);
+$user_roles[9] = "Never Display";
+
+$tpl->assign("list", Custom_Field::getList());
+$tpl->assign("project_list", Project::getAll());
+$tpl->assign("user_roles", $user_roles);
+$tpl->assign("backend_list", Custom_Field::getBackendList());
 
 $tpl->displayTemplate();

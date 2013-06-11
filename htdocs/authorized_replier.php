@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -45,10 +45,20 @@ if (!Access::canViewAuthorizedRepliers($issue_id, Auth::getUserID())) {
 
 if (@$_POST["cat"] == "insert") {
     $res = Authorized_Replier::manualInsert($issue_id, $_POST['email']);
-    $tpl->assign("insert_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, the authorized replier was inserted successfully."));
+    } elseif ($res == -1) {
+        Misc::setMessage(ev_gettext("An error occurred while trying to insert the authorized replier."), Misc::MSG_ERROR);
+    } elseif ($res == -2) {
+        Misc::setMessage(ev_gettext("Users with a role of 'customer' or below are not allowed to be added to the authorized repliers list."), Misc::MSG_ERROR);
+    }
 } elseif (@$_POST["cat"] == "delete") {
     $res = Authorized_Replier::removeRepliers($_POST["items"]);
-    $tpl->assign("delete_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, the authorized replier was deleted successfully."));
+    } elseif ($res == -1) {
+        Misc::setMessage(ev_gettext("An error occurred while trying to delete the authorized replier."), Misc::MSG_ERROR);
+    }
 }
 
 list(,$repliers) = Authorized_Replier::getAuthorizedRepliers($issue_id);

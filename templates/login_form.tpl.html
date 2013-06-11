@@ -27,7 +27,7 @@ function validateForm(f)
         <tr>
           <td colspan="2" align="center">
             <br /><br />
-            <h3>{$app_setup.tool_caption|default:$application_title} - {t}Login{/t}</h3>
+            <h3>{$core.app_setup.tool_caption|default:$application_title} - {t}Login{/t}</h3>
           </td>
         </tr>
       </table>
@@ -71,16 +71,16 @@ function validateForm(f)
         </tr>
         {/if}
         <tr>
-          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b>{t}Email Address{/t}:</b></td>
+          <td align="right" width="40%" bgcolor="#006486"><b>{t}Email Address{/t}:</b></td>
           <td width="60%" bgcolor="#006486">
-            <input accessKey="e" class="default" type="text" name="email" value="{$email|default:$smarty.get.email|escape:"html"}" size="30">
+            <input accessKey="e" type="text" name="email" value="{$email|default:$smarty.get.email|escape:"html"}" size="30">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b>{t}Password{/t}:</b></td>
+          <td align="right" width="40%" bgcolor="#006486"><b>{t}Password{/t}:</b></td>
           <td width="60%" bgcolor="#006486">
-            <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32">
+            <input accessKey="p" type="password" name="passwd" size="20" maxlength="32">
             {include file="error_icon.tpl.html" field="passwd"}
           </td>
         </tr>
@@ -96,17 +96,17 @@ function validateForm(f)
 
         <tr align="center">
           <td colspan="2" bgcolor="#006486">
-            <input type="submit" name="Submit" value="{t}Login{/t}" class="button">
+            <input type="submit" name="Submit" value="{t}Login{/t}">
           </td>
         </tr>
         <tr align="center">
-          <td colspan="2" class="default_white" bgcolor="#006486">
+          <td colspan="2" bgcolor="#006486">
             <a class="white_link" href="forgot_password.php{if $smarty.get.email != ""}?email={$smarty.get.email|escape:"html"}{/if}">{t}I Forgot My Password{/t}</a>&nbsp;&nbsp;
-            {if $app_setup.open_signup == 'enabled'}<a class="white_link" href="signup.php">{t}Signup for an Account{/t}</a>{/if}
+            {if $core.app_setup.open_signup == 'enabled'}<a class="white_link" href="signup.php">{t}Signup for an Account{/t}</a>{/if}
           </td>
         </tr>
         <tr>
-          <td bgcolor="#006486" colspan="2" align="center" class="default_white">
+          <td bgcolor="#006486" colspan="2" align="center">
             <b>* {t}Requires support for cookies and javascript in your browser{/t}</b>
           </td>
         </tr>
@@ -117,15 +117,15 @@ function validateForm(f)
 </form>
 {if $anonymous_post}
 <br />
-<table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="400" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default">
+          <td>
             <b>{t}NOTE: You may report issues without the need to login by using the following URL:{/t}</b>
             <br /><br />
-            <a href="{$app_base_url}post.php" class="link">{$app_base_url}post.php</a>
+            <a href="{$app_base_url}post.php">{$app_base_url}post.php</a>
           </td>
         </tr>
       </table>

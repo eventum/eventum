@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -30,39 +30,45 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/round_robin.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "round_robin");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Round_Robin::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Round_Robin::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        Round_Robin::remove();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $info = Round_Robin::getDetails($_GET["id"]);
-        $tpl->assign("info", $info);
-        $_REQUEST['prj_id'] = $info['prr_prj_id'];
-    }
-
-    $tpl->assign("list", Round_Robin::getList());
-    if (!empty($_REQUEST['prj_id'])) {
-        $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
-    }
-    $tpl->assign("project_list", Project::getAll());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
 
+if (@$_POST["cat"] == "new") {
+    $res = Round_Robin::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the round robin entry was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the round robin entry.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Round_Robin::update();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the round robin entry was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the round robin entry information.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Round_Robin::remove();
+}
+
+if (@$_GET["cat"] == "edit") {
+    $info = Round_Robin::getDetails($_GET["id"]);
+    $tpl->assign("info", $info);
+    $_REQUEST['prj_id'] = $info['prr_prj_id'];
+}
+
+$tpl->assign("list", Round_Robin::getList());
+if (!empty($_REQUEST['prj_id'])) {
+    $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+}
+$tpl->assign("project_list", Project::getAll());
 $tpl->displayTemplate();

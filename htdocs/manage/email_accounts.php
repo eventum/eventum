@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -30,32 +30,38 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/email_accounts.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
-
-$tpl->assign("type", "email_accounts");
 
 $tpl->assign("all_projects", Project::getAll());
 
 $role_id = Auth::getCurrentRole();
-if ($role_id == User::getRoleID('administrator')) {
-    $tpl->assign("show_setup_links", true);
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Email_Account::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Email_Account::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        Email_Account::remove();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $tpl->assign("info", Email_Account::getDetails($_GET["id"]));
-    }
-    $tpl->assign("list", Email_Account::getList());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('administrator')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+
+if (@$_POST["cat"] == "new") {
+    Misc::mapMessages(Email_Account::insert(), array(
+            1   =>  array('Thank you, the email account was added successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to add the new account.', Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    Misc::mapMessages(Email_Account::update(), array(
+            1   =>  array('Thank you, the email account was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to update the account information.', Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Misc::mapMessages(Email_Account::remove(), array(
+            1   =>  array('Thank you, the email account was deleted successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to delete the account information.', Misc::MSG_ERROR),
+    ));
+}
+
+if (@$_GET["cat"] == "edit") {
+    $tpl->assign("info", Email_Account::getDetails($_GET["id"]));
+}
+$tpl->assign("list", Email_Account::getList());
 
 $tpl->displayTemplate();

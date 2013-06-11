@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -59,18 +59,31 @@ if (@$_GET['cat'] == "selfnotify") {
     $sub_id = Notification::getSubscriberID($issue_id, $usr_email);
     Auth::redirect(APP_RELATIVE_URL . "notification.php?cat=edit&iss_id=" . $issue_id . "&id=" . $sub_id);
     $tpl->assign("insert_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, you have been subscribed to the issue."));
+    }
 } elseif (@$_POST["cat"] == "insert") {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
-    $tpl->assign("insert_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, the email has been subscribed to the issue."));
+    }
 } elseif (@$_GET["cat"] == "edit") {
     $res = Notification::getDetails($_GET["id"]);
     $tpl->assign("info", $res);
 } elseif (@$_POST["cat"] == "update") {
     $res = Notification::update($_POST["id"]);
-    $tpl->assign("update_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, the notification entry was updated successfully."));
+    } elseif ($res == -1) {
+        Misc::setMessage(ev_gettext("An error occurred while trying to update the notification entry."), Misc::MSG_ERROR);
+    } elseif ($res == -2) {
+        Misc::setMessage(ev_gettext("Error: the given email address is not allowed to be added to the notification list."), Misc::MSG_ERROR);
+    }
 } elseif (@$_POST["cat"] == "delete") {
     $res = Notification::remove($_POST["items"]);
-    $tpl->assign("delete_result", $res);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext("Thank you, the items have been deleted."));
+    }
 }
 
 $tpl->assign("list", Notification::getSubscriberListing($issue_id));

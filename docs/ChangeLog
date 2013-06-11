@@ -16,6 +16,10 @@ Eventum Issue Tracking System
 - Disable autocomplete on forms that fill somebody else's password (Elan Ruusamäe)
 - Add host aliases support for notes and drafts as well (Elan Ruusamäe)
 - Add custom fields to mail headers as X-Eventum-CustomField-<FieldName> (Elan Ruusamäe)
+- Load local config for CVS/SVN integration from script dir (Elan Ruusamäe)
+- Fix preg_replace warning, when someone managed to upload file containing slash in it's name (Elan Ruusamäe)
+- Move SCM configuration to separate admin panel (Elan Ruusamäe)
+- Handle cases when broken clients send out email with duplicate Message-Id headers. RFC2822 clearly states maximum count of one header allowed (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)

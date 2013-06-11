@@ -51,46 +51,46 @@ function validateCustomer(f)
 </script>
 {/literal}
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>{t}Customer Details{/t}</b>
           </td>
         </tr>
         {if $current_role != $roles.customer}
         <tr>
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}">
             <b>{t}Customer{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <b><div id="customer_div">{$customer_name}</div></b>&nbsp;
             {if $current_role > $roles.standard_user}
-            <a class="link" href="javascript:void(null);" onClick="javascript:lookupCustomer();" tabindex="{$tabindex++}">{t}Lookup Customer{/t}</a>
+            <a href="javascript:void(null);" onClick="javascript:lookupCustomer();" tabindex="{$tabindex++}">{t}Lookup Customer{/t}</a>
             {/if}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}">
             <b>{t}Contact{/t}:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}">
             <b><div id="contact_div">{$contact_name}</div></b>
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}">
             <b>{t}Add Primary Contact to Notification List? *{/t}</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="add_primary_contact" value="yes" tabindex="{$tabindex++}" {if $smarty.post.add_primary_contact != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="add_primary_contact" value="no" tabindex="{$tabindex++}" {if $smarty.post.add_primary_contact == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 1);">{t}No{/t}</a>
+          <td bgcolor="{$light_color}">
+            <input type="radio" name="add_primary_contact" value="yes" tabindex="{$tabindex++}" {if $smarty.post.add_primary_contact != 'no'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="add_primary_contact" value="no" tabindex="{$tabindex++}" {if $smarty.post.add_primary_contact == 'no'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 1);">{t}No{/t}</a>
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$internal_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}">
             <b>{t}Notify Customer About New Issue? *{/t}</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="notify_customer" value="yes" tabindex="{$tabindex++}" {if $smarty.post.notify_customer != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="notify_customer" value="no" tabindex="{$tabindex++}" {if $smarty.post.notify_customer == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 1);">{t}No{/t}</a>
+          <td bgcolor="{$light_color}">
+            <input type="radio" name="notify_customer" value="yes" tabindex="{$tabindex++}" {if $smarty.post.notify_customer != 'no'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
+            <input type="radio" name="notify_customer" value="no" tabindex="{$tabindex++}" {if $smarty.post.notify_customer == 'no'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 1);">{t}No{/t}</a>
           </td>
         </tr>
         {else}
@@ -98,42 +98,42 @@ function validateCustomer(f)
         <input type="hidden" name="notify_customer" value="yes">
         {/if}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Last Name{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_person_lname" class="default" tabindex="{$tabindex++}" value="{if $smarty.post.contact_person_lname != ''}{$smarty.post.contact_person_lname}{else}{$contact_details.last_name}{/if}" size="40">
+            <input type="text" name="contact_person_lname" tabindex="{$tabindex++}" value="{if $smarty.post.contact_person_lname != ''}{$smarty.post.contact_person_lname}{else}{$contact_details.last_name}{/if}" size="40">
             {include file="error_icon.tpl.html" field="contact_person_lname"}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}First Name{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_person_fname" class="default" tabindex="{$tabindex++}" value="{if $smarty.post.contact_person_fname != ''}{$smarty.post.contact_person_fname}{else}{$contact_details.first_name}{/if}" size="40">
+            <input type="text" name="contact_person_fname" tabindex="{$tabindex++}" value="{if $smarty.post.contact_person_fname != ''}{$smarty.post.contact_person_fname}{else}{$contact_details.first_name}{/if}" size="40">
             {include file="error_icon.tpl.html" field="contact_person_fname"}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Email{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_email" class="default" size="40" tabindex="{$tabindex++}" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{else}{$contact_details.email}{/if}">
+            <input type="text" name="contact_email" size="40" tabindex="{$tabindex++}" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{else}{$contact_details.email}{/if}">
             {include file="error_icon.tpl.html" field="contact_email"}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Phone Number{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_phone" tabindex="{$tabindex++}" value="{if $smarty.post.contact_phone != ''}{$smarty.post.contact_phone}{else}{$contact_details.phone}{/if}" class="default" size="20">
+            <input type="text" name="contact_phone" tabindex="{$tabindex++}" value="{if $smarty.post.contact_phone != ''}{$smarty.post.contact_phone}{else}{$contact_details.phone}{/if}" size="20">
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Timezone{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
@@ -142,18 +142,18 @@ function validateCustomer(f)
             {else}
                 {assign var=current_tz value=$user_prefs.timezone}
             {/if}
-            <select class="default" name="contact_timezone" tabindex="{$tabindex++}">
+            <select name="contact_timezone" tabindex="{$tabindex++}">
               {html_options values=$zones output=$zones selected=$current_tz}
             </select>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="contact_timezone" tabindex=$tabindex++}
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}">
             <b>{t}Additional Contact Emails{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <select class="default" name="contact_extra_emails[]" size="3" multiple tabindex="{$tabindex++}">
+            <select name="contact_extra_emails[]" size="3" multiple tabindex="{$tabindex++}">
               {html_options options=$contacts selected=$smarty.post.contact_extra_emails}
             </select>
             <span class="small_default">{t}(hold ctrl to select multiple options){/t}<br />

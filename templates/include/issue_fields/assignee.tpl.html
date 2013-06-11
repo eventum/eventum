@@ -1,12 +1,12 @@
 <tr>
-  <td width="120" bgcolor="{$internal_color}" class="default_white">
+  <td width="120">
     <b>{t}Assignee:{/t}</b>
   </td>
-  <td bgcolor="{$light_color}">
-    <select size="4" multiple class="default" name="issue_field[assignee][]" onChange="showSelections(this.form.name, 'issue_field[assignee][]');">
+  <td>
+    <select size="4" multiple name="issue_field[assignee][]" onChange="showSelections(this.form.name, 'issue_field[assignee][]');">
       {html_options options=$issue_field.options selected=$issue_field.value}
     </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="clearSelectedOptions(getFormElement(this.form, 'issue_field[assignee][]'));showSelections(this.form.name, 'issue_field[assignee][]');"><br />
     {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="issue_field[assignee][]" callbacks="new Array('showSelections(\'update_form\', \'issue_field[assignee][]\')')"}
-    <div class="default" id="selection_issue_field[assignee][]">{if $issue.assignee}{t}Current Selections:{/t} {$issue.assignee}{/if}</div>
+    <div id="selection_issue_field[assignee][]">{if $issue.assignee}{t}Current Selections:{/t} {$issue.assignee}{/if}</div>
   </td>
 </tr>

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -30,34 +30,34 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/anonymous.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
-
-$tpl->assign("type", "anonymous");
 
 @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
 
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Project::updateAnonymousPost($prj_id));
-    }
-    // load the form fields
-    $tpl->assign("project", Project::getDetails($prj_id));
-    $tpl->assign("cats", Category::getAssocList($prj_id));
-    $tpl->assign("priorities", Priority::getList($prj_id));
-    $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
-    $tpl->assign("options", Project::getAnonymousPostOptions($prj_id));
-    $tpl->assign("prj_id", $prj_id);
-    $setup = Setup::load();
-    $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+
+if (@$_POST["cat"] == "update") {
+    $res = Project::updateAnonymousPost($prj_id);
+    $tpl->assign("result", $res);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the information was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to update the information.', Misc::MSG_ERROR),
+    ));
+}
+// load the form fields
+$tpl->assign("project", Project::getDetails($prj_id));
+$tpl->assign("cats", Category::getAssocList($prj_id));
+$tpl->assign("priorities", Priority::getList($prj_id));
+$tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
+$tpl->assign("options", Project::getAnonymousPostOptions($prj_id));
+$tpl->assign("prj_id", $prj_id);
+$setup = Setup::load();
+$tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
 
 $tpl->displayTemplate();

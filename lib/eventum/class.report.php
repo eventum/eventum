@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -47,6 +47,11 @@ class Report
      *
      * @access  public
      * @param   integer $prj_id The project ID
+     * @param $users
+     * @param $status
+     * @param $before_date
+     * @param $after_date
+     * @param $sort_order
      * @return  array The list of issues
      */
     function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
@@ -58,10 +63,12 @@ class Report
 
         // split groups out of users array
         $groups = array();
-        foreach ($users as $key => $value) {
-            if (substr($value, 0, 3) == 'grp') {
-                $groups[] = substr($value, 4);
-                unset($users[$key]);
+        if (count($users) > 0) {
+            foreach ($users as $key => $value) {
+                if (substr($value, 0, 3) == 'grp') {
+                    $groups[] = substr($value, 4);
+                    unset($users[$key]);
+                }
             }
         }
 
@@ -141,9 +148,10 @@ class Report
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $cutoff_days The number of days to use as a cutoff period
+     * @param bool $group_by_reporter
      * @return  array The list of issues
      */
-    function getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter = false)
+    public static function getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter = false)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);

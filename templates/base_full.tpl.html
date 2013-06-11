@@ -1,0 +1,103 @@
+{*
+    blocks:
+        title
+        sidebar
+        content
+*}
+{extends "base.tpl.html"}
+{block "header"}
+    <div id="header">
+        <div id="header_1">
+            <div id="app_title">{$core.app_title}</div>
+
+            <ul id="main_menu">
+                {if $core.current_role > $core.roles.developer}
+                <li><a title="{t}manage the application settings, users, projects, etc{/t}"
+                       href="{$core.rel_url}manage/projects.php">{t}Administration{/t}</a></li>
+                {/if}
+                {if $core.current_role >= $core.roles.reporter}
+                <li><a title="{t}create a new issue{/t}" href="{$core.rel_url}new.php">{t}Create Issue{/t}</a></li>
+                {/if}
+                <li><a title="{t}list the issues stored in the system{/t}" href="{$core.rel_url}list.php">{t}List Issues{/t}</a></li>
+                {if $core.current_role != $core.roles.customer}
+                <li><a title="{t}get access to advanced search parameters{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a></li>
+                {/if}
+                {if $core.app_setup.support_email == 'enabled' and $core.current_role > $core.roles.customer}
+                <li><a title="{t}list available emails{/t}" href="{$core.rel_url}emails.php">{t}Associate Emails{/t}</a></li>
+                {/if}
+                {if $core.current_role > $core.roles.customer}
+                <li><a title="{t}list all issues assigned to you{/t}" href="{$core.rel_url}list.php?view=my_assignments">{t}My Assignments{/t}</a></li>
+                {/if}
+                <li><a title="{t}general statistics{/t}" href="{$core.rel_url}main.php">{t}Stats{/t}</a></li>
+                {if $core.current_role > $core.roles.customer}
+                <li><a title="{t}reporting system{/t}" href="{$core.rel_url}reports/index.php">{t}Reports{/t}</a></li>
+                {/if}
+                <li><a title="{t}internal faq{/t}" href="{$core.rel_url}faq.php">{t}Internal FAQ{/t}</a></li>
+                <li><a title="{t}help documentation{/t}" href="{$core.rel_url}help.php" class="help">{t}Help{/t}</a></li>
+            </ul>
+
+            <div class="clear"></div>
+        </div>
+        <div id="header_2">
+            <div id="project_chooser">
+                {if $core.current_role == $core.roles.customer}
+                    {t}Project{/t}: {$core.project_name|escape:"html"}</b>
+                {else}
+                  <form method="post" action="{$core.rel_url}switch.php">
+                    <select name="current_project">
+                      {html_options options=$core.active_projects selected=$core.project_id}
+                    </select>
+                    <input type="hidden" name="current_page" value="{$core.current_url}" />
+                  </form>
+                {/if}
+            </div>
+
+            <div id="search_menu">
+                <form method="get" action="{$core.rel_url}list.php">
+                <label for="search" accesskey="3"></label>
+                <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15">
+                <input type="submit" value="{t}Search{/t}" class="shortcut">
+                </form>
+            </div>
+
+            <div id="user_menu">
+                {$core.current_role_name}: {$core.user.usr_full_name|escape:html}
+                {if $core.current_role > $core.roles.standard_user}
+                    [{if $core.is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]
+                {/if}
+                {strip}
+                (
+                {if $core.is_anon_user}
+                  <a href="{$core.rel_url}signup.php">{t}Register{/t}</a>
+                {else}
+                  <a title="{t}modify your account details and preferences{/t}" href="{$core.rel_url}preferences.php">{t}Preferences{/t}</a>&nbsp;
+                  {if $core.current_role > $core.roles.standard_user}
+                    <a id="change_clock_status" title="{t}change your account clocked-in status{/t}" href="">
+                    {if $core.is_current_user_clocked_in}{t}Clock Out{/t}{else}{t}Clock In{/t}{/if}</a>
+                  {/if}
+                {/if}
+                {if !$core.is_anon_user}
+                    &nbsp;<a title="{t}logout from{/t} {$core.app_title}" href="{$core.rel_url}logout.php">{t}Logout{/t}</a>
+                {else}
+                    <a href="{$core.rel_url}index.php">{t}Login{/t}</a>
+                {/if}
+                )
+                {/strip}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{/block}
+
+{block "messages"}
+{include "app_messages.tpl.html"}
+{/block}
+
+{block "footer"}
+  <div id="footer">
+      <a href="https://launchpad.net/eventum"  title="Eventum Issue Tracking System">{$core.app_title}</a> {$core.app_version}<br />
+      Copyright &copy; 2003 - 2008 MySQL AB,
+      2008 - 2010 Sun Microsystem Inc,
+      2011 Eventum Team.
+  </div>
+{/block}

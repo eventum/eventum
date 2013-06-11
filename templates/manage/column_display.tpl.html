@@ -1,84 +1,71 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
 {if $prj_id == ''}
-    <span class="default">
+<span>
     {t}This page can only be accessed in relation to a project. Please go to the project page and choose{/t}&nbsp;"{t}Edit Columns to Display{/t}"&nbsp;{t}to access this page.{/t}<br />
-    <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
+    <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <form name="column_display_form" method="post" action="{$smarty.server.PHP_SELF}">
-        <input type="hidden" name="cat" value="save">
-        <input type="hidden" name="page" value="{$page}">
-        <input type="hidden" name="prj_id" value="{$prj_id}">
-        <tr>
-          <td class="default" nowrap colspan="2">
-            <b>{t}Manage Columns to Display{/t}</b> {include file="help_link.tpl.html" topic="column_display"}
-          </td>
-          <td class="default" align="right">
-            ({t}Current Project{/t}: {$project_name})
-          </td>
+<form name="column_display_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="cat" value="save">
+    <input type="hidden" name="page" value="{$page}">
+    <input type="hidden" name="prj_id" value="{$prj_id}">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="3">
+                {t}Manage Columns to Display{/t} {include file="help_link.tpl.html" topic="column_display"}
+                <div class="right">({t}Current Project{/t}: {$project_name})</div>
+            </th>
         </tr>
-        {if $result != ""}
         <tr>
-          <td colspan="3" bgcolor="{$cell_color}" align="center" class="error">
-              {if $result == -1}
-                {t}An error occurred while trying to save columns to display.{/t}
-              {elseif $result == 1}
-                {t}Thank you, columns to display was saved successfully.{/t}
-              {/if}
-          </td>
-        </tr>
-        {/if}
-        <tr>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
-            <b>{t}Column Name{/t}</b>
-          </td>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="20%">
-            <b>{t}Minimum Role{/t}</b>
-          </td>
-          <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
-            <b>{t}Order{/t}</b>
-          </td>
+            <th nowrap align="center" width="40%">
+                {t}Column Name{/t}
+            </th>
+            <th align="center" width="20%">
+                {t}Minimum Role{/t}
+            </th>
+            <th align="center" width="40%">
+                {t}Order{/t}
+            </th>
         </tr>
         {assign var=default_rank value=1}
         {foreach from=$available item=column key=field_name}
-        {cycle values=$cycle assign="row_color"}
-        <tr>
-          <td bgcolor="{$row_color}" class="default" align="center" width="40%">
-            {$column.title}
-          </td>
-          <td bgcolor="{$row_color}" align="center" width="20%">
-            {if $selected[$field_name].min_role == ''}
-              {assign var="selected_role" value=$column.default_role}
-            {else}
-              {assign var="selected_role" value=$selected[$field_name].min_role}
-            {/if}
-            <select name="min_role[{$field_name}]" class="default">
-              {html_options options=$user_roles selected=$selected_role}
-            </select>
-          </td>
-          <td bgcolor="{$row_color}" align="center" width="40%">
-            {if $selected[$field_name].rank == ''}
-              {assign var=selected_rank value=$default_rank}
-            {else}
-              {assign var=selected_rank value=$selected[$field_name].rank}
-            {/if}
-            <select name="rank[{$field_name}]" class="default">
-              {html_options options=$ranks selected=$selected_rank}
-            </select>
-          </td>
+        <tr class="{cycle values='odd,even'}">
+            <td align="center" width="40%">
+                {$column.title}
+            </td>
+            <td align="center" width="20%">
+                {assign var="selected_field" value=$selected[$field_name]|default:''}
+                {if $selected_field == '' or $selected_field.min_role == ''}
+                {assign var="selected_role" value=$column.default_role|default:''}
+                {else}
+                {assign var="selected_role" value=$selected[$field_name].min_role|default:''}
+                {/if}
+                <select name="min_role[{$field_name}]">
+                    {html_options options=$user_roles selected=$selected_role}
+                </select>
+            </td>
+            <td align="center" width="40%">
+                {assign var="selected_field" value=$selected[$field_name]|default:''}
+                {if $selected_field == '' or $selected[$field_name].rank}
+                {assign var=selected_rank value=$default_rank}
+                {else}
+                {assign var=selected_rank value=$selected[$field_name].rank}
+                {/if}
+                <select name="rank[{$field_name}]">
+                    {html_options options=$ranks selected=$selected_rank}
+                </select>
+            </td>
         </tr>
         {assign var=default_rank value=$default_rank+1}
         {/foreach}
-        <tr>
-          <td bgcolor="{$cell_color}" align="center" colspan="3">
-            <input type="submit" name="save" value="{t}Save{/t}" class="button">
-          </td>
+        <tr class="buttons">
+            <td colspan="3">
+                <input type="submit" name="save" value="{t}Save{/t}">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
+</form>
 {/if}
+{/block}

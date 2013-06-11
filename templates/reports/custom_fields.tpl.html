@@ -1,4 +1,8 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}custom_fields_report{/block}
+{block "title"}Custom Fields{/block}
+
+{block "report_content"}
 <br />
 {literal}
 <script type="text/javascript">
@@ -17,51 +21,48 @@ function validateForm(f)
 {/literal}
 <form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
-            <b>{t}Custom Fields Report{/t}</b>
-          </td>
+      <table class="bordered filters">
+        <tr class="title">
+          <th colspan="3">
+            {t}Custom Fields Report{/t}
+          </th>
         </tr>
         <tr>
-          <td width="30%" class="default" align="center">
+          <th width="30%" align="center">
             <b>{t}Field to Graph{/t}</b>
-          </td>
-          <td width="30%" class="default" align="center">
+          </th>
+          <th width="30%" align="center">
             <b>{t}Options to Graph{/t}</b>
-          </td>
+          </th>
         </tr>
         <tr>
           <td align="center" valign="top" height="10">
-            <select name="custom_field" class="default" onChange="setOptions(this.options[this.selectedIndex].value, true)">
+            <select name="custom_field" onChange="setOptions(this.options[this.selectedIndex].value, true)">
                 <option value="-1"></option>
                 {html_options options=$custom_fields selected=$custom_field}
             </select>
             {include file="error_icon.tpl.html" field="custom_field"}
           </td>
           <td align="center" valign="top" rowspan="5">
-            <select name="custom_options[]" size="8" multiple class="default">
+            <select name="custom_options[]" size="8" multiple>
             </select>
           </td>
         </tr>
         <tr>
-          <td width="30%" class="default" align="center" height="10">
-            {if $has_customer_integration}
+          <td width="30%" align="center" height="10">
+            {if $core.has_customer_integration}
               <b>{t}Group By{/t}</b>
             {/if}
           </td>
         </tr>
         <tr>
-          <td align="left" valign="top" class="default">
-            {if $has_customer_integration}
+          <td align="left" valign="top">
+            {if $core.has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
-                <a id="link" class="link" href="javascript:void(null)"
+                <a id="link" href="javascript:void(null)"
                             onClick="checkRadio('custom_fields_report', 'group_by', 0);">{t}Issue{/t}</a><br />
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
-                <a id="link" class="link" href="javascript:void(null)"
+                <a id="link" href="javascript:void(null)"
                             onClick="checkRadio('custom_fields_report', 'group_by', 1);">{t}Customer{/t}</a><br />
             {else}
               <input type="hidden" name="group_by" value="issue">
@@ -69,7 +70,7 @@ function validateForm(f)
           </td>
         </tr>
     <tr>
-      <th align="center" height="10" class="default">
+      <th align="center" height="10">
           <b>Interval</b>
       </th>
     </tr>
@@ -85,12 +86,12 @@ function validateForm(f)
       </td>
     </tr>
     <tr>
-      <th colspan="2" class="default">
+      <th colspan="2">
         <b>{t}Issues Created Between{/t}</b>
       </th>
     </tr>
     <tr id="start_row">
-      <td width="120" align="center" class="default">
+      <td width="120" align="center">
         <b>{t}Start{/t}</b>
       </td>
       <td width="200">
@@ -98,7 +99,7 @@ function validateForm(f)
       </td>
     </tr>
     <tr id="end_row">
-      <td width="120" align="center" class="default">
+      <td width="120" align="center">
         <b>{t}End{/t}</b>
       </td>
       <td width="200">
@@ -106,13 +107,13 @@ function validateForm(f)
       </td>
     </tr>
     <tr>
-      <th colspan="2" class="default">
+      <th colspan="2">
         <b>{t}Assignee{/t}</b>
       </th>
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <select name="assignee" class="default">
+        <select name="assignee">
                 <option value="-1"></option>
                 {html_options options=$assignees selected=$assignee}
             </select>
@@ -176,7 +177,7 @@ setOptions('{$custom_field}', false);
 </script>
 
 {if $custom_options|@count > 0}
-<div align="center" class="default">
+<div align="center">
     <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}"><br /><br />
     <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}&type=pie"><br />
     {t}Percentages may not add up to exactly 100% due to rounding.{/t}<br /><br />
@@ -185,53 +186,48 @@ setOptions('{$custom_field}', false);
 
 {if $data|@count > 0}
 {assign var="colspan" value=3}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{$colspan}" class="default_white">
+          <td colspan="{$colspan}">
             <b>{t}Issues/Customers matching criteria{/t}</b>
           </td>
         </tr>
         <tr>
-          {if $has_customer_integration}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>
+          {if $core.has_customer_integration}
+          <td>{t}Customer{/t}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Issue Count{/t}</td>
+          <td>{t}Issue Count{/t}</td>
           {else}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
-          <td bgcolor="{$cell_color}" class="default_white">{t}Summary{/t}</td>
-          <td bgcolor="{$cell_color}" class="default_white">{$field_info.fld_title}</td>
+          <td>{t}Issue ID{/t}</td>
+          <td>{t}Summary{/t}</td>
+          <td>{$field_info.fld_title}</td>
           {/if}
         </tr>
         {foreach from=$data item=row}
         {cycle values=$cycle assign="row_color"}
         <tr>
-          {if $has_customer_integration}
-          <td class="default" bgcolor="{$row_color}">{$row.customer_title}</td>
+          {if $core.has_customer_integration}
+          <td bgcolor="{$row_color}">{$row.customer_title}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}
-          <td class="default" bgcolor="{$row_color}" align="center">{$row.row_count}</td>
+          <td bgcolor="{$row_color}" align="center">{$row.row_count}</td>
           {else}
-          <td class="default" bgcolor="{$row_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.iss_id}" class="link">{$row.iss_id}</a>
+          <td bgcolor="{$row_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.iss_id}">{$row.iss_id}</a>
           </td>
-          <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
-          <td class="default" bgcolor="{$row_color}">{$row.field_value}</td>
+          <td bgcolor="{$row_color}">{$row.iss_summary}</td>
+          <td bgcolor="{$row_color}">{$row.field_value}</td>
           {/if}
         </tr>
         {foreachelse}
         <tr>
-            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>{t}No data found{/t}</i></td>
+            <td colspan="8" align="center" bgcolor="{$dark_color}"><i>{t}No data found{/t}</i></td>
         </tr>
         {/foreach}
       </table>
-    </td>
-  </tr>
-</table>
 {/if}
-
-
-{include file="footer.tpl.html"}
+{/block}

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -60,6 +60,12 @@ if (@$_POST["cat"] == "post_note") {
 
     $res = Note::insert($usr_id, $issue_id);
     Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
+
+    if ($res == -1) {
+        Misc::setMessage(_("An error occurred while trying to run your query"), Misc::MSG_ERROR);
+    } else {
+        Misc::setMessage(_('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
+    }
     $tpl->assign("post_result", $res);
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {

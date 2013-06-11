@@ -1,155 +1,124 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+{block "manage_content"}
+      {literal}
+      <script type="text/javascript">
+      <!--
+      function validateForm()
+      {
+          if (Validation.isFieldWhitespace('title')) {
+              alert('{/literal}{t escape=js}Please enter the title of this resolution.{/t}{literal}');
+              Validation.selectField('title');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('rank')) {
+              alert('{/literal}{t escape=js}Please enter the rank of this resolution.{/t}{literal}');
+              Validation.selectField('rank');
+              return false;
+          }
+          return true;
+      }
+      function checkDelete()
+      {
+          if (!Validation.hasOneChecked('items[]')) {
+              alert('{/literal}{t escape=js}Please select at least one of the resolutions.{/t}{literal}');
+              return false;
+          }
+          if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+              return false;
+          } else {
+              return true;
+          }
+      }
+      $().ready(function() {
+          $('#resolution_form').submit(validateForm);
+          $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+          $('#delete_form').submit(checkDelete);
+      });
+      //-->
+      </script>
+      {/literal}
+      <form id="resolution_form" method="post" action="{$smarty.server.PHP_SELF}">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="hidden" name="cat" value="update">
+      <input type="hidden" name="id" value="{$smarty.get.id|default:''|intval}">
+      {else}
+      <input type="hidden" name="cat" value="new">
+      {/if}
+    <table class="bordered">
+      <tr class="title">
+        <th colspan="2">
+          {t}Manage Issue Resolutions{/t}
+        </th>
+      </tr>
+      <tr>
+        <th width="120">
+          {t}Title:{/t}
+        </th>
+        <td>
+          <input type="text" name="title" size="40" value="{$info.res_title|default:''}">
+          {include file="error_icon.tpl.html" field="title"}
+        </td>
+      </tr>
         <tr>
+          <th width="140">
+            {t}Rank{/t}
+          </th>
           <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this resolution.{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  if (isWhitespace(f.rank.value)) {
-                      alert('{/literal}{t escape=js}Please enter the rank of this resolution.{/t}{literal}');
-                      selectField(f, 'rank');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="resolution_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-              {else}
-              <input type="hidden" name="cat" value="new">
-              {/if}
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Manage Issue Resolutions{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new issue resolution.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this new issue resolution.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the issue resolution was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the issue resolution information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this issue resolution.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the issue resolution was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Title:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" name="title" size="40" class="default" value="{$info.res_title}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-                <tr>
-                  <td width="140" bgcolor="{$cell_color}" class="default_white">
-                    <b>{t}Rank:{/t}</b>
-                  </td>
-                  <td bgcolor="{$light_color}">
-                    <input type="text" name="rank" size="5" class="default" value="{$info.res_rank}">
-                    {include file="error_icon.tpl.html" field="rank"}
-                  </td>
-                </tr>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Resolution{/t}">
-                  {else}
-                  <input class="button" type="submit" value="{t}Create Resolution{/t}">
-                  {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Existing Resolutions:{/t}</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the resolutions.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
-                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
-                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].res_rank}</td>
-                      <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                        <i>{t}No resolutions could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td bgcolor="{$cell_color}" align="center" colspan="2">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
+            <input type="text" name="rank" size="5" class="default" value="{$info.res_rank|default:''}">
+            {include file="error_icon.tpl.html" field="rank"}
           </td>
         </tr>
+      <tr class="buttons">
+        <td colspan="2" >
+          {if $smarty.get.cat|default:'' == 'edit'}
+          <input type="submit" value="{t}Update Resolution{/t}">
+          {else}
+          <input type="submit" value="{t}Create Resolution{/t}">
+          {/if}
+          <input type="reset" value="{t}Reset{/t}">
+        </td>
+      </tr>
       </table>
+      </form>
 
+      <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+      <input type="hidden" name="cat" value="delete">
+      <table class="bordered">
+      <tr class="title">
+        <th colspan="3">
+          {t}Existing Resolutions:{/t}
+        </th>
+      </tr>
+      <tr>
+          <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+          <th>{t}Rank{/t}</th>
+          <th width="100%">&nbsp;{t}Title{/t}</th>
+        </tr>
+        {section name="i" loop=$list}
+        <tr class="{cycle values='odd,even'}">
+          <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
+          <td align="center">{$list[i].res_rank}</td>
+          <td width="100%">
+            &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
+          </td>
+        </tr>
+        {sectionelse}
+        <tr>
+          <td colspan="3" align="center">
+            {t}No resolutions could be found.{/t}
+          </td>
+        </tr>
+        {/section}
+        <tr class="buttons">
+          <td width="4">
+            <input type="button" value="{t}All{/t}" class="select_all">
+          </td>
+          <td colspan="2">
+            <input type="submit" value="{t}Delete{/t}">
+          </td>
+        </tr>
+    </table>
+    </form>
+{/block}

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -1423,6 +1423,7 @@ class Support
      */
     function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
+        debug_print_backtrace();
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
         }
@@ -1564,6 +1565,12 @@ class Support
                     // the following items are not inserted, but useful in some methods
                     'headers'        => @$structure->headers
                 );
+
+                $prj_id = Issue::getProjectID($t['issue_id']);
+                if (Workflow::shouldAutoAddToNotificationList($prj_id)) {
+                    self::addExtraRecipientsToNotificationList($prj_id, $t, false);
+                }
+
                 Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
                 if ($authorize) {
                     Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);

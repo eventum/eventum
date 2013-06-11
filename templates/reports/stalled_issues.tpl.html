@@ -1,107 +1,97 @@
-{capture name="extra_title" assign="extra_title"}{t}Stalled Issues Report{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}recent_activity_report{/block}
+{block "title"}Stalled Issues{/block}
+
+{block "report_content"}
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
-<input type="hidden" name="cat" value="generate">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td bgcolor="{$cell_color}" colspan="4" class="default_white">
-            <b>{t}Stalled Issues Report{/t}</b>
-          </td>
+    <input type="hidden" name="cat" value="generate">
+    <table class="bordered filters">
+        <tr class="title">
+            <th colspan="4">
+                {t}Stalled Issues Report{/t}
+            </th>
         </tr>
         <tr id="start_row">
-          <td width="40%" class="default" align="center" nowrap colspan="2">
-            <b>{t}Show Issues with no Response Between{/t}</b>
-          </td>
+            <th width="40%" align="center" nowrap colspan="2">
+                {t}Show Issues with no Response Between{/t}
+            </th>
         </tr>
         <tr id="start_row">
-          <td width="600%" nowrap colspan="2" align="center">
-            {html_select_date time=$after_date prefix="" field_array="after" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-             <span class="default"> and </span>
-            {html_select_date time=$before_date prefix="" field_array="before" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
-          </td>
+            <td width="600%" nowrap colspan="2" align="center">
+                {html_select_date time=$after_date prefix="" field_array="after" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+                <span> and </span>
+                {html_select_date time=$before_date prefix="" field_array="before" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+            </td>
         </tr>
         <tr>
-          <td width="30%" class="default" align="center">
-            <b>{t}Developers{/t}:</b>
-          </td>
-          <td width="70%">
-            <select class="default" name="developers[]" multiple size="5" style="width: 100%">
-                {html_options options=$users selected=$developers}
-            </select>
-          </td>
+            <th width="30%" align="center">
+                {t}Developers{/t}:
+            </th>
+            <td width="70%">
+                <select name="developers[]" multiple size="5" style="width: 100%">
+                    {html_options options=$users selected=$developers}
+                </select>
+            </td>
         </tr>
         <tr>
-          <td width="30%" class="default" align="center">
-            <b>{t}Status{/t}:</b>
-          </td>
-          <td width="70%">
-            <select class="default" name="status[]" multiple size="5" style="width: 100%">
-                {html_options options=$status_list selected=$status}
-            </select>
-          </td>
+            <th width="30%" align="center">
+                {t}Status{/t}:
+            </th>
+            <td width="70%">
+                <select name="status[]" multiple size="5" style="width: 100%">
+                    {html_options options=$status_list selected=$status}
+                </select>
+            </td>
         </tr>
         <tr>
-          <td class="default" align="center">
-            <b>{t}Sort Order{/t}:</b>
-          </td>
-          <td>
-            <select class="default" name="sort_order" style="width: 100%">
-                <option value="ASC" label="{t}Ascending{/t}" {if $smarty.request.sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
-                <option value="DESC" label="{t}Descending{/t}" {if $smarty.request.sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
-            </select>
-          </td>
+            <th align="center">
+                {t}Sort Order{/t}:
+            </th>
+            <td>
+                <select name="sort_order" style="width: 100%">
+                    <option value="ASC" label="{t}Ascending{/t}" {if $smarty.request.sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
+                    <option value="DESC" label="{t}Descending{/t}" {if $smarty.request.sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
+                </select>
+            </td>
         </tr>
-        <tr>
-          <td align="center" colspan="2">
-            <input type="submit" value="{t}Generate{/t}" class="shortcut">
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Generate{/t}">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
 </form>
 
 {foreach key=user_full_name item=assigned_issues from=$data}
 <h4>{$user_full_name|escape:"html"}</h4>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
-          <td rowspan="2" align="center" class="default_white">{t}Issue ID{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Summary{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Status{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Time Spent{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Created{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Last Response{/t}</td>
-          <td colspan="2" align="center" class="default_white">{t}Days and Hours Since{/t}</td>
-        </tr>
-        <tr bgcolor="{$cell_color}">
-          <td align="center" class="default_white">{t}Last Update{/t}</td>
-          <td align="center" class="default_white">{t}Last Outgoing Msg{/t}</td>
-        </tr>
-        {foreach key=issue_id item=issue from=$assigned_issues}
-        <tr>
-          <td bgcolor="{$issue.status_color}" class="default" align="center"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue_id}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.sta_title|escape:"html"}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.time_spent}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.iss_created_date}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.iss_last_response_date}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.last_update}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.last_email_response}</td>
-        </tr>
-        {/foreach}
-      </table>
-    </td>
-  </tr>
+<table class="bordered">
+    <tr>
+        <th rowspan="2" align="center">{t}Issue ID{/t}</th>
+        <th rowspan="2" align="center">{t}Summary{/t}</th>
+        <th rowspan="2" align="center">{t}Status{/t}</th>
+        <th rowspan="2" align="center">{t}Time Spent{/t}</th>
+        <th rowspan="2" align="center">{t}Created{/t}</th>
+        <th rowspan="2" align="center">{t}Last Response{/t}</th>
+        <th colspan="2" align="center">{t}Days and Hours Since{/t}</th>
+    </tr>
+    <tr>
+        <td align="center">{t}Last Update{/t}</td>
+        <td align="center">{t}Last Outgoing Msg{/t}</td>
+    </tr>
+    {foreach key=issue_id item=issue from=$assigned_issues}
+    <tr>
+        <td bgcolor="{$issue.status_color}" align="center"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue_id}</a></td>
+        <td bgcolor="{$issue.status_color}"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.sta_title|escape:"html"}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.time_spent}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_last_response_date}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.last_update}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.last_email_response}</td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 {/foreach}
-
-{include file="footer.tpl.html"}
+{/block}

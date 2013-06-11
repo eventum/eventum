@@ -1,266 +1,92 @@
-{include file="header.tpl.html" extra_title="List of Issues"}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block "page_id"}list_issues{/block}
 
+{block "content"}
+{if $core.current_role != $core.roles.customer}
 {include file="quick_filter_form.tpl.html"}
 {include file="current_filters.tpl.html"}
-<script type="text/javascript">
-<!--
-var page_url = '{$smarty.server.PHP_SELF}';
-var current_page = {if $list_info.current_page == ''}0{else}{$list_info.current_page}{/if};
-var last_page = {if $list_info.last_page == ''}0{else}{$list_info.last_page}{/if};
-{literal}
-// this function will display the bulk update form if any issues are selected.
-// if no issues are selected it will be hidden.
-function toggleBulkUpdate()
-{
-    var items = document.getElementsByName('item[]');
-
-    // loop through looking to see which are checked
-    var show = false;
-    for (var i = 0; i < items.length; i++) {
-        if (items[i].checked) {
-            show = true;
-            break;
-        }
-    }
-    if (show) {
-        changeVisibility('bulk_update1', show);
-    }
-}
-function resetBulkUpdate()
-{
-    var f = getForm('list_form');
-    clearSelectedOptions(getFormElement(f, 'users[]'));
-    clearSelectedOptions(getFormElement(f, 'status'));
-    if (getFormElement(f, 'release')) {
-        clearSelectedOptions(getFormElement(f, 'release'));
-    }
-}
-function bulkUpdate()
-{
-    var f = getForm('list_form');
-    if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t escape=js}Please choose which issues to update.{/t}{literal}');
-        return false;
-    }
-
-    // figure out what is changing
-    var changed = new Array();
-    if (hasOneSelected(f, 'users[]')) {
-        changed[changed.length] = 'Assignment';
-    }
-    if (f.elements.status.selectedIndex != 0) {
-        changed[changed.length] = 'Status';
-    }
-    if ((f.elements.release) && (f.elements.release.selectedIndex != 0)) {
-        changed[changed.length] = 'Release';
-    }
-    if ((f.elements.priority) && (f.elements.priority.selectedIndex != 0)) {
-        changed[changed.length] = 'Priority';
-    }
-    if ((f.elements.category) && (f.elements.category.selectedIndex != 0)) {
-        changed[changed.length] = 'Category';
-    }
-    if ((f.elements.closed_status) && (f.elements.closed_status.selectedIndex != 0)) {
-        changed[changed.length] = 'Closed Status';
-    }
-    if (changed.length < 1) {
-        alert('{/literal}{t escape=js}Please choose new values for the selected issues{/t}{literal}');
-        return false;
-    }
-    var msg = '{/literal}{t escape=js}Warning: If you continue, you will change the {/t}{literal}';
-    for (var i = 0; i < changed.length; i++) {
-        msg += changed[i];
-        if ((changed.length > 1) && (i == (changed.length-2))) {
-            msg += ' and ';
-        } else {
-            if (i != (changed.length-1)) {
-                msg += ', ';
-            }
-        }
-    }
-    msg += ' {/literal}{t escape=js}for all selected issues. Are you sure you want to continue?{/t}{literal}';
-    if (!confirm(msg)) {
-        return false;
-    }
-    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('', '_popup', features);
-    popupWin.focus();
-    f.action = 'popup.php';
-    f.target = '_popup';
-    f.submit();
-}
-function hideClosed(f)
-{
-    if (f.hide_closed.checked) {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '1');
-    } else {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '0');
-    }
-}
-function resizePager(f)
-{
-    var pagesize = f.page_size.options[f.page_size.selectedIndex].value;
-    window.location.href = page_url + "?" + replaceParam(window.location.href, 'rows', pagesize);
-}
-function checkPageField(ev)
-{
-    // check if the user is trying to submit the form by hitting <enter>
-    if (((window.event) && (window.event.keyCode == 13)) ||
-            ((ev) && (ev.which == 13))) {
-        return false;
-    }
-}
-function goPage(f, new_page)
-{
-    if ((new_page > last_page+1) || (new_page <= 0) ||
-            (new_page == current_page+1) || (!isNumberOnly(new_page))) {
-        f.page.value = current_page+1;
-        return false;
-    }
-    setPage(new_page-1);
-}
-function setPage(new_page)
-{
-    if ((new_page > last_page) || (new_page < 0) ||
-            (new_page == current_page)) {
-        return false;
-    }
-    window.location.href = page_url + "?" + replaceParam(window.location.href, 'pagerRow', new_page);
-}
-function downloadCSV()
-{
-    var f = this.document.csv_form;
-    f.submit();
-    return false;
-}
-window.onload = disableFields;
-function disableFields()
-{
-    var f = document.list_form;
-    if (current_page == 0) {
-        f.first.disabled = true;
-        f.previous.disabled = true;
-    }
-    if ((current_page == last_page) || (last_page <= 0)) {
-        f.next.disabled = true;
-        f.last.disabled = true;
-    }
-    if ((current_page == 0) && (last_page <= 0)) {
-        f.page.disabled = true;
-        f.go.disabled = true;
-    }
-}
-function updateCustomFields(issue_id)
-{
-    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
-    customWin.focus();
-    return false;
-}
-//-->
-</script>
-{/literal}
+{/if}
 {* Figure out how many columns there are *}
 {assign var="col_count" value=$columns|@count}
 {if $list_info.custom_fields|@count > 1}
 {math assign="col_count" equation="x+y-1" x=$col_count y=$list_info.custom_fields|@count}
 {/if}
-{if $current_role > $roles.developer}
+{if $core.current_role > $core.roles.developer}
     {math assign="col_count" equation="x+1" x=$col_count}
 {/if}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <form name="list_form" method="post" action="{$smarty.server.PHP_SELF}">
+  <form id="list_form" method="post" action="{$smarty.server.PHP_SELF}"
+        data-current-page="{$list_info.current_page|default:0}"
+        data-last-page="{$list_info.last_page|default:0}">
   <input type="hidden" name="cat" value="bulk_update">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{$col_count}" class="default">
-            <table width="100%" cellspacing="0" cellpadding="0" border="0">
-              <tr>
-                <td class="default">
+      <table class="bordered grid">
+        <tr class="title">
+            <td colspan="{$col_count}">
                   {* TRANSLATORS: %1: total rows, 2: range start, 3: range end *}
                   {if $list_info.end_offset > 0}
-                  <b>{t 1=$list_info.total_rows 2=$list_info.start_offset+1 3=$list_info.end_offset}Search Results (%1 issues found, %2 - %3 shown){/t}</b>
+                  {t 1=$list_info.total_rows 2=$list_info.start_offset+1 3=$list_info.end_offset}Search Results (%1 issues found, %2 - %3 shown){/t}
                   {else}
                   {* TRANSLATORS: %1: total rows *}
-                  <b>{t 1=$list_info.total_rows}Search Results (%1 issues found){/t}</b>
+                  {t 1=$list_info.total_rows}Search Results (%1 issues found){/t}
                   {/if}
                   {include file="help_link.tpl.html" topic="list"}
-                </td>
-                {if $current_role != $roles.customer}
-                <td align="right" class="default" nowrap>
-                  {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
+                {if $core.current_role != $core.roles.customer}
+                <span class="menu">
                   {t}hide/show{/t}:
-                  [ <a class="link" title="{t}hide / show the quick search form{/t}" href="javascript:void(null);" onClick="toggleVisibility('filter_form');">{t}quick search{/t}</a> ]
-                  {if $current_role > $roles.reporter}[ <a class="link" title="{t}hide / show the advanced search form{/t}" href="javascript:void(null);" onClick="toggleVisibility('custom_filter_form');">{t}advanced search{/t}</a> ]{/if}
-                  {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="toggleVisibility('current_filters');"> {t}current filters{/t}</a> ]{/if}
-                  {if $current_role > $roles.developer}[ <a class="link" href="javascript:void(null);" onClick="toggleVisibility('bulk_update');"> {t}bulk update tool{/t}</a> ]{/if}
-                  {/if}
-                </td>
+                  [ <span class="js_link" title="{t}hide / show the quick search form{/t}" id="toggle_quick_filter">{t}quick search{/t}</span> ]
+                  {if $core.current_role > $core.roles.reporter}[ <span class="js_link" id="toggle_current_filters"> {t}current filters{/t}</span> ]{/if}
+                  {if $core.current_role > $core.roles.developer}[ <span class="js_link" id="toggle_bulk_update"> {t}bulk update tool{/t}</span> ]{/if}
+                </span>
                 {/if}
               </tr>
-            </table>
           </td>
         </tr>
-        <tr bgcolor="{$cell_color}">
-          {if $current_role > $roles.developer}
-          <td width="1%">
-            <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');toggleBulkUpdate();">
-          </td>
+        <tr>
+          {if $core.current_role > $core.roles.developer}
+          <th width="1%">
+            <input type="button" value="{t}All{/t}" class="select_all">
+          </th>
           {/if}
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
             {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
               {assign var="fld_name_id" value="custom_field_`$fld_id`"}
-                <td align="{$column.align|default:'center'}" class="default_white" nowrap>
-                  <a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}" class="white_link">{$fld_title|escape:"html"}</a>
-                  {if $sorting.images[$fld_name_id] != ""}<a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}" class="white_link"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
-                </td>
+                <th align="{$column.align|default:'center'}" nowrap>
+                  <a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}">{$fld_title|escape:"html"}</a>
+                  {if $sorting.images[$fld_name_id]|default:'' != ""}<a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
+                </th>
               {/foreach}
           {else}
-          <td align="{$column.align|default:'center'}" class="default_white" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
+          <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
             {if $field_name == 'iss_summary'}
-            <table cellspacing="0" cellpadding="1" width="100%">
-              <tr>
-                <td class="default_white">
-                  <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}" class="white_link">{t}Summary{/t}</a>
-                  {if $sorting.images.iss_summary != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}" class="white_link"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
-                </td>
-                <td align="right">
-                  {if $feature_access.export}
-                  <span class="default_white">{t}Export Data:{/t}</span> <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="return downloadCSV();">
-                  {/if}
-                </td>
-              </tr>
-            </table>
-            {elseif $sorting.links[$field_name] != ''}
-              <a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}" class="white_link">{$column.title}</a>
-              {if $sorting.images[$field_name] != ""}<a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}" class="white_link"><img border="0" src="{$sorting.images[$field_name]}"></a>{/if}
+              <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}Summary{/t}</a>
+              {if $sorting.images.iss_summary|default:'' != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
+              <span id="export_csv" class="right">{t}Export Data:{/t} <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$core.rel_url}images/excel.jpg" value="{t}Export to Excel{/t}"></span>
+            {elseif $sorting.links[$field_name]|default:'' != ''}
+              <a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}">{$column.title}</a>
+              {if $sorting.images[$field_name]|default:'' != ""}<a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}"><img border="0" src="{$sorting.images[$field_name]}"></a>{/if}
             {else}
               {$column.title}
             {/if}
-          </td>
+          </th>
           {/if}
           {/foreach}
         </tr>
         {section name="i" loop=$list}
-        <tr {if $current_role >= $roles.developer AND $list[i].iqu_status > 0}style="text-decoration: line-through;"{/if}>
-          {if $current_role > $roles.developer}
-          <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}" onchange="toggleBulkUpdate();"></td>
+        <tr {if $core.current_role >= $core.roles.developer AND $list[i].iqu_status > 0}style="text-decoration: line-through;"{/if} data-issue-id="{$list[i].iss_id}">
+          {if $core.current_role > $core.roles.developer}
+          <td style="background: {$list[i].status_color}" width="1%" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
           {/if}
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
             {foreach from=$list[i].custom_field key=fld_id item=fld_value}
-                <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default custom_field" onclick="return updateCustomFields({$list[i].iss_id});">
+                <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="default custom_field">
                   {$fld_value|formatCustomValue:$fld_id:$list[i].iss_id}
                 </td>
               {/foreach}
           {else}
-          <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default">
+          <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}">
             {if $field_name == 'iss_id'}
-              <a href="view.php?id={$list[i].iss_id}" class="link" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
+              <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
             {elseif $field_name == 'pri_rank'}
               {$list[i].pri_title|escape:"html"}
             {elseif $field_name == 'sev_rank'}
@@ -276,9 +102,9 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'pre_title'}
               {$list[i].pre_title|escape:"html"}
             {elseif $field_name == 'iss_customer_id'}
-              <a href="list.php?view=customer&customer_id={$list[i].iss_customer_id}" class="link"
+              <a href="list.php?view=customer&customer_id={$list[i].iss_customer_id}"
               title="View other issues from this customer">
-              {$list[i].customer_title|escape:"html"}</a>
+              {$list[i].customer_title|default:''|escape:"html"}</a>
             {elseif $field_name == 'support_level'}
               {$list[i].support_level|escape:"html"}
             {elseif $field_name == 'sta_rank'}
@@ -294,7 +120,7 @@ function updateCustomFields(issue_id)
               {t 1=$list[i].last_action_date_label 2=$list[i].last_action_date_diff}%1:
 %2 ago{/t}
             {elseif $field_name == 'usr_full_name'}
-              <a href="list.php?view=reporter&reporter_id={$list[i].iss_usr_id}" class="link"
+              <a href="list.php?view=reporter&reporter_id={$list[i].iss_usr_id}"
               title="View other issues from this reporter">
               {$list[i].usr_full_name|escape:"html"}</a>
             {elseif $field_name == 'iss_percent_complete'}
@@ -302,8 +128,8 @@ function updateCustomFields(issue_id)
             {elseif $field_name == 'iss_expected_resolution_date'}
               <div class="inline_date_pick" id="expected_resolution_date|{$list[i].iss_id}">{$list[i].iss_expected_resolution_date|escape:"html"}&nbsp;</div>
             {elseif $field_name == 'iss_summary'}
-              <a href="view.php?id={$list[i].iss_id}" class="link" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
-              {if $list[i].redeemed}
+              <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
+              {if $list[i].redeemed|default:0}
                   {t}[Redeemed]{/t}
               {/if}
               {if $list[i].iss_private == 1}
@@ -316,7 +142,7 @@ function updateCustomFields(issue_id)
         </tr>
         {if $list[i].excerpts != ''}
         <tr>
-          <td colspan="{$col_count}" bgcolor="{$list[i].status_color}" class="default">
+          <td colspan="{$col_count}" style="background: {$list[i].status_color}">
             {if $list[i].excerpts|@count > 0}
               {include file="list_excerpts.tpl.html"}
             {/if}
@@ -324,34 +150,34 @@ function updateCustomFields(issue_id)
         </tr>
         {/if}
         {sectionelse}
-        <tr bgcolor="gray">
-          <td colspan="{$col_count}" class="default_white" align="center">
-            <i>{t}No issues could be found.{/t}</i>
+        <tr class="no_results">
+          <td colspan="{$col_count}">
+            {t}No issues could be found.{/t}
           </td>
         </tr>
         {/section}
-        <tr bgcolor="{$cell_color}">
+        <tr class="buttons">
           <td colspan="{$col_count}">
-            <table width="100%" cellspacing="0" cellpadding="0">
+            <table width="100%">
               <tr>
                 <td width="30%" nowrap>
-                  {if $current_role > $roles.developer}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
+                  {if $core.current_role > $core.roles.developer}
+                  <input type="button" value="{t}All{/t}" class="select_all">
                   {/if}
                 </td>
                 <td width="40%" align="center" nowrap>
                   <nobr>
-                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="setPage(0);">
-                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="setPage({$list_info.previous_page});">
-                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}" style="background: {$cell_color};" class="paging_input" onKeyPress="return checkPageField(event);">
-                  <input name="go" type="button" value="{t}Go{/t}" class="shortcut" onClick="goPage(this.form, this.form.page.value);">
-                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="setPage({$list_info.next_page});">
-                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="setPage({$list_info.last_page});">
+                  <input name="first" type="button" value="|&lt;">
+                  <input name="previous" type="button" value="&lt;&lt;"">
+                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}"  class="paging_input" onKeyPress="return checkPageField(event);">
+                  <input name="go" type="button" value="{t}Go{/t}">
+                  <input name="next" type="button" value="&gt;&gt;">
+                  <input name="last" type="button" value="&gt;|">
                   </nobr>
                 </td>
                 <td nowrap>
-                  <span class="default_white">{t}Rows per Page:{/t}</span>
-                  <select name="page_size" class="default" onChange="resizePager(this.form);">
+                  <span>{t}Rows per Page:{/t}</span>
+                  <select name="page_size" id="page_size">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>
                     <option value="25" {if $options.rows == 25}selected{/if}>25</option>
@@ -359,32 +185,21 @@ function updateCustomFields(issue_id)
                     <option value="100" {if $options.rows == 100}selected{/if}>100</option>
                     <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
                   </select>
-                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="resizePager(this.form);">
+                  <input type="button" value="{t}Set{/t}" id="resize_page">
                 </td>
-                <td width="30%" class="default_white" align="right">
-                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $options.hide_closed}checked{/if} onClick="hideClosed(this.form);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>&nbsp;
+                <td width="30%" align="right">
+                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $options.hide_closed}checked{/if}> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>&nbsp;
                 </td>
               </tr>
             </table>
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
-  {if $current_role > $roles.developer}
-  <tr>
-    <td bgcolor="#FFFFFF">
-      <br />
+  {if $core.current_role > $core.roles.developer}
       {include file="bulk_update.tpl.html"}
-    </td>
-  </tr>
   {/if}
   </form>
-  <form target="_csvWindow" method="post" action="csv.php" name="csv_form">
+  <form target="_csvWindow" method="post" action="csv.php" name="csv_form" id="csv_form">
   <input type="hidden" name="csv_data" value="{$csv_data}">
   </form>
-</table>
-<br />
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

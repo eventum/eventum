@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -53,6 +53,7 @@ $prefs = Prefs::get(Auth::getUserID());
 $tpl->assign("current_user_prefs", $prefs); // XXX: use 'user_prefs' recursively
 $tpl->assign("user_prefs", $prefs);
 
+$tpl->assign('issue_id', $issue_id);
 $tpl->assign("custom_fields", Custom_Field::getListByIssue($prj_id, $issue_id));
 
 $tpl->displayTemplate();

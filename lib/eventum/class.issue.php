@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -2993,10 +2993,8 @@ class Issue
                 }
                 $res['iss_original_description'] = $res["iss_description"];
                 $res['iss_original_percent_complete'] = $res["iss_percent_complete"];
-                if (!strstr($_SERVER["PHP_SELF"], 'update.php')) {
-                    $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
-                    $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
-                }
+                $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
+                $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
                 $res["iss_impact_analysis"] = nl2br(htmlspecialchars($res["iss_impact_analysis"]));
                 $res["iss_created_date"] = Date_Helper::getFormattedDate($res["iss_created_date"]);
                 $res['iss_created_date_ts'] = $created_date_ts;

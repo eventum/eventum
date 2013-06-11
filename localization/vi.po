@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-05-17 20:12+0300\n"
-"PO-Revision-Date: 2011-08-30 19:31+0000\n"
+"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"PO-Revision-Date: 2012-10-01 00:24+0000\n"
 "Last-Translator: Tien Nguyen <lilylnx@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-18 04:45+0000\n"
-"X-Generator: Launchpad (build 15259)\n"
+"X-Launchpad-Export-Date: 2012-10-02 05:24+0000\n"
+"X-Generator: Launchpad (build 16061)\n"
 
 #: templates/notifications/new_auto_created_issue.tpl.text
 msgid ""
@@ -76,8 +76,9 @@ msgid "(All Issues)"
 msgstr "(Tất cả vấn đề)"
 
 #: templates/manage/general.tpl.html
-msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr "Tên miền phụ trỏ đến 'Địa chỉ Tên máy chủ'"
+msgid ""
+"(Alternate domains separated by space that point to 'Address Hostname')"
+msgstr ""
 
 #: templates/reports/workload_time_period.tpl.html
 msgid "(GMT)"
@@ -1001,11 +1002,11 @@ msgstr "Các thư đính kèm"
 msgid "Attached Files"
 msgstr "Các tập tin đính kèm"
 
-#: lib/eventum/class.support.php:1456
+#: lib/eventum/class.support.php:1457
 msgid "Attachment originated from a note"
 msgstr "Đính kèm gốc từ một ghi chú"
 
-#: lib/eventum/class.support.php:1454
+#: lib/eventum/class.support.php:1455
 msgid "Attachment originated from an email"
 msgstr "Đính kèm gốc từ một bức thư"
 
@@ -1318,7 +1319,7 @@ msgstr "Kiểm tra quyền hạn:"
 msgid "Check Spelling"
 msgstr "Kiểm tra chính tả"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Checkout Page:"
 msgstr "Trang thanh toán:"
 
@@ -1457,6 +1458,10 @@ msgstr "Tham số cấu hình"
 #: templates/preferences.tpl.html
 msgid "Confirm New Password"
 msgstr "Xác nhận mật khẩu mới"
+
+#: templates/manage/ldap.tpl.html
+msgid "Contact ID attribute:"
+msgstr ""
 
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/associate.tpl.html templates/convert_note.tpl.html
@@ -1670,6 +1675,10 @@ msgstr "Hợp đồng Khách hàng"
 msgid "Customer Counts"
 msgstr "Số khách hàng"
 
+#: templates/manage/ldap.tpl.html
+msgid "Customer ID attribute:"
+msgstr ""
+
 #: templates/adv_search.tpl.html templates/quick_filter_form.tpl.html
 msgid ""
 "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
@@ -1713,6 +1722,10 @@ msgstr ""
 #: templates/manage/manage.tpl.html
 msgid "Customize Monitoring Parameters"
 msgstr "Tùy chỉnh các thông số Giám sát"
+
+#: templates/manage/manage.tpl.html
+msgid "Customize SCM Integration"
+msgstr ""
 
 #. TRANSLATORS: Translation of Czech language in preferences dropdown
 #: localization/LINGUAS.php:8
@@ -1895,7 +1908,7 @@ msgstr "Nhà phát triển"
 msgid "Did you Know?"
 msgstr "Bạn có biết?"
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Diff Page:"
 msgstr "Trang khác:"
 
@@ -1903,6 +1916,7 @@ msgstr "Trang khác:"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Disabled"
 msgstr "Bị vô hiệu"
 
@@ -1939,7 +1953,7 @@ msgstr "Tải email nguyên gốc"
 msgid "Draft Address Prefix:"
 msgstr "Tiền tố địa chỉ nháp:"
 
-#: lib/eventum/class.routing.php:418
+#: lib/eventum/class.routing.php:419
 msgid "Draft routed from"
 msgstr "Kế hoạch được chuyển từ"
 
@@ -2051,7 +2065,7 @@ msgstr ""
 "LỖI: Dung lượng đĩa trống còn lại rất thấp (phần trăm còn lại: %2f%%)"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to create the "
 "configuration file in the setup directory"
@@ -2060,7 +2074,7 @@ msgstr ""
 "cài đặt"
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to update the "
 "configuration file in the setup directory"
@@ -2138,12 +2152,12 @@ msgstr ""
 msgid "Email"
 msgstr "Thư điện tử"
 
-#: lib/eventum/class.support.php:1508
+#: lib/eventum/class.support.php:1514
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Thư điện tử (chủ đề: '%1$s') được liên kết bởi %2$s"
 
-#: lib/eventum/class.support.php:1852
+#: lib/eventum/class.support.php:1858
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Thư điện tử (chủ đề: '%1$s') được gỡ liên kết bởi %2$s"
@@ -2251,7 +2265,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2576
+#: lib/eventum/class.support.php:2582
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Đã khóa thư gửi từ ‘%1$s’"
@@ -2266,7 +2280,7 @@ msgstr "Tin nhắn email nháp cập nhật bởi %1$s"
 msgid "Email message saved as a draft by %1$s"
 msgstr "Tin nhắn email được lưu nháp bởi %1$s"
 
-#: lib/eventum/class.routing.php:221 lib/eventum/class.support.php:795
+#: lib/eventum/class.routing.php:222 lib/eventum/class.support.php:795
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -2320,6 +2334,7 @@ msgstr "Không có tiêu đề"
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/monitor.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Enabled"
 msgstr "Đã cho phép"
 
@@ -2388,17 +2403,17 @@ msgstr ""
 "Lỗi: Không có tài khoản người dùng được tìm thấy phù hợp với địa chỉ email "
 "đã nhập."
 
-#: lib/eventum/class.routing.php:65 lib/eventum/class.routing.php:267
-#: lib/eventum/class.routing.php:383
+#: lib/eventum/class.routing.php:66 lib/eventum/class.routing.php:268
+#: lib/eventum/class.routing.php:384
 msgid "Error: Please configure the email address domain."
 msgstr "Lỗi: Hãy cấu hình tên miền địa chỉ email."
 
-#: lib/eventum/class.routing.php:62 lib/eventum/class.routing.php:264
-#: lib/eventum/class.routing.php:380
+#: lib/eventum/class.routing.php:63 lib/eventum/class.routing.php:265
+#: lib/eventum/class.routing.php:381
 msgid "Error: Please configure the email address prefix."
 msgstr "Lỗi: Hãy cấu hình tiền tố địa chỉ email."
 
-#: lib/eventum/class.routing.php:111
+#: lib/eventum/class.routing.php:112
 msgid "Error: Please provide the email account ID."
 msgstr "LỗiL Hãy cung cấp ID tài khoản email."
 
@@ -2406,7 +2421,7 @@ msgstr "LỗiL Hãy cung cấp ID tài khoản email."
 msgid "Error: Please provide your email address."
 msgstr "Lỗi: Hãy cung cấp địa chỉ email của bạn."
 
-#: lib/eventum/class.routing.php:71
+#: lib/eventum/class.routing.php:72
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
@@ -2419,23 +2434,23 @@ msgstr ""
 "Lỗi: Địa chỉ email được chỉ định đã được liên kết với một người dùng trong "
 "hệ thống."
 
-#: lib/eventum/class.routing.php:377
+#: lib/eventum/class.routing.php:378
 msgid "Error: The email draft interface is disabled."
 msgstr "Lỗi: Mẫu giao diện cho email nháp đã vô hiệu hóa."
 
-#: lib/eventum/class.routing.php:50
+#: lib/eventum/class.routing.php:51
 msgid "Error: The email message was empty"
 msgstr "Lỗi: Tin nhắn email rỗng"
 
-#: lib/eventum/class.routing.php:250 lib/eventum/class.routing.php:366
+#: lib/eventum/class.routing.php:251 lib/eventum/class.routing.php:367
 msgid "Error: The email message was empty."
 msgstr "Lỗi: Tin nhắn email rỗng."
 
-#: lib/eventum/class.routing.php:59
+#: lib/eventum/class.routing.php:60
 msgid "Error: The email routing interface is disabled."
 msgstr ""
 
-#: lib/eventum/class.routing.php:261
+#: lib/eventum/class.routing.php:262
 msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 
@@ -2451,14 +2466,14 @@ msgstr "Lỗi: Vấn đề #%1 không thể tìm thấy."
 msgid "Error: The issue could not be found."
 msgstr "Lỗi: Vấn đề không thể được tìm thấy."
 
-#: lib/eventum/class.routing.php:101 lib/eventum/class.routing.php:106
-#: lib/eventum/class.routing.php:399
+#: lib/eventum/class.routing.php:102 lib/eventum/class.routing.php:107
+#: lib/eventum/class.routing.php:400
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
 
-#: lib/eventum/class.routing.php:282
+#: lib/eventum/class.routing.php:283
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -3503,7 +3518,7 @@ msgstr ""
 msgid "Lithuanian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Log Page:"
 msgstr ""
 
@@ -4088,7 +4103,7 @@ msgstr ""
 msgid "Note Recipient Type Flag:"
 msgstr ""
 
-#: lib/eventum/class.routing.php:341
+#: lib/eventum/class.routing.php:342
 #, php-format
 msgid "Note routed from %1$s"
 msgstr ""
@@ -4291,7 +4306,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2210
+#: lib/eventum/class.support.php:2216
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -4640,7 +4655,7 @@ msgid ""
 "account."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
@@ -4726,14 +4741,14 @@ msgid ""
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided filename."
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid ""
 "Please contact your local system administrator and ask for write privileges "
 "on the provided path."
@@ -4841,7 +4856,7 @@ msgstr ""
 msgid "Please enter the base dn."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the checkout page URL for your SCM integration tool."
 msgstr ""
 
@@ -4869,7 +4884,7 @@ msgstr ""
 msgid "Please enter the description for this new phone support entry."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr ""
 
@@ -4919,7 +4934,7 @@ msgid ""
 "Please enter the issue IDs that will be associated with this reminder."
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Please enter the log page URL for your SCM integration tool."
 msgstr ""
 
@@ -5606,7 +5621,7 @@ msgstr ""
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
 #: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1604
+#: lib/eventum/class.support.php:1610
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -5765,6 +5780,10 @@ msgstr ""
 
 #: templates/select_project.tpl.html
 msgid "Remember Selection"
+msgstr ""
+
+#: templates/login_form.tpl.html
+msgid "Remember me"
 msgstr ""
 
 #: templates/setup.tpl.html
@@ -5954,11 +5973,12 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html
 #: templates/manage/reminder_conditions.tpl.html
 #: templates/manage/reminders.tpl.html templates/manage/resolution.tpl.html
-#: templates/manage/round_robin.tpl.html templates/manage/statuses.tpl.html
-#: templates/manage/time_tracking.tpl.html templates/manage/users.tpl.html
-#: templates/new.tpl.html templates/notification.tpl.html
-#: templates/post.tpl.html templates/preferences.tpl.html
-#: templates/send.tpl.html templates/update_form.tpl.html
+#: templates/manage/round_robin.tpl.html templates/manage/scm.tpl.html
+#: templates/manage/statuses.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/users.tpl.html templates/new.tpl.html
+#: templates/notification.tpl.html templates/post.tpl.html
+#: templates/preferences.tpl.html templates/send.tpl.html
+#: templates/update_form.tpl.html
 msgid "Reset"
 msgstr ""
 
@@ -6005,11 +6025,11 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: templates/manage/general.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "SCM <br />Integration:"
 msgstr ""
 
-#: lib/eventum/class.scm.php:215
+#: lib/eventum/class.scm.php:214
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
@@ -6019,7 +6039,7 @@ msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
 #: lib/eventum/class.help.php:87 templates/help/main.tpl.html
-#: templates/help/scm_integration.tpl.html
+#: templates/help/scm_integration.tpl.html templates/manage/scm.tpl.html
 msgid "SCM Integration"
 msgstr ""
 
@@ -6955,7 +6975,7 @@ msgid "Thank you, the selected requirements were removed successfully."
 msgstr ""
 
 #: templates/manage/general.tpl.html templates/manage/ldap.tpl.html
-#: templates/manage/monitor.tpl.html
+#: templates/manage/monitor.tpl.html templates/manage/scm.tpl.html
 msgid "Thank you, the setup information was saved successfully."
 msgstr ""
 
@@ -7948,6 +7968,7 @@ msgstr ""
 #: templates/manage/anonymous.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/ldap.tpl.html templates/manage/monitor.tpl.html
+#: templates/manage/scm.tpl.html
 msgid "Update Setup"
 msgstr ""
 

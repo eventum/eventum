@@ -1,7 +1,11 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}customer_stats_report{/block}
+{block "title"}Customer Stats{/block}
+
+{block "report_content"}
 <br />
 {if $no_customer_integration == 1}
-    <span class="default">{t}The current project does not have customer integration so this report can not be viewed.{/t}</span>
+    <span>{t}The current project does not have customer integration so this report can not be viewed.{/t}</span>
 {else}
 <form method="post" action="{$smarty.server.PHP_SELF}" name="customer_stats_report">
 <input type="hidden" name="cat" value="generate">
@@ -22,30 +26,30 @@ function clearDate()
 }
 {/literal}
 </script>
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+          <td colspan="3">
             <b>{t}Customer Stats Report{/t} - {$project_name}</b>
           </td>
         </tr>
         <tr>
-          <td width="30%" class="default" align="center">
+          <td width="30%" align="center">
             {if $has_support_levels == 1}<b>{t}Support Level{/t}</b>{/if}
           </td>
-          <td width="40%" class="default" align="center">
+          <td width="40%" align="center">
             <b>{t}Date Range{/t}</b>
           </td>
-          <td width="30%" class="default" align="center">
+          <td width="30%" align="center">
             <b>{t}Sections to Display{/t}</b>
           </td>
         </tr>
         <tr>
           <td align="center" valign="top">
             {if $has_support_levels == 1}
-            <select name="support_level[]" size="5" multiple class="default">
+            <select name="support_level[]" size="5" multiple>
                 {html_options options=$support_levels selected=$support_level}
             </select>
             {/if}
@@ -53,44 +57,44 @@ function clearDate()
           <td align="center" valign="top">
             <table>
                 <tr>
-                    <td class="default" align="right">{t}From{/t}</td>
+                    <td align="right">{t}From{/t}</td>
                     {capture assign="year"}{t}year{/t}{/capture}
                     {capture assign="month"}{t}mon{/t}{/capture}
                     {capture assign="day"}{t}day{/t}{/capture}
                     <td align="center" NOWRAP>{html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty=$year month_empty=$month day_empty=$day all_extra="class='default'"}</td>
                 </tr>
                 <tr>
-                    <td class="default" align="right">{t}To{/t}</td>
+                    <td align="right">{t}To{/t}</td>
                     <td align="center" NOWRAP>{html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty=$year month_empty=$month day_empty=$day all_extra="class='default'"}</td>
                 </tr>
             </table>
             <input type="button" name="clear_date" value="{t}Clear Date{/t}" onClick="clearDate()" class="shortcut">
           </td>
           <td align="center" valign="top">
-            <select name="display_sections[]" size="5" multiple class="default">
+            <select name="display_sections[]" size="5" multiple>
                 {html_options options=$sections selected=$display_sections}
             </select>
           </td>
         </tr>
         <tr>
-          <td class="default" align="center" valign="middle" >
+          <td align="center" valign="middle" >
             <b>{t}Options{/t}</b>
           </td>
-          <td align="left" valign="bottom" class="default" colspan="2" NOWRAP>
+          <td align="left" valign="bottom" colspan="2" NOWRAP>
             <input type="checkbox" name="include_expired" value="1" {if $include_expired==1}CHECKED{/if}>
-            <a id="link" class="link" href="javascript:void(null)"
+            <a id="link" href="javascript:void(null)"
                             onClick="toggleCheckbox('customer_stats_report', 'include_expired');">{t}Include expired contracts{/t}</a>
           </td>
         </tr>
         <tr>
-          <td class="default" align="center" valign="top">
-          {if $current_role >= $roles.manager}
+          <td align="center" valign="top">
+          {if $core.current_role >= $core.roles.manager}
             <b>{t}Customer{/t}</b>
             {/if}
           </td>
           <td align="center" valign="top" colspan="2">
-            {if $current_role >= $roles.manager}
-            <select name="customer[]" class="default">
+            {if $core.current_role >= $core.roles.manager}
+            <select name="customer[]">
                 <option value="">{t}All{/t}</option>
                 {html_options options=$customers selected=$customer}
             </select>
@@ -103,7 +107,7 @@ function clearDate()
           </td>
         </tr>
         <tr>
-          <td colspan="3" align="right" class="default">
+          <td colspan="3" align="right">
              &nbsp;
           </td>
         </tr>
@@ -114,47 +118,47 @@ function clearDate()
 </form>
 
 {if $data != ''}
-<span class="default">
+<span>
 <span style="color: red">{t}Red values indicate value is higher than the aggregate one.{/t}</span><br />
 <span style="color: blue">{t}Blue values indicate value is lower than the aggregate one.{/t}</span><br />
 </span>
 
 {$date_msg}
 {if $display.customer_counts == 1 || $display.issue_counts == 1 || $display.email_counts == 1}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
-                <th rowspan="2" class="default_white">{$row_label}</th>
-                {if $display.customer_counts == 1}<th colspan="3" class="default_white">{t}Customers{/t}</th>{/if}
-                {if $display.issue_counts == 1}<th colspan="4" class="default_white">{t}Issues{/t}<sup>1</sup></th>{/if}
-                {if $display.email_counts == 1}<th colspan="3" class="default_white">{t}Emails by Customers{/t}<sup>2</sup></th>
-                <th colspan="3" class="default_white">{t}Emails by Staff{/t}<sup>3</sup></th>{/if}
+            <tr>
+                <th rowspan="2">{$row_label}</th>
+                {if $display.customer_counts == 1}<th colspan="3">{t}Customers{/t}</th>{/if}
+                {if $display.issue_counts == 1}<th colspan="4">{t}Issues{/t}<sup>1</sup></th>{/if}
+                {if $display.email_counts == 1}<th colspan="3">{t}Emails by Customers{/t}<sup>2</sup></th>
+                <th colspan="3">{t}Emails by Staff{/t}<sup>3</sup></th>{/if}
             </tr>
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 {if $display.customer_counts == 1}
-                <th class="default_white">{t}Count{/t}</th>
-                <th class="default_white">{t}Using CSC{/t}</th>
-                <th class="default_white">{t}Issues in CSC{/t}<br />(0/1-2/3-8/>8)</th>
+                <th>{t}Count{/t}</th>
+                <th>{t}Using CSC{/t}</th>
+                <th>{t}Issues in CSC{/t}<br />(0/1-2/3-8/>8)</th>
                 {/if}
 
                 {if $display.issue_counts == 1}
-                <th class="default_white">{t}Tot{/t}</th>
-                <th class="default_white">{t}Avg{/t}</th>
-                <th class="default_white">{t}Med{/t}</th>
-                <th class="default_white">{t}Max{/t}</th>
+                <th>{t}Tot{/t}</th>
+                <th>{t}Avg{/t}</th>
+                <th>{t}Med{/t}</th>
+                <th>{t}Max{/t}</th>
                 {/if}
 
                 {if $display.email_counts == 1}
-                <th class="default_white">{t}Tot{/t}</th>
-                <th class="default_white">{t}Avg{/t}</th>
-                <th class="default_white">{t}Med{/t}</th>
+                <th>{t}Tot{/t}</th>
+                <th>{t}Avg{/t}</th>
+                <th>{t}Med{/t}</th>
 
-                <th class="default_white">{t}Tot{/t}</th>
-                <th class="default_white">{t}Avg{/t}.</th>
-                <th class="default_white">{t}Med{/t}</th>
+                <th>{t}Tot{/t}</th>
+                <th>{t}Avg{/t}.</th>
+                <th>{t}Med{/t}</th>
                 {/if}
             </tr>
             <!-- end of header -->
@@ -162,13 +166,13 @@ function clearDate()
             {cycle values=$cycle assign="row_color"}
             <tr bgcolor="{$row_color}">
                 {assign var=row_span value=1}
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].title}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].title}</td>
 
                 <!-- Customer counts -->
                 {if $display.customer_counts == 1}
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.customer_count}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.active}</td>
-                <td class="default" align="center" rowspan="{$row_span}">
+                <td align="center" rowspan="{$row_span}">{$data[stats].customer_counts.customer_count}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].customer_counts.active}</td>
+                <td align="center" rowspan="{$row_span}">
                     {$data[stats].customer_counts.inactive|floor}% /
                     {$data[stats].customer_counts.activity.low|floor}% /
                     {$data[stats].customer_counts.activity.medium|floor}% /
@@ -178,22 +182,22 @@ function clearDate()
 
                 <!-- Issue Counts -->
                 {if $display.issue_counts == 1}
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.total}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.avg|formatValue:$data.0.issue_counts.avg:2}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.median|formatValue:$data.0.issue_counts.median:2}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.max|formatValue:$data.0.issue_counts.max:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].issue_counts.total}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].issue_counts.avg|formatValue:$data.0.issue_counts.avg:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].issue_counts.median|formatValue:$data.0.issue_counts.median:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].issue_counts.max|formatValue:$data.0.issue_counts.max:2}</td>
                 {/if}
 
                 <!-- Customer Action Counts -->
                 {if $display.email_counts == 1}
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.total}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.avg|formatValue:$data.0.email_counts.customer.avg:2}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.median|formatValue:$data.0.email_counts.customer.median:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.total}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.avg|formatValue:$data.0.email_counts.customer.avg:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.median|formatValue:$data.0.email_counts.customer.median:2}</td>
 
                 <!-- Developer Action Counts -->
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.total}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.avg|formatValue:$data.0.email_counts.developer.avg:2}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.median|formatValue:$data.0.email_counts.developer.median:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.total}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.avg|formatValue:$data.0.email_counts.developer.avg:2}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.median|formatValue:$data.0.email_counts.developer.median:2}</td>
                 {/if}
             </tr>
             {/section}
@@ -206,29 +210,29 @@ function clearDate()
 {* Display second table *}
 {if $display.time_stats == 1}
 <br />
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
-                <th rowspan="2" class="default_white">{$row_label}</th>
+            <tr>
+                <th rowspan="2">{$row_label}</th>
                 {if $display.time_stats == 1}
-                <th colspan="4" class="default_white" >{t}Time To First Response{/t}</th>
-                <th colspan="4" class="default_white" >{t}Time To Close{/t}<sup>4</sup></th>
+                <th colspan="4" >{t}Time To First Response{/t}</th>
+                <th colspan="4" >{t}Time To Close{/t}<sup>4</sup></th>
                 {/if}
             </tr>
-            <tr bgcolor="{$cell_color}">
+            <tr>
                 {if $display.time_stats == 1}
-                <th class="default_white">{t}Min{/t}</th>
-                <th class="default_white">{t}Avg{/t}</th>
-                <th class="default_white">{t}Med{/t}</th>
-                <th class="default_white">{t}Max{/t}</th>
+                <th>{t}Min{/t}</th>
+                <th>{t}Avg{/t}</th>
+                <th>{t}Med{/t}</th>
+                <th>{t}Max{/t}</th>
 
-                <th class="default_white">{t}Min{/t}</th>
-                <th class="default_white">{t}Avg{/t}</th>
-                <th class="default_white">{t}Med{/t}</th>
-                <th class="default_white">{t}Max{/t}</th>
+                <th>{t}Min{/t}</th>
+                <th>{t}Avg{/t}</th>
+                <th>{t}Med{/t}</th>
+                <th>{t}Max{/t}</th>
                 {/if}
             </tr>
             <!-- end of header -->
@@ -236,20 +240,20 @@ function clearDate()
             {cycle values=$cycle assign="row_color"}
             {assign var=row_span value=1}
             <tr bgcolor="{$row_color}">
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].title}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].title}</td>
 
                 {if $display.time_stats == 1}
                 <!-- Time to First Response -->
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.min_formatted|formatValue:$data.0.time_stats.time_to_first_response.min:"":$data[stats].time_stats.time_to_first_response.min}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.avg_formatted|formatValue:$data.0.time_stats.time_to_first_response.avg:"":$data[stats].time_stats.time_to_first_response.avg}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.median_formatted|formatValue:$data.0.time_stats.time_to_first_response.median:"":$data[stats].time_stats.time_to_first_response.median}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.max_formatted|formatValue:$data.0.time_stats.time_to_first_response.max:"":$data[stats].time_stats.time_to_first_response.max}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.min_formatted|formatValue:$data.0.time_stats.time_to_first_response.min:"":$data[stats].time_stats.time_to_first_response.min}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.avg_formatted|formatValue:$data.0.time_stats.time_to_first_response.avg:"":$data[stats].time_stats.time_to_first_response.avg}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.median_formatted|formatValue:$data.0.time_stats.time_to_first_response.median:"":$data[stats].time_stats.time_to_first_response.median}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.max_formatted|formatValue:$data.0.time_stats.time_to_first_response.max:"":$data[stats].time_stats.time_to_first_response.max}</td>
 
                 <!-- Time to Close -->
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.min_formatted|formatValue:$data.0.time_stats.time_to_close.min:"":$data[stats].time_stats.time_to_close.min}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.avg_formatted|formatValue:$data.0.time_stats.time_to_close.avg:"":$data[stats].time_stats.time_to_close.avg}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.median_formatted|formatValue:$data.0.time_stats.time_to_close.median:"":$data[stats].time_stats.time_to_close.median}</td>
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.max_formatted|formatValue:$data.0.time_stats.time_to_close.max:"":$data[stats].time_stats.time_to_close.max}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.min_formatted|formatValue:$data.0.time_stats.time_to_close.min:"":$data[stats].time_stats.time_to_close.min}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.avg_formatted|formatValue:$data.0.time_stats.time_to_close.avg:"":$data[stats].time_stats.time_to_close.avg}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.median_formatted|formatValue:$data.0.time_stats.time_to_close.median:"":$data[stats].time_stats.time_to_close.median}</td>
+                <td align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.max_formatted|formatValue:$data.0.time_stats.time_to_close.max:"":$data[stats].time_stats.time_to_close.max}</td>
                 {/if}
             </tr>
             {/section}
@@ -262,46 +266,46 @@ function clearDate()
 
 {* Display 3rd table *}
 {if $display.time_tracking == 1}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
         <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
             <!-- header row -->
-            <tr bgcolor="{$cell_color}">
-                <th class="default_white" width="150" rowspan="2">{t}Support Level{/t}</th>
+            <tr>
+                <th width="150" rowspan="2">{t}Support Level{/t}</th>
                 {assign var=col_span value=$time_tracking_categories|@count}
                 {assign var=col_span value="`$col_span+1`"}
-                <th class="default_white" colspan="{$col_span}">{t}Time Tracking{/t}<span style="vertical-align: super; font-size: 80%">5</span></th>
+                <th colspan="{$col_span}">{t}Time Tracking{/t}<span style="vertical-align: super; font-size: 80%">5</span></th>
             </tr>
-            <tr bgcolor="{$cell_color}">
-                <th class="default_white" width="50">&nbsp;</th>
+            <tr>
+                <th width="50">&nbsp;</th>
                 {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
-                <th class="default_white" width="150">{$ttc_title}</th>
+                <th width="150">{$ttc_title}</th>
                 {/foreach}
             </tr>
             {section name=stats loop=$data}
             {cycle values=$cycle assign="row_color"}
             <tr bgcolor="{$row_color}">
-                <td class="default" align="center" rowspan="3" nowrap>{$data[stats].title}</td>
-                <td class="default" align="center">{t}Total{/t}</td>
+                <td align="center" rowspan="3" nowrap>{$data[stats].title}</td>
+                <td align="center">{t}Total{/t}</td>
                 {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
-                <td class="default" align="center">
+                <td align="center">
                 {$data[stats].time_tracking[$ttc_id].total_formatted|formatValue:$data.0.time_tracking[$ttc_id].total:"":$data[stats].time_tracking[$ttc_id].total}
                 </td>
                 {/foreach}
             </tr>
             <tr bgcolor="{$row_color}">
-                <td class="default" align="center">{t}Avg{/t}</td>
+                <td align="center">{t}Avg{/t}</td>
                 {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
-                <td class="default" align="center">
+                <td align="center">
                 {$data[stats].time_tracking[$ttc_id].avg_formatted|formatValue:$data.0.time_tracking[$ttc_id].avg:"":$data[stats].time_tracking[$ttc_id].avg}
                 </td>
                 {/foreach}
             </tr>
             <tr bgcolor="{$row_color}">
-                <td class="default" align="center">{t}Med{/t}</td>
+                <td align="center">{t}Med{/t}</td>
                 {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
-                <td class="default" align="center">
+                <td align="center">
                 {$data[stats].time_tracking[$ttc_id].median_formatted|formatValue:$data.0.time_tracking[$ttc_id].median:"":$data[stats].time_tracking[$ttc_id].median}
                 </td>
                 {/foreach}
@@ -313,7 +317,7 @@ function clearDate()
 </table>
 {/if}
 
-<span class="default">
+<span>
 1. {t}Refers to the number of issues in eventum for the given support level or customer.{/t}
  &nbsp;&nbsp;&nbsp;{t}Average and median counts do not include customers who have never opened an issue.{/t}<br />
 2. {t escape=no}Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.{/t}<br />
@@ -330,5 +334,4 @@ function clearDate()
 
 {/if}
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

@@ -1,6 +1,6 @@
 
-<br />  
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<br />
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
@@ -36,42 +36,42 @@
         <input type="hidden" name="cat" value="set_initial_impact">
         <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
         <tr>
-          <td class="default" nowrap>
+          <td nowrap>
             <b>{t}Impact Analysis{/t}</b>
           </td>
-          <td align="right" class="default">
+          <td align="right">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="impact_analysis_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('impact_analysis');">{get_innerhtml element_name="impact_analysis"}</a> ]
+            [ <a id="impact_analysis_link" href="javascript:void(null);" onClick="toggleVisibility('impact_analysis');">{get_display_label element_name="impact_analysis"}</a> ]
             {/if}
           </td>
         </tr>
-        {if $current_role > $roles.reporter}
+        {if $core.current_role > $core.roles.reporter}
         <tr id="impact_analysis1" {get_display_style element_name="impact_analysis"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>{t}Total Estimated Dev. Time{/t}:</b></td>
-          <td bgcolor="{$light_color}" width="100%">
+          <td width="190" nowrap><b>{t}Total Estimated Dev. Time{/t}:</b></td>
+          <td width="100%">
             {if $issue.iss_developer_est_time == ""}
-            <input class="default" type="text" name="dev_time"> <span class="default">({t}in hours{/t})</span>
+            <input type="text" name="dev_time"> <span>({t}in hours{/t})</span>
             {include file="error_icon.tpl.html" field="dev_time"}
             {else}
-            <span class="default">{$issue.iss_developer_est_time} {t}hours{/t}</span>
+            <span>{$issue.iss_developer_est_time} {t}hours{/t}</span>
             {/if}
           </td>
         </tr>
         <tr id="impact_analysis2" {get_display_style element_name="impact_analysis"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>{t}Initial Impact Analysis{/t}:</b></td>
-          <td bgcolor="{$light_color}" width="100%">
+          <td width="190" nowrap><b>{t}Initial Impact Analysis{/t}:</b></td>
+          <td width="100%">
             {if $issue.iss_impact_analysis == ""}
             <textarea name="impact_analysis" rows="8" style="width: 97%"></textarea>
             {include file="error_icon.tpl.html" field="impact_analysis"}
             {else}
-            <span class="default">{$issue.iss_impact_analysis}</span>
+            <span>{$issue.iss_impact_analysis}</span>
             {/if}
           </td>
         </tr>
         <tr id="impact_analysis3" {get_display_style element_name="impact_analysis"}>
-          <td colspan="2" bgcolor="{$cell_color}" align="center" width="100%" nowrap>
+          <td colspan="2" align="center" width="100%" nowrap>
             {if $issue.iss_impact_analysis == ""}
-            <input type="submit" value="{t}Update{/t}" class="button">
+            <input type="submit" value="{t}Update{/t}">
             {/if}
           </td>
         </tr>
@@ -104,55 +104,55 @@
         //-->
         </script>
         {/literal}
-        <tr id="{if $current_role > $roles.reporter}impact_analysis4{else}impact_analysis1{/if}" {get_display_style element_name="impact_analysis"}>
-          <td colspan="2" class="default" width="100%">
+        <tr id="{if $core.current_role > $core.roles.reporter}impact_analysis4{else}impact_analysis1{/if}" {get_display_style element_name="impact_analysis"}>
+          <td colspan="2" width="100%">
             <b>{t}Further Requirements{/t}:</b>
             <table width="100%" cellpadding="2" cellspacing="1">
               <form onSubmit="return validateDeleteReq(this);" method="post" action="popup.php" target="_setImpact">
               <input type="hidden" name="cat" value="delete_requirement">
-              <tr bgcolor="{$cell_color}">
+              <tr>
                 <td width="5">
-                  {if $impacts != "" and $current_role > $roles.reporter}
+                  {if $impacts != "" and $core.current_role > $core.roles.reporter}
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
-                <td class="default_white">{t}Handler{/t}</td>
-                <td width="35%" class="default_white">{t}Requirement{/t}</td>
-                <td class="default_white" nowrap>{t}Estimated Dev. Time{/t}</td>
-                <td width="35%" class="default_white">{t}Impact Analysis{/t}</td>
+                <td>{t}Handler{/t}</td>
+                <td width="35%">{t}Requirement{/t}</td>
+                <td nowrap>{t}Estimated Dev. Time{/t}</td>
+                <td width="35%">{t}Impact Analysis{/t}</td>
               </tr>
               {section name="i" loop=$impacts}
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
                 <td valign="top"><input type="checkbox" name="item[]" value="{$impacts[i].isr_id}"></td>
-                <td class="default" valign="top">{$impacts[i].handler_name}</td>
-                <td class="default" valign="top">{$impacts[i].isr_requirement} [submitted by {$impacts[i].submitter_name}]</td>
-                <td valign="top" class="default">
+                <td valign="top">{$impacts[i].handler_name}</td>
+                <td valign="top">{$impacts[i].isr_requirement} [submitted by {$impacts[i].submitter_name}]</td>
+                <td valign="top">
                   {if $impacts[i].formatted_dev_time == "00:00"}
-                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
+                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].formatted_dev_time}
                   {/if}
                 </td>
-                <td valign="top" class="default">
+                <td valign="top">
                   {if $impacts[i].isr_impact_analysis == ""}
-                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
+                  <a href="javascript:void(null);" onClick="openReqDetails({$impacts[i].isr_id});">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].isr_impact_analysis}
                   {/if}
                 </td>
               </tr>
               {if %i.last% && %i.total% > 0}
-              <tr bgcolor="{$cell_color}">
+              <tr>
                 <td colspan="5">
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
+                  <input type="submit" value="{t}Remove Selected{/t}">
                 </td>
               </tr>
               {/if}
               {sectionelse}
               <tr>
-                <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                <td colspan="5" align="center">
                   <i>{t}No entries could be found.{/t}</i>
                 </td>
               </tr>
@@ -161,7 +161,7 @@
             </table>
           </td>
         </tr>
-        {if $current_role > $roles.reporter}
+        {if $core.current_role > $core.roles.reporter}
         <tr id="impact_analysis5" {get_display_style element_name="impact_analysis"}>
           <td colspan="2" width="100%">
             <table width="100%" border="0" cellpadding="2" cellspacing="1">
@@ -186,15 +186,15 @@
               <form name="add_requirement_form" onSubmit="return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
               <input type="hidden" name="cat" value="add_requirement">
               <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
-              <tr bgcolor="{$light_color}">
+              <tr>
                 <td align="center" width="100%">
                   <textarea name="new_requirement" rows="4" style="width: 97%"></textarea>
                   {include file="error_icon.tpl.html" field="new_requirement"}
                 </td>
               </tr>
-              <tr bgcolor="{$cell_color}">
+              <tr>
                 <td width="100%" align="center">
-                  <input type="submit" value="{t}Add New Requirement{/t}" class="button">
+                  <input type="submit" value="{t}Add New Requirement{/t}">
                 </td>
               </tr>
               </form>

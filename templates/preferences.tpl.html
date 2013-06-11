@@ -1,6 +1,8 @@
-{include file="header.tpl.html" extra_title="Preferences"}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block "title"}{t}Preferences{/t}{/block}
+{block "page_id"}preferences{/block}
 
+{block "content"}
 {literal}
 <script type="text/javascript">
 <!--
@@ -43,335 +45,250 @@ function validateAccount(f)
 //-->
 </script>
 {/literal}
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default">
-            <b>{t}User Details{/t}</b>
-          </td>
-          <td align="right">
+  <table class="bordered">
+    <form name="update_name_form" onSubmit="return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    <input type="hidden" name="cat" value="update_name">
+    <tr class="title">
+      <th colspan="2">
+        {t}User Details{/t}
+        <span class="menu">
             {include file="help_link.tpl.html" topic="preferences"}
-          </td>
-        </tr>
-        {if $current_role != $roles.customer}
-        <form name="update_name_form" onSubmit="return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
-        <input type="hidden" name="cat" value="update_name">
-        {if $update_name_result}
-        <tr>
-          <td colspan="2" class="error" bgcolor="{$cell_color}" align="center">
-            {if $update_name_result == -1}
-            <b>{t}An error occurred while trying to run your query.{/t}</b>
-            {elseif $update_name_result == 1}
-            <b>{t}Thank you, your full name was updated successfully.{/t}</b>
-            {/if}
-          </td>
-        </tr>
-        {/if}
-        {if $can_update_name}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Full Name{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}">
-            <input type="text" name="full_name" size="40" class="default" value="{$current_full_name|escape:"html"}">
-            {include file="error_icon.tpl.html" field="full_name"}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="{t}Update Full Name{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
-          </td>
-        </tr>
-        </form>
-        {else}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Full Name{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$current_full_name|escape:"html"}
-          </td>
-        </tr>
-        {/if}
+        </span>
+      </th>
+    </tr>
+    {if $core.current_role != $core.roles.customer}
+    <tr>
+      <th width="190">
+        {t}Full Name{/t}:
+      </th>
+      <td>
+        <input type="text" name="full_name" size="40" value="{$user_info.usr_full_name|escape:"html"}">
+        {include file="error_icon.tpl.html" field="full_name"}
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        <input type="submit" value="{t}Update Full Name{/t}">
+        <input type="reset" value="{t}Reset{/t}">
+      </td>
+    </tr>
+    </form>
 
-        {if $can_update_email}
-        <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
-        <input type="hidden" name="cat" value="update_email">
-        {if $update_email_result}
-        <tr>
-          <td colspan="2" class="error" bgcolor="{$cell_color}" align="center">
-            {if $update_email_result == -1}
-            <b>{t}An error occurred while trying to run your query.{/t}</b>
-            {elseif $update_email_result == 1}
-            <b>{t}Thank you, your email address was updated successfully.{/t}</b>
-            {/if}
-          </td>
-        </tr>
-        {/if}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Login{/t} &amp; {t}Email Address{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}">
-            <input type="text" name="email" size="40" class="default" value="{$current_email|escape:"html"}">
-            {include file="error_icon.tpl.html" field="email"}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="{t}Update Email Address{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
-          </td>
-        </tr>
-        </form>
-        {else}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Login{/t} &amp; {t}Email Address{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$current_email|escape:"html"}
-          </td>
-        </tr>
-        {/if}
-        {/if}
+    <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    <input type="hidden" name="cat" value="update_email">
+    <tr>
+      <th width="190">
+        {t}Login{/t} &amp; {t}Email Address{/t}
+      </th>
+      <td>
+        <input type="text" name="email" size="40" value="{$user_info.usr_email|escape:"html"}">
+        {include file="error_icon.tpl.html" field="email"}
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        <input type="submit" value="{t}Update Email Address{/t}">
+        <input type="reset" value="{t}Reset{/t}">
+      </td>
+    </tr>
+    </form>
+    {/if}
 
-        {if $can_update_password}
-        <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
-        <input type="hidden" name="cat" value="update_password">
-        {if $update_password_result}
-        <tr>
-          <td colspan="2" class="error" bgcolor="{$cell_color}" align="center">
-            {if $update_password_result == -1}
-            <b>{t}An error occurred while trying to run your query.{/t}</b>
-            {elseif $update_password_result == 1}
-            <b>{t}Thank you, your password was updated successfully.{/t}</b>
-            {/if}
-          </td>
-        </tr>
-        {/if}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Change Password{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}">
-            <table>
-              <tr>
-                <td class="default" align="right">{t}New Password{/t}:</td>
-                <td><input type="password" name="new_password" size="20" class="default" autocomplete="off"> {include file="error_icon.tpl.html" field="new_password"}</td>
-              </tr>
-              <tr>
-                <td class="default" align="right">{t}Confirm New Password{/t}:</td>
-                <td><input type="password" name="confirm_password" size="20" class="default" autocomplete="off"> {include file="error_icon.tpl.html" field="confirm_password"}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="{t}Update Password{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
-          </td>
-        </tr>
-        </form>
-        {/if}
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <form name="account_prefs_form" onSubmit="return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="cat" value="update_account">
-        <tr>
-          <td class="default">
-            <b>{t}Account Preferences{/t}</b>
-          </td>
-          <td align="right" colspan="{$assigned_projects|@count}">
+    <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    <input type="hidden" name="cat" value="update_password">
+    <tr>
+      <th width="190">
+        {t}Change Password{/t}
+      </th>
+      <td>
+        <table>
+          <tr>
+            <td align="right">{t}New Password{/t}:</td>
+            <td><input type="password" name="new_password" size="20" autocomplete="off"> {include file="error_icon.tpl.html" field="new_password"}</td>
+          </tr>
+          <tr>
+            <td align="right">{t}Confirm New Password{/t}:</td>
+            <td><input type="password" name="confirm_password" size="20" autocomplete="off"> {include file="error_icon.tpl.html" field="confirm_password"}</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        <input type="submit" value="{t}Update Password{/t}">
+        <input type="reset" value="{t}Reset{/t}">
+      </td>
+    </tr>
+    </form>
+  </table>
+
+  <table class="bordered">
+    <form name="account_prefs_form" onSubmit="return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="cat" value="update_account">
+    <tr class="title">
+      <th colspan="{$assigned_projects|@count+1}">
+        {t}Account Preferences{/t}
+        <span class="menu">
             {include file="help_link.tpl.html" topic="preferences"}
-          </td>
-        </tr>
-        {if $update_account_result}
-        <tr>
-          <td colspan="{math equation="2 + x" x=$assigned_projects|@count}" class="error" bgcolor="{$cell_color}" align="center">
-            {if $update_account_result == -1}
-            <b>{t}An error occurred while trying to run your query.{/t}</b>
-            {elseif $update_account_result == 1}
-            <b>{t}Thank you, your account preferences were updated successfully.{/t}</b>
-            {/if}
-          </td>
-        </tr>
-        {/if}
-        {if $avail_langs}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Available Languages{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <select class="default" name="language">
-			  <option value="en_US">English</option>
-              {html_options options=$avail_langs selected=$current_locale}
-            </select>
-          </td>
-        </tr>
-        {/if}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Timezone{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <select class="default" name="timezone">
-              {html_options values=$zones output=$zones selected=$user_prefs.timezone}
-            </select>
-            {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="timezone"}
-          </td>
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Week starts on:{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
-            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>
-            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
-          </td>
-        </tr>
-        {if $current_role != $roles.customer}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Automatically close confirmation popup windows?{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
-            <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows == "1"}checked{/if} value="1"> {t}Yes{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows != "1"}checked{/if} value="0"> {t}No{/t}</label>
-          </td>
-        </tr>
-        {/if}
-        {if $current_role > $roles.customer}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            &nbsp;
-          </td>
-          {foreach from=$assigned_projects key=prj_id item=project_info}
-          <td bgcolor="{$light_color}" class="default">
-            &nbsp;<b>{$project_info.prj_title}</b>
-          </td>
-          {/foreach}
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Receive emails when all issues are created?{/t}</b>
-          </td>
-          {foreach from=$assigned_projects key=prj_id item=project_info}
-          <td bgcolor="{$light_color}" class="default">
-            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
-          </td>
-          {/foreach}
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Receive emails when new issues are assigned to you?{/t}</b>
-          </td>
-          {foreach from=$assigned_projects key=prj_id item=project_info}
-          <td bgcolor="{$light_color}" class="default">
-            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
-            <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if not $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
-          </td>
-          {/foreach}
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Receive notifications for your own actions?{/t}</b>
-          </td>
-          {foreach from=$assigned_projects key=prj_id item=project_info}
-          <td bgcolor="{$light_color}" class="default">
-            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
-            <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0">{t}No{/t}</label>
-          </td>
-          {/foreach}
-        </tr>
-        {else}
-        <input type="hidden" name="close_popup_windows" value="0">
-        <input type="hidden" name="receive_assigned_email" value="0">
-        <input type="hidden" name="receive_new_issue_email" value="0">
-        {/if}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Refresh Rate for Issue Listing Page{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <input type="text" size="10" class="default" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate|escape:"html"}">
-            <span class="small_default"><i>({t}in minutes{/t})</i></span>
-          </td>
-        </tr>
-        {if $current_role > $roles.customer}
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Refresh Rate for Email Listing Page{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <input type="text" size="10" class="default" name="email_refresh_rate" value="{$user_prefs.email_refresh_rate|escape:"html"}">
-            <span class="small_default"><i>({t}in minutes{/t})</i></span>
-          </td>
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Email Signature{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <table border="0" width="100%">
-              <tr>
-                <td class="default" colspan="2">
-                  {t}Edit Signature{/t}:<br />
-                  <textarea name="email_signature" style="width: 97%" rows="10">{$user_prefs.email_signature}</textarea>
-                </td>
-              </tr>
-              <tr>
-                <td class="default" width="140" nowrap>{t}Upload New Signature{/t}:</td>
-                <td><input size="40" type="file" name="file_signature" class="default"></td>
-              </tr>
-              <tr>
-                <td class="default" colspan="2">
-                  <label><input type="checkbox" name="auto_append_email_sig" value="1" {if $user_prefs.auto_append_email_sig == '1'}checked{/if}>
-                    {t}Automatically append email signature when composing web based emails{/t}</label><br />
-                  <label><input type="checkbox" name="auto_append_note_sig" value="1" {if $user_prefs.auto_append_note_sig == '1'}checked{/if}>
-                    {t}Automatically append email signature when composing internal notes{/t}</label>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}SMS Email Address{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
-            <input type="text" size="40" class="default" name="sms_email" value="{$user_prefs.sms_email|escape:"html"}">
-            <span class="small_default"><i>({t}only used for automatic issue reminders{/t})</i></span>
-          </td>
-        </tr>
-        {else}
-        <input type="hidden" name="email_refresh_rate" value="10">
-        {/if}
-        <tr>
-          <td colspan="{math equation="2 + x" x=$assigned_projects|@count}" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="{t}Update Preferences{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
-          </td>
-        </tr>
-        </form>
-      </table>
-    </td>
-  </tr>
-</table>
+        </span>
+      </th>
+    </tr>
+    {if $avail_langs}
+    <tr>
+      <th width="190">
+        {t}Available Languages{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <select name="language">
+          <option value="en_US">English</option>
+          {html_options options=$avail_langs selected=$current_locale}
+        </select>
+      </td>
+    </tr>
+    {/if}
+    <tr>
+      <th width="190">
+        {t}Timezone{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <select name="timezone">
+          {html_options values=$zones output=$zones selected=$user_prefs.timezone}
+        </select>
+        {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="timezone"}
+      </td>
+    </tr>
+    <tr>
+      <th width="190">
+        {t}Week starts on:{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>
+        <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+      </td>
+    </tr>
+    {if $core.current_role != $core.roles.customer}
+    <tr>
+      <th width="190">
+        {t}Automatically close confirmation popup windows?{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows == "1"}checked{/if} value="1"> {t}Yes{/t}</label>&nbsp;&nbsp;
+        <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows != "1"}checked{/if} value="0"> {t}No{/t}</label>
+      </td>
+    </tr>
+    {/if}
+    {if $core.current_role > $core.roles.customer}
+    <tr>
+      <td width="190">
+        &nbsp;
+      </td>
+      {foreach from=$assigned_projects key=prj_id item=project_info}
+      <td>
+        <strong>{$project_info.prj_title}</strong>
+      </td>
+      {/foreach}
+    </tr>
+    <tr>
+      <th width="190">
+        {t}Receive emails when all issues are created?{/t}
+      </th>
+      {foreach from=$assigned_projects key=prj_id item=project_info}
+      <td>
+        <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>&nbsp;&nbsp;
+        <label><input type="radio" name="receive_new_issue_email[{$prj_id}]" {if not $user_prefs.receive_new_issue_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
+      </td>
+      {/foreach}
+    </tr>
+    <tr>
+      <th width="190">
+        {t}Receive emails when new issues are assigned to you?{/t}
+      </th>
+      {foreach from=$assigned_projects key=prj_id item=project_info}
+      <td>
+        <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
+        <label><input type="radio" name="receive_assigned_email[{$prj_id}]" {if not $user_prefs.receive_assigned_email.$prj_id}checked{/if} value="0">{t}No{/t}</label>
+      </td>
+      {/foreach}
+    </tr>
+    <tr>
+      <th width="190">
+        {t}Receive notifications for your own actions?{/t}
+      </th>
+      {foreach from=$assigned_projects key=prj_id item=project_info}
+      <td>
+        <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="1">{t}Yes{/t}</label>
+        <label><input type="radio" name="receive_copy_of_own_action[{$prj_id}]" {if not $user_prefs.receive_copy_of_own_action.$prj_id}checked{/if} value="0">{t}No{/t}</label>
+      </td>
+      {/foreach}
+    </tr>
+    {else}
+    <input type="hidden" name="close_popup_windows" value="0">
+    <input type="hidden" name="receive_assigned_email" value="0">
+    <input type="hidden" name="receive_new_issue_email" value="0">
+    {/if}
+    <tr>
+      <th width="190">
+        {t}Refresh Rate for Issue Listing Page{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <input type="text" size="10" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate|escape:"html"}">
+        <em>({t}in minutes{/t})</em>
+      </td>
+    </tr>
+    {if $core.current_role > $core.roles.customer}
+    <tr>
+      <th width="190">
+        {t}Refresh Rate for Email Listing Page{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <input type="text" size="10" name="email_refresh_rate" value="{$user_prefs.email_refresh_rate|escape:"html"}">
+        <em>({t}in minutes{/t})</em>
+      </td>
+    </tr>
+    <tr>
+      <th width="190">
+        {t}Email Signature{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+          <label>
+              {t}Edit Signature{/t}:<br />
+              <textarea name="email_signature" style="width: 97%" rows="10">{$user_prefs.email_signature}</textarea>
+          </label>
 
-<br />
+          <label>
+              {t}Upload New Signature{/t}:
+              <input size="40" type="file" name="file_signature">
+          </label><br />
 
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+          <label>
+           <input type="checkbox" name="auto_append_email_sig" value="1" {if $user_prefs.auto_append_email_sig == '1'}checked{/if}>
+           {t}Automatically append email signature when composing web based emails{/t}
+          </label><br />
+
+          <label>
+            <input type="checkbox" name="auto_append_note_sig" value="1" {if $user_prefs.auto_append_note_sig == '1'}checked{/if}>
+            {t}Automatically append email signature when composing internal notes{/t}
+          </label>
+      </td>
+    </tr>
+    <tr>
+      <th width="190">
+        {t}SMS Email Address{/t}
+      </th>
+      <td colspan="{$assigned_projects|@count}">
+        <input type="text" size="40" name="sms_email" value="{$user_prefs.sms_email|escape:"html"}">
+        <em>({t}only used for automatic issue reminders{/t})</em>
+      </td>
+    </tr>
+    {else}
+    <input type="hidden" name="email_refresh_rate" value="10">
+    {/if}
+    <tr class="buttons">
+      <td colspan="{$assigned_projects|@count+1}">
+        <input type="submit" value="{t}Update Preferences{/t}">
+        <input type="reset" value="{t}Reset{/t}">
+      </td>
+    </tr>
+    </form>
+  </table>
+{/block}
