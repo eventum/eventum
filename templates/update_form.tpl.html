@@ -75,7 +75,6 @@ function closeIssue(issue_id)
     <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
     {/foreach}
     <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
-    <input type="hidden" name="release" value="{$issue.iss_pre_id}">
 {/if}
 <div id="issue_overview" class="bordered">
     <div class="title">
@@ -149,6 +148,8 @@ function closeIssue(issue_id)
             </div>
             <div class="clear"></div>
         </div>
+        {else}
+            <input type="hidden" name="release" value="{$issue.iss_pre_id}">
         {/if}
 
         <div class="issue_field_display">
