@@ -698,8 +698,7 @@ function getDisplayStyle(use_inline)
 function makeDate(f, name) {
     var d = new Date();
     d.setFullYear(f.elements[name + '[Year]'].value);
-    d.setMonth(f.elements[name + '[Month]'].value - 1);
-    d.setDate(f.elements[name + '[Day]'].value);
+    d.setMonth(f.elements[name + '[Month]'].value - 1, f.elements[name + '[Day]'].value);
     d.setHours(f.elements[name + '[Hour]'].value);
     d.setMinutes(f.elements[name + '[Minute]'].value);
     d.setSeconds(0);
