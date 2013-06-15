@@ -629,7 +629,12 @@ class Command_Line
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
         // list the time tracking categories
-        $msg = new XML_RPC_Message("getTimeTrackingCategories", array(new XML_RPC_Value($auth[0], 'string'),  new XML_RPC_Value($auth[1], 'string')));
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'),
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int'),
+        );
+        $msg = new XML_RPC_Message("getTimeTrackingCategories", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             self::quit($result->faultString());

@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2012-??-??, Version 2.3.4
+2013-??-??, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
 - Add logged in username in automated error reports (Elan Ruusamäe)
@@ -13,6 +13,8 @@ Eventum Issue Tracking System
 - Fix preg_replace warning, when someone managed to upload file containing slash in it's name (Elan Ruusamäe)
 - Move SCM configuration to separate admin panel (Elan Ruusamäe)
 - Handle cases when broken clients send out email with duplicate Message-Id headers. RFC2822 clearly states maximum count of one header allowed (Elan Ruusamäe)
+- Make time tracking categories project specific (Elan Ruusamäe)
+- API: Misc::escapeString can add quotes around strings (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)

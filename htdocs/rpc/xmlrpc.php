@@ -213,7 +213,7 @@ function getIssueDetails($p)
     return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
-$getTimeTrackingCategories_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String));
+$getTimeTrackingCategories_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getTimeTrackingCategories($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -222,7 +222,9 @@ function getTimeTrackingCategories($p)
     if (is_object($auth)) {
         return $auth;
     }
-    $res = Time_Tracking::getAssocCategories();
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $prj_id = Issue::getProjectID($issue_id);
+    $res = Time_Tracking::getAssocCategories($prj_id);
     if (empty($res)) {
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No time tracking categories could be found");

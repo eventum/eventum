@@ -42,19 +42,24 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
+    @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
+    $tpl->assign("project", Project::getDetails($prj_id));
+
     if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Time_Tracking::insert());
+        $prj_id = $_POST["prj_id"];
+        $title = $_POST["title"];
+        $tpl->assign("result", Time_Tracking::insert($prj_id, $title));
     } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Time_Tracking::update());
     } elseif (@$_POST["cat"] == "delete") {
-        Time_Tracking::remove();
+        $tpl->assign("result", Time_Tracking::remove());
     }
 
     if (@$_GET["cat"] == "edit") {
         $tpl->assign("info", Time_Tracking::getDetails($_GET["id"]));
     }
 
-    $tpl->assign("list", Time_Tracking::getList());
+    $tpl->assign("list", Time_Tracking::getList($prj_id));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

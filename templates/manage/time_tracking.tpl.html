@@ -20,6 +20,7 @@
               {/literal}
               <form name="time_tracking_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="prj_id" value="{$project.prj_id}">
               <input type="hidden" name="cat" value="update">
               <input type="hidden" name="id" value="{$smarty.get.id|intval}">
               {else}
@@ -48,6 +49,14 @@
                       {t}Please enter the title for this time tracking category.{/t}
                     {elseif $result == 1}
                       {t}Thank you, the time tracking category was updated successfully.{/t}
+                    {/if}
+                  {elseif $smarty.post.cat == "delete"}
+                    {if $result == -1}
+                      {t}An error occurred while trying to remove time tracking category.{/t}
+                    {elseif $result == -2}
+                      {t}Could not delete time categories, because they were in use.{/t}
+                    {elseif $result == 1}
+                      {t}Thank you, the time tracking categories were removed successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -100,6 +109,7 @@
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
                     <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="prj_id" value="{$project.prj_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
@@ -110,7 +120,7 @@
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a> ({t 1=$list[i].ttc_count|default:0}%1 entries{/t})
                       </td>
                     </tr>
                     {sectionelse}

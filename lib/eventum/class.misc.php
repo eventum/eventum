@@ -79,6 +79,30 @@ class Misc
         return $diffs;
     }
 
+    /**
+     * Retrieves values for fieldName from specified array.
+     *
+     * @param string $fieldName value to collect
+     * @param array|object $array array or object to search
+     * @return array new array containing the fieldName values from original array
+     */
+    public static function collect($fieldName, $array)
+    {
+        $result = array();
+        if (empty($array)) {
+            return $result;
+        }
+
+        foreach ($array as $object) {
+            if (is_object($object) && isset($object->$fieldName)) {
+                array_push($result, $object->$fieldName);
+            } elseif (is_array($object) && isset($object[$fieldName])) {
+                array_push($result, $object[$fieldName]);
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Method used to get the title given to the current installation of Eventum.
@@ -345,14 +369,14 @@ class Misc
      * @param   string|array $input The original string
      * @return  string The escaped (or not) string
      */
-    public static function escapeString($input)
+    public static function escapeString($input, $add_quotes = false)
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
-                $input[$key] = self::escapeString($value);
+                $input[$key] = self::escapeString($value, $add_quotes);
             }
         } else {
-            $input = DB_Helper::escapeString($input);
+            $input = DB_Helper::escapeString($input, $add_quotes);
         }
         return $input;
     }
