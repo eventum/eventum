@@ -701,11 +701,11 @@ function getWeeklyReport($p)
 
     // figure out the correct week
     if ((empty($start)) || (empty($end))) {
-        $start = date("U") - (DAY * (date("w") - 1));
+        $start = date("U") - (Date_Helper::DAY * (date("w") - 1));
         if ($week > 0) {
-            $start = ($start - (WEEK * $week));
+            $start = ($start - (Date_Helper::WEEK * $week));
         }
-        $end = date("Y-m-d", ($start + (DAY * 6)));
+        $end = date("Y-m-d", ($start + (Date_Helper::DAY * 6)));
         $start = date("Y-m-d", $start);
     }
 

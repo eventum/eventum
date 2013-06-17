@@ -110,7 +110,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),
         "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-        "one_week_ts"  => time() + (7 * DAY),
+        "one_week_ts"  => time() + (7 * Date_Helper::DAY),
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),

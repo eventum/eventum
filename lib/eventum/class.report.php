@@ -148,7 +148,7 @@ class Report
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
         $ts = Date_Helper::getCurrentUnixTimestampGMT();
-        $ts_diff = $cutoff_days * DAY;
+        $ts_diff = $cutoff_days * Date_Helper::DAY;
 
 
         $stmt = "SELECT

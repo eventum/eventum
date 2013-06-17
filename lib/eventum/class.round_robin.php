@@ -59,11 +59,11 @@ class Round_Robin
         }
         if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end < $start)) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
-                $first = -DAY;
+                $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
                 $first = 0;
-                $second = DAY;
+                $second = Date_Helper::DAY;
             }
         }
         if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end > $start)) {
@@ -72,11 +72,11 @@ class Round_Robin
         }
         if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end < $start)) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
-                $first = -DAY;
+                $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
                 $first = 0;
-                $second = DAY;
+                $second = Date_Helper::DAY;
             }
         }
         if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end > $start)) {
@@ -85,11 +85,11 @@ class Round_Robin
         }
         if ((Date_Helper::isPM($start)) && (Date_Helper::isAM($end))) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
-                $first = -DAY;
+                $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
                 $first = 0;
-                $second = DAY;
+                $second = Date_Helper::DAY;
             }
         }
 
