@@ -47,7 +47,7 @@ $types = array(
 );
 
 // FIXME: silly hack to get date constants loaded from class.date_helper.php
-Date_Helper::isAM();
+Date_Helper::isAM(1);
 
 if (count(@$_REQUEST["start"]) > 0 &&
         (@$_REQUEST["start"]["Year"] != 0) &&
