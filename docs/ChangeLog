@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Handle cases when broken clients send out email with duplicate Message-Id headers. RFC2822 clearly states maximum count of one header allowed (Elan Ruusamäe)
 - Make time tracking categories project specific (Elan Ruusamäe)
 - API: Misc::escapeString can add quotes around strings (Elan Ruusamäe)
+- fix bug for adding time entries is broken at the end of month Edit (#1186330)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
