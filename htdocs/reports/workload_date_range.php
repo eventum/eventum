@@ -46,6 +46,8 @@ $types = array(
     "aggregate"     =>  "Aggregate"
 );
 
+// FIXME: silly hack to get date constants loaded from class.date_helper.php
+Date_Helper::isAM();
 
 if (count(@$_REQUEST["start"]) > 0 &&
         (@$_REQUEST["start"]["Year"] != 0) &&
