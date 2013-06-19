@@ -178,6 +178,10 @@ body#list_issues div#quick_filter {
     width: 80%;
     margin: 0 auto;
 }
+body#list_issues div#quick_filter div#ft_options div {
+    width: 50%;
+    float: left;
+}
 
 body#list_issues div#quick_filter div.bottom_bar {
     background: #dddddd;
