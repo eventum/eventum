@@ -6,39 +6,40 @@
 {literal}
 <script type="text/javascript">
 <!--
-function validateName(f)
+function validateName()
 {
-    if (isWhitespace(f.full_name.value)) {
+    if (Validation.isFieldWhitespace('full_name')) {
         alert('{/literal}{t escape=js}Please enter your full name.{/t}{literal}');
-        selectField(f, 'full_name');
+        Validation.selectField('full_name');
         return false;
     }
     return true;
 }
-function validateEmail(f)
+function validateEmail()
 {
-    if (!isEmail(f.email.value)) {
+    if (!Validation.isEmail(Eventum.getField('email').val())) {
         alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
-        selectField(f, 'email');
+        Validation.selectField('email');
         return false;
     }
     return true;
 }
-function validatePassword(f)
+function validatePassword()
 {
-    if ((isWhitespace(f.new_password.value)) || (f.new_password.value.length < 6)) {
+    var new_password = Eventum.getField('new_password').val();
+    if ((Validation.isWhitespace(new_password)) || (new_password.length < 6)) {
         alert('{/literal}{t escape=js}Please enter your new password with at least 6 characters.{/t}{literal}');
-        selectField(f, 'new_password');
+        Validation.selectField('new_password');
         return false;
     }
-    if (f.new_password.value != f.confirm_password.value) {
+    if (new_password != Eventum.getField('confirm_password').val()) {
         alert('{/literal}{t escape=js}The two passwords do not match. Please review your information and try again.{/t}{literal}');
-        selectField(f, 'confirm_password');
+        Validation.selectField('confirm_password');
         return false;
     }
     return true;
 }
-function validateAccount(f)
+function validateAccount()
 {
     return true;
 }
@@ -46,7 +47,7 @@ function validateAccount(f)
 </script>
 {/literal}
   <table class="bordered">
-    <form name="update_name_form" onSubmit="return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    <form name="update_name_form" onSubmit="return validateName();" action="{$smarty.server.PHP_SELF}" method="post">
     <input type="hidden" name="cat" value="update_name">
     <tr class="title">
       <th colspan="2">
@@ -56,7 +57,7 @@ function validateAccount(f)
         </span>
       </th>
     </tr>
-    {if $core.current_role != $core.roles.customer}
+    {if $core.current_role != $core.roles.customer && $can_update_name}
     <tr>
       <th width="190">
         {t}Full Name{/t}:
@@ -73,8 +74,14 @@ function validateAccount(f)
       </td>
     </tr>
     </form>
+    {else}
+    <tr>
+        <td colspan="2">Please contact the admin to change your name.</td>
+    </tr>
+    {/if}
+    {if $core.current_role != $core.roles.customer && $can_update_email}
 
-    <form name="update_email_form" onSubmit="return validateEmail(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    <form name="update_email_form" onSubmit="return validateEmail();" action="{$smarty.server.PHP_SELF}" method="post">
     <input type="hidden" name="cat" value="update_email">
     <tr>
       <th width="190">
@@ -92,9 +99,14 @@ function validateAccount(f)
       </td>
     </tr>
     </form>
+    {else}
+    <tr>
+        <td colspan="2">Please contact the admin to change your email.</td>
+    </tr>
     {/if}
 
-    <form name="update_password_form" onSubmit="return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
+    {if $can_update_password}
+    <form name="update_password_form" onSubmit="return validatePassword();" action="{$smarty.server.PHP_SELF}" method="post">
     <input type="hidden" name="cat" value="update_password">
     <tr>
       <th width="190">
@@ -120,10 +132,15 @@ function validateAccount(f)
       </td>
     </tr>
     </form>
+    {else}
+    <tr>
+        <td colspan="2">Please contact the admin to change your password.</td>
+    </tr>
+    {/if}
   </table>
 
   <table class="bordered">
-    <form name="account_prefs_form" onSubmit="return validateAccount(this);" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
+    <form name="account_prefs_form" onSubmit="return validateAccount();" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="cat" value="update_account">
     <tr class="title">
       <th colspan="{$assigned_projects|@count+1}">
