@@ -1,82 +1,82 @@
-{include file="header.tpl.html" application_title="Eventum Installation"}
+{extends "base.tpl.html"}
+{block "page_id"}setup{/block}
+{block "title"}Eventum Installation{/block}
 
+{block name="content"}
 {literal}
 <script type="text/javascript">
 <!--
 function validateForm(f)
 {
-    if (isWhitespace(f.hostname.value)) {
-        selectField(f, 'hostname');
+    if (Validation.isFieldWhitespace('hostname')) {
+        Validation.selectField('hostname');
         alert('{/literal}{t escape=js}Please enter the hostname for the server of this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.relative_url.value)) {
-        selectField(f, 'relative_url');
+    if (Validation.isFieldWhitespace('relative_url')) {
+        Validation.selectField('relative_url');
         alert('{/literal}{t escape=js}Please enter the relative URL of this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.db_hostname.value)) {
-        selectField(f, 'db_hostname');
+    if (Validation.isFieldWhitespace('db_hostname')) {
+        Validation.selectField('db_hostname');
         alert('{/literal}{t escape=js}Please enter the database hostname for this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.db_name.value)) {
-        selectField(f, 'db_name');
+    if (Validation.isFieldWhitespace('db_name')) {
+        Validation.selectField('db_name');
         alert('{/literal}{t escape=js}Please enter the database name for this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.db_username.value)) {
-        selectField(f, 'db_username');
+    if (Validation.isFieldWhitespace('db_username')) {
+        Validation.selectField('db_username');
         alert('{/literal}{t escape=js}Please enter the database username for this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (f.alternate_user.checked) {
-        if (isWhitespace(f.eventum_user.value)) {
-            selectField(f, 'eventum_user');
+    if (Eventum.getField('alternate_user').is(':checked')) {
+        if (Validation.isFieldWhitespace('eventum_user')) {
+            Validation.selectField('eventum_user');
             alert('{/literal}{t escape=js}Please enter the alternate username for this installation of Eventum.{/t}{literal}');
             return false;
         }
     }
 
-    var field = getFormElement(f, 'setup[smtp][from]');
-    if (isWhitespace(field.value)) {
-        selectField(f, 'setup[smtp][from]');
+    var field = Eventum.getField('setup[smtp][from]');
+    if (Validation.isFieldWhitespace(field)) {
+        Validation.selectField(field);
         alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
         return false;
     }
-    if (!isEmail(field.value)) {
-        selectField(f, 'setup[smtp][from]');
+    if (!Validation.isEmail(field.val())) {
+        Validation.selectField(field);
         alert('{/literal}{t escape=js}Please enter a valid email address for the sender address.{/t}{literal}');
         return false;
     }
-    field = getFormElement(f, 'setup[smtp][host]');
-    if (isWhitespace(field.value)) {
-        selectField(f, 'setup[smtp][host]');
+    field = Eventum.getField('setup[smtp][host]');
+    if (Validation.isWhitespace(field)) {
+        Validation.selectField(field);
         alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
         return false;
     }
-    field = getFormElement(f, 'setup[smtp][port]');
-    if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
-        selectField(f, 'setup[smtp][port]');
+    field = Eventum.getField('setup[smtp][port]');
+    if ((Validation.isFieldWhitespace(field)) || (!Validation.isNumberOnly(field.val()))) {
+        Validation.selectField(field);
         alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
         return false;
     }
-    var field1 = getFormElement(f, 'setup[smtp][auth]', 0);
-    var field2 = getFormElement(f, 'setup[smtp][auth]', 1);
-    if ((!field1.checked) && (!field2.checked)) {
+    var auth_field = Eventum.getField('setup[smtp][auth]');
+    if (!Validation.hasOneChecked(auth_field)) {
         alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
         return false;
     }
-    if (field1.checked) {
-      field = getFormElement(f, 'setup[smtp][username]');
-      if (isWhitespace(field.value)) {
-          selectField(f, 'setup[smtp][username]');
+    if (auth_field.val() == 1) {
+      if (Validation.isFieldWhitespace('setup[smtp][username]')) {
+          Validation.selectField('setup[smtp][username]');
           alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
           return false;
       }
-      field = getFormElement(f, 'setup[smtp][password]');
-      if (isWhitespace(field.value)) {
-          selectField(f, 'setup[smtp][password]');
+      if (Validation.isFieldWhitespace('setup[smtp][password]')) {
+          Validation.selectField('setup[smtp][password]');
           alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
           return false;
       }
@@ -85,26 +85,20 @@ function validateForm(f)
 }
 function toggleAlternateUserFields()
 {
-    var f = getForm('install_form');
-    var element = getPageElement('alternate_user_row');
-    if (f.alternate_user.checked) {
-        element.style.display = '';
-    } else {
-        element.style.display = 'none';
-    }
+    $('#alternate_user_row').toggle(Eventum.getField('alternate_user').is(':checked'));
 }
 
-function disableAuthFields(f, bool)
+function disableAuthFields(bool)
 {
   if (bool) {
       var bgcolor = '#CCCCCC';
   } else {
       var bgcolor = '#FFFFFF';
   }
-  var field = getFormElement(f, 'setup[smtp][username]');
+  var field = Eventum.getField('setup[smtp][username]')[0];
   field.disabled = bool;
   field.style.backgroundColor = bgcolor;
-  field = getFormElement(f, 'setup[smtp][password]');
+  field = Eventum.getField('setup[smtp][password]')[0];
   field.disabled = bool;
   field.style.backgroundColor = bgcolor;
 }
@@ -112,7 +106,7 @@ function disableAuthFields(f, bool)
 </script>
 {/literal}
 
-{if $result != '' and $result != 'success'}
+{if $result|default:'' != '' and $result|default:'' != 'success'}
 <br />
 <table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
@@ -135,7 +129,7 @@ function disableAuthFields(f, bool)
 </table>
 {/if}
 
-{if $result == 'success'}
+{if $result|default:'' == 'success'}
 <br />
 <table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
@@ -149,7 +143,7 @@ function disableAuthFields(f, bool)
             <br />
             <b>{t}Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:{/t}</b>
             <br />
-            <a href="{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
+            <a href="{if $smarty.post.is_ssl|default:'' == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
             <br /><br />
             {t}Email Address{/t}: admin@example.com {t}(literally){/t}<br />
             {t}Password{/t}: admin<br />
@@ -195,7 +189,7 @@ function disableAuthFields(f, bool)
             {assign var="tabindex" value="1"}
             <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="hostname"}
-            <input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}> <span><b><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'is_ssl');">{t}SSL Server{/t}</a></b></span>
+            <label><input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}>{t}SSL Server{/t}</label>
           </td>
         </tr>
         <tr>
@@ -212,7 +206,7 @@ function disableAuthFields(f, bool)
             <nobr>&nbsp;<b>{t}MySQL Server Hostname{/t}: *</b></nobr>
           </td>
           <td>
-            <input type="text" name="db_hostname" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname}">
+            <input type="text" name="db_hostname" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname|default:''}">
             {include file="error_icon.tpl.html" field="db_hostname"}
           </td>
         </tr>
@@ -221,9 +215,9 @@ function disableAuthFields(f, bool)
             <b>{t}MySQL Database{/t}: *</b>
           </td>
           <td>
-            <input type="text" name="db_name" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name}">
+            <input type="text" name="db_name" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name|default:''}">
             {include file="error_icon.tpl.html" field="db_name"}
-            <input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db == 'yes'}checked{/if}> <span><b><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
+            <label><input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db|default:'' == 'yes'}checked{/if}> Create Database</label>
           </td>
         </tr>
         <tr>
@@ -236,7 +230,7 @@ function disableAuthFields(f, bool)
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input type="checkbox" name="drop_tables" value="yes" tabindex="{$tabindex}" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'drop_tables');">{t}Drop Tables If They Already Exist{/t}</a></b>
+            <label><input type="checkbox" name="drop_tables" value="yes" tabindex="{$tabindex}" {if $smarty.post.drop_tables|default:'' == 'yes'}checked{/if}> {t}Drop Tables If They Already Exist{/t}</label>
           </td>
         </tr>
         <tr>
@@ -244,7 +238,7 @@ function disableAuthFields(f, bool)
             <b>{t}MySQL Username{/t}: *</b>
           </td>
           <td>
-            <input type="text" name="db_username" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_username}">
+            <input type="text" name="db_username" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_username|default:''}">
             {include file="error_icon.tpl.html" field="db_username"}
           </td>
         </tr>
@@ -258,12 +252,12 @@ function disableAuthFields(f, bool)
             <b>{t}MySQL Password:{/t}</b>
           </td>
           <td>
-            <input type="password" name="db_password" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password}" autocomplete="off">
+            <input type="password" name="db_password" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password|default:''}" autocomplete="off">
           </td>
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input type="checkbox" name="alternate_user" value="yes" onClick="toggleAlternateUserFields();"  tabindex="{$tabindex}" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">{t}Use a Separate MySQL User for Normal Eventum Use{/t}</a></b>
+            <label><input type="checkbox" name="alternate_user" value="yes" onClick="toggleAlternateUserFields();"  tabindex="{$tabindex}" {if $smarty.post.alternate_user|default:'' == 'yes'}checked{/if}>{t}Use a Separate MySQL User for Normal Eventum Use{/t}</label>
           </td>
         </tr>
         <tr id="alternate_user_row">
@@ -285,7 +279,7 @@ function disableAuthFields(f, bool)
                               <nobr>&nbsp;<b>{t}Username{/t}: *</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="text" name="eventum_user" size="20" value="{$smarty.post.eventum_user}" tabindex="{$tabindex}">&nbsp;</nobr>
+                              <nobr><input type="text" name="eventum_user" size="20" value="{$smarty.post.eventum_user|default:''}" tabindex="{$tabindex}">&nbsp;</nobr>
                               {include file="error_icon.tpl.html" field="eventum_user"}
                             </td>
                           </tr>
@@ -294,12 +288,12 @@ function disableAuthFields(f, bool)
                               <nobr>&nbsp;<b>{t}Password{/t}:</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="password" name="eventum_password" size="20" value="{$smarty.post.eventum_password}" tabindex="{$tabindex}" autocomplete="off">&nbsp;</nobr>
+                              <nobr><input type="password" name="eventum_password" size="20" value="{$smarty.post.eventum_password|default:''}" tabindex="{$tabindex}" autocomplete="off">&nbsp;</nobr>
                             </td>
                           </tr>
                           <tr>
                             <td colspan="2" align="center">
-                              <input type="checkbox" name="create_user" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" href="javascript:void(null);" onClick="toggleCheckbox('install_form', 'create_user');">{t}Create User and Permissions{/t}</a></b>
+                              <label><input type="checkbox" name="create_user" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_user|default:'' == 'yes'}checked{/if}>{t}Create User and Permissions{/t}</label>
                             </td>
                           </tr>
                         </table>
@@ -330,7 +324,7 @@ function disableAuthFields(f, bool)
           </td>
           <td width="80%">
             <select name="default_timezone">
-              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone}
+              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone|default:''}
             </select><br/>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="default_timezone"}
           </td>
@@ -340,8 +334,8 @@ function disableAuthFields(f, bool)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td width="80%">
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
         </tr>
@@ -371,7 +365,7 @@ function disableAuthFields(f, bool)
             <b>{t}Sender{/t}: *</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|default:''|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][from]"}
             <span><i>({t}must be a valid email address{/t})</i></span>
           </td>
@@ -381,7 +375,7 @@ function disableAuthFields(f, bool)
             <b>{t}Hostname{/t}: *</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|escape:"html"}" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|default:''|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][host]"}
           </td>
         </tr>
@@ -390,7 +384,7 @@ function disableAuthFields(f, bool)
             <b>{t}Port{/t}: *</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port}" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port|default:'' }" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][port]"}
           </td>
         </tr>
@@ -399,10 +393,10 @@ function disableAuthFields(f, bool)
             <b>{t}Requires Authentication?{/t}&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="disableAuthFields(this.form, false);" tabindex="{$tabindex}">
-            <a id="link" href="javascript:void(null);" onClick="checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="disableAuthFields(this.form, true);" tabindex="{$tabindex}">
-            <a id="link" href="javascript:void(null);" onClick="checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">{t}No{/t}</a>
+            <label><input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth|default:'' == 1}checked{/if} onClick="disableAuthFields(false);" tabindex="{$tabindex}">
+            {t}Yes{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth|default:'' != 1}checked{/if} onClick="disableAuthFields(true);" tabindex="{$tabindex}">
+            {t}No{/t}</label>
           </td>
         </tr>
         <tr>
@@ -410,7 +404,7 @@ function disableAuthFields(f, bool)
             <b>{t}Username{/t}:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|escape:"html"}" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|default:''|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][username]"}
           </td>
         </tr>
@@ -419,7 +413,7 @@ function disableAuthFields(f, bool)
             <b>{t}Password{/t}:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="password" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}" tabindex="{$tabindex}" autocomplete="off">
+            <input type="password" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|default:''|escape:"html"}" tabindex="{$tabindex}" autocomplete="off">
             {include file="error_icon.tpl.html" field="setup[smtp][password]"}
           </td>
         </tr>
@@ -448,8 +442,8 @@ function setFocus()
     document.install_form.hostname.focus();
     toggleAlternateUserFields();
 {/literal}
-    {if $smarty.request.setup.smtp.auth != 1}
-    disableAuthFields(getForm('install_form'), true);
+    {if $smarty.request.setup.smtp.auth|default:'' != 1}
+    disableAuthFields(true);
     {/if}
 {literal}
 }
@@ -457,5 +451,4 @@ function setFocus()
 </script>
 {/literal}
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

@@ -1,4 +1,4 @@
-{if $core.messages|@count > 0}
+{if $core.messages|@count|default:0 > 0}
 <div id="global_messages">
     {foreach from=$core.messages item=message}
     <div class="{$message.type}">
