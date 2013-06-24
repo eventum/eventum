@@ -3,10 +3,10 @@
         {t}Attached Files{/t} ({$files|@count})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <span class="js_link" id="toggle_attachments" >{get_display_label element_name="attachments"}</span> ]
+            [ <span class="js_link" id="toggle_attachments" >{get_display_label element_name="attachments" total=$files|@count}</span> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='attachments'}>
+    <div class="content" {get_display_style element_name='attachments' total=$files|@count}>
         <table class="grid">
           <tr>
             <th>{t}Files{/t}</th>

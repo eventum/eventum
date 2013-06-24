@@ -1781,7 +1781,7 @@ class Support
             return "";
         } else {
             if (count($res) == 0) {
-                return "";
+                return array();
             } else {
                 for ($i = 0; $i < count($res); $i++) {
                     $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);

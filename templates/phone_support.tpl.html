@@ -28,10 +28,10 @@ function addPhoneCall()
         {t}Phone Calls{/t} ({$phone_entries|@count})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <span id="toggle_phone_calls" class="js_link">{get_display_label element_name="phone_calls"}</span> ]
+            [ <span id="toggle_phone_calls" class="js_link">{get_display_label element_name="phone_calls" total=$phone_entries|@count}</span> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='phone_calls'}>
+    <div class="content" {get_display_style element_name='phone_calls' total=$phone_entries|@count}>
         <table class="grid internal">
           <tr>
             <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</th>

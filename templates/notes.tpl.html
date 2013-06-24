@@ -48,10 +48,10 @@ function replyNote(note_id, issue_id)
         {t}Internal Notes{/t} ({$notes|@count})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <span class="js_link" id="toggle_internal_notes">{get_display_label element_name="internal_notes"}</a> ]
+            [ <span class="js_link" id="toggle_internal_notes">{get_display_label element_name="internal_notes" total=$notes|@count}</a> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='internal_notes'}>
+    <div class="content" {get_display_style element_name='internal_notes' total=$notes|@count}>
         <table class="grid internal">
           <tr>
             <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</th>

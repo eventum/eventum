@@ -30,10 +30,10 @@ function addTimeEntry()
         {t}Time Tracking{/t} ({$time_entries|@count})
         <span class="menu">
           [ <a href="#top">{t}Back to Top{/t}</a> ]
-          [ <span class="js_link" id="toggle_time_tracking">{get_display_label element_name="time_tracking"}</span> ]
+          [ <span class="js_link" id="toggle_time_tracking">{get_display_label element_name="time_tracking" total=$time_entries|@count}</span> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='time_tracking'}>
+    <div class="content" {get_display_style element_name='time_tracking' total=$time_entries|@count}>
         <table class="grid internal">
           <tr>
             <th width="5">#</th>

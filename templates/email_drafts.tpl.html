@@ -38,10 +38,10 @@ function showAllDrafts(thisBox)
         {t}Drafts{/t} ({$drafts|@count})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
-            [ <span class="js_link" id="toggle_drafts">{get_display_label element_name="drafts"}</span> ]
+            [ <span class="js_link" id="toggle_drafts">{get_display_label element_name="drafts" total=$drafts|@count}</span> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='drafts'}>
+    <div class="content" {get_display_style element_name='drafts' total=$drafts|@count}>
         <table class="grid internal">
           <tr>
             <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</th>
