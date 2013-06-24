@@ -35,6 +35,22 @@ $(document).ready(function() {
     });
 
     $('#change_clock_status').click(Eventum.changeClockStatus);
+
+    $('#search').click(function(e) {
+        $(e.target).select();
+        e.preventDefault();
+    });
+
+    $('#shortcut').click(function(e) {
+        $(e.target).select();
+        e.preventDefault();
+    }).submit(function(e) {
+        var target = $(e.target);
+        if (!Validation.isNumberOnly(target.val())) {
+            alert('Please enter numbers only');
+            return false;
+        }
+    });
 });
 
 
