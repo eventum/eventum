@@ -61,13 +61,13 @@ function sendEmail(account_id, issue_id)
             {if $core.current_role > $core.roles.standard_user}
             [ <a href="mail_queue.php?iss_id={$smarty.get.id|intval}" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
             {/if}
-            [ <span id="toggle_support_emails" class="js_link">{get_display_label element_name="support_emails"}</span> ]
+            [ <span id="toggle_support_emails" class="js_link">{get_display_label element_name="support_emails" total=$emails|@count}</span> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='support_emails'}>
+    <div class="content" {get_display_style element_name='support_emails' total=$emails|@count}>
         <table class="grid">
           <tr>
-            {if $emails != "" and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+            {if $emails|@count > 0 and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
             <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
             {/if}
             <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</th>
@@ -129,7 +129,7 @@ function sendEmail(account_id, issue_id)
         <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
         {/if}
 
-        {if $emails != "" and $core.current_role != $core.roles.customer}
+        {if $emails|@count > 0 and $core.current_role != $core.roles.customer}
         <div class="right">
             <input type="submit" value="{t}Disassociate Selected{/t}">
         </div>

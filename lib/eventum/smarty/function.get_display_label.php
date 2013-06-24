@@ -15,6 +15,13 @@ function smarty_function_get_display_label($params, &$smarty)
         $html_result = 'hide';
     }
 
+    // automatically hide the table if there is nothing to be displayed
+    if (isset($total)) {
+        if ($total < 1) {
+            $html_result = 'show';
+        }
+    }
+
     if ($print_result) {
         print $html_result;
     } else {

@@ -70,7 +70,7 @@ $(function() {
             [ <a href="javascript:void(null);" onClick="toggleVisibility('checkins');">{get_display_label element_name="checkins" total=$checkins|@count}</a> ]
         </span>
     </div>
-    <div class="content">
+    <div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
         <table class="grid">
           <tr>
             <th width="5">

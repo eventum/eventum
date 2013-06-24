@@ -6,6 +6,10 @@ body {
     margin: 0;
 }
 
+input, select {
+    font-size: 1em;
+}
+
 a {
     color: #000000;
 }
@@ -159,6 +163,7 @@ div#content {
     -webkit-border-radius: 0.5em;
     -moz-border-radius: 0.5em;
     margin-bottom: 1em;
+    border-spacing: 1px;
 }
 
 table.bordered tr:first-child td:first-child {
@@ -212,6 +217,7 @@ table.bordered th {
     color: white;
     text-align: left;
     padding-left: .3em;
+    font-weight: normal;
 }
 
 table.bordered th.internal, table.bordered td.internal {
@@ -270,15 +276,19 @@ table.bordered td {
 /* End Bordered Table */
 
 /* Grid table */
+table.grid {
+    border-spacing: 1px;
+}
+
 table.grid th {
     background: #255282;
     text-align: left;
     color: #FFFFFF;
-    font-weight: bold;
+    font-weight: normal;
     padding-left: .3em;
 }
 
-table.grid.internal th {
+table.grid.internal th, table.grid th.internal {
     background: #9c494b;
 }
 
