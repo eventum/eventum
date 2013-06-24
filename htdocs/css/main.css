@@ -201,6 +201,7 @@ table.bordered tr:last-child td:last-child {
 .bordered .title th {
     background: #FFFFFF;
     color: #000000;
+    font-weight: bold;
 }
 
 .bordered .title th a {
@@ -217,7 +218,6 @@ table.bordered th {
     color: white;
     text-align: left;
     padding-left: .3em;
-    font-weight: normal;
 }
 
 table.bordered th.internal, table.bordered td.internal {
