@@ -52,10 +52,19 @@
                 {/if}
             </div>
 
+            <div id="go_issue_menu">
+              <form method="get" action="{$core.rel_url}view.php">
+                <label for="shortcut" accesskey="4">
+                <input type="text" id="shortcut" name="id" value="id #" size="5">
+                </label>
+                <input type="submit" value="{t}Go{/t}" class="shortcut">
+              </form>
+            </div>
+
             <div id="search_menu">
                 <form method="get" action="{$core.rel_url}list.php">
                 <label for="search" accesskey="3"></label>
-                <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15">
+                <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15" accesskey="s">
                 <input type="submit" value="{t}Search{/t}" class="shortcut">
                 </form>
             </div>

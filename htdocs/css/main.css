@@ -95,13 +95,17 @@ div#header #project_chooser select {
     font-size: .9em;
 }
 
-div#header #search_menu {
+div#header #search_menu, div#header #go_issue_menu {
     float: right;
     text-align: center;
     text-align: right;
 }
 
-div#header #search_menu input {
+div#header #go_issue_menu {
+    margin-left: 1em;
+}
+
+div#header #search_menu input, div#header #go_issue_menu input {
     font-size: .9em;
 }
 
