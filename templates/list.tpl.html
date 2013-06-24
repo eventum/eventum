@@ -20,7 +20,7 @@
   <input type="hidden" name="cat" value="bulk_update">
       <table class="bordered grid">
         <tr class="title">
-            <td colspan="{$col_count}">
+            <th colspan="{$col_count}">
                   {* TRANSLATORS: %1: total rows, 2: range start, 3: range end *}
                   {if $list_info.end_offset > 0}
                   {t 1=$list_info.total_rows 2=$list_info.start_offset+1 3=$list_info.end_offset}Search Results (%1 issues found, %2 - %3 shown){/t}
@@ -38,7 +38,7 @@
                 </span>
                 {/if}
               </tr>
-          </td>
+          </th>
         </tr>
         <tr>
           {if $core.current_role > $core.roles.developer}
