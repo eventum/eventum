@@ -1,180 +1,190 @@
 <script type="text/javascript">
-{literal}
-<!--
-function openHistory(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
-    popupWin.focus();
-}
-function openNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
-    popupWin.focus();
-}
-function selfNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
-    popupWin.focus();
-}
-function openAuthorizedReplier(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
-    popupWin.focus();
-}
-function validateForm(f)
-{
-    if (isWhitespace(f.summary.value)) {
-        alert('{/literal}{t escape=js}Please enter the summary for this issue.{/t}{literal}');
-        selectField(f, 'summary');
-        return false;
-    }
-    if (isWhitespace(f.description.value)) {
-        alert('{/literal}{t escape=js}Please enter the description for this issue.{/t}{literal}');
-        selectField(f, 'description');
-        return false;
-    }
-    if ((f.percent_complete.value != '') && ((f.percent_complete.value < 0) || (f.percent_complete.value > 100))) {
-        alert('{/literal}{t escape=js}Percentage complete should be between 0 and 100{/t}{literal}');
-        selectField(f, 'percent_complete');
-        return false;
-    }
-    {/literal}
-    {if $allow_unassigned_issues != 'yes' && $core.current_role > $core.roles.customer}
     {literal}
-    if (!hasOneSelected(f, 'assignments[]')) {
-        alert('{/literal}{t escape=js}Please select an assignment for this issue{/t}{literal}');
-        selectField(f, 'assignments[]');
-        return false;
+    <!--
+    function openHistory(issue_id)
+    {
+        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
+        popupWin.focus();
     }
-    {/literal}
-    {/if}
-    {literal}
-    return true;
-}
+    function openNotification(issue_id)
+    {
+        var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
+        popupWin.focus();
+    }
+    function selfNotification(issue_id)
+    {
+        var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
+        popupWin.focus();
+    }
+    function openAuthorizedReplier(issue_id)
+    {
+        var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
+        popupWin.focus();
+    }
+    function validateForm(f)
+    {
+        if (isWhitespace(f.summary.value)) {
+            alert('{/literal}{t escape=js}Please enter the summary for this issue.{/t}{literal}');
+            selectField(f, 'summary');
+            return false;
+        }
+        if (isWhitespace(f.description.value)) {
+            alert('{/literal}{t escape=js}Please enter the description for this issue.{/t}{literal}');
+            selectField(f, 'description');
+            return false;
+        }
+        if ((f.percent_complete.value != '') && ((f.percent_complete.value < 0) || (f.percent_complete.value > 100))) {
+            alert('{/literal}{t escape=js}Percentage complete should be between 0 and 100{/t}{literal}');
+            selectField(f, 'percent_complete');
+            return false;
+        }
+        {/literal}
+            {if $allow_unassigned_issues != 'yes' && $core.current_role > $core.roles.customer}
+                {literal}
+                if (!hasOneSelected(f, 'assignments[]')) {
+                    alert('{/literal}{t escape=js}Please select an assignment for this issue{/t}{literal}');
+                    selectField(f, 'assignments[]');
+                    return false;
+                }
+                {/literal}
+                    {/if}
+                        {literal}
+                        return true;
+                    }
 
-function closeIssue(issue_id)
-{
-    if (confirm('{/literal}{t escape=js}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
-        window.location.href='close.php?id=' + issue_id;
-    }
-}
+                    function closeIssue(issue_id)
+                    {
+                        if (confirm('{/literal}{t escape=js}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
+                            window.location.href='close.php?id=' + issue_id;
+                        }
+                    }
 //-->
-{/literal}
+                    {/literal}
 </script>
 <form onSubmit="return validateForm(this);" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="issue_id" value="{$issue.iss_id}">
 <input type="hidden" name="resolution" value="{$issue.iss_res_id}">
 {if $core.current_role < $core.roles.customer}
-    <input type="hidden" name="keep_assignments" value="yes">
-    {foreach key=_issue_id item=_issue_summary from=$issue.associated_issues}
-    <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
-    {/foreach}
-    <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
+<input type="hidden" name="keep_assignments" value="yes">
+{foreach key=_issue_id item=_issue_summary from=$issue.associated_issues}
+<input type="hidden" name="associated_issues[]" value="{$_issue_id}">
+{/foreach}
+<input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
 {/if}
 <div id="issue_overview" class="bordered">
-    <div class="title">
-        {t}Update Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
-        {if $core.current_role >= $core.roles.developer}
-            &nbsp;<strong>Project:</strong>
-            <select name="new_prj">
-                {html_options options=$core.active_projects selected=$core.project_id}
-            </select>
-            <input type="submit" name="move_issue" value="{t}Move{/t}">
-            {/if}
-        <div id="issue_menu">
-            {if $core.current_role > $core.roles.customer}
-            [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
-            [ <a title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
-            {/if}
-            [ <a title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
+<div class="title">
+    {t}Update Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
+    {if $core.current_role >= $core.roles.developer}
+    &nbsp;<strong>Project:</strong>
+    <select name="new_prj">
+        {html_options options=$core.active_projects selected=$core.project_id}
+    </select>
+    <input type="submit" name="move_issue" value="{t}Move{/t}">
+    {/if}
+    <div id="issue_menu">
+        {if $core.current_role > $core.roles.customer}
+        [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
+        [ <a title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
+        {/if}
+        [ <a title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
+    </div>
+</div>
+
+<div id="column1" class="column">
+    {if $core.has_customer_integration and $issue.iss_customer_id}
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Customer{/t}</div>
+            <div class="display">{$issue.customer_info.customer_name}
+                (<a href="#customer_details">{t}Complete Details{/t}</a>)
+            </div>
         </div>
     </div>
+    {/if}
 
-    <div id="column1" class="column">
-        {if $core.has_customer_integration and $issue.iss_customer_id}
-            <div class="issue_field_display">
-                <div class="label">{t}Customer{/t}</div>
-                <div class="display">{$issue.customer_info.customer_name}
-                    (<a href="#customer_details">{t}Complete Details{/t}</a>)
-                </div>
-            </div>
-        {/if}
-
-        {if $categories|@count > 0}
-        <div class="issue_field_display">
+    {if $categories|@count > 0}
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Category{/t}</div>
             <div class="display">
                 <select name="category">
-                  {html_options options=$categories selected=$issue.iss_prc_id}
+                    {html_options options=$categories selected=$issue.iss_prc_id}
                 </select>
             </div>
-            <div class="clear"></div>
         </div>
-        {/if}
+    </div>
+    {/if}
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Status{/t}</div>
             <div class="display" style="background: {$issue.status_color}">
                 <select name="status">
-                  {html_options options=$status selected=$issue.iss_sta_id}
+                    {html_options options=$status selected=$issue.iss_sta_id}
                 </select>
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Priority{/t}</div>
             <div class="display">
                 <select name="priority">
-                  {html_options options=$priorities selected=$issue.iss_pri_id}
+                    {html_options options=$priorities selected=$issue.iss_pri_id}
                 </select>
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        {if $core.current_role != $core.roles.customer && $releases|@count > 0}
-        <div class="issue_field_display">
+    {if $core.current_role != $core.roles.customer && $releases|@count > 0}
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Scheduled Release{/t}</div>
             <div class="display">
                 <select name="release">
-                  <option value="0"></option>
-                  {html_options options=$releases selected=$issue.iss_pre_id}
+                    <option value="0"></option>
+                    {html_options options=$releases selected=$issue.iss_pre_id}
                 </select>
             </div>
-            <div class="clear"></div>
         </div>
-        {else}
-            <input type="hidden" name="release" value="{$issue.iss_pre_id}">
-        {/if}
+    </div>
+    {else}
+    <input type="hidden" name="release" value="{$issue.iss_pre_id}">
+    {/if}
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Resolution{/t}</div>
             <div class="display">{$issue.iss_resolution}</div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Percentage Complete{/t}</div>
             <div class="display">
                 <input type="text" name="percent_complete" value="{$issue.iss_percent_complete}" size="2">
                 {include file="error_icon.tpl.html" field="percent_complete"}
                 <span>(0 - 100)</span>
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Reporter{/t}</div>
             <div class="display"><a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1">{$issue.reporter|escape:html}</a></div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Assignment{/t} {if $allow_unassigned_issues != 'yes'}*{/if}</div>
             <div class="display">
                 {if $issue.has_inactive_users}
@@ -185,167 +195,180 @@ function closeIssue(issue_id)
                 <input type="hidden" name="keep_assignments" value="no">
                 {/if}
                 <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple name="assignments[]" onChange="showSelections('update_form', 'assignments[]');">
-                  {if $issue.has_inactive_users}
-                  {html_options options=$users}
-                  {else}
-                  {html_options options=$users selected=$issue.assigned_users}
-                  {/if}
+                    {if $issue.has_inactive_users}
+                    {html_options options=$users}
+                    {else}
+                    {html_options options=$users selected=$issue.assigned_users}
+                    {/if}
                 </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="clearSelectedOptions(getFormElement(this.form, 'assignments[]'));showSelections('update_form', 'assignments[]');"><br />
                 {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="assignments[]" callbacks="new Array('showSelections(\'update_form\', \'assignments[]\')')"}
                 <div id="selection_assignments[]">{if $issue.assignments}{t}Current Selections:{/t} {$issue.assignments}{/if}</div>
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        {if $core.current_role > $core.roles.customer && $groups|@count > 0}
-        <div class="issue_field_display">
+    {if $core.current_role > $core.roles.customer && $groups|@count > 0}
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Group{/t}</div>
             <div class="display">
                 <select name="group">
-                <option value=""></option>
-                {html_options options=$groups selected=$issue.iss_grp_id}
+                    <option value=""></option>
+                    {html_options options=$groups selected=$issue.iss_grp_id}
                 </select>
             </div>
-            <div class="clear"></div>
         </div>
-        {else}
-            <input type="hidden" name="group" value="{$issue.iss_grp_id}">
-        {/if}
     </div>
+    {else}
+    <input type="hidden" name="group" value="{$issue.iss_grp_id}">
+    {/if}
+</div>
 
-    <div id="column2" class="column">
+<div id="column2" class="column">
 
-        {if $core.has_customer_integration and $issue.iss_customer_id}
-            <div class="issue_field_display">
-                <div class="label">{t}Customer Contract{/t}</div>
-                <div class="display">
-                    {t}Support Level{/t}: {$issue.customer_info.support_level}
-                    {if $issue.customer_info.support_options}
-                    <br />
-                    {t}Support Options{/t}: {$issue.customer_info.support_options}
-                    {/if}
-                    {if $issue.customer_info.is_per_incident}
-                      <br />
-                      {t}Redeemed Incident Types{/t}:
-                      {strip}
-                      {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
-                        {if $incident_details.is_redeemed == 1}
-                        {if not $smarty.foreach.incident_loop.first}, {/if}{$incident_details.title}
-                        {assign var=has_redeemed_incident value=1}
-                        {/if}
-                      {/foreach}
-                      {/strip}
-                      {if $has_redeemed_incident != 1}<i>{t}None{/t}</i>{/if}
-                    {/if}
-                </div>
+    {if $core.has_customer_integration and $issue.iss_customer_id}
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Customer Contract{/t}</div>
+            <div class="display">
+                {t}Support Level{/t}: {$issue.customer_info.support_level}
+                {if $issue.customer_info.support_options}
+                <br />
+                {t}Support Options{/t}: {$issue.customer_info.support_options}
+                {/if}
+                {if $issue.customer_info.is_per_incident}
+                <br />
+                {t}Redeemed Incident Types{/t}:
+                {strip}
+                {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
+                {if $incident_details.is_redeemed == 1}
+                {if not $smarty.foreach.incident_loop.first}, {/if}{$incident_details.title}
+                {assign var=has_redeemed_incident value=1}
+                {/if}
+                {/foreach}
+                {/strip}
+                {if $has_redeemed_incident != 1}<i>{t}None{/t}</i>{/if}
+                {/if}
             </div>
-        {/if}
+        </div>
+    </div>
+    {/if}
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Notification List{/t}</div>
             <div class="display">
                 {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
                 {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
                 {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Submitted Date{/t}</div>
             <div class="display">{$issue.iss_created_date}</div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Last Updated Date{/t}</div>
             <div class="display">{$issue.iss_updated_date}</div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Associated Issues{/t}</div>
             <div class="display">
                 {include file="include/issue_field.tpl.html" field_name="associated_issues" form_name='update_form' value=", "|join:$issue.associated_issues}
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        {if $core.current_role > $core.roles.customer}
-        <div class="issue_field_display">
+    {if $core.current_role > $core.roles.customer}
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Expected Resolution Date{/t}</div>
             <div class="display">
                 <input type="text" name="expected_resolution_date" id="expected_resolution" value="{$issue.iss_expected_resolution_date}" class="date_picker">
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Estimated Dev. Time{/t}</div>
             <div class="display">
-               <input type="text" name="estimated_dev_time" value="{$issue.iss_dev_time}" size="4">
-               <span>({t}in hours{/t})</span>
+                <input type="text" name="estimated_dev_time" value="{$issue.iss_dev_time}" size="4">
+                <span>({t}in hours{/t})</span>
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Duplicates{/t}</div>
             <div class="display">
                 {if $issue.iss_duplicated_iss_id}
                 {t}Duplicate of{/t}: <a href="{$core.rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed{/if}">#{$issue.iss_duplicated_iss_id}</a>
                 {/if}
                 {if $issue.duplicates_details|@count > 0}
-                  {if $issue.iss_duplicated_iss_id}<br />{/if}
-                  {t}Duplicated by{/t}:
-                  {section name="i" loop=$issue.duplicates_details}
-                    {strip}
-                    <a href="{$core.rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed{/if}">#{$issue.duplicates_details[i].issue_id}</a>
-                    {if not $smarty.section.i.last}, {/if}
-                    {/strip}
-                  {/section}
+                {if $issue.iss_duplicated_iss_id}<br />{/if}
+                {t}Duplicated by{/t}:
+                {section name="i" loop=$issue.duplicates_details}
+                {strip}
+                <a href="{$core.rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed{/if}">#{$issue.duplicates_details[i].issue_id}</a>
+                {if not $smarty.section.i.last}, {/if}
+                {/strip}
+                {/section}
                 {/if}
             </div>
-            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="issue_field_display">
+    <div class="issue_field_display">
+        <div class="background">
             <div class="label">{t}Authorized Repliers{/t}</div>
             <div class="display">
                 {if $issue.authorized_repliers.users|@count > 0}
-                    {t}Staff{/t}:
-                    {section name="replier" loop=$issue.authorized_repliers.users}
-                        {strip}
-                        {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                        {/strip}
-                    {/section}
-                    <br />
+                {t}Staff{/t}:
+                {section name="replier" loop=$issue.authorized_repliers.users}
+                {strip}
+                {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                {/strip}
+                {/section}
+                <br />
                 {/if}
                 {if $issue.authorized_repliers.other|@count > 0}
-                    {t}Other{/t}:
-                    {section name="replier" loop=$issue.authorized_repliers.other}
-                        {strip}
-                        {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                        {/strip}
-                    {/section}
+                {t}Other{/t}:
+                {section name="replier" loop=$issue.authorized_repliers.other}
+                {strip}
+                {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                {/strip}
+                {/section}
                 {/if}
             </div>
         </div>
-        {/if}
     </div>
-    <div class="clear"></div>
+    {/if}
+</div>
 
-    <div id="summary" class="issue_field_display">
+<div id="summary" class="issue_field_display full_width">
+    <div class="background">
         <div class="label">Summary</div>
         <div class="display">
             <input type="text" size="60" name="summary" value="{$issue.iss_summary|escape:"html"}">
             {include file="error_icon.tpl.html" field="summary"}</div>
-        <div class="clear"></div>
     </div>
+</div>
 
-    <div id="description" class="issue_field_display">
+<div id="description" class="issue_field_display full_width">
+    <div class="background">
         <div class="label">
             {t}Initial Description{/t}
         </div>
@@ -353,47 +376,50 @@ function closeIssue(issue_id)
             <textarea name="description" rows="20" style="width: 97%">{$issue.iss_original_description|escape:"html"}</textarea>
             {include file="error_icon.tpl.html" field="description"}
         </div>
-        <div class="clear"></div>
     </div>
+</div>
 
-    {if $core.current_role >= $core.roles.developer}
-    <div class="issue_field_display">
+{if $core.current_role >= $core.roles.developer}
+<div class="issue_field_display full_width">
+    <div class="background">
         <div class="label">{t}Private{/t}</div>
         <div class="display">
             <label><input type="radio" name="private" value="1" {if $issue.iss_private}checked{/if}>{t}Yes{/t}</label>
             <label><input type="radio" name="private" value="0" {if not $issue.iss_private}checked{/if}>{t}No{/t}</label>
         </div>
     </div>
-    {else}
-    <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
-    {/if}
-    {if $core.current_role > $core.roles.standard_user}
-    <div class="issue_field_display">
+</div>
+{else}
+<input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
+{/if}
+{if $core.current_role > $core.roles.standard_user}
+<div class="issue_field_display">
+    <div class="background">
         <div class="label">{t}Trigger Reminders{/t}</div>
         <div class="display">
             <label><input type="radio" name="trigger_reminders" value="1" {if $issue.iss_trigger_reminders}checked{/if}>{t}Yes{/t}</label>
             <label><input type="radio" name="trigger_reminders" value="0" {if not $issue.iss_trigger_reminders}checked{/if}>{t}No{/t}</label>
         </div>
     </div>
-    {else}
-    <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
-    {/if}
+</div>
+{else}
+<input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
+{/if}
 
-    {if $core.has_customer_integration}
-      {include file="customer/$customer_backend_name/update_report_form_fields.tpl.html"}
-    {/if}
-
-    {if $core.current_role > $core.roles.reporter}
-    <div class="buttons1">
-      <input type="submit" value="{t}Update{/t}">
-      <input type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">
-      <input type="reset" value="{t}Reset{/t}">
-      {if (not $issue.sta_is_closed) and $core.current_role > $core.roles.customer}
-      <div class="right">
-      <input type="button" value="{t}Close Issue{/t}" onClick="closeIssue({$issue.iss_id});">
-      </div>
-      {/if}
+{if $core.has_customer_integration}
+{include file="customer/$customer_backend_name/update_report_form_fields.tpl.html"}
+{/if}
+{if $core.current_role > $core.roles.reporter}
+<div class="buttons1">
+    <input type="submit" value="{t}Update{/t}">
+    <input type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">
+    <input type="reset" value="{t}Reset{/t}">
+    {if (not $issue.sta_is_closed) and $core.current_role > $core.roles.customer}
+    <div class="right">
+        <input type="button" value="{t}Close Issue{/t}" onClick="closeIssue({$issue.iss_id});">
     </div>
     {/if}
+</div>
+{/if}
 </div>
 </form>
