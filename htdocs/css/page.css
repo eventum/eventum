@@ -111,7 +111,7 @@ body.issue_view div#issue_overview div#column2 {
     width: 500px;
     float: left;
     position: relative;
-    left: 850px;
+    left: 1000px;
 }
 
 body.issue_view div#issue_overview div.issue_field_display {
@@ -121,6 +121,10 @@ body.issue_view div#issue_overview div.issue_field_display {
     overflow: hidden;
     background: #dddddd;
     border-top: #FFFFFF 1px solid;
+}
+
+body.issue_view div#issue_overview div.issue_field_display:first-child {
+    border: none;
 }
 
 body.issue_view div#issue_overview div.issue_field_display div.background  {
