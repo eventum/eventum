@@ -82,6 +82,21 @@ body.issue_view div#issue_overview div#issue_menu {
     text-align: right;
     font-weight: normal;
 }
+body.issue_view div#issue_overview div#colwrap1 {
+    background: #255282;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div#colwrap2 {
+    background: #ffffff;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 151px;
+}
 
 body.issue_view div#issue_overview div#colwrap1 {
     background: #255282;
