@@ -83,31 +83,95 @@ body.issue_view div#issue_overview div#issue_menu {
     font-weight: normal;
 }
 
-body.issue_view div#issue_overview div.column {
-    width: 50%;
+body.issue_view div#issue_overview div#colwrap1 {
+    background: #255282;
     float: left;
+    width: 1000px;
+    position: relative;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div#colwrap2 {
+    background: #ffffff;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 151px;
+}
+
+body.issue_view div#issue_overview div#column1 {
+    width: 500px;
+    float: left;
+    position: relative;
+    left: 1001px;
+    overflow: hidden;
+}
+
+body.issue_view div#issue_overview div#column2 {
+    width: 500px;
+    float: left;
+    position: relative;
+    left: 850px;
 }
 
 body.issue_view div#issue_overview div.issue_field_display {
+    clear: left;
+    float: left;
+    width: 500px;
+    overflow: hidden;
     background: #dddddd;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    clear: both;
+    border-top: #FFFFFF 1px solid;
+}
+
+body.issue_view div#issue_overview div.issue_field_display div.background  {
+    float: left;
+    width: 500px;
+    position: relative;
+    right: 350px;
+    background: #255282;
 }
 
 body.issue_view div#issue_overview div.issue_field_display div.label {
+    float: left;
     width: 150px;
     font-weight: bold;
-    float: left;
-    background: #255282;
-    padding: .3em;
+    position: relative;
+    left: 353px;
+    overflow: hidden;
+    padding-top: 2px;
     color: #FFFFFF;
 }
 
 body.issue_view div#issue_overview div.issue_field_display div.display {
-    padding: .3em;
-    margin-left: 155px;
+    float: left;
+    width: 350px;
+    position: relative;
+    left: 353px;
+    overflow: hidden;
+    padding-top: 2px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width {
+    width: 1000px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.background  {
+    width: 1000px;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.label {
+    width: 150px;
+    left: 853px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.display {
+    width: 850px;
+    left: 853px;
+}
+
+body.issue_view div#issue_overview #summary {
+    clear: both;
 }
 
 body.issue_view div#issue_overview div#description div.label {
@@ -125,6 +189,8 @@ body.issue_view div#issue_overview div#description div.label div a {
 body.issue_view div#issue_overview div.buttons1 {
     background: #255282;
     padding: .3em;
+    clear: both;
+    border-top: #FFFFFF 1px solid;
 }
 
 body#issue_view div#issue_overview div.buttons2 {
