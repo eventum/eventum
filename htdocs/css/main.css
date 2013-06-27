@@ -7,7 +7,7 @@ body {
 }
 
 input, select {
-    font-size: 1em;
+    font-size: .9em;
 }
 
 a {
@@ -252,6 +252,7 @@ table.bordered td {
 .bordered .buttons, .bordered .buttons td, .bordered .buttons td a, .bordered.white .buttons td {
     background: #255282;
     color: #FFFFFF;
+    padding: .3em;
 }
 
 .bordered.internal .buttons, .bordered.internal .buttons td, .bordered .buttons.internal td {
