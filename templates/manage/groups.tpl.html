@@ -47,7 +47,7 @@ function checkDelete()
   $().ready(function() {
       $('#group_form').submit(validateForm);
       $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
-      Eventum.setup_show_selections($('#users'));
+      Eventum.setupShowSelections($('#users'));
 
       $('#delete_group').submit(checkDelete);
   });

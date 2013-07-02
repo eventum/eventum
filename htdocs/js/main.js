@@ -112,7 +112,7 @@ Eventum.selectOnlyValidOption = function(select)
 
 Eventum.escapeSelector = function(selector)
 {
-    return selector.replace(/\[/, '\\[').replace(/\]/, '\\]');
+    return selector.replace(/(\[|\])/g, '\\$1')
 }
 
 Eventum.getField = function(name_or_obj, form)
@@ -267,13 +267,13 @@ Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_
     Eventum.selectOption(minute_field, padDateValue(minutes));
 }
 
-Eventum.setup_show_selections = function(select_box)
+Eventum.setupShowSelections = function(select_box)
 {
-    select_box.change(Eventum.show_selections);
+    select_box.change(Eventum.showSelections);
     select_box.change();
 }
 
-Eventum.show_selections = function(e)
+Eventum.showSelections = function(e)
 {
         var select_box = $(e.target);
         var selected = [];
@@ -284,7 +284,9 @@ Eventum.show_selections = function(e)
         }
 
         var display_div = $('#selection_' + select_box.attr('id'));
-        display_div.html(selected.join(', '));
+        display_div.text("Current Selection: " +select_box.children(':selected').map(function(){
+            return this.text
+        }).get().join(", "));
 }
 
 
@@ -317,7 +319,6 @@ Eventum.replaceSpecialCharacters = function(s)
     }
     return newString;
 }
-
 
 
 /**

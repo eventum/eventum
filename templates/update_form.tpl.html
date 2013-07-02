@@ -25,47 +25,55 @@
         var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
         popupWin.focus();
     }
-    function validateForm(f)
+    function validateForm()
     {
-        if (isWhitespace(f.summary.value)) {
+        if (Validation.isFieldWhitespace('summary')) {
             alert('{/literal}{t escape=js}Please enter the summary for this issue.{/t}{literal}');
-            selectField(f, 'summary');
+            Validation.selectField('summary');
             return false;
         }
-        if (isWhitespace(f.description.value)) {
+        if (Validation.isFieldWhitespace('description')) {
             alert('{/literal}{t escape=js}Please enter the description for this issue.{/t}{literal}');
-            selectField(f, 'description');
+            Validation.selectField('description');
             return false;
         }
-        if ((f.percent_complete.value != '') && ((f.percent_complete.value < 0) || (f.percent_complete.value > 100))) {
+        var percent_complete = Eventum.getField('percent_complete').val();
+        if ((percent_complete != '') && ((percent_complete < 0) || (percent_complete > 100))) {
             alert('{/literal}{t escape=js}Percentage complete should be between 0 and 100{/t}{literal}');
-            selectField(f, 'percent_complete');
+            Validation.selectField('percent_complete');
             return false;
         }
         {/literal}
-            {if $allow_unassigned_issues != 'yes' && $core.current_role > $core.roles.customer}
-                {literal}
-                if (!hasOneSelected(f, 'assignments[]')) {
-                    alert('{/literal}{t escape=js}Please select an assignment for this issue{/t}{literal}');
-                    selectField(f, 'assignments[]');
-                    return false;
-                }
-                {/literal}
-                    {/if}
-                        {literal}
-                        return true;
-                    }
+        {if $allow_unassigned_issues != 'yes' && $core.current_role > $core.roles.customer}
+            {literal}
+            if (!Validation.hasOneSelected('assignments[]')) {
+                alert('{/literal}{t escape=js}Please select an assignment for this issue{/t}{literal}');
+                Validation.selectField('assignments[]');
+                return false;
+            }
+            {/literal}
+        {/if}
+            {literal}
+            return true;
+        }
 
-                    function closeIssue(issue_id)
-                    {
-                        if (confirm('{/literal}{t escape=js}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
-                            window.location.href='close.php?id=' + issue_id;
-                        }
-                    }
+        function closeIssue(issue_id)
+        {
+            if (confirm('{/literal}{t escape=js}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
+                window.location.href='close.php?id=' + issue_id;
+            }
+        }
+
+    $().ready(function() {
+        $('#update_form').submit(validateForm);
+        $('#clear_selected').click(function() { Eventum.clearSelectedOptions('assignments[]'); });
+        Eventum.setupShowSelections($('#assignments'));
+    });
+
 //-->
-                    {/literal}
+{/literal}
 </script>
-<form onSubmit="return validateForm(this);" name="update_form" method="post" action="update.php">
+<form id="update_form" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="issue_id" value="{$issue.iss_id}">
 <input type="hidden" name="resolution" value="{$issue.iss_res_id}">
@@ -190,21 +198,20 @@
             <div class="label">{t}Assignment{/t} {if $allow_unassigned_issues != 'yes'}*{/if}</div>
             <div class="display">
                 {if $issue.has_inactive_users}
-                <span><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'keep_assignments', 0);">{t}Keep Current Assignments:{/t} {$issue.assignments}</a>
+                <span><label><input type="radio" name="keep_assignments" checked value="yes">{t}Keep Current Assignments:{/t} {$issue.assignments}</label>
                 <br />
-                <input type="radio" name="keep_assignments" value="no"> <a id="link" href="javascript:void(null);" onClick="checkRadio('update_form', 'keep_assignments', 1);">{t}Change Assignments:{/t}</a> </span><br />
+                <label><input type="radio" name="keep_assignments" value="no">{t}Change Assignments:{/t}</label> </span><br />
                 {else}
                 <input type="hidden" name="keep_assignments" value="no">
                 {/if}
-                <select size="{if $issue.has_inactive_users}3{else}4{/if}" multiple name="assignments[]" onChange="showSelections('update_form', 'assignments[]');">
+                <select id="assignments" size="{if $issue.has_inactive_users}3{else}4{/if}" multiple name="assignments[]">
                     {if $issue.has_inactive_users}
                     {html_options options=$users}
                     {else}
                     {html_options options=$users selected=$issue.assigned_users}
                     {/if}
-                </select><input type="button" class="shortcut" value="{t}Clear Selections{/t}" onClick="clearSelectedOptions(getFormElement(this.form, 'assignments[]'));showSelections('update_form', 'assignments[]');"><br />
-                {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="assignments[]" callbacks="new Array('showSelections(\'update_form\', \'assignments[]\')')"}
-                <div id="selection_assignments[]">{if $issue.assignments}{t}Current Selections:{/t} {$issue.assignments}{/if}</div>
+                </select><input type="button" value="{t}Clear Selections{/t}" id="clear_selected"><br />
+                <div id="selection_assignments"></div>
             </div>
         </div>
     </div>
