@@ -91,7 +91,6 @@ class Issue_Field
      */
     public static function getFieldsToDisplay($issue_id, $location)
     {
-        return array('assignee' => array());
         $prj_id = Issue::getProjectID($issue_id);
         $workflow = Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
         return $workflow;
