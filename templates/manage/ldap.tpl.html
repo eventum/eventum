@@ -1,192 +1,176 @@
-{if $app_auth_backend == 'ldap_auth_backend'}
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  var field = getFormElement(f, 'host');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the LDAP Host.{/t}{literal}');
-                      selectField(f, 'host');
-                      return false;
-                  }
-                  field = getFormElement(f, 'port');
-                  if (isWhitespace(field.value) || (!isNumberOnly(field.value))) {
-                      alert('{/literal}{t escape=js}Please enter the LDAP port.{/t}{literal}');
-                      selectField(f, 'port');
-                      return false;
-                  }
-                  field = getFormElement(f, 'basedn');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the base dn.{/t}{literal}');
-                      selectField(f, 'basedn');
-                      return false;
-                  }
-                  field = getFormElement(f, 'userdn');
-                  if (isWhitespace(field.value)) {
-                      alert('{/literal}{t escape=js}Please enter the user dn.{/t}{literal}');
-                      selectField(f, 'userdn');
-                      return false;
-                  }
-                  return true;
-              }
+{extends "manage/manage.tpl.html"}
 
-              //-->
-              </script>
-              {/literal}
-              <form name="general_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              <input type="hidden" name="cat" value="update">
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}LDAP Setup{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-                  {if $result == -1}
-                    {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
-                    ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
-                  {elseif $result == -2}
-                    {t}ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory{/t}
-                    ({$app_config_path/ldap.php}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
-                  {elseif $result == 1}
-                    {t}Thank you, the setup information was saved successfully.{/t}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Host:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="host" size="50" value="{$setup.host|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="host"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Port:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="port" size="5" value="{$setup.port|escape:"html"}">
-                    <span class="small_default">(default: 389)</span>
-                  {include file="error_icon.tpl.html" field="port"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Bind DN:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="binddn" size="50" value="{$setup.binddn|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="binddn"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Bind PW:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="bindpw" size="50" value="{$setup.bindpw|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="bindpw"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Base DN:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="basedn" size="50" value="{$setup.basedn|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="basedn"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}User DN:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="userdn" size="50" value="{$setup.userdn|escape:"html"}">
-                  <span class="small_default">Use %UID% to specify where the UID should be substituted.</span>
-                  {include file="error_icon.tpl.html" field="userdn"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}User Filter:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="user_filter" size="50" value="{$setup.user_filter|escape:"html"}">
-                  <span class="small_default">Optional filter when binding the user</span>
-                  {include file="error_icon.tpl.html" field="user_filter"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Customer ID attribute:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="customer_id_attribute" size="50" value="{$setup.customer_id_attribute|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="customer_id_attribute"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Contact ID attribute:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" class="default" name="contact_id_attribute" size="50" value="{$setup.contact_id_attribute|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="contact_id_attribute"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Create Users:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" class="default">
-                  <label><input type="radio" name="create_users" value="1" {if $setup.create_users == 1}checked{/if} />Yes</label>
-                  <label><input type="radio" name="create_users" value="0" {if $setup.create_users != 1}checked{/if} />No</label>
-                  {include file="error_icon.tpl.html" field="create_users"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Default Roles:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <table border="0">
+{block "manage_content"}
+{if $core.auth_backend == 'ldap_auth_backend'}
+{literal}
+<script type="text/javascript">
+    <!--
+    function validateForm()
+    {
+        if (Validation.isFieldWhitespace('host')) {
+            alert('{/literal}{t escape=js}Please enter the LDAP Host.{/t}{literal}');
+            Validation.selectField('host');
+            return false;
+        }
+        var field = Eventum.getField('port');
+        if (Validation.isWhitespace(field.val()) || (!Validation.isNumberOnly(field.val()))) {
+            alert('{/literal}{t escape=js}Please enter the LDAP port.{/t}{literal}');
+            Validation.selectField('port');
+            return false;
+        }
+        if (Validation.isFieldWhitespace('basedn')) {
+            alert('{/literal}{t escape=js}Please enter the base dn.{/t}{literal}');
+            Validation.selectField('basedn');
+            return false;
+        }
+        if (Validation.isFieldWhitespace('userdn')) {
+            alert('{/literal}{t escape=js}Please enter the user dn.{/t}{literal}');
+            Validation.selectField('userdn');
+            return false;
+        }
+        return true;
+    }
+
+    $().ready(function() {
+        $('#ldap_form').submit(validateForm);
+    })
+
+    //-->
+</script>
+{/literal}
+<form id="ldap_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="cat" value="update">
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}LDAP Setup{/t}
+            </th>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Host:{/t}
+            </th>
+            <td>
+                <input type="text" name="host" size="50" value="{$setup.host|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="host"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Port:{/t}
+            </th>
+            <td>
+                <input type="text" name="port" size="5" value="{$setup.port|escape:"html"|default:''}">
+                <span class="small_default">(default: 389)</span>
+                {include file="error_icon.tpl.html" field="port"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Bind DN:{/t}
+            </th>
+            <td>
+                <input type="text" name="binddn" size="50" value="{$setup.binddn|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="binddn"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Bind PW:{/t}
+            </th>
+            <td>
+                <input type="text" name="bindpw" size="50" value="{$setup.bindpw|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="bindpw"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Base DN:{/t}
+            </th>
+            <td>
+                <input type="text" name="basedn" size="50" value="{$setup.basedn|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="basedn"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}User DN:{/t}
+            </th>
+            <td>
+                <input type="text" name="userdn" size="50" value="{$setup.userdn|escape:"html"|default:''}">
+                <span>Use %UID% to specify where the UID should be substituted.</span>
+                {include file="error_icon.tpl.html" field="userdn"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}User Filter:{/t}
+            </th>
+            <td>
+                <input type="text" name="user_filter" size="50" value="{$setup.user_filter|escape:"html"|default:''}">
+                <span>Optional filter when binding the user</span>
+                {include file="error_icon.tpl.html" field="user_filter"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Customer ID attribute:{/t}
+            </th>
+            <td>
+                <input type="text" name="customer_id_attribute" size="50" value="{$setup.customer_id_attribute|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="customer_id_attribute"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Contact ID attribute:{/t}
+            </th>
+            <td>
+                <input type="text" name="contact_id_attribute" size="50" value="{$setup.contact_id_attribute|escape:"html"|default:''}">
+                {include file="error_icon.tpl.html" field="contact_id_attribute"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Create Users:{/t}
+            </th>
+            <td>
+                <label><input type="radio" name="create_users" value="1" {if $setup.create_users == 1}checked{/if} />Yes</label>
+                <label><input type="radio" name="create_users" value="0" {if $setup.create_users != 1}checked{/if} />No</label>
+                {include file="error_icon.tpl.html" field="create_users"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Default Roles:{/t}
+            </th>
+            <td>
+                <table border="0">
                     {foreach from=$project_list key=prj_id item=prj_name}
                     <tr>
-                      <td class="default">{$prj_name}:</td>
-                      <td>
-                        <select name="default_role[{$prj_id}]" class="default">
-                        {html_options options=$project_roles selected=$setup.default_role.$prj_id}
-                        </select>
-                        {include file="error_icon.tpl.html" field="default_role[$prj_id]"}
-                      </td>
+                        <td>{$prj_name}:</td>
+                        <td>
+                            <select name="default_role[{$prj_id}]">
+                                {html_options options=$project_roles selected=$setup.default_role.$prj_id}
+                            </select>
+                            {include file="error_icon.tpl.html" field="default_role[$prj_id]"}
+                        </td>
                     </tr>
                     {/foreach}
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input class="button" type="submit" value="{t}Update Setup{/t}">
-                  <input class="button" type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-            </table>
-          </td>
+                </table>
+            </td>
         </tr>
-      </table>
+        <tr class="buttons">
+            <td colspan="2">
+                <input class="button" type="submit" value="{t}Update Setup{/t}">
+                <input class="button" type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
 {else}
-<div class="default">
+<div>
     This page is only used for the ldap backend.
 </div>
 {/if}
+{/block}

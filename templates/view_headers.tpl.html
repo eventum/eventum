@@ -1,35 +1,26 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
 
-<form>
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default">
-            <b>{t}View Email Raw Headers{/t}</b>
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$cell_color}" align="center">
-            <input type="button" class="button" value="{t}Close{/t}" onClick="window.close();">
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$light_color}" class="default">
+{block "content"}
+<table class="bordered">
+    <tr class="title">
+        <th>
+            {t}View Email Raw Headers{/t}
+        </th>
+    </tr>
+    <tr class="buttons">
+        <td>
+            <input type="button" value="{t}Close{/t}" onClick="window.close();">
+        </td>
+    </tr>
+    <tr>
+        <td>
             {$headers|escape:"html"|replace:"\t":"&nbsp;&nbsp;"|nl2br}
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$cell_color}" align="center">
-            <input type="button" class="button" value="{t}Close{/t}" onClick="window.close();">
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+        </td>
+    </tr>
+    <tr class="buttons">
+        <td>
+            <input type="button" value="{t}Close{/t}" onClick="window.close();">
+        </td>
+    </tr>
 </table>
-</form>
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

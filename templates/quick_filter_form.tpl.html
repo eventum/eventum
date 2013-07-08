@@ -1,110 +1,33 @@
-
-{literal}
-<script type="text/javascript">
-<!--
-function clearFilters(f)
-{
-    f.keywords.value = '';
-    f.users.selectedIndex = 0;
-    f.category.selectedIndex = 0;
-    f.status.selectedIndex = 0;
-    f.priority.selectedIndex = 0;
-    f.severity.selectedIndex = 0;
-    {/literal}
-    {if $has_customer_integration && $current_role != $roles.customer}
-    document.getElementById('search_type_customer').checked = true;
-    {else}
-    document.getElementById('search_type').value = 'all_text';
-    {/if}
-    {literal}
-    // now for the fields that are only available through the advanced search page
-    setHiddenFieldValue(f, 'created_date[Year]', '');
-    setHiddenFieldValue(f, 'created_date[Month]', '');
-    setHiddenFieldValue(f, 'created_date[Day]', '');
-    setHiddenFieldValue(f, 'created_date[filter_type]', '');
-    setHiddenFieldValue(f, 'updated_date[Year]', '');
-    setHiddenFieldValue(f, 'updated_date[Month]', '');
-    setHiddenFieldValue(f, 'updated_date[Day]', '');
-    setHiddenFieldValue(f, 'updated_date[filter_type]', '');
-    setHiddenFieldValue(f, 'last_response_date[Year]', '');
-    setHiddenFieldValue(f, 'last_response_date[Month]', '');
-    setHiddenFieldValue(f, 'last_response_date[Day]', '');
-    setHiddenFieldValue(f, 'last_response_date[filter_type]', '');
-    setHiddenFieldValue(f, 'first_response_date[Year]', '');
-    setHiddenFieldValue(f, 'first_response_date[Month]', '');
-    setHiddenFieldValue(f, 'first_response_date[Day]', '');
-    setHiddenFieldValue(f, 'first_response_date[filter_type]', '');
-    setHiddenFieldValue(f, 'closed_date[Year]', '');
-    setHiddenFieldValue(f, 'closed_date[Month]', '');
-    setHiddenFieldValue(f, 'closed_date[Day]', '');
-    setHiddenFieldValue(f, 'closed_date[filter_type]', '');
-    setHiddenFieldValue(f, 'show_authorized_issues', '');
-    setHiddenFieldValue(f, 'show_notification_list_issues', '');
-    setHiddenFieldValue(f, 'reporter', '');
-    setHiddenFieldValue(f, 'customer_id', '');
-    setHiddenFieldValue(f, 'product', '');
-    //other fields
-    setHiddenFieldValue(f, 'release', '');
-    setHiddenFieldValue(f, 'custom_field', '');
-
-    f.submit();
-}
-{/literal}
-var get_urls = new Array();
-{section name="i" loop=$csts}
-get_urls[{$csts[i].cst_id}] = '{$csts[i].url}';
-{/section}
-{literal}
-function runCustomFilter(f)
-{
-    var cst_id = getSelectedOption(f, 'custom_filter');
-    if (isWhitespace(cst_id)) {
-        alert('{/literal}{t escape=js}Please select the custom filter to search against.{/t}{literal}');
-        f.custom_filter.focus();
-        return false;
-    }
-    f.action = 'list.php?cat=search&' + get_urls[cst_id];
-    location.href = f.action;
-    return false;
-}
-//-->
-</script>
-{/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" id="quick_filter">
-  <tr id="filter_form1" {get_display_style element_name="filter_form"}>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <form action="list.php" method="get">
+<div id="quick_filter" class="bordered" {get_display_style element_name='quick_filter'}>
+<form id="quick_filter_form" action="list.php" method="get">
+    <table width="100%">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="pagerRow" value="0">
-        <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year}">
-        <input type="hidden" name="created_date[Month]" value="{$options.created_date.Month}">
-        <input type="hidden" name="created_date[Day]" value="{$options.created_date.Day}">
-        <input type="hidden" name="created_date[filter_type]" value="{$options.created_date.filter_type}">
-        <input type="hidden" name="updated_date[Year]" value="{$options.updated_date.Year}">
-        <input type="hidden" name="updated_date[Month]" value="{$options.updated_date.Month}">
-        <input type="hidden" name="updated_date[Day]" value="{$options.updated_date.Day}">
-        <input type="hidden" name="updated_date[filter_type]" value="{$options.updated_date.filter_type}">
-        <input type="hidden" name="last_response_date[Year]" value="{$options.last_response_date.Year}">
-        <input type="hidden" name="last_response_date[Month]" value="{$options.last_response_date.Month}">
-        <input type="hidden" name="last_response_date[Day]" value="{$options.last_response_date.Day}">
-        <input type="hidden" name="last_response_date[filter_type]" value="{$options.last_response_date.filter_type}">
-        <input type="hidden" name="first_response_date[Year]" value="{$options.first_response_date.Year}">
-        <input type="hidden" name="first_response_date[Month]" value="{$options.first_response_date.Month}">
-        <input type="hidden" name="first_response_date[Day]" value="{$options.first_response_date.Day}">
-        <input type="hidden" name="first_response_date[filter_type]" value="{$options.first_response_date.filter_type}">
-        <input type="hidden" name="closed_date[Year]" value="{$options.closed_date.Year}">
-        <input type="hidden" name="closed_date[Month]" value="{$options.closed_date.Month}">
-        <input type="hidden" name="closed_date[Day]" value="{$options.closed_date.Day}">
-        <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type}">
-        <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues}">
-        <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
+        <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year|default:''}">
+        <input type="hidden" name="created_date[Month]" value="{$options.created_date.Month|default:''}">
+        <input type="hidden" name="created_date[Day]" value="{$options.created_date.Day|default:''}">
+        <input type="hidden" name="created_date[filter_type]" value="{$options.created_date.filter_type|default:''}">
+        <input type="hidden" name="updated_date[Year]" value="{$options.updated_date.Year|default:''}">
+        <input type="hidden" name="updated_date[Month]" value="{$options.updated_date.Month|default:''}">
+        <input type="hidden" name="updated_date[Day]" value="{$options.updated_date.Day|default:''}">
+        <input type="hidden" name="updated_date[filter_type]" value="{$options.updated_date.filter_type|default:''}">
+        <input type="hidden" name="last_response_date[Year]" value="{$options.last_response_date.Year|default:''}">
+        <input type="hidden" name="last_response_date[Month]" value="{$options.last_response_date.Month|default:''}">
+        <input type="hidden" name="last_response_date[Day]" value="{$options.last_response_date.Day|default:''}">
+        <input type="hidden" name="last_response_date[filter_type]" value="{$options.last_response_date.filter_type|default:''}">
+        <input type="hidden" name="first_response_date[Year]" value="{$options.first_response_date.Year|default:''}">
+        <input type="hidden" name="first_response_date[Month]" value="{$options.first_response_date.Month|default:''}">
+        <input type="hidden" name="first_response_date[Day]" value="{$options.first_response_date.Day|default:''}">
+        <input type="hidden" name="first_response_date[filter_type]" value="{$options.first_response_date.filter_type|default:''}">
+        <input type="hidden" name="closed_date[Year]" value="{$options.closed_date.Year|default:''}">
+        <input type="hidden" name="closed_date[Month]" value="{$options.closed_date.Month|default:''}">
+        <input type="hidden" name="closed_date[Day]" value="{$options.closed_date.Day|default:''}">
+        <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type|default:''}">
+        <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues|default:''}">
+        <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues|default:''}">
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
-        <input type="hidden" name="reporter" value="{$options.reporter}">
-        <input type="hidden" name="customer_id" value="{$options.customer_id}">
+        <input type="hidden" name="reporter" value="{$options.reporter|default:''}">
+        <input type="hidden" name="customer_id" value="{$options.customer_id|default:''}">
         <input type="hidden" name="product" value="">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
@@ -115,137 +38,125 @@ function runCustomFilter(f)
         {if $priorities|@count < 1}
         <input type="hidden" name="priority" value="">
         {/if}
-        <input type="hidden" name="release" value="{$options.release}">
-        {if $current_role == $roles.customer}
+        <input type="hidden" name="release" value="{$options.release|default:''}}">
+        {if $core.current_role == $core.roles.customer}
         <input type="hidden" name="users" value="" />
         {/if}
         <tr>
-          <td nowrap>
-            <span class="default">{t}Keyword(s){/t}:</span><br />
-            <input class="default" type="text" name="keywords" size="40" value="{$options.keywords|escape:"html"}">
-          </td>
-          <td nowrap colspan="{if $categories|@count > 0}3{else}2{/if}">
-            {if $has_customer_integration and $current_role != $roles.customer}
-            <div style="float: left; margin-right: 1em;">
-            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">{t}All Text (emails, notes, etc){/t}</label>
-            </div>
-            {else}
-            <input type="hidden" name="search_type" value="all_text" id="search_type">
-            {/if}
-            {if $match_modes != false}
-            <div style="float: left;">
-                <span class="default">{t}Match Mode{/t}:</span><br />
-                <select name="match_mode" class="default">
-                    {html_options options=$match_modes selected=$options.match_mode}
+            <td nowrap>
+                <span>{t}Keyword(s){/t}:</span><br />
+                <input type="text" name="keywords" size="40" value="{$options.keywords|default:''|escape:"html"}">
+                <div id="ft_options">
+                    {if $match_modes != false}
+                    <div>
+                        <span>{t}Match Mode{/t}:</span><br />
+                        <select name="match_mode">
+                            {html_options options=$match_modes selected=$options.match_mode}
+                        </select>
+                        &nbsp;&nbsp;
+                    </div>
+                    {/if}
+                    {if $supports_excerpts}
+                    <div>
+                        <span>{t}Excerpts{/t}:</span><br />
+                        <label><input type="radio" name="hide_excerpts" value="0"
+                            {if $options.hide_excerpts == 0}CHECKED{/if} />
+                            {t}Show{/t}</label>
+                        <label><input type="radio" name="hide_excerpts" value="1"
+                            {if $options.hide_excerpts == 1}CHECKED{/if} />
+                            {t}Hide{/t}</label>
+                    </div>
+                    {/if}
+                </div>
+            </td>
+            <td nowrap colspan="{if $categories|@count > 0}4{else}3{/if}">
+                {if $core.has_customer_integration and $core.current_role != $core.roles.customer}
+                <div style="float: left; margin-right: 1em;">
+                    <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+                    <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
+                </div>
+                {else}
+                <input type="hidden" name="search_type" value="all_text" id="search_type">
+                {/if}
+            </td>
+            <td rowspan="2" align="center" width="100">
+                <input type="submit" value="{t}Search{/t}"><br /><br />
+                <input type="button" value="{t}Clear Filters{/t}" id="clear_filters">
+            </td>
+        </tr>
+        <tr>
+            {if $core.current_role != $core.roles.customer}
+            <td valign="top">
+                <span>{t}Assigned{/t}:</span><br />
+                <select name="users">
+                    {html_options options=$assign_options selected=$options.users}
                 </select>
-                &nbsp;&nbsp;
-            </div>
+            </td>
             {/if}
-            {if $supports_excerpts}
-            <div style="float: left;">
-                <span class="default">{t}Excerpts{/t}:</span><br />
-                <label class="default"><input type="radio" name="hide_excerpts" value="0"
-                    {if $options.hide_excerpts == 0}CHECKED{/if} />
-                    {t}Show{/t}</label>
-                <label class="default"><input type="radio" name="hide_excerpts" value="1"
-                    {if $options.hide_excerpts == 1}CHECKED{/if} />
-                    {t}Hide{/t}</label>
-            </div>
+            {if $categories|@count > 0}
+            <td valign="top">
+                <span>{t}Category{/t}:</span><br />
+                <select name="category">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$categories selected=$options.category}
+                </select>
+            </td>
             {/if}
-          </td>
-          <td rowspan="2" align="center" width="100">
-            <input class="button" type="submit" value="{t}Search{/t}"><br /><br />
-            <input class="button" type="button" value="{t}Clear Filters{/t}" onClick="clearFilters(this.form);">
-          </td>
+            {if $priorities|@count > 0}
+            <td valign="top">
+                <span>{t}Priority{/t}:</span><br />
+                <select name="priority">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$priorities selected=$options.priority}
+                </select>
+            </td>
+            {/if}
+            {if $severities|@count > 0}
+            <td valign="top">
+                <span class="default">{t}Severity{/t}:</span><br />
+                <select name="severity" class="default">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$severities selected=$options.severity}
+                </select>
+            </td>
+            {/if}
+            <td valign="top">
+                <span>{t}Status{/t}:</span><br />
+                <select name="status">
+                    <option value="">{t}any{/t}</option>
+                    {foreach key=sta_id item=sta_title from=$status}
+                    <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
+                    {/foreach}
+                </select>
+            </td>
         </tr>
-        <tr>
-          {if $current_role != $roles.customer}
-          <td valign="top">
-            <span class="default">{t}Assigned{/t}:</span><br />
-            <select name="users" class="default">
-              {html_options options=$assign_options selected=$options.users}
-            </select>
-          </td>
-          {/if}
-          {if $categories|@count > 0}
-          <td valign="top">
-            <span class="default">{t}Category{/t}:</span><br />
-            <select name="category" class="default">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$categories selected=$options.category}
-            </select>
-          </td>
-          {/if}
-          {if $priorities|@count > 0}
-          <td valign="top">
-            <span class="default">{t}Priority{/t}:</span><br />
-            <select name="priority" class="default">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$priorities selected=$options.priority}
-            </select>
-          </td>
-          {/if}
-          {if $severities|@count > 0}
-          <td valign="top">
-            <span class="default">{t}Severity{/t}:</span><br />
-            <select name="severity" class="default">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$severities selected=$options.severity}
-            </select>
-          </td>
-          {/if}
-          <td valign="top">
-            <span class="default">{t}Status{/t}:</span><br />
-            <select name="status" class="default">
-              <option value="">{t}any{/t}</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
-              {/foreach}
-            </select>
-          </td>
-        </tr>
-        </form>
-      </table>
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
-  {if $current_role > $roles.reporter && $current_role != $roles.customer}
-  <tr id="custom_filter_form1" {get_display_style element_name="custom_filter_form"}>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-      <table bgcolor="{$light_color}" width="100%" border="0" cellspacing="0" cellpadding="4">
+    </table>
+</form>
+{if $core.current_role > $core.roles.reporter}
+<div class="bottom_bar">
+    <table>
         <form action="list.php" method="get">
-        <tr>
-          {if $browser.ie5up}
-          <td class="default">
-            [ <a class="link" href="javascript:void(open('{$rel_url}searchbar.php', '_search'));">{t}quick search bar{/t}</a> ]
-          </td>
-          {/if}
-          <td class="default" align="center">
-            <a target="_top" title="{t}create advanced searches{/t}" href="{$rel_url}adv_search.php" class="link">{t}Advanced Search{/t}</a>
-          </td>
-          <td align="right">
-            <span class="default">{t}Saved Searches{/t}:</span>
-            <select name="custom_filter" class="default" onChange="runCustomFilter(this.form);">
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-              {html_options options=$custom}
-            </select>
-          </td>
-        </tr>
+            <tr>
+                <td>
+                </td>
+                <td align="center">
+                    <a target="_top" title="{t}create advanced searches{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a>
+                </td>
+                <td align="right">
+                    <span>{t}Saved Searches{/t}:</span>
+                    <select name="custom_filter" id="custom_filter">
+                        <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                        {section name="i" loop=$csts}
+                        <option value="{$csts[i].url}">{$csts[i].cst_title}</option>
+                        {/section}
+                    </select>
+                </td>
+            </tr>
         </form>
-      </table>
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
-  {/if}
-</table>
+    </table>
+</div>
+{/if}
+</div>
 
 <br />
 

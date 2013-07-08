@@ -1,70 +1,41 @@
-
-{literal}
-<script type="text/javascript">
-<!--
-function updateCustomFields(issue_id)
-{
-    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
-    customWin.focus();
-}
-//-->
-</script>
-{/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <form method="get" action="{$smarty.server.PHP_SELF}">
-  <tr>
-    <td width="100%">
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default" nowrap>
-            <b>{t}Additional Details{/t}</b>
-          </td>
-          <td align="right" class="default">
-         [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="custom_fields_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('custom_fields');">{get_innerhtml element_name="custom_fields" total=$custom_fields|@count}</a> ]
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
-              {section name="i" loop=$custom_fields}
-              {cycle values=$cycle assign="row_color"}
-              <tr id="custom_fields{$smarty.section.i.iteration}" {get_display_style element_name="custom_fields" total=$custom_fields|@count} {if $custom_fields[i].hide_when_no_options == 1 && $custom_fields[i].value == ''}style="display: none"{/if}>
-                <td bgcolor="{if $custom_fields[i].fld_min_role > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-                  <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
-                </td>
-                <td class="default" width="100%" bgcolor="{$row_color}">
-                  {if $custom_fields[i].fld_type == 'textarea'}
-                    {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
-                  {else}
-                    {assign var=issue_id value=$smarty.get.id|intval}
-                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$issue_id}
-                  {/if}
-                </td>
-              </tr>
-              {sectionelse}
-              <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
-                <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
-                  <i>{t}No custom fields could be found.{/t}</i>
-                </td>
-              </tr>
-              {/section}
-              {if $current_role > $roles.reporter and $custom_fields != "" and $can_update}
-              <tr>
-                <td align="center" colspan="2" bgcolor="{$cell_color}">
-                  <input class="button" type="button" value="{t}Update{/t}" onClick="updateCustomFields({$smarty.get.id|intval});">
-                </td>
-              </tr>
+<div class="issue_section bordered" id="custom_fields">
+    <div class="title">
+        {t}Custom Fields{/t}
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            [ <span class="js_link" id="toggle_custom_fields" >{get_display_label element_name="custom_fields"}</span> ]
+        </span>
+    </div>
+    <div class="content" {get_display_style element_name='custom_fields'}>
+        <table class="grid">
+          {section name="i" loop=$custom_fields}
+          <tr class="{cycle values='odd,even'}" {if $custom_fields[i].hide_when_no_options|default:0 == 1 && $custom_fields[i].value == ''}style="display: none"{/if}>
+            <th class="{if $custom_fields[i].fld_min_role > $core.roles.customer}internal{/if}">
+                {$custom_fields[i].fld_title}
+            </th>
+            <td>
+              {if $custom_fields[i].fld_type == 'textarea'}
+                {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
+              {else}
+                {assign var=issue_id value=$smarty.get.id|intval}
+                {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$issue_id}
               {/if}
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  </form>
-</table>
-
+            </td>
+          </tr>
+          {sectionelse}
+          <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
+            <td colspan="2" align="center">
+              <i>{t}No custom fields could be found.{/t}</i>
+            </td>
+          </tr>
+          {/section}
+        </table>
+    </div>
+      {if $core.current_role > $core.roles.reporter and $custom_fields != ""}
+      <form>
+      <div class="buttons">
+          <input type="button" value="{t}Update{/t}" id='update_custom_fields' data-issue-id="{$issue_id}">
+      </div>
+      </form>
+      {/if}
+</div>

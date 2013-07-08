@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -42,6 +42,7 @@ if (!Access::canViewHistory($iss_id, Auth::getUserID())) {
 }
 
 $tpl->assign("changes", History::getListing($iss_id));
+$tpl->assign('issue_id', $iss_id);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id > User::getRoleID('Customer')) {

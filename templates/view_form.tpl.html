@@ -1,467 +1,271 @@
-
-<script type="text/javascript">
-<!--
-var ema_id = '{$ema_id}';
-{literal}
-function openHistory(issue_id)
-{
-    var features = 'width=520,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
-    popupWin.focus();
-}
-function openNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
-    popupWin.focus();
-}
-function selfNotification(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_id + '&cat=selfnotify', '_notification', features);
-    popupWin.focus();
-}
-function openAuthorizedReplier(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
-    popupWin.focus();
-}
-function openReporter(issue_id)
-{
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('edit_reporter.php?iss_id=' + issue_id, '_reporter', features);
-    popupWin.focus();
-}
-function signupAsAuthorizedReplier(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=authorize_reply&iss_id=' + issue_id, '_authorizeReply', features);
-    popupWin.focus();
-}
-function selfAssign(issue_id)
-{
-    var features = 'width=420,height=150,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('self_assign.php?iss_id=' + issue_id, '_selfAssign', features);
-    popupWin.focus();
-}
-function unassign(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=unassign&iss_id=' + issue_id, '_unassign', features);
-    popupWin.focus();
-}
-function replyIssue(issue_id)
-{
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('send.php?cat=reply&ema_id=' + ema_id + '&issue_id=' + issue_id, '_replyIssue' + issue_id, features);
-    popupWin.focus();
-}
-function clearDuplicateStatus(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=clear_duplicate&iss_id=' + issue_id, '_clearDuplicate', features);
-    popupWin.focus();
-}
-function changeIssueStatus(f, issue_id, current_status_id)
-{
-    var new_status = getSelectedOption(f, 'new_status');
-    if (new_status == current_status_id) {
-        selectField(f, 'new_status');
-        alert('{/literal}{t escape=js}Please select the new status for this issue.{/t}{literal}');
-    } else {
-        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_id + '&new_sta_id=' + new_status, '_newStatus', features);
-        popupWin.focus();
-    }
-}
-function editIncidentRedemption(issue_id)
-{
-    var features = 'width=300,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('redeem_incident.php?iss_id=' + issue_id, '_flagIncident', features);
-    popupWin.focus();
-}
-function removeQuarantine(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=remove_quarantine&iss_id=' + issue_id, '_removeQuarantine', features);
-    popupWin.focus();
-}
-function validateForm(f)
-{
-    // if no emails accounts are setup, don't display confirmation message.
-    if (({/literal}{$current_role} < {$roles.developer}{literal}) && (ema_id != '') &&
-            !confirm("{/literal}{t escape=js}NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.{/t}{literal}")) {
-        return false;
-    }
-    return true;
-}
-function collapseDescription()
-{
-    if (isElementVisible(getPageElement('description1'))) {
-        changeVisibility('description_hidden', false);
-    } else {
-        changeVisibility('description_hidden', true);
-    }
-}
-//-->
-</script>
-{/literal}
-<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td class="default">
-      {if $previous_issue}
-      &nbsp;<a class="link" title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a>
-      {/if}
-    </td>
-    <td class="default" align="right">
-      {if $next_issue}
-      <a class="link" title="{t}next issue on your current active filter{/t}" href="view.php?id={$next_issue}">{t}Next Issue{/t} &gt;&gt;</a>&nbsp;
-      {/if}
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2"><img height="10" src="{$rel_url}images/blank.gif"></td>
-  </tr>
-</table>
+<div id="issue_links">
+    {if $previous_issue}
+    <div><a title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a></div>
+    {/if}
+    {if $next_issue}
+    <div class="right"><a title="{t}next issue on your current active filter{/t}" href="view.php?id={$next_issue}">{t}Next Issue{/t} &gt;&gt;</a></div>
+    {/if}
+    <div class="clear"></div>
+</div>
 
 {if $quarantine.iqu_status > 0}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" align="center">
-            <span class="default">
-            <span style="font-weight: bold; font-size: 160%; color: red;">
-                {t}This Issue is Currently Quarantined{/t}
-            </span>
-            {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
-            {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
-                {t 1=$quarantine.time_till_expiration}Quarantine expires in %1{/t}<br />
-            {/if}
-            {t 1="faq.php" escape=no}Please see the <a class="link" href="%1">FAQ</a> for information regarding quarantined issues.{/t}
-            </span>
-            {if $current_role > $roles.developer}
-            <br /><br />
-            <input class="button" type="button" name="remove_quarantine" value="{t}Remove Quarantine{/t}" onClick="removeQuarantine({$issue.iss_id})">
-            {/if}
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
+<div class="note_box">
+    {t}This Issue is Currently Quarantined{/t}
+    {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
+    {if $core.current_role > $core.roles.customer && $quarantine.iqu_expiration != ''}
+    {t 1=$quarantine.time_till_expiration}Quarantine expires in %1{/t}<br />
+    {/if}
+    {t 1="faq.php" escape=no}Please see the <a href="%1">FAQ</a> for information regarding quarantined issues.{/t}
+    {if $core.current_role > $core.roles.developer}
+    <br /><br />
+    <input type="button" name="remove_quarantine" value="{t}Remove Quarantine{/t}" class="remove_quarantine">
+    {/if}
+</div>
 {/if}
 
-{if $project_auto_switched == 1}
-<center>
-  <span class="banner_red">
-    {t}Note: Project automatically switched to '{$current_project_name}' from '{$old_project}'.{/t}
-  </span>
-</center>
-<br />
+{if $project_auto_switched|default:0 == 1}
+<div class="note_box">
+    {t}Note: Project automatically switched to '{$core.project_name}' from '{$old_project}'.{/t}
+</div>
 {/if}
 
 {if $issue.iss_private == 1}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td width="100%" align="center" class="default" bgcolor="{$light_color}">
-            <b>{t}Note{/t} :</b>{t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
+<div class="note_box">
+    {t}Note{/t}: {t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
+</div>
 {/if}
 
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
-<form method="get" action="update.php" name="view_form" onSubmit="return validateForm(this);">
+<form method="get" action="update.php" name="view_form">
 <input type="hidden" name="id" value="{$issue.iss_id}">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2" class="default" nowrap>
-            <b>{t}Issue Overview{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}" class="link">{$issue.iss_id}</a>)
-          </td>
-          <td colspan="2" align="right" class="default">
-            {if $current_role > $roles.customer}
-                {if $issue_access.change_reporter}
-                [ <a class="link" title="{t}Edit the Reporter for this issue{/t}" href="javascript:void(null);" onClick="openReporter({$smarty.get.id|intval});">{t}Edit Reporter{/t}</a> ]
-                {/if}
-                {if $issue_access.notification_list}
-                [ <a class="link" title="{t}edit the authorized repliers list for this issue{/t}" href="javascript:void(null);" onClick="openAuthorizedReplier({$smarty.get.id|intval});">{t}Edit Authorized Replier List{/t}</a> ]
-                {/if}
-                {if $issue_access.authorized_repliers}
-                [ <a class="link" title="{t}edit the notification list for this issue{/t}" href="javascript:void(null);" onClick="openNotification({$smarty.get.id|intval});">{t}Edit Notification List{/t}</a> ]
-                {/if}
+<div id="issue_overview" class="bordered" data-issue-id="{$issue_id}" data-ema-id="{$ema_id}">
+    <div class="title">
+        {t}Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
+        <div id="issue_menu">
+            {if $core.current_role > $core.roles.customer}
+            [ <a class="link" title="{t}Edit the Reporter for this issue{/t}" href="edit_reporter.php?iss_id={$issue_id}">{t}Edit Reporter{/t}</a> ]
+            [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="authorized_replier.php?iss_id={$issue_id}" class="open_ar">{t}Edit Authorized Replier List{/t}</a> ]
+            [ <a title="{t}edit the notification list for this issue{/t}" href="notification.php?iss_id={$issue_id}" class="open_nl">{t}Edit Notification List{/t}</a> ]
             {/if}
-            {if $issue_access.history}
-            [ <a class="link" title="{t}view the full history of changes on this issue{/t}" href="javascript:void(null);" onClick="openHistory({$smarty.get.id|intval});">{t}History of Changes{/t}</a> ]
-            {/if}
-          </td>
-        </tr>
-        {if $has_customer_integration and $issue.iss_customer_id}
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Customer{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {$issue.customer_info.customer_name}
-            (<a href="#customer_details" class="link">{t}Complete Details{/t}</a>)
-          </td>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Customer Contract{/t}:</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
-            {if $issue.customer_info.support_level}
-            {t}Support Level{/t}: {$issue.customer_info.support_level}
-            {/if}
-            {if $issue.customer_info.support_options}
-            <br />
-            {t}Support Options{/t}: {$issue.customer_info.support_options}
-            {/if}
-            {if $issue.customer_info.is_per_incident}
-              <br />
-              {t}Redeemed Incident Types{/t}:
-              {strip}
-              {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
-                {if $incident_details.is_redeemed == 1}
-                {if not $smarty.foreach.incident_loop.first}, {/if}{$incident_details.title}
-                {assign var=has_redeemed_incident value=1}
-                {/if}
-              {/foreach}
-              {/strip}
-              {if $has_redeemed_incident != 1}<i>{t}None{/t}</i>{/if}
-            {/if}
-          </td>
-        </tr>
-        {/if}
+            [ <a title="{t}view the full history of changes on this issue{/t}" class="open_history" href="history.php?id=iss_id={$issue_id}">{t}History of Changes{/t}</a> ]
+        </div>
+    </div>
 
-        {if $columns[0]|@count < $columns[1]|@count}
-            {assign var=row_count value=$columns[1]|@count}
-            {math equation="(x - y) + 1" assign=col_0_last_rowspan x=$columns[1]|@count y=$columns[0]|@count}
-        {else}
-            {assign var=row_count value=$columns[0]|@count}
-            {math equation="(x - y) + 1" assign=col_1_last_rowspan x=$columns[0]|@count y=$columns[1]|@count}
-        {/if}
-        {section name=row loop=$row_count}
-        <tr>
-          {if $smarty.section.row.rownum <= $columns[0]|@count}
-          <td width="150" nowrap bgcolor="{if $columns[0][row].title_bgcolor != '' }{$columns[0][row].title_bgcolor}{else}{$cell_color}{/if}" class="default_white"
-            {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
-            <b>{$columns[0][row].title}:</b>
-          </td>
-          <td width="50%" bgcolor="{if $columns[0][row].data_bgcolor != '' }{$columns[0][row].data_bgcolor}{else}{$light_color}{/if}" class="default"
-            {if $smarty.section.row.rownum == $columns[0]|@count && $col_0_last_rowspan != ''}rowspan="{$col_0_last_rowspan}"{/if}>
-            {if $columns[0][row].tpl_block == 'reporter'}
-                <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter|escape:html}</a>
-            {elseif $columns[0][row].tpl_block == 'product'}
-                {$issue.products[0].product}
-                {$issue.products[0].version}
-            {else}
-                {$columns[0][row].data|escape:"html"}
-            {/if}
-          </td>
-          {/if}
-          {if $smarty.section.row.rownum <= $columns[1]|@count}
-          <td width="150" valign="top" class="default_white" nowrap
-             bgcolor="{if $columns[1][row].title_bgcolor != '' }{$columns[1][row].title_bgcolor}{else}{$cell_color}{/if}"
-             {if $smarty.section.row.rownum == $columns[1]|@count && $col_1_last_rowspan != ''}rowspan="{$col_1_last_rowspan}"{/if}>
-            <b>{$columns[1][row].title}{if $columns[1][row].title}:{/if}</b>
-          </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default"
-            {if $smarty.section.row.rownum == $columns[1]|@count && $col_1_last_rowspan != ''}rowspan="{$col_1_last_rowspan}"{/if}>
-            {if $columns[1][row].tpl_block == 'notification_list'}
-                {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
-                {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
-                {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
-            {elseif $columns[1][row].tpl_block == 'associated_issues'}
-                {section name="i" loop=$issue.associated_issues_details}
-                  {strip}
-                  <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="{t}issue{/t} #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
-                  {if not $smarty.section.i.last},{/if}
-                  {/strip}
-                {sectionelse}
-                  <i>{t}No issues associated{/t}</i>
-                {/section}
-            {elseif $columns[1][row].tpl_block == 'expected_resolution'}
-                {if $issue.iss_expected_resolution_date == 0}
-                <i>{t}No resolution date given{/t}</i>
-                {else}
-                {$issue.iss_expected_resolution_date|escape:"html"}
+    {if $columns[0]|@count < $columns[1]|@count}
+    {assign var=row_count value=$columns[1]|@count}
+    {math equation="(x - y) + 1" assign=col_0_last_rowspan x=$columns[1]|@count y=$columns[0]|@count}
+    {else}
+    {assign var=row_count value=$columns[0]|@count}
+    {math equation="(x - y) + 1" assign=col_1_last_rowspan x=$columns[0]|@count y=$columns[1]|@count}
+    {/if}
+
+    <div id="colwrap1">
+        <div id="colwrap2">
+            <div id="column1" class="column">
+                {if $core.has_customer_integration and $issue.iss_customer_id}
+                <div class="issue_field_display">
+                    <div class="background">
+                        <div class="label">{t}Customer{/t}</div>
+                        <div class="display">{$issue.customer_info.customer_name}
+                            (<a href="#customer_details">{t}Complete Details{/t}</a>)
+                        </div>
+                    </div>
+                </div>
                 {/if}
-            {elseif $columns[1][row].tpl_block == 'duplicates'}
-                {if $issue.iss_duplicated_iss_id}
-                {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
-                {/if}
-                {if $issue.duplicates_details|@count > 0}
-                  {if $issue.iss_duplicated_iss_id}<br />{/if}
-                  {t}Duplicated by{/t}:
-                  {section name="i" loop=$issue.duplicates_details}
-                    {strip}
-                    <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
-                    {if not $smarty.section.i.last}, {/if}
-                    {/strip}
-                  {/section}
-                {/if}
-            {elseif $columns[1][row].tpl_block == 'authorized_repliers'}
-                {if $issue.authorized_repliers.users|@count > 0}
-                    {t}Staff{/t}:
-                    {section name="replier" loop=$issue.authorized_repliers.users}
-                        {strip}
-                        {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                        {/strip}
-                    {/section}
+
+                {foreach from=$columns[0] item=row}
+                <div class="issue_field_display" {if $row.data_bgcolor|default:'' != '' }style="background-color: {$row.data_bgcolor}"{/if}>
+                <div class="background">
+                    <div class="label" {if $row.title_bgcolor|default:'' != '' }style="background-color: {$row.title_bgcolor}"{/if}>{$row.title}</div>
+                <div class="display" >
+                    {if $row.tpl_block|default:''|default:'' == 'reporter'}
+                    <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter|escape:html}</a>
+                    {elseif $row.tpl_block|default:''|default:'' == 'product'}
+                    {$issue.products[0].product}
+                    {$issue.products[0].version}
+                    {else}
+                    {$row.data|escape:"html"}
+                    {/if}
+                </div>
+            </div>
+        </div>
+        {/foreach}
+    </div>
+
+    <div id="column2" class="column">
+        {if $core.has_customer_integration and $issue.iss_customer_id}
+        <div class="issue_field_display">
+            <div class="background">
+                <div class="label">{t}Customer Contract{/t}</div>
+                <div class="display">
+                    {t}Support Level{/t}: {$issue.customer_info.support_level}
+                    {if $issue.customer_info.support_options|default:''}
                     <br />
-                {/if}
-                {if $issue.authorized_repliers.other|@count > 0}
-                    {t}Other{/t}:
-                    {section name="replier" loop=$issue.authorized_repliers.other}
-                        {strip}
-                        {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
-                        {if $smarty.section.replier.last != 1},&nbsp;{/if}
-                        {/strip}
-                    {/section}
-                {/if}
-            {else}
-                {$columns[1][row].data|escape:"html"}
-            {/if}
-          </td>
-          {/if}
-        </tr>
-        {/section}
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Summary{/t}:</b><img src="images/blank.gif" height="1" width="150">
-          </td>
-          <td colspan="3" bgcolor="{$dark_color}" class="default">
-            {$issue.iss_summary|escape:"html"}
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top:0">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="border-collapse: separate; border-spacing: 1px 0px;">
-        <tr>
-          <td align="left" valign="top" bgcolor="{$cell_color}" width="150">
-            <center class="default_white">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="description_link" class="white_link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{get_innerhtml element_name="description"}</a> ]
-            {/if}
-            </center>
-            <span class="default_white"><b>{t}Initial Description{/t}:</b></span><br />
-            <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="displayFixedWidth('issue_description');">{t}fixed width font{/t}</a>)</span><br />
-            <img src="images/blank.gif" height="1" width="150">
-          </td>
-          <td bgcolor="{$dark_color}" id="issue_description" class="default">
-            <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
-            <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a class="link" href="javascript:void(null);" onClick="toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
-            {literal}
-            <script type="text/javascript">
-            collapseDescription();
-            </script>
-            {/literal}
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 0;padding-bottom: 1">
-    <tr>
-      <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="padding-top: 0px">
-        {if $current_role > $roles.reporter}
-        <tr bgcolor="{$cell_color}">
-          <td colspan="4">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                {if $current_role > $roles.customer and $can_update}
-                <td nowrap>
-                  {if $is_user_assigned == 1}
-                    {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
-                      <input class="button" type="button" value="{t}Unassign Issue{/t}" onClick="unassign({$issue.iss_id});">&nbsp;
+                    {t}Support Options{/t}: {$issue.customer_info.support_options}
                     {/if}
-                  {else}
-                    <input class="button" type="button" value="{t}Assign Issue To Myself{/t}" onClick="selfAssign({$issue.iss_id});">&nbsp;
-                  {/if}
-                </td>
-                {/if}
-                <td width="100%" align="center">
-                  {if $can_update == true}
-                  <input class="button" type="submit" value="{t}Update Issue{/t}">
-                  {/if}
-                  {if $current_role >= $roles.standard_user and $app_setup.support_email == 'enabled' and $ema_id != ''}
-                  &nbsp;<input class="button" type="button" value="{t}Reply{/t}" onClick="replyIssue({$issue.iss_id});">
-                  {/if}
-                </td>
-                {if $current_role > $roles.customer and $can_update}
-                <td nowrap>
-                  <nobr>
-                  {if not $issue.sta_is_closed}
-                    {if $issue.duplicates == ''}
-                      {if $issue.iss_duplicated_iss_id}
-                      <input class="button" type="button" value="{t}Clear Duplicate Status{/t}" onClick="clearDuplicateStatus({$issue.iss_id});">
-                      {else}
-                      <input class="button" type="button" value="{t}Mark as Duplicate{/t}" onClick="window.location.href='duplicate.php?id={$issue.iss_id}';">
-                      {/if}
+                    {if $issue.customer_info.is_per_incident}
+                    <br />
+                    {t}Redeemed Incident Types{/t}:
+                    {strip}
+                    {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
+                    {if $incident_details.is_redeemed == 1}
+                    {if not $smarty.foreach.incident_loop.first}, {/if}{$incident_details.title}
+                    {assign var=has_redeemed_incident value=1}
                     {/if}
-                    <input class="button" type="button" value="{t}Close Issue{/t}" onClick="window.location.href='close.php?id={$issue.iss_id}';">
-                  {/if}
-                  </nobr>
-                </td>
-                {/if}
-              </tr>
-            </table>
-          </td>
-        </tr>
+                    {/foreach}
+                    {/strip}
+                    {if $has_redeemed_incident != 1}<i>{t}None{/t}</i>{/if}
+                    {/if}
+                </div>
+            </div>
+        </div>
         {/if}
-        {if $current_role > $roles.customer}
-        <tr bgcolor="{$dark_color}">
-          <td colspan="4" align="right">
-            <table border="0" width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="50%">
-                  {if $is_user_authorized != 1 and $issue_access.authorized_repliers}
-                    <input type="button" value="{t}Signup as Authorized Replier{/t}" class="button" onClick="signupAsAuthorizedReplier({$issue.iss_id});">
-                  {/if}
-                  {if $is_user_notified != 1 and $issue_access.notification_list}
-                    <input type="button" value="{t}Add Me To Notification{/t}" class="button" onClick="selfNotification({$issue.iss_id});">
-                  {/if}
-                  {if $issue.customer_info.is_per_incident and $can_update}
-                    <input type="button" value="{t}Edit Incident Redemption{/t}" class="button" onClick="editIncidentRedemption({$issue.iss_id});">
-                  {/if}
-                </td>
-                <td width="50%" align="right">
-                  {if $statuses != '' and ($can_update or $issue_access.change_status)}
-                  <input type="button" value="{t}Change Status To{/t} &gt;" class="button" onClick="changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
-                  <select class="default" name="new_status">
-                    {html_options options=$statuses selected=$issue.iss_sta_id}
-                  </select>
-                  {/if}
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        {/if}
-      </table>
-    </td>
-  </tr>
-</form>
-</table>
 
+        {foreach from=$columns[1] item=row}
+        <div class="issue_field_display" {if $row.data_bgcolor|default:'' != '' }style="background-color: {$row.data_bgcolor}"{/if}>
+        <div class="background" {if $row.title_bgcolor|default:'' != '' }style="background-color: {$row.title_bgcolor}"{/if}>
+        <div class="label">{$row.title}</div>
+        <div class="display">
+            {if $row.tpl_block|default:'' == 'notification_list'}
+            {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+            {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
+            {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+            {elseif $row.tpl_block|default:'' == 'associated_issues'}
+            {section name="i" loop=$issue.associated_issues_details}
+            {strip}
+            <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="{t}issue{/t} #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
+            {if not $smarty.section.i.last},{/if}
+            {/strip}
+            {sectionelse}
+            <i>{t}No issues associated{/t}</i>
+            {/section}
+            {elseif $row.tpl_block|default:'' == 'expected_resolution'}
+            {if $issue.iss_expected_resolution_date == 0}
+            <i>{t}No resolution date given{/t}</i>
+            {else}
+            {$issue.iss_expected_resolution_date|escape:"html"}
+            {/if}
+            {elseif $row.tpl_block|default:'' == 'duplicates'}
+            {if $issue.iss_duplicated_iss_id}
+            {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
+            {/if}
+            {if $issue.duplicates_details|@count > 0}
+            {if $issue.iss_duplicated_iss_id}<br />{/if}
+            {t}Duplicated by{/t}:
+            {section name="i" loop=$issue.duplicates_details}
+            {strip}
+            <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
+            {if not $smarty.section.i.last}, {/if}
+            {/strip}
+            {/section}
+            {/if}
+            {elseif $row.tpl_block|default:'' == 'authorized_repliers'}
+            {if $issue.authorized_repliers.users|@count > 0}
+            {t}Staff{/t}:
+            {section name="replier" loop=$issue.authorized_repliers.users}
+            {strip}
+            {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+            {if $smarty.section.replier.last != 1},&nbsp;{/if}
+            {/strip}
+            {/section}
+            <br />
+            {/if}
+            {if $issue.authorized_repliers.other|@count > 0}
+            {t}Other{/t}:
+            {section name="replier" loop=$issue.authorized_repliers.other}
+            {strip}
+            {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+            {if $smarty.section.replier.last != 1},&nbsp;{/if}
+            {/strip}
+            {/section}
+            {/if}
+            {else}
+            {$row.data|escape:"html"}
+            {/if}
+        </div>
+    </div>
+</div>
+{/foreach}
+</div>
+</div>
+</div>
+
+<div id="summary" class="issue_field_display full_width">
+    <div class="background">
+        <div class="label">Summary</div>
+        <div class="display">{$issue.iss_summary|escape:"html"}</div>
+    </div>
+</div>
+
+<div id="description" class="issue_field_display full_width">
+    <div class="background">
+        <div class="label">
+            {t}Initial Description{/t}
+            <div>
+                [ <span class="js_link" id="issue_description_link">{get_display_label element_name="issue_description"}</span> ]
+                [ <span class="js_link display_fixed_width">{t}fixed width{/t}</span> ]
+            </div>
+        </div>
+        <div class="display">
+            <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+            <span id="description_hidden" style="display: none"><em>{t}Description is currently collapsed{/t}.</em></span>
+        </div>
+    </div>
+</div>
+
+{if $core.current_role > $core.roles.reporter}
+<div class="buttons1">
+    <input type="submit" value="{t}Update Issue{/t}">
+    {if $core.current_role >= $core.roles.standard_user and $core.app_setup.support_email == 'enabled' and $ema_id != ''}
+    &nbsp;<input type="button" value="{t}Reply{/t}" class="reply_issue">
+    {/if}
+
+    {if $core.current_role > $core.roles.customer}
+    {if $is_user_assigned == 1}
+    {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
+    <input type="button" value="{t}Unassign Issue{/t}" class="unassign">
+    {/if}
+    {else}
+    <input type="button" value="{t}Assign Issue To Myself{/t}" class="self_assign">
+    {/if}
+
+    <div class="right">
+        {if not $issue.sta_is_closed}
+        {if $issue.duplicates == ''}
+        {if $issue.iss_duplicated_iss_id}
+        <input type="button" value="{t}Clear Duplicate Status{/t}" class="clear_duplicate">
+        {else}
+        <input type="button" value="{t}Mark as Duplicate{/t}" class="mark_duplicate">
+        {/if}
+        {/if}
+        <input type="button" value="{t}Close Issue{/t}" class="close_issue">
+        {/if}
+    </div>
+    {/if}
+</div>
+{/if}
+{if $core.current_role > $core.roles.customer}
+<div class="buttons2">
+    {if $is_user_authorized != 1}
+    <input type="button" value="{t}Signup as Authorized Replier{/t}" class="self_authorized_replier">
+    {/if}
+    {if $is_user_notified != 1}
+    <input type="button" value="{t}Add Me To Notification{/t}" class="self_notification">
+    {/if}
+    {if $core.has_customer_integration|default:'' != '' && $issue.customer_info|default:'' != '' && $issue.customer_info.is_per_incident}
+    <input type="button" value="{t}Edit Incident Redemption{/t}" class="edit_incident_redemption">
+    {/if}
+    &nbsp;
+    <div class="right">
+        {if $statuses != ''}
+        <input type="button" value="{t}Change Status To{/t} &gt;" data-status-id="{$issue.iss_sta_id}" class="change_status">
+        <select name="new_status" id="new_status">
+            {html_options options=$statuses selected=$issue.iss_sta_id}
+        </select>
+        {include "error_icon.tpl.html" field="new_status"}
+        {/if}
+    </div>
+    <div style="clear: both"></div>
+</div>
+{/if}
+</div>
+</form>

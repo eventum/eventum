@@ -1,141 +1,113 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this time tracking category{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="time_tracking_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+{block "manage_content"}
+  {literal}
+  <script type="text/javascript">
+  <!--
+  function validateForm()
+  {
+      if (Validation.isFieldWhitespace('title')) {
+          alert('{/literal}{t escape=js}Please enter the title of this time tracking category{/t}{literal}');
+          Validation.selectField('title');
+          return false;
+      }
+      return true;
+  }
+
+  function checkDelete()
+  {
+      if (!Validation.hasOneChecked('items[]')) {
+          alert('{/literal}{t escape=js}Please select at least one of the time tracking categories.{/t}{literal}');
+          return false;
+      }
+      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+          return false;
+      } else {
+          return true;
+      }
+  }
+
+
+  $().ready(function() {
+      $('#time_tracking_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+      $('#delete_group').submit(checkDelete);
+  });
+  //-->
+  </script>
+  {/literal}
+          <form id="time_tracking_form" method="post" action="{$smarty.server.PHP_SELF}">
+          {if $smarty.get.cat|default:'' == 'edit'}
+          <input type="hidden" name="cat" value="update">
+          <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
+          {else}
+          <input type="hidden" name="cat" value="new">
+          {/if}
+
+        <table class="bordered">
+          <tr class="title">
+            <th colspan="2">
+              {t}Manage Time Tracking Categories{/t}
+            </th>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Title{/t}
+            </th>
+            <td>
+              <input type="text" name="title" size="40" value="{$info.ttc_title|default:''}">
+              {include file="error_icon.tpl.html" field="title"}
+            </td>
+          </tr>
+          <tr class="buttons">
+            <td colspan="2">
+              {if $smarty.get.cat|default:'' == 'edit'}
+              <input type="submit" value="{t}Update Category{/t}">
               {else}
-              <input type="hidden" name="cat" value="new">
+              <input type="submit" value="{t}Create Category{/t}">
               {/if}
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Manage Time Tracking Categories{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new time tracking category.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this new time tracking category.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the time tracking category was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the time tracking category information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this time tracking category.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the time tracking category was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Title:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" name="title" size="40" class="default" value="{$info.ttc_title}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Category{/t}">
-                  {else}
-                  <input class="button" type="submit" value="{t}Create Category{/t}">
-                  {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Existing Categories:{/t}</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the time tracking categories.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
-                      <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
-                        <i>{t}No time tracking categories could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                  <br />
-                  <span class="small_default"><b>{t}Note{/t}: </b> {t}'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are required by Eventum and cannot be deleted.{/t}</span>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
+              <input type="reset" value="{t}Reset{/t}">
+            </td>
+          </tr>
+        </table>
+        </form>
 
+        <form id="delete_group" method="post" action="{$smarty.server.PHP_SELF}">
+        <input type="hidden" name="cat" value="delete">
+        <table class="bordered grid">
+          <tr class="title">
+            <th colspan="2">
+              {t}Existing Categories{/t}
+            </th>
+          </tr>
+          <tr>
+              <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+              <th width="100%">&nbsp;{t}Title{/t}</th>
+            </tr>
+            {section name="i" loop=$list}
+            <tr class="{cycle values='odd,even'}">
+              <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
+              <td width="100%">
+                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="{t}update this entry{/t}">{$list[i].ttc_title}</a>
+              </td>
+            </tr>
+            {sectionelse}
+            <tr class="no_results">
+              <td colspan="2">
+                {t}No time tracking categories could be found.{/t}
+              </td>
+            </tr>
+            {/section}
+            <tr class="buttons">
+              <td width="4">
+                <input type="button" value="{t}All{/t}" class="select_all">
+              </td>
+              <td>
+                <input type="submit" value="{t}Delete{/t}">
+              </td>
+            </tr>
+          </table>
+          </form>
+          <span>{t}Note{/t}:  {t}'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are required by Eventum and cannot be deleted.{/t}</span>
+{/block}

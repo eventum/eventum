@@ -1,110 +1,95 @@
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<tr>
-  <td>
-  <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-    {literal}
-    <script type="text/javascript">
-    <!--
-    function validateForm(f) {
-      var field, field1, field2;
+{extends "manage/manage.tpl.html"}
 
-      field1 = getFormElement(f, 'diskcheck[status]', 0);
-      field2 = getFormElement(f, 'diskcheck[partition]');
-      if (field1.checked && isWhitespace(field2.value)) {
-        alert('{/literal}{t escape=js}Please fill proper partition path{/t}{literal}');
-        selectField(f, 'diskcheck[partition]');
-        return false;
-      }
-      return true;
-    }
+{block "manage_content"}
+{literal}
+<script type="text/javascript">
+<!--
+function validateForm() {
+  var field, field1, field2;
 
-    function disableDiskcheckFields(f, bool)
-    {
-        if (bool) {
-            var bgcolor = '#CCCCCC';
-        } else {
-            var bgcolor = '#FFFFFF';
-        }
-        var field = getFormElement(f, 'diskcheck[partition]');
-        field.disabled = bool;
-        field.style.backgroundColor = bgcolor;
-    }
+  field1 = Eventum.getField('diskcheck[status]').filter(":checked").val();
+  if (field1 == 'enabled' && Validation.isFieldWhitespace("diskcheck[partition]")) {
+    alert('{/literal}{t escape=js}Please fill proper partition path{/t}{literal}');
+    Validation.selectField('diskcheck[partition]');
+    return false;
+  }
+  return true;
+}
 
-    window.onload = function() {
-      var f = getForm('monitor_setup_form');
-      var field1 = getFormElement(f, 'diskcheck[status]', 0);
-      disableDiskcheckFields(f, !field1.checked);
+function disableDiskcheckFields()
+{
+    if (Eventum.getField('diskcheck[status]').filter(":checked").val() != 'enabled') {
+        var bgcolor = '#CCCCCC';
+        var disabled = true;
+    } else {
+        var bgcolor = '#FFFFFF';
+        var disabled = false;
     }
-    //-->
-    </script>
-    {/literal}
-    <form name="monitor_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-    <input type="hidden" name="cat" value="update">
-    <tr>
-    <td colspan="2" class="default">
-      <b>{t}Monitor Setup{/t}</b>
-    </td>
+    Eventum.getField('diskcheck[partition]').prop('disabled', disabled).css('backgroundColor', bgcolor);
+}
+
+  $().ready(function() {
+      $('#custom_field_form').submit(validateForm);
+
+      disableDiskcheckFields();
+      Eventum.getField('diskcheck[status]').click(function(e) { disableDiskcheckFields(); });
+  });
+//-->
+</script>
+{/literal}
+<form name="monitor_setup_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<input type="hidden" name="cat" value="update">
+  <table class="bordered">
+    <tr class="title">
+        <th colspan="2">
+          {t}Monitor Setup{/t}
+        </th>
     </tr>
-    {if $result != ""}
     <tr>
-    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-      {if $result == -1}
-      {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
-      ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
-      {elseif $result == -2}
-      {t}ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory{/t}
-      ({$app_setup_file}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
-      {elseif $result == 1}
-      {t}Thank you, the setup information was saved successfully.{/t}
-      {/if}
-    </td>
-    </tr>
-    {/if}
-    <tr>
-
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
-      <b>{t}Check Disk Space:{/t}</b>
-    </td>
-    <td bgcolor="{$light_color}" class="default">
+    <th width="120">
+      {t}Check Disk Space{/t}
+    </th>
+    <td>
       <table>
       <tr>
-        <td colspan="2" class="default_white">
-        <input type="radio" name="diskcheck[status]" value="enabled" id="diskcheck[status].enabled" {if $setup.monitor.diskcheck.status == 'enabled'}checked{/if} onClick="disableDiskcheckFields(this.form, false);">
+        <td colspan="2">
+        <input type="radio" name="diskcheck[status]" value="enabled" id="diskcheck[status].enabled" {if $setup.monitor.diskcheck.status|default:'' == 'enabled'}checked{/if}>
         <label for="diskcheck[status].enabled">
-          <a id="link" class="link">{t}Enabled{/t}</a>
+          {t}Enabled{/t}
         </label>
         &nbsp;&nbsp;
-        <input type="radio" name="diskcheck[status]" value="disabled" id="diskcheck[status].disabled" {if $setup.monitor.diskcheck.status != 'enabled'}checked{/if} onClick="disableDiskcheckFields(this.form, true);">
+        <input type="radio" name="diskcheck[status]" value="disabled" id="diskcheck[status].disabled" {if $setup.monitor.diskcheck.status|default:'' != 'enabled'}checked{/if}>
         <label for="diskcheck[status].disabled">
-          <a id="link" class="link">{t}Disabled{/t}</a>
+          {t}Disabled{/t}
         </label>
         </td>
       </tr>
       <tr>
-        <td width="100" class="default" align="right">
+        <td width="100" align="right">
         {t}Partition:{/t}&nbsp;
         </td>
         <td width="80%">
-        <input type="text" name="diskcheck[partition]" value="{$setup.monitor.diskcheck.partition}" class="default">
+        <input type="text" name="diskcheck[partition]" value="{$setup.monitor.diskcheck.partition|default:''}">
         {include file="error_icon.tpl.html" field="diskcheck[partition]"}
-        <span class="small_default">{t escape=no 1="<b>/</b>"}(default %1){/t}</span>
+        <span>{t escape=no 1="/"}(default %1){/t}</span>
         </td>
       </tr>
       </table>
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
-      <b>{t}Check Paths:{/t}</b>
-    </td>
-    <td bgcolor="{$light_color}" class="default">
+    <tr>
+    <th width="120">
+      {t}Check Paths{/t}
+    </th>
+    <td>
       <table>
       <tr>
-        <td class="default" width="120">
+        <td width="120">
         {html_radios name='paths[status]' options=$enable_disable selected=$setup.monitor.paths.status separator='<br/>'}
         </td>
         <td>
-          <span class="small_default">
+          <span>
           {t}Whether to check permissions of directories and config files.{/t}
           </span><br />
         </td>
@@ -113,17 +98,18 @@
     </td>
     </tr>
 
-    <td width="120" bgcolor="{$cell_color}" class="default_white">
-      <b>{t}Check IRC Bot:{/t}</b>
-    </td>
-    <td bgcolor="{$light_color}" class="default">
+    <tr>
+    <th width="120">
+      {t}Check IRC Bot{/t}
+    </th>
+    <td>
       <table>
       <tr>
-        <td class="default" width="120">
+        <td width="120">
         {html_radios name='ircbot[status]' options=$enable_disable selected=$setup.monitor.ircbot.status separator='<br/>'}
         </td>
         <td>
-          <span class="small_default">
+          <span>
           {t}Whether to check if IRC Bot is running.{/t}
           </span><br />
         </td>
@@ -132,14 +118,12 @@
     </td>
     </tr>
 
-    <tr>
-    <td colspan="2" bgcolor="{$cell_color}" align="center">
-      <input class="button" type="submit" value="{t}Update Setup{/t}">
-      <input class="button" type="reset" value="{t}Reset{/t}">
+    <tr class="buttons">
+    <td colspan="2">
+      <input type="submit" value="{t}Update Setup{/t}">
+      <input type="reset" value="{t}Reset{/t}">
     </td>
-    </tr>
-    </form>
+  </tr>
   </table>
-  </td>
-</tr>
-</table>
+</form>
+{/block}

@@ -1,25 +1,12 @@
-<div id="current_filters1" {get_display_style element_name="current_filters"}>
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFAA" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <tr>
-          {strip}
-          <td class="default">
-            {t}Current filters:{/t}&nbsp;
-            {foreach from=$active_filters name=active_filters key=filter_name item=info}
-              <b>{$filter_name}</b>: <a href="{$info.remove_link}" title="Remove this filter">{$info.value|escape:"html"}</a>
-              {if !$smarty.foreach.active_filters.last}; {/if}
-            {foreachelse}
-              <i>{t}None{/t}</i>
-            {/foreach}
-          </td>
-          {/strip}
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-<br />
+<div id="current_filters" {get_display_style element_name='current_filters'}>
+  <span class="bordered">
+  {strip}
+    {t}Current filters:{/t}&nbsp;
+    {foreach from=$active_filters name=active_filters key=filter_name item=filter}
+      <strong>{$filter_name}</strong>: <a href="{$filter.remove_link}" title="Remove this filter">{$filter.value|escape:"html"}</a>{if !$smarty.foreach.active_filters.last}; {/if}
+    {foreachelse}
+      <em>{t}None{/t}</em>
+    {/foreach}
+  {/strip}
+  </span>
 </div>

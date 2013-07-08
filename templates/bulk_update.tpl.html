@@ -1,39 +1,34 @@
-<table id="bulk_update1" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" {get_display_style element_name="bulk_update"}>
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="1" cellpadding="4">
-        <tr>
-          <td bgcolor="#FFFFFF" class="default" colspan="3">
-            <b>{t}Bulk Update Tool{/t}</b>
-          </td>
-        </tr>
+<div id="bulk_update" class="bordered" {get_display_style element_name='bulk_update'}>
+    <div class="title">{t}Bulk Update Tool{/t}</div>
+    <div>
+      <table class="grid">
         <tr>
           {assign var="colspan" value=3}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Assignment{/t}</td>
-          <td bgcolor="{$cell_color}" class="default_white">{t}Status{/t}</td>
+          <th>{t}Assignment{/t}</th>
+          <th>{t}Status{/t}</th>
           {if $releases|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Release{/t}</td>
+          <th>{t}Release{/t}</th>
           {/if}
           {if $priorities|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Priority{/t}</td>
+          <th>{t}Priority{/t}</th>
           {/if}
           {if $categories|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Category{/t}</td>
+          <th>{t}Category{/t}</th>
           {/if}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Close{/t}</td>
+          <th>{t}Close{/t}</th>
         </tr>
         <tr>
           <td>
-              <select name="users[]" class="default" size="5" multiple>
+              <select name="users[]" size="5" multiple>
                 {html_options options=$users}
               </select>
               {include file="error_icon.tpl.html" field="users[]"}
           </td>
           <td>
-              <select name="status" class="default">
+              <select name="status">
                 <option value=""></option>
                 {html_options options=$open_status}
               </select>
@@ -41,7 +36,7 @@
           </td>
           {if $releases|@count > 0}
           <td>
-              <select name="release" class="default">
+              <select name="release">
                 <option value=""></option>
                 {html_options options=$available_releases}
               </select>
@@ -50,7 +45,7 @@
           {/if}
           {if $priorities|@count > 0}
           <td>
-              <select name="priority" class="default">
+              <select name="priority">
                 <option value=""></option>
                 {html_options options=$priorities}
               </select>
@@ -59,7 +54,7 @@
           {/if}
           {if $categories|@count > 0}
           <td>
-              <select name="category" class="default">
+              <select name="category">
                 <option value=""></option>
                 {html_options options=$categories}
               </select>
@@ -67,15 +62,15 @@
           </td>
           {/if}
           <td>
-              <span class="default">{t}Select closed status to close issue{/t}</span><br />
-              <select name="closed_status" class="default">
+              <span>{t}Select closed status to close issue{/t}</span><br />
+              <select name="closed_status">
                 <option value=""></option>
                 {html_options options=$closed_status}
               </select>
               <br />
               <a class="link default" id="bulk_set_closed_message" href="#">{t}Set Close Message{/t}</a>
               <br />
-              <span class="default">
+              <span>
               {t}Send Notification To{/t}:<br />
               <input id="notification_internal" type="radio" name="notification_list" checked value="internal">
               <label for="notification_internal">{t}Internal Users{/t} ({t}Will save as a note{/t})</label><br />
@@ -83,7 +78,7 @@
               <label for="notification_all">{t}All{/t}</label>
               <input type="hidden" name="closed_message" value="" id="closed_message">
               </span>
-              
+
               <div id="close_message_popup" style="display: none">
                   <label for="closed_message">{t}Closed Message{/t}</label><br />
                   <textarea id="closed_message_popup" name="closed_message_popup" rows="8" cols="80">Issue Bulk closed</textarea>
@@ -92,20 +87,20 @@
               </div>
           </td>
         </tr>
-        <tr>
-          <td bgcolor="{$cell_color}" colspan="{$colspan}" align="center">
-            <input type="button" value="{t}Bulk Update{/t}" onclick="bulkUpdate()" class="button">
-            <input type="button" value="{t}Reset{/t}" class="button" onclick="resetBulkUpdate()">
+        <tr class="buttons">
+          <td colspan="{$colspan}">
+            <input type="button" value="{t}Bulk Update{/t}" id="bulk_update_button">
+            <input type="button" value="{t}Reset{/t}" id="reset_bulk_update">
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
-</table>
+    </div>
+</div>
+
 <script type="text/javascript">
 {literal}
 jQuery("#bulk_set_closed_message").bind("click", function (e) {
-    jQuery.blockUI({ 
+    jQuery.blockUI({
                 message: jQuery("#close_message_popup"),
                 css: {
                     width: '600px'

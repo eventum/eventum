@@ -1,68 +1,57 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "title"}Open Issues By User{/block}
 
+{block "report_content"}
 <br />
 <form method="get" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="group_by_reporter" value="{$smarty.request.group_by_reporter}">
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+      <table class="bordered">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+          <td colspan="3">
             <b>{t}Showing all open issues older than {/t}{$cutoff_days} {t}days{/t}.</b>
           </td>
         </tr>
         <tr>
-          <td width="120" class="default">
+          <td width="120">
             <b>{t}Number of Days{/t}:</b>
           </td>
           <td width="100">
-            <input class="default" type="text" size="5" name="cutoff_days" value="{$cutoff_days}">
+            <input type="text" size="5" name="cutoff_days" value="{$cutoff_days}">
           </td>
           <td>
             <input type="submit" value="{t}Submit{/t}" class="shortcut">
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
-</table>
 </form>
 
 {foreach key=user_full_name item=assigned_issues from=$users}
 <h4>{$user_full_name|escape:"html"}</h4>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
-          <td rowspan="2" align="center" class="default_white">{t}Issue ID{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Summary{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Status{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Time Spent{/t}</td>
-          <td rowspan="2" align="center" class="default_white">{t}Created{/t}</td>
-          <td colspan="2" align="center" class="default_white">{t}Days and Hours Since{/t}</td>
+      <table class="bordered">
+        <tr>
+          <th rowspan="2" align="center">{t}Issue ID{/t}</th>
+          <th rowspan="2" align="center">{t}Summary{/t}</th>
+          <th rowspan="2" align="center">{t}Status{/t}</th>
+          <th rowspan="2" align="center">{t}Time Spent{/t}</th>
+          <th rowspan="2" align="center">{t}Created{/t}</th>
+          <th colspan="2" align="center">{t}Days and Hours Since{/t}</th>
         </tr>
-        <tr bgcolor="{$cell_color}">
-          <td align="center" class="default_white">{t}Last Update{/t}</td>
-          <td align="center" class="default_white">{t}Last Outgoing Msg{/t}</td>
+        <tr>
+          <td align="center">{t}Last Update{/t}</td>
+          <td align="center">{t}Last Outgoing Msg{/t}</td>
         </tr>
         {foreach key=issue_id item=issue from=$assigned_issues}
         <tr>
-          <td bgcolor="{$issue.status_color}" class="default" align="center"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue_id}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.sta_title|escape:"html"}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.time_spent}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.iss_created_date}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.last_update}</td>
-          <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.last_email_response}</td>
+          <td bgcolor="{$issue.status_color}" align="center"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue_id}</a></td>
+          <td bgcolor="{$issue.status_color}"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.sta_title|escape:"html"}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.time_spent}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.last_update}</td>
+          <td bgcolor="{$issue.status_color}" align="center">{$issue.last_email_response}</td>
         </tr>
         {/foreach}
       </table>
-    </td>
-  </tr>
-</table>
 <br />
 {/foreach}
-
-{include file="footer.tpl.html"}
+{/block}

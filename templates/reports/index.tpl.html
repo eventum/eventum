@@ -1,14 +1,7 @@
-<html>
-<head>
-<title>{$app_setup.tool_caption|default:$application_title}</title>
-</head>
+{extends "reports/reports_base.tpl.html"}
 
-<frameset rows="60,*" frameborder="1" border="1" framespacing="1" bordercolor="{$light_color}">
-  <frame name="_topframe" src="top.php" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" framespacing="0">
-  <frameset cols="225,*" frameborder="1" framespacing="6" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" border="8" bordercolor="{$light_color}">
-    <frame name="_treeframe" src="tree.php" scrolling="no" topmargin="10" leftmargin="10" marginheight="10" marginwidth="10" frameborder="1" border="0">
-    <frame name="basefrm" src="{$rel_url}misc/blank.html" scrolling="auto" topmargin="15" leftmargin="15" marginheight="15" marginwidth="15" frameborder="1" border="0">
-  </frameset>
-</frameset>
+{block "title"}Reports{/block}
 
-</html>
+{block "report_content"}
+        Select a report on the left.
+{/block}

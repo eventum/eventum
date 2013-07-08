@@ -15,3 +15,5 @@ localization/*.mo
 *.rej
 *.orig
 dropin
+vendor
+composer.lock

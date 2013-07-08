@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -73,7 +73,7 @@ if (@$_GET["cat"] == "delete_note") {
     $res = Attachment::removeIndividualFile($_GET["id"]);
     $tpl->assign("remove_file_result", $res);
 } elseif (@$_POST["cat"] == "remove_checkin") {
-    $res = SCM::remove();
+    $res = SCM::remove($_POST["item"]);
     $tpl->assign("remove_checkin_result", $res);
 } elseif (@$_GET['cat'] == 'unassign') {
     $res = Issue::deleteUserAssociation($_GET["iss_id"], $usr_id);

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -40,8 +40,6 @@
 
 class Misc
 {
-
-    static private $messages = array();
 
     /**
      * Method used to simulate the correct behavior of array_diff().
@@ -737,16 +735,50 @@ class Misc
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
 
+    const MSG_INFO = 'info';
+    const MSG_WARNING = 'warning';
+    const MSG_ERROR = 'error';
+    const MSG_HTML_BOX = 'html_box';
+    const MSG_NOTE_BOX = 'note_box';
 
-    function setMessage($msg)
+    public static function setMessage($msg, $type=self::MSG_INFO)
     {
-        self::$messages[] = $msg;
+        $messages = Session::get('messages', array());
+        $messages[] = array(
+            'text'  =>  $msg,
+            'type'  =>  $type,
+        );
+        Session::set('messages', $messages);
     }
 
 
-    function getMessages()
+    public static function getMessages()
     {
-        return self::$messages;
+        $messages = Session::get('messages', array());
+        Session::set('messages', array());
+        return $messages;
+    }
+
+
+    public static function mapMessages($result, $map)
+    {
+        foreach ($map as $val => $info) {
+            if ($result == $val) {
+                Misc::setMessage($info[0], $info[1]);
+                return;
+            }
+        }
+    }
+
+
+    public static function displayNotifiedUsers($notify_list)
+    {
+        if (count($notify_list) > 0) {
+            $update_tpl = new Template_Helper();
+            $update_tpl->setTemplate("include/notified_list.tpl.html");
+            $update_tpl->assign("notify_list", $notify_list);
+            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+        }
     }
 
 

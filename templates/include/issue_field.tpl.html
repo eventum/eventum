@@ -10,8 +10,8 @@
         $span_class: The class to set for the span
 *}
 <span>
-<input type="text" id="{$field_name}" name="{$field_name}" value="{$value}" class="default"
-    onBlur="validateIssueNumberField('{$app_base_url}', '{$form_name}', '{$field_name}', {literal}{{/literal}
+<input type="text" id="{$field_name}" name="{$field_name}" value="{$value|default:''}"
+    onBlur="validateIssueNumberField('{$core.base_url}', '{$form_name}', '{$field_name}', {literal}{{/literal}
                 check_project: {$check_project|default:1},
                 exclude_issue: {$exclude_issue|default:0},
                 exclude_duplicates: {$exclude_duplicates|default:0},

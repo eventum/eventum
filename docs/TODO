@@ -42,3 +42,6 @@ Move them to some common file, better to review code and make similar changes.
 
 Current multi selects are uncomfortable to use if you have lots of users in Eventum
 https://github.com/raul72/multiselect-search
+
+* UI:
+** Add new user lookup tool for notification and authorized replier pages

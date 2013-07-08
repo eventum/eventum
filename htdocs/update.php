@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -42,8 +42,10 @@ $tpl->assign("user_prefs", Prefs::get($usr_id));
 Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
-
-if (empty($issue_id)) {
+$tpl->assign('issue_id', $issue_id);
+$details = Issue::getDetails($issue_id);
+if ($details == '') {
+    Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
@@ -59,25 +61,50 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
     Auth::setCurrentProject($iss_prj_id, $cookie["remember"], true);
     $auto_switched_from = $iss_prj_id;
     $prj_id = $iss_prj_id;
+    Misc::setMessage(ev_gettext("Note: Project automatically switched to '%1s' from '%2s'.",
+                                Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
 }
 
-$details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
 $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 
-if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
-    $tpl->assign("auth_customer", 'denied');
+// in the case of a customer user, also need to check if that customer has access to this issue
+if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
+        !Issue::canAccess($issue_id, $usr_id) ||
+        !($role_id > User::getRoleID('Reporter'))) {
+    Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 } elseif (!Issue::canUpdate($issue_id, $usr_id)) {
     $tpl->assign("auth_customer", 'denied');
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);
     if (@$_POST["cat"] == "update") {
         $res = Issue::update($_POST["issue_id"]);
-        $tpl->assign("update_result", $res);
-        $tpl->assign("errors", $errors);
-        if (Issue::hasDuplicates($_POST["issue_id"])) {
-            $tpl->assign("has_duplicates", "yes");
+
+        if ($res == -1) {
+            Misc::setMessage(ev_gettext("Sorry, an error happened while trying to update this issue."), Misc::MSG_ERROR);
+            $tpl->displayTemplate();
+            exit;
+        } elseif ($res == 1) {
+            Misc::setMessage(ev_gettext("Thank you, issue #%1s was updated successfully.", $issue_id), Misc::MSG_INFO);
         }
+
+        $notify_list = Notification::getLastNotifiedAddresses($issue_id);
+        $has_duplicates = Issue::hasDuplicates($_POST["issue_id"]);
+        if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
+            $update_tpl = new Template_Helper();
+            $update_tpl->setTemplate("include/update_msg.tpl.html");
+            $update_tpl->assign("update_result", $res);
+            $update_tpl->assign("errors", $errors);
+            $update_tpl->assign("notify_list", $notify_list);
+            if ($has_duplicates) {
+                $update_tpl->assign("has_duplicates", "yes");
+            }
+            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+        }
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+        exit;
     }
 
     $prj_id = Auth::getCurrentProject();
@@ -111,7 +138,6 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
 
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
-        "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
         "severities"   => Severity::getAssocList($prj_id),
@@ -128,14 +154,6 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     ));
 
     $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
-
-    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if (!empty($cookie['auto_switched_from'])) {
-        $tpl->assign(array(
-            "project_auto_switched" =>  1,
-            "old_project"   =>  Project::getName($cookie['auto_switched_from'])
-        ));
-    }
 }
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();

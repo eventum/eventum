@@ -1,163 +1,137 @@
+{extends "manage/manage.tpl.html"}
 
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
-              <script type="text/javascript">
-              <!--
-              function validateForm(f)
-              {
-                  if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t escape=js}Please enter the title of this email response.{/t}{literal}');
-                      selectField(f, 'title');
-                      return false;
-                  }
-                  return true;
-              }
-              //-->
-              </script>
-              {/literal}
-              <form name="response_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-              {if $smarty.get.cat == 'edit'}
-              <input type="hidden" name="cat" value="update">
-              <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+{block "manage_content"}
+      {literal}
+      <script type="text/javascript">
+      <!--
+      function validateForm()
+      {
+          if (!Validation.hasOneSelected('projects[]')) {
+              alert('{/literal}{t escape=js}Please select the projects for this email response.{/t}{literal}');
+              Validation.selectField('projects[]');
+              return false;
+          }
+          if (Validation.isFieldWhitespace('title')) {
+              alert('{/literal}{t escape=js}Please enter the title of this email response.{/t}{literal}');
+              Validation.selectField('title');
+              return false;
+          }
+          return true;
+      }
+      function checkDelete()
+      {
+          if (!Validation.hasOneChecked('items[]')) {
+              alert('{/literal}{t escape=js}Please select at least one of the email responses.{/t}{literal}');
+              return false;
+          }
+          if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+              return false;
+          } else {
+              return true;
+          }
+      }
+      $().ready(function() {
+          $('#response_form').submit(validateForm);
+          $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+          $('#delete_form').submit(checkDelete);
+      });
+      //-->
+      </script>
+      {/literal}
+      <form id="response_form" method="post" action="{$smarty.server.PHP_SELF}">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="hidden" name="cat" value="update">
+      <input type="hidden" name="id" value="{$smarty.get.id|default:''|intval}">
+      {else}
+      <input type="hidden" name="cat" value="new">
+      {/if}
+        <table class="bordered">
+          <tr class="title">
+            <th colspan="2">
+              {t}Manage Canned Email Responses{/t}
+            </th>
+          </tr>
+          <tr>
+            <th width="140">
+              {t}Projects{/t}
+            </th>
+            <td width="80%">
+              <select name="projects[]" multiple size="4">
+                {html_options options=$project_list selected=$info.projects|default:''}
+              </select>
+              {include file="error_icon.tpl.html" field="projects[]"}
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Title{/t}
+            </th>
+            <td>
+              <input type="text" name="title" size="40" value="{$info.ere_title|default:''|escape:"html"}">
+              {include file="error_icon.tpl.html" field="title"}
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
+              {t}Response Body{/t}
+            </th>
+            <td>
+              <textarea name="response_body" cols="50" rows="10">{$info.ere_response_body|default:''|escape:"html"}</textarea>
+              {include file="error_icon.tpl.html" field="response_body"}
+            </td>
+          </tr>
+          <tr class="buttons">
+            <td colspan="2">
+              {if $smarty.get.cat|default:'' == 'edit'}
+              <input type="submit" value="{t}Update Email Response{/t}">
               {else}
-              <input type="hidden" name="cat" value="new">
+              <input type="submit" value="{t}Create Email Response{/t}">
               {/if}
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Manage Canned Email Responses{/t}</b>
-                </td>
-              </tr>
-              {if $result != ""}
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-                  {if $smarty.post.cat == "new"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to add the new email response.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this new email response.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the email response was added successfully.{/t}
-                    {/if}
-                  {elseif $smarty.post.cat == "update"}
-                    {if $result == -1}
-                      {t}An error occurred while trying to update the email response information.{/t}
-                    {elseif $result == -2}
-                      {t}Please enter the title for this email response.{/t}
-                    {elseif $result == 1}
-                      {t}Thank you, the email response was updated successfully.{/t}
-                    {/if}
-                  {/if}
-                </td>
-              </tr>
-              {/if}
-              <tr>
-                <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Projects:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}" width="80%">
-                  <select name="projects[]" multiple size="4" class="default">
-                    {html_options options=$project_list selected=$info.projects}
-                  </select>
-                  {include file="error_icon.tpl.html" field="projects[]"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Title:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <input type="text" name="title" size="40" class="default" value="{$info.ere_title|escape:"html"}">
-                  {include file="error_icon.tpl.html" field="title"}
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}Response Body:{/t}</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <textarea name="response_body" cols="50" rows="10">{$info.ere_response_body|escape:"html"}</textarea>
-                  {include file="error_icon.tpl.html" field="response_body"}
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="{t}Update Email Response{/t}">
-                  {else}
-                  <input class="button" type="submit" value="{t}Create Email Response{/t}">
-                  {/if}
-                  <input class="button" type="reset" value="{t}Reset{/t}">
-                </td>
-              </tr>
-              </form>
-              <tr>
-                <td colspan="2" class="default">
-                  <b>{t}Existing Canned Email Responses:{/t}</b>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  {literal}
-                  <script type="text/javascript">
-                  <!--
-                  function checkDelete(f)
-                  {
-                      if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t escape=js}Please select at least one of the email responses.{/t}{literal}');
-                          return false;
-                      }
-                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
-                          return false;
-                      } else {
-                          return true;
-                      }
-                  }
-                  //-->
-                  </script>
-                  {/literal}
-                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
-                    <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
-                    <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="60%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
-                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
-                    </tr>
-                    {section name="i" loop=$list}
-                    {cycle values=$cycle assign="row_color"}
-                    <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ere_id}"></td>
-                      <td width="60%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ere_id}" title="{t}update this entry{/t}">{$list[i].ere_title}</a>
-                      </td>
-                      <td width="40%" bgcolor="{$row_color}" class="default">
-                        &nbsp;{$list[i].projects|escape:"html"}
-                      </td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                        <i>{t}No canned email responses could be found.{/t}</i>
-                      </td>
-                    </tr>
-                    {/section}
-                    <tr>
-                      <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'items[]');">
-                      </td>
-                      <td colspan="2" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="{t}Delete{/t}" class="button">
-                      </td>
-                    </tr>
-                    </form>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
+              <input type="reset" value="{t}Reset{/t}">
+            </td>
+          </tr>
+          </table>
+          </form>
 
+        <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+        <input type="hidden" name="cat" value="delete">
+        <table class="bordered grid">
+          <tr class="title">
+            <th colspan="3">
+              {t}Existing Canned Email Responses{/t}
+            </th>
+          </tr>
+            <tr>
+              <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+              <th width="60%">&nbsp;{t}Title{/t}</th>
+              <th width="40%">&nbsp;{t}Projects{/t}</th>
+            </tr>
+            {section name="i" loop=$list}
+            <tr class="{cycle values='odd,even'}">
+              <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].ere_id}"></td>
+              <td width="60%">
+                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ere_id}" title="{t}update this entry{/t}">{$list[i].ere_title}</a>
+              </td>
+              <td width="40%">
+                &nbsp;{$list[i].projects|escape:"html"}
+              </td>
+            </tr>
+            {sectionelse}
+            <tr class="no_results">
+              <td colspan="3">
+                {t}No canned email responses could be found.{/t}
+              </td>
+            </tr>
+            {/section}
+            <tr class="buttons">
+              <td width="4" align="center">
+                <input type="button" value="{t}All{/t}" class="select_all">
+              </td>
+              <td colspan="2" align="center">
+                <input type="submit" value="{t}Delete{/t}">
+              </td>
+            </tr>
+        </table>
+        </form>
+{/block}

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -47,12 +47,18 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     if (@$_POST["cat"] == "save") {
         $res = User::addAlias($usr_id, $_POST["alias"]);
+        Misc::mapMessages($res, array(
+                true   =>  array(ev_gettext('Thank you, the alias was added successfully.'), Misc::MSG_INFO),
+                false  =>  array(ev_gettext('An error occurred while trying to add the alias.'), Misc::MSG_ERROR),
+        ));
     } elseif (@$_POST["cat"] == "remove") {
     	foreach($_POST["item"] as $aliastmp){
         	$res = User::removeAlias($usr_id, $aliastmp);
         }
-        if($res == true) $res = 1;
-           $tpl->assign("result_msg", $res);
+        Misc::mapMessages($res, array(
+                true   =>  array(ev_gettext('Thank you, the alias was removed successfully.'), Misc::MSG_INFO),
+                false  =>  array(ev_gettext('An error occurred while trying to remove the alias.'), Misc::MSG_ERROR),
+        ));
     }
 
     $tpl->assign("list", User::getAliases($usr_id));

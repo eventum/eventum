@@ -42,75 +42,60 @@ function replyNote(note_id, issue_id)
 //-->
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="add_note_form" target="_notes" method="post">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <tr>
-          <td class="default">
-            <b>{t}Internal Notes{/t} ({$notes|@count})</b>
-          </td>
-          <td align="right" class="default">
-            [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
-              <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$internal_color}">
-                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
-                <td class="default_white" align="center">#</td>
-                <td class="default_white">{t}Reply{/t}</td>
-                <td width="20%" class="default_white">{t}Posted Date{/t}</td>
-                <td width="20%" class="default_white">{t}User{/t}</td>
-                <td width="60%" class="default_white">{t}Title{/t}</td>
-              </tr>
-              {section name="i" loop=$notes}
-              {cycle values=$cycle assign="row_color"}
-              <tr id="notes{$smarty.section.i.iteration+1}" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$row_color}">
-                <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
-                <td class="default" align="center">{$smarty.section.i.iteration}</td>
-                <td align="center">
-                  <a title="{t}reply to this note{/t}" href="javascript:void(null);" onClick="replyNote({$notes[i].not_id}, {$smarty.get.id|intval});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
-                </td>
-                <td class="default">{$notes[i].not_created_date}</td>
-                <td class="default">
-                  {$notes[i].usr_full_name|escape:"html"}
-                  {if $current_user_id == $notes[i].not_usr_id OR $current_role >= $roles.manager}[ <a class="link" href="javascript:void(null);" onClick="deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
-                </td>
-                <td class="default">
-                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
-                  {if $notes[i].not_has_attachment}
-                  <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
-                  {/if}
-                  {if $notes[i].has_blocked_message and $issue_access.convert_note} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
-                </td>
-              </tr>
-              {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
-              {sectionelse}
-              <tr id="notes2" {get_display_style element_name="notes" total=$notes|@count}>
-                <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
-                  <i>{t}No internal notes could be found.{/t}</i>
-                </td>
-              </tr>
-              {/section}
-              {if $current_role > $roles.reporter}
-              <tr>
-                <td colspan="6" bgcolor="{$internal_color}" align="center">
-                  <input type="button" value="{t}Post Internal Note{/t}" class="button" onClick="postInternalNote({$smarty.get.id|intval});">
-                </td>
-              </tr>
+<div class="issue_section bordered internal" id="internal_notes">
+    <div class="title">
+        {t}Internal Notes{/t} ({$notes|@count})
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            [ <span class="js_link" id="toggle_internal_notes">{get_display_label element_name="internal_notes" total=$notes|@count}</a> ]
+        </span>
+    </div>
+    <div class="content" {get_display_style element_name='internal_notes' total=$notes|@count}>
+        <table class="grid internal">
+          <tr>
+            <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</th>
+            <th align="center">#</th>
+            <th>{t}Reply{/t}</th>
+            <th width="20%">{t}Posted Date{/t}</th>
+            <th width="20%">{t}User{/t}</th>
+            <th width="60%">{t}Title{/t}</th>
+          </tr>
+          {section name="i" loop=$notes}
+          {cycle values='odd,even' assign="row_class"}
+          <tr class="{$row_class}">
+            <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
+            <td align="center">{$smarty.section.i.iteration}</td>
+            <td align="center">
+              <a title="{t}reply to this note{/t}" href="javascript:void(null);" onClick="replyNote({$notes[i].not_id}, {$smarty.get.id|intval});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+            </td>
+            <td>{$notes[i].not_created_date}</td>
+            <td>
+              {$notes[i].usr_full_name|escape:"html"}
+              {if $core.user.usr_id == $notes[i].not_usr_id OR $core.current_role >= $core.roles.manager}[ <a href="javascript:void(null);" onClick="deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
+            </td>
+            <td>
+              <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+              {if $notes[i].not_has_attachment}
+              <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
               {/if}
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+              {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});">{t}convert note{/t}</a>){/if}
+            </td>
+          </tr>
+          {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6" class=$row_class}
+          {sectionelse}
+          <tr class="no_results">
+            <td colspan="6">
+              {t}No internal notes could be found.{/t}
+            </td>
+          </tr>
+          {/section}
+        </table>
+    </div>
+    {if $core.current_role > $core.roles.reporter}
+    <div class="buttons">
+      <input type="button" value="{t}Post Internal Note{/t}" onClick="postInternalNote({$smarty.get.id|intval});">
+    </div>
+    {/if}
+</div>
 </form>
-</table>
-

@@ -1,9 +1,11 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
+{block "title"}Issue #{$issue_id} - Custom Fields{/block}
 
-{if $update_result}
+{block "content"}
+{if $update_result|default:'' != ''}
   <br />
   <center>
-  <span class="default">
+  <span>
   {if $update_result == -1}
     <b>{t}An error occurred while trying to run your query{/t}</b>
   {elseif $update_result == 1}
@@ -14,54 +16,45 @@
   <script type="text/javascript">
   <!--
   {if $current_user_prefs.close_popup_windows == '1'}
-  setTimeout('closeAndRefresh()', 2000);
+  setTimeout('Eventum.close_and_refresh()', 2000);
   {/if}
   //-->
   </script>
   <br />
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
+    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
   </center>
   {/if}
 {else}
 {literal}
 <script type="text/javascript">
 <!--
-var custom_fields_info = new Array();
 function validateForm(f)
 {
-    checkCustomFields(f);
+    Validation.checkCustomFields(f);
 }
 //-->
 </script>
 {/literal}
-<script type="text/javascript" src="{$rel_url}js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
-<form name="custom_field_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="return checkFormSubmission(this, 'validateForm');">
+<script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
+<form name="custom_field_form" class="validate" method="post" action="{$smarty.server.PHP_SELF}" data-validation-function='validateForm'>
 <input type="hidden" name="cat" value="update_values">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2" class="default">
-            <b>{t}Update Issue Details{/t}</b>
-          </td>
-        </tr>
-        {assign var="tabindex" value=1}
-        {include file="edit_custom_fields.tpl.html"}
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
-            <input class="button" type="submit" value="{t}Update Values{/t}">&nbsp;&nbsp;
-            <input class="button" type="button" value="{t}Close{/t}" onClick="window.close();">
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+  <table class="bordered">
+    <tr class="title">
+      <th colspan="2">
+        {t}Update Issue Details{/t}
+      </th>
+    </tr>
+    {include file="edit_custom_fields.tpl.html" form_type='edit'}
+    <tr>
+      <td colspan="2">
+        <input type="submit" value="{t}Update Values{/t}">&nbsp;&nbsp;
+        <input type="button" value="{t}Close{/t}" onClick="window.close();">
+      </td>
+    </tr>
+  </table>
 </form>
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

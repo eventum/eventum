@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -35,7 +35,7 @@
 ini_set('memory_limit', '64M');
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL ^ E_STRICT);
 set_time_limit(0);
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
@@ -117,7 +117,7 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
 require_once APP_SMARTY_PATH . '/Smarty.class.php';
 
 $tpl = new Smarty();
-$tpl->plugins_dir  = array(APP_INC_PATH . '/smarty', 'plugins');
+$tpl->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
 $tpl->template_dir = APP_TPL_PATH;
 $tpl->compile_dir = APP_TPL_COMPILE_PATH;
 $tpl->config_dir = '';
@@ -142,7 +142,9 @@ $relative_url[] = '';
 $relative_url = implode('/', $relative_url);
 
 $tpl->assign('phpversion', phpversion());
-$tpl->assign('rel_url', $relative_url);
+$tpl->assign('core', array(
+    'rel_url'   =>  $relative_url,
+));
 if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
 } else {

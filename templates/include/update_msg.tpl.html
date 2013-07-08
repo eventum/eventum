@@ -1,0 +1,21 @@
+{if $has_duplicates|default:'' == 'yes'}
+    {t}Also, all issues that are marked as duplicates from this one were updated as well.{/t}
+{/if}
+
+{if $errors|default:'' != '' and $errors|@count > 0}
+    However, there are some warnings you should be aware of:
+    <ul>
+    {foreach from=$errors key=section item=sub_errors}
+    <li>{$section}
+      <ul>
+      {foreach from=$sub_errors item=msg}
+        <li>{$msg}</li>
+      {/foreach}
+      </ul>
+    </li>
+    {/foreach}
+    </ul>
+    {/if}
+    </span>
+
+{include file="include/notified_list.tpl.html"}

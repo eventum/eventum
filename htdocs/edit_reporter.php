@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -46,7 +46,11 @@ if (!Access::canChangeReporter($issue_id, Auth::getUserID())) {
 
 if (@$_POST["cat"] == "update") {
     $res = Edit_Reporter::update($issue_id, $_POST['email']);
-    $tpl->assign("insert_result", $res);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the Reporter was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to update the Reporter.', Misc::MSG_ERROR),
+    ));
+    Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $issue_id);
 }
 
 $t = Project::getAddressBook($prj_id, $issue_id);

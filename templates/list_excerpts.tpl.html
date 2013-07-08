@@ -22,7 +22,7 @@ used by block in list.tpl.html
       </ul>
     </li>
   {/if}
-  {if $list[i].excerpts.phone|@count > 0 and $current_role != $roles.customer}
+  {if $list[i].excerpts.phone|@count > 0 and $core.current_role != $core.roles.customer}
     <li>{t}Phone Calls:{/t}
       <ul class="phone">
       {foreach from=$list[i].excerpts.phone item=highlight}
@@ -31,7 +31,7 @@ used by block in list.tpl.html
       </ul>
     </li>
   {/if}
-  {if $list[i].excerpts.note|@count > 0 and $current_role != $roles.customer}
+  {if $list[i].excerpts.note|@count > 0 and $core.current_role != $core.roles.customer}
     <li>{t}Notes:{/t}
       <ul class="notes">
       {foreach from=$list[i].excerpts.note item=highlight key=note_num}

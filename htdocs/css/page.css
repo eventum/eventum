@@ -1,0 +1,373 @@
+/* Stats Page */
+
+body#stats {
+
+}
+
+/* END Stats Page */
+
+/* New Issue Page */
+body#new_issue #create_issue {
+    width: 80%;
+}
+
+
+/* Login Page */
+body#login h1 {
+    text-align: center;
+}
+
+body#login form#login_form table {
+    background: #006486;
+    margin: 0 auto;
+    width: 500px;
+    color: #FFFFFF;
+    border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+
+body#login form#login_form table a {
+    color: #FFFFFF;
+}
+
+body#login form#login_form table td {
+    padding: .3em;
+}
+
+body#login form#login_form table td.message {
+    color: #ffff00;
+    text-align: center;
+}
+
+body#login form#login_form table td.label {
+    width: 40%;
+    text-align: right;
+    font-weight: bold;
+}
+
+body#login form#login_form table td.button {
+    text-align: center;
+}
+
+/* END Login Page
+
+
+/* View Issue Page */
+body.issue_view div#issue_overview {
+    margin: 1em 0;
+    background: #dddddd;
+}
+
+body.issue_view div#issue_overview div.clear {
+    background: #FFFFFF;
+    height: 1px;
+}
+
+body.issue_view div#issue_overview div.title {
+    font-weight: bold;
+    background: #FFFFFF;
+    padding: .3em;
+    border-top-left-radius: 0.5em;
+    -webkit-border-top-left-radius: 0.5em;
+    -moz-border-radius-topleft: 0.5em;
+    border-top-right-radius: 0.5em;
+    -webkit-border-top-right-radius: 0.5em;
+    -moz-border-radius-topright: 0.5em;
+}
+
+body.issue_view div#issue_overview div#issue_menu {
+    width: 50%;
+    float: right;
+    text-align: right;
+    font-weight: normal;
+}
+body.issue_view div#issue_overview div#colwrap1 {
+    background: #255282;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div#colwrap2 {
+    background: #ffffff;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 151px;
+}
+
+body.issue_view div#issue_overview div#colwrap1 {
+    background: #255282;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div#colwrap2 {
+    background: #ffffff;
+    float: left;
+    width: 1000px;
+    position: relative;
+    right: 151px;
+}
+
+body.issue_view div#issue_overview div#column1 {
+    width: 500px;
+    float: left;
+    position: relative;
+    left: 1001px;
+    overflow: hidden;
+}
+
+body.issue_view div#issue_overview div#column2 {
+    width: 500px;
+    float: left;
+    position: relative;
+    left: 1000px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display {
+    clear: left;
+    float: left;
+    width: 500px;
+    overflow: hidden;
+    background: #dddddd;
+    border-top: #FFFFFF 1px solid;
+}
+
+body.issue_view div#issue_overview div.issue_field_display:first-child {
+    border: none;
+}
+
+body.issue_view div#issue_overview div.issue_field_display div.background  {
+    float: left;
+    width: 500px;
+    position: relative;
+    right: 350px;
+    background: #255282;
+}
+
+body.issue_view div#issue_overview div.issue_field_display div.label {
+    float: left;
+    width: 150px;
+    font-weight: bold;
+    position: relative;
+    left: 353px;
+    overflow: hidden;
+    padding-top: 2px;
+    color: #FFFFFF;
+}
+
+body.issue_view div#issue_overview div.issue_field_display div.display {
+    float: left;
+    width: 350px;
+    position: relative;
+    left: 353px;
+    overflow: hidden;
+    padding-top: 2px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width {
+    width: 1000px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.background  {
+    width: 1000px;
+    right: 850px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.label {
+    width: 150px;
+    left: 853px;
+}
+
+body.issue_view div#issue_overview div.issue_field_display.full_width div.display {
+    width: 850px;
+    left: 853px;
+}
+
+body.issue_view div#issue_overview #summary {
+    clear: both;
+}
+
+body.issue_view div#issue_overview div#description div.label {
+    min-height: 8em;
+}
+
+body.issue_view div#issue_overview div#description div.label div {
+    margin-top: 1em;
+}
+
+body.issue_view div#issue_overview div#description div.label div a {
+    color: white;
+}
+
+body.issue_view div#issue_overview div.buttons1 {
+    background: #255282;
+    padding: .3em;
+    clear: both;
+    border-top: #FFFFFF 1px solid;
+}
+
+body#issue_view div#issue_overview div.buttons2 {
+    background: #dddddd;
+    padding: .3em;
+    border-bottom-left-radius: 0.5em;
+    -webkit-border-bottom-left-radius: 0.5em;
+    -moz-border-radius-bottomleft: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    -webkit-border-bottom-right-radius: 0.5em;
+    -moz-border-radius-bottomright: 0.5em;
+}
+
+body#issue_view div#issue_links {
+    width: 100%;
+}
+
+body#issue_view div#issue_links div:first-child {
+    float: left;
+    width: 300px;
+}
+
+body#issue_view div#issue_links div.right {
+    float: right;
+    width: 300px;
+    text-align: right;
+}
+
+body#issue_view div.issue_section {
+    margin-bottom: 1em;
+}
+
+body#issue_view div.issue_section div.content table {
+    width: 100%;
+}
+
+body#issue_view div#time_tracking tr.total_time td:first-child {
+    background: #9c494b;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+body#issue_view div#custom_fields div.content th {
+    width: 200px;
+}
+
+/* End View Issue Page */
+
+/* Begin List issue page */
+body#list_issues div#quick_filter {
+    width: 80%;
+    margin: 0 auto;
+}
+body#list_issues div#quick_filter div#ft_options div {
+    width: 50%;
+    float: left;
+}
+
+body#list_issues div#quick_filter div.bottom_bar {
+    background: #dddddd;
+    border-bottom-left-radius: 0.5em;
+    -webkit-border-bottom-left-radius: 0.5em;
+    -moz-border-radius-bottomleft: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    -webkit-border-bottom-right-radius: 0.5em;
+    -moz-border-radius-bottomright: 0.5em;
+
+}
+
+body#list_issues div#quick_filter div.bottom_bar table {
+    width: 100%;
+}
+
+body#list_issues div#quick_filter div.bottom_bar table td {
+    width: 33%;
+}
+
+body#list_issues #current_filters {
+    text-align: center;
+    margin: 1em;
+}
+
+body#list_issues #current_filters span {
+    background: #ffffaa;
+    padding: .5em;
+}
+
+body#list_issues #bulk_update {
+    width: 80%;
+    margin: 1em auto;
+}
+
+body#list_issues #bulk_update table {
+    width: 100%;
+}
+
+/* End List Issue page */
+
+/*
+ * Emails page
+ */
+body#emails  table#email_filters {
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+/* Begin preferences page */
+body#preferences table.bordered {
+    width: 80%;
+    margin-bottom: 1em;
+}
+
+/* End preferences page */
+
+/* Begin Popup Page */
+body#popup div.popup {
+    text-align: center;
+    font-weight: bold;
+    margin: 1em;
+}
+
+
+body#adv_search #date_fields, body#adv_search #custom_fields_row {
+    display: none;
+}
+
+/* Begin reports pages */
+#report_sidebar {
+    width: 200px;
+    background: #dddddd;
+    float: left;
+    padding: .5em;
+    border-radius: 0.5em;
+    -webkit-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+
+#report_sidebar ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#report_sidebar ul ul {
+    margin-left: 1em;
+    padding-left: 0;
+}
+
+#report_content {
+    margin-left: 220px;
+}
+
+
+/* Begin Select Project */
+#select_project table {
+    width: 400px;
+}
+
+#select_project table tr.title {
+    font-size: 2em;
+}

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -41,6 +41,7 @@ $role_id = Auth::getCurrentRole();
 $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
 @$issue_id = $_POST["issue_id"] ? $_POST["issue_id"] : $_GET["id"];
+$tpl->assign('issue_id', $issue_id);
 
 // check if the requested issue is a part of the 'current' project. If it doesn't
 // check if issue exists in another project and if it does, switch projects
@@ -54,18 +55,22 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 }
 
 $details = Issue::getDetails($issue_id);
+if ($details == '') {
+    Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
+}
+
 // TRANSLATORS: %1 = issue id
-$tpl->assign("extra_title", ev_gettext('Issue #%1$s Details', $issue_id));
 $tpl->assign("issue", $details);
 $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 
 // in the case of a customer user, also need to check if that customer has access to this issue
-if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id']))) {
-    $tpl->assign("auth_customer", 'denied');
-
-} elseif (!Issue::canAccess($issue_id, $usr_id)) {
-    $tpl->assign("auth_user", 'denied');
-
+if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
+        !Issue::canAccess($issue_id, $usr_id)) {
+    Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 } else {
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {

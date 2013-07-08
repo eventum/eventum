@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -104,11 +104,14 @@ class Prefs
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+        } elseif (is_null($res)) {
+            return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         } else {
             $returns[$usr_id] = $res;
             $returns[$usr_id]['receive_assigned_email'] = array();
             $returns[$usr_id]['receive_new_issue_email'] = array();
             $returns[$usr_id]['receive_copy_of_own_action'] = array();
+
 
             // check for the refresh rate variables, and use the default values if appropriate
             if (empty($returns[$usr_id]['list_refresh_rate'])) {

@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2010 Sun Microsystem Inc.                              |
-// | Copyright (c) 2011 - 2012 Eventum Team.                              |
+// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -98,11 +98,11 @@ if (isset($_POST["custom_field"])) {
 if (@$_POST["report_type"] == "weekly") {
     $dates = explode("_", $_POST["week"]);
 } else {
-    $dates = array($start_date, $end_date);
+    $dates = array(@$start_date, @$end_date);
 }
 
 if (count(@$_POST['custom_field']) > 0) {
-	$data = Report::getCustomFieldWeeklyReport($_POST["custom_field"], $_POST["custom_options"], $dates[0], $dates[1], $per_user);
+	$data = Report::getCustomFieldWeeklyReport(@$_POST["custom_field"], @$_POST["custom_options"], $dates[0], $dates[1], $per_user);
     $tpl->assign(array(
         "data"  =>  $data
     ));

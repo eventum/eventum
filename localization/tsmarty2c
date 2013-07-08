@@ -20,7 +20,7 @@
  * ------------------------------------------------------------------------- *
  *
  * This commandline script rips gettext strings from smarty file,
- * and prints them to stdout in already gettext encoded format, which you can 
+ * and prints them to stdout in already gettext encoded format, which you can
  * later manipulate with standard gettext tools.
  *
  * Usage:

@@ -1,64 +1,51 @@
 {literal}
 <script type="text/javascript">
-<!--
-function selectPartners()
-{
-    var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    {/literal}
-    var issue_id = {$smarty.get.id|intval};
-    var popupWin = window.open('partners.php?iss_id=' + issue_id, 'partners_' + issue_id, features);
-    {literal}
-    popupWin.focus();
-}
-//-->
+    <!--
+    function selectPartners()
+    {
+        var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        {/literal}
+            var issue_id = {$smarty.get.id|intval};
+        var popupWin = window.open('partners.php?iss_id=' + issue_id, 'partners_' + issue_id, features);
+        {literal}
+        popupWin.focus();
+    }
+    //-->
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td width="100%">
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+<div class="issue_section bordered" id="partners">
+    <div class="title">
+        {t}Partners{/t}
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            [ <span class="js_link" id="toggle_custom_fields" >{get_display_label element_name="partners"}</span> ]
+        </span>
+    </div>
+    <div class="content" {get_display_style element_name='partners'}>
+    <table class="grid">
         <tr>
-          <td class="default" nowrap>
-            <b>{t}Partners{/t}</b>
-          </td>
-          <td align="right" class="default">
-          [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
-            [ <a id="partners_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('partners');">{get_innerhtml element_name="partners" total=$partners|@count}</a> ]
-            {/if}
-          </td>
+            <th class="default_white" width="20%">{t}Name{/t}</th>
+            <th width="50%" class="default_white">&nbsp;</th>
         </tr>
-        <tr>
-          <td colspan="2" class="default" width="100%">
-            <table width="100%" cellpadding="2" cellspacing="1">
-              <tr id="partners1" {get_display_style element_name="partners" total=$partners|@count} bgcolor="{$internal_color}">
-                <td class="default_white" width="20%">{t}Name{/t}</td>
-                <td width="50%" class="default_white">&nbsp;</td>
-              </tr>
-              {foreach from=$partners item=partner}
-              {cycle values=$cycle assign="row_color"}
-              <tr id="partners{$smarty.foreach.partner.iteration+1}" {get_display_style element_name="partners" total=$partners|@count} bgcolor="{$row_color}">
-                <td class="default" nowrap>{$partner.name|escape}</td>
-                <td class="default" nowrap>{$partner.message|escape}</td>
-              </tr>
-              {foreachelse}
-              <tr id="partners2" {get_display_style element_name="partners" total=$partners|@count}>
-                <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
-                  <i>{t}No partners for this issue.{/t}</i>
-                </td>
-              </tr>
-              {/foreach}
-              {if $current_role >= $roles.developer}
-              <tr>
-                <td colspan="6" bgcolor="{$internal_color}" align="center" width="100%" nowrap>
-                  <input type="button" value="{t}Select Partners{/t}" class="button" onClick="selectPartners()">
-                </td>
-              </tr>
-              {/if}
-            </table>
-          </td>
+        {foreach from=$partners item=partner}
+        <tr class="{cycle values='odd,even'}">
+            <td nowrap>{$partner.name|escape}</td>
+            <td nowrap>{$partner.message|escape}</td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+        {foreachelse}
+        <tr class="no_results">
+            <td colspan="2">
+                {t}No partners for this issue.{/t}
+            </td>
+        </tr>
+        {/foreach}
+        {if $core.current_role >= $core.roles.developer}
+        <tr class="buttons">
+            <td colspan="6" >
+                <input type="button" value="{t}Select Partners{/t}" onClick="selectPartners()">
+            </td>
+        </tr>
+        {/if}
+    </table>
+</div>
+</div>

@@ -1,0 +1,88 @@
+{
+	"name": "eventum/eventum",
+	"description": "Eventum Issue / Bug tracking system",
+	"homepage": "https://launchpad.net/eventum",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Elan Ruusamäe",
+			"email": "glen@delfi.ee",
+			"role": "Developer"
+		},
+		{
+			"name": "Bryan Alsdorf",
+			"email": "balsdorf@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"irc": "irc://irc.freenode.org/eventum",
+		"issues": "https://bugs.launchpad.net/eventum"
+	},
+	"repositories": [
+		{
+			"type": "pear",
+			"url": "http://pear.php.net",
+			"vendor-alias": "pear"
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "smarty/smarty",
+				"version": "2.6.27",
+				"dist": {
+					"url": "http://www.smarty.net/files/Smarty-2.6.27.tar.gz",
+					"type": "tar"
+				},
+				"source": {
+					"url": "http://smarty-php.googlecode.com/svn/",
+					"type": "svn",
+					"reference": "tags/Smarty_2_6_27/"
+				},
+				"autoload": {
+					"classmap": ["libs/"]
+				}
+			}
+		}
+	],
+	"require": {
+		"ext-filter": "*",
+		"ext-gd": "*",
+		"ext-iconv": "*",
+		"ext-imap": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"ext-mysql": "*",
+		"ext-pcre": "*",
+		"ext-session": "*",
+		"php": ">=5.1.2",
+		"pear/Auth_SASL": "*",
+		"pear/DB": "*",
+		"pear/Date": "*",
+		"pear/File_Util": "*",
+		"pear/Mail": "*",
+		"pear/Mail_Mime": "*",
+		"pear/Mail_mimeDecode": "*",
+		"pear/Math_Stats": "*",
+		"pear/Net_LDAP2": "*",
+		"pear/Net_POP3": "*",
+		"pear/Net_SMTP": "*",
+		"pear/Net_SmartIRC": "*",
+		"pear/Net_Socket": "*",
+		"pear/Net_URL": "*",
+		"pear/Net_UserAgent_Detect": "*",
+		"pear/PEAR": "*",
+		"pear/Text_Diff": "*",
+		"pear/XML_RPC": "*",
+		"smarty/smarty": "2.6.*"
+	},
+	"suggest": {
+		"ext-ldap": "Adds support for LDAP auth backend",
+		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
+	},
+	"autoload": {
+		"files": ["lib/eventum/autoload.php"],
+		"classmap": [ "lib/jpgraph/", "lib/php-gettext/", "lib/sphinxapi/"]
+	},
+	"minimum-stability": "stable"
+}

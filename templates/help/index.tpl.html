@@ -1,25 +1,27 @@
-{include file="header.tpl.html"}
-{include file="help/banner.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}help{/block}
+{block "title"}Help{/block}
 
-<table bgcolor="{$light_color}" width="100%" border="0" cellspacing="0" cellpadding="0">
+{block "content"}
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
       <table width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
-          <td class="default">
-            <b>{section name="i" loop=$links}{if $links[i].topic != ""}<a href="help.php?topic={$links[i].topic}" class="link">{$links[i].title}</a>{else}{$links[i].title}{/if}{if not $smarty.section.i.last} :: {/if}{/section}</b>
+          <td>
+            <b>{section name="i" loop=$links}{if $links[i].topic != ""}<a href="help.php?topic={$links[i].topic}">{$links[i].title}</a>{else}{$links[i].title}{/if}{if not $smarty.section.i.last} :: {/if}{/section}</b>
           </td>
         </tr>
         <tr>
           <td bgcolor="#FFFFFF">
             {include file="help/$topic.tpl.html"}
-            {if $child_links != ""}
+            {if $child_links|default:"" != ""}
             <br /><br />
-            <span class="default">
+            <span>
             <b>{t}Available Related Topics{/t}:</b>
             <ul>
               {section name="i" loop=$child_links}
-              <li><a href="{$rel_url}help.php?topic={$child_links[i].topic}" class="link">{$child_links[i].title|escape:"html"}</a></li>
+              <li><a href="{$core.rel_url}help.php?topic={$child_links[i].topic}">{$child_links[i].title|escape:"html"}</a></li>
               {/section}
             </ul>
             </span>
@@ -30,5 +32,4 @@
     </td>
   </tr>
 </table>
-
-{include file="footer.tpl.html"}
+{/block}
