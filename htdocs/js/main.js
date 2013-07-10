@@ -127,6 +127,11 @@ Eventum.getField = function(name_or_obj, form)
     return name_or_obj;
 }
 
+Eventum.getOpenerPageElement = function(id)
+{
+    return window.opener.$('#' + id);
+}
+
 Eventum.toggleCheckAll = function(field_name)
 {
     var fields = Eventum.getField(field_name).not(':disabled');
