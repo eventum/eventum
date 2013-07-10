@@ -57,7 +57,8 @@ if (!empty($issue_id)) {
 if (@$_POST["cat"] == "send_email") {
     $res = Support::sendEmail($_POST['parent_id']);
     $tpl->assign("send_result", $res);
-    if (!@empty($_POST['new_status'])) {
+    if (Access::canChangeStatus($issue_id, $usr_id) && isset($_POST['new_status']) &&
+        !empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);

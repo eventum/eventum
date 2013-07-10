@@ -70,7 +70,10 @@ if (Customer::hasCustomerIntegration($prj_id)) {
             $tpl->displayTemplate();
             exit;
         }
-        Misc::setMessage(Customer::getNewIssueMessage($prj_id, $customer_id), Misc::MSG_INFO);
+        $new_issue_message = Customer::getNewIssueMessage($prj_id, $customer_id);
+        if (!empty($new_issue_message)) {
+            Misc::setMessage($new_issue_message, Misc::MSG_INFO);
+        }
     }
     $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 }

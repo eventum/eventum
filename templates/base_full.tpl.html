@@ -28,12 +28,12 @@
                 {if $core.current_role > $core.roles.customer}
                 <li><a title="{t}list all issues assigned to you{/t}" href="{$core.rel_url}list.php?view=my_assignments">{t}My Assignments{/t}</a></li>
                 {/if}
-                <li><a title="{t}general statistics{/t}" href="{$core.rel_url}main.php">{t}Stats{/t}</a></li>
+                <li><a title="{t}Home{/t}" href="{$core.rel_url}main.php">{t}Home{/t}</a></li>
                 {if $core.current_role > $core.roles.customer}
                 <li><a title="{t}reporting system{/t}" href="{$core.rel_url}reports/index.php">{t}Reports{/t}</a></li>
                 {/if}
-                <li><a title="{t}internal faq{/t}" href="{$core.rel_url}faq.php">{t}Internal FAQ{/t}</a></li>
-                <li><a title="{t}help documentation{/t}" href="{$core.rel_url}help.php" class="help">{t}Help{/t}</a></li>
+                <li id="internal_faq_link"><a title="{t}internal faq{/t}" href="{$core.rel_url}faq.php">{t}Internal FAQ{/t}</a></li>
+                <li id="help_link"><a title="{t}help documentation{/t}" href="{$core.rel_url}help.php" class="help">{t}Help{/t}</a></li>
             </ul>
 
             <div class="clear"></div>

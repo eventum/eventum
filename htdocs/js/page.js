@@ -739,7 +739,7 @@ new_issue.validateForm = function()
         Validation.errors[Validation.errors.length] = new Option('Priority', 'priority');
     }
     var user_field = Eventum.getField('users[]');
-    if (user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
+    if (user_field.length > 0 && user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
         !Validation.hasOneSelected(user_field)) {
             Validation.errors[Validation.errors.length] = new Option('Assignment', 'users');
     }
@@ -764,7 +764,7 @@ new_issue.validateForm = function()
 
     // check customer fields (if function exists
     if (window.validateCustomer) {
-        validateCustomer(form);
+        validateCustomer();
     }
 }
 

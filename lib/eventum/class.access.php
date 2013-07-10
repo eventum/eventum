@@ -320,6 +320,7 @@ class Access
             'change_reporter'   =>  self::canChangeReporter($issue_id, $usr_id),
             'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
             'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
+            'update'    =>  self::canUpdateIssue($issue_id, $usr_id),
         );
     }
 

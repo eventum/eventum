@@ -1,5 +1,9 @@
-{include file="header.tpl.html" extra_title="Permission Denied"}
+{extends "base_full.tpl.html"}
+{block page_id}issue_update{/block}
+{block page_classes}issue_view{/block}
+{block title}{t 1=$issue_id}Issue #%1 - Update{/t}{/block}
 
+{block "content"}
 <table width="100%" align="center">
     <tr>
       <td align="center">
@@ -9,5 +13,4 @@
       </td>
     </tr>
   </table>
-
-{include file="footer.tpl.html"}
+{/block}

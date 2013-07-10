@@ -77,11 +77,13 @@
                 <div class="background">
                     <div class="label" {if $row.title_bgcolor|default:'' != '' }style="background-color: {$row.title_bgcolor}"{/if}>{$row.title}</div>
                 <div class="display" >
-                    {if $row.tpl_block|default:''|default:'' == 'reporter'}
+                    {if $row.tpl_block|default:'' == 'reporter'}
                     <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter|escape:html}</a>
-                    {elseif $row.tpl_block|default:''|default:'' == 'product'}
+                    {elseif $row.tpl_block|default:'' == 'product'}
+                    {if $issue.products|@count > 0}
                     {$issue.products[0].product}
                     {$issue.products[0].version}
+                    {/if}
                     {else}
                     {$row.data|escape:"html"}
                     {/if}
@@ -214,9 +216,15 @@
 
 {if $core.current_role > $core.roles.reporter}
 <div class="buttons1">
+    {if $issue_access.update}
     <input type="submit" value="{t}Update Issue{/t}">
-    {if $core.current_role >= $core.roles.standard_user and $core.app_setup.support_email == 'enabled' and $ema_id != ''}
-    &nbsp;<input type="button" value="{t}Reply{/t}" class="reply_issue">
+    {/if}
+    {if $core.app_setup.support_email == 'enabled' and $ema_id != ''}
+        {if $core.current_role >= $core.roles.standard_user}
+        <input type="button" value="{t}Reply{/t}" class="reply_issue">
+        {elseif $core.current_role == $core.roles.customer}
+        <input type="button" value="{t}Send Email{/t}" class="reply_issue">
+        {/if}
     {/if}
 
     {if $core.current_role > $core.roles.customer}

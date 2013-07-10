@@ -38,6 +38,7 @@ $associated_projects = @array_keys(Project::getAssocList($usr_id));
 $tpl = new Template_Helper();
 $tpl->setTemplate("update.tpl.html");
 $tpl->assign("user_prefs", Prefs::get($usr_id));
+$tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 
 Auth::checkAuthentication(APP_COOKIE);
 
@@ -71,12 +72,11 @@ $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 // in the case of a customer user, also need to check if that customer has access to this issue
 if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
         !Issue::canAccess($issue_id, $usr_id) ||
-        !($role_id > User::getRoleID('Reporter'))) {
+        !($role_id > User::getRoleID('Reporter')) || !Issue::canUpdate($issue_id, $usr_id)) {
+    $tpl->setTemplate("base_full.tpl.html");
     Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
-} elseif (!Issue::canUpdate($issue_id, $usr_id)) {
-    $tpl->assign("auth_customer", 'denied');
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);
     if (@$_POST["cat"] == "update") {
@@ -153,7 +153,6 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "products_assoc"         => $products_assoc,
     ));
 
-    $tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 }
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();
