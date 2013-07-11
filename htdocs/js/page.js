@@ -724,6 +724,9 @@ new_issue.ready = function()
     report_form.find('input,select').filter(':visible').first().focus();
 
     report_form.submit(function() { return Validation.checkFormSubmission(report_form, new_issue.validateForm) });
+
+    $('#severity').bind('change', new_issue.display_severity_description).change();
+    $('#product').bind('change', new_issue.display_product_version_howto).change();
 }
 
 new_issue.validateForm = function()
@@ -765,6 +768,26 @@ new_issue.validateForm = function()
     // check customer fields (if function exists
     if (window.validateCustomer) {
         validateCustomer();
+    }
+}
+
+new_issue.display_severity_description = function()
+{
+    var description = $('#severity :selected').attr('data-desc');
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
+    }
+}
+
+new_issue.display_product_version_howto = function()
+{
+    var howto = $('#product :selected').attr('data-desc');
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
     }
 }
 

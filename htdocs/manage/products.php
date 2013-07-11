@@ -28,38 +28,40 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/products.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "products");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Product::insert($_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']));
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Product::update($_POST['id'], $_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']));
-    } elseif (@$_POST["cat"] == "delete") {
-        Product::remove($_POST['items']);
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $info = Product::getDetails($_GET["id"]);
-        $tpl->assign("info", $info);
-        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET["id"]);
-    } else {
-        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
-    }
-
-    $tpl->assign("list", Product::getList());
-    $tpl->assign("project_list", Project::getAll());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+if (@$_POST["cat"] == "new") {
+    $res = Product::insert($_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the product was added successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to add the product.', Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Product::update($_POST['id'], $_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the product was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to update the product.', Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Product::remove($_POST['items']);
+}
+
+if (@$_GET["cat"] == "edit") {
+    $info = Product::getDetails($_GET["id"]);
+    $tpl->assign("info", $info);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET["id"]);
+} else {
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
+}
+
+$tpl->assign("list", Product::getList());
+$tpl->assign("project_list", Project::getAll());
 
 $tpl->displayTemplate();

@@ -128,34 +128,17 @@ if (@$_GET["cat"] == "associate") {
     }
 }
 
-$severity_assoc = array();
-$severity_descriptions = array();
-foreach (Severity::getList($prj_id) as $severity) {
-    $severity_assoc[$severity['sev_id']] = $severity['sev_title'];
-    $severity_descriptions[$severity['sev_id']] = $severity['sev_description'];
-}
-
-$products = Product::getList(false);
-$products_assoc = array();
-$products_version_howto = array();
-foreach ($products as $product) {
-    $products_version_howto[$product['pro_id']] = $product['pro_version_howto'];
-    $products_assoc[$product['pro_id']] = $product['pro_title'];
-}
-
 $tpl->assign(array(
     "cats"                   => Category::getAssocList($prj_id),
     "priorities"             => Priority::getAssocList($prj_id),
-    "severities"             => $severity_assoc,
-    "severity_descriptions"  => $severity_descriptions,
+    "severities"             => Severity::getList($prj_id),
     "users"                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"               => Release::getAssocList($prj_id),
     "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
     "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
     "groups"                 => Group::getAssocList($prj_id),
-    "products_version_howto" => $products_version_howto,
-    "products_assoc"         => $products_assoc,
+    "products"               => Product::getList(false),
 ));
 
 $setup = Setup::load();

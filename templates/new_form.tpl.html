@@ -62,6 +62,24 @@
       </td>
     </tr>
     {/if}
+    {if $core.current_role >= $field_display_settings.severity}
+    <tr>
+      <th width="150" {if $field_display_settings.severity > $core.roles.customer}class="internal"{/if}">
+        {t}Severity{/t}
+      </th>
+      <td>
+        <select id="severity" name="severity" tabindex="{$tabindex++}">
+          <option value="-1">{t}Please choose a severity{/t}</option>
+          {foreach from=$severities item=severity}
+          <option value="{$severity.sev_id}" {if $severity.sev_id == $smarty.post.severity|default:''}selected{/if}
+            data-desc="{$severity.sev_description|escape}">{$severity.sev_title|escape}</option>
+          {/foreach}
+        </select>
+        <span id="severity_desc" class="alerts"></span>
+        {include file="error_icon.tpl.html" field="severity"}
+      </td>
+    </tr>
+    {/if}
     {if $core.current_role >= $field_display_settings.priority}
     <tr>
       <th>
@@ -171,6 +189,33 @@
         {/if}
         <input type="text" name="estimated_dev_time" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
         {include file="error_icon.tpl.html" field="estimated_dev_time"} <span>({t}in hours{/t})</span>
+      </td>
+    </tr>
+    {/if}
+    {if $products|@count > 0 && $core.current_role >= $field_display_settings.product}
+    <tr>
+      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
+        {t}Product{/t}
+      </th>
+      <td>
+        <select class="default" id="product" name="product" tabindex="{$tabindex++}">
+            <option value="-1"></option>
+          {foreach from=$products item=product}
+          <option value="{$product.pro_id}" {if $product.pro_id == $smarty.post.product|default:''}selected{/if}
+            data-desc="{$product.pro_version_howto|escape}">{$product.pro_title|escape}</option>
+          {/foreach}
+        </select>
+        {include file="error_icon.tpl.html" field="product"}
+      </td>
+    </tr>
+    <tr>
+      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
+        {t}Product Version{/t}
+      </th>
+      <td>
+        <input type="text" name="product_version" value="{$smarty.post.product_version|default:''}" size="40" />
+        <span id="product_version_howto"></span>
+        {include file="error_icon.tpl.html" field="product_version"}
       </td>
     </tr>
     {/if}
