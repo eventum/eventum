@@ -57,16 +57,20 @@ if (isset($_REQUEST['view'])) {
     } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
         $options_override = array(
             'customer_id'   =>  Misc::escapeInteger($_REQUEST['customer_id']),
-            'hide_closed'   =>  1,
             'rows'          =>  $rows,
         );
+        if (Search::getParam('hide_closed', true) === '') {
+            $options_override['hide_closed'] = 1;
+        }
         $_REQUEST['nosave'] = 1;
     } elseif (($_REQUEST['view'] == 'customer_all') && (isset($_REQUEST['customer_id']))) {
         $options_override = array(
             'customer_id'   =>  Misc::escapeInteger($_REQUEST['customer_id']),
-            'hide_closed'   =>  0,
             'rows'          =>  $rows,
         );
+        if (Search::getParam('hide_closed', true) === '') {
+            $options_override['hide_closed'] = 0;
+        }
         $_REQUEST['nosave'] = 1;
     } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
