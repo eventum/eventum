@@ -1,6 +1,6 @@
 {t 1=$data.iss_id}Automated Issue #%1 Reminder Alert{/t}!
 
-          {t escape=no}URL{/t}: {$app_base_url}view.php?id={$data.iss_id}
+          {t escape=no}URL{/t}: {$core.base_url}view.php?id={$data.iss_id}
       {t escape=no}Summary{/t}: {$data.iss_summary}
    {t escape=no}Assignment{/t}: {$data.assigned_users}
 {if $has_customer_integration}
@@ -11,7 +11,7 @@
  {t escape=no}Alert Reason{/t}:
      {t escape=no}Triggered Reminder{/t} "{$reminder.rem_title}"
                {t escape=no}Action{/t} "{$action.rma_title}"
-    
+
   {t escape=no}Alert Query{/t}:
      {section name="i" loop=$conditions}
      {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
