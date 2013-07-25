@@ -1,4 +1,8 @@
-{include file="header.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}mpab_escalate_view{/block}
+{block title}{t 1=$issue_id 2=$escalation_id}Escalate #%1 on Issue #%1{/t}{/block}
+
+{block "content"}
 
 {if $show_temp_form == 'yes'}
 <br /><br />&nbsp;
@@ -147,6 +151,4 @@ buildSuggestionBox();
 </script>
 {/if}
 {/if}
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}
