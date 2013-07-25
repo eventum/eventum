@@ -1,116 +1,108 @@
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block "title"}Issue #{$issue_id} - Post Note{/block}
 
-{if $convert_result}
-  <br />
-  <center>
+{block "content"}
+
+{if $convert_result|default:'' != ''}
+<br />
+<center>
   <span>
   {if $convert_result == -1}
-    <b>{t}An error occurred while trying to convert the selected note.{/t}</b>
+    {t}An error occurred while trying to convert the selected note.{/t}
   {elseif $convert_result == 1}
-    <b>{t}Thank you, the note was converted successfully.{/t}</b>
+    {t}Thank you, the note was converted successfully.{/t}
   {/if}
   </span>
-  </center>
-  <script type="text/javascript">
-  <!--
-  {if $current_user_prefs.close_popup_windows == '1'}
-  setTimeout('Eventum.close_and_refresh()', 2000);
-  {/if}
-  //-->
-  </script>
-  <br />
-  {if not $current_user_prefs.close_popup_windows}
-  <center>
+</center>
+<script type="text/javascript">
+    <!--
+    {if $current_user_prefs.close_popup_windows == '1'}
+        setTimeout('Eventum.close_and_refresh()', 2000);
+        {/if}
+    //-->
+</script>
+<br />
+{if not $current_user_prefs.close_popup_windows}
+<center>
     <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
-  </center>
-  {/if}
+</center>
+{/if}
 {else}
 <script type="text/javascript">
-<!--
-{if $core.has_customer_integration}
-    var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}";
-{else}
-    var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}";
-{/if}
-{literal}
-function validateForm(f)
-{
-    var field = getFormElement(f, 'target', 1);
-    if ((field.checked) && (!confirm(convert_email_warning))) {
-        return false;
-    }
-    var field = getFormElement(f, 'target', 0);
-    if ((field.checked) && (!confirm('{/literal}{t escape=js}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}{literal}'))) {
-        return false;
-    }
-    return true;
-}
+    <!--
+    {if $core.has_customer_integration}
+        var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}";
+        {else}
+        var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}";
+        {/if}
+            {literal}
+            function validateForm()
+            {
+                if (Eventum.getField('target').filter(':checked').val() == 'email' && (!confirm(convert_email_warning))) {
+                    return false;
+                }
+                if (Eventum.getField('target').filter(':checked').val() == 'draft' &&
+                        (!confirm('{/literal}{t escape=js}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}{literal}'))) {
+                    return false;
+                }
+                return true;
+            }
 
-function disableAR(flag)
-{
-    var field = getFormElement(document.forms[0], 'add_authorized_replier')
-    field.checked = false;
-    field.disabled = flag;
-}
-//-->
+            function disableAR(e)
+            {
+                var target = $(e.target);
+                Eventum.getField('add_authorized_replier').attr('checked', false).attr('disabled', target.val() == 'draft');
+            }
+            $().ready(function() {
+                $('#convert_note_form').submit(validateForm);
+                Eventum.getField('target').change(disableAR);
+            });
+    //-->
 </script>
 {/literal}
-<form name="convert_note_form" method="post" action="convert_note.php" onSubmit="return validateForm(this);">
-<input type="hidden" name="cat" value="convert">
-<input type="hidden" name="note_id" value="{$note_id}">
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="0" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2">
-            <B>{t}Convert Note To Email{/t}</b>
-          </td>
+<form id="convert_note_form" method="post" action="convert_note.php">
+    <input type="hidden" name="cat" value="convert">
+    <input type="hidden" name="note_id" value="{$note_id}">
+    <table width="100%" class="bordered">
+        <tr class="title">
+            <th>
+                {t}Convert Note To Email{/t}
+            </th>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}" align="right">
-            <input type="radio" name="target" value="draft" checked onClick="disableAR(true)" id="convert_note_from_target_draft">
-          </td>
-          <td bgcolor="{$dark_color}">
-            <label for="convert_note_from_target_draft"><b>{t}Convert to Draft and Save For Later Editing{/t}</b></label>
-          </td>
+            <th>
+                <input type="radio" name="target" value="draft" checked onClick="disableAR(true)" id="convert_note_from_target_draft">
+                <label for="convert_note_from_target_draft">{t}Convert to Draft and Save For Later Editing{/t}</label>
+            </th>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}">&nbsp;</td>
-          <td bgcolor="{$dark_color}">
-            <b>{t}ALERT:{/t}</b> {t}Email will be re-sent from your name, NOT original sender's, and without any attachments.{/t}
-          </td>
+            <td>
+                {t}ALERT:{/t} {t}Email will be re-sent from your name, NOT original sender's, and without any attachments.{/t}
+            </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}" align="right" valign="top">
-            <input type="radio" name="target" value="email" onClick="disableAR(false)" id="convert_note_from_target_email">
-          </td>
-          <td bgcolor="{$dark_color}">
-            <label for="convert_note_from_target_email"><b>{t}Convert to Email and Send Now{/t}</b></label>
-          </td>
+            <th>
+                <input type="radio" name="target" value="email" onClick="disableAR(false)" id="convert_note_from_target_email">
+                <label for="convert_note_from_target_email">{t}Convert to Email and Send Now{/t}</label>
+            </th>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}">&nbsp;</td>
-          <td bgcolor="{$dark_color}">
-            <b>{t}ALERT:{/t}</b> {t}Email will be re-sent from original sender, including any attachments.{/t}
-          </td>
+            <td>
+                {t}ALERT:{/t} {t}Email will be re-sent from original sender, including any attachments.{/t}
+            </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}"><input type="checkbox" name="add_authorized_replier" value="1" disabled id="add_authorized_replier_check"></td>
-          <td bgcolor="{$dark_color}">
-            <label for="add_authorized_replier_check">{t}Add sender to authorized repliers list?{/t}</label>
-          </td>
+            <td><input type="checkbox" name="add_authorized_replier" value="1" disabled id="add_authorized_replier_check">
+                <label for="add_authorized_replier_check">{t}Add sender to authorized repliers list?{/t}</label>
+            </td>
         </tr>
-        <tr>
-          <td colspan="2" align="right">
-            <input type="submit" value="{t}Continue{/t} &gt;&gt;">
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Continue{/t} &gt;&gt;">
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
 </form>
 {/if}
 
-{include file="footer.tpl.html"}
+{/block}
