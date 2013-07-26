@@ -117,9 +117,9 @@
                   <b>{t}Notes About Customer{/t}:</b>&nbsp;<br />
                   {if $current_role > $roles.developer}
                     {if $issue.customer_info.note.cno_id eq ''}
-                        <a href="{$app_base_url}manage/customer_notes.php?customer_id={$issue.iss_customer_id}" class="white_link">{t}Add{/t}</a>
+                        <a href="{$core.base_url}manage/customer_notes.php?customer_id={$issue.iss_customer_id}" class="white_link">{t}Add{/t}</a>
                     {else}
-                        <a href="{$app_base_url}manage/customer_notes.php?cat=edit&id={$issue.customer_info.note.cno_id}" class="white_link">{t}Edit{/t}</a>
+                        <a href="{$core.base_url}manage/customer_notes.php?cat=edit&id={$issue.customer_info.note.cno_id}" class="white_link">{t}Edit{/t}</a>
                     {/if}
                   {/if}
                 </td>

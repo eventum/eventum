@@ -655,7 +655,7 @@ Eventum Issue Tracking System
 - Added missing function to Abstract_Workflow_Backend class (Bryan)
 - Display the current textarea value when trying to update the custom fields (João)
 - Issue assignment emails now go out from project email address (Bryan)
-- Back button on mail queue log page uses app_base_url now (Bryan)
+- Back button on mail queue log page uses core.base_url now (Bryan)
 - Users can now have seperate roles per project (Bryan)
 - Added option to hide priority and file field on create issue page (Bryan)
 - Drafts are now never deleted (Bryan)
