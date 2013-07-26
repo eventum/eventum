@@ -42,6 +42,11 @@ if (!empty($_REQUEST['submit'])) {
     // update counts
     $res = Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
     $tpl->assign('res', $res);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the issue was successfully marked.', Misc::MSG_INFO),
+            -1  =>  array('There was an error marking this issue as redeemed', Misc::MSG_ERROR),
+            -2  =>  array('This issue already has been marked as redeemed', Misc::MSG_ERROR),
+    ));
 }
 $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id), true);
 

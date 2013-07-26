@@ -1,10 +1,12 @@
-{include file="header.tpl.html" extra_title="Account Signup"}
+{extends "base.tpl.html"}
+{block page_id}account_signup{/block}
+{block title}{t}Account Signup{/t}{/block}
 
-<br /><br /><br />
+{block "content"}
 {if $core.app_setup.open_signup != 'enabled'}
 <center>
 <span>
-<b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
+{t}Sorry, but this feature has been disabled by the administrator.{/t}
 <br /><br />
 <a href="javascript:history.go(-1);">{t}Go Back{/t}</a>
 </span>
@@ -13,111 +15,74 @@
 {literal}
 <script type="text/javascript">
 <!--
-function validateForm(f)
+function validateForm() 
 {
-    if (isWhitespace(f.full_name.value)) {
+    if (Validation.isFieldWhitespace('full_name')) {
         alert('{/literal}{t escape=js}Please enter your full name.{/t}{literal}');
-        selectField(f, 'full_name');
+        Validation.selectField('full_name');
         return false;
     }
-    if (isWhitespace(f.email.value)) {
+    if (Validation.isFieldWhitespace('email')) {
         alert('{/literal}{t escape=js}Please enter your email address.{/t}{literal}');
-        selectField(f, 'email');
+        Validation.selectField('email');
         return false;
     }
-    if (!isEmail(f.email.value)) {
+    if (!Validation.isEmail(Eventum.getField('email').val())) {
         alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
-        selectField(f, 'email');
+        Validation.selectField('email');
         return false;
     }
-    if (isWhitespace(f.passwd.value)) {
+    if (Validation.isFieldWhitespace('passwd')) {
         alert('{/literal}{t escape=js}Please enter your password.{/t}{literal}');
-        selectField(f, 'passwd');
+        Validation.selectField('passwd');
         return false;
     }
     return true;
 }
+$().ready(function() {
+    $('#signup_form').submit(validateForm);
+});
 //-->
 </script>
 {/literal}
-<form name="signup_form" onSubmit="return validateForm(this);" method="post" action="signup.php">
+<form id="signup_form" method="post" action="signup.php">
 <input type="hidden" name="cat" value="signup">
-<table align="center" width="500" border="0" cellspacing="0" cellpadding="1" bgcolor="#000000">
-  <tr>
-    <td>
-      <table bgcolor="#006486" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <tr>
-          <td colspan="2" align="center">
-            <h2 style="color: white;">{t}Account Signup{/t}</h2>
-            <hr size="1" noshade color="white">
-          </td>
+      <table class="bordered medium">
+        <tr class="title">
+          <th colspan="2">
+            {t}Account Signup{/t}
+          </th>
         </tr>
-        {if $signup_result != ''}
+        {if $signup_result|default:'' != 1}
         <tr>
-          <td colspan="2" align="center" class="error">
-            <b>
-            {if $signup_result == -1}
-              {t}Error: An error occurred while trying to run your query.{/t}
-            {elseif $signup_result == -2}
-              {t}Error: The email address specified is already associated with an user in the system.{/t}
-            {elseif $signup_result == 1}
-              {t}Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.{/t}
-            {/if}
-            </b>
-          </td>
-        </tr>
-        {/if}
-        {if $signup_result != 1}
-        <tr>
-          <td align="right" width="130"><b>{t}Full Name:{/t}</b></td>
+          <th>{t}Full Name{/t}</th>
           <td width="75%">
-            <input accessKey="f" type="text" name="full_name" size="50" maxlength="255">
+            <input type="text" name="full_name" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130"><b>{t}Email Address:{/t}</b></td>
+          <th>{t}Email Address{/t}</th>
           <td width="75%">
-            <input accessKey="e" type="text" name="email" size="50" maxlength="255">
+            <input type="text" name="email" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130"><b>{t}Password:{/t}</b></td>
+          <th>{t}Password{/t}</th>
           <td width="75%">
-            <input accessKey="p" type="password" name="passwd" size="20" maxlength="32" autocomplete="off">
+            <input type="password" name="passwd" size="20" maxlength="32" autocomplete="off">
             {include file="error_icon.tpl.html" field="passwd"}
           </td>
         </tr>
-        <tr>
-          <td colspan="2" align="center">
+        <tr class="buttons">
+          <td colspan="2">
             <input type="submit" value="{t}Create Account{/t}">
+              <div class="right"><a href="index.php">{t}Back to Login Form{/t}</a></div>
           </td>
         </tr>
         {/if}
-        <tr align="center">
-          <td colspan="2">
-            <a class="white_link" href="index.php">{t}Back to Login Form{/t}</a>
-          </td>
-        </tr>
       </table>
-    </td>
-  </tr>
-</table>
 </form>
-{literal}
-<script type="text/javascript">
-<!--
-window.onload = setFocus;
-function setFocus()
-{
-    if (document.signup_form.full_name != null) {
-        document.signup_form.full_name.focus();
-    }
-}
-//-->
-</script>
-{/literal}
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

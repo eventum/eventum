@@ -1,150 +1,124 @@
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block page_id}associate_email{/block}
+{block title}{t}Associate Email{/t}{/block}
 
-{if $associate_result}
-  <br />
-  <center>
+{block content}
+{if $associate_result|default:''}
+<br />
+<center>
   <span>
   {if $associate_result == -1}
-    <b>{t}An error occurred while trying to associate the selected email message{/t}{if $total_emails > 1}s{/if}</b>
+    {t}An error occurred while trying to associate the selected email message{/t}{if $total_emails > 1}s{/if}
   {elseif $associate_result == 1}
-    <b>{t count=$total_emails plural="Thank you, the selected email messages were associated successfully."}Thank you, the selected email message was associated successfully.{/t}</b>
+    {t count=$total_emails plural="Thank you, the selected email messages were associated successfully."}Thank you, the selected email message was associated successfully.{/t}
   {/if}
   </span>
-  </center>
-  <script type="text/javascript">
-  <!--
-  {if $current_user_prefs.close_popup_windows == '1'}
-  setTimeout('Eventum.close_and_refresh()', 2000);
-  {/if}
-  //-->
-  </script>
-  <br />
-  {if not $current_user_prefs.close_popup_windows}
-  <center>
-    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
-  </center>
-  {/if}
-{else}
-{if $unknown_contacts != ''}
+</center>
+<script type="text/javascript">
+    <!--
+    {if $current_user_prefs.close_popup_windows == '1'}
+        setTimeout('Eventum.close_and_refresh()', 2000);
+        {/if}
+    //-->
+</script>
 <br />
-<table border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%"><span style="font-weight: bold; font-size: 160%; color: red;">{t}Warning: Unknown Contacts Found{/t}</span></td>
-        </tr>
-        <tr>
-          <td colspan="2">
+{if not $current_user_prefs.close_popup_windows}
+<center>
+    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
+</center>
+{/if}
+{else}
+{if $unknown_contacts|default:'' != ''}
+<br />
+<table class="bordered">
+    <tr>
+        <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+        <td width="100%"><span style="font-weight: bold; font-size: 160%; color: red;">{t}Warning: Unknown Contacts Found{/t}</span></td>
+    </tr>
+    <tr>
+        <td colspan="2">
             {t}The following addresses could not be matched against the system user records:{/t}
             <br /><br />
             <ul>
-              {section name="i" loop=$unknown_contacts}
-              <li>{$unknown_contacts[i]|escape:"html"}</li>
-              {/section}
+                {section name="i" loop=$unknown_contacts}
+                <li>{$unknown_contacts[i]|escape:"html"}</li>
+                {/section}
             </ul>
             {t}Please make sure you have selected the correct email messages to associate.{/t}
             <br /><br />
             <center>
-            <a href="javascript:window.close();">{t}Close Window{/t}</a>
+                <a href="javascript:window.close();">{t}Close Window{/t}</a>
             </center>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+        </td>
+    </tr>
 </table>
 <br />
 {/if}
 <script type="text/javascript">
-<!--
-var found_unknown = {if $unknown_contacts != ''}1{else}0{/if};
-{literal}
-function validateForm(f)
-{
-    if ((found_unknown) && (!confirm('{/literal}{t escape=js}Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.{/t}{literal}'))) {
-        return false;
-    } else {
-        return true;
-    }
-}
-//-->
+    <!--
+    var found_unknown = {if $unknown_contacts != ''}1{else}0{/if};
+        {literal}
+        function validateForm(f)
+        {
+            if ((found_unknown) && (!confirm('{/literal}{t escape=js}Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.{/t}{literal}'))) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    //-->
 </script>
 {/literal}
 <form name="associate_email_form" method="post" action="associate.php" onSubmit="return validateForm(this);">
-<input type="hidden" name="cat" value="associate">
-<input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
-{section name="i" loop=$emails}
-<input type="hidden" name="item[]" value="{$emails[i]}">
-{/section}
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="0" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2">
-            <b>{t 1=$smarty.get.issue count=$total_emails plural="Associate Email Messages to Issue #%1"}Associate Email Message to Issue #%1{/t}</b>
-          </td>
+    <input type="hidden" name="cat" value="associate">
+    <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
+    {section name="i" loop=$emails}
+    <input type="hidden" name="item[]" value="{$emails[i]}">
+    {/section}
+    <table class="bordered medium left">
+        <tr class="title">
+            <th colspan="2">
+                {t 1=$smarty.get.issue_id count=$total_emails plural="Associate Email Messages to Issue #%1"}Associate Email Message to Issue #%1{/t}
+            </th>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$dark_color}">
-            <img src="{$core.rel_url}images/icons/error.gif"> <b>{t count=$total_emails plural="Please choose one of the following actions to take in regards to the selected email messages"}Please choose one of the following actions to take in regards to the selected email message{/t}:</b>
-            <br /><br />
-          </td>
+            <td>
+                {t count=$total_emails plural="Please choose one of the following actions to take in regards to the selected email messages"}Please choose one of the following actions to take in regards to the selected email message{/t}
+            </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}" align="right" valign="top">
-            <input type="radio" name="target" value="email" checked>
-          </td>
-          <td bgcolor="{$dark_color}">
-            <b><a id="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 0);">{t}Save Message{/t}{if $total_emails > 1}s{/if} {t}as{/t} {if $total_emails == 1}{t}an{/t} {/if}Email{if $total_emails > 1}s{/if}</a></b>
-          </td>
+            <td>
+                <label>
+                    <input type="radio" name="target" value="email" checked>
+                    {t}Save Message{/t}{if $total_emails > 1}s{/if} {t}as{/t} {if $total_emails == 1}{t}an{/t} {/if}Email{if $total_emails > 1}s{/if}
+                </label><br /><br />
+                {t count=$total_emails escape=no plural="NOTE: Emails will be broadcasted to the full notification list, including any customers, if this option is chosen."}NOTE: Email will be broadcasted to the full notification list, including any customers, if this option is chosen.{/t}
+            </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}">&nbsp;</td>
-          <td bgcolor="{$dark_color}">
-            {t count=$total_emails escape=no plural="<b>NOTE:</b> Emails will be broadcasted to the full notification list, including any customers, if this option is chosen."}<b>NOTE:</b> Email will be broadcasted to the full notification list, including any customers, if this option is chosen.{/t}
-          </td>
+            <td>
+                <label>
+                    <input type="radio" name="target" value="reference">
+                    {t count=$total_emails plural="Save Message as Reference Emails"}Save Message as Reference Email{/t}
+                </label><br /><br />
+                {t count=$total_emails escape=no plural="NOTE: Emails will NOT be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue."}NOTE: Email will NOT be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.{/t}
+            </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}" align="right" valign="top">
-            <input type="radio" name="target" value="reference">
-          </td>
-          <td bgcolor="{$dark_color}">
-            <b><a id="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 1);">{t count=$total_emails plural="Save Message as Reference Emails"}Save Message as Reference Email{/t}</a></b>
-          </td>
+            <td>
+                <label>
+                    <input type="radio" name="target" value="note">
+                    {t count=$total_emails plural="Save Messages as an Internal Notes"}Save Message as an Internal Note{/t}
+                </label><br /><br />
+                {t count=$total_emails escape=no plural="NOTE: Emails will be saved as notes and broadcasted only to staff users."}NOTE: Email will be saved as a note and broadcasted only to staff users.{/t}
+            </td>
         </tr>
-        <tr>
-          <td bgcolor="{$dark_color}">&nbsp;</td>
-          <td bgcolor="{$dark_color}">
-            {t count=$total_emails escape=no plural="<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue."}<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.{/t}
-          </td>
+        <tr class="buttons">
+            <td>
+                <input type="submit" value="{t}Continue{/t} &gt;&gt;">
+            </td>
         </tr>
-        <tr>
-          <td bgcolor="{$dark_color}" align="right">
-            <input type="radio" name="target" value="note">
-          </td>
-          <td bgcolor="{$dark_color}">
-            <b><a id="link" href="javascript:void(null);" onClick="checkRadio('associate_email_form', 'target', 2);">{t count=$total_emails plural="Save Messages as an Internal Notes"}Save Message as an Internal Note{/t}</a></b>
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="{$dark_color}">&nbsp;</td>
-          <td bgcolor="{$dark_color}">
-            {t count=$total_emails escape=no plural="<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff users."}<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff users.{/t}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" align="right">
-            <input type="submit" value="{t}Continue{/t} &gt;&gt;">
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+    </table>
 </form>
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}
