@@ -357,6 +357,13 @@ div.note_box {
     font-weight: bold;
 }
 
+div.yellow_note {
+    margin: 1em auto;
+    width: 480px;
+    background: #FFFFCC;
+    padding: 1em;
+}
+
 div#global_messages div {
     margin: 1.5em 0;
 }
