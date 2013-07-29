@@ -23,6 +23,7 @@
               {section name="y" loop=$files[i].files}
               <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$core.rel_url}images/file.gif" border="0"></a>
               <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
+              <a class="link" title="{t}view{/t} ({$files[i].files[y].iaf_filename|escape:"html"}" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}&force_inline=1">view</a>
               {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
               <span title="{t}delete file{/t}" data-iaf-id="{$files[i].files[y].iaf_id}" class="js_link delete_file">{t}delete{/t}</span>{/if}
               <br />
