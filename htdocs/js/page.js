@@ -465,6 +465,11 @@ close_issue.ready = function()
     $('form[name=close_form]').submit(function() {
         return Validation.checkFormSubmission($('form[name=close_form]'), close_issue.validateForm);
     });
+
+    var status_options = Eventum.getField('status').children('option');
+    if (status_options.length == 2) {
+        status_options[1].selected = true;
+    }
 }
 
 close_issue.toggleNotificationList = function()
