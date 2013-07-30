@@ -100,6 +100,20 @@ abstract class Contract
     protected $partner_id;
 
     /**
+     * The amount of this contract (opportunity)
+     *
+     * @var double
+     */
+    protected $amount;
+
+    /**
+     * The currency the above amount is in
+     *
+     * @var string
+     */
+    protected $amount_currency;
+
+    /**
      * Constructs the contract object and loads contract data.
      *
      * @param Customer $customer The parent customer object
@@ -128,9 +142,11 @@ abstract class Contract
      * @param   string $public_comment
      * @param   string $partner_id
      * @param   integer $server_count
+     * @param   double $amount
+     * @param   string $amount_currency
      */
     public function setData($start_date, $end_date, $support_level_id, $status, $public_comment, $partner_id,
-                        $server_count)
+                        $server_count, $amount, $amount_currency)
     {
         $this->start_date = $start_date;
         $this->end_date = $end_date;
@@ -139,6 +155,8 @@ abstract class Contract
         $this->public_comment = $public_comment;
         $this->partner_id = $partner_id;
         $this->server_count = $server_count;
+        $this->amount = $amount;
+        $this->amount_currency = $amount_currency;
     }
 
 

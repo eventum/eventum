@@ -48,6 +48,14 @@ abstract class CRM_Customer
      */
     protected $country;
 
+
+    /**
+     * The last name of the account manager
+     *
+     * @var string
+     */
+    protected $account_manager;
+
     /**
      * Constructs the customer object and loads customer and support option data.
      *
@@ -72,11 +80,13 @@ abstract class CRM_Customer
      *
      * @param string $name
      * @param string $country
+     * @param string $account_manager
      */
-    public function setData($name, $country)
+    public function setData($name, $country, $account_manager)
     {
         $this->name = $name;
         $this->country = $country;
+        $this->account_manager = $account_manager;
     }
 
 
