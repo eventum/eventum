@@ -16,7 +16,7 @@
 {/if}
   <form id="list_form" method="post" action="{$smarty.server.PHP_SELF}"
         data-current-page="{$list_info.current_page|default:0}"
-        data-last-page="{$list_info.last_page|default:0}">
+        data-last-page="{$list_info.last_page|default:0}" data-refresh-rate="{$refresh_rate}">
   <input type="hidden" name="cat" value="bulk_update">
       <table class="bordered grid">
         <tr class="title">
