@@ -210,6 +210,16 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         return $created;
     }
 
+    private function isLDAPuser($usr_id)
+    {
+        $local_user_info = User::getDetails($usr_id);
+        if (empty($local_user_info['usr_external_id'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function verifyPassword($login, $password)
     {
         // check if this is an ldap or internal
@@ -297,4 +307,22 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
         return 1;
     }
+
+    /**
+     * Method used to update the account password for a specific user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @param   string  $password The password.
+     * @return  boolean true if update worked, false otherwise
+     */
+    function updatePassword($usr_id, $password)
+    {
+        if (!$this->isLDAPuser($usr_id)) {
+            return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
+        } else {
+            return false;
+        }
+    }
+
 }
