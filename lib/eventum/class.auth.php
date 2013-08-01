@@ -617,7 +617,8 @@ class Auth
             $instance = new $class();
 
             if (!$instance->isSetup()) {
-                die("Unable to use auth backend: " . $class);
+                Error_Handler::logError("Unable to use auth backend: " . $class);
+                $instance = self::getFallBackAuthBackend();
             }
         }
         return $instance;
