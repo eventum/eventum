@@ -28,7 +28,7 @@
 
 class Product
 {
-    public static function getList($removed=null)
+    public static function getList($include_removed=null)
     {
         $data = array();
         $sql = "SELECT
@@ -39,11 +39,11 @@ class Product
                     pro_removed
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product";
-        if ($removed != null) {
+        if ($include_removed !== null) {
             $sql .= "
                 WHERE
                     pro_removed = ?";
-            $data[] = $removed;
+            $data[] = $include_removed;
         }
         $sql .= "
                 ORDER BY
