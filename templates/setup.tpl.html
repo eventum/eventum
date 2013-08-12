@@ -143,7 +143,7 @@ function disableAuthFields(bool)
             <br />
             <b>{t}Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:{/t}</b>
             <br />
-            <a href="{if $smarty.post.is_ssl|default:'' == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
+            <a href="{if $smarty.post.is_ssl|default:'' == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl|default:'' == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
             <br /><br />
             {t}Email Address{/t}: admin@example.com {t}(literally){/t}<br />
             {t}Password{/t}: admin<br />
