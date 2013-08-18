@@ -379,9 +379,11 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string $type The type of notification to send.
      * @return  boolean
      */
-    function shouldEmailAddress($prj_id, $address)
+    function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
     {
         return true;
     }
