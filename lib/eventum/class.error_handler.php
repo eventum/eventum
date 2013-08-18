@@ -213,8 +213,8 @@ class Error_Handler
             $error_msg = $error_msg[1];
         }
 
-        if (strlen($error_msg) > 1024) {
-            $msg .= "'" . substr($error_msg, 0, 1024) . "' ...";
+        if (strlen($error_msg) > 2048) {
+            $msg .= "'" . substr($error_msg, 0, 2048) . "' ...";
 
             // try to find native code from DB error
             // [nativecode=1153 ** Got a packet bigger than 'max_allowed_packet' bytes]'
