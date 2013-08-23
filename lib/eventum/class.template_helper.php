@@ -146,7 +146,8 @@ class Template_Helper
         // create the list of projects
         $usr_id = Auth::getUserID();
         if ($usr_id != '') {
-            $prj_id = Auth::getCurrentProject();
+            $prj_id = Auth::getCurrentProject();  
+            $setup = Setup::load();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $this->assign("current_project", $prj_id);
@@ -177,6 +178,7 @@ class Template_Helper
             $this->assign("current_full_name", $info["usr_full_name"]);
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
+            $this->assign("handle_clock_in", $setup['handle_clock_in'] == 'enabled');
             $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
             $this->assign("is_anon_user", Auth::isAnonUser());
             $this->assign("roles", User::getAssocRoleIDs());
