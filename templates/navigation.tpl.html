@@ -86,14 +86,14 @@
           </form>
           {/if}
           <td width="50%" nowrap bgcolor="{$light_color}" class="default">
-            <b>{$current_role_name}: {$current_full_name|escape:html}{if $current_role > $roles.standard_user} [{if $is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]{/if}</b>
+            <b>{$current_role_name}: {$current_full_name|escape:html}{if $current_role > $roles.standard_user}{if $handle_clock_in} [{if $is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]{/if}{/if}</b>
             {strip}
             ({if $is_anon_user}
               <a target="_top" href="{$rel_url}signup.php" class="link">{t}Register{/t}</a>
             {else}
-              <a target="_top" title="{t}modify your account details and preferences{/t}" href="{$rel_url}preferences.php" class="link">{t}Preferences{/t}</a>&nbsp;
-              {if $current_role > $roles.standard_user}
-                <a target="_top" title="{t}change your account clocked-in status{/t}" href="javascript:void(null);" onClick="changeClockStatus();" class="link">{if $is_current_user_clocked_in}{t}Clock Out{/t}{else}{t}Clock In{/t}{/if}</a>
+              <a target="_top" title="{t}modify your account details and preferences{/t}" href="{$rel_url}preferences.php" class="link">{t}Preferences{/t}</a>
+              {if $handle_clock_in && ($current_role > $roles.standard_user)}
+                &nbsp;<a target="_top" title="{t}change your account clocked-in status{/t}" href="javascript:void(null);" onClick="changeClockStatus();" class="link">{if $is_current_user_clocked_in}{t}Clock Out{/t}{else}{t}Clock In{/t}{/if}</a>
               {/if}
             {/if})
             {/strip}

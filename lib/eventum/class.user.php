@@ -1425,6 +1425,11 @@ class User
      */
     function isClockedIn($usr_id)
     {
+        $setup = Setup::load();
+        // If clock in handling is disabled, say that we are always clocked in
+        if ($setup['handle_clock_in'] == 'enabled') {
+            return 1;
+        }
         $stmt = "SELECT
                     usr_clocked_in
                  FROM

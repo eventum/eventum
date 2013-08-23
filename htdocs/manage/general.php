@@ -64,6 +64,7 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup['draft_routing'] = $_POST['draft_routing'];
         $setup['email_error'] = $_POST['email_error'];
         $setup['email_reminder'] = $_POST['email_reminder'];
+        $setup['handle_clock_in'] = $_POST['handle_clock_in'];
         $res = Setup::save($setup);
         $tpl->assign("result", $res);
     }

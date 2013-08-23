@@ -648,6 +648,17 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Clocked In handling:{/t}</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="handle_clock_in" value="enabled" {if $setup.handle_clock_in == 'enabled'}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'handle_clock_in', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
+                  <input type="radio" name="handle_clock_in" value="disabled" {if $setup.handle_clock_in != 'enabled'}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('general_setup_form', 'handle_clock_in', 1);">{t}Disabled{/t}</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>{t}Allow Un-Assigned Issues?{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
