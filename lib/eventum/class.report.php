@@ -701,8 +701,9 @@ class Report
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return array();
             }
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                Customer::getCustomerTitlesByIssues($prj_id, $res);
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
+                $crm->processListIssuesResult($res);
                 if ($group_by == "issue") {
                     usort($res, create_function('$a,$b', 'if ($a["customer_title"] < $b["customer_title"]) {
                         return -1;

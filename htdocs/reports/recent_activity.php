@@ -287,9 +287,14 @@ function processResult($results, $date_field, $issue_field)
         if (!Issue::canAccess($res[$issue_field], $usr_id)) {
             continue;
         }
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$issue_field]));
-            $res["customer"] = @$details['customer_name'];
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                $customer = $crm->getCustomer(Issue::getCustomerID($res[$issue_field]));
+                $res['customer'] = $customer->getName();
+            } catch (CRMException $e) {
+                $res['customer'] = '';
+            }
         }
         $res["date"] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
         // need to decode From:, To: mail headers

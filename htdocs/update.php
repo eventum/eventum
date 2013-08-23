@@ -38,7 +38,6 @@ $associated_projects = @array_keys(Project::getAssocList($usr_id));
 $tpl = new Template_Helper();
 $tpl->setTemplate("update.tpl.html");
 $tpl->assign("user_prefs", Prefs::get($usr_id));
-$tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 
 Auth::checkAuthentication(APP_COOKIE);
 

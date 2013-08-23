@@ -50,9 +50,9 @@
             <input type="text" name="keywords" value="{$options.cst_keywords|escape:'html'|default:''}" size="40"></label>
           </td>
           <td colspan="3">
-            {if $core.has_customer_integration}
-            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
+            {if $core.has_crm}
+            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type|default:'' != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type|default:'' == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
             {else}
             <input type="hidden" name="search_type" value="all_text">
             {/if}

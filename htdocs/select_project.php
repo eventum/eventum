@@ -32,6 +32,8 @@ require_once dirname(__FILE__) . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate("select_project.tpl.html");
 
+session_start();
+
 // check if cookies are enabled, first of all
 if (!Auth::hasCookieSupport(APP_COOKIE)) {
     Auth::redirect("index.php?err=11");
@@ -60,7 +62,7 @@ if (@$_GET["err"] == '') {
     if (count($assigned_projects) == 1) {
         list($prj_id,) = each($assigned_projects);
         Auth::setCurrentProject($prj_id, 0);
-        handleExpiredCustomer($prj_id);
+        checkCustomerAuthentication($prj_id);
 
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
@@ -79,7 +81,7 @@ if (@$_GET["err"] == '') {
         }
         if (!empty($assigned_projects[$prj_id])) {
             Auth::setCurrentProject($prj_id, 0);
-            handleExpiredCustomer($prj_id);
+            checkCustomerAuthentication($prj_id);
             Auth::redirect($_GET["url"]);
         }
     }
@@ -105,7 +107,7 @@ if ($select_prj) {
             $_POST["remember"] = 0;
         }
         Auth::setCurrentProject($prj_id, $_POST["remember"]);
-        handleExpiredCustomer($prj_id);
+        checkCustomerAuthentication($prj_id);
 
         if (!empty($_POST["url"])) {
             Auth::redirect($_POST["url"]);
@@ -116,17 +118,16 @@ if ($select_prj) {
 }
 $tpl->displayTemplate();
 
-function handleExpiredCustomer($prj_id)
+function checkCustomerAuthentication($prj_id)
 {
-    GLOBAL $tpl;
-
-    if (Customer::hasCustomerIntegration($prj_id)) {
+    if (CRM::hasCustomerIntegration($prj_id)) {
+        $crm = CRM::getInstance($prj_id);
         // check if customer is expired
         $usr_id = Auth::getUserID();
         $contact_id = User::getCustomerContactID($usr_id);
         $customer_id = User::getCustomerID($usr_id);
         if ((!empty($contact_id)) && ($contact_id != -1)) {
-            Customer::authenticateCustomer($prj_id, $customer_id, $contact_id);
+            $crm->authenticateCustomer();
         }
     }
 }

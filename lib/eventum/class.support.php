@@ -260,11 +260,10 @@ class Support
     /**
      * Method used to get the sender of a given set of emails.
      *
-     * @access  public
-     * @param   integer $sup_ids The email IDs
+     * @param   integer[] $sup_ids The email IDs
      * @return  array The 'From:' headers for those emails
      */
-    function getSender($sup_ids)
+    public static function getSender($sup_ids)
     {
         $stmt = "SELECT
                     sup_from
@@ -913,9 +912,12 @@ class Support
 
         // only create a new issue if this email is coming from a known customer
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
-                (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
-            list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
-            if (empty($customer_id)) {
+                (CRM::hasCustomerIntegration($info['ema_prj_id']))) {
+            try {
+                $crm = CRM::getInstance($info['ema_prj_id']);
+                $contact = $crm->getContactByEmail($sender_email);
+                $should_create_issue = true;
+            } catch (CRMException $e) {
                 $should_create_issue = false;
             }
         }
@@ -941,16 +943,26 @@ class Support
         // need to check crm for customer association
         if (!empty($from)) {
             $details = Email_Account::getDetails($info['ema_id']);
-            if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
+            if (CRM::hasCustomerIntegration($info['ema_prj_id'])) {
                 // check for any customer contact association
-                @list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
+                try {
+                    $crm = CRM::getInstance($info['ema_prj_id']);
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $contact = $contact->getContactID();
+                    $contract = $contact->getContracts(array(CRM_EXCLUDE_EXPIRED))[0];
+                    $customer_id = $contract->getCustomerID();
+                } catch (CRMException $e) {
+                    $customer_id = null;
+                    $contact_id = null;
+                }
             }
         }
         return array(
             'should_create_issue'   =>  $should_create_issue,
             'associate_email'   =>  $associate_email,
             'issue_id'  =>  $issue_id,
-            'customer_id'   =>  @$customer_id,
+            'customer_id'   =>  $customer_id,
+            'contact_id'   =>  $contact_id,
             'type'      =>  $type,
             'parent_id' =>  $parent_id
         );
@@ -1309,7 +1321,8 @@ class Support
             Auth::redirect("emails.php?pagerRow=0&rows=$max");
         }
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             $customer_ids = array();
             for ($i = 0; $i < count($res); $i++) {
                 if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
@@ -1317,7 +1330,7 @@ class Support
                 }
             }
             if (count($customer_ids) > 0) {
-                $company_titles = Customer::getTitles($prj_id, $customer_ids);
+                $company_titles = $crm->getCustomerTitles($customer_ids);
             }
         }
 
@@ -1334,7 +1347,7 @@ class Support
                     $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
             }
         }
@@ -1433,11 +1446,14 @@ class Support
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
         if (empty($usr_id)) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 // try checking if a customer technical contact has this email associated with it
-                list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-                if (!empty($contact_id)) {
-                    $usr_id = User::getUserIDByContactID($contact_id);
+                try {
+                    $crm = CRM::getInstance($prj_id);
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $usr_id = User::getUserIDByContactID($contact->getContactID());
+                } catch (CRMException $e) {
+                    $usr_id = null;
                 }
             }
             if (empty($usr_id)) {
@@ -1891,11 +1907,16 @@ class Support
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (empty($sender_usr_id)) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
-                $customer_id = Issue::getCustomerID($issue_id);
-                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
-                $contact_emails = array_map('strtolower', $contact_emails);
+                $crm = CRM::getInstance($prj_id);
+                try {
+                    $contract = $crm->getContract(Issue::getContractID($issue_id));
+                    $contact_emails = array_keys($contract->getContactEmailAssocList());
+                    $contact_emails = array_map('strtolower', $contact_emails);
+                } catch (CRMException $e) {
+                    $contact_emails = array();
+                }
                 if ((!in_array(strtolower($sender_email), $contact_emails)) &&
                         (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                     $is_allowed = false;

@@ -235,8 +235,8 @@
     {/if}
     {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
     {assign var=tabindex value=$tabindex+50}
-    {if $core.has_customer_integration}
-    {include file="$customer_template_path/report_form_fields.tpl.html"}
+    {if $core.has_crm}
+    {include file="`$core.crm_template_path`/report_form_fields.tpl.html"}
 
     {* set tab index very high now to account for inputs in customer file *}
     {assign var="tabindex" value=$tabindex+30}

@@ -34,8 +34,8 @@ require_once "../../init.php";
 $prj_id = Auth::getCurrentProject();
 $page = $_REQUEST['page'];
 
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     echo "No customer integration for specified project.";exit;
 }
-
-require Customer::getPath($prj_id) . "/htdocs/" . basename($page) . '.php';
+$crm = CRM::getInstance($prj_id);
+require $crm->getHtdocsPath() . basename($page) . '.php';

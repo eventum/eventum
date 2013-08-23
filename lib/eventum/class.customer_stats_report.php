@@ -118,6 +118,7 @@ class Customer_Stats_Report
     function getData()
     {
         $data = array();
+        $crm = CRM::getInstance($this->prj_id);
 
         // determine if this should be customer based or support level based.
         if ($this->isCustomerBased()) {
@@ -127,13 +128,13 @@ class Customer_Stats_Report
             $data[] = $this->getAllRow();
 
             foreach ($this->customers as $customer_id) {
-                $details = Customer::getDetails($this->prj_id, $customer_id);
-                $data[] = $this->getDataRow($details["customer_name"], array($customer_id));
+                $customer = $crm->getCustomer($customer_id);
+                $data[] = $this->getDataRow($customer->getName(), array($customer_id));
             }
         } else {
             // support level based
             if (count($this->levels) > 0) {
-                $grouped_levels = Customer::getGroupedSupportLevels($this->prj_id);
+                $grouped_levels = $crm->getGroupedSupportLevels();
                 foreach ($this->levels as $level_name) {
                     if ($level_name == "Aggregate") {
                         // get "all" row of data
@@ -143,9 +144,9 @@ class Customer_Stats_Report
 
                     $support_options = array();
                     if ($this->exclude_expired_contracts) {
-                        $support_options[] = CUSTOMER_EXCLUDE_EXPIRED;
+                        $support_options[] = CRM_EXCLUDE_EXPIRED;
                     }
-                    $customers = Customer::getListBySupportLevel($this->prj_id, $grouped_levels[$level_name], $support_options);
+                    $customers = $crm->getCustomerIDsBySupportLevel($grouped_levels[$level_name], $support_options);
                     $data[] = $this->getDataRow($level_name, $customers);
                 }
             }
@@ -185,22 +186,23 @@ class Customer_Stats_Report
      */
     function getAllRow()
     {
+        $crm = CRM::getInstance($this->prj_id);
         $row = array(
             "title" =>  ev_gettext("Aggregate")
         );
 
         // get complete list of customers.
         $all_levels = array();
-        $levels = Customer::getSupportLevelAssocList($this->prj_id);
+        $levels = $crm->getSupportLevelAssocList();
         foreach ($levels as $level_id => $level_name) {
             $all_levels[] = $level_id;
         }
         if ($this->exclude_expired_contracts) {
-            $support_option = CUSTOMER_EXCLUDE_EXPIRED;
+            $support_option = CRM_EXCLUDE_EXPIRED;
         } else {
             $support_option = array();
         }
-        $this->current_customers = Customer::getListBySupportLevel($this->prj_id, $all_levels, $support_option);
+        $this->current_customers = $crm->getCustomerIDsBySupportLevel($all_levels, $support_option);
 
         // get customers
         $row["customer_counts"] = $this->getCustomerCounts("All");

@@ -61,7 +61,7 @@ class Display_Column
 
         $current_role = Auth::getCurrentRole();
         $data = self::getSelectedColumns($prj_id, $page);
-        $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
+        $has_customer_integration = CRM::hasCustomerIntegration($prj_id);
         $only_with_customers = array('iss_customer_id', 'support_level');
 
         // remove groups if there are no groups in the system.

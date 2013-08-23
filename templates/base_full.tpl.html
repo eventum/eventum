@@ -49,6 +49,9 @@
 
             <div id="user_menu">
                 {$core.current_role_name}: {$core.user.usr_full_name|escape:html}
+                {if $core.current_role == $core.roles.customer && $core.allowed_customers|@count > 1}
+                    [<a href="{$core.rel_url}select_customer.php" title="Change Customer">{$core.current_customer.name}</a>]
+                {/if}
                 {if $core.current_role > $core.roles.standard_user}
                     [{if $core.is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]
                 {/if}

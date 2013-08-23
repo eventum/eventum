@@ -66,15 +66,12 @@ if (@$_GET["cat"] == "edit") {
         $info['rem_prj_id'] = $_GET['prj_id'];
     }
     // only show customers and support levels if the selected project really needs it
-    $project_has_customer_integration = Customer::hasCustomerIntegration($info['rem_prj_id']);
+    $project_has_customer_integration = CRM::hasCustomerIntegration($info['rem_prj_id']);
     $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
     if ($project_has_customer_integration) {
-        $tpl->assign("customers", Customer::getAssocList($info['rem_prj_id']));
-        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['rem_prj_id']);
-        if ($backend_uses_support_levels) {
-            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['rem_prj_id']));
-        }
-        $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+        $crm = CRM::getInstance($info['rem_prj_id']);
+        $tpl->assign("customers", $crm->getCustomerAssocList());
+        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
     }
     $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
     $tpl->assign("info", $info);
@@ -96,15 +93,12 @@ if (@$_GET["cat"] == "edit") {
         $tpl->assign("severities", Severity::getAssocList($_GET['prj_id']));
         $tpl->assign("products", Product::getAssocList());
     // only show customers and support levels if the selected project really needs it
-    $project_has_customer_integration = Customer::hasCustomerIntegration($_GET['prj_id']);
+    $project_has_customer_integration = CRM::hasCustomerIntegration($_GET['prj_id']);
     $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
     if ($project_has_customer_integration) {
-        $tpl->assign("customers", Customer::getAssocList($_GET['prj_id']));
-        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
-        if ($backend_uses_support_levels) {
-            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
-        }
-        $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+        $crm = CRM::getInstance($_GET['prj_id']);
+        $tpl->assign("customers", $crm->getCustomerAssocList());
+        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
     }
 }
 

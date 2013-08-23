@@ -357,77 +357,6 @@ class Notification
 
 
     /**
-     * Method used to get the details of a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @return  array The issue details
-     */
-    function getIssueDetails($issue_id)
-    {
-        $stmt = "SELECT
-                    iss_id,
-                    iss_customer_id,
-                    iss_customer_contract_id,
-                    iss_summary,
-                    iss_description,
-                    iss_duplicated_iss_id,
-                    prj_id,
-                    prj_title,
-                    usr_full_name,
-                    usr_email,
-                    prc_title,
-                    pre_title,
-                    pri_title,
-                    sta_title,
-                    sta_color,
-                    sev_title
-                 FROM
-                    (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                    )
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
-                 ON
-                    iss_pri_id=pri_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
-                 ON
-                    iss_sev_id=sev_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
-                 ON
-                    iss_prc_id=prc_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
-                 ON
-                    iss_pre_id=pre_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
-                 ON
-                    iss_sta_id=sta_id
-                 WHERE
-                    iss_id=" . Misc::escapeInteger($issue_id) . " AND
-                    iss_prj_id=prj_id AND
-                    iss_usr_id=usr_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            $res['assigned_users'] = implode(", ", Issue::getAssignedUsers($issue_id));
-            // get customer information, if any
-            if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['prj_id']))) {
-                $res['customer_info'] = Customer::getDetails($res['prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
-            }
-            return $res;
-        }
-    }
-
-
-    /**
      * Method used to get the details of a given note and issue.
      *
      * @access  public
@@ -701,7 +630,7 @@ class Notification
         // get additional email addresses to notify
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
 
-        $data = self::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
@@ -816,7 +745,8 @@ class Notification
         }
         // prevent the primary customer contact from receiving two emails about the issue being closed
         if ($type == 'closed') {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
                 $stmt = "SELECT
                             iss_customer_contact_id
                          FROM
@@ -825,7 +755,12 @@ class Notification
                             iss_id=" . Misc::escapeInteger($issue_id);
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                 if (!empty($customer_contact_id)) {
-                    list($contact_email,,) = Customer::getContactLoginDetails($prj_id, $customer_contact_id);
+                    try {
+                        $contact = $crm->getContact($customer_contact_id);
+                        $contact_email = $contact->getEmail();
+                    } catch (CRMException $e) {
+                        $contact_email = '';
+                    }
                     for ($i = 0; $i < count($emails); $i++) {
                         $email = Mail_Helper::getEmailAddress($emails[$i]);
                         if ($email == $contact_email) {
@@ -841,7 +776,7 @@ class Notification
             $headers = false;
             switch ($type) {
                 case 'closed':
-                    $data = self::getIssueDetails($issue_id);
+                    $data = Issue::getDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
                     $subject = ev_gettext('Closed');
 
@@ -1159,13 +1094,14 @@ class Notification
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
-     * @param   string $additional_recipient The user who should recieve this email who is not the sender of the original email.
+     * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
      * @return  void
      */
     function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            $crm->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
         } else {
             if ($additional_recipient != false) {
                 $recipient = $additional_recipient;
@@ -1241,13 +1177,14 @@ class Notification
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The email IDs
-     * @param   integer $customer_id The customer ID
+     * @param bool|int $customer_id The customer ID
      * @return  array The list of recipient emails
      */
     function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
     {
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            return Customer::notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            return $crm->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
         } else {
             // build the list of recipients
             $recipients = array();

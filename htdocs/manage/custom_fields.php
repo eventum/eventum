@@ -69,7 +69,7 @@ if (@$_GET["cat"] == "edit") {
 }
 
 $excluded_roles = array();
-if (!Customer::hasCustomerIntegration(Auth::getCurrentProject())) {
+if (!CRM::hasCustomerIntegration(Auth::getCurrentProject())) {
     $excluded_roles[] = "customer";
 }
 $user_roles = User::getRoles($excluded_roles);

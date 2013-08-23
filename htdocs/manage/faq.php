@@ -60,10 +60,9 @@ if (@$_POST["cat"] == "new") {
     FAQ::remove();
 } elseif (!empty($_GET['prj_id'])) {
     $tpl->assign("info", array('faq_prj_id' => $_GET['prj_id']));
-    $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
-    $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
-    if ($backend_uses_support_levels) {
-        $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
+    if (CRM::hasCustomerIntegration($_GET['prj_id'])) {
+        $crm = CRM::getInstance($_GET['prj_id']);
+        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
     }
 }
 
@@ -72,10 +71,9 @@ if (@$_GET["cat"] == "edit") {
     if (!empty($_GET['prj_id'])) {
         $info['faq_prj_id'] = $_GET['prj_id'];
     }
-    $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['faq_prj_id']);
-    $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
-    if ($backend_uses_support_levels) {
-        $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['faq_prj_id']));
+    if (CRM::hasCustomerIntegration($info['faq_prj_id'])) {
+        $crm = CRM::getInstance($info['faq_prj_id']);
+        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
     }
     $tpl->assign("info", $info);
 } elseif (@$_GET["cat"] == "change_rank") {

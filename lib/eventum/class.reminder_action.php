@@ -747,7 +747,7 @@ class Reminder_Action
                 "reminder"                 => $reminder,
                 "action"                   => $action,
                 "conditions"               => $conditions,
-                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
@@ -787,7 +787,7 @@ class Reminder_Action
                 "reminder"                 => $reminder,
                 "action"                   => $action,
                 "conditions"               => $conditions,
-                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {

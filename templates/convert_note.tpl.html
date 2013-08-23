@@ -30,7 +30,7 @@
 {else}
 <script type="text/javascript">
     <!--
-    {if $core.has_customer_integration}
+    {if $core.has_crm}
         var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}";
         {else}
         var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}";

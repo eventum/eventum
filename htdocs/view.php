@@ -56,25 +56,27 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 
 $details = Issue::getDetails($issue_id);
 if ($details == '') {
-    Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
-    $tpl->displayTemplate();
-    exit;
+    Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id));
 }
 
 // TRANSLATORS: %1 = issue id
 $tpl->assign("issue", $details);
-$tpl->assign('customer_template_path', Customer::getTemplatePath($prj_id));
 
 // in the case of a customer user, also need to check if that customer has access to this issue
-if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
-        !Issue::canAccess($issue_id, $usr_id)) {
-    Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'), Misc::MSG_ERROR);
-    $tpl->displayTemplate();
-    exit;
+if (!Issue::canAccess($issue_id, $usr_id)) {
+    Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
 } else {
+
+    // if the issue has a different customer then the currently selected one, switch customers
+    if (Auth::getCurrentRole() == User::getRoleID("Customer") && Auth::getCurrentCustomerID() != $details['iss_customer_id']) {
+        Auth::setCurrentCustomerID($details['iss_customer_id']);
+        Misc::setMessage("Active customer changed to '" . $details['customer']->getName() . '"');
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+    }
+
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
-        $tpl->assign('issue', '');
+        Misc::displayErrorMessage(ev_gettext(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id)));
     } else {
         // now that we can access to the issue, add more verbose HTML <title>
         // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
@@ -83,7 +85,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         // check if the requested issue is a part of one of the projects
         // associated with this user
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
-            $tpl->assign("auth_customer", 'denied');
+            Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         } else {
             $options = Search::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);

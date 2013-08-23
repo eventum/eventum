@@ -918,18 +918,17 @@ class Reminder
         if ($requirement['type'] == 'issue') {
             $stmt .= ' AND iss_id IN (' . implode(', ', $requirement['values']) . ")\n";
         } else {
-            if (Customer::hasCustomerIntegration($reminder['rem_prj_id'])) {
+            if (CRM::hasCustomerIntegration($reminder['rem_prj_id'])) {
+                $crm = CRM::getInstance($reminder['rem_prj_id']);
                 if ($requirement['type'] == 'customer') {
                     $stmt .= ' AND iss_customer_id IN (' . implode(', ', $requirement['values']) . ")\n";
                 } elseif ($requirement['type'] == 'support_level') {
-                    if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
-                        $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values'], CUSTOMER_EXCLUDE_EXPIRED);
-                        // break the query on purpose if no customers could be found
-                        if (count($customer_ids) == 0) {
-                            $customer_ids = array(-1);
-                        }
-                        $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
+                    $customer_ids = $crm->getCustomerIDsBySupportLevel($requirement['values'], array(CRM_EXCLUDE_EXPIRED));
+                    // break the query on purpose if no customers could be found
+                    if (count($customer_ids) == 0) {
+                        $customer_ids = array(-1);
                     }
+                    $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
                 }
             }
         }

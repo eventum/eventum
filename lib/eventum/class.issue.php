@@ -96,7 +96,7 @@ class Issue
         if (count($categories) > 0) {
             $headings[] = 'Category';
         }
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
             $headings[] = 'Customer';
         }
         $headings[] = 'Status';
@@ -261,11 +261,10 @@ class Issue
     /**
      * Returns the contract ID associated with the given issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
-     * @return  integer The customer ID associated with the issue
+     * @return  integer The contract ID associated with the issue
      */
-    function getContractID($issue_id)
+    public static function getContractID($issue_id)
     {
         static $returns;
 
@@ -1467,7 +1466,8 @@ class Issue
         }
 
         if ($send_notification) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
                 // send a special confirmation email when customer issues are closed
                 $stmt = "SELECT
                             iss_customer_contact_id
@@ -1477,7 +1477,10 @@ class Issue
                             iss_id=$issue_id";
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                 if (!empty($customer_contact_id)) {
-                    Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
+                    try {
+                        $contact = $crm->getContact($customer_contact_id);
+                        $contact->notifyIssueClosed($issue_id, $reason);
+                    } catch (CRMException $e) {}
                 }
             }
             // send notifications for the issue being closed
@@ -1728,7 +1731,7 @@ class Issue
             }
 
             // if there is customer integration, mark last customer action
-            if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
+            if ((CRM::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
                 self::recordLastCustomerAction($issue_id);
             }
 
@@ -2044,23 +2047,25 @@ class Issue
             'msg_id' => $msg_id,
         );
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-            if (!empty($customer_id)) {
-                $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                $contact = $crm->getContactByEmail($sender_email);
                 // overwrite the reporter with the customer contact
-                $reporter = User::getUserIDByContactID($customer_contact_id);
+                $reporter = User::getUserIDByContactID($contact->getContactID());
                 $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
 
-                $data['customer'] = $customer_id;
-                $data['contact'] = $customer_contact_id;
-#                $data['contract'] =  // XXX missing
+                // Just use first contract / customer for now.
+                $contract = $contact->getContracts(array('active'=>true))[0];
+                $data['customer'] = $contract->getCustomerID();
+                $data['contact'] = $contact->getContactID();
+                $data['contract'] =  $contract->getContractID();
                 $data['contact_person_lname'] = $contact['last_name'];
                 $data['contact_person_fname'] = $contact['first_name'];
                 $data['contact_email'] = $sender_email;
                 $data['contact_phone'] = $contact['phone'];
                 $data['contact_timezone'] = $contact_timezone;
-            }
+            } catch (CRMException $e) {}
         } else {
             $customer_id = false;
         }
@@ -2082,7 +2087,7 @@ class Issue
 
         $emails = array();
         // if there are any technical account managers associated with this customer, add these users to the notification list
-        $managers = Customer::getAccountManagers($prj_id, $data['customer']);
+        $managers = CRM::getAccountManagers($prj_id, $data['customer']);
         foreach ($managers as $manager) {
             $emails[] = $manager['usr_email'];
         }
@@ -2097,7 +2102,7 @@ class Issue
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
         $has_TAM = false;
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+        if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
             foreach ($managers as $manager) {
                 if ($manager['cam_type'] == 'intpart') {
                     continue;
@@ -2182,7 +2187,8 @@ class Issue
 
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             $contact_usr_id = User::getUserIDByContactID($data['contact']);
             if (empty($contact_usr_id)) {
                 $contact_usr_id = $usr_id;
@@ -2206,7 +2212,9 @@ class Issue
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
 
         $emails = array();
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $customer = $crm->getCustomer($data['customer']);
+            $contract = $crm->getContract($data['contract']);
             if (!empty($data['contact_extra_emails']) && count($data['contact_extra_emails']) > 0) {
                 $emails = $data['contact_extra_emails'];
             }
@@ -2218,7 +2226,7 @@ class Issue
                 }
             }
             // if there are any technical account managers associated with this customer, add these users to the notification list
-            $managers = Customer::getAccountManagers($prj_id, $data['customer']);
+            $managers = $customer->getEventumAccountManagers();
             foreach ($managers as $manager) {
                 $emails[] = $manager['usr_email'];
             }
@@ -2233,7 +2241,7 @@ class Issue
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
         $has_TAM = false;
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+        if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
             foreach ($managers as $manager) {
                 if ($manager['cam_type'] == 'intpart') {
                     continue;
@@ -2327,19 +2335,22 @@ class Issue
         }
         // also send a special confirmation email to the customer contact
         if ((@$data['notify_customer'] == 'yes') && (!empty($data['contact']))) {
+            $contact = $contract->getContact($data['contact']);
             // also need to pass the list of sender emails already notified,
             // so we can avoid notifying the same person again
             $contact_email = User::getEmailByContactID($data['contact']);
             if (@!in_array($contact_email, $recipients)) {
-                Customer::notifyCustomerIssue($prj_id, $issue_id, $data['contact']);
+                $contact->notifyNewIssue($issue_id);
             }
             // now check for additional emails in contact_extra_emails
             if (@count($data['contact_extra_emails']) > 0) {
                 $notification_emails = $data['contact_extra_emails'];
                 foreach($notification_emails as $notification_email) {
                     if (@!in_array($notification_email, $recipients)) {
-                        $notification_contact_id = User::getCustomerContactID(User::getUserIDByEmail($notification_email));
-                        Customer::notifyCustomerIssue($prj_id, $issue_id, $notification_contact_id);
+                        try {
+                            $notification_contact = $crm->getContactByEmail($notification_email);
+                            $notification_contact->notifyNewIssue($issue_id);
+                        } catch (ContactNotFoundException $e) {}
                     }
                 }
             }
@@ -2409,7 +2420,7 @@ class Issue
             $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
         }
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
             $stmt .= "
                     iss_customer_id='". Misc::escapeString($data['customer']) . "',";
             if (!empty($data['contract'])) {
@@ -2975,20 +2986,29 @@ class Issue
             } else {
                 $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
                 // get customer information, if any
-                if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
-                    $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
-                    $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
-                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id'], $res['iss_customer_contact_id']);
-                    $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
-                    $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
-                    $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
-                    if (empty($res['iss_first_response_date'])) {
-                        $first_response_deadline = $created_date_ts + $max_first_response_time;
-                        if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                            $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
-                        } else {
-                            $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                if ((!empty($res['iss_customer_id'])) && (CRM::hasCustomerIntegration($res['iss_prj_id']))) {
+                    $crm = CRM::getInstance($res['iss_prj_id']);
+                    try {
+                        $customer = $crm->getCustomer($res['iss_customer_id']);
+                        $contract = $crm->getContract($res['iss_customer_contract_id']);
+                        $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
+                        $res['customer'] = $customer;
+                        $res['contract'] = $contract;
+                        $res['contact'] = $crm->getContact($res['iss_customer_contact_id']);
+                        // TODOCRM: Deal with incidents
+    //                    $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
+                        $max_first_response_time = $contract->getMaximumFirstResponseTime($issue_id);
+                        $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
+                        if (empty($res['iss_first_response_date'])) {
+                            $first_response_deadline = $created_date_ts + $max_first_response_time;
+                            if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
+                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
+                            } else {
+                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                            }
                         }
+                    } catch (CRMException $e) {
+                        // TODOCRM: Log exception?
                     }
                 }
                 $res['iss_original_description'] = $res["iss_description"];

@@ -22,7 +22,7 @@ function hideClosed(hide_closed)
 {/literal}
 
 {if $core.current_role == $core.roles.customer}
-  {include file="$customer_template_path/customer_report.tpl.html"}
+  {include file="`$core.crm_template_path`/customer_report.tpl.html"}
 {else}
 <table width="100%">
   <tr>

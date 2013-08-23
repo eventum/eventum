@@ -61,7 +61,7 @@
     <div id="colwrap1">
         <div id="colwrap2">
             <div id="column1" class="column">
-                {if $core.has_customer_integration and $issue.iss_customer_id}
+                {if $core.has_crm and $issue.iss_customer_id}
                 <div class="issue_field_display">
                     <div class="background">
                         <div class="label">{t}Customer{/t}</div>
@@ -94,7 +94,7 @@
     </div>
 
     <div id="column2" class="column">
-        {if $core.has_customer_integration and $issue.iss_customer_id}
+        {if $core.has_crm and $issue.iss_customer_id}
         <div class="issue_field_display">
             <div class="background">
                 <div class="label">{t}Customer Contract{/t}</div>
@@ -259,7 +259,7 @@
     {if $is_user_notified != 1}
     <input type="button" value="{t}Add Me To Notification{/t}" class="self_notification">
     {/if}
-    {if $core.has_customer_integration|default:'' != '' && $issue.customer_info|default:'' != '' && $issue.customer_info.is_per_incident}
+    {if $core.has_crm|default:'' != '' && $issue.customer_info|default:'' != '' && $issue.customer_info.is_per_incident}
     <input type="button" value="{t}Edit Incident Redemption{/t}" class="edit_incident_redemption">
     {/if}
     &nbsp;

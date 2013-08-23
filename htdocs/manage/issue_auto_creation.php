@@ -57,7 +57,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("options", Email_Account::getIssueAutoCreationOptions($ema_id));
     $tpl->assign("ema_id", $ema_id);
     $tpl->assign("prj_title", Project::getName($prj_id));
-    $tpl->assign("uses_customer_integration", Customer::hasCustomerIntegration($prj_id));
+    $tpl->assign("uses_customer_integration", CRM::hasCustomerIntegration($prj_id));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

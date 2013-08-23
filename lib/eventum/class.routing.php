@@ -171,12 +171,16 @@ class Routing
             'headers'        => @$structure->headers
         );
         // automatically associate this incoming email with a customer
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             if (!empty($structure->headers['from'])) {
-                list($customer_id,) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-                if (!empty($customer_id)) {
-                    $t['customer_id'] = $customer_id;
-                }
+                try {
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
+                    if ($contact->canAccessContract($issue_contract)) {
+                        $t['customer_id'] = $issue_contract->getCustomerID();
+                    }
+                } catch (CRMException $e) {}
             }
         }
         if (empty($t['customer_id'])) {

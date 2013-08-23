@@ -1,11 +1,13 @@
 <?php
 
+define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
+
 abstract class CRM
 {
     /**
      * The connection to the database
      *
-     * @var resource
+     * @var MDB2_Driver_Common
      */
     protected $connection;
 
@@ -29,17 +31,6 @@ abstract class CRM
     protected $support_levels;
 
     /**
-     * An array containing information about options.
-     * $option_id = array(
-     *          'name'  =>  $option_name,
-     *          'per_incident'  =   1 or 0
-     * )
-     *
-     * @var array
-     */
-    protected $options_info = array();
-
-    /**
      * Setups a new instance for the specified project. If the instance already exists,
      * return the current instance.
      *
@@ -55,29 +46,16 @@ abstract class CRM
     }
 
 
-    public static function destroyInstances()
-    {
-        foreach (self::$instances as $prj_id => $instance) {
-            $instance->destroy($prj_id);
-        }
-        self::$instances = array();
-    }
-
-
-    public static function authenticateCustomer($prj_id = false)
-    {
-        // Create later
-    }
+    abstract public function authenticateCustomer();
 
 
     /**
-     * If a single customer ID is passed in a single Customer object is returned. If an array
-     * is passed in an array of customer objects are returned.
+     * Returns the customer object for the specified ID
      *
-     * @param   integer $customer_id A customer id or array of ids
-     * @return  CRM_Customer A customer object or an array of customer objects
+     * @param   string $customer_id A customer ID
+     * @return  Customer A customer object
      */
-    abstract public function &getCustomer($customer_id);
+    abstract public function getCustomer($customer_id);
 
 
     /**
@@ -86,8 +64,8 @@ abstract class CRM
      * @param   integer $contract_id A contract id
      * @return  Contract A contract object
      */
-    abstract public function &getContract($contract_id);
-    
+    abstract public function getContract($contract_id);
+
 
     /**
      * Returns a contact object for the specified contact ID
@@ -95,7 +73,7 @@ abstract class CRM
      * @param   integer $email
      * @return  Contact A contact object
      */
-    abstract public function &getContactByEmail($email);
+    abstract public function getContactByEmail($email);
 
 
     /**
@@ -104,7 +82,7 @@ abstract class CRM
      * @param   integer $contact_id
      * @return  Contact A contact object
      */
-    abstract public function &getContact($contact_id);
+    abstract public function getContact($contact_id);
 
     /**
      * Returns the name of the backend.
@@ -120,11 +98,10 @@ abstract class CRM
      *
      * @param   string $field The field that we are trying to search against
      * @param   string $value The value that we are searching for
-     * @param   boolean $include_expired Whether to include expired/cancelled customers or not (optional)
-     * @param   boolean $include_future Whether to include expired/cancelled customers or not (optional)
+     * @param   $options
      * @return  array The list of customers
      */
-    abstract public function lookup($field, $value, $include_expired = FALSE, $include_future = false);
+    abstract public function lookup($field, $value, $options);
 
 
     /**
@@ -148,21 +125,6 @@ abstract class CRM
 
 
     /**
-     * destroys the backend
-     *
-     * @param   integer $prj_id
-     */
-    abstract protected function destroy($prj_id);
-
-
-    /**
-     * Re-initializes the object. This is useful for long running processes where the connection may time out
-     *
-     */
-    abstract public function reinitialize();
-
-
-    /**
      * Returns an array of incident types supported.
      *
      * @return  array An array of per incident types
@@ -171,67 +133,39 @@ abstract class CRM
 
 
     /**
-     * Checks whether the given issue ID was marked as a redeemed incident or
-     * not.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $incident_type The type of incident
-     * @return  boolean
-     */
-    abstract public function isRedeemedIncident($issue_id, $incident_type);
-
-
-    /**
-     * Returns an array of the curently redeemed incident types for the issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @return  array An array containing the redeemed incident types
-     */
-    abstract public function getRedeemedIncidentDetails($issue_id);
-
-
-    /**
-     * Returns an array of support levels for a specific type
-     *
-     * @param   string $type The type of level we want to return
-     * @return  array()
-     */
-    abstract public function getLevelsByType($type);
-
-
-    /**
      * Returns an associative array of support level IDs => names
      *
-     * @param   mixed   $type The type of levels to return (optional)
      * @return array
      */
-    abstract public function getSupportLevelAssocList($type = false);
+    abstract public function getSupportLevelAssocList();
 
 
     /**
      * Returns information on the specified support level
      *
-     * @param   integer $level_id The level to return info for.
-     * @return  array An array of information about the level
+     * @param   string $level_id The level to return info for.
+     * @throws  SupportLevelNotFoundException
+     * @return  Support_Level
      */
-    abstract public function getSupportLevelDetails($level_id);
+    abstract public function getSupportLevel($level_id);
 
 
     /**
-     * Returns an array of support levels grouped together.
+     * Returns support levels grouped together
      *
      * @return array
      */
     abstract public function getGroupedSupportLevels();
 
+
     /**
-     * Retrieves the customer titles associated with the given list of issues.
+     * Retrieves the customer titles and support levels associated with the given list of issues. Should set
+     * the following keys for each row, 'customer_title', 'support_level'
      *
      * @param   array $result The list of issues
      * @see     Search::getListing()
      */
-    abstract public function getCustomerTitlesByIssues(&$result);
+    abstract public function processListIssuesResult(&$result);
 
 
     /**
@@ -240,16 +174,6 @@ abstract class CRM
      * @param   array $ids The list of customer IDs
      */
     abstract public function getCustomerTitles($ids);
-
-
-    /**
-     * Retrieves the customer support levels associated with the
-     * given list of issues.
-     *
-     * @param   array $result The list of issues
-     * @see     Search::getListing()
-     */
-    abstract public function getSupportLevelsByIssues(&$result);
 
 
     /**
@@ -298,13 +222,13 @@ abstract class CRM
 
     /**
      * Returns the list of customer IDs that are associated with the given
-     * email value (wildcards welcome).
+     * keyword value (wildcards welcome). This can search name, emails, etc
      *
-     * @param   string $email The email value
-     * @param   boolean $include_expired If expired contracts should be included
+     * @param   string $keyword The string to search by value
+     * @param array $options
      * @return  array The list of customer IDs
      */
-    abstract public function getCustomerIDsLikeEmail($email, $include_expired = false);
+    abstract public function getCustomerIDsByString($keyword, $options = array());
 
 
     /**
@@ -317,17 +241,6 @@ abstract class CRM
      * @return  array The customer and customer contact ID
      */
     abstract public function getCustomerInfoFromEmails($sup_ids);
-
-
-    /**
-     * Method used to get the customer and customer contact IDs associated
-     * with a given list of email addresses.
-     *
-     * @param   array $emails The list of email addresses
-     * @param   boolean $include_expired If expired contacts should be excluded
-     * @return  array The customer and customer contact ID
-     */
-    abstract public function getCustomerAndContactIDByEmails($emails, $include_expired = false);
 
 
     /**
@@ -359,11 +272,11 @@ abstract class CRM
     /**
      * Returns a list of customer IDS belonging to the specified support level
      *
-     * @param   integer $support_level_id The support Level ID
+     * @param   string|array $levels The support Level ID or an array of support level ids
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array
      */
-    abstract public function getCustomerIDsBySupportLevel($support_level_id, $support_options = false);
+    abstract public function getCustomerIDsBySupportLevel($levels, $support_options = false);
 
 
     /**
@@ -377,11 +290,11 @@ abstract class CRM
     /**
      * Returns the list of contract IDs for a given support contract level.
      *
-     * @param   integer $support_level_id The support level ID
+     * @param   integer $level_id The support level ID
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array The list of contract IDs
      */
-    abstract public function getContractIDsBySupportLevel($support_level_id, $support_options = FALSE);
+    abstract public function getContractIDsBySupportLevel($level_id, $support_options = FALSE);
 
     /**
      * Checks whether the given project ID is setup to use customer integration
@@ -480,10 +393,12 @@ abstract class CRM
     /**
      * Returns the backend for the specified class name
      *
-     * @param   string $class_name The name of the class.
+     * @param $backend_class
+     * @param int $prj_id
+     * @internal param string $class_name The name of the class.
      * @return  Customer
      */
-    private static function getBackend($backend_class, $prj_id = 0)
+    private static function getBackend($backend_class, $prj_id)
     {
         $file_name_chunks = explode(".", $backend_class);
         $class_name = $file_name_chunks[1];
@@ -497,6 +412,7 @@ abstract class CRM
 
         $backend = new $class_name;
         $backend->setup($prj_id);
+        $backend->prj_id = $prj_id;
         return $backend;
     }
 
@@ -512,7 +428,7 @@ abstract class CRM
         $stmt = "SELECT
                     cam_id,
                     cam_prj_id,
-                    cam_customer_contract_id,
+                    cam_customer_id,
                     cam_type,
                     usr_full_name
                  FROM
@@ -527,8 +443,10 @@ abstract class CRM
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $crm = CRM::getInstance($res[$i]['cam_prj_id']);
-                $contract = $crm->getContract($res[$i]['cam_customer_contract_id']);
-                $res[$i]['contract_title'] = $contract->getTitle();
+                try {
+                    $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
+                    $res[$i]['customer_title'] = $customer->getName();
+                } catch (CRMException $e) {}
             }
             return $res;
         }
@@ -548,12 +466,12 @@ abstract class CRM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  (
                     cam_prj_id,
-                    cam_customer_contract_id,
+                    cam_customer_id,
                     cam_usr_id,
                     cam_type
                  ) VALUES (
                     " . $_POST['project'] . ",
-                    " . $_POST['contract'] . ",
+                    " . $_POST['customer'] . ",
                     " . $_POST['manager'] . ",
                     '" . $_POST['type'] . "'
                  )";
@@ -602,7 +520,7 @@ abstract class CRM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  SET
                     cam_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
-                    cam_customer_contract_id=" . Misc::escapeInteger($_POST['contract']) . ",
+                    cam_customer_id=" . Misc::escapeInteger($_POST['customer']) . ",
                     cam_usr_id=" . Misc::escapeInteger($_POST['manager']) . ",
                     cam_type='" . Misc::escapeString($_POST['type']) . "'
                  WHERE
@@ -673,7 +591,180 @@ abstract class CRM
             }
         }
     }
-    
+
+
+    /**
+     * Returns any notes for for the specified customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  array An array containg the note details.
+     */
+    public static function getNoteDetailsByCustomer($customer_id)
+    {
+        $stmt = "SELECT
+                    cno_id,
+                    cno_prj_id,
+                    cno_customer_id,
+                    cno_note
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                WHERE
+                    cno_customer_id = '" . Misc::escapeString($customer_id) . "'";
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns any note details for for the specified id.
+     *
+     * @param $cno_id
+     * @return  array An array containg the note details.
+     */
+    public static function getNoteDetailsByID($cno_id)
+    {
+        $stmt = "SELECT
+                    cno_prj_id,
+                    cno_customer_id,
+                    cno_note
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                WHERE
+                    cno_id = " . Misc::escapeInteger($cno_id);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns an array of notes for all customers.
+     *
+     * @return  array An array of notes.
+     */
+    public static function getNoteList()
+    {
+        $stmt = "SELECT
+                    cno_id,
+                    cno_prj_id,
+                    cno_customer_id,
+                    cno_note
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                ORDER BY
+                    cno_customer_id ASC";
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            for ($i = 0; $i < count($res); $i++) {
+                try {
+                    $crm = CRM::getInstance($res[$i]['cno_prj_id']);
+                    $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
+                } catch (Exception $e) {}
+            }
+            return $res;
+        }
+    }
+
+
+    /**
+     * Updates a note.
+     *
+     * @param   integer $cno_id The id of this note.
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The id of the customer.
+     * @param   string $note The text of this note.
+     * @return int
+     */
+    public static function updateNote($cno_id, $prj_id, $customer_id, $note)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                 SET
+                    cno_note='" . Misc::escapeString($note) . "',
+                    cno_prj_id=" . Misc::escapeInteger($prj_id) . ",
+                    cno_customer_id='" . Misc::escapeString($customer_id) . "',
+                    cno_updated_date='" . Date_Helper::getCurrentDateGMT() . "'
+                 WHERE
+                    cno_id=" . Misc::escapeInteger($cno_id);
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Adds a quick note for the specified customer.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The id of the customer.
+     * @param   string  $note The note to add.
+     * @return int
+     */
+    public static function insertNote($prj_id, $customer_id, $note)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                 (
+                    cno_prj_id,
+                    cno_customer_id,
+                    cno_created_date,
+                    cno_updated_date,
+                    cno_note
+                 ) VALUES (
+                    " . Misc::escapeInteger($prj_id) . ",
+                    " . Misc::escapeInteger($customer_id) . ",
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Misc::escapeString($note) . "'
+                 )";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Removes the selected notes from the database.
+     *
+     * @param   array $ids An array of cno_id's to be deleted.
+     * @return int
+     */
+    public static function removeNotes($ids)
+    {
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                 WHERE
+                    cno_id IN (" . join(", ", Misc::escapeInteger($ids)) . ")";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
 
     public function getConnection()
     {
@@ -685,12 +776,6 @@ abstract class CRM
         return $this->prj_id;
     }
 
-    public function getOptionsInfo($opt_id)
-    {
-        return $this->options_info[$opt_id];
-    }
-
-
     /**
      * Returns the number of days expired contracts are allowed to login.
      *
@@ -699,8 +784,36 @@ abstract class CRM
     abstract public function getExpirationOffset();
 
 
+    abstract public function getTemplatePath();
+
+    abstract public function getHtdocsPath();
+
+
     public function __toString()
     {
         return "CRM Instance\nProject ID: " . $this->prj_id . "\nClass Name: " . get_class($this);
     }
+
+
+    /**
+     * Helper function to return customer name.
+     * @param integer $prj_id
+     * @param string $customer_id
+     * @return string
+     */
+    public static function getCustomerName($prj_id, $customer_id)
+    {
+        try {
+            $crm = self::getInstance($prj_id);
+            $customer = $crm->getCustomer($customer_id);
+            return $customer->getName();
+        } catch (CRMException $e) {
+            return null;
+        }
+    }
+}
+
+
+class CRMException extends Exception
+{
 }
