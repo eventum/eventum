@@ -750,6 +750,10 @@ new_issue.validateForm = function()
     if (priority_field.attr('type') != 'hidden' && priority_field.val() == -1) {
         Validation.errors[Validation.errors.length] = new Option('Priority', 'priority');
     }
+    var severity_field = Eventum.getField('severity')
+    if (severity_field.attr('type') != 'hidden' && severity_field.val() == -1) {
+        Validation.errors[Validation.errors.length] = new Option('Severity', 'severity');
+    }
     var user_field = Eventum.getField('users[]');
     if (user_field.length > 0 && user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
         !Validation.hasOneSelected(user_field)) {

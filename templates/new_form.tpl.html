@@ -65,7 +65,7 @@
     {if $core.current_role >= $field_display_settings.severity}
     <tr>
       <th width="150" {if $field_display_settings.severity > $core.roles.customer}class="internal"{/if}">
-        {t}Severity{/t}
+        {t}Severity *{/t}
       </th>
       <td>
         <select id="severity" name="severity" tabindex="{$tabindex++}">

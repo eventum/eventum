@@ -106,22 +106,6 @@ body.issue_view div#issue_overview div#colwrap2 {
     right: 151px;
 }
 
-body.issue_view div#issue_overview div#colwrap1 {
-    background: #255282;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 850px;
-}
-
-body.issue_view div#issue_overview div#colwrap2 {
-    background: #ffffff;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 151px;
-}
-
 body.issue_view div#issue_overview div#column1 {
     width: 500px;
     float: left;
