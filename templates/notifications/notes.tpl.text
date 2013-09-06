@@ -10,7 +10,7 @@
           {t escape=no}Summary{/t}: {$data.iss_summary}
            {t escape=no}Status{/t}: {$data.sta_title}
           {t escape=no}Project{/t}: {$data.prj_title}
-      {t escape=no}Reported By{/t}: {$data.usr_full_name}
+      {t escape=no}Reported By{/t}: {$data.reporter}
          {t escape=no}Priority{/t}: {$data.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------

@@ -100,9 +100,9 @@
                 <div class="label">{t}Customer Contract{/t}</div>
                 <div class="display">
                     {t}Support Level{/t}: {$issue.customer_info.support_level}
-                    {if $issue.customer_info.support_options|default:''}
+                    {if $issue.contract.options_display|default:''}
                     <br />
-                    {t}Support Options{/t}: {$issue.customer_info.support_options}
+                    {t}Support Options{/t}: {$issue.contract.options_display|default:''}
                     {/if}
                     {if $issue.customer_info.is_per_incident}
                     <br />

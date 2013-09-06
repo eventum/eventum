@@ -401,7 +401,7 @@ class Notification
                 $res['reference_msg_id'] = false;
             }
 
-            $data = self::getIssueDetails($issue_id);
+            $data = Issue::getDetails($issue_id);
             $data["note"] = $res;
             return $data;
         }
@@ -438,7 +438,7 @@ class Notification
             if (count($res) == 0) {
                 return "";
             } else {
-                $data = self::getIssueDetails($issue_id);
+                $data = Issue::getDetails($issue_id);
                 $data["emails"] = $res;
                 return $data;
             }
@@ -475,7 +475,7 @@ class Notification
             return "";
         } else {
             $res["files"] = Attachment::getFileList($res["iat_id"]);
-            $data = self::getIssueDetails($issue_id);
+            $data = Issue::getDetails($issue_id);
             $data["attachment"] = $res;
             return $data;
         }
@@ -680,7 +680,7 @@ class Notification
                 $emails[] = $email;
             }
         }
-        $data = self::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
@@ -1449,7 +1449,7 @@ class Notification
         if (count($assignees) > 0) {
 
             // get issue details
-            $issue = self::getIssueDetails($issue_id);
+            $issue = Issue::getDetails($issue_id);
             // open text template
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/' . $type . '.tpl.text');
@@ -1507,7 +1507,7 @@ class Notification
             return false;
         }
         // get issue details
-        $issue = self::getIssueDetails($issue_id);
+        $issue = Issue::getDetails($issue_id);
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');

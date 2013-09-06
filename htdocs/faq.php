@@ -51,7 +51,7 @@ if (!CRM::hasCustomerIntegration($prj_id)) {
         $support_level_ids = array();
         // TODOCRM: only active contracts?
         foreach ($contact->getContracts() as $contract) {
-            $support_level_ids[] = $contract['support_level_id'];
+            $support_level_ids[] = $contract->getSupportLevel()->getLevelID();
         }
     }
 }

@@ -685,7 +685,7 @@ class Reminder_Action
                 }
                 break;
         }
-        $data = Notification::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $conditions = Reminder_Condition::getAdminList($action['rma_id']);
         // alert IRC if needed
         if ($action['rma_alert_irc']) {
