@@ -949,7 +949,8 @@ class Support
                     $crm = CRM::getInstance($info['ema_prj_id']);
                     $contact = $crm->getContactByEmail($sender_email);
                     $contact = $contact->getContactID();
-                    $contract = $contact->getContracts(array(CRM_EXCLUDE_EXPIRED))[0];
+                    $contracts = $contact->getContracts(array(CRM_EXCLUDE_EXPIRED))
+                    $contract = $contracts[0];
                     $customer_id = $contract->getCustomerID();
                 } catch (CRMException $e) {
                     $customer_id = null;
