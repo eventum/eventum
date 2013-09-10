@@ -1066,8 +1066,8 @@ class Notification
             $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
         }
         $irc_notice .= "), ";
-        if (@isset($data['customer_info'])) {
-            $irc_notice .= $data['customer_info']['customer_name'] . ", ";
+        if (@isset($data['customer'])) {
+            $irc_notice .= $data['customer']['name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
         // MPAB: Disable notification so it is done in workflow

@@ -36,7 +36,7 @@
  * @author João Prado Maia <jpm@mysql.com>
  */
 
-class Misc
+class CLI_Misc
 {
     /**
      * Method used to print a prompt asking the user for information.
@@ -77,5 +77,18 @@ class Misc
     function getInput()
     {
         return fgets(STDIN);
+    }
+
+
+    public static function base64_decode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_decode($v);
+            }
+        } else {
+            $data = base64_decode($data);
+        }
+        return $data;
     }
 }

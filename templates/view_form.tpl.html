@@ -65,7 +65,7 @@
                 <div class="issue_field_display">
                     <div class="background">
                         <div class="label">{t}Customer{/t}</div>
-                        <div class="display">{$issue.customer_info.customer_name}
+                        <div class="display">{$issue.customer.name}
                             (<a href="#customer_details">{t}Complete Details{/t}</a>)
                         </div>
                     </div>
@@ -259,7 +259,7 @@
     {if $is_user_notified != 1}
     <input type="button" value="{t}Add Me To Notification{/t}" class="self_notification">
     {/if}
-    {if $core.has_crm|default:'' != '' && $issue.customer_info|default:'' != '' && $issue.customer_info.is_per_incident}
+    {if $core.has_crm|default:'' != '' && $issue.customer|default:'' != '' && $issue.contract.is_per_incident}
     <input type="button" value="{t}Edit Incident Redemption{/t}" class="edit_incident_redemption">
     {/if}
     &nbsp;

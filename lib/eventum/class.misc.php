@@ -879,4 +879,17 @@ class Misc
         $tpl->displayTemplate();
         exit;
     }
+
+
+    public static function base64_encode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_encode($v);
+            }
+        } else {
+            $data = base64_encode($data);
+        }
+        return $data;
+    }
 }

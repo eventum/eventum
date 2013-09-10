@@ -195,14 +195,17 @@ function getIssueDetails($p)
     createFakeCookie($email, Issue::getProjectID($issue_id));
 
     $res = Issue::getDetails($issue_id);
-    foreach ($res as $k => $v) {
-        if (is_array($v)) {
-            // XXX: shouldn't go recursive instead?
-            unset($res[$k]);
-        } else {
-            $res[$k] = base64_encode($v);
-        }
+
+    // flatten some fields
+    if (isset($res['customer'])) {
+        $details = $res['customer']->getDetails();
+        $res['customer'] = $details;
     }
+    if (isset($res['contract'])) {
+        $res['contract'] = $res['contract']->getDetails();
+    }
+
+    $res = Misc::base64_encode($res);
     if (empty($res)) {
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
