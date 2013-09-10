@@ -281,10 +281,7 @@ $().ready(function() {
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           <input type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
           {/if}
-          <input type="button" value="{t}Cancel{/t}" onClick="confirmCloseWindow();">
-            {if $core.app_setup.spell_checker|default:'' == 'enabled'}
-              <input type="button" value="{t}Check Spelling{/t}" onClick="checkSpelling('send_email_form', 'message');">
-            {/if}
+          <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
