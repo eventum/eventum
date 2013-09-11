@@ -179,7 +179,7 @@
       <table cellpadding="1" border="0">
         <tr>
           {counter start=0 assign="next_field"}
-          {if $backend_uses_support_levels}
+          {if $project_has_customer_integration}
           <td>
             <label>
             <input type="radio" name="reminder_type" value="support_level" {if $info.type|default:'' == 'support_level'}checked{/if} onClick="toggleReminderTypeFields();">
@@ -187,8 +187,6 @@
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             {counter}
-          {/if}
-          {if $project_has_customer_integration}
           <td>
             <label>
             <input type="radio" name="reminder_type" value="customer" {if $info.type|default:'' == 'customer'}checked{/if} onClick="toggleReminderTypeFields();">
@@ -205,18 +203,16 @@
           {counter}
         </tr>
         <tr>
-          {if $backend_uses_support_levels}
+          {if $project_has_customer_integration}
           <td>
             <select class="type_filter" name="support_levels[]" size="4" multiple>
-              {html_options options=$support_levels selected=$info.rer_support_level_id}
+              {html_options options=$support_levels selected=$info.rer_support_level_id|default:''}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          {/if}
-          {if $project_has_customer_integration}
           <td>
             <select class="type_filter" name="customers[]" size="4" multiple>
-              {html_options options=$customers selected=$info.rer_customer_id}
+              {html_options options=$customers selected=$info.rer_customer_id|default:''}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -244,7 +240,7 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td>
             <label>
-            <input type="checkbox" name="check_product" value="yes" {if $info.check_product == 'yes'}checked{/if}
+            <input type="checkbox" name="check_product" value="yes" {if $info.check_product|default:'' == 'yes'}checked{/if}
                 onClick="toggleReminderTypeFields();">
             {t}Also Filter By Issue Product{/t}</label>
           </td>
@@ -261,7 +257,7 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td>
             <select name="products[]" size="4" multiple>
-              {html_options options=$products selected=$info.rer_pro_id}
+              {html_options options=$products selected=$info.rer_pro_id|default:''}
             </select></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
@@ -272,7 +268,7 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td>
             <label>
-            <input type="checkbox" name="check_severity" value="yes" {if $info.check_severity == 'yes'}checked{/if}
+            <input type="checkbox" name="check_severity" value="yes" {if $info.check_severity|default:'' == 'yes'}checked{/if}
                 onClick="javascript:toggleReminderTypeFields();">
             {t}Also Filter By Issue Severities{/t}</label>
           </td>

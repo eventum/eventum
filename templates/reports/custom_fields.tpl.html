@@ -50,14 +50,14 @@ function validateForm(f)
         </tr>
         <tr>
           <td width="30%" align="center" height="10">
-            {if $core.has_customer_integration}
+            {if $core.has_crm}
               <b>{t}Group By{/t}</b>
             {/if}
           </td>
         </tr>
         <tr>
           <td align="left" valign="top">
-            {if $core.has_customer_integration}
+            {if $core.has_crm}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
                 <a id="link" href="javascript:void(null)"
                             onClick="checkRadio('custom_fields_report', 'group_by', 0);">{t}Issue{/t}</a><br />
@@ -196,7 +196,7 @@ setOptions('{$custom_field}', false);
           </td>
         </tr>
         <tr>
-          {if $core.has_customer_integration}
+          {if $core.has_crm}
           <td>{t}Customer{/t}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}
@@ -210,7 +210,7 @@ setOptions('{$custom_field}', false);
         {foreach from=$data item=row}
         {cycle values=$cycle assign="row_color"}
         <tr>
-          {if $core.has_customer_integration}
+          {if $core.has_crm}
           <td bgcolor="{$row_color}">{$row.customer_title}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}

@@ -363,3 +363,18 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #select_project table tr.title {
     font-size: 2em;
 }
+
+/* Begin Select Customer */
+#select_customer ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#select_customer ul li {
+    padding: .3em 0;
+}
+
+#select_customer label {
+    display: block;
+}

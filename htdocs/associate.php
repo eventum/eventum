@@ -71,17 +71,24 @@ if (@$_POST['cat'] == 'associate') {
     @$tpl->assign('emails', $_GET['item']);
     @$tpl->assign('total_emails', count($_GET['item']));
     $prj_id = Issue::getProjectID($_GET['issue_id']);
-    if (Customer::hasCustomerIntegration($prj_id)) {
+    if (CRM::hasCustomerIntegration($prj_id)) {
         // check if the selected emails all have sender email addresses that are associated with the issue' customer
+        $crm = CRM::getInstance($prj_id);
         $senders = Support::getSender($_GET['item']);
         $sender_emails = array();
         foreach ($senders as $sender) {
             $email = Mail_Helper::getEmailAddress($sender);
             $sender_emails[$email] = $sender;
         }
-        $customer_id = Issue::getCustomerID($_GET['issue_id']);
-        if (!empty($customer_id)) {
-            $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
+        $contract_id = Issue::getContractID($_GET['issue_id']);
+        if (!empty($contract_id)) {
+            try {
+                $contract = $crm->getContract($contract_id);
+                // TODOCRM: Active contacts only
+                $contact_emails = array_keys($contract->getContactEmailAssocList());
+            } catch (CRMException $e) {
+                $contact_emails = array();
+            }
             $unknown_contacts = array();
             foreach ($sender_emails as $email => $address) {
                 if (!@in_array($email, $contact_emails)) {
@@ -92,9 +99,7 @@ if (@$_POST['cat'] == 'associate') {
                         // if we got a real user ID, check if the customer user is the correct one
                         // (e.g. a contact from the customer associated with the selected issue)
                         if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
-                            // also check if the associated customer ID, if any, matches the one in the issue
-                            $user_customer_id = User::getCustomerID($usr_id);
-                            if ($user_customer_id != $customer_id) {
+                            if (!Issue::canAccess($_GET['issue_id'], $usr_id)) {
                                 $unknown_contacts[] = $address;
                             }
                         }

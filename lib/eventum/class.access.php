@@ -56,12 +56,24 @@ class Access
         $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
         $prj_id = $details['iss_prj_id'];
 
+        $can_access_contract = false;
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                if (!empty($usr_details['usr_customer_contact_id']) && !empty($details['iss_customer_contract_id'])) {
+                    $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
+                    $can_access_contract = $contact->canAccessContract($crm->getContract($details['iss_customer_contract_id']));
+                }
+            } catch (CRMException $e) {
+                // TODOCRM: Log exception?
+            }
+        }
 
         if (empty($usr_role)) {
             // check if they are even allowed to access the project
             $return = false;
-        } elseif ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
-                ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
+        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
+                ($can_access_contract === false)) {
             // check customer permissions
             $return = false;
         } elseif (!empty($usr_details['usr_par_code']) &&

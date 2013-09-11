@@ -15,13 +15,6 @@ abstract class Contact
     protected $crm;
 
     /**
-     * Holds an instance of the customer object this contact belongs too.
-     *
-     * @var CRM_Customer
-     */
-    protected $customer;
-
-    /**
      * Holds the database connection this object should use.
      *
      * @var resource
@@ -29,25 +22,25 @@ abstract class Contact
     protected $connection;
 
     /**
-     * If this contact exists
-     *
-     * @var boolean
-     */
-    public $exists;
-
-    /**
      * The ID of the contact this object represents
      *
-     * @var integer
+     * @var string
      */
     protected $contact_id;
 
     /**
-     * The name of the contact
+     * The first_name of the contact
      *
      * @var string
      */
-    protected $name;
+    protected $first_name;
+
+    /**
+     * The first_name of the contact
+     *
+     * @var string
+     */
+    protected $last_name;
 
     /**
      * The primary email address of this contact.
@@ -57,24 +50,32 @@ abstract class Contact
     protected $email;
 
     /**
-     * The primary phone number of thie contact.
+     * The primary phone number of this contact.
      *
      * @var string
      */
     protected $phone;
 
     /**
+     * If the contact is active. Inactive contacts should not be able to login
+     *
+     * @var bool
+     */
+    protected $active;
+
+    /**
      * Contracts associated with this contact
      *
      * @var array
      */
-    protected $associated_contract_ids = array();
+    protected $associated_contracts = array();
 
     /**
      * Constructs the object representing this contact and loads contact data.
      *
      * @param CRM $crm
-     * @param integer  $contact_id
+     * @param string  $contact_id
+     * @throws ContactNotFoundException
      */
     function __construct(CRM &$crm, $contact_id)
     {
@@ -88,31 +89,39 @@ abstract class Contact
 
 
     /**
-     * Convenience method for setting all contact data at once. This probably is only used by batch
-     * scripts setting up customers.
-     *
-     * @param string $customer_id
-     * @param string $name
-     * @param string $email
-     * @param string $phone
-     */
-    public function setData($customer_id, $name, $email, $phone)
-    {
-        $this->customer = &$this->crm->getCustomer($customer_id);
-        $this->name = $name;
-        $this->email = $email;
-        $this->phone = $phone;
-    }
-    
-
-    /**
      * Returns an array of contracts the specified contact can access
      *
      * @param   array|boolean $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
      *                              is boolean then it will be used to indicate if only active contracts should be returned.
-     * @return  array An array of support contracts this contact is allowed to access
+     * @return  Contract[] An array of support contracts this contact is allowed to access
      */
     abstract public function getContracts($options = false);
+
+
+    /**
+     * Returns an array of contracts ids the contact can access
+     *
+     * @param   array|boolean $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
+     *                              is boolean then it will be used to indicate if only active contracts should be returned.
+     * @return  integer[] An array of support contract ids this contact is allowed to access
+     */
+    abstract public function getContractIDs($options = false);
+
+
+    /**
+     * Returns the customer ids that this contact can access
+     *
+     * @return integer[]
+     */
+    abstract public function getCustomerIDs();
+
+
+    /**
+     * Returns the customer that this contact can access
+     *
+     * @return Customer[]
+     */
+    abstract public function getCustomers();
 
 
     /**
@@ -139,20 +148,27 @@ abstract class Contact
      * associated with him was just marked as closed.
      *
      * @param   integer $issue_id The issue ID
+     * @param   string $reason
      * @return  void
      */
-    abstract public function notifyIssueClosed($issue_id);
+    abstract public function notifyIssueClosed($issue_id, $reason);
 
     /**
-     * Stores the object in the database. Returns true on success, PEAR_error otherwise.
+     * Loads contact info into the object
      *
-     * @return mixed True on success, PEAR_error otherwise.
+     * @abstract
+     * @throws ContactNotFoundException
      */
-    abstract public function save();
-
-
-    // this method must set the $exists variable
     abstract protected function load();
+
+
+    /**
+     * Returns true if the contact can access the specified contract, false otherwise
+     *
+     * @param   Contract $contract
+     * @return  boolean
+     */
+    abstract public function canAccessContract($contract);
 
 
     public function getContactID()
@@ -162,7 +178,17 @@ abstract class Contact
 
     public function getName()
     {
-        return $this->name;
+        return $this->first_name . " " . $this->last_name;
+    }
+
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName()
+    {
+        return $this->last_name;
     }
 
     public function getEmail()
@@ -175,31 +201,38 @@ abstract class Contact
         return $this->phone;
     }
 
-    public function getCustomerID()
-    {
-        return $this->customer->getCustomerID();
-    }
-
-    /**
-     * Returns a customer object
-     *
-     * @return Customer
-     */
-    public function &getCustomer()
-    {
-        return $this->customer;
-    }
-
-    public function exists()
-    {
-        return $this->exists;
-    }
-
-
     public function __toString()
     {
         return "Contact\nID: " . $this->contact_id . "\n" .
-            "Name: " . $this->name . "\n";
+            "Name: " . $this->getName() . "\n";
     }
 
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+
+    /**
+     * Method used to notify the customer contact that a new issue was just
+     * created and associated with his Eventum user.
+     *
+     * @param   integer $issue_id The issue ID
+     * @return  void
+     */
+    abstract public function notifyNewIssue($issue_id);
+
+}
+
+class ContactNotFoundException extends CRMException
+{
+    public function __construct($contact_id, $message = null, Exception $previous=null) {
+        if ($message !== null) {
+            $message = "Contact '" . $contact_id. "' not found";
+        }
+        parent::__construct($message, 0, $previous);
+    }
 }

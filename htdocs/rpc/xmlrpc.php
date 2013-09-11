@@ -195,14 +195,17 @@ function getIssueDetails($p)
     createFakeCookie($email, Issue::getProjectID($issue_id));
 
     $res = Issue::getDetails($issue_id);
-    foreach ($res as $k => $v) {
-        if (is_array($v)) {
-            // XXX: shouldn't go recursive instead?
-            unset($res[$k]);
-        } else {
-            $res[$k] = base64_encode($v);
-        }
+
+    // flatten some fields
+    if (isset($res['customer'])) {
+        $details = $res['customer']->getDetails();
+        $res['customer'] = $details;
     }
+    if (isset($res['contract'])) {
+        $res['contract'] = $res['contract']->getDetails();
+    }
+
+    $res = Misc::base64_encode($res);
     if (empty($res)) {
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
@@ -468,7 +471,8 @@ function lookupCustomer($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You don't have the appropriate permissions to lookup customer information");
     }
 
-    $res = Customer::lookup($prj_id, $field, $value);
+    $crm = CRM::getInstance($prj_id);
+    $res = $crm->lookup($field, $value, array());
     return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
@@ -498,11 +502,16 @@ function closeIssue($p)
     }
 
     $prj_id = Issue::getProjectID($issue_id);
-    if (Customer::hasCustomerIntegration($prj_id) && Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
-        return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    if (CRM::hasCustomerIntegration($prj_id)) {
+        $crm = CRM::getInstance($prj_id);
+        try {
+            $contract = $crm->getContract(Issue::getContractID($issue_id));
+            if ($contract->hasPerIncident()) {
+                return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
+            }
+        } catch (CRMException $e) {}
     }
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 $getClosedAbbreviationAssocList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
@@ -854,13 +863,17 @@ function redeemIssue($p)
     createFakeCookie($email, $prj_id);
     $customer_id = Issue::getCustomerID($issue_id);
 
-    $all_types = Customer::getIncidentTypes($prj_id);
-
-    if (!Customer::hasCustomerIntegration($prj_id)) {
+    if (!CRM::hasCustomerIntegration($prj_id)) {
         // no customer integration
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
-    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+    }
+
+    $crm = CRM::getInstance($prj_id);
+    $all_types = $crm->getIncidentTypes();
+    $contract = $crm->getContract(Issue::getContractID($issue_id));
+
+    if (!$contract->hasPerIncident()) {
         // check if is per incident contract
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
@@ -868,16 +881,16 @@ function redeemIssue($p)
         // check if incidents are remaining
         global $XML_RPC_erruser;
         foreach ($types as $type_id) {
-            if (Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
+            if ($contract->isRedeemedIncident($issue_id, $type_id)) {
                 return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already marked as redeemed incident of type " . $all_types[$type_id]);
-            } elseif (!Customer::hasIncidentsLeft($prj_id, $customer_id, $type_id)) {
+            } elseif (!$contract->hasIncidentsLeft($customer_id, $type_id)) {
                 return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id has no remaining incidents of type " . $all_types[$type_id]);
             }
         }
     }
 
     foreach ($types as $type_id) {
-        $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
+        $res = $contract->redeemIncident($issue_id, $type_id);
         if ($res == -1) {
             global $XML_RPC_erruser;
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as redeemed.");
@@ -903,11 +916,17 @@ function unredeemIssue($p)
 
     $customer_id = Issue::getCustomerID($issue_id);
 
-    if (!Customer::hasCustomerIntegration($prj_id)) {
+    if (!CRM::hasCustomerIntegration($prj_id)) {
         // no customer integration
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
-    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+    }
+
+    $crm = CRM::getInstance($prj_id);
+    $all_types = $crm->getIncidentTypes();
+    $contract = $crm->getContract(Issue::getContractID($issue_id));
+
+    if (!$contract->hasPerIncident()) {
         // check if is per incident contract
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
@@ -915,14 +934,14 @@ function unredeemIssue($p)
         // check if incidents are remaining
         global $XML_RPC_erruser;
         foreach ($types as $type_id) {
-            if (!Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
+            if (!$contract->isRedeemedIncident($issue_id, $type_id)) {
                 return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is not marked as redeemed incident of type " . $all_types[$type_id]);
             }
         }
     }
 
     foreach ($types as $type_id) {
-        $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
+        $res = $contract->unRedeemIncident($issue_id, $type_id);
         if ($res == -1) {
             global $XML_RPC_erruser;
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as unredeemed.");
@@ -947,26 +966,31 @@ function getIncidentTypes($p)
     createFakeCookie($email, $prj_id);
     $customer_id = Issue::getCustomerID($issue_id);
 
-    if (!Customer::hasCustomerIntegration($prj_id)) {
+    if (!CRM::hasCustomerIntegration($prj_id)) {
         // no customer integration
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
-    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+    }
+
+    $crm = CRM::getInstance($prj_id);
+    $all_types = $crm->getIncidentTypes();
+    $contract = $crm->getContract(Issue::getContractID($issue_id));
+
+    if (!$contract->hasPerIncident()) {
         // check if is per incident contract
         global $XML_RPC_erruser;
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     }
 
-    $details = Customer::getDetails($prj_id, $customer_id);
-
-    foreach ($details['incident_details'] as $type_id => $type_details) {
-        $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
+    $incidents = $contract->getIncidents();
+    foreach ($incidents as $type_id => $type_details) {
+        $is_redeemed = $contract->isRedeemedIncident($issue_id, $type_id);
         if ((($redeemed_only) && (!$is_redeemed)) || ((!$redeemed_only) && ($is_redeemed))) {
-            unset($details['incident_details'][$type_id]);
+            unset($incidents[$type_id]);
         }
     }
 
-    return new XML_RPC_Response(XML_RPC_Encode($details['incident_details']));
+    return new XML_RPC_Response(XML_RPC_Encode($incidents));
 }
 
 $logCommand_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_String));

@@ -3,9 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2013 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -27,55 +25,45 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-/**
- * Class to hold methods and algorythms that woudln't fit in other classes, such
- * as functions to work around PHP bugs or incompatibilities between separate
- * PHP configurations.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
+require_once dirname(__FILE__) . '/../init.php';
 
-class Misc
-{
-    /**
-     * Method used to print a prompt asking the user for information.
-     *
-     * @access  public
-     * @param   string $message The message to print
-     * @param   string $default_value The default value to be used if the user just press <enter>
-     * @return  string The user response
-     */
-    function prompt($message, $default_value)
-    {
-        echo $message;
-        if ($default_value !== FALSE) {
-            echo " [default: $default_value] -> ";
+$tpl = new Template_Helper();
+$tpl->setTemplate("select_customer.tpl.html");
+
+session_start();
+
+// check if cookies are enabled, first of all
+if (!Auth::hasCookieSupport(APP_COOKIE)) {
+    Auth::redirect("index.php?err=11");
+}
+
+if (!Auth::hasValidCookie(APP_COOKIE)) {
+    Auth::redirect("index.php?err=5");
+}
+
+$prj_id = Auth::getCurrentProject();
+$usr_id = Auth::getUserID();
+$contact_id = User::getCustomerContactID($usr_id);
+if (!CRM::hasCustomerIntegration($prj_id) || empty($contact_id)) {
+    Auth::redirect("main.php");
+}
+$crm = CRM::getInstance($prj_id);
+$contact = $crm->getContact($contact_id);
+$customers = $contact->getCustomers();
+
+if (isset($_REQUEST['customer_id'])) {
+    $customer_id = $_REQUEST['customer_id'];
+    if (in_array($customer_id, array_keys($customers))) {
+        Auth::setCurrentCustomerID($customer_id);
+        if (!empty($_POST["url"])) {
+            Auth::redirect($_REQUEST["url"]);
         } else {
-            echo " [required] -> ";
+            Auth::redirect("main.php");
         }
-        flush();
-        $input = trim(self::getInput());
-        if (empty($input)) {
-            if ($default_value === FALSE) {
-                die("ERROR: Required parameter was not provided!\n");
-            } else {
-                return $default_value;
-            }
-        } else {
-            return $input;
-        }
-    }
-
-
-    /**
-     * Method used to get the standard input.
-     *
-     * @access  public
-     * @return  string The standard input value
-     */
-    function getInput()
-    {
-        return fgets(STDIN);
     }
 }
+
+
+$tpl->assign('customers', $customers);
+
+$tpl->displayTemplate();

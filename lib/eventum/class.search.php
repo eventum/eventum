@@ -90,7 +90,7 @@ class Search
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
-            "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
+            "customer_id"    => Misc::escapeString(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords', $request_only),
             'match_mode'     => self::getParam('match_mode', $request_only),
@@ -410,9 +410,9 @@ class Search
             Issue::getAssignedUsersByIssues($res);
             Time_Tracking::getTimeSpentByIssues($res);
             // need to get the customer titles for all of these issues...
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                Customer::getCustomerTitlesByIssues($prj_id, $res);
-                Customer::getSupportLevelsByIssues($prj_id, $res);
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
+                $crm->processListIssuesResult($res);
             }
             Issue::formatLastActionDates($res);
             Issue::getLastStatusChangeDates($prj_id, $res);
@@ -456,15 +456,16 @@ class Search
             if (count($categories) > 0) {
                 $fields[] = $res[$i]['prc_title'];
             }
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 $fields[] = @$res[$i]['customer_title'];
-                // check if current user is acustomer and has a per incident contract.
+                // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
-                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
-                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
-                        $res[$i]['redeemed'] = true;
-                    }
+                    // TODOCRM: Fix per incident usage
+//                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
+//                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
+//                        $res[$i]['redeemed'] = true;
+//                    }
                 }
             }
             $fields[] = $res[$i]['sta_title'];
@@ -522,7 +523,10 @@ class Search
 
         $stmt = ' AND iss_usr_id = usr_id';
         if ($role_id == User::getRoleID('Customer')) {
-            $stmt .= " AND iss_customer_id='" . User::getCustomerID($usr_id) . "'";
+            $crm = CRM::getInstance($prj_id);
+            $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
+            $stmt .= " AND iss_customer_contract_id IN('" . join("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
@@ -568,9 +572,10 @@ class Search
             $stmt .= " AND (\n";
             if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
                 $stmt .= "iss_id IN(" . join(', ', self::getFullTextIssues($options)) . ")";
-            } elseif (($options['search_type'] == 'customer') && (Customer::hasCustomerIntegration($prj_id))) {
-                // check if the user is trying to search by customer email
-                $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['keywords']);
+            } elseif (($options['search_type'] == 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
+                // check if the user is trying to search by customer name / email
+                $crm = CRM::getInstance($prj_id);
+                $customer_ids = $crm->getCustomerIDsByString($options['keywords'], true);
                 if (count($customer_ids) > 0) {
                     $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
                 } else {

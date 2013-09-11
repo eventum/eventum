@@ -27,23 +27,68 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-require_once dirname(__FILE__) . '/../../../init.php';
+/**
+ * Class to hold methods and algorythms that woudln't fit in other classes, such
+ * as functions to work around PHP bugs or incompatibilities between separate
+ * PHP configurations.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("customer/customer_lookup.tpl.html");
+class CLI_Misc
+{
+    /**
+     * Method used to print a prompt asking the user for information.
+     *
+     * @access  public
+     * @param   string $message The message to print
+     * @param   string $default_value The default value to be used if the user just press <enter>
+     * @return  string The user response
+     */
+    function prompt($message, $default_value)
+    {
+        echo $message;
+        if ($default_value !== FALSE) {
+            echo " [default: $default_value] -> ";
+        } else {
+            echo " [required] -> ";
+        }
+        flush();
+        $input = trim(self::getInput());
+        if (empty($input)) {
+            if ($default_value === FALSE) {
+                die("ERROR: Required parameter was not provided!\n");
+            } else {
+                return $default_value;
+            }
+        } else {
+            return $input;
+        }
+    }
 
-Auth::checkAuthentication(APP_COOKIE);
-$usr_id = Auth::getUserID();
-$prj_id = Auth::getCurrentProject();
 
-// only customers should be able to use this page
-$role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('Developer')) {
-    Auth::redirect("list.php");
+    /**
+     * Method used to get the standard input.
+     *
+     * @access  public
+     * @return  string The standard input value
+     */
+    function getInput()
+    {
+        return fgets(STDIN);
+    }
+
+
+    public static function base64_decode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_decode($v);
+            }
+        } else {
+            $data = base64_decode($data);
+        }
+        return $data;
+    }
 }
-
-if (@$_POST['cat'] == 'lookup') {
-    $tpl->assign("results", Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
-}
-
-$tpl->displayTemplate();

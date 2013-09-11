@@ -41,11 +41,12 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 
 // check if this project has customer integration
 $prj_id = Auth::getCurrentProject();
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     $tpl->assign("no_customer_integration", 1);
     $tpl->displayTemplate();
     exit;
 }
+$crm = CRM::getInstance($prj_id);
 
 if (count(@$_POST["start"]) > 0 &&
         (@$_POST["start"]["Year"] != 0) &&
@@ -70,7 +71,7 @@ if (count(@$_POST["display_sections"]) < 1) {
 }
 
 $support_levels = array('Aggregate' => 'Aggregate');
-$grouped_levels = Customer::getGroupedSupportLevels($prj_id);
+$grouped_levels = $crm->getGroupedSupportLevels();
 foreach ($grouped_levels as $level_name => $level_ids) {
     $support_levels[$level_name] = $level_name;
 }
@@ -79,11 +80,8 @@ if (count(@$_POST["support_level"]) < 1) {
     $_POST["support_level"] = array('Aggregate');
 }
 
-// XXX: internal only - Remove all mentions of InnoDB
-
 $prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
-    "has_support_levels"=>  Customer::doesBackendUseSupportLevels($prj_id),
     "project_name"      =>  Auth::getCurrentProjectName(),
     "support_levels"    =>  $support_levels,
     "support_level"     =>  @$_POST["support_level"],
@@ -91,7 +89,6 @@ $tpl->assign(array(
     "end_date"          =>  $end_date,
     "sections"          =>  Customer_Stats_Report::getDisplaySections(),
     "display_sections"  =>  $_POST["display_sections"],
-    "split_innoDB"      =>  @$_POST["split_innoDB"],
     "include_expired"   =>  @$_POST["include_expired"],
     "graphs"            =>  Customer_Stats_Report::getGraphTypes()
 ));
@@ -99,7 +96,7 @@ $tpl->assign(array(
 // only set customers if user has role of manager or above
 if (Auth::getCurrentRole() >= User::getRoleID('manager')) {
     $tpl->assign(array(
-    "customers"         =>  Customer::getAssocList($prj_id),
+    "customers"         =>  $crm->getCustomerAssocList(),
     "customer"          =>  @$_POST["customer"]
     ));
 }

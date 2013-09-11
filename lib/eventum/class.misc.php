@@ -869,4 +869,27 @@ class Misc
         $return = $input;
         return $input;
     }
+
+
+    public static function displayErrorMessage($msg)
+    {
+        Misc::setMessage(ev_gettext($msg), Misc::MSG_ERROR);
+        $tpl = new Template_Helper();
+        $tpl->setTemplate('error_message.tpl.html');
+        $tpl->displayTemplate();
+        exit;
+    }
+
+
+    public static function base64_encode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_encode($v);
+            }
+        } else {
+            $data = base64_encode($data);
+        }
+        return $data;
+    }
 }

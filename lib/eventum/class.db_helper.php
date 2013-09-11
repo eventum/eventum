@@ -159,4 +159,15 @@ class DB_Helper
         END)";
         return str_replace("\n", " ", $sql);
     }
+
+
+    public static function fatalDBError($e)
+    {
+        /** @var $e PEAR_Error */
+        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
+        /** @global $error_type  */
+        $error_type = "db";
+        require_once APP_PATH . "/htdocs/offline.php";
+        exit(2);
+    }
 }

@@ -56,7 +56,7 @@ if (isset($_REQUEST['view'])) {
                 $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
     } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
         $options_override = array(
-            'customer_id'   =>  Misc::escapeInteger($_REQUEST['customer_id']),
+            'customer_id'   =>  Misc::escapeString($_REQUEST['customer_id']),
             'rows'          =>  $rows,
         );
         if (Search::getParam('hide_closed', true) === '') {
@@ -65,7 +65,7 @@ if (isset($_REQUEST['view'])) {
         $_REQUEST['nosave'] = 1;
     } elseif (($_REQUEST['view'] == 'customer_all') && (isset($_REQUEST['customer_id']))) {
         $options_override = array(
-            'customer_id'   =>  Misc::escapeInteger($_REQUEST['customer_id']),
+            'customer_id'   =>  Misc::escapeString($_REQUEST['customer_id']),
             'rows'          =>  $rows,
         );
         if (Search::getParam('hide_closed', true) === '') {

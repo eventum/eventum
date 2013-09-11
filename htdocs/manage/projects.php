@@ -67,7 +67,7 @@ if (@$_GET["cat"] == "edit") {
 $tpl->assign("list", Project::getList());
 $tpl->assign("user_options", User::getActiveAssocList());
 $tpl->assign("status_options", Status::getAssocList());
-$tpl->assign("customer_backends", Customer::getBackendList());
+$tpl->assign("customer_backends", CRM::getBackendList());
 $tpl->assign("workflow_backends", Workflow::getBackendList());
 
 $tpl->displayTemplate();

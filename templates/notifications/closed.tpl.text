@@ -1,6 +1,6 @@
 {textformat style="email"}{t escape=no name=$app_title}This is an automated message sent at your request from %1.{/t}
 
-{if $data.reason}
+{if $data.reason|default:'' != ''}
 {t escape=no name=$data.closer_name reason=$data.reason}This issue was just closed by %1 with the message:
 
 %2.{/t}
@@ -18,7 +18,7 @@
           {t escape=no}Summary{/t}: {$data.iss_summary}
            {t escape=no}Status{/t}: {$data.sta_title}
           {t escape=no}Project{/t}: {$data.prj_title}
-      {t escape=no}Reported By{/t}: {$data.usr_full_name}
+      {t escape=no}Reported By{/t}: {$data.reporter}
          {t escape=no}Priority{/t}: {$data.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------

@@ -156,15 +156,26 @@ class Template_Helper
             $prj_id = Auth::getCurrentProject();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
+                $has_crm = CRM::hasCustomerIntegration($prj_id);
                 $core = $core + array(
                     'project_id'    =>  $prj_id,
                     'project_name'  =>  Auth::getCurrentProjectName(),
-                    'has_customer_integration'  =>  Customer::hasCustomerIntegration($prj_id),
-                    'customer_backend_name'     =>  Customer::getBackendImplementationName($prj_id),
+                    'has_crm'       =>  $has_crm,
                     'current_role'              =>  $role_id,
                     'current_role_name'         =>  User::getRole($role_id),
                     'feature_access'            =>  Access::getFeatureAccessArray($usr_id)
                 );
+                if ($has_crm) {
+                    $crm = CRM::getInstance($prj_id);
+                    $core['crm_template_path'] = $crm->getTemplatePath();
+                    if ($role_id == User::getRoleID('Customer')) {
+                        try {
+                            $contact = $crm->getContact($core['user']['usr_customer_contact_id']);
+                            $core['allowed_customers'] = $contact->getCustomers();
+                            $core['current_customer'] = $crm->getCustomer(Auth::getCurrentCustomerID(false));
+                        } catch (CRMException $e) {}
+                    }
+                }
             }
             $info = User::getDetails($usr_id);
             $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);

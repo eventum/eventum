@@ -66,7 +66,7 @@ if (count($available) > 0) {
 }
 
 $excluded_roles = array();
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     $excluded_roles[] = "customer";
 }
 $user_roles = User::getRoles($excluded_roles);

@@ -150,12 +150,10 @@ class Auth
             self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
-        $customer_id = User::getCustomerID($usr_id);
         $contact_id = User::getCustomerContactID($usr_id);
-        if ((!empty($customer_id)) && ($customer_id != -1) &&
-                (!empty($contact_id)) && (Customer::hasCustomerIntegration($prj_id))) {
-
-            Customer::authenticateCustomer($prj_id, $customer_id, $contact_id);
+        if ((!empty($contact_id)) && (CRM::hasCustomerIntegration($prj_id))) {
+            $crm = CRM::getInstance($prj_id);
+            $crm->authenticateCustomer();
         }
 
         // auto switch project
@@ -542,6 +540,40 @@ class Auth
 
 
     /**
+     * Returns the current customer ID.
+     *
+     * @param bool $redirect
+     * @return  string  The current customer ID
+     */
+    public static function getCurrentCustomerID($redirect=true)
+    {
+        $customer_id = Session::get("current_customer_id");
+        if (empty($customer_id) && $redirect == true) {
+            self::redirect(APP_RELATIVE_URL . "select_customer.php");
+        } else {
+            return $customer_id;
+        }
+    }
+
+
+    public static function setCurrentCustomerID($customer_id)
+    {
+        Session::set("current_customer_id", $customer_id);
+    }
+
+
+    /**
+     * @static
+     * @return Contact
+     */
+    public static function getCurrentContact()
+    {
+        $crm = CRM::getInstance(self::getCurrentProject());
+        return $crm->getContact(User::getCustomerContactID(self::getUserID()));
+    }
+
+
+    /**
      * Sets the current selected project for the user session.
      *
      * @access  public
@@ -602,6 +634,7 @@ class Auth
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
         }
     }
+
 
     /**
      * @static

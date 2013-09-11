@@ -91,7 +91,7 @@ function validateForm()
 {if $core.current_role != $core.roles.customer and $issue_id != 0}
     {if !$can_send_email}
     var warning_msg = "{t}WARNING: You are not assigned to this issue so your email will be blocked.\\nYour blocked email will be converted to a note that can be recovered later.\\nFor more information, please see the topic 'email blocking' in help.{/t}";
-    {elseif $core.has_customer_integration}
+    {elseif $core.has_crm}
     var warning_msg = "{t}WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\\nIf you want the CUSTOMER to receive your message now, press OK.\\nOtherwise, to return to your editing window, press CANCEL.{/t}";
     {else}
     var warning_msg = "{t}WARNING: This email will be sent to all names on this issue's Notification List.\\nIf you want all users to receive your message now, press OK.\\nOtherwise, to return to your editing window, press CANCEL.{/t}";
@@ -281,10 +281,7 @@ $().ready(function() {
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           <input type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
           {/if}
-          <input type="button" value="{t}Cancel{/t}" onClick="confirmCloseWindow();">
-            {if $core.app_setup.spell_checker|default:'' == 'enabled'}
-              <input type="button" value="{t}Check Spelling{/t}" onClick="checkSpelling('send_email_form', 'message');">
-            {/if}
+          <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}

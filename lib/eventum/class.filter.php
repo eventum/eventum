@@ -724,7 +724,13 @@ class Filter
             } elseif ($filter['param'] == 'release') {
                 $display = Release::getTitle($filter_details);
             } elseif ($filter['param'] == 'customer_id') {
-                $display = Customer::getTitle($prj_id, $filter_details);
+                try {
+                    $crm = CRM::getInstance($prj_id);
+                    $customer = $crm->getCustomer($filter_details);
+                    $display = $customer->getName();
+                } catch (CRMException $e) {
+                    $display = $filter_details;
+                }
             } elseif ($filter['param'] == 'product') {
                 $display = Product::getTitle($filter_details);
             } else {

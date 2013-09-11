@@ -565,8 +565,9 @@ class Note
      *
      * @access  public
      * @param   $note_id The id of the note
-     * @param   $target What the not should be converted too
-     * @param   $authorize_sender If the sender should be added to authorized senders list.
+     * @param   $target What the note should be converted too
+     * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
+     * @return int
      */
     function convertNote($note_id, $target, $authorize_sender = false)
     {
@@ -603,12 +604,16 @@ class Note
             if (!empty($structure->headers['from'])) {
                 $details = Email_Account::getDetails($email_account_id);
                 // check from the associated project if we need to lookup any customers by this email address
-                if (Customer::hasCustomerIntegration($details['ema_prj_id'])) {
+                if (CRM::hasCustomerIntegration($details['ema_prj_id'])) {
+                    $crm = CRM::getInstance($details['ema_prj_id']);
                     // check for any customer contact association
-                    list($customer_id,) = Customer::getCustomerIDByEmails($details['ema_prj_id'], array($sender_email));
-                    if (!empty($customer_id)) {
-                        $t['customer_id'] = $customer_id;
-                    }
+                    try {
+                        $contact = $crm->getContactByEmail($sender_email);
+                        $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
+                        if ($contact->canAccessContract($issue_contract)) {
+                            $t['customer_id'] = $issue_contract->getCustomerID();
+                        }
+                    } catch (CRMException $e) {}
                 }
             }
             if (empty($t['customer_id'])) {

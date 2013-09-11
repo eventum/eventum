@@ -37,24 +37,21 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     // show all FAQ entries
     $support_level_ids = array();
 } else {
-    if (!Customer::doesBackendUseSupportLevels($prj_id)) {
+    $crm = CRM::getInstance($prj_id);
+    if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
         // show all FAQ entries
         $support_level_ids = array();
     } else {
-        if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
-            // show all FAQ entries
-            $support_level_ids = array();
-        } else {
-            $customer_id = User::getCustomerID(Auth::getUserID());
-            $details = Customer::getDetails($prj_id, $customer_id);
-            $support_level_ids = array();
-            foreach ($details['contracts'] as $contract) {
-                $support_level_ids[] = $contract['support_level_id'];
-            }
+        $customer_id = User::getCustomerID(Auth::getUserID());
+        $contact = Auth::getCurrentContact();
+        $support_level_ids = array();
+        // TODOCRM: only active contracts?
+        foreach ($contact->getContracts() as $contract) {
+            $support_level_ids[] = $contract->getSupportLevel()->getLevelID();
         }
     }
 }

@@ -272,7 +272,7 @@ Eventum Issue Tracking System
 - Don't hide Total Time Spent: when hiding time tracking block in issue details page (Raul Raat)
 - Added ability to control if a custom fields is required and validation options from backend (Bryan)
 - Added option to include custom fields on close issue page (Bryan)
-- Added more parameters to Customer::notifyIssueClosed() (Bryan)
+- Added more parameters to Customer_OLD::notifyIssueClosed() (Bryan)
 - Call Workflow::getAdditionalEmailAddresses() when notifying an issue has been updated (Bryan)
 - Add extra parameter to Workflow::getAdditionalEmailAddresses() to allow issue diffs to be passed (Bryan)
 - Fixed bug with not encoding [ and ] in address strings (Bryan)
