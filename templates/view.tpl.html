@@ -16,7 +16,7 @@
   <div class="view_issue_seperator"></div>
 
   {if $core.has_crm and $issue.iss_customer_id}
-  {include file="customer/$customer_backend_name/customer_info.tpl.html"}
+  {include file="`$core.crm_template_path`/customer_info.tpl.html"}
   {/if}
 
   {if $issue_access.files}

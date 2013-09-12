@@ -105,17 +105,6 @@ abstract class CRM
 
 
     /**
-     * Method used to notify the customer contact that a new issue was just
-     * created and associated with his Eventum user.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $contact_id The customer contact ID
-     * @return  void
-     */
-    abstract public function notifyCustomerNewIssue($issue_id, $contact_id);
-
-
-    /**
      * Setups the backend for use. Generally will be used to establish a connection to a database
      * or preload data.
      *
