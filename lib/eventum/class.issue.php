@@ -2056,7 +2056,8 @@ class Issue
                 $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
 
                 // Just use first contract / customer for now.
-                $contract = $contact->getContracts(array('active'=>true))[0];
+                $contracts = $contact->getContracts(array('active'=>true));
+                $contract = $contracts[0];
                 $data['customer'] = $contract->getCustomerID();
                 $data['contact'] = $contact->getContactID();
                 $data['contract'] =  $contract->getContractID();
