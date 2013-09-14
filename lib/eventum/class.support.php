@@ -1943,9 +1943,6 @@ class Support
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
                 $is_allowed = false;
-            } elseif ((User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) &&
-                    (User::getCustomerID($sender_usr_id) != Issue::getCustomerID($issue_id))) {
-                $is_allowed = false;
             }
         }
         return $is_allowed;
@@ -2570,7 +2567,8 @@ class Support
         $prj_id = Issue::getProjectID($issue_id);
         $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
-        if ((Mail_Helper::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
+        if ((Mail_Helper::isVacationAutoResponder($email['headers'])) ||
+                (Notification::isBounceMessage($sender_email)) ||
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
