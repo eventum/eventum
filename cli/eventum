@@ -76,12 +76,14 @@ if ($issue_id > 0) {
                 Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $argv[3]);
                 break;
             case 'set-status':
+            case 'ss':
                 if (count($argv) == 3) {
                     Command_Line::quit("Missing parameter for the status");
                 }
                 Command_Line::setIssueStatus($client, $auth, $issue_id, $argv[3]);
                 break;
             case 'add-time':
+            case 'at':
                 if (count($argv) == 3) {
                     Command_Line::quit("Missing parameter for time worked");
                 }
