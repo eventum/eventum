@@ -104,7 +104,7 @@
                     <br />
                     {t}Support Options{/t}: {$issue.contract.options_display|default:''}
                     {/if}
-                    {if $issue.customer_info.is_per_incident}
+                    {if $issue.customer.is_per_incident}
                     <br />
                     {t}Redeemed Incident Types{/t}:
                     {strip}
