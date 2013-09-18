@@ -920,7 +920,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         $emails = XML_RPC_decode($result->value());
         if (!is_array($emails) || count($emails) < 1) {
-            echo "No emails for this issue";
+            echo "No emails for this issue\n";
             exit;
         }
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1028,7 +1028,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             $notes[$i]["id"] = ($i+1);
         }
         if (count($notes) < 1) {
-            echo "No notes for this issue";
+            echo "No notes for this issue\n";
             exit;
         }
         $format = array(
@@ -1228,7 +1228,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             $drafts[$i]["id"] = ($i+1);
         }
         if (count($drafts) < 1) {
-            echo "No drafts for this issue";
+            echo "No drafts for this issue\n";
             exit;
         }
         $format = array(
@@ -1737,7 +1737,8 @@ General Usage:
 $usage_text
 
 Explanations:
-$explanation";
+$explanation
+";
         exit;
     }
 
