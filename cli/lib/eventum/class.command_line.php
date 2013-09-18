@@ -58,7 +58,7 @@ class Command_Line
                 $prompt .= sprintf(" [%s] => %s\n", $key, $value);
             }
             $prompt .= "Please enter the resolution";
-            $resolution_id = CLI_CLI_Misc::prompt($prompt, false);
+            $resolution_id = CLI_Misc::prompt($prompt, false);
             $available_ids = array_keys($list);
             if (!in_array($resolution_id, $available_ids)) {
                 self::quit("Entered resolution doesn't match any in the list available to you");
