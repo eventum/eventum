@@ -3,7 +3,7 @@
           {t escape=no}URL{/t}: {$core.base_url}view.php?id={$data.iss_id}
       {t escape=no}Summary{/t}: {$data.iss_summary}
    {t escape=no}Assignment{/t}: {$data.assigned_users}
-{if $has_customer_integration}
+{if $has_customer_integration && $data.customer|default:'' != ''}
      {t escape=no}Customer{/t}: {$data.customer.name}
 {t escape=no}Support Level{/t}: {$data.contract.support_level}
 {/if}
