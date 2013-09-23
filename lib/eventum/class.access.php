@@ -41,7 +41,7 @@ class Access
         static $access;
 
         if (empty($issue_id)) {
-            return true;
+            return false;
         }
 
         if (isset($access[$issue_id . "-" . $usr_id])) {
