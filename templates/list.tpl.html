@@ -56,7 +56,8 @@
                 </th>
               {/foreach}
           {else}
-          <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
+          <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}
+            class="{$field_name}">
             {if $field_name == 'iss_summary'}
               <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}Summary{/t}</a>
               {if $sorting.images.iss_summary|default:'' != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
@@ -84,7 +85,7 @@
                 </td>
               {/foreach}
           {else}
-          <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}">
+          <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="{$field_name}">
             {if $field_name == 'iss_id'}
               <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
             {elseif $field_name == 'pri_rank'}
