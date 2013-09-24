@@ -311,17 +311,11 @@ abstract class CRM
      */
     static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . "crm/backends");
+        $files = Misc::getFileList(APP_INC_PATH . "crm/");
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
-            // make sure we only list the customer backends
-            if (preg_match('/^class\./', $files[$i])) {
-                // display a prettyfied backend name in the admin section
-                preg_match('/class\.(.*)\.php/', $files[$i], $matches);
-                $name = ucwords(str_replace('_', ' ', $matches[1]));
-                $list[$files[$i]] = $name;
-            }
+            $list['class.' . $files[$i] . '.php'] = $files[$i];
         }
         return $list;
     }
