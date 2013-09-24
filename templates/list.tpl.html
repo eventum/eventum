@@ -50,7 +50,7 @@
           {if $field_name == 'custom_fields'}
             {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
               {assign var="fld_name_id" value="custom_field_`$fld_id`"}
-                <th align="{$column.align|default:'center'}" nowrap>
+                <th align="{$column.align|default:'center'}" nowrap class="cstm_{$fld_id}">
                   <a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}">{$fld_title|escape:"html"}</a>
                   {if $sorting.images[$fld_name_id]|default:'' != ""}<a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
                 </th>
@@ -80,7 +80,7 @@
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
             {foreach from=$list[i].custom_field key=fld_id item=fld_value}
-                <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="default custom_field">
+                <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="custom_field cstm_{$fld_id}">
                   {$fld_value|formatCustomValue:$fld_id:$list[i].iss_id}
                 </td>
               {/foreach}
