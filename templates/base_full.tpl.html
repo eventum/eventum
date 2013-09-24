@@ -18,7 +18,7 @@
         </div>
         <div id="header_2">
             <div id="project_chooser">
-                {if $core.current_role == $core.roles.customer}
+                {if $core.active_projects|@count == 1}
                     {t}Project{/t}: {$core.project_name|escape:"html"}</b>
                 {else}
                   <form method="post" action="{$core.rel_url}switch.php">
