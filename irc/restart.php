@@ -19,7 +19,7 @@ if (!empty($process_id)) {
 }
 
 Lock::release('irc_bot');
-$start = `cd /var/www/html/eventum/misc/irc/;php bot.php > /dev/null &`;
+$start = `cd /srv/www/vhosts/eventum/irc;./run-bot > /dev/null &`;
 if (!empty($start)) {
     echo "Error: $start<br />\n";
 }
