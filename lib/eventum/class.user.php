@@ -546,7 +546,7 @@ class User
                 $stmt .= " AND usr_grp_id = $grp_id";
             }
         } elseif ($exclude_grouped == true) {
-            $stmt .= " AND usr_grp_id IS NULL";
+            $stmt .= " AND (usr_grp_id IS NULL or usr_grp_id = 0)";
         }
         $stmt .= "
                  ORDER BY
