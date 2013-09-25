@@ -792,7 +792,7 @@ class Workflow
     }
 
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false)
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, &$category = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return $notice;
