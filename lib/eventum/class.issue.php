@@ -2396,6 +2396,10 @@ class Issue
             $data['estimated_dev_time'] = 0;
         }
 
+        if (!isset($data['private'])) {
+            $data['private'] = 0;
+        }
+
         // add new issue
         $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
                 "SET ".

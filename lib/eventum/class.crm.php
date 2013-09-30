@@ -543,13 +543,13 @@ abstract class CRM
 
     /**
      * Method used to get the list of technical account managers for
-     * a given contract ID.
+     * a given customer ID.
      *
      * @param   integer $prj_id The project ID
-     * @param   integer $contract_id The contract ID
+     * @param   integer $customer_id The customer ID
      * @return  array The list of account managers
      */
-    public function getAccountManagers($prj_id, $contract_id)
+    public function getAccountManagers($prj_id, $customer_id)
     {
         $stmt = "SELECT
                     cam_usr_id,
@@ -561,7 +561,7 @@ abstract class CRM
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    cam_customer_contract_id=" . Misc::escapeInteger($contract_id);
+                    cam_customer_id=" . Misc::escapeInteger($customer_id);
         $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

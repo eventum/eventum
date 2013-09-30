@@ -927,7 +927,7 @@ class Support
             Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
                     $from, Mime_Helper::fixEncoding($subject), $message_body, @$options['category'],
-                    $options['priority'], @$options['users'], $date, $message_id);
+                    @$options['priority'], @$options['users'], $date, $message_id);
 
             // add sender to authorized repliers list if they are not a real user
             $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -948,7 +948,7 @@ class Support
                 try {
                     $crm = CRM::getInstance($info['ema_prj_id']);
                     $contact = $crm->getContactByEmail($sender_email);
-                    $contact = $contact->getContactID();
+                    $contact_id = $contact->getContactID();
                     $contracts = $contact->getContracts(array(CRM_EXCLUDE_EXPIRED));
                     $contract = $contracts[0];
                     $customer_id = $contract->getCustomerID();
