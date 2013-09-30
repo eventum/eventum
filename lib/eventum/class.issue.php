@@ -2088,9 +2088,11 @@ class Issue
 
         $emails = array();
         // if there are any technical account managers associated with this customer, add these users to the notification list
-        $managers = CRM::getAccountManagers($prj_id, $data['customer']);
-        foreach ($managers as $manager) {
-            $emails[] = $manager['usr_email'];
+        if (isset($data['customer'])) {
+            $managers = CRM::getAccountManagers($prj_id, $data['customer']);
+            foreach ($managers as $manager) {
+                $emails[] = $manager['usr_email'];
+            }
         }
         // add the reporter to the notification list
         $emails[] = $sender;
