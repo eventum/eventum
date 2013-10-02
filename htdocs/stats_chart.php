@@ -33,7 +33,7 @@ require_once APP_JPGRAPH_PATH . '/jpgraph_pie.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
-error_reporting(E_ALL ^ E_DEPRECATED ^ E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 // check to see if the TTF file is available or not
 $ttf_font = TTF_DIR . "verdana.ttf";
