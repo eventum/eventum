@@ -36,9 +36,24 @@ ini_set('memory_limit', '1024M');
 
 require_once dirname(__FILE__) . '/../init.php';
 
+// if requested, clear the lock
+if (in_array('--fix-lock', $argv)) {
+    Lock::release('irc_bot_runner');
+    echo "The lock file was removed successfully.\n";
+    exit;
+}
+
+// acquire a lock to prevent multiple scripts from
+// running at the same time
+if (!Lock::acquire('irc_bot_runner', $check)) {
+    echo 'Error: Another instance of the script is still running. ',
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
+                "as the only parameter.\n";
+    exit;
+}
+
 while (true) {
     $command = APP_PATH . '/irc/eventum-irc-bot';
     `$command`;
     `$command --fix-lock`;
 }
-    
