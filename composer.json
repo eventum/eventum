@@ -45,8 +45,13 @@
 			}
 		}
 	],
+	"config": {
+		"component-dir": "htdocs/components",
+		"component-baseurl": "/components"
+	},
 	"minimum-stability": "stable",
 	"require": {
+		"components/jquery": "1.8.*",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
