@@ -45,6 +45,7 @@
 			}
 		}
 	],
+	"minimum-stability": "stable",
 	"require": {
 		"ext-filter": "*",
 		"ext-gd": "*",
@@ -55,7 +56,6 @@
 		"ext-mysql": "*",
 		"ext-pcre": "*",
 		"ext-session": "*",
-		"php": ">=5.1.2",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
 		"pear/Date": "*",
@@ -74,6 +74,7 @@
 		"pear/PEAR": "*",
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
+		"php": ">=5.1.2",
 		"smarty/smarty": "2.6.*"
 	},
 	"suggest": {
@@ -83,6 +84,5 @@
 	"autoload": {
 		"files": ["lib/eventum/autoload.php"],
 		"classmap": [ "lib/jpgraph/", "lib/php-gettext/", "lib/sphinxapi/"]
-	},
-	"minimum-stability": "stable"
+	}
 }
