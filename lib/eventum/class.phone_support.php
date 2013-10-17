@@ -326,7 +326,8 @@ class Phone_Support
         } else {
             // enter the time tracking entry about this phone support entry
             $phs_id = DB_Helper::get_last_insert_id();
-            $_POST['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
+            $prj_id = Auth::getCurrentProject();
+            $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Telephone Discussion');
             $_POST['time_spent'] = $_POST['call_length'];
             $_POST['summary'] = ev_gettext("Time entry inserted from phone call.");
             Time_Tracking::insertEntry();

@@ -629,7 +629,12 @@ class Command_Line
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
         // list the time tracking categories
-        $msg = new XML_RPC_Message("getTimeTrackingCategories", array(new XML_RPC_Value($auth[0], 'string'),  new XML_RPC_Value($auth[1], 'string')));
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'),
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int'),
+        );
+        $msg = new XML_RPC_Message("getTimeTrackingCategories", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             self::quit($result->faultString());
@@ -915,7 +920,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         $emails = XML_RPC_decode($result->value());
         if (!is_array($emails) || count($emails) < 1) {
-            echo "No emails for this issue";
+            echo "No emails for this issue\n";
             exit;
         }
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1023,7 +1028,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             $notes[$i]["id"] = ($i+1);
         }
         if (count($notes) < 1) {
-            echo "No notes for this issue";
+            echo "No notes for this issue\n";
             exit;
         }
         $format = array(
@@ -1223,7 +1228,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             $drafts[$i]["id"] = ($i+1);
         }
         if (count($drafts) < 1) {
-            echo "No drafts for this issue";
+            echo "No drafts for this issue\n";
             exit;
         }
         $format = array(
@@ -1732,7 +1737,8 @@ General Usage:
 $usage_text
 
 Explanations:
-$explanation";
+$explanation
+";
         exit;
     }
 

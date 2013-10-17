@@ -40,8 +40,12 @@ if ($role_id < User::getRoleID('manager')) {
     $tpl->displayTemplate();exit;
 }
 
+@$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
+$tpl->assign("project", Project::getDetails($prj_id));
+
 if (@$_POST["cat"] == "new") {
-    $res =  Time_Tracking::insert();
+    $title = $_POST["title"];
+    $res =  Time_Tracking::insert($prj_id, $title);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO),
             -1   =>  array(ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO),
@@ -62,5 +66,5 @@ if (@$_GET["cat"] == "edit") {
     $tpl->assign("info", Time_Tracking::getDetails($_GET["id"]));
 }
 
-$tpl->assign("list", Time_Tracking::getList());
+$tpl->assign("list", Time_Tracking::getList($prj_id));
 $tpl->displayTemplate();

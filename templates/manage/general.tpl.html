@@ -671,6 +671,21 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Clocked In handling{/t}
+            </th>
+            <td>
+                <label>
+                  <input type="radio" name="handle_clock_in" value="enabled" {if $setup.handle_clock_in == 'enabled'}checked{/if}>
+                  {t}Enabled{/t}
+                </label>
+                <label>
+                  <input type="radio" name="handle_clock_in" value="disabled" {if $setup.handle_clock_in != 'enabled'}checked{/if}>
+                  {t}Disabled{/t}
+                </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Allow Un-Assigned Issues?{/t}
             </th>
             <td>

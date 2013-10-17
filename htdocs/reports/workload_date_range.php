@@ -47,7 +47,6 @@ $types = array(
     "aggregate"     =>  "Aggregate"
 );
 
-
 if (count(@$_REQUEST["start"]) > 0 &&
         (@$_REQUEST["start"]["Year"] != 0) &&
         (@$_REQUEST["start"]["Month"] != 0) &&
@@ -55,7 +54,7 @@ if (count(@$_REQUEST["start"]) > 0 &&
     $start_date = join("-", $_REQUEST["start"]);
 } else {
     // if empty start date, set to be a month ago
-    $start_date = date("Y-m-d", time() - MONTH);
+    $start_date = date("Y-m-d", time() - Date_Helper::MONTH);
 }
 if (count(@$_REQUEST["end"]) > 0 &&
         (@$_REQUEST["end"]["Year"] != 0) &&
@@ -68,7 +67,7 @@ if (count(@$_REQUEST["end"]) > 0 &&
 
 
 if (!empty($_REQUEST["interval"])) {
-    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + DAY)), @$_REQUEST['category']);
+    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + Date_Helper::DAY)), @$_REQUEST['category']);
     Session::set("workload_date_range_data", $data);
     $tpl->assign("data", $data);
   //  echo "<pre>";print_r($data);echo "</pre>";

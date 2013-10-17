@@ -38,6 +38,7 @@
   </script>
   {/literal}
           <form id="time_tracking_form" method="post" action="{$smarty.server.PHP_SELF}">
+          <input type="hidden" name="prj_id" value="{$project.prj_id}">
           {if $smarty.get.cat|default:'' == 'edit'}
           <input type="hidden" name="cat" value="update">
           <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
@@ -74,6 +75,7 @@
         </form>
 
         <form id="delete_group" method="post" action="{$smarty.server.PHP_SELF}">
+          <input type="hidden" name="prj_id" value="{$project.prj_id}">
         <input type="hidden" name="cat" value="delete">
         <table class="bordered grid">
           <tr class="title">

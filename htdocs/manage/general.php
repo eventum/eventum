@@ -63,7 +63,9 @@ if (@$_POST["cat"] == "update") {
     $setup['draft_routing'] = $_POST['draft_routing'];
     $setup['email_error'] = $_POST['email_error'];
     $setup['email_reminder'] = $_POST['email_reminder'];
+    $setup['handle_clock_in'] = $_POST['handle_clock_in'];
     $res = Setup::save($setup);
+    $tpl->assign("result", $res);
 
     Misc::mapMessages($res, array(
             1   =>  array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
@@ -78,6 +80,5 @@ if (@$_POST["cat"] == "update") {
 $options = Setup::load(true);
 $tpl->assign("setup", $options);
 $tpl->assign("user_roles", User::getRoles(array('Customer')));
-
 
 $tpl->displayTemplate();

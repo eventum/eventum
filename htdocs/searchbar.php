@@ -29,6 +29,8 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
+Auth::checkAuthentication(APP_COOKIE);
+
 if (!empty($_GET['custom_id'])) {
     $filters = Filter::getListing(true);
     foreach ($filters as $filter) {
@@ -44,8 +46,6 @@ if (!empty($_GET['custom_id'])) {
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("searchbar.tpl.html");
-
-Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
 $tpl->assign("priorities", Priority::getList($prj_id));

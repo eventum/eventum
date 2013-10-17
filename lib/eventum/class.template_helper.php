@@ -152,6 +152,7 @@ class Template_Helper
         if ($usr_id != '') {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
+            $setup = Setup::load();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $core = $core + array(
@@ -173,9 +174,15 @@ class Template_Helper
             }
             $core = $core + array(
                 'active_projects'   =>  $active_projects,
-                'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
+                'is_current_user_clocked_in'    =>  User::isClockedIn($usr_id),
                 'is_anon_user'  =>  Auth::isAnonUser(),
             );
+            $this->assign("current_full_name", $core['user']["usr_full_name"]);
+            $this->assign("current_email", $core['user']["usr_email"]);
+            $this->assign("current_user_id", $usr_id);
+            $this->assign("handle_clock_in", $setup['handle_clock_in'] == 'enabled');
+            $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
+            $this->assign("roles", User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
     }

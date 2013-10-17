@@ -71,7 +71,7 @@ if (@$_POST["cat"] == "send_email") {
     // enter the time tracking entry about this new email
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
-        $_POST['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Email Discussion');
         $_POST['summary'] = 'Time entry inserted when sending outgoing email.';
         Time_Tracking::insertEntry();
     }
@@ -87,7 +87,7 @@ if (@$_POST["cat"] == "send_email") {
 if ((@$_POST["cat"] == "save_draft") || (@$_POST["cat"] == "update_draft")) {
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
-        $_POST['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Email Discussion');
         $_POST['summary'] = 'Time entry inserted when saving an email draft.';
         Time_Tracking::insertEntry();
     }

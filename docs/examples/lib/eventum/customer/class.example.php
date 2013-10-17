@@ -157,7 +157,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $now = Date_Helper::getCurrentUnixTimestampGMT();
         if ($expiration > $now) {
             return 'active';
-        } elseif ($expiration > ($now + (DAY * $this->getExpirationOffset()))) {
+        } elseif ($expiration > ($now + (Date_Helper::DAY * $this->getExpirationOffset()))) {
             return 'in_grace_period';
         } else {
             return 'expired';

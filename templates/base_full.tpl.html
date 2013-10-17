@@ -71,7 +71,7 @@
 
             <div id="user_menu">
                 {$core.current_role_name}: {$core.user.usr_full_name|escape:html}
-                {if $core.current_role > $core.roles.standard_user}
+                {if $core.current_role > $core.roles.standard_user && $handle_clock_in}
                     [{if $core.is_current_user_clocked_in}{t}CLOCKED IN{/t}{else}{t}CLOCKED OUT{/t}{/if}]
                 {/if}
                 {strip}
@@ -80,7 +80,7 @@
                   <a href="{$core.rel_url}signup.php">{t}Register{/t}</a>
                 {else}
                   <a title="{t}modify your account details and preferences{/t}" href="{$core.rel_url}preferences.php">{t}Preferences{/t}</a>&nbsp;
-                  {if $core.current_role > $core.roles.standard_user}
+                  {if $core.current_role > $core.roles.standard_user && $handle_clock_in}
                     <a id="change_clock_status" title="{t}change your account clocked-in status{/t}" href="">
                     {if $core.is_current_user_clocked_in}{t}Clock Out{/t}{else}{t}Clock In{/t}{/if}</a>
                   {/if}

@@ -38,13 +38,6 @@ if (!defined('APP_DEFAULT_TIMEZONE')) {
 if (!defined('APP_DEFAULT_WEEKDAY')) {
     define('APP_DEFAULT_WEEKDAY', 0);
 }
-define("SECOND", 1);
-define("MINUTE", SECOND * 60);
-define("HOUR", MINUTE * 60);
-define("DAY", HOUR * 24);
-define("WEEK", DAY * 7);
-define("MONTH", WEEK * 4);
-define("YEAR", MONTH * 12);
 
 /**
  * Class to handle date convertion issues, which enable the
@@ -58,6 +51,15 @@ define("YEAR", MONTH * 12);
 
 class Date_Helper
 {
+    const SECOND = 1;
+    const MINUTE = 60;
+    const HOUR = 3600;
+    const DAY = 86400;
+    const WEEK = 604800;
+	// MONTH and YEAR are rather approximate (4 weeks in month), do not use them
+    const MONTH = 2419200; // WEEK * 4
+    const YEAR = 29030400; // MONTH * 12
+
     /**
      * Returns whether the given hour is AM or not.
      *
@@ -168,10 +170,10 @@ class Date_Helper
      */
     function getFormattedDateDiff($now_ts, $old_ts)
     {
-        $value = (integer) (($now_ts - $old_ts) / DAY);
+        $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf("%d", round($value, 1)) . "d";
-        $mod = (integer) (($now_ts - $old_ts) % DAY);
-        $mod = (integer) ($mod / HOUR);
+        $mod = (integer) (($now_ts - $old_ts) % self::DAY);
+        $mod = (integer) ($mod / self::HOUR);
         return $ret . " " . $mod . "h";
     }
 
@@ -409,11 +411,11 @@ class Date_Helper
         $options = array();
 
         // get current week details
-        $current_start = date("U") - (DAY * (date("w") - 1));
+        $current_start = date("U") - (self::DAY * (date("w") - 1));
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
-            $option = self::formatWeekOption($current_start - ($week * WEEK));
+            $option = self::formatWeekOption($current_start - ($week * Date_Helper::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -422,7 +424,7 @@ class Date_Helper
 
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
-            $option = self::formatWeekOption($current_start + ($week * WEEK));
+            $option = self::formatWeekOption($current_start + ($week * Date_Helper::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -439,8 +441,8 @@ class Date_Helper
     function getCurrentWeek()
     {
         $value_format = "Y-m-d";
-        $start = date("U") - (DAY * (date("w") - 1));
-        return date($value_format, $start) . "_" . date($value_format, ($start + (DAY * 6)));
+        $start = date("U") - (self::DAY * (date("w") - 1));
+        return date($value_format, $start) . "_" . date($value_format, ($start + (Date_Helper::DAY * 6)));
     }
 
 
@@ -454,7 +456,7 @@ class Date_Helper
     {
         $value_format = "Y-m-d";
         $display_format = "M jS";
-        $end = ($start + (DAY * 6));
+        $end = ($start + (self::DAY * 6));
         $value = date($value_format, $start) . "_" . date($value_format, $end);
         $display = date($display_format, $start) . " - " . date($display_format, $end);
         return array($value,$display);
