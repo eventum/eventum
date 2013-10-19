@@ -51,6 +51,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("result", User::updateFromPost());
     } elseif (@$_POST["cat"] == "change_status") {
         User::changeStatus();
+    } elseif (@$_GET["cat"] == "unlock") {
+        User::unlock($_GET["id"]);
     }
 
     $project_roles = array();

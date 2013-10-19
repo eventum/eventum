@@ -432,6 +432,16 @@ class Auth
         return 1;
     }
 
+    /**
+     * Returns the true if the account is currently locked becouse of Back-Off lock
+     *
+     * @access  public
+     * @param   string $usr_id The user id to check for
+     * @return  boolean
+     */
+    public static function isUserBackOffLocked($usr_id) {
+        return self::getAuthBackend()->isUserBackOffLocked($usr_id);
+    }
 
     /**
      * Gets the current user ID.
