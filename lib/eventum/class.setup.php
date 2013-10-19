@@ -111,6 +111,7 @@ class Setup
                     'status' => 'enabled',
                 ),
             ),
+            'handle_clock_in' => 'enabled',
         );
 
         return $defaults;
