@@ -1427,8 +1427,8 @@ class User
     {
         $setup = Setup::load();
         // If clock in handling is disabled, say that we are always clocked in
-        if ($setup['handle_clock_in'] == 'enabled') {
-            return 1;
+        if ($setup['handle_clock_in'] == 'disabled') {
+            return true;
         }
         $stmt = "SELECT
                     usr_clocked_in
