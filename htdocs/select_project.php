@@ -47,7 +47,7 @@ if (@$_GET["err"] == '') {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
-            Auth::redirect("main.php");
+            Auth::redirect("list.php");
         }
     }
 
