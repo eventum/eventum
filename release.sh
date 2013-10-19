@@ -26,6 +26,18 @@ update_timestamps() {
 }
 update_timestamps
 
+# checkout localizations from launchpad
+# if running in bzr checkout, clone that instead
+if [ -d lp ]; then
+  cd lp
+  bzr pull
+  cd ..
+else
+  bzr clone lp:eventum lp
+fi
+rm -f $dir/localization/*.po
+cp -af lp/localization/*.po $dir/localization
+
 # tidy up
 cd $dir
 version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
