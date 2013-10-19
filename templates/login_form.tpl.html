@@ -65,6 +65,8 @@ function validateForm(f)
               {t}Error{/t}: {t}Cookies support seem to be disabled in your browser. Please enable this feature and try again.{/t}
             {elseif $smarty.get.err == 12}
               {t}Error{/t}: {t 1=$application_title}In order for %1 to work properly, you must enable cookie support in your browser. Please login again and accept all cookies coming from it.{/t}
+            {elseif $smarty.get.err == 13}
+              {t}Error{/t}: {t}Your user status is currently set as locked. Please try again later.{/t}
             {/if}
             </b>
           </td>

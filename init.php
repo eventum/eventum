@@ -177,6 +177,16 @@ if (!defined('APP_EMAIL_ENCODING')) {
     }
 }
 
+// Number of failed attempts before Back-Off locking kicks in.
+// If set to false do not use Back-Off locking.
+if (!defined('APP_FAILED_LOGIN_BACKOFF_COUNT')) {
+	define('APP_FAILED_LOGIN_BACKOFF_COUNT', false);
+}
+// How many minutes to lock account for during Back-Off
+if (!defined('APP_FAILED_LOGIN_BACKOFF_MINUTES')) {
+	define('APP_FAILED_LOGIN_BACKOFF_MINUTES', 15);
+}
+
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
 // if set, normal calls to eventum are redirected to a maintenance page while

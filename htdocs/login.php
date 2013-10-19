@@ -42,6 +42,13 @@ if (!Auth::userExists($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'unknown user');
     Auth::redirect("index.php?err=3");
 }
+
+// check if user is locked
+if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($_POST['email']))){
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'account back-off locked');
+    Auth::redirect("index.php?err=13");
+}
+
 // check if the password matches
 if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
