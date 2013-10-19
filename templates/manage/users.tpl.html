@@ -248,6 +248,7 @@
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Email Alias{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Status{/t}</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Group{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white" title="{t}Failed logins{/t}">&nbsp;<b>{t}Fails{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -275,6 +276,9 @@
                       <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].group_name}
                       </td>
+                      <td width="5%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{if $list[i].usr_failed_logins > 0}<a class="link" href="{$smarty.server.PHP_SELF}?cat=unlock&id={$list[i].usr_id}" title="Failed: {$list[i].usr_last_failed_login}, click to unlock">{$list[i].usr_failed_logins}</a>{/if}
+                      </td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -284,7 +288,7 @@
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="7" bgcolor="{$cell_color}">
+                      <td colspan="8" bgcolor="{$cell_color}">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                           <tr>
                             <td>

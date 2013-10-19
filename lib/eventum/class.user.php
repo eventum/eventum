@@ -1317,7 +1317,7 @@ class User
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
@@ -1359,7 +1359,7 @@ class User
                     usr_clocked_in=1";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         } else {
@@ -1384,7 +1384,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1408,7 +1408,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1438,7 +1438,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1473,7 +1473,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
@@ -1495,7 +1495,7 @@ class User
                         usr_id = $usr_id";
             $res = DB_Helper::getInstance()->getOne($sql);
             if (PEAR::isError($res)) {
-	            /** @var $res PEAR_Error */
+                /** @var $res PEAR_Error */
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return APP_DEFAULT_LOCALE;
             } else {
@@ -1519,7 +1519,7 @@ class User
                     usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1537,7 +1537,7 @@ class User
                     ual_usr_id = " . Misc::escapeInteger($usr_id);
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
@@ -1564,7 +1564,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1611,5 +1611,20 @@ class User
     {
         $details = User::getDetails($usr_id);
         return $details['usr_external_id'];
+    }
+
+    public static function unlock($usr_id) {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_failed_logins = 0
+                 WHERE
+                    usr_id=" . Misc::escapeInteger($usr_id);
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
     }
 }

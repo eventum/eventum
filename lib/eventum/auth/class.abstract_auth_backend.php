@@ -140,4 +140,40 @@ abstract class Abstract_Auth_Backend
     {
         return true;
     }
+
+    /**
+     * Increment the failed logins attempts for this user
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean
+     */
+    public function incrementFailedLogins($usr_id)
+    {
+        return true;
+    }
+
+    /**
+     * Reset the failed logins attempts for this user
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean
+     */
+    public function resetFailedLogins($usr_id)
+    {
+        return true;
+    }
+
+    /**
+     * Returns the true if the account is currently locked becouse of Back-Off locking
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean
+     */
+    function isUserBackOffLocked($usr_id)
+    {
+        return false;
+    }
 }
