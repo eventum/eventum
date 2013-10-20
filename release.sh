@@ -6,6 +6,7 @@ rc=dev # development version
 #rc=RC1 # release candidate
 #rc= # release
 dir=$app
+podir=po
 
 # checkout
 rm -rf $dir
@@ -27,16 +28,15 @@ update_timestamps() {
 update_timestamps
 
 # checkout localizations from launchpad
-# if running in bzr checkout, clone that instead
-if [ -d lp ]; then
-  cd lp
+if [ -d $podir ]; then
+  cd $podir
   bzr pull
-  cd ..
+  cd -
 else
-  bzr clone lp:eventum lp
+  bzr branch lp:~glen666/eventum/po $podir
 fi
 rm -f $dir/localization/*.po
-cp -af lp/localization/*.po $dir/localization
+cp -af $podir/localization/*.po $dir/localization
 
 # tidy up
 cd $dir
