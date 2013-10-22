@@ -735,7 +735,7 @@ new_issue.ready = function()
     report_form.submit(function() { return Validation.checkFormSubmission(report_form, new_issue.validateForm) });
 
     $('#severity').bind('change', new_issue.display_severity_description).change();
-    $('#product').bind('change', new_issue.display_product_version_howto).change();
+    product.ready();
 }
 
 new_issue.validateForm = function()
@@ -794,16 +794,6 @@ new_issue.display_severity_description = function()
     }
 }
 
-new_issue.display_product_version_howto = function()
-{
-    var howto = $('#product :selected').attr('data-desc');
-    if (howto == undefined || howto == '') {
-        $('#product_version_howto').hide();
-    } else {
-        $('#product_version_howto').text(howto).show();
-    }
-}
-
 function anon_post() {}
 
 anon_post.ready = function()
@@ -843,4 +833,25 @@ anon_post.validateForm = function(form)
 
     Validation.checkCustomFields(form);
 
+}
+
+
+/*
+ * Product chooser functions used in multiplepages
+ */
+function product() {}
+
+product.ready = function()
+{
+    $('#product').bind('change', product.display_product_version_howto).change();
+}
+
+product.display_product_version_howto = function()
+{
+    var howto = $('#product :selected').attr('data-desc');
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
+    }
 }

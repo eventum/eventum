@@ -127,14 +127,6 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
 
-    $products = Product::getList(false);
-    $products_assoc = array();
-    $products_version_howto = array();
-    foreach ($products as $product) {
-        $products_version_howto[$product['pro_id']] = $product['pro_version_howto'];
-        $products_assoc[$product['pro_id']] = $product['pro_title'];
-    }
-
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
         "categories"   => Category::getAssocList($prj_id),
@@ -148,8 +140,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
-        "products_version_howto" => $products_version_howto,
-        "products_assoc"         => $products_assoc,
+        "products"     => Product::getList(false),
     ));
 
 }

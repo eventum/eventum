@@ -199,6 +199,35 @@
         </div>
     </div>
 
+    {if $products|@count > 0}
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Product{/t}</div>
+            <div class="display">
+                <select id="product" name="product[{$issue.products[0].ipv_id|default:0}]">
+                    <option value="-1"></option>
+                      {foreach from=$products item=product}
+                      <option value="{$product.pro_id}" {if $product.pro_id == $issue.products[0].pro_id|default:''}selected{/if}
+                        data-desc="{$product.pro_version_howto|escape}">{$product.pro_title|escape}</option>
+                      {/foreach}
+                </select>
+                {include file="error_icon.tpl.html" field="product"}
+            </div>
+        </div>
+    </div>
+
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Product Version{/t}</div>
+            <div class="display">
+                <input type="text" name="product_version[{$issue.products[0].ipv_id|default:0}]" value="{$issue.products[0].version|default:''}" size="20" />
+                <div id="product_version_howto"></div>
+                {include file="error_icon.tpl.html" field="product_version"}
+            </div>
+        </div>
+    </div>
+    {/if}
+
     <div class="issue_field_display">
         <div class="background">
             <div class="label">{t}Reporter{/t}</div>
