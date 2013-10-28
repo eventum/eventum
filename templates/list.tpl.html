@@ -4,8 +4,8 @@
 {block "content"}
 {if $core.current_role != $core.roles.customer}
 {include file="quick_filter_form.tpl.html"}
-{include file="current_filters.tpl.html"}
 {/if}
+{include file="current_filters.tpl.html"}
 {* Figure out how many columns there are *}
 {assign var="col_count" value=$columns|@count}
 {if $list_info.custom_fields|@count > 1}
