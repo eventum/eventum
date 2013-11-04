@@ -42,3 +42,5 @@ Move them to some common file, better to review code and make similar changes.
 
 Current multi selects are uncomfortable to use if you have lots of users in Eventum
 https://github.com/raul72/multiselect-search
+
+* finish other post pages like 6d1fcee
