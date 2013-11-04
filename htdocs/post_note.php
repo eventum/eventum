@@ -48,7 +48,11 @@ if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::
 
 Workflow::prePage($prj_id, 'post_note');
 
-if (@$_POST["cat"] == "post_note") {
+if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
+    $res = (int)$_GET['post_result'];
+    $tpl->assign("post_result", $res);
+
+} elseif (@$_POST["cat"] == "post_note") {
     // change status
     if (!@empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
@@ -60,7 +64,7 @@ if (@$_POST["cat"] == "post_note") {
 
     $res = Note::insert($usr_id, $issue_id);
     Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
-    $tpl->assign("post_result", $res);
+
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
@@ -68,6 +72,9 @@ if (@$_POST["cat"] == "post_note") {
         $_POST['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
+
+    Auth::redirect("post_note.php?cat=post_result&post_result={$res}");
+
 } elseif (@$_GET["cat"] == "reply") {
     if (!@empty($_GET["id"])) {
         $note = Note::getDetails($_GET["id"]);
@@ -81,6 +88,7 @@ if (@$_POST["cat"] == "post_note") {
         $reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
     }
 }
+
 if (empty($reply_subject)) {
     // TRANSLATORS: %1 = issue summary
     $reply_subject = ev_gettext('Re: %1$s', $details['iss_summary']);
