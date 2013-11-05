@@ -73,7 +73,7 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
         Time_Tracking::insertEntry();
     }
 
-    Auth::redirect("post_note.php?cat=post_result&post_result={$res}");
+    Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
 
 } elseif (@$_GET["cat"] == "reply") {
     if (!@empty($_GET["id"])) {
