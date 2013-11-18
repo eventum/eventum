@@ -49,12 +49,18 @@ class Setup
     {
         static $setup;
         if (empty($setup) || $force == true) {
-            $eventum_setup_string = null;
+            $eventum_setup_string = $eventum_setup = null;
             require APP_SETUP_FILE;
-            if (empty($eventum_setup_string)) {
+            if ($eventum_setup_string == null and $eventum_setup == null) {
                 return null;
             }
-            $setup = unserialize(base64_decode($eventum_setup_string));
+
+            if (isset($eventum_setup)) {
+                $setup = $eventum_setup;
+            } else {
+                // support reading legacy base64 encoded config
+                $setup = unserialize(base64_decode($eventum_setup_string));
+            }
 
             // merge with defaults
             $setup = self::array_extend(self::getDefaults(), $setup);
@@ -83,7 +89,8 @@ class Setup
                 return -2;
             }
         }
-        $contents = "<"."?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n";
+
+        $contents = "<"."?php\n\$eventum_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_SETUP_FILE, $contents);
         if ($res === false) {
             return -2;

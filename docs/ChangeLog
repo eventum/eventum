@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - Add Back-Off functionallity (Petter Sandholdt) (GH#4)
 - Redirect to issues listing when signing in (Elan Ruusamäe)
 - Change downloading attachments encoding to urlencode (Elan Ruusamäe) (#1251335)
+- Save eventum setup.php as PHP code, not base64 encoded data (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
