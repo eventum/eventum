@@ -60,7 +60,7 @@ $(function() {
     Eventum.checkWindowClose('{t}If you close this window, you will lose your message{/t}');
 });
 
-{if not $core.is_current_user_partner}
+{if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
 var contact_list = new Array();
 {section name="i" loop=$assoc_emails}
 contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
@@ -97,7 +97,12 @@ function validateForm()
     var warning_msg = "{t}WARNING: This email will be sent to all names on this issue's Notification List.\\nIf you want all users to receive your message now, press OK.\\nOtherwise, to return to your editing window, press CANCEL.{/t}";
     {/if}
 {literal}
-    if ((Validation.errors.length > 1) || !confirm(warning_msg)) {
+    if ($.inArray(Eventum.getField('cat').val(), ['save_draft', 'update_draft']) > -1) {
+        var warning = true;
+    } else {
+        var warning = confirm(warning_msg);
+    }
+    if ((Validation.errors.length > 0) || !warning) {
         return false;
     } else {
         Eventum.checkWindowClose(false);

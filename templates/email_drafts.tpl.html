@@ -22,7 +22,7 @@ function showAllDrafts(thisBox)
     } else {
         showValue = 0;
     }
-    setCookie('show_all_drafts', showValue);
+    $.cookie('show_all_drafts', showValue, {expires: Eventum.expires});
     document.location.href = document.location.href;
 }
 //-->
@@ -83,7 +83,7 @@ function showAllDrafts(thisBox)
     <div class="buttons">
       <input type="button" value="{t}Create Draft{/t}" onClick="createDraft({$smarty.get.id|intval});"></td>
       <div class="right">
-        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts|default:0 == 1}checked{/if} onClick="showAllDrafts(this)"><label for="show_all_drafts">{t}Show All Drafts{/t}</label>
+        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.cookies.show_all_drafts|default:0 == 1}checked{/if} onClick="showAllDrafts(this)"><label for="show_all_drafts">{t}Show All Drafts{/t}</label>
       </div>
     </div>
     {/if}

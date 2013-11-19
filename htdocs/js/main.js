@@ -564,9 +564,12 @@ Validation.checkFormSubmission = function(form, callback_func)
     Validation.errors_extra = new Array();
 
     if (typeof(callback_func) == 'string') {
-        eval(callback_func + '(form)');
+        var res = eval(callback_func + '(form)');
     } else {
-        callback_func(form);
+        var res = callback_func(form);
+    }
+    if (res === false) {
+        return false;
     }
     if (Validation.errors.length > 0) {
         // loop through all of the broken fields and select them

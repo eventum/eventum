@@ -240,7 +240,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
             ));
 
             if ($role_id != User::getRoleID('customer')) {
-                if (@$_REQUEST['show_all_drafts'] == 1) {
+                if (@$_COOKIE['show_all_drafts'] == 1) {
                     $show_all_drafts = true;
                 } else {
                     $show_all_drafts = false;
