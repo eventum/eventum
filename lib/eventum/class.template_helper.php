@@ -189,6 +189,12 @@ class Template_Helper
         $this->assign("app_setup_file", APP_SETUP_FILE);
 
         $this->assign("application_version", APP_VERSION);
+        // If version is something like "Eventum 2.3.3-148-g78b3368", link ref to github
+        if (preg_match('/^[\d.-]+-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
+            $link = "https://github.com/eventum/eventum/commit/{$m['hash']}";
+            $this->assign("application_version_link", $link);
+        }
+
         $this->assign("application_title", APP_NAME);
         $this->assign("app_base_url", APP_BASE_URL);
         $this->assign("rel_url", APP_RELATIVE_URL);
