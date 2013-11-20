@@ -86,27 +86,27 @@ function validateForm()
     if (Validation.isFieldWhitespace('message')) {
         Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Message{/t}{literal}', 'message');
     }
-
 {/literal}
+    var leave_page = true;
 {if $core.current_role != $core.roles.customer and $issue_id != 0}
     {if !$can_send_email}
     var warning_msg = "{t}WARNING: You are not assigned to this issue so your email will be blocked.\\nYour blocked email will be converted to a note that can be recovered later.\\nFor more information, please see the topic 'email blocking' in help.{/t}";
-    {elseif $core.has_crm}
+    {elseif $core.has_customer_integration}
     var warning_msg = "{t}WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\\nIf you want the CUSTOMER to receive your message now, press OK.\\nOtherwise, to return to your editing window, press CANCEL.{/t}";
     {else}
     var warning_msg = "{t}WARNING: This email will be sent to all names on this issue's Notification List.\\nIf you want all users to receive your message now, press OK.\\nOtherwise, to return to your editing window, press CANCEL.{/t}";
     {/if}
 {literal}
-    if ($.inArray(Eventum.getField('cat').val(), ['save_draft', 'update_draft']) > -1) {
-        var warning = true;
-    } else {
-        var warning = confirm(warning_msg);
-    }
-    if ((Validation.errors.length > 0) || !warning) {
-        return false;
-    } else {
-        Eventum.checkWindowClose(false);
-        return true;
+    if ((Validation.errors.length < 1)) {
+        if ($.inArray(Eventum.getField('cat').val(), ['save_draft', 'update_draft']) == -1) {
+            leave_page = confirm(warning_msg);
+        }
+        if (leave_page) {
+            Eventum.checkWindowClose(false);
+            return true;
+        } else {
+            return false;
+        }
     }
 {/literal}
 {else}
