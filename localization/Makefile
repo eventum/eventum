@@ -37,7 +37,7 @@ clean:
 	rm -f *.mo
 
 tools-check:
-	@TOOLS='bzr find sort xargs xgettext sed mv rm'; \
+	@TOOLS='git find sort xargs xgettext sed mv rm'; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
@@ -49,7 +49,8 @@ pot: tools-check
 	export tsmarty2c=`pwd`/tsmarty2c; \
 	umask 002; \
 	rm -rf workdir; \
-	bzr export workdir; \
+	install -d workdir; \
+	(cd .. && git archive HEAD) | tar -x -C workdir; \
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $$tsmarty2c -o ts.pot; \
 		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
