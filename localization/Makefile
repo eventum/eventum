@@ -45,6 +45,12 @@ $(tsmarty2c):
 
 tools-check: $(tsmarty2c)
 	@TOOLS='git find sort xargs xgettext sed mv rm'; \
+	which --version > /dev/null 2>&1 || which() {\
+		local ifs=$$IFS d x=$$1; IFS=:; \
+		for d in $$PATH; do [ -x $$d/$$x ] && { p=$$d/$$x; break; }; done; \
+		IFS=$$ifs; \
+		echo $$p; \
+	}; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
