@@ -4,6 +4,7 @@
 localedir   := /usr/share/locale
 DOMAIN      := eventum
 MOFILES     := $(patsubst %.po,%.mo,$(wildcard *.po))
+tsmarty2c   := $(abspath ..)/vendor/bin/tsmarty2c.php
 
 all: $(MOFILES)
 
@@ -36,7 +37,13 @@ install: $(MOFILES)
 clean:
 	rm -f *.mo
 
-tools-check:
+$(tsmarty2c):
+	@set -e; \
+	echo "\nMissing tsmarty2c from gettext-smarty\n"; \
+	echo "Run 'composer update' in '$(abspath ..)'\n"; \
+	exit 1
+
+tools-check: $(tsmarty2c)
 	@TOOLS='git find sort xargs xgettext sed mv rm'; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
@@ -46,13 +53,12 @@ tools-check:
 # generate .pot file from clean copy
 pot: tools-check
 	@set -x -e; \
-	export tsmarty2c=`pwd`/tsmarty2c; \
 	umask 002; \
 	rm -rf workdir; \
 	install -d workdir; \
 	(cd .. && git archive HEAD) | tar -x -C workdir; \
 	cd workdir; \
-		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $$tsmarty2c -o ts.pot; \
+		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
 		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
 		msgcat -o merged.pot code.pot ts.pot; \
 		sed -ne '1,/^$$/p' code.pot > header.pot; \

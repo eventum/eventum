@@ -61,6 +61,7 @@
 		"ext-mysql": "*",
 		"ext-pcre": "*",
 		"ext-session": "*",
+		"glen/smarty-gettext": "dev-master",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
 		"pear/Date": "*",
