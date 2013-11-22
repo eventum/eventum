@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-01 00:30+0300\n"
+"POT-Creation-Date: 2013-11-22 21:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,6 +36,10 @@ msgstr ""
 
 #: templates/manage/field_display.tpl.html
 msgid "%1 Field"
+msgstr ""
+
+#: templates/manage/time_tracking.tpl.html
+msgid "%1 entries"
 msgstr ""
 
 #: lib/eventum/class.filter.php:671
@@ -98,7 +103,7 @@ msgstr ""
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
 
-#: lib/eventum/class.template_helper.php:172
+#: lib/eventum/class.template_helper.php:173
 msgid "(archived)"
 msgstr ""
 
@@ -618,6 +623,10 @@ msgstr ""
 msgid "An error occurred while trying to process the uploaded file."
 msgstr ""
 
+#: templates/manage/time_tracking.tpl.html
+msgid "An error occurred while trying to remove time tracking category."
+msgstr ""
+
 #: templates/add_phone_entry.tpl.html templates/add_time_tracking.tpl.html
 #: templates/custom_fields_form.tpl.html templates/manage/email_alias.tpl.html
 #: templates/popup.tpl.html templates/post_note.tpl.html
@@ -876,7 +885,7 @@ msgstr ""
 msgid "Assignee:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1099 templates/bulk_update.tpl.html
+#: lib/eventum/class.project.php:1102 templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/new_issue.tpl.text
 #: templates/reminders/alert_no_recipients.tpl.text
@@ -1205,7 +1214,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:207 lib/eventum/class.filter.php:726
 #: lib/eventum/class.notification.php:624
-#: lib/eventum/class.notification.php:625 lib/eventum/class.project.php:1097
+#: lib/eventum/class.notification.php:625 lib/eventum/class.project.php:1100
 #: templates/add_time_tracking.tpl.html templates/adv_search.tpl.html
 #: templates/bulk_update.tpl.html templates/new.tpl.html
 #: templates/phone_support.tpl.html templates/quick_filter_form.tpl.html
@@ -1320,6 +1329,10 @@ msgstr ""
 
 #: templates/navigation.tpl.html
 msgid "Clock Out"
+msgstr ""
+
+#: templates/manage/general.tpl.html
+msgid "Clocked In handling:"
 msgstr ""
 
 #: templates/authorized_replier.tpl.html templates/bulk_update.tpl.html
@@ -1438,6 +1451,10 @@ msgstr ""
 msgid ""
 "Cookies support seem to be disabled in your browser. Please enable this "
 "feature and try again."
+msgstr ""
+
+#: templates/manage/time_tracking.tpl.html
+msgid "Could not delete time categories, because they were in use."
 msgstr ""
 
 #: templates/reports/customer_stats.tpl.html
@@ -1967,15 +1984,15 @@ msgstr ""
 #: lib/eventum/class.monitor.php:143
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
-"3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
+"%3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
-"3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
+"%3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:149
@@ -2085,7 +2102,7 @@ msgstr ""
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: lib/eventum/class.support.php:1858
+#: lib/eventum/class.support.php:1864
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
@@ -2193,7 +2210,7 @@ msgstr ""
 msgid "Email by time period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2582
+#: lib/eventum/class.support.php:2588
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -2434,7 +2451,7 @@ msgid "Est Dev Time"
 msgstr ""
 
 #: lib/eventum/class.notification.php:644
-#: lib/eventum/class.notification.php:645 lib/eventum/class.project.php:1101
+#: lib/eventum/class.notification.php:645 lib/eventum/class.project.php:1104
 #: templates/impact_analysis.tpl.html templates/new.tpl.html
 #: templates/requirement.tpl.html templates/view_form.tpl.html
 msgid "Estimated Dev. Time"
@@ -2629,6 +2646,14 @@ msgstr ""
 msgid "Extra Note Recipients:"
 msgstr ""
 
+#: templates/manage/users.tpl.html
+msgid "Failed logins"
+msgstr ""
+
+#: templates/manage/users.tpl.html
+msgid "Fails"
+msgstr ""
+
 #. TRANSLATORS: Translation of Faroese language in preferences dropdown
 #: localization/LINGUAS.php:28
 msgid "Faroese"
@@ -2655,7 +2680,7 @@ msgstr ""
 msgid "Field:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1103 templates/checkins.tpl.html
+#: lib/eventum/class.project.php:1106 templates/checkins.tpl.html
 msgid "File"
 msgstr ""
 
@@ -2801,7 +2826,7 @@ msgid "Greater than %1$s"
 msgstr ""
 
 #: htdocs/list.php:98 lib/eventum/class.display_column.php:190
-#: lib/eventum/class.project.php:1102 templates/manage/users.tpl.html
+#: lib/eventum/class.project.php:1105 templates/manage/users.tpl.html
 #: templates/new.tpl.html templates/notifications/updated_account.tpl.text
 #: templates/view_form.tpl.html
 msgid "Group"
@@ -3551,7 +3576,8 @@ msgstr ""
 msgid "Manage Statuses"
 msgstr ""
 
-#: templates/manage/manage.tpl.html templates/manage/time_tracking.tpl.html
+#: templates/manage/manage.tpl.html templates/manage/projects.tpl.html
+#: templates/manage/time_tracking.tpl.html
 msgid "Manage Time Tracking Categories"
 msgstr ""
 
@@ -3763,7 +3789,7 @@ msgstr ""
 msgid "Next Note"
 msgstr ""
 
-#: lib/eventum/class.misc.php:715 templates/close.tpl.html
+#: lib/eventum/class.misc.php:739 templates/close.tpl.html
 #: templates/manage/custom_fields.tpl.html templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
 #: templates/manage/projects.tpl.html
@@ -4224,7 +4250,7 @@ msgstr ""
 msgid "Outgoing Email Sender Name"
 msgstr ""
 
-#: lib/eventum/class.support.php:2216
+#: lib/eventum/class.support.php:2222
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
@@ -4342,12 +4368,12 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:404
+#: lib/eventum/class.phone_support.php:405
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:345
+#: lib/eventum/class.phone_support.php:346
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr ""
@@ -5407,7 +5433,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:178 lib/eventum/class.filter.php:711
 #: lib/eventum/class.notification.php:632
-#: lib/eventum/class.notification.php:633 lib/eventum/class.project.php:1098
+#: lib/eventum/class.notification.php:633 lib/eventum/class.project.php:1101
 #: templates/adv_search.tpl.html templates/bulk_update.tpl.html
 #: templates/new.tpl.html templates/notifications/assigned.tpl.text
 #: templates/notifications/closed.tpl.text
@@ -5427,7 +5453,7 @@ msgstr ""
 msgid "Priority:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1104 templates/file_upload.tpl.html
+#: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html
 #: templates/new.tpl.html
 msgid "Private"
 msgstr ""
@@ -5533,8 +5559,8 @@ msgstr ""
 
 #. TRANSLATORS: %1 = issue summary
 #. TRANSLATORS: %1 = email subject
-#: htdocs/post_note.php:86 lib/eventum/class.mail_helper.php:101
-#: lib/eventum/class.support.php:1610
+#: htdocs/post_note.php:94 lib/eventum/class.mail_helper.php:101
+#: lib/eventum/class.support.php:1616
 #, php-format
 msgid "Re: %1$s"
 msgstr ""
@@ -6021,7 +6047,7 @@ msgstr ""
 msgid "Saved Searches"
 msgstr ""
 
-#: lib/eventum/class.project.php:1100 templates/new.tpl.html
+#: lib/eventum/class.project.php:1103 templates/new.tpl.html
 #: templates/view_form.tpl.html
 msgid "Scheduled Release"
 msgstr ""
@@ -6901,6 +6927,10 @@ msgid "Thank you, the status was updated successfully."
 msgstr ""
 
 #: templates/manage/time_tracking.tpl.html
+msgid "Thank you, the time tracking categories were removed successfully."
+msgstr ""
+
+#: templates/manage/time_tracking.tpl.html
 msgid "Thank you, the time tracking category was added successfully."
 msgstr ""
 
@@ -7550,7 +7580,7 @@ msgstr ""
 msgid "Time Tracking"
 msgstr ""
 
-#: lib/eventum/class.phone_support.php:331
+#: lib/eventum/class.phone_support.php:332
 msgid "Time entry inserted from phone call."
 msgstr ""
 
@@ -7566,17 +7596,17 @@ msgstr ""
 msgid "Time tracking category"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:410
+#: lib/eventum/class.time_tracking.php:489
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:460
+#: lib/eventum/class.time_tracking.php:540
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr ""
 
-#: lib/eventum/class.time_tracking.php:503
+#: lib/eventum/class.time_tracking.php:583
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
@@ -8264,7 +8294,7 @@ msgstr ""
 msgid "Workload by time period"
 msgstr ""
 
-#: lib/eventum/class.filter.php:677 lib/eventum/class.misc.php:713
+#: lib/eventum/class.filter.php:677 lib/eventum/class.misc.php:737
 #: templates/close.tpl.html templates/manage/custom_fields.tpl.html
 #: templates/manage/general.tpl.html
 #: templates/manage/issue_auto_creation.tpl.html
@@ -8401,6 +8431,10 @@ msgid ""
 msgstr ""
 
 #: templates/login_form.tpl.html
+msgid "Your user status is currently set as locked. Please try again later."
+msgstr ""
+
+#: templates/login_form.tpl.html
 msgid ""
 "Your user status is currently set as pending. This means that you still need "
 "to confirm your account creation request. Please contact your local system "
@@ -8423,8 +8457,8 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
-"\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
+"13)\" form.php"
 msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:56
