@@ -1,4 +1,5 @@
-{include file="header.tpl.html" extra_title="Permission Denied"}
+{capture assign="extra_title"}{t}Permission Denied{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 
 <table width="100%" align="center">
     <tr>

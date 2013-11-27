@@ -1,4 +1,4 @@
-{capture name="extra_title" assign="extra_title"}{t}Issue{/t} #{$issue_id} - {t}Add Phone Entry{/t}{/capture}
+{capture name="extra_title" assign="extra_title"}{t 1=$issue_id}Issue #%1 - Add Phone Entry{/t}{/capture}
 {include file="header.tpl.html" extra_title=$extra_title}
 
 {if $add_phone_result != ''}

@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 22:01+0200\n"
+"POT-Creation-Date: 2013-11-27 12:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -57,7 +56,7 @@ msgstr ""
 msgid "%1$s or less"
 msgstr ""
 
-#: templates/list.tpl.html:292
+#: templates/list.tpl.html:293
 msgid ""
 "%1:\n"
 "%2 ago"
@@ -69,7 +68,7 @@ msgid ""
 "are required by Eventum and cannot be deleted."
 msgstr ""
 
-#: templates/main.tpl.html:182
+#: templates/main.tpl.html:183
 msgid "(All Issues)"
 msgstr ""
 
@@ -82,7 +81,7 @@ msgstr ""
 msgid "(GMT)"
 msgstr ""
 
-#: templates/main.tpl.html:180
+#: templates/main.tpl.html:181
 msgid "(Open Issues)"
 msgstr ""
 
@@ -206,7 +205,7 @@ msgid "ALERT:"
 msgstr ""
 
 #: templates/adv_search.tpl.html:284 templates/emails.tpl.html:255
-#: templates/list.tpl.html:358
+#: templates/list.tpl.html:359
 msgid "ALL"
 msgstr ""
 
@@ -243,11 +242,11 @@ msgid "Account Manager:"
 msgstr ""
 
 #: lib/eventum/class.help.php:111 templates/help/main.tpl.html:10
-#: templates/help/preferences.tpl.html:2 templates/preferences.tpl.html:194
+#: templates/help/preferences.tpl.html:2 templates/preferences.tpl.html:195
 msgid "Account Preferences"
 msgstr ""
 
-#: templates/signup.tpl.html:51
+#: templates/signup.tpl.html:1 templates/signup.tpl.html:52
 msgid "Account Signup"
 msgstr ""
 
@@ -344,7 +343,7 @@ msgstr ""
 msgid "Add Myself to list of assignees."
 msgstr ""
 
-#: templates/file_upload.tpl.html:52
+#: templates/file_upload.tpl.html:54
 msgid "Add New Files"
 msgstr ""
 
@@ -356,15 +355,11 @@ msgstr ""
 msgid "Add Phone Call"
 msgstr ""
 
-#: templates/add_phone_entry.tpl.html:1
-msgid "Add Phone Entry"
-msgstr ""
-
 #: templates/notification.tpl.html:112
 msgid "Add Subscription"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:188
+#: templates/add_time_tracking.tpl.html:189
 #: templates/time_tracking.tpl.html:90
 msgid "Add Time Entry"
 msgstr ""
@@ -434,8 +429,8 @@ msgstr ""
 #: templates/checkins.tpl.html:143 templates/close.tpl.html:184
 #: templates/emails.tpl.html:165 templates/emails.tpl.html:230
 #: templates/impact_analysis.tpl.html:116
-#: templates/impact_analysis.tpl.html:148 templates/list.tpl.html:212
-#: templates/list.tpl.html:337 templates/manage/account_managers.tpl.html:139
+#: templates/impact_analysis.tpl.html:148 templates/list.tpl.html:213
+#: templates/list.tpl.html:338 templates/manage/account_managers.tpl.html:139
 #: templates/manage/account_managers.tpl.html:169
 #: templates/manage/categories.tpl.html:110
 #: templates/manage/categories.tpl.html:130
@@ -656,7 +651,7 @@ msgstr ""
 msgid "An error occurred while trying to insert the authorized replier."
 msgstr ""
 
-#: templates/file_upload.tpl.html:8
+#: templates/file_upload.tpl.html:10
 msgid "An error occurred while trying to process the uploaded file."
 msgstr ""
 
@@ -664,7 +659,7 @@ msgstr ""
 msgid "An error occurred while trying to remove time tracking category."
 msgstr ""
 
-#: templates/add_phone_entry.tpl.html:9 templates/add_time_tracking.tpl.html:8
+#: templates/add_phone_entry.tpl.html:9 templates/add_time_tracking.tpl.html:9
 #: templates/custom_fields_form.tpl.html:8
 #: templates/manage/email_alias.tpl.html:8 templates/popup.tpl.html:7
 #: templates/popup.tpl.html:15 templates/popup.tpl.html:23
@@ -684,8 +679,8 @@ msgstr ""
 msgid "An error occurred while trying to run your query"
 msgstr ""
 
-#: templates/preferences.tpl.html:65 templates/preferences.tpl.html:107
-#: templates/preferences.tpl.html:149 templates/preferences.tpl.html:204
+#: templates/preferences.tpl.html:66 templates/preferences.tpl.html:108
+#: templates/preferences.tpl.html:150 templates/preferences.tpl.html:205
 msgid "An error occurred while trying to run your query."
 msgstr ""
 
@@ -863,7 +858,7 @@ msgstr ""
 msgid "Arrival Date:"
 msgstr ""
 
-#: templates/faq.tpl.html:54
+#: templates/faq.tpl.html:55
 msgid "Article Entries"
 msgstr ""
 
@@ -893,7 +888,7 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
-#: templates/main.tpl.html:103
+#: templates/main.tpl.html:104
 msgid "Assigned Issues"
 msgstr ""
 
@@ -975,7 +970,7 @@ msgstr ""
 msgid "Associate Emails"
 msgstr ""
 
-#: templates/main.tpl.html:123
+#: templates/main.tpl.html:124
 msgid "Associated"
 msgstr ""
 
@@ -1060,15 +1055,15 @@ msgstr ""
 msgid "Automated Issue #%1 Reminder Alert"
 msgstr ""
 
-#: templates/preferences.tpl.html:344
+#: templates/preferences.tpl.html:345
 msgid "Automatically append email signature when composing internal notes"
 msgstr ""
 
-#: templates/preferences.tpl.html:342
+#: templates/preferences.tpl.html:343
 msgid "Automatically append email signature when composing web based emails"
 msgstr ""
 
-#: templates/preferences.tpl.html:247
+#: templates/preferences.tpl.html:248
 msgid "Automatically close confirmation popup windows?"
 msgstr ""
 
@@ -1080,7 +1075,7 @@ msgstr ""
 msgid "Available Help Topics"
 msgstr ""
 
-#: templates/preferences.tpl.html:214
+#: templates/preferences.tpl.html:215
 msgid "Available Languages"
 msgstr ""
 
@@ -1131,9 +1126,9 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: templates/confirm.tpl.html:34 templates/forgot_password.tpl.html:72
+#: templates/confirm.tpl.html:34 templates/forgot_password.tpl.html:73
 #: templates/post.tpl.html:34 templates/post.tpl.html:127
-#: templates/signup.tpl.html:100
+#: templates/signup.tpl.html:101
 msgid "Back to Login Form"
 msgstr ""
 
@@ -1282,7 +1277,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:207 lib/eventum/class.filter.php:726
 #: lib/eventum/class.notification.php:624
 #: lib/eventum/class.notification.php:625 lib/eventum/class.project.php:1100
-#: templates/add_time_tracking.tpl.html:153 templates/adv_search.tpl.html:224
+#: templates/add_time_tracking.tpl.html:154 templates/adv_search.tpl.html:224
 #: templates/bulk_update.tpl.html:24 templates/new.tpl.html:90
 #: templates/new.tpl.html:202 templates/phone_support.tpl.html:53
 #: templates/quick_filter_form.tpl.html:159
@@ -1309,7 +1304,7 @@ msgstr ""
 msgid "Change Assignments:"
 msgstr ""
 
-#: templates/preferences.tpl.html:158
+#: templates/preferences.tpl.html:159
 msgid "Change Password"
 msgstr ""
 
@@ -1422,7 +1417,7 @@ msgstr ""
 msgid "Close Issue"
 msgstr ""
 
-#: templates/associate.tpl.html:50 templates/faq.tpl.html:29
+#: templates/associate.tpl.html:50 templates/faq.tpl.html:30
 #: templates/help/banner.tpl.html:10
 msgid "Close Window"
 msgstr ""
@@ -1488,7 +1483,7 @@ msgstr ""
 msgid "Configuration Parameters"
 msgstr ""
 
-#: templates/preferences.tpl.html:167
+#: templates/preferences.tpl.html:168
 msgid "Confirm New Password"
 msgstr ""
 
@@ -1497,12 +1492,12 @@ msgid "Contact ID attribute:"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html:25
-#: templates/add_time_tracking.tpl.html:26 templates/associate.tpl.html:24
+#: templates/add_time_tracking.tpl.html:27 templates/associate.tpl.html:24
 #: templates/associate.tpl.html:140 templates/convert_note.tpl.html:24
 #: templates/convert_note.tpl.html:106
-#: templates/custom_fields_form.tpl.html:24 templates/file_upload.tpl.html:26
+#: templates/custom_fields_form.tpl.html:24 templates/file_upload.tpl.html:28
 #: templates/popup.tpl.html:164 templates/post_note.tpl.html:27
-#: templates/redeem_incident.tpl.html:55 templates/select_project.tpl.html:59
+#: templates/redeem_incident.tpl.html:56 templates/select_project.tpl.html:60
 #: templates/self_assign.tpl.html:24 templates/self_assign.tpl.html:60
 #: templates/send.tpl.html:27 templates/send.tpl.html:51
 #: templates/switch.tpl.html:57 templates/view_email.tpl.html:96
@@ -1535,7 +1530,7 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: templates/manage/email_accounts.tpl.html:216 templates/signup.tpl.html:94
+#: templates/manage/email_accounts.tpl.html:216 templates/signup.tpl.html:95
 msgid "Create Account"
 msgstr ""
 
@@ -1815,7 +1810,7 @@ msgstr ""
 #: templates/reports/custom_fields_weekly.tpl.html:40
 #: templates/reports/customer_stats.tpl.html:39
 #: templates/reports/recent_activity.tpl.html:27
-#: templates/reports/weekly.tpl.html:25
+#: templates/reports/weekly.tpl.html:26
 msgid "Date Range"
 msgstr ""
 
@@ -1917,7 +1912,7 @@ msgid "Descending"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html:131 templates/attachments.tpl.html:59
-#: templates/file_upload.tpl.html:98 templates/manage/groups.tpl.html:167
+#: templates/file_upload.tpl.html:100 templates/manage/groups.tpl.html:167
 #: templates/manage/link_filters.tpl.html:103
 #: templates/manage/link_filters.tpl.html:156
 #: templates/notifications/assigned.tpl.text:17
@@ -1955,7 +1950,7 @@ msgstr ""
 #: templates/help/permission_levels.tpl.html:14
 #: templates/reports/recent_activity.tpl.html:69
 #: templates/reports/recent_activity.tpl.html:135
-#: templates/reports/weekly.tpl.html:59
+#: templates/reports/weekly.tpl.html:60
 #: templates/reports/workload_time_period.tpl.html:25
 msgid "Developer"
 msgstr ""
@@ -1964,7 +1959,7 @@ msgstr ""
 msgid "Developers"
 msgstr ""
 
-#: templates/main.tpl.html:157
+#: templates/main.tpl.html:158
 msgid "Did you Know?"
 msgstr ""
 
@@ -2088,15 +2083,15 @@ msgstr ""
 #: lib/eventum/class.monitor.php:143
 #, php-format
 msgid ""
-"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: "
-"%3$s)"
+"ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:139
 #, php-format
 msgid ""
-"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: "
-"%3$s)"
+"ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
+"3$s)"
 msgstr ""
 
 #: lib/eventum/class.monitor.php:149
@@ -2190,7 +2185,7 @@ msgstr ""
 msgid "Edit Reporter"
 msgstr ""
 
-#: templates/preferences.tpl.html:331
+#: templates/preferences.tpl.html:332
 msgid "Edit Signature"
 msgstr ""
 
@@ -2224,7 +2219,7 @@ msgstr ""
 #: templates/notifications/new_user.tpl.text:8
 #: templates/notifications/updated_account.tpl.text:7
 #: templates/notifications/updated_password.tpl.text:7
-#: templates/preferences.tpl.html:116 templates/preferences.tpl.html:133
+#: templates/preferences.tpl.html:117 templates/preferences.tpl.html:134
 #: templates/setup.tpl.html:154
 msgid "Email Address"
 msgstr ""
@@ -2237,7 +2232,7 @@ msgstr ""
 msgid "Email Address to Send Saved Messages:"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:58 templates/signup.tpl.html:79
+#: templates/forgot_password.tpl.html:59 templates/signup.tpl.html:80
 msgid "Email Address:"
 msgstr ""
 
@@ -2296,7 +2291,7 @@ msgstr ""
 msgid "Email Routing Interface:"
 msgstr ""
 
-#: templates/preferences.tpl.html:325
+#: templates/preferences.tpl.html:326
 msgid "Email Signature"
 msgstr ""
 
@@ -2350,7 +2345,7 @@ msgid ""
 "attachments."
 msgstr ""
 
-#: templates/main.tpl.html:119
+#: templates/main.tpl.html:120
 #: templates/reports/workload_time_period.tpl.html:25
 #: templates/reports/workload_time_period.tpl.html:28
 msgid "Emails"
@@ -2411,12 +2406,12 @@ msgstr ""
 msgid "End date"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:64 templates/post_note.tpl.html:55
+#: templates/add_time_tracking.tpl.html:65 templates/post_note.tpl.html:55
 msgid "End time in the future."
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html:63
-#: templates/reports/weekly.tpl.html:51
+#: templates/reports/weekly.tpl.html:52
 msgid "End:"
 msgstr ""
 
@@ -2459,11 +2454,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:43 templates/signup.tpl.html:60
+#: templates/forgot_password.tpl.html:44 templates/signup.tpl.html:61
 msgid "Error: An error occurred while trying to run your query."
 msgstr ""
 
-#: templates/forgot_password.tpl.html:51
+#: templates/forgot_password.tpl.html:52
 msgid "Error: No user account was found matching the entered email address."
 msgstr ""
 
@@ -2481,7 +2476,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr ""
 
-#: templates/forgot_password.tpl.html:49
+#: templates/forgot_password.tpl.html:50
 msgid "Error: Please provide your email address."
 msgstr ""
 
@@ -2490,7 +2485,7 @@ msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 
-#: templates/signup.tpl.html:62
+#: templates/signup.tpl.html:63
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
@@ -2541,11 +2536,11 @@ msgid ""
 "recipient address."
 msgstr ""
 
-#: templates/faq.tpl.html:6
+#: templates/faq.tpl.html:7
 msgid "Error: You are not allowed to view the requested FAQ entry."
 msgstr ""
 
-#: templates/forgot_password.tpl.html:47
+#: templates/forgot_password.tpl.html:48
 msgid ""
 "Error: Your user status is currently set as inactive. Please contact your "
 "local system administrator for further information."
@@ -2754,11 +2749,11 @@ msgstr ""
 msgid "Expected Resolution Date:"
 msgstr ""
 
-#: templates/list.tpl.html:234
+#: templates/list.tpl.html:235
 msgid "Export Data:"
 msgstr ""
 
-#: templates/list.tpl.html:234
+#: templates/list.tpl.html:235
 msgid "Export to Excel"
 msgstr ""
 
@@ -2809,7 +2804,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: templates/file_upload.tpl.html:77
+#: templates/file_upload.tpl.html:79
 msgid "Filenames"
 msgstr ""
 
@@ -2886,11 +2881,11 @@ msgstr ""
 #: templates/notifications/new_user.tpl.text:7
 #: templates/notifications/updated_account.tpl.text:6
 #: templates/notifications/updated_password.tpl.text:6
-#: templates/preferences.tpl.html:75 templates/preferences.tpl.html:92
+#: templates/preferences.tpl.html:76 templates/preferences.tpl.html:93
 msgid "Full Name"
 msgstr ""
 
-#: templates/signup.tpl.html:72
+#: templates/signup.tpl.html:73
 msgid "Full Name:"
 msgstr ""
 
@@ -2907,7 +2902,7 @@ msgstr ""
 #: templates/reports/customer_stats.tpl.html:102
 #: templates/reports/recent_activity.tpl.html:91
 #: templates/reports/stalled_issues.tpl.html:60
-#: templates/reports/weekly.tpl.html:28
+#: templates/reports/weekly.tpl.html:29
 #: templates/reports/workload_date_range.tpl.html:70
 msgid "Generate"
 msgstr ""
@@ -2925,20 +2920,20 @@ msgstr ""
 msgid "Global Search"
 msgstr ""
 
-#: templates/list.tpl.html:345 templates/navigation.tpl.html:117
+#: templates/list.tpl.html:346 templates/navigation.tpl.html:117
 msgid "Go"
 msgstr ""
 
 #: templates/close.tpl.html:11 templates/emails.tpl.html:11
 #: templates/emails.tpl.html:22 templates/manage/manage.tpl.html:7
-#: templates/permission_denied.tpl.html:8 templates/signup.tpl.html:9
+#: templates/permission_denied.tpl.html:9 templates/signup.tpl.html:10
 #: templates/update.tpl.html:11 templates/update.tpl.html:21
 #: templates/update.tpl.html:33 templates/view.tpl.html:11
 #: templates/view.tpl.html:21
 msgid "Go Back"
 msgstr ""
 
-#: templates/main.tpl.html:178
+#: templates/main.tpl.html:179
 msgid "Graphical Stats"
 msgstr ""
 
@@ -3035,7 +3030,7 @@ msgid "Hide Associated Emails"
 msgstr ""
 
 #: lib/eventum/class.filter.php:777 templates/adv_search.tpl.html:274
-#: templates/list.tpl.html:363 templates/main.tpl.html:36
+#: templates/list.tpl.html:364 templates/main.tpl.html:37
 msgid "Hide Closed Issues"
 msgstr ""
 
@@ -3170,7 +3165,7 @@ msgid ""
 "assign it to your Project Lead."
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:82
+#: templates/reports/weekly.tpl.html:83
 msgid "Ignore Issue Status Changes"
 msgstr ""
 
@@ -3193,7 +3188,7 @@ msgstr ""
 msgid "Impact analysis submitted by %1$s"
 msgstr ""
 
-#: templates/news.tpl.html:13
+#: templates/news.tpl.html:1 templates/news.tpl.html:14
 msgid "Important Notices"
 msgstr ""
 
@@ -3279,7 +3274,7 @@ msgstr ""
 msgid "Integer"
 msgstr ""
 
-#: templates/navigation.tpl.html:31
+#: templates/faq.tpl.html:1 templates/navigation.tpl.html:31
 msgid "Internal FAQ"
 msgstr ""
 
@@ -3323,7 +3318,6 @@ msgstr ""
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: templates/add_phone_entry.tpl.html:1
 #: templates/notifications/new_auto_created_issue.tpl.text:25
 #: templates/reports/custom_fields.tpl.html:62 templates/send.tpl.html:209
 msgid "Issue"
@@ -3331,6 +3325,18 @@ msgstr ""
 
 #: templates/notifications/updated.tpl.text:11
 msgid "Issue #"
+msgstr ""
+
+#: templates/add_phone_entry.tpl.html:1
+msgid "Issue #%1 - Add Phone Entry"
+msgstr ""
+
+#: templates/add_time_tracking.tpl.html:1
+msgid "Issue #%1 - Add Time Tracking"
+msgstr ""
+
+#: templates/file_upload.tpl.html:1
+msgid "Issue #%1 - Upload File"
 msgstr ""
 
 #. TRANSLATORS: %1 = issue id
@@ -3418,19 +3424,19 @@ msgstr ""
 msgid "Issues by Assignment"
 msgstr ""
 
-#: htdocs/stats_chart.php:77 templates/main.tpl.html:88
+#: htdocs/stats_chart.php:77 templates/main.tpl.html:89
 msgid "Issues by Category"
 msgstr ""
 
-#: htdocs/stats_chart.php:71 templates/main.tpl.html:73
+#: htdocs/stats_chart.php:71 templates/main.tpl.html:74
 msgid "Issues by Priority"
 msgstr ""
 
-#: htdocs/stats_chart.php:68 templates/main.tpl.html:58
+#: htdocs/stats_chart.php:68 templates/main.tpl.html:59
 msgid "Issues by Release"
 msgstr ""
 
-#: htdocs/stats_chart.php:56 templates/main.tpl.html:43
+#: htdocs/stats_chart.php:56 templates/main.tpl.html:44
 msgid "Issues by Status"
 msgstr ""
 
@@ -3535,12 +3541,12 @@ msgstr ""
 msgid "Last Updated"
 msgstr ""
 
-#: templates/email_drafts.tpl.html:63 templates/faq.tpl.html:62
+#: templates/email_drafts.tpl.html:63 templates/faq.tpl.html:63
 #: templates/view_form.tpl.html:288
 msgid "Last Updated Date"
 msgstr ""
 
-#: templates/faq.tpl.html:17
+#: templates/faq.tpl.html:18
 msgid "Last updated"
 msgstr ""
 
@@ -3553,7 +3559,7 @@ msgstr ""
 msgid "Leave Copy of Messages On Server"
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:30
+#: templates/redeem_incident.tpl.html:31
 msgid "Left"
 msgstr ""
 
@@ -3604,6 +3610,10 @@ msgstr ""
 msgid "List Removed Emails"
 msgstr ""
 
+#: templates/list.tpl.html:1
+msgid "List of Issues"
+msgstr ""
+
 #: lib/eventum/class.help.php:99 templates/help/list.tpl.html:2
 #: templates/help/main.tpl.html:6
 msgid "Listing / Searching for Issues"
@@ -3618,9 +3628,9 @@ msgstr ""
 msgid "Log Page:"
 msgstr ""
 
-#: templates/login_form.tpl.html:30 templates/login_form.tpl.html:101
-#: templates/navigation.tpl.html:8 templates/preferences.tpl.html:116
-#: templates/preferences.tpl.html:133
+#: templates/index.tpl.html:1 templates/login_form.tpl.html:30
+#: templates/login_form.tpl.html:101 templates/navigation.tpl.html:8
+#: templates/preferences.tpl.html:117 templates/preferences.tpl.html:134
 msgid "Login"
 msgstr ""
 
@@ -3630,6 +3640,10 @@ msgstr ""
 
 #: templates/navigation.tpl.html:8
 msgid "Logout"
+msgstr ""
+
+#: templates/mail_queue.tpl.html:1
+msgid "Mail Queue"
 msgstr ""
 
 #: templates/support_emails.tpl.html:61
@@ -3825,7 +3839,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: templates/preferences.tpl.html:241 templates/setup.tpl.html:344
+#: templates/preferences.tpl.html:242 templates/setup.tpl.html:344
 msgid "Monday"
 msgstr ""
 
@@ -3924,7 +3938,7 @@ msgstr ""
 msgid "New Issues Assigned"
 msgstr ""
 
-#: templates/preferences.tpl.html:163
+#: templates/preferences.tpl.html:164
 msgid "New Password"
 msgstr ""
 
@@ -3971,9 +3985,9 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html:185
 #: templates/manage/reminders.tpl.html:267
 #: templates/manage/statuses.tpl.html:110 templates/new.tpl.html:334
-#: templates/post_note.tpl.html:154 templates/preferences.tpl.html:251
-#: templates/preferences.tpl.html:273 templates/preferences.tpl.html:284
-#: templates/preferences.tpl.html:295 templates/setup.tpl.html:405
+#: templates/post_note.tpl.html:154 templates/preferences.tpl.html:252
+#: templates/preferences.tpl.html:274 templates/preferences.tpl.html:285
+#: templates/preferences.tpl.html:296 templates/setup.tpl.html:405
 #: templates/update_form.tpl.html:392 templates/update_form.tpl.html:407
 msgid "No"
 msgstr ""
@@ -4118,9 +4132,9 @@ msgstr ""
 msgid "No issues closed this time period"
 msgstr ""
 
-#: templates/list.tpl.html:327 templates/main.tpl.html:53
-#: templates/main.tpl.html:68 templates/main.tpl.html:83
-#: templates/main.tpl.html:98 templates/main.tpl.html:113
+#: templates/list.tpl.html:328 templates/main.tpl.html:54
+#: templates/main.tpl.html:69 templates/main.tpl.html:84
+#: templates/main.tpl.html:99 templates/main.tpl.html:114
 msgid "No issues could be found."
 msgstr ""
 
@@ -4237,7 +4251,7 @@ msgstr ""
 msgid "Note:"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:21
+#: templates/forgot_password.tpl.html:22
 msgid ""
 "Note: Please enter your email address below and a new random password will "
 "be created and assigned to your account. For security purposes a "
@@ -4245,7 +4259,7 @@ msgid ""
 "it the new password will be then activated and sent to you."
 msgstr ""
 
-#: templates/file_upload.tpl.html:91 templates/new.tpl.html:365
+#: templates/file_upload.tpl.html:93 templates/new.tpl.html:365
 msgid "Note: The current maximum allowed upload file size is %1"
 msgstr ""
 
@@ -4386,7 +4400,7 @@ msgstr ""
 #: templates/manage/custom_fields.tpl.html:401
 #: templates/reports/custom_fields_weekly.tpl.html:74
 #: templates/reports/customer_stats.tpl.html:77
-#: templates/reports/weekly.tpl.html:69
+#: templates/reports/weekly.tpl.html:70
 msgid "Options"
 msgstr ""
 
@@ -4438,7 +4452,7 @@ msgstr ""
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: templates/main.tpl.html:34
+#: templates/main.tpl.html:35
 msgid "Overall Stats"
 msgstr ""
 
@@ -4496,7 +4510,7 @@ msgstr ""
 msgid "Password Confirmation Success"
 msgstr ""
 
-#: templates/signup.tpl.html:86
+#: templates/signup.tpl.html:87
 msgid "Password:"
 msgstr ""
 
@@ -4509,7 +4523,7 @@ msgstr ""
 msgid "Pattern: \"%1\""
 msgstr ""
 
-#: templates/main.tpl.html:127
+#: templates/main.tpl.html:128
 msgid "Pending"
 msgstr ""
 
@@ -4541,6 +4555,10 @@ msgstr ""
 
 #: templates/removed_emails.tpl.html:105
 msgid "Permanently Remove"
+msgstr ""
+
+#: templates/permission_denied.tpl.html:1
+msgid "Permission Denied"
 msgstr ""
 
 #: templates/phone_support.tpl.html:33
@@ -4635,7 +4653,7 @@ msgstr ""
 msgid "Please choose"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:156 templates/close.tpl.html:230
+#: templates/add_time_tracking.tpl.html:157 templates/close.tpl.html:230
 #: templates/manage/anonymous.tpl.html:148
 #: templates/manage/issue_auto_creation.tpl.html:117
 #: templates/new.tpl.html:206
@@ -4699,7 +4717,7 @@ msgstr ""
 msgid "Please choose from one of the options below:"
 msgstr ""
 
-#: templates/list.tpl.html:70
+#: templates/list.tpl.html:71
 msgid "Please choose new values for the selected issues"
 msgstr ""
 
@@ -4737,7 +4755,7 @@ msgstr ""
 msgid "Please choose the default priority."
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:18
+#: templates/redeem_incident.tpl.html:19
 msgid "Please choose the incident types to redeem for this issue."
 msgstr ""
 
@@ -4768,7 +4786,7 @@ msgstr ""
 msgid "Please choose the project to be associated with this email account."
 msgstr ""
 
-#: templates/select_project.tpl.html:10
+#: templates/select_project.tpl.html:11
 msgid "Please choose the project."
 msgstr ""
 
@@ -4781,7 +4799,7 @@ msgid ""
 "Please choose the support levels that will be associated with this reminder."
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:43
+#: templates/add_time_tracking.tpl.html:44
 msgid "Please choose the time tracking category for this new entry."
 msgstr ""
 
@@ -4859,7 +4877,7 @@ msgstr ""
 msgid "Please choose which entries need to be removed."
 msgstr ""
 
-#: templates/list.tpl.html:45
+#: templates/list.tpl.html:46
 msgid "Please choose which issues to update."
 msgstr ""
 
@@ -4919,8 +4937,8 @@ msgstr ""
 
 #: templates/authorized_replier.tpl.html:11
 #: templates/edit_reporter.tpl.html:11 templates/manage/users.tpl.html:17
-#: templates/notification.tpl.html:15 templates/preferences.tpl.html:19
-#: templates/signup.tpl.html:29
+#: templates/notification.tpl.html:15 templates/preferences.tpl.html:20
+#: templates/signup.tpl.html:30
 msgid "Please enter a valid email address."
 msgstr ""
 
@@ -4941,7 +4959,7 @@ msgid "Please enter an issue to associate these emails with."
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html:40
-#: templates/add_time_tracking.tpl.html:48 templates/close.tpl.html:68
+#: templates/add_time_tracking.tpl.html:49 templates/close.tpl.html:68
 msgid ""
 "Please enter integers (or floating point numbers) on the time spent field."
 msgstr ""
@@ -5162,7 +5180,7 @@ msgstr ""
 msgid "Please enter the summary for this issue."
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:38
+#: templates/add_time_tracking.tpl.html:39
 msgid "Please enter the summary for this new time tracking entry."
 msgstr ""
 
@@ -5343,23 +5361,23 @@ msgstr ""
 msgid "Please enter the username for this email account."
 msgstr ""
 
-#: templates/forgot_password.tpl.html:10
+#: templates/forgot_password.tpl.html:11
 msgid "Please enter your account email address."
 msgstr ""
 
-#: templates/signup.tpl.html:24
+#: templates/signup.tpl.html:25
 msgid "Please enter your email address."
 msgstr ""
 
-#: templates/preferences.tpl.html:10 templates/signup.tpl.html:19
+#: templates/preferences.tpl.html:11 templates/signup.tpl.html:20
 msgid "Please enter your full name."
 msgstr ""
 
-#: templates/preferences.tpl.html:28
+#: templates/preferences.tpl.html:29
 msgid "Please enter your new password with at least 6 characters."
 msgstr ""
 
-#: templates/signup.tpl.html:34
+#: templates/signup.tpl.html:35
 msgid "Please enter your password."
 msgstr ""
 
@@ -5417,7 +5435,7 @@ msgstr ""
 msgid "Please select a valid date for when the phone call took place."
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:52
+#: templates/add_time_tracking.tpl.html:53
 msgid "Please select a valid date of work."
 msgstr ""
 
@@ -5609,7 +5627,7 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: templates/navigation.tpl.html:94
+#: templates/navigation.tpl.html:94 templates/preferences.tpl.html:1
 msgid "Preferences"
 msgstr ""
 
@@ -5656,7 +5674,7 @@ msgstr ""
 msgid "Priority:"
 msgstr ""
 
-#: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html:68
+#: lib/eventum/class.project.php:1107 templates/file_upload.tpl.html:70
 #: templates/new.tpl.html:328
 msgid "Private"
 msgstr ""
@@ -5679,7 +5697,7 @@ msgstr ""
 #: templates/notifications/new.tpl.text:11
 #: templates/notifications/new_issue.tpl.text:12
 #: templates/notifications/notes.tpl.text:12 templates/post.tpl.html:71
-#: templates/post.tpl.html:140 templates/select_project.tpl.html:44
+#: templates/post.tpl.html:140 templates/select_project.tpl.html:45
 msgid "Project"
 msgstr ""
 
@@ -5717,7 +5735,7 @@ msgstr ""
 msgid "Projects:"
 msgstr ""
 
-#: templates/file_upload.tpl.html:67
+#: templates/file_upload.tpl.html:69
 msgid "Public"
 msgstr ""
 
@@ -5801,15 +5819,15 @@ msgstr ""
 msgid "Reason to close"
 msgstr ""
 
-#: templates/preferences.tpl.html:268
+#: templates/preferences.tpl.html:269
 msgid "Receive emails when all issues are created?"
 msgstr ""
 
-#: templates/preferences.tpl.html:279
+#: templates/preferences.tpl.html:280
 msgid "Receive emails when new issues are assigned to you?"
 msgstr ""
 
-#: templates/preferences.tpl.html:290
+#: templates/preferences.tpl.html:291
 msgid "Receive notifications for your own actions?"
 msgstr ""
 
@@ -5875,7 +5893,7 @@ msgstr ""
 msgid "Record Phone Call"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:146
+#: templates/add_time_tracking.tpl.html:147
 msgid "Record Time Worked"
 msgstr ""
 
@@ -5887,7 +5905,11 @@ msgstr ""
 msgid "Red values indicate value is higher than the aggregate one."
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:37
+#: templates/redeem_incident.tpl.html:1
+msgid "Redeem Incident - Issue#%1"
+msgstr ""
+
+#: templates/redeem_incident.tpl.html:38
 msgid "Redeem Incidents"
 msgstr ""
 
@@ -5913,11 +5935,11 @@ msgid ""
 "customer."
 msgstr ""
 
-#: templates/preferences.tpl.html:316
+#: templates/preferences.tpl.html:317
 msgid "Refresh Rate for Email Listing Page"
 msgstr ""
 
-#: templates/preferences.tpl.html:306
+#: templates/preferences.tpl.html:307
 msgid "Refresh Rate for Issue Listing Page"
 msgstr ""
 
@@ -5932,7 +5954,7 @@ msgstr ""
 msgid "Release"
 msgstr ""
 
-#: templates/select_project.tpl.html:54
+#: templates/select_project.tpl.html:55
 msgid "Remember Selection"
 msgstr ""
 
@@ -5991,7 +6013,7 @@ msgstr ""
 msgid "Remove?"
 msgstr ""
 
-#: templates/main.tpl.html:131
+#: templates/main.tpl.html:132
 msgid "Removed"
 msgstr ""
 
@@ -6042,7 +6064,7 @@ msgid "Report Type"
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html:32
-#: templates/reports/weekly.tpl.html:17
+#: templates/reports/weekly.tpl.html:18
 msgid "Report Type:"
 msgstr ""
 
@@ -6081,7 +6103,7 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:34
+#: templates/forgot_password.tpl.html:1 templates/forgot_password.tpl.html:35
 msgid "Request a Password"
 msgstr ""
 
@@ -6143,8 +6165,8 @@ msgstr ""
 #: templates/manage/time_tracking.tpl.html:81
 #: templates/manage/users.tpl.html:177 templates/new.tpl.html:380
 #: templates/notification.tpl.html:114 templates/post.tpl.html:212
-#: templates/preferences.tpl.html:85 templates/preferences.tpl.html:126
-#: templates/preferences.tpl.html:176 templates/preferences.tpl.html:365
+#: templates/preferences.tpl.html:86 templates/preferences.tpl.html:127
+#: templates/preferences.tpl.html:177 templates/preferences.tpl.html:366
 #: templates/send.tpl.html:299 templates/update_form.tpl.html:425
 msgid "Reset"
 msgstr ""
@@ -6179,7 +6201,7 @@ msgstr ""
 msgid "Rows Per Page"
 msgstr ""
 
-#: templates/emails.tpl.html:248 templates/list.tpl.html:351
+#: templates/emails.tpl.html:248 templates/list.tpl.html:352
 msgid "Rows per Page:"
 msgstr ""
 
@@ -6214,7 +6236,7 @@ msgstr ""
 msgid "SCM Integration - Checkins"
 msgstr ""
 
-#: templates/preferences.tpl.html:352
+#: templates/preferences.tpl.html:353
 msgid "SMS Email Address"
 msgstr ""
 
@@ -6297,11 +6319,11 @@ msgstr ""
 msgid "Search Eventum Issues"
 msgstr ""
 
-#: templates/list.tpl.html:190
+#: templates/list.tpl.html:191
 msgid "Search Results (%1 issues found)"
 msgstr ""
 
-#: templates/list.tpl.html:187
+#: templates/list.tpl.html:188
 msgid "Search Results (%1 issues found, %2 - %3 shown)"
 msgstr ""
 
@@ -6326,7 +6348,7 @@ msgstr ""
 msgid "Segregate Reporters"
 msgstr ""
 
-#: templates/select_project.tpl.html:28
+#: templates/select_project.tpl.html:1 templates/select_project.tpl.html:29
 msgid "Select Project"
 msgstr ""
 
@@ -6339,7 +6361,7 @@ msgstr ""
 msgid "Send Email"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:66
+#: templates/forgot_password.tpl.html:67
 msgid "Send New Password"
 msgstr ""
 
@@ -6364,11 +6386,11 @@ msgstr ""
 msgid "Sender:"
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:74
+#: templates/reports/weekly.tpl.html:75
 msgid "Separate Closed Issues"
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:78
+#: templates/reports/weekly.tpl.html:79
 msgid "Separate Only Status Changes"
 msgstr ""
 
@@ -6376,7 +6398,7 @@ msgstr ""
 msgid "Server Hostname"
 msgstr ""
 
-#: templates/emails.tpl.html:257 templates/list.tpl.html:360
+#: templates/emails.tpl.html:257 templates/list.tpl.html:361
 msgid "Set"
 msgstr ""
 
@@ -6428,15 +6450,15 @@ msgstr ""
 msgid "Show Issues with no Response Between"
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:94
+#: templates/reports/weekly.tpl.html:95
 msgid "Show Priority"
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:90
+#: templates/reports/weekly.tpl.html:91
 msgid "Show Status"
 msgstr ""
 
-#: templates/reports/weekly.tpl.html:86
+#: templates/reports/weekly.tpl.html:87
 msgid "Show Times spent on issue"
 msgstr ""
 
@@ -6516,7 +6538,7 @@ msgid ""
 "posting."
 msgstr ""
 
-#: templates/emails.tpl.html:9 templates/signup.tpl.html:7
+#: templates/emails.tpl.html:9 templates/signup.tpl.html:8
 msgid "Sorry, but this feature has been disabled by the administrator."
 msgstr ""
 
@@ -6530,7 +6552,7 @@ msgid ""
 "screen."
 msgstr ""
 
-#: templates/permission_denied.tpl.html:6
+#: templates/permission_denied.tpl.html:7
 msgid "Sorry, you do not have permission to access this page."
 msgstr ""
 
@@ -6591,7 +6613,7 @@ msgstr ""
 #: templates/reports/custom_fields.tpl.html:94
 #: templates/reports/custom_fields_weekly.tpl.html:55
 #: templates/reports/recent_activity.tpl.html:53
-#: templates/reports/weekly.tpl.html:43
+#: templates/reports/weekly.tpl.html:44
 #: templates/reports/workload_date_range.tpl.html:52
 msgid "Start"
 msgstr ""
@@ -6600,11 +6622,11 @@ msgstr ""
 msgid "Start Installation"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:59 templates/post_note.tpl.html:50
+#: templates/add_time_tracking.tpl.html:60 templates/post_note.tpl.html:50
 msgid "Start time in the future."
 msgstr ""
 
-#: templates/navigation.tpl.html:27
+#: templates/main.tpl.html:1 templates/navigation.tpl.html:27
 msgid "Stats"
 msgstr ""
 
@@ -6614,7 +6636,7 @@ msgstr ""
 #: templates/adv_search.tpl.html:293 templates/attachments.tpl.html:56
 #: templates/bulk_update.tpl.html:13 templates/close.tpl.html:60
 #: templates/close.tpl.html:139 templates/email_drafts.tpl.html:59
-#: templates/emails.tpl.html:185 templates/file_upload.tpl.html:63
+#: templates/emails.tpl.html:185 templates/file_upload.tpl.html:65
 #: templates/mail_queue.tpl.html:23
 #: templates/manage/customize_listing.tpl.html:149
 #: templates/manage/news.tpl.html:78 templates/manage/news.tpl.html:148
@@ -6692,8 +6714,8 @@ msgstr ""
 #: lib/eventum/class.display_column.php:231
 #: lib/eventum/class.notification.php:648
 #: lib/eventum/class.notification.php:649
-#: templates/add_time_tracking.tpl.html:149 templates/adv_search.tpl.html:294
-#: templates/history.tpl.html:18 templates/list.tpl.html:230
+#: templates/add_time_tracking.tpl.html:150 templates/adv_search.tpl.html:294
+#: templates/history.tpl.html:18 templates/list.tpl.html:231
 #: templates/new.tpl.html:110 templates/new.tpl.html:285
 #: templates/notifications/assigned.tpl.text:12
 #: templates/notifications/closed.tpl.text:18
@@ -6727,7 +6749,7 @@ msgstr ""
 msgid "Summary: %1"
 msgstr ""
 
-#: templates/preferences.tpl.html:240 templates/setup.tpl.html:343
+#: templates/preferences.tpl.html:241 templates/setup.tpl.html:343
 msgid "Sunday"
 msgstr ""
 
@@ -6811,7 +6833,7 @@ msgid ""
 "following URL to login on it for the first time:"
 msgstr ""
 
-#: templates/forgot_password.tpl.html:45
+#: templates/forgot_password.tpl.html:46
 msgid ""
 "Thank you, a confirmation message was just emailed to you. Please follow the "
 "instructions available in this message to confirm your password creation "
@@ -7007,7 +7029,7 @@ msgid ""
 "from one of the options below:"
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:15
+#: templates/redeem_incident.tpl.html:16
 msgid "Thank you, the issue was successfully marked."
 msgstr ""
 
@@ -7183,7 +7205,7 @@ msgstr ""
 msgid "Thank you, the time tracking category was updated successfully."
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:10
+#: templates/add_time_tracking.tpl.html:11
 msgid "Thank you, the time tracking entry was added successfully."
 msgstr ""
 
@@ -7191,7 +7213,7 @@ msgstr ""
 msgid "Thank you, the time tracking entry was removed successfully."
 msgstr ""
 
-#: templates/file_upload.tpl.html:12
+#: templates/file_upload.tpl.html:14
 msgid "Thank you, the uploaded file was associated with the issue below."
 msgstr ""
 
@@ -7223,7 +7245,7 @@ msgstr ""
 msgid "Thank you, your account clocked-in status was changed successfully."
 msgstr ""
 
-#: templates/signup.tpl.html:64
+#: templates/signup.tpl.html:65
 msgid ""
 "Thank you, your account creation request was processed successfully. For "
 "security reasons a confirmation email was sent to the provided email address "
@@ -7236,7 +7258,7 @@ msgid ""
 "below to login."
 msgstr ""
 
-#: templates/preferences.tpl.html:206
+#: templates/preferences.tpl.html:207
 msgid "Thank you, your account preferences were updated successfully."
 msgstr ""
 
@@ -7244,15 +7266,15 @@ msgstr ""
 msgid "Thank you, your current selected project was changed successfully."
 msgstr ""
 
-#: templates/preferences.tpl.html:109
+#: templates/preferences.tpl.html:110
 msgid "Thank you, your email address was updated successfully."
 msgstr ""
 
-#: templates/preferences.tpl.html:67
+#: templates/preferences.tpl.html:68
 msgid "Thank you, your full name was updated successfully."
 msgstr ""
 
-#: templates/preferences.tpl.html:151
+#: templates/preferences.tpl.html:152
 msgid "Thank you, your password was updated successfully."
 msgstr ""
 
@@ -7442,12 +7464,12 @@ msgstr ""
 msgid "The specified value already exists in the list of options."
 msgstr ""
 
-#: templates/preferences.tpl.html:33
+#: templates/preferences.tpl.html:34
 msgid ""
 "The two passwords do not match. Please review your information and try again."
 msgstr ""
 
-#: templates/file_upload.tpl.html:10
+#: templates/file_upload.tpl.html:12
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
@@ -7471,7 +7493,7 @@ msgstr ""
 msgid "There was an error creating your issue."
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:11
+#: templates/redeem_incident.tpl.html:12
 msgid "There was an error marking this issue as redeemed"
 msgstr ""
 
@@ -7692,7 +7714,7 @@ msgstr ""
 msgid "This is an automated message sent from %1"
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:13
+#: templates/redeem_incident.tpl.html:14
 msgid "This issue already has been marked as redeemed"
 msgstr ""
 
@@ -7799,7 +7821,7 @@ msgstr ""
 
 #: lib/eventum/class.display_column.php:196
 #: templates/add_phone_entry.tpl.html:127
-#: templates/add_time_tracking.tpl.html:164 templates/close.tpl.html:218
+#: templates/add_time_tracking.tpl.html:165 templates/close.tpl.html:218
 #: templates/reports/custom_fields_weekly.tpl.html:190
 #: templates/reports/issue_user.tpl.html:13
 #: templates/reports/open_issues.tpl.html:42
@@ -7863,11 +7885,11 @@ msgstr ""
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
 
-#: templates/preferences.tpl.html:226 templates/setup.tpl.html:329
+#: templates/preferences.tpl.html:227 templates/setup.tpl.html:329
 msgid "Timezone"
 msgstr ""
 
-#: templates/faq.tpl.html:61 templates/manage/categories.tpl.html:62
+#: templates/faq.tpl.html:62 templates/manage/categories.tpl.html:62
 #: templates/manage/categories.tpl.html:111
 #: templates/manage/custom_fields.tpl.html:212
 #: templates/manage/custom_fields.tpl.html:397
@@ -7960,7 +7982,7 @@ msgstr ""
 msgid "Tot"
 msgstr ""
 
-#: templates/redeem_incident.tpl.html:30
+#: templates/redeem_incident.tpl.html:31
 #: templates/reports/customer_stats.tpl.html:286
 msgid "Total"
 msgstr ""
@@ -8092,7 +8114,7 @@ msgstr ""
 msgid "Update Date:"
 msgstr ""
 
-#: templates/preferences.tpl.html:125
+#: templates/preferences.tpl.html:126
 msgid "Update Email Address"
 msgstr ""
 
@@ -8104,7 +8126,7 @@ msgstr ""
 msgid "Update FAQ Entry"
 msgstr ""
 
-#: templates/preferences.tpl.html:84
+#: templates/preferences.tpl.html:85
 msgid "Update Full Name"
 msgstr ""
 
@@ -8145,11 +8167,11 @@ msgstr ""
 msgid "Update Note"
 msgstr ""
 
-#: templates/preferences.tpl.html:175
+#: templates/preferences.tpl.html:176
 msgid "Update Password"
 msgstr ""
 
-#: templates/preferences.tpl.html:364
+#: templates/preferences.tpl.html:365
 msgid "Update Preferences"
 msgstr ""
 
@@ -8217,11 +8239,11 @@ msgstr ""
 msgid "Updating Reminder"
 msgstr ""
 
-#: templates/attachments.tpl.html:99 templates/file_upload.tpl.html:106
+#: templates/attachments.tpl.html:99 templates/file_upload.tpl.html:108
 msgid "Upload File"
 msgstr ""
 
-#: templates/preferences.tpl.html:336
+#: templates/preferences.tpl.html:337
 msgid "Upload New Signature"
 msgstr ""
 
@@ -8263,7 +8285,7 @@ msgstr ""
 msgid "User DN:"
 msgstr ""
 
-#: templates/preferences.tpl.html:52
+#: templates/preferences.tpl.html:53
 msgid "User Details"
 msgstr ""
 
@@ -8450,7 +8472,7 @@ msgid ""
 "this issue."
 msgstr ""
 
-#: templates/list.tpl.html:73
+#: templates/list.tpl.html:74
 msgid "Warning: If you continue, you will change the "
 msgstr ""
 
@@ -8496,23 +8518,24 @@ msgid ""
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html:45
-#: templates/reports/weekly.tpl.html:33
+#: templates/reports/weekly.tpl.html:34
 #: templates/reports/workload_date_range.tpl.html:87
 #: templates/reports/workload_date_range.tpl.html:92
 msgid "Week"
 msgstr ""
 
-#: templates/preferences.tpl.html:237 templates/setup.tpl.html:340
+#: templates/preferences.tpl.html:238 templates/setup.tpl.html:340
 msgid "Week starts on:"
 msgstr ""
 
 #: templates/reports/custom_fields_weekly.tpl.html:37
-#: templates/reports/weekly.tpl.html:22
+#: templates/reports/weekly.tpl.html:23
 #: templates/reports/weekly_data.tpl.html:1
 msgid "Weekly"
 msgstr ""
 
-#: templates/reports/tree.tpl.html:34 templates/reports/weekly.tpl.html:12
+#: templates/reports/tree.tpl.html:34 templates/reports/weekly.tpl.html:1
+#: templates/reports/weekly.tpl.html:13
 msgid "Weekly Report"
 msgstr ""
 
@@ -8542,11 +8565,11 @@ msgid ""
 "'Checkout page' input field is:"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:178 templates/post_note.tpl.html:191
+#: templates/add_time_tracking.tpl.html:179 templates/post_note.tpl.html:191
 msgid "Work ended"
 msgstr ""
 
-#: templates/add_time_tracking.tpl.html:169 templates/post_note.tpl.html:182
+#: templates/add_time_tracking.tpl.html:170 templates/post_note.tpl.html:182
 msgid "Work started"
 msgstr ""
 
@@ -8584,14 +8607,14 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html:183
 #: templates/manage/reminders.tpl.html:266
 #: templates/manage/statuses.tpl.html:109 templates/new.tpl.html:332
-#: templates/post_note.tpl.html:153 templates/preferences.tpl.html:250
-#: templates/preferences.tpl.html:272 templates/preferences.tpl.html:283
-#: templates/preferences.tpl.html:294 templates/setup.tpl.html:403
+#: templates/post_note.tpl.html:153 templates/preferences.tpl.html:251
+#: templates/preferences.tpl.html:273 templates/preferences.tpl.html:284
+#: templates/preferences.tpl.html:295 templates/setup.tpl.html:403
 #: templates/update_form.tpl.html:390 templates/update_form.tpl.html:405
 msgid "Yes"
 msgstr ""
 
-#: templates/select_project.tpl.html:37
+#: templates/select_project.tpl.html:38
 msgid "You are not allowed to use the selected project."
 msgstr ""
 
@@ -8645,7 +8668,7 @@ msgstr ""
 msgid "You do not have permission to remove this phone support entry."
 msgstr ""
 
-#: templates/file_upload.tpl.html:119
+#: templates/file_upload.tpl.html:121
 msgid "You do not have the correct role to access this page"
 msgstr ""
 
@@ -8725,11 +8748,11 @@ msgid ""
 "administrator for further information."
 msgstr ""
 
-#: templates/list.tpl.html:308
+#: templates/list.tpl.html:309
 msgid "[Private]"
 msgstr ""
 
-#: templates/list.tpl.html:305
+#: templates/list.tpl.html:306
 msgid "[Redeemed]"
 msgstr ""
 
@@ -8741,15 +8764,15 @@ msgstr ""
 
 #: templates/help/scm_integration_usage.tpl.html:8
 msgid ""
-"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: "
-"13)\" form.php"
+"[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
+"\" form.php"
 msgstr ""
 
 #: htdocs/reports/workload_time_period_graph.php:56
 msgid "actions"
 msgstr ""
 
-#: templates/list.tpl.html:199
+#: templates/list.tpl.html:200
 msgid "advanced search"
 msgstr ""
 
@@ -8780,7 +8803,7 @@ msgstr ""
 msgid "associated"
 msgstr ""
 
-#: templates/list.tpl.html:201
+#: templates/list.tpl.html:202
 msgid "bulk update tool"
 msgstr ""
 
@@ -8804,7 +8827,7 @@ msgstr ""
 msgid "create advanced searches"
 msgstr ""
 
-#: templates/list.tpl.html:200
+#: templates/list.tpl.html:201
 msgid "current filters"
 msgstr ""
 
@@ -8901,7 +8924,7 @@ msgstr ""
 msgid "fixed width font"
 msgstr ""
 
-#: templates/list.tpl.html:84
+#: templates/list.tpl.html:85
 msgid "for all selected issues. Are you sure you want to continue?"
 msgstr ""
 
@@ -8917,7 +8940,7 @@ msgstr ""
 msgid "general statistics"
 msgstr ""
 
-#: templates/list.tpl.html:234
+#: templates/list.tpl.html:235
 msgid "generate excel-friendly report"
 msgstr ""
 
@@ -8937,15 +8960,15 @@ msgstr ""
 msgid "help documentation"
 msgstr ""
 
-#: templates/list.tpl.html:199
+#: templates/list.tpl.html:200
 msgid "hide / show the advanced search form"
 msgstr ""
 
-#: templates/list.tpl.html:198
+#: templates/list.tpl.html:199
 msgid "hide / show the quick search form"
 msgstr ""
 
-#: templates/list.tpl.html:197
+#: templates/list.tpl.html:198
 msgid "hide/show"
 msgstr ""
 
@@ -8963,8 +8986,8 @@ msgid "in hours"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html:128
-#: templates/add_time_tracking.tpl.html:165 templates/preferences.tpl.html:310
-#: templates/preferences.tpl.html:320 templates/send.tpl.html:285
+#: templates/add_time_tracking.tpl.html:166 templates/preferences.tpl.html:311
+#: templates/preferences.tpl.html:321 templates/send.tpl.html:285
 msgid "in minutes"
 msgstr ""
 
@@ -9083,7 +9106,7 @@ msgid ""
 "selected project(s)."
 msgstr ""
 
-#: templates/preferences.tpl.html:356
+#: templates/preferences.tpl.html:357
 msgid "only used for automatic issue reminders"
 msgstr ""
 
@@ -9107,7 +9130,7 @@ msgstr ""
 msgid "previous issue on your current active filter"
 msgstr ""
 
-#: templates/list.tpl.html:198
+#: templates/list.tpl.html:199
 msgid "quick search"
 msgstr ""
 
@@ -9115,7 +9138,7 @@ msgstr ""
 msgid "quick search bar"
 msgstr ""
 
-#: templates/faq.tpl.html:67
+#: templates/faq.tpl.html:68
 msgid "read faq entry"
 msgstr ""
 
@@ -9152,8 +9175,8 @@ msgstr ""
 msgid "sent to notification list"
 msgstr ""
 
-#: templates/list.tpl.html:220 templates/list.tpl.html:221
-#: templates/list.tpl.html:239 templates/list.tpl.html:240
+#: templates/list.tpl.html:221 templates/list.tpl.html:222
+#: templates/list.tpl.html:240 templates/list.tpl.html:241
 msgid "sort by"
 msgstr ""
 
@@ -9181,11 +9204,11 @@ msgstr ""
 msgid "sort by subject"
 msgstr ""
 
-#: templates/list.tpl.html:230 templates/list.tpl.html:231
+#: templates/list.tpl.html:231 templates/list.tpl.html:232
 msgid "sort by summary"
 msgstr ""
 
-#: templates/file_upload.tpl.html:68
+#: templates/file_upload.tpl.html:70
 msgid "standard user and above only"
 msgstr ""
 
@@ -9247,7 +9270,7 @@ msgid "view email details"
 msgstr ""
 
 #: templates/close.tpl.html:134 templates/emails.tpl.html:204
-#: templates/list.tpl.html:263 templates/list.tpl.html:303
+#: templates/list.tpl.html:264 templates/list.tpl.html:304
 #: templates/reports/issue_user.tpl.html:18
 #: templates/reports/issue_user.tpl.html:19
 #: templates/reports/open_issues.tpl.html:52
@@ -9279,7 +9302,7 @@ msgstr ""
 msgid "view the history of sent emails"
 msgstr ""
 
-#: templates/file_upload.tpl.html:67
+#: templates/file_upload.tpl.html:69
 msgid "visible to all"
 msgstr ""
 

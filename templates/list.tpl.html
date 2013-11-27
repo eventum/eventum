@@ -1,4 +1,5 @@
-{include file="header.tpl.html" extra_title="List of Issues"}
+{capture assign="extra_title"}{t}List of Issues{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 
 {if $current_role != $roles.customer}

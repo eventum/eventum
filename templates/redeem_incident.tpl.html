@@ -1,9 +1,10 @@
-{include file="header.tpl.html" extra_title="Redeem Incident - Issue#$issue_id"}
+{capture assign="extra_title"}{t 1=$issue_id}Redeem Incident - Issue#%1{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 <br />
 <table align="center" width="95%">
   <form method="POST" action="redeem_incident.php" name="redeem_incident">
   <input type="hidden" name="iss_id" value="{$issue_id}">
-  
+
   <tr>
     <td class="default" align="center">
     {if $res != ''}

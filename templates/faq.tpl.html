@@ -1,4 +1,5 @@
-{include file="header.tpl.html" extra_title="Internal FAQ"}
+{capture assign="extra_title"}{t}Internal FAQ{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 {if $faq == ''}{include file="navigation.tpl.html"}{/if}
 
 {if $faq != ''}
@@ -23,7 +24,7 @@
     </tr>
   </table>
   <br />
-  {/if} 
+  {/if}
   {if not $current_user_prefs.close_popup_windows}
   <center>
     <span class="default"><a class="link" href="javascript:void(null);" onClick="window.close();">{t}Close Window{/t}</a></span>

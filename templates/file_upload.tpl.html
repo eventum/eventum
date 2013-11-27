@@ -1,4 +1,6 @@
-{include file="header.tpl.html" extra_title="Issue #$issue_id - Upload File"}
+{capture assign="extra_title"}{t 1=$issue_id}Issue #%1 - Upload File{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
+
 {if $current_role > $roles.viewer}
 {if $upload_file_result != ''}
     <br />

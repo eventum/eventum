@@ -1,4 +1,5 @@
-{include file="header.tpl.html" extra_title="Stats"}
+{capture assign="extra_title"}{t}Stats{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 <script type="text/javascript">
 <!--
