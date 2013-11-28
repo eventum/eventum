@@ -468,7 +468,7 @@ $().ready(function() {
                   <td width="80%">
                     <input type="text" name="email_routing[host_alias]" value="{$setup.email_routing.host_alias|default:''}">
                     {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
-                    <span>{t}(Alternate domains that point to 'Address Hostname'){/t}</span>
+                    <span>{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
                   </td>
                 </tr>
                 <tr>
@@ -561,6 +561,16 @@ $().ready(function() {
                     <span>{t escape=no 1="note-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
                   </td>
                 </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Host Alias{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="note_routing[host_alias]" value="{$setup.note_routing.host_alias|default:''}">
+                    {include file="error_icon.tpl.html" field="note_routing[host_alias]"}
+                    <span>{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
+                  </td>
+                </tr>
               </table>
             </td>
           </tr>
@@ -602,6 +612,16 @@ $().ready(function() {
                     <input type="text" name="draft_routing[address_host]" value="{$setup.draft_routing.address_host|default:''}">
                     {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
                     <span>{t escape=no 1="draft-51@<strong>example.com</strong>"}(e.g. %1){/t}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="100" align="right">
+                    {t}Host Alias{/t}
+                  </td>
+                  <td width="80%">
+                    <input type="text" name="draft_routing[host_alias]" value="{$setup.draft_routing.host_alias|default:''}">
+                    {include file="error_icon.tpl.html" field="draft_routing[host_alias]"}
+                    <span>{t}(Alternate domains separated by space that point to 'Address Hostname'){/t}</span>
                   </td>
                 </tr>
               </table>
