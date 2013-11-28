@@ -15,6 +15,10 @@ max_line_length = 120
 [*.tpl.html]
 indent_size = 2
 
+[*.pl]
+indent_style = tab
+indent_size = 4
+
 [Makefile]
 indent_style = tab
 indent_size = 4
