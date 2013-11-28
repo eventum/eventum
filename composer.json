@@ -24,25 +24,6 @@
 			"type": "pear",
 			"url": "http://pear.php.net",
 			"vendor-alias": "pear"
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "smarty/smarty",
-				"version": "2.6.27",
-				"dist": {
-					"url": "http://www.smarty.net/files/Smarty-2.6.27.tar.gz",
-					"type": "tar"
-				},
-				"source": {
-					"url": "http://smarty-php.googlecode.com/svn/",
-					"type": "svn",
-					"reference": "tags/Smarty_2_6_27/"
-				},
-				"autoload": {
-					"classmap": ["libs/"]
-				}
-			}
 		}
 	],
 	"config": {
@@ -81,7 +62,7 @@
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
-		"smarty/smarty": "2.6.*"
+		"smarty/smarty": "@stable"
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend",
