@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+201?-??-??, Version 2.4.0
+
+
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
