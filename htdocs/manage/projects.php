@@ -36,26 +36,26 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
 if (@$_POST["cat"] == "new") {
     Misc::mapMessages(Project::insert(), array(
-            1   =>  array('Thank you, the project was added successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to add the new project.', Misc::MSG_ERROR),
-            -2  =>  array('Please enter the title for this new project.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the project was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the new project.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this new project.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "update") {
     Misc::mapMessages(Project::update(), array(
-            1   =>  array('Thank you, the project was updated successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to update the project information.', Misc::MSG_ERROR),
-            -2  =>  array('Please enter the title for this project.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the project was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the project information.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this project.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "delete") {
     Misc::mapMessages(Project::remove(), array(
-            1   =>  array('Thank you, the project was deleted successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to delete the project.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the project was deleted successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to delete the project.'), Misc::MSG_ERROR),
     ));
 }
 $tpl->assign("active_projects", Project::getAssocList(Auth::getUserID(), true));

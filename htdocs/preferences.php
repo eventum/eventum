@@ -65,9 +65,9 @@ if (@$_POST["cat"] == "update_account") {
 }
 
 if ($res == 1) {
-    Misc::setMessage("Your information has been updated");
+    Misc::setMessage(ev_gettext('Your information has been updated'));
 } elseif ($res == -1) {
-    Misc::setMessage("Sorry, there was an error updating your information", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, there was an error updating your information'), Misc::MSG_ERROR);
 }
 
 

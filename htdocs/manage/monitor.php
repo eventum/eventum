@@ -35,7 +35,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
@@ -49,12 +49,14 @@ if (!empty($_POST['cat']) && $_POST["cat"] == 'update') {
     $res = Setup::save($setup);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext("Thank you, the setup information was saved successfully."), Misc::MSG_INFO),
-            -1  =>  array(ev_gettext("ERROR: The system doesn't have the appropriate permissions to create the configuration file " .
-                            'in the setup directory (%1$s). Please contact your local system administrator and ask for ' .
-                            "write privileges on the provided path.",  APP_CONFIG_PATH), Misc::MSG_NOTE_BOX),
-            -2  =>  array(ev_gettext("ERROR: The system doesn't have the appropriate permissions to create the configuration file " .
-                            'in the setup directory (%1$s). Please contact your local system administrator and ask for ' .
-                            "write privileges on the provided filename.",  APP_SETUP_FILE), Misc::MSG_NOTE_BOX),
+            -1  =>  array(sprintf(ev_gettext(
+                "ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory (%s). ".
+                "Please contact your local system administrator and ask for write privileges on the provided path.", APP_CONFIG_PATH)),
+                Misc::MSG_NOTE_BOX),
+            -2  =>  array(sprintf(ev_gettext(
+                "ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory (%s). ".
+                "Please contact your local system administrator and ask for write privileges on the provided filename.", APP_SETUP_FILE)),
+                Misc::MSG_NOTE_BOX),
     ));
 }
 

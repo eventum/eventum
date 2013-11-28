@@ -36,7 +36,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 $tpl->assign("backend_uses_support_levels", false);

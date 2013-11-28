@@ -52,7 +52,7 @@ if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
         Auth::setCurrentProject($issue_prj_id, $cookie["remember"]);
         $prj_id = $issue_prj_id;
     } else {
-        Misc::setMessage('There was an error creating your issue.', Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);
         $tpl->assign("error_msg", "1");
     }
 }
@@ -69,6 +69,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
             $tpl->displayTemplate();
             exit;
         }
+        // FIXME: not translated
         Misc::setMessage(Customer::getNewIssueMessage($prj_id, $customer_id), Misc::MSG_INFO);
     }
 }
@@ -78,11 +79,11 @@ if (@$_POST["cat"] == "report") {
     $res = Issue::createFromPost();
     if ($res != -1) {
         // redirect to view issue page
-        Misc::setMessage('Your issue was created successfully.');
+        Misc::setMessage(ev_gettext('Your issue was created successfully.'));
         Auth::redirect(APP_BASE_URL . "view.php?id=" . $res);
     } else {
         // need to show everything again
-        Misc::setMessage('There was an error creating your issue.', Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);
         $tpl->assign("error_msg", "1");
     }
 }

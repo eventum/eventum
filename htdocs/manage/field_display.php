@@ -40,7 +40,7 @@ $prj_id = @$_GET["prj_id"];
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
@@ -48,8 +48,8 @@ if (count(@$_POST["min_role"]) > 0) {
     $res = Project::updateFieldDisplaySettings($prj_id, $_POST["min_role"]);
     $tpl->assign("result", $res);
     Misc::mapMessages($res, array(
-            1   =>  array('Thank you, the information was updated successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to update the information.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR),
     ));
 }
 

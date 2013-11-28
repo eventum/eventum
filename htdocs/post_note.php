@@ -66,9 +66,9 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
 
     if ($res == -1) {
-        Misc::setMessage(_("An error occurred while trying to run your query"), Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('An error occurred while trying to run your query'), Misc::MSG_ERROR);
     } else {
-        Misc::setMessage(_('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
+        Misc::setMessage(ev_gettext('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
     }
     $tpl->assign("post_result", $res);
 

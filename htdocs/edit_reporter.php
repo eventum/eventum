@@ -45,8 +45,8 @@ if (Auth::getCurrentRole() < User::getRoleID("Standard User")) {
 if (@$_POST["cat"] == "update") {
     $res = Edit_Reporter::update($issue_id, $_POST['email']);
     Misc::mapMessages($res, array(
-            1   =>  array('Thank you, the Reporter was updated successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to update the Reporter.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the Reporter was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the Reporter.'), Misc::MSG_ERROR),
     ));
     Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $issue_id);
 }
