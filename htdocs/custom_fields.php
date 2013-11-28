@@ -53,6 +53,7 @@ $prefs = Prefs::get(Auth::getUserID());
 $tpl->assign("current_user_prefs", $prefs); // XXX: use 'user_prefs' recursively
 $tpl->assign("user_prefs", $prefs);
 
+$tpl->assign('issue_id', $issue_id);
 $tpl->assign("custom_fields", Custom_Field::getListByIssue($prj_id, $issue_id));
 
 $tpl->displayTemplate();

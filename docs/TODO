@@ -44,3 +44,5 @@ Current multi selects are uncomfortable to use if you have lots of users in Even
 https://github.com/raul72/multiselect-search
 
 * finish other post pages like 6d1fcee
+* UI:
+** Add new user lookup tool for notification and authorized replier pages

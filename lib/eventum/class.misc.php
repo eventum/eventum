@@ -41,8 +41,6 @@
 class Misc
 {
 
-    static private $messages = array();
-
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
@@ -447,7 +445,7 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        $tip_dir = $tpl->smarty->template_dir . "/tips";
+        $tip_dir = APP_TPL_PATH . "/tips";
         $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
@@ -757,15 +755,49 @@ class Misc
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
 
+    const MSG_INFO = 'info';
+    const MSG_WARNING = 'warning';
+    const MSG_ERROR = 'error';
+    const MSG_HTML_BOX = 'html_box';
+    const MSG_NOTE_BOX = 'note_box';
 
-    function setMessage($msg)
+    public static function setMessage($msg, $type=self::MSG_INFO)
     {
-        self::$messages[] = $msg;
+        $messages = Session::get('messages', array());
+        $messages[] = array(
+            'text'  =>  $msg,
+            'type'  =>  $type,
+        );
+        Session::set('messages', $messages);
     }
 
 
-    function getMessages()
+    public static function getMessages()
     {
-        return self::$messages;
+        $messages = Session::get('messages', array());
+        Session::set('messages', array());
+        return $messages;
+    }
+
+
+    public static function mapMessages($result, $map)
+    {
+        foreach ($map as $val => $info) {
+            if ($result == $val) {
+                Misc::setMessage($info[0], $info[1]);
+                return;
+            }
+        }
+    }
+
+
+    public static function displayNotifiedUsers($notify_list)
+    {
+        if (count($notify_list) > 0) {
+            $update_tpl = new Template_Helper();
+            $update_tpl->setTemplate("include/notified_list.tpl.html");
+            $update_tpl->assign("notify_list", $notify_list);
+            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+        }
     }
 }

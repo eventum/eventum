@@ -25,25 +25,25 @@ function validateForm(f)
     <td>
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>{t}Customer Lookup Tool{/t}</b>
           </td>
         </tr>
         <tr>
-          <td width="100" bgcolor="{$cell_color}" class="default_white">
+          <td width="100" bgcolor="{$cell_color}">
             <b>{t}Field{/t}: *</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="field" value="email" {if $smarty.post.field == '' or $smarty.post.field == 'email'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 0);">{t}Email Address{/t}</a><br />
-            <input type="radio" name="field" value="customer_id" {if $smarty.post.field == 'customer_id'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 1);">{t}Customer ID{/t}</a><br />
+          <td bgcolor="{$light_color}">
+            <input type="radio" name="field" value="email" {if $smarty.post.field == '' or $smarty.post.field == 'email'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 0);">{t}Email Address{/t}</a><br />
+            <input type="radio" name="field" value="customer_id" {if $smarty.post.field == 'customer_id'}checked{/if}> <a id="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 1);">{t}Customer ID{/t}</a><br />
           </td>
         </tr>
         <tr>
-          <td width="100" bgcolor="{$cell_color}" class="default_white">
+          <td width="100" bgcolor="{$cell_color}">
             <b>{t}Value{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="value" size="20" class="default" value="{$smarty.post.value}">
+            <input type="text" name="value" size="20" value="{$smarty.post.value}">
             {include file="error_icon.tpl.html" field="value"}
           </td>
         </tr>
@@ -109,34 +109,34 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
 //-->
 </script>
 {/literal}
-&nbsp;<span class="default"><b>{t}Results{/t}:</b></span>
+&nbsp;<span><b>{t}Results{/t}:</b></span>
 <table width="100%" cellpadding="1" cellspacing="1">
   <tr>
-    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Customer{/t}</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Support Type{/t}</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Expiration Date{/t}</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Status{/t}</b></td>
+    <td bgcolor="{$cell_color}"><b>{t}Customer{/t}</b></td>
+    <td bgcolor="{$cell_color}"><b>{t}Support Type{/t}</b></td>
+    <td bgcolor="{$cell_color}"><b>{t}Expiration Date{/t}</b></td>
+    <td bgcolor="{$cell_color}"><b>{t}Status{/t}</b></td>
   </tr>
   {section name="i" loop=$results}
   {cycle values=$cycle assign="row_color"}
   <tr bgcolor="{$row_color}">
-    <td class="default">{$results[i].customer_name|escape:"html"}</td>
-    <td class="default">{$results[i].support_level}</td>
-    <td class="default">{$results[i].expiration_date}</td>
-    <td class="default">{if $results[i].contract_status == 'expired'}<b><font color="red">{/if}{$results[i].contract_status}{if $results[i].contract_status == 'expired'}</font></b>{/if}</td>
+    <td>{$results[i].customer_name|escape:"html"}</td>
+    <td>{$results[i].support_level}</td>
+    <td>{$results[i].expiration_date}</td>
+    <td>{if $results[i].contract_status == 'expired'}<b><font color="red">{/if}{$results[i].contract_status}{if $results[i].contract_status == 'expired'}</font></b>{/if}</td>
   </tr>
   <tr bgcolor="{$row_color}">
-    <td colspan="5" class="default">
+    <td colspan="5">
       <ul>
       {section name="y" loop=$results[i].contacts}
-      <li><a title="{t}select this contact{/t}" class="link" href="javascript:void(null);" onClick="javascript:selectCustomerContact({$results[i].customer_id}, '{$results[i].customer_name|replace:"'":"\\'"}', {$results[i].contacts[y].contact_id}, '{$results[i].contacts[y].last_name|replace:"'":"\\'"}', '{$results[i].contacts[y].first_name|replace:"'":"\\'"}', '{$results[i].contacts[y].email}', '{$results[i].contacts[y].phone}');">{$results[i].contacts[y].first_name} {$results[i].contacts[y].last_name} - {$results[i].contacts[y].email}</a></li>
+      <li><a title="{t}select this contact{/t}" href="javascript:void(null);" onClick="javascript:selectCustomerContact({$results[i].customer_id}, '{$results[i].customer_name|replace:"'":"\\'"}', {$results[i].contacts[y].contact_id}, '{$results[i].contacts[y].last_name|replace:"'":"\\'"}', '{$results[i].contacts[y].first_name|replace:"'":"\\'"}', '{$results[i].contacts[y].email}', '{$results[i].contacts[y].phone}');">{$results[i].contacts[y].first_name} {$results[i].contacts[y].last_name} - {$results[i].contacts[y].email}</a></li>
       {/section}
       </ul>
     </td>
   </tr>
   {sectionelse}
   <tr bgcolor="{$light_color}">
-    <td colspan="5" class="default" align="center">
+    <td colspan="5" align="center">
       <i>{t}No results could be found{/t}</i>
     </td>
   </tr>

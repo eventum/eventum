@@ -52,20 +52,24 @@ if (Auth::isAnonUser()) {
 
 $usr_id = Auth::getUserID();
 
+$res = null;
 if (@$_POST["cat"] == "update_account") {
     $res = Prefs::set($usr_id, $_POST);
-    $tpl->assign('update_account_result', $res);
     User::updateSMS($usr_id, @$_POST['sms_email']);
 } elseif (@$_POST["cat"] == "update_name") {
     $res = User::updateFullName($usr_id);
-    $tpl->assign('update_name_result', $res);
 } elseif (@$_POST["cat"] == "update_email") {
     $res = User::updateEmail($usr_id);
-    $tpl->assign('update_email_result', $res);
 } elseif (@$_POST["cat"] == "update_password") {
     $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
-    $tpl->assign('update_password_result', $res);
 }
+
+if ($res == 1) {
+    Misc::setMessage("Your information has been updated");
+} elseif ($res == -1) {
+    Misc::setMessage("Sorry, there was an error updating your information", Misc::MSG_ERROR);
+}
+
 
 $prefs = Prefs::get($usr_id);
 $prefs['sms_email'] = User::getSMS($usr_id);

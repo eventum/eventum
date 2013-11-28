@@ -1,14 +1,16 @@
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block "title"}Issue #{$issue_id} - {$extra_title}{/block}
 
+{block "content"}
 {if $note == ''}
 <br />
 <table width="100%" align="center">
   <tr>
     <td align="center">
-      &nbsp;<span class="default"><b>{t}The specified note does not exist.{/t} <br />
-      {t}It could have been converted to an email.{/t}</b>
+      &nbsp;<span>{t}The specified note does not exist.{/t} <br />
+      {t}It could have been converted to an email.{/t}
       <br /><br />
-      &nbsp;<a class="link" href="javascript:self.close();">{t}Close{/t}</a></span>
+      &nbsp;<a href="javascript:self.close();">{t}Close{/t}</a></span>
     </td>
   </tr>
 </table>
@@ -36,61 +38,52 @@ function viewNote(id)
 </script>
 {/literal}
 <form method="post" action="popup.php">
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2" class="default">
+<table align="center" class="bordered internal">
+        <tr class="title">
+          <th colspan="2">
 			{if $issue_id}
-			<b>{t escape=no 1=$issue_id}View Note Details (Associated with Issue <a href="{$rel_url}view.php?id=%1" class="link">#%1</a>){/t}</b>
+			{t escape=no 1=$issue_id}View Note Details (Associated with Issue <a href="{$core.rel_url}view.php?id=%1">#%1</a>){/t}
 			{else}
-            <b>{t}View Note Details{/t}</b>
+            {t}View Note Details{/t}
 			{/if}
-          </td>
+          </th>
         </tr>
         {if $next != "" || $previous != ""}
-        <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
-            <table border="0" width="100%" cellspacing="0" cellpadding="1">
-              <tr>
-                <td>
-                  {if $previous != ""}
-                  <input class="button" type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="viewNote({$previous});">
-                  {/if}
-                </td>
-                <td align="right">
-                  {if $next != ""}
-                  <input class="button" type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="viewNote({$next});">
-                  {/if}
-                </td>
-              </tr>
-            </table>
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+              {if $previous != ""}
+              <input type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="viewNote({$previous});">
+              {/if}
+              <div class="right">
+              {if $next != ""}
+              <input type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="viewNote({$next});">
+              {/if}
+              </div>
+            </td>
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Posted Date:{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+          <th width="120">
+            {t}Posted Date:{/t}
+          </th>
+          <td>
             {$note.not_created_date}
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}From:{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+          <th width="120">
+            {t}From:{/t}
+          </th>
+          <td>
             {$note.not_from|escape:"html"}
           </td>
         </tr>
         {if $recipients|@count > 0}
         <tr>
-          <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Recipients{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+          <th width="120">
+            {t}Recipients{/t}:
+          </th>
+          <td>
             {strip}
             {section name="i" loop=$recipients}
               {if not $smarty.section.i.first}, {/if}
@@ -101,80 +94,64 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Title:{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+          <th width="120">
+            {t}Title:{/t}
+          </th>
+          <td>
             {$note.not_title|default:"<Empty Title>"|escape:"html"}
           </td>
         </tr>
-        {if $note.attachments}
+        {if $note.attachments|default:'' != ''}
         <tr>
-          <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Attachments:{/t}</b>
-          </td>
-          <td bgcolor="{$dark_color}" class="default">
+          <th width="120">
+            {t}Attachments:{/t}
+          </th>
+          <td bgcolor="{$dark_color}">
             {section name="i" loop=$note.attachments}
-            <a title="{t}download file{/t}" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}"><img src="{$rel_url}images/attachment.gif" border="0"></a>
-            <a title="{t}download file{/t}" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}">{$note.attachments[i].filename}</a><br />
+            <a title="{t}download file{/t}" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+            <a title="{t}download file{/t}" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}">{$note.attachments[i].filename}</a><br />
             {/section}
           </td>
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$internal_color}">
-            <table width="100%">
-              <tr>
-                <td>
-                  <span class="default_white"><b>{t}Message:{/t}</b></span>
-                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="displayFixedWidth('email_message');">{t}display in fixed width font{/t}</a>)</span>
-                </td>
-                <td align="right" class="default_white">
+          <td colspan="2">
+              {t}Message:{/t}
+              <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="Eventum.displayFixedWidth($('#email_message'))">{t}display in fixed width font{/t}</a>)</span>
+              <div class="right">
                   {if $note.has_blocked_message}
                   <a class="white_link" href="javascript:void(null);" onClick="openRawHeaders();">{t}Blocked Message Raw Headers{/t}</a>
                   {/if}
-                </td>
-              </tr>
-            </table>
+              </div>
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$light_color}" id="email_message" class="default">
-{$note.message|highlight_quoted|nl2br|activateLinks}
+          <td colspan="2" id="email_message">
+            {$note.message|highlight_quoted|nl2br|activateLinks}
           </td>
         </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
-            <input class="button" type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
-            <input class="button" type="button" value="{t}Close{/t}" onClick="window.close();">
+        <tr class="buttons">
+          <td colspan="2">
+            <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
+            <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>
         {if $next != "" || $previous != ""}
-        <tr>
-          <td colspan="2" bgcolor="{$internal_color}" align="center">
-            <table border="0" width="100%" cellspacing="0" cellpadding="1">
-              <tr>
-                <td>
-                  {if $previous != ""}
-                  <input class="button" type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="viewNote({$previous});">
-                  {/if}
-                </td>
-                <td align="right">
-                  {if $next != ""}
-                  <input class="button" type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="viewNote({$next});">
-                  {/if}
-                </td>
-              </tr>
-            </table>
-          </td>
+        <tr class="buttons">
+            <td colspan="2">
+              {if $previous != ""}
+              <input type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="viewNote({$previous});">
+              {/if}
+              <div class="right">
+              {if $next != ""}
+              <input type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="viewNote({$next});">
+              {/if}
+              </div>
+            </td>
         </tr>
         {/if}
       </table>
-    </td>
-  </tr>
-</table>
 </form>
 
-{include file="app_info.tpl.html"}
 {/if}
-{include file="footer.tpl.html"}
+{/block}

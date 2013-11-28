@@ -5,17 +5,17 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td valign="top">
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
         <tr>
           <td width="100%">
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Important Notices{/t}</b></span>
+                  <span><b>{t}Important Notices{/t}</b></span>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$light_color}" class="default">
+                <td>
                   {section name="i" loop=$news}
                   <p><b>{$news[i].nws_created_date} - {$news[i].nws_title}</b></p>
                   <p>{$news[i].nws_message|activateLinks:"links"}</p>

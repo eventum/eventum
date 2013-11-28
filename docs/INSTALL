@@ -23,11 +23,9 @@ Installation is pretty simple and quick. Eventum already bundles the libraries
 that it needs to work properly:
 
 - JpGraph 1.5.3 (last GPL version)
-- Smarty 2.6.18 (http://smarty.php.net)
+- Smarty 3.x (http://smarty.net)
 - PEAR packages (see lib/pear/README for details)
-- dTree 2.0.5 (http://www.destroydrop.com/javascript/tree/)
 - dynCalendar.js (http://www.phpguru.org/dyncalendar.html)
-- overLIB 3.5.1 (http://www.bosrup.com/web/overlib/)
 - A few other small javascript libraries
 
 Anyway, all you should have to do is place the Eventum files in a directory,

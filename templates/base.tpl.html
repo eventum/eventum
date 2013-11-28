@@ -1,0 +1,47 @@
+{*
+    blocks:
+        title
+        sidebar
+        content
+*}
+<!DOCTYPE html>
+<html>
+<head data-rel-url="{$core.rel_url}">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=8" />
+  <link rel="shortcut icon" href="{$core.rel_url}images/favicon.ico" type="image/x-icon" />
+  <title>{block name="title"}Eventum{/block}</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/page.css">
+  <script type="text/javascript" src="{$core.rel_url}js/jquery/jquery.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}js/jquery/blockui.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}js/jquery/cookie.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}js/main.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}js/page.js"></script>
+
+  <!-- Bundled CSS here -->
+</head>
+<!--[if lt IE 7 ]> <body class="ie6 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie7 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
+<!--[if IE 8 ]> <body class="ie8 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
+<!--[if !IE]>--> <body class="{block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"><!--<![endif]-->
+<div id="container">
+    {block "header"}{/block}
+
+    {block "messages"}
+    <div id="full_width_messages">
+        {include "app_messages.tpl.html"}
+    </div>
+    {/block}
+
+    <div id="middle">
+        <div id="content">
+        {block name="content"}{/block}
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    {block "footer"}{/block}
+</div>
+</body>
+</html>

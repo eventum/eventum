@@ -1,159 +1,45 @@
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}close_issue{/block}
+{block page_classes}CustomField{/block}
+{block "title"}#{$issue_id} - Close{/block}
 
-<br />
-{if $no_issue}
-  <table width="400" align="center">
-    <tr>
-      <td>
-        &nbsp;<span class="default"><b>{t 1=$smarty.get.id|intval}Error: The issue #%1 could not be found{/t}.</b>
-        <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-      </td>
-    </tr>
-  </table>
-{elseif $close_result != ""}
-<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default">
-            {if $close_result == -1}
-            <b>{t}Sorry, an error happened while trying to run your query{/t}.</b>
-            {elseif $close_result == 1}
-            <b>{t}Thank you, the issue was closed successfully{/t}.</b><br/>
-
-            {if $notify_list|@count > 0}
-            <br/>
-            <b>{t}E-mail about issue update was sent to{/t}:</b><br />
-            {foreach from=$notify_list item=email_address}
-            &nbsp;&nbsp;{$email_address|escape:"html"}<br />
-            {/foreach}
-            <br />
-            {/if}
-
-            <b>{t}Please choose from one of the options below{/t}:</b>
-            <ul>
-              <li><a href="view.php?id={$issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
-              <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
-              {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
-              <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
-              {/if}
-            </ul>
-            {/if}
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+{block "content"}
+{if $no_issue|default:''}
+<div class="note_box">
+    {t 1=$smarty.get.id|intval}Error: The issue #%1 could not be found{/t}.
+</div>
 {else}
-{literal}
-<script type="text/javascript">
-<!--
-var has_per_incident_contract = false;
-
-function validateForm(f)
-{
-    if (getSelectedOption(f, 'status') == -1) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Status{/t}{literal}', 'status');
-    }
-    if (isWhitespace(f.reason.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Reason to close{/t}{literal}', 'reason');
-    }
-
-    if (!isWhitespace(f.time_spent.value)) {
-        if (!isNumberOnly(f.time_spent.value)) {
-            errors[errors.length] = new Option('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}', 'time_spent');
-        }
-        if (f.category.options[f.category.selectedIndex].value == '') {
-            errors[errors.length] = new Option('{/literal}{t escape=js}Time tracking category{/t}{literal}', 'category');
-        }
-    }
-
-    checkCustomFields(f);
-
-    if ((errors.length < 1) && (has_per_incident_contract)) {
-        elements = getForm('close_form');
-        has_checked_incident = false;
-        for (i = 0; i < elements.length; i++) {
-            if (elements[i].name.substr(0, 6) == 'redeem') {
-                if (elements[i].checked == true) {
-                    has_checked_incident = true;
-                }
-            }
-        }
-        if (has_checked_incident == false) {
-            return confirm('{/literal}{t escape=js}This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.{/t}{literal}');
-        }
-    }
-    return true;
-}
-
-function toggleNotificationList()
-{
-    var f = getForm('close_form');
-
-    var cell = getPageElement('reason_cell');
-
-    if (f.notification_list[1].checked) {
-        cell.style.background = "{/literal}{$cell_color}{literal}";
-    } else {
-        cell.style.background = "{/literal}{$internal_color}{literal}";
-    }
-}
-
-var old_reason = '';
-function setSignature(f)
-{
-{/literal}
-    var signature = "{$current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
-{literal}
-    if (f.add_email_signature.checked) {
-        old_reason = f.reason.value;
-        f.reason.value += "\n";
-        f.reason.value += signature;
-    } else {
-        f.reason.value = old_reason;
-    }
-}
-
-//-->
-</script>
-{/literal}
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="close_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="close.php">
+<div id="signature" style="display: none;">
+{$current_user_prefs.email_signature}
+</div>
+<form name="close_form" method="post" action="close.php">
 <input type="hidden" name="cat" value="close">
 <input type="hidden" name="issue_id" value="{$issue_id}">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="2" class="default" nowrap>
-            <b>{t}Close Issue{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}" class="link">{$issue_id}</a>)
-          </td>
+      <table class="bordered">
+        <tr class="title">
+          <th colspan="2" nowrap>
+            {t}Close Issue{/t} (ID: <a href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue_id}</a>)
+          </th>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Status{/t}: *</b><br />
-          </td>
-          <td bgcolor="{$light_color}">
-            <select class="default" name="status" id="status">
+          <th width="160">
+            {t}Status{/t} *
+          </th>
+          <td>
+            <select name="status" id="status">
               <option value="-1">{t}Please choose a status{/t}</option>
               {html_options options=$statuses}
             </select>
-            <script type="text/javascript">selectOnlyValidOption(document.forms['close_form'].elements['status']);</script>
             {include file="error_icon.tpl.html" field="status"}
           </td>
         </tr>
         {if $resolutions|@count > 0}
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Resolution{/t}:</b><br />
-          </td>
-          <td bgcolor="{$light_color}">
-            <select class="default" name="resolution">
+          <th width="160">
+            {t}Resolution{/t}
+          </th>
+          <td>
+            <select name="resolution">
               {html_options options=$resolutions}
             </select>
           </td>
@@ -163,32 +49,36 @@ function setSignature(f)
         {/if}
         {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='close'}
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Send Notification About Issue Being Closed?{/t}</b><br />
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="send_notification" checked value="1">
-            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="send_notification" value="0">
-            <a id="link" class="link" href="javascript:void(null);" onClick="checkRadio('close_form', 'send_notification', 1);">{t}No{/t}</a>
+          <th width="160">
+            {t}Send Notification About Issue Being Closed?{/t}
+          </th>
+          <td>
+            <label>
+                <input type="radio" name="send_notification" checked value="1">
+                {t}Yes{/t}
+            </label>
+            <label>
+                <input type="radio" name="send_notification" value="0">
+                {t}No{/t}
+            </label>
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Send Notification To{/t}:</b><br />
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
-            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"}) ({t}Will save as a note{/t})</label><br />
-            <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
+          <th width="160">
+            {t}Send Notification To{/t}
+          </th>
+          <td>
+            <input id="notification_internal" type="radio" name="notification_list" checked value="internal">
+            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<em>None</em>"}) ({t}Will save as a note{/t})</label><br />
+            <input id="notification_all" type="radio" name="notification_list" value="all">
             <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"}) ({t}Will save as email{/t})</label>
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white" id="reason_cell">
-            <b>{t}Reason for closing issue{/t}: *</b><br />
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+          <th width="160" id="reason_cell">
+            {t}Reason for closing issue{/t} *
+          </th>
+          <td>
             <textarea name="reason" rows="8" style="width: 97%">{if $current_user_prefs.auto_append_email_sig == 1}
 
 
@@ -196,69 +86,55 @@ function setSignature(f)
             {include file="error_icon.tpl.html" field="reason"}
           </td>
         </tr>
-        {if $incident_details|@count > 0}
-        <script type="text/javascript">
-        has_per_incident_contract = true;
-        </script>
-        <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Incident Types to Redeem{/t}: </b><br />
-          </td>
-          <td bgcolor="{$light_color}" class="default">
+        {if $incident_details|default:'' != '' and $incident_details|@count > 0}
+        <tr class="per_incident">
+          <th width="160">
+            {t}Incident Types to Redeem{/t}
+          </th>
+          <td>
             {foreach from=$incident_details item=type_details key=type_id}
-              {cycle values=$cycle assign="row_color"}
-              {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
-              <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('close_form', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a><br />
+              <label><input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id]|default:'' != '' and $redeemed[$type_id].is_redeemed == 1}checked{/if}>
+              {$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</label><br />
             {/foreach}
           </td>
         </tr>
         {/if}
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Time Spent{/t}: </b><br />
-          </td>
-          <td bgcolor="{$light_color}">
-            <input class="default" type="text" size="5" name="time_spent" class="default"> <span class="default">{t}(in minutes){/t}</span>{include file="error_icon.tpl.html" field="time_spent"}
+          <th width="160">
+            {t}Time Spent{/t}
+          </th>
+          <td>
+            <input type="text" size="5" name="time_spent"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>{t}Time Category{/t}: </b><br />
-          </td>
-          <td bgcolor="{$light_color}">
-            <select name="category" class="default">
+          <th width="160">
+            {t}Time Category{/t}
+          </th>
+          <td>
+            <select name="category">
               <option value="">{t}Please choose a category{/t}</option>
               {html_options options=$time_categories}
             </select>
             {include file="error_icon.tpl.html" field="category"}
           </td>
         </tr>
-        <tr bgcolor="{$cell_color}">
+        <tr class="buttons">
           <td colspan="2">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr>
-                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="history.go(-1);"></td>
-                <td width="100%" align="center"><input class="button" type="submit" value="{t}Close Issue{/t}"></td>
+                <input type="submit" value="{t}Close Issue{/t}">
                 {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
-                <td class="default_white" align="right" width="150">
-                  <nobr>
-                  <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
-                  <a id="white_link" class="white_link" href="javascript:void(null);" onClick="toggleCheckbox('close_form', 'add_email_signature');setSignature(getForm('close_form'));">Add Email Signature</a>
-                  &nbsp;&nbsp;
-                  </nobr>
-                </td>
+                <div class="right">
+                  <label>
+                      <input type="checkbox" name="add_email_signature" value="yes">
+                      Add Email Signature
+                  </label>
+                </div>
                 {/if}
             </tr>
             </table>
           </td>
         </tr>
       </table>
-    </td>
-  </tr>
 </form>
-</table>
 {/if}
-<br />
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

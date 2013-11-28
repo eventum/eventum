@@ -30,46 +30,50 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/groups.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "groups");
 
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", Group::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", Group::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        Group::remove();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $info = Group::getDetails($_GET["id"]);
-        $tpl->assign("info", $info);
-        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET["id"]);
-    } else {
-        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
-    }
-
-    if (@$_GET['show_customers'] == 1) {
-        $show_customer = true;
-    } else {
-        $show_customer = false;
-    }
-
-
-    $tpl->assign("user_options", $user_options);
-    $tpl->assign("list", Group::getList());
-    $tpl->assign("project_list", Project::getAll());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+
+if (@$_POST["cat"] == "new") {
+    $res = Group::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the group was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the new group.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = Group::update();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the group was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the group.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    Group::remove();
+}
+
+if (@$_GET["cat"] == "edit") {
+    $info = Group::getDetails($_GET["id"]);
+    $tpl->assign("info", $info);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET["id"]);
+} else {
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
+}
+
+if (@$_GET['show_customers'] == 1) {
+    $show_customer = true;
+} else {
+    $show_customer = false;
+}
+
+
+$tpl->assign("user_options", $user_options);
+$tpl->assign("list", Group::getList());
+$tpl->assign("project_list", Project::getAll());
 
 $tpl->displayTemplate();

@@ -1,693 +1,21 @@
-{capture name="extra_title" assign="extra_title"}{t}Advanced Search{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block "page_id"}adv_search{/block}
+{block title}{t}Advanced Search{/t}{/block}
 
-<script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
-{literal}
+{block "content"}
 <script type="text/javascript">
 <!--
-function saveCustomFilter(f)
-{
-    if (isWhitespace(f.title.value)) {
-        selectField(f, 'title');
-        alert('{/literal}{t escape=js}Please enter the title for this saved search.{/t}{literal}');
-        return false;
-    }
-    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('', '_customFilter', features);
-    popupWin.focus();
-    f.target = '_customFilter';
-    f.method = 'post';
-    f.action = 'popup.php';
-    f.cat.value = 'save_filter';
-    f.submit();
-}
-function validateRemove(f)
-{
-    if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
-        return false;
-    }
-    if (!confirm('{/literal}{t escape=js}This action will permanently delete the selected entries.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('', '_removeFilter', features);
-        popupWin.focus();
-        return true;
-    }
-}
-function toggleDateFields(f, field_name)
-{
-    var checkbox = getFormElement(f, 'filter[' + field_name + ']');
-    var filter_type = getFormElement(f, field_name + '[filter_type]');
-    var month_field = getFormElement(f, field_name + '[Month]');
-    var day_field = getFormElement(f, field_name + '[Day]');
-    var year_field = getFormElement(f, field_name + '[Year]');
-    var month_end_field = getFormElement(f, field_name + '_end[Month]');
-    var day_end_field = getFormElement(f, field_name + '_end[Day]');
-    var year_end_field = getFormElement(f, field_name + '_end[Year]');
-    var time_period_field = getFormElement(f, field_name + '[time_period]');
-    if (checkbox.checked) {
-        var bool = false;
-    } else {
-        var bool = true;
-    }
-    filter_type.disabled = bool;
-    month_field.disabled = bool;
-    day_field.disabled = bool;
-    year_field.disabled = bool;
-    month_end_field.disabled = bool;
-    day_end_field.disabled = bool;
-    year_end_field.disabled = bool;
-    time_period_field.disabled = bool;
 
-    getPageElement(field_name + '_hidden').disabled = !bool;
-}
-function checkDateFilterType(f, type_field)
-{
-    var option = getSelectedOption(f, type_field.name);
-    var element_name = type_field.name.substring(0, type_field.name.indexOf('['));
-    var element = getPageElement(element_name);
-
-    if (option == 'between') {
-        changeVisibility(element_name + '1', true, true);
-        changeVisibility(element_name + '2', true, true);
-        changeVisibility(element_name + '_last', false, true);
-    } else if (option == 'in_past') {
-        changeVisibility(element_name + '1', false, true);
-        changeVisibility(element_name + '2', false, true);
-        changeVisibility(element_name + '_last', true, true);
-    } else {
-        changeVisibility(element_name + '1', true, true);
-        changeVisibility(element_name + '2', false, true);
-        changeVisibility(element_name + '_last', false, true);
-    }
-}
-function selectDateOptions(field_prefix, date_str)
-{
-    if (date_str.length != 10) {
-        return false;
-    } else {
-        var year = date_str.substring(0, date_str.indexOf('-'));
-        var month = date_str.substring(date_str.indexOf('-')+1, date_str.lastIndexOf('-'));
-        var day = date_str.substring(date_str.lastIndexOf('-')+1);
-        selectDateField(field_prefix, day, month, year);
-    }
-}
-function selectDateField(field_name, day, month, year)
-{
-    selectOption(this.document.custom_filter_form, field_name + '[Day]', day);
-    selectOption(this.document.custom_filter_form, field_name + '[Month]', month);
-    selectOption(this.document.custom_filter_form, field_name + '[Year]', year);
-}
-function calendarCallback_created(day, month, year) { selectDateField('created_date', day, month, year); }
-function calendarCallback_created_end(day, month, year) { selectDateField('created_date_end', day, month, year); }
-function calendarCallback_updated(day, month, year) { selectDateField('updated_date', day, month, year); }
-function calendarCallback_updated_end(day, month, year) { selectDateField('updated_date_end', day, month, year); }
-function calendarCallback_last_response(day, month, year) { selectDateField('last_response_date', day, month, year); }
-function calendarCallback_last_response_end(day, month, year) { selectDateField('last_response_date_end', day, month, year); }
-function calendarCallback_first_response(day, month, year) { selectDateField('first_response_date', day, month, year); }
-function calendarCallback_first_response_end(day, month, year) { selectDateField('first_response_date_end', day, month, year); }
-function calendarCallback_closed(day, month, year) { selectDateField('closed_date', day, month, year); }
-function calendarCallback_closed_end(day, month, year) { selectDateField('closed_date_end', day, month, year); }
-function validateForm(f)
-{
-    // need to hack this value in the query string so the saved search options don't override this one
-    if (!f.hide_closed.checked) {
-        var field = getFormElement(f, 'hidden1');
-        field.name = 'hide_closed';
-        field.value = '0';
-    }
-    if (!f.show_authorized_issues.checked) {
-        var field = getFormElement(f, 'hidden2');
-        field.name = 'show_authorized_issues';
-        field.value = '';
-    }
-    if (!f.show_notification_list_issues.checked) {
-        var field = getFormElement(f, 'hidden3');
-        field.name = 'show_notification_list_issues';
-        field.value = '';
-    }
-    return true;
-}
-
-function changeDateFieldsVisibility(display)
-{
-
-    var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
-    for (var i = 0; i < elements_to_hide.length; i++) {
-        element_name = 'date_field_row_' + i;
-
-        changeVisibility(element_name, display, true);
-
-        if ((display == false) || ((display == true) && (getPageElement('filter[' + elements_to_hide[i] + ']').checked == true))) {
-            var selects = getPageElement(element_name).getElementsByTagName('select');
-            for (var j = 0; j < selects.length; j++) {
-                selects[j].disabled = !display;
-            }
-        }
-        var inputs = getPageElement(element_name).getElementsByTagName('input');
-        for (var j = 0; j < inputs.length; j++) {
-            inputs[j].disabled = !display;
-        }
-    }
-}
-
-
-function disableCustomFields(disable)
-{
-    var selects = getPageElement('custom_fields_row').getElementsByTagName('select');
-    for (var i = 0; i < selects.length; i++) {
-        selects[i].disabled = disable;
-    }
-    var inputs = getPageElement('custom_fields_row').getElementsByTagName('input');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].disabled = disable;
-    }
-
-    // enable/disable hidden field
-    getPageElement('custom_field_hidden').disabled = !disable;
-}
-//-->
-</script>
-{/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <tr>
-          <td colspan="4" bgcolor="{$light_color}" class="default">
-            <b>{t}Advanced Search{/t}</b>
-          </td>
-          <td bgcolor="{$light_color}" align="right">
-            {include file="help_link.tpl.html" topic="adv_search"}
-          </td>
-        </tr>
-        <form name="custom_filter_form" method="get" action="list.php" onSubmit="return validateForm(this);">
-        <input type="hidden" name="cat" value="search">
-        <input type="hidden" name="hidden1" value="">
-        <input type="hidden" name="hidden2" value="">
-        <input type="hidden" name="hidden3" value="">
-        <input id="custom_field_hidden" type="hidden" name="custom_field" value="">
-        <input id="created_date_hidden" type="hidden" name="created_date" value="">
-        <input id="updated_date_hidden" type="hidden" name="updated_date" value="">
-        <input id="first_response_date_hidden" type="hidden" name="first_response_date" value="">
-        <input id="last_response_date_hidden" type="hidden" name="last_response_date" value="">
-        <input id="closed_date_hidden" type="hidden" name="closed_date" value="">
-        <tr>
-          <td nowrap colspan="1">
-            <span class="default">{t}Keyword(s){/t}:</span><br />
-            <input class="default" type="text" name="keywords" value="{$options.cst_keywords|escape:'html'}" size="40">
-          </td>
-          <td colspan="3">
-            {if $has_customer_integration}
-            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">{t}All Text (emails, notes, etc){/t}</label>
-            {else}
-            <input type="hidden" name="search_type" value="all_text">
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td valign="top">
-            <span class="default">{t}Assigned{/t}:</span><br />
-            <select name="users" class="default">
-              {html_options options=$users selected=$options.cst_users}
-            </select>
-          </td>
-          {if $cats|@count > 0}
-          <td>
-            <span class="default">{t}Category{/t}:</span><br />
-            <select name="category" class="default">
-              <option value="">{t}any{/t}</option>
-              {foreach key=prc_id item=prc_title from=$cats}
-              <option value="{$prc_id}" {if $prc_id == $options.cst_iss_prc_id}selected{/if}>{$prc_title}</option>
-              {/foreach}
-            </select>
-          </td>
-          {/if}
-          <td>
-            <span class="default">{t}Priority{/t}:</span><br />
-            <select name="priority" class="default">
-              <option value="">{t}any{/t}</option>
-              {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.cst_iss_pri_id}selected{/if}>{$priorities[i].pri_title}</option>
-              {/section}
-            </select>
-          </td>
-          <td valign="top">
-            <span class="default">{t}Status{/t}:</span><br />
-            <select name="status" class="default">
-              <option value="">{t}any{/t}</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id}selected{/if}>{$sta_title}</option>
-              {/foreach}
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span class="default">{t}Reporter{/t}:</span><br />
-            <select name="reporter" class="default">
-              <option value="">{t}Any{/t}</option>
-              {html_options options=$reporters selected=$options.cst_reporter}
-            </select>
-          </td>
-          {if $releases|@count > 0}
-          <td>
-            <span class="default">{t}Release{/t}:</span><br />
-            <select name="release" class="default">
-              <option value="">{t}any{/t}</option>
-              {foreach key=pre_id item=pre_title from=$releases}
-              <option value="{$pre_id}" {if $pre_id == $options.cst_iss_pre_id}selected{/if}>{$pre_title}</option>
-              {/foreach}
-            </select>
-          </td>
-          {/if}
-        </tr>
-        <tr>
-          <td align="center" class="default">
-            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'hide_closed');">{t}Hide Closed Issues{/t}</a>
-          </td>
-          <td>
-            <span class="default">{t}Rows Per Page{/t}:</span><br />
-            <select name="rows" class="default">
-              <option value="100" {if $options.cst_rows == 100}selected{/if}>100</option>
-              <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
-              <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
-              <option value="10" {if $options.cst_rows == 10}selected{/if}>10</option>
-              <option value="5" {if $options.cst_rows == 5}selected{/if}>5</option>
-              <option value="ALL" {if $options.cst_rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
-            </select>
-          </td>
-          <td>
-            <span class="default">{t}Sort By{/t}:</span><br />
-            <select name="sort_by" class="default">
-              <option value="last_action_date" {if $options.cst_sort_by == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
-              <option value="pri_rank" {if $options.cst_sort_by == "pri_rank"}selected{/if}>{t}Priority{/t}</option>
-              <option value="iss_id" {if $options.cst_sort_by == "iss_id"}selected{/if}>{t}Issue ID{/t}</option>
-              <option value="sta_rank" {if $options.cst_sort_by == "sta_rank"}selected{/if}>{t}Status{/t}</option>
-              <option value="iss_summary" {if $options.cst_sort_by == "iss_summary"}selected{/if}>{t}Summary{/t}</option>
-            </select>
-          </td>
-          <td colspan="2">
-            <span class="default">{t}Sort Order{/t}:</span><br />
-            <select name="sort_order" class="default">
-              <option value="desc" {if $options.cst_sort_order == "desc"}selected{/if}>{t}descending{/t}</option>
-              <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>{t}ascending{/t}</option>
-            </select>
-          </td>
-        </tr>
-	{if !$is_anon_user}
-        <tr>
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap class="default">
-                  {t}Show Issues in Which I Am{/t}:&nbsp;
-                </td>
-                <td width="80%" class="default">
-                  <input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_authorized_issues');">{t}Authorized to Send Emails{/t}</a>
-                  <input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list == 'yes'}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">{t}In Notification List{/t}</a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-	{/if}
-        <tr>
-          <td colspan="5">
-          <hr>
-            <input id="show_date_fields_checkbox" type="checkbox" name="show_date_fields" value="1" class="default" onClick="changeDateFieldsVisibility(this.checked)">
-            <label for="show_date_fields_checkbox" class="default">{t}Show date fields to search by{/t}</label>
-          </td>
-        </tr>
-        <tr id="date_field_row_0" style="display: none">
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="60%">
-                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" onClick="toggleDateFields(this.form, 'created_date');">
-                  <span class="default"><label for="filter[created_date]">{t}Created{/t}:</label></span><br />
-                  <select name="created_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.cst_created_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                    <option {if $options.cst_created_date_filter_type == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
-                  </select>&nbsp;
-                  <span id="created_date1">
-                  {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar = new dynCalendar('tCalendar', 'calendarCallback_created', '{$rel_url}images/');
-                  tCalendar.setMonthCombo(false);
-                  tCalendar.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                  </span>
-                  <span id="created_date_last">
-                  <input type="text" name="created_date[time_period]" size="3" class="default" value="{$options.cst_created_date_time_period}"> <span class="default">{t}hours{/t}</span>
-                  &nbsp;&nbsp;
-                  </span>
-                </td>
-                <td nowrap id="created_date2" width="40%" valign="bottom">
-                  <span class="default">Created: <i>(End date)</i></span><br />
-                  {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar2 = new dynCalendar('tCalendar2', 'calendarCallback_created_end', '{$rel_url}images/');
-                  tCalendar2.setMonthCombo(false);
-                  tCalendar2.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr id="date_field_row_1" style="display: none">
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="60%">
-                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" onClick="toggleDateFields(this.form, 'updated_date');">
-                  <span class="default"><label for="filter[updated_date]">{t}Last Updated{/t}:</label></span><br />
-                  <select name="updated_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.cst_updated_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                    <option {if $options.cst_updated_date_filter_type == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
-                    <option {if $options.cst_updated_date_filter_type == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
-                  </select>&nbsp;
-                  <span id="updated_date1">
-                  {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar3 = new dynCalendar('tCalendar3', 'calendarCallback_updated', '{$rel_url}images/');
-                  tCalendar3.setMonthCombo(false);
-                  tCalendar3.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                  </span>
-                  <span id="updated_date_last">
-                  <input type="text" name="updated_date[time_period]" size="3" class="default" value="{$options.cst_updated_date_time_period}"> <span class="default">{t}hours{/t}</span>
-                  &nbsp;&nbsp;
-                  </span>
-                </td>
-                <td nowrap id="updated_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Last Updated{/t}: <i>({t}End date{/t})</i></span><br />
-                  {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar4 = new dynCalendar('tCalendar4', 'calendarCallback_updated_end', '{$rel_url}images/');
-                  tCalendar4.setMonthCombo(false);
-                  tCalendar4.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr id="date_field_row_2" style="display: none">
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="60%">
-                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" onClick="toggleDateFields(this.form, 'first_response_date');">
-                  <span class="default"><label for="filter[first_response_date]">{t}First Response by Staff{/t}:</label></span><br />
-                  <select name="first_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.cst_first_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                    <option {if $options.cst_first_response_date_filter_type == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
-                    <option {if $options.cst_first_response_date_filter_type == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
-                  </select>&nbsp;
-                  <span id="first_response_date1">
-                  {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_first_response', '{$rel_url}images/');
-                  tCalendar7.setMonthCombo(false);
-                  tCalendar7.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                  </span>
-                  <span id="first_response_date_last">
-                  <input type="text" name="first_response_date[time_period]" size="3" class="default" value="{$options.cst_first_response_date_time_period}"> <span class="default">{t}hours{/t}</span>
-                  &nbsp;&nbsp;
-                  </span>
-                </td>
-                <td nowrap id="first_response_date2" width="40%" valign="bottom">
-                  <span class="default">{t}First Response By Staff{/t}: <i>({t}End date{/t})</i></span><br />
-                  {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_first_response_end', '{$rel_url}images/');
-                  tCalendar8.setMonthCombo(false);
-                  tCalendar8.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr id="date_field_row_3" style="display: none">
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="60%">
-                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" onClick="toggleDateFields(this.form, 'last_response_date');">
-                  <span class="default"><label for="filter[last_response_date]">{t}Last Response by Staff{/t}:</label></span><br />
-                  <select name="last_response_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.cst_last_response_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                    <option {if $options.cst_last_response_date_filter_type == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
-                    <option {if $options.cst_last_response_date_filter_type == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
-                  </select>&nbsp;
-                  <span id="last_response_date1">
-                  {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar5 = new dynCalendar('tCalendar5', 'calendarCallback_last_response', '{$rel_url}images/');
-                  tCalendar5.setMonthCombo(false);
-                  tCalendar5.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                  </span>
-                  <span id="last_response_date_last">
-                  <input type="text" name="last_response_date[time_period]" size="3" class="default" value="{$options.cst_last_response_date_time_period}"> <span class="default">{t}hours{/t}</span>
-                  &nbsp;&nbsp;
-                  </span>
-                </td>
-                <td nowrap id="last_response_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Last Response by Staff{/t}: <i>({t}End date{/t})</i></span><br />
-                  {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar6 = new dynCalendar('tCalendar6', 'calendarCallback_last_response_end', '{$rel_url}images/');
-                  tCalendar6.setMonthCombo(false);
-                  tCalendar6.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr id="date_field_row_4" style="display: none">
-          <td colspan="5">
-            <table width="100%" cellspacing="0" border="0" cellpadding="0">
-              <tr>
-                <td nowrap width="60%">
-                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" onClick="toggleDateFields(this.form, 'closed_date');">
-                  <span class="default"><label for="filter[closed_date]">{t}Status Closed{/t}:</label></span><br />
-                  <select name="closed_date[filter_type]" class="default" onChange="checkDateFilterType(this.form, this);">
-                    <option {if $options.cst_closed_date_filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
-                    <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
-                    <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
-                    <option {if $options.cst_closed_date_filter_type == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
-                    <option {if $options.cst_closed_date_filter_type == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
-                  </select>&nbsp;
-                  <span id="closed_date1">
-                  {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar9 = new dynCalendar('tCalendar9', 'calendarCallback_closed', '{$rel_url}images/');
-                  tCalendar9.setMonthCombo(false);
-                  tCalendar9.setYearCombo(false);
-                  //-->
-                  </script>&nbsp;&nbsp;
-                  </span>
-                  <span id="closed_date_last">
-                  <input type="text" name="closed_date[time_period]" size="3" class="default" value="{$options.cst_closed_date_time_period}"> <span class="default">{t}hours{/t}</span>
-                  &nbsp;&nbsp;
-                  </span>
-                  </span>
-                </td>
-                <td nowrap id="closed_date2" width="40%" valign="bottom">
-                  <span class="default">{t}Status Closed{/t}: <i>({t}End date{/t})</i></span><br />
-                  {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script type="text/javascript" type="text/javascript">
-                  <!--
-                  tCalendar10 = new dynCalendar('tCalendar10', 'calendarCallback_closed_end', '{$rel_url}images/');
-                  tCalendar10.setMonthCombo(false);
-                  tCalendar10.setYearCombo(false);
-                  //-->
-                  </script>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        {if $custom_fields != ''}
-			{include file="adv_search_custom_fields.tpl.html"}
-        {/if}
-        <tr>
-          <td colspan="5" align="center">
-            <input class="button" type="submit" value="{t}Run Search{/t}">
-            <input class="button" type="reset" value="{t}Reset{/t}">
-          </td>
-        </tr>
-	{if !$is_anon_user}
-        <tr>
-          <td colspan="5" align="center" bgcolor="{$light_color}">
-            <span class="default">{t}Search Title{/t}:</span>
-            <input type="text" name="title" class="default" value="{$options.cst_title}">
-            {include file="error_icon.tpl.html" field="title"}
-            {if $current_role >= $roles.manager}
-            <input type="checkbox" id="is_global" name="is_global" value="1" {if $options.cst_is_global}checked{/if}>
-            <span class="default"><label for="is_global">{t}Global Search{/t}</label></span>
-            {/if}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5" align="center" bgcolor="{$light_color}">
-            <input class="button" type="button" value="{t}Save Search{/t}" onClick="saveCustomFilter(this.form);">
-          </td>
-        </tr>
-	{/if}
-        </form>
-      </table>
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
-</table>
-{if !$is_anon_user}
-<br />
-<table width="450" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="2">
-        <form onSubmit="return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
-        <input type="hidden" name="cat" value="delete_filter">
-        <tr>
-          <td bgcolor="{$light_color}" colspan="3">
-            <span class="default"><b>{t}Saved Searches{/t}:</b></span>
-          </td>
-        </tr>
-        {section name="i" loop=$custom}
-        <tr>
-          <td width="2">
-            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $current_role < $roles.manager and $custom[i].cst_is_global}disabled{/if}>
-          </td>
-          <td width="100%">
-            <span class="default">
-            {if $current_role < $roles.manager and $custom[i].cst_is_global}
-            {$custom[i].cst_title}
-            {else}
-            <a href="adv_search.php?custom_id={$custom[i].cst_id}" class="link" title="{t}edit this custom search{/t}">{$custom[i].cst_title}</a>
-            {/if}
-            </span>
-            {if $custom[i].cst_is_global}<span class="small_default"><i>({t}global filter{/t})</i></span>{/if}
-          </td>
-          <td>
-            <a class="link" title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
-          </td>
-        </tr>
-        {if %i.last% && %i.total% > 0}
-        <tr bgcolor="{$light_color}">
-          <td colspan="3">
-            <table border="0" cellspacing="0" cellpadding="0" width="100%">
-              <tr>
-                <td align="left">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                </td>
-                <td align="right">
-                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        {/if}
-        {sectionelse}
-        <tr>
-          <td class="default" colspan="3" align="center">
-            <i>{t}No custom searches could be found.{/t}</i>
-          </td>
-        </tr>
-        {/section}
-        </form>
-      </table>
-    </td>
-  </tr>
-</table>
-{/if}
-
-<script type="text/javascript">
-<!--
-var f = getForm('custom_filter_form');
-
-var date_fields = new Array();
-date_fields[date_fields.length] = new Option('created_date', '{$options.cst_created_date}');
-date_fields[date_fields.length] = new Option('created_date_end', '{$options.cst_created_date_end}');
-date_fields[date_fields.length] = new Option('updated_date', '{$options.cst_updated_date}');
-date_fields[date_fields.length] = new Option('updated_date_end', '{$options.cst_updated_date_end}');
-date_fields[date_fields.length] = new Option('last_response_date', '{$options.cst_last_response_date}');
-date_fields[date_fields.length] = new Option('last_response_date_end', '{$options.cst_last_response_date_end}');
-date_fields[date_fields.length] = new Option('first_response_date', '{$options.cst_first_response_date}');
-date_fields[date_fields.length] = new Option('first_response_date_end', '{$options.cst_first_response_date_end}');
-date_fields[date_fields.length] = new Option('closed_date', '{$options.cst_closed_date}');
-date_fields[date_fields.length] = new Option('closed_date_end', '{$options.cst_closed_date_end}');
-
-{literal}
-var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
-for (var i = 0; i < elements_to_hide.length; i++) {
-    toggleVisibility(elements_to_hide[i], false, true);
-    toggleDateFields(f, elements_to_hide[i]);
-    var filter_type = getFormElement(f, elements_to_hide[i] + '[filter_type]');
-    checkDateFilterType(f, filter_type);
-}
-
-for (var i = 0; i < date_fields.length; i++) {
-    if (!isWhitespace(date_fields[i].value)) {
-        selectDateOptions(date_fields[i].text, date_fields[i].value);
-    }
-}
-{/literal}
-
-{if $options.cst_created_date_filter_type != "" OR $options.cst_updated_date_filter_type != "" OR
-    $options.cst_first_response_date_filter_type != "" OR $options.cst_last_response_date_filter_type != "" OR
-    $options.cst_closed_date_filter_type != ""}
-    changeDateFieldsVisibility(true);
-    getPageElement('show_date_fields_checkbox').checked = true;
+{if $options.cst_created_date_filter_type|default:'' != "" OR $options.cst_updated_date_filter_type|default:'' != "" OR
+    $options.cst_first_response_date_filter_type|default:'' != "" OR $options.cst_last_response_date_filter_type|default:'' != "" OR
+    $options.cst_closed_date_filter_type|default:'' != ""}
+    $('#show_date_fields_checkbox').attr('checked', true);
 {/if}
 
 // determine if the custom fields section should be displayed
 {assign var="custom_field_has_value" value="0"}
 {foreach from=$custom_fields item=field name=custom_fields}
-  {if $options.cst_custom_field[$field.fld_id] != '' && $custom_field_has_value != 1}
+  {if $options.cst_custom_field[$field.fld_id]|default:'' != '' && $custom_field_has_value != 1}
     changeVisibility('custom_fields_row', true);
     getPageElement('show_custom_fields_checkbox').checked = true;
     disableCustomFields(false);
@@ -696,6 +24,359 @@ for (var i = 0; i < date_fields.length; i++) {
 {/foreach}
 //-->
 </script>
+    <form name="custom_filter_form" method="get" action="list.php" class="validate" data-validation-function='adv_search.validateForm'>
+    <input type="hidden" name="cat" value="search">
+    <input type="hidden" name="hidden1" value="">
+    <input type="hidden" name="hidden2" value="">
+    <input type="hidden" name="hidden3" value="">
+    <input id="custom_field_hidden" type="hidden" name="custom_field" value="">
+    <input id="created_date_hidden" type="hidden" name="created_date" value="">
+    <input id="updated_date_hidden" type="hidden" name="updated_date" value="">
+    <input id="first_response_date_hidden" type="hidden" name="first_response_date" value="">
+    <input id="last_response_date_hidden" type="hidden" name="last_response_date" value="">
+    <input id="closed_date_hidden" type="hidden" name="closed_date" value="">
+      <table class="bordered white">
+        <tr class="title">
+          <th colspan="5">
+            {t}Advanced Search{/t}
+              <div class="right">
+                  {include file="help_link.tpl.html" topic="adv_search"}
+              </div>
+          </th>
+        </tr>
+        <tr>
+          <td nowrap colspan="1">
+            <label>{t}Keyword(s){/t}<br />
+            <input type="text" name="keywords" value="{$options.cst_keywords|escape:'html'|default:''}" size="40"></label>
+          </td>
+          <td colspan="3">
+            {if $core.has_customer_integration}
+            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
+            {else}
+            <input type="hidden" name="search_type" value="all_text">
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <label>{t}Assigned{/t}<br />
+            <select name="users">
+              {html_options options=$users selected=$options.cst_users|default:''}
+            </select>
+            </label>
+          </td>
+          {if $cats|@count > 0}
+          <td>
+            <label>{t}Category{/t}<br />
+            <select name="category">
+              <option value="">{t}any{/t}</option>
+              {foreach key=prc_id item=prc_title from=$cats}
+              <option value="{$prc_id}" {if $prc_id == $options.cst_iss_prc_id|default:''}selected{/if}>{$prc_title}</option>
+              {/foreach}
+            </select>
+            </label>
+          </td>
+          {/if}
+          <td>
+            <label>{t}Priority{/t}<br />
+            <select name="priority">
+              <option value="">{t}any{/t}</option>
+              {section name="i" loop=$priorities}
+              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.cst_iss_pri_id|default:''}selected{/if}>{$priorities[i].pri_title}</option>
+              {/section}
+            </select>
+            </label>
+          </td>
+          <td valign="top">
+            <label>{t}Status{/t}<br />
+            <select name="status">
+              <option value="">{t}any{/t}</option>
+              {foreach key=sta_id item=sta_title from=$status}
+              <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id|default:''}selected{/if}>{$sta_title}</option>
+              {/foreach}
+            </select>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>{t}Reporter{/t}<br />
+            <select name="reporter">
+              <option value="">{t}Any{/t}</option>
+              {html_options options=$reporters selected=$options.cst_reporter|default:''}
+            </select>
+            </label>
+          </td>
+          {if $releases|@count > 0}
+          <td>
+            <label>{t}Release{/t}<br />
+            <select name="release">
+              <option value="">{t}any{/t}</option>
+              {foreach key=pre_id item=pre_title from=$releases}
+              <option value="{$pre_id}" {if $pre_id == $options.cst_iss_pre_id|default:''}selected{/if}>{$pre_title}</option>
+              {/foreach}
+            </select>
+            </label>
+          </td>
+          {/if}
+        </tr>
+        <tr>
+          <td>
+            <label><input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed|default:'' == 1}checked{/if}>{t}Hide Closed Issues{/t}</label>
+          </td>
+          <td>
+            <label>{t}Rows Per Page{/t}<br />
+            <select name="rows">
+              <option value="100" {if $options.cst_rows == 100}selected{/if}>100</option>
+              <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
+              <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
+              <option value="10" {if $options.cst_rows == 10}selected{/if}>10</option>
+              <option value="5" {if $options.cst_rows == 5}selected{/if}>5</option>
+              <option value="ALL" {if $options.cst_rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
+            </select>
+            </label>
+          </td>
+          <td>
+            <label>{t}Sort By{/t}<br />
+            <select name="sort_by">
+              <option value="last_action_date" {if $options.cst_sort_by|default:'' == "last_action_date"}selected{/if}>{t}Last Action Date{/t}</option>
+              <option value="pri_rank" {if $options.cst_sort_by|default:'' == "pri_rank"}selected{/if}>{t}Priority{/t}</option>
+              <option value="iss_id" {if $options.cst_sort_by|default:'' == "iss_id"}selected{/if}>{t}Issue ID{/t}</option>
+              <option value="sta_rank" {if $options.cst_sort_by|default:'' == "sta_rank"}selected{/if}>{t}Status{/t}</option>
+              <option value="iss_summary" {if $options.cst_sort_by|default:'' == "iss_summary"}selected{/if}>{t}Summary{/t}</option>
+            </select>
+            </label>
+          </td>
+          <td colspan="2">
+            <label>{t}Sort Order{/t}<br />
+            <select name="sort_order">
+              <option value="desc" {if $options.cst_sort_order|default:'' == "desc"}selected{/if}>{t}descending{/t}</option>
+              <option value="asc" {if $options.cst_sort_order|default:'' == "asc"}selected{/if}>{t}ascending{/t}</option>
+            </select>
+            </label>
+          </td>
+        </tr>
+	{if !$is_anon_user|default:''}
+        <tr>
+          <td colspan="5">
+              {t}Show Issues in Which I Am{/t}:
+              <label><input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized|default:'' == 'yes'}checked{/if}>
+              {t}Authorized to Send Emails{/t}</label>
+              <label><input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list|default:'' == 'yes'}checked{/if}>
+              {t}In Notification List{/t}</label>
+          </td>
+        </tr>
+	{/if}
+        <tr>
+          <td colspan="5">
+          <hr>
+            <input id="show_date_fields_checkbox" type="checkbox" name="show_date_fields" value="1">
+            <label for="show_date_fields_checkbox">{t}Show date fields to search by{/t}</label>
+          </td>
+        </tr>
+        <tr id="date_fields">
+          <td colspan="5">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="60%">
+                  <input {if $options.cst_created_date_filter_type|default:'' != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" class="date_filter_checkbox">
+                  <span>{t}Created{/t}:</span><br />
+                  <select name="created_date[filter_type]" class="date_filter_type">
+                    <option {if $options.cst_created_date_filter_type|default:'' == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.cst_created_date_filter_type|default:'' == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.cst_created_date_filter_type|default:'' == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                    <option {if $options.cst_created_date_filter_type|default:'' == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
+                  </select>&nbsp;
+                  <span id="created_date1">
+                  {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  </span>
+                  <span id="created_date_last">
+                  <input type="text" name="created_date[time_period]" size="3" value="{$options.cst_created_date_time_period|default:''}"> <span>{t}hours{/t}</span>
+                  &nbsp;&nbsp;
+                  </span>
+                </td>
+                <td nowrap id="created_date2" width="40%" valign="bottom">
+                  <span>Created: <i>(End date)</i></span><br />
+                  {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                </td>
+              </tr>
+              <tr>
+                <td nowrap width="60%">
+                  <input {if $options.cst_updated_date_filter_type|default:'' != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" class="date_filter_checkbox">
+                  <span>{t}Last Updated{/t}:</span><br />
+                  <select name="updated_date[filter_type]" class="date_filter_type">
+                    <option {if $options.cst_updated_date_filter_type|default:'' == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.cst_updated_date_filter_type|default:'' == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.cst_updated_date_filter_type|default:'' == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                    <option {if $options.cst_updated_date_filter_type|default:'' == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
+                    <option {if $options.cst_updated_date_filter_type|default:'' == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
+                  </select>&nbsp;
+                  <span id="updated_date1">
+                  {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <span id="updated_date_last">
+                  <input type="text" name="updated_date[time_period]" size="3" value="{$options.cst_updated_date_time_period|default:''}"> <span>{t}hours{/t}</span>
+                  &nbsp;&nbsp;
+                  </span>
+                </td>
+                <td nowrap id="updated_date2" width="40%" valign="bottom">
+                  <span>{t}Last Updated{/t}: <i>({t}End date{/t})</i></span><br />
+                  {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                </td>
+              </tr>
+              <tr>
+                <td nowrap width="60%">
+                  <input {if $options.cst_first_response_date_filter_type|default:'' != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" class="date_filter_checkbox">
+                  <span>{t}First Response by Staff{/t}:</span><br />
+                  <select name="first_response_date[filter_type]" class="date_filter_type">
+                    <option {if $options.cst_first_response_date_filter_type|default:'' == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.cst_first_response_date_filter_type|default:'' == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.cst_first_response_date_filter_type|default:'' == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                    <option {if $options.cst_first_response_date_filter_type|default:'' == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
+                    <option {if $options.cst_first_response_date_filter_type|default:'' == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
+                  </select>&nbsp;
+                  <span id="first_response_date1">
+                  {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  </span>
+                  <span id="first_response_date_last">
+                  <input type="text" name="first_response_date[time_period]" size="3" value="{$options.cst_first_response_date_time_period|default:''}"> <span>{t}hours{/t}</span>
+                  &nbsp;&nbsp;
+                  </span>
+                </td>
+                <td nowrap id="first_response_date2" width="40%" valign="bottom">
+                  <span>{t}First Response By Staff{/t}: <i>({t}End date{/t})</i></span><br />
+                  {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                </td>
+              </tr>
+              <tr>
+                <td nowrap width="60%">
+                  <input {if $options.cst_last_response_date_filter_type|default:'' != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" class="date_filter_checkbox">
+                  <span>{t}Last Response by Staff{/t}:</span><br />
+                  <select name="last_response_date[filter_type]" class="date_filter_type">
+                    <option {if $options.cst_last_response_date_filter_type|default:'' == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.cst_last_response_date_filter_type|default:'' == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.cst_last_response_date_filter_type|default:'' == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                    <option {if $options.cst_last_response_date_filter_type|default:'' == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
+                    <option {if $options.cst_last_response_date_filter_type|default:'' == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
+                  </select>&nbsp;
+                  <span id="last_response_date1">
+                  {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  </span>
+                  <span id="last_response_date_last">
+                  <input type="text" name="last_response_date[time_period]" size="3" value="{$options.cst_last_response_date_time_period|default:''}"> <span>{t}hours{/t}</span>
+                  &nbsp;&nbsp;
+                  </span>
+                </td>
+                <td nowrap id="last_response_date2" width="40%" valign="bottom">
+                  <span>{t}Last Response by Staff{/t}: <i>({t}End date{/t})</i></span><br />
+                  {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                </td>
+              </tr>
+              <tr>
+                <td nowrap width="60%">
+                  <input {if $options.cst_closed_date_filter_type|default:'' != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" class="date_filter_checkbox">
+                  <span>{t}Status Closed{/t}:</span><br />
+                  <select name="closed_date[filter_type]" class="date_filter_type">
+                    <option {if $options.cst_closed_date_filter_type|default:'' == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.cst_closed_date_filter_type|default:'' == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.cst_closed_date_filter_type|default:'' == "between"}selected{/if} value="between">{t}Between{/t}</option>
+                    <option {if $options.cst_closed_date_filter_type|default:'' == "null"}selected{/if} value="null">{t}Is Null{/t}</option>
+                    <option {if $options.cst_closed_date_filter_type|default:'' == "in_past"}selected{/if} value="in_past">{t}In Past{/t}</option>
+                  </select>&nbsp;
+                  <span id="closed_date1">
+                  {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  </span>
+                  <span id="closed_date_last">
+                  <input type="text" name="closed_date[time_period]" size="3" value="{$options.cst_closed_date_time_period|default:''}"> <span>{t}hours{/t}</span>
+                  &nbsp;&nbsp;
+                  </span>
+                  </span>
+                </td>
+                <td nowrap id="closed_date2" width="40%" valign="bottom">
+                  <span>{t}Status Closed{/t}: <i>({t}End date{/t})</i></span><br />
+                  {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        {if $custom_fields != ''}
+			{include file="adv_search_custom_fields.tpl.html"}
+        {/if}
+        <tr class="buttons">
+          <td colspan="5">
+            <input type="submit" value="{t}Run Search{/t}">
+            <input type="reset" value="{t}Reset{/t}">
+          </td>
+        </tr>
+	{if !$is_anon_user|default:''}
+        <tr>
+          <td colspan="5" align="center">
+            <span>{t}Search Title{/t}:</span>
+            <input type="text" name="title" value="{$options.cst_title|default:''}">
+            {include file="error_icon.tpl.html" field="title"}
+            {if $core.current_role >= $core.roles.manager}
+            <input type="checkbox" id="is_global" name="is_global" value="1" {if $options.cst_is_global|default:''}checked{/if}>
+            <span><label for="is_global">{t}Global Search{/t}</label></span>
+            {/if}
+          </td>
+        </tr>
+        <tr class="buttons">
+          <td colspan="5">
+            <input type="button" id="save_search" value="{t}Save Search{/t}">
+          </td>
+        </tr>
+	{/if}
+      </table>
+        </form>
 
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{if !$is_anon_user|default:''}
+<br />
+    <form id="remove_filter" method="post" action="popup.php" target="_removeFilter">
+    <input type="hidden" name="cat" value="delete_filter">
+      <table class="bordered">
+        <tr class="title">
+          <th colspan="3">
+            {t}Saved Searches{/t}
+          </th>
+        </tr>
+        {section name="i" loop=$custom}
+        <tr>
+          <td width="2">
+            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}disabled{/if}>
+          </td>
+          <td width="100%">
+            <span>
+            {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}
+            {$custom[i].cst_title}
+            {else}
+            <a href="adv_search.php?custom_id={$custom[i].cst_id}" title="{t}edit this custom search{/t}">{$custom[i].cst_title}</a>
+            {/if}
+            </span>
+            {if $custom[i].cst_is_global}<span><i>({t}global filter{/t})</i></span>{/if}
+          </td>
+          <td>
+            <a title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
+          </td>
+        </tr>
+        {if $smarty.section.i.last && $smarty.section.i.total > 0}
+        <tr class="buttons">
+          <td colspan="3">
+              <input type="button" value="{t}All{/t}" class="select_all">
+              <div class="right">
+                  <input type="submit" value="{t}Remove Selected{/t}">
+              </div>
+          </td>
+        </tr>
+        {/if}
+        {sectionelse}
+        <tr>
+          <td colspan="3" align="center">
+            <i>{t}No custom searches could be found.{/t}</i>
+          </td>
+        </tr>
+        {/section}
+      </table>
+    </form>
+{/if}
+{/block}

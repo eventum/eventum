@@ -1,111 +1,64 @@
-
-{literal}
-<script type="text/javascript">
-<!--
-function deleteAttachment(file_id)
-{
-    if (!confirm('{/literal}{t escape="js"}This action will permanently delete the selected attachment.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_attachment&id=' + file_id, '_popup', features);
-        popupWin.focus();
-    }
-}
-function deleteAttachmentFile(file_id)
-{
-    if (!confirm('{/literal}{t escape="js"}This action will permanently delete the selected file.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_file&id=' + file_id, '_popup', features);
-        popupWin.focus();
-    }
-}
-function uploadFile(issue_id)
-{
-    var features = 'width=600,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
-    popupWin.focus();
-}
-//-->
-</script>
-{/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td width="100%">
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td class="default" nowrap>
-            <b>{t}Attached Files{/t} ({$files|@count})</b>
-          </td>
-          <td align="right" class="default">
-          [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
-            [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="toggleVisibility('attachments');">{get_innerhtml element_name="attachments"}</a> ]
+<div class="issue_section bordered" id="attachments">
+    <div class="title">
+        {t}Attached Files{/t} ({$files|@count})
+        <span class="menu">
+            [ <a href="#top">{t}Back to Top{/t}</a> ]
+            [ <span class="js_link" id="toggle_attachments" >{get_display_label element_name="attachments" total=$files|@count}</span> ]
+        </span>
+    </div>
+    <div class="content" {get_display_style element_name='attachments' total=$files|@count}>
+        <table class="grid">
+          <tr>
+            <th>{t}Files{/t}</th>
+            <th>{t}Owner{/t}</th>
+            {if $core.current_role > $core.roles.customer}
+            <th>{t}Status{/t}</th>
             {/if}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
-              <tr id="attachments1" {get_display_style element_name="attachments"}>
-                <td class="default_white" bgcolor="{$cell_color}">{t}Files{/t}</td>
-                <td class="default_white" bgcolor="{$cell_color}">{t}Owner{/t}</td>
-                {if $current_role > $roles.customer}
-                <td class="default_white" bgcolor="{$internal_color}" align="center">{t}Status{/t}</td>
-                {/if}
-                <td class="default_white" bgcolor="{$cell_color}">{t}Date{/t}</td>
-                <td class="default_white" bgcolor="{$cell_color}">{t}Description{/t}</td>
-              </tr>
-              {section name="i" loop=$files}
-              {cycle values=$cycle assign="row_color"}
-              <tr id="attachments{$smarty.section.i.iteration+1}" {get_display_style element_name="attachments"} bgcolor="{$row_color}">
-                <td class="default">
-                  {section name="y" loop=$files[i].files}
-                  <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$rel_url}images/file.gif" border="0"></a>
-                  <a class="link" title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
-                  {if $current_user_id == $files[i].iat_usr_id OR $current_role >= $roles.manager}<a class="link" title="{t}delete file{/t}" href="javascript:void(null);" onClick="deleteAttachmentFile({$files[i].files[y].iaf_id});">{t}delete{/t}</a>{/if}
-                  <br />
-                  {/section}
-                </td>
-                <td class="default" width="15%" nowrap>
-                  {$files[i].usr_full_name|escape:"html"}
-                  {if $current_user_id == $files[i].iat_usr_id OR $current_role >= $roles.manager}[ <a class="link" title="{t}delete attachment{/t}" href="javascript:void(null);" onClick="deleteAttachment({$files[i].iat_id});">{t}delete{/t}</a> ]{/if}
-                </td>
-                {if $current_role > $roles.customer}
-                <td class="default" width="5%" align="center">
-                  {if $files[i].iat_status == 'internal'}
-                    <span style="color: red;">{$files[i].iat_status|capitalize}</span>
-                  {else}
-                    {$files[i].iat_status|capitalize}
-                  {/if}
-                </td>
-                {/if}
-                <td class="default" width="15%" nowrap>{$files[i].iat_created_date}</td>
-                <td class="default" width="45%">{$files[i].iat_description}</td>
-              </tr>
-              {sectionelse}
-              <tr id="attachments2" {get_display_style element_name="attachments"}>
-                <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$light_color}" align="center" class="default">
-                  <i>{t}No attachments could be found.{/t}</i>
-                </td>
-              </tr>
+            <th>{t}Date{/t}</th>
+            <th>{t}Description{/t}</th>
+          </tr>
+          {section name="i" loop=$files}
+          <tr class="{cycle values='odd,even'}">
+            <td>
+              {section name="y" loop=$files[i].files}
+              <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$core.rel_url}images/file.gif" border="0"></a>
+              <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
+              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
+              <span title="{t}delete file{/t}" data-iaf-id="{$files[i].files[y].iaf_id}" class="js_link delete_file">{t}delete{/t}</span>{/if}
+              <br />
               {/section}
-              <form>
-              {if $current_role > $roles.viewer}
-              <tr>
-                <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$cell_color}" align="center">
-                  <input type="button" class="button" value="{t}Upload File{/t}" onClick="uploadFile({$smarty.get.id|intval});">
-                </td>
-              </tr>
+            </td>
+            <td width="15%" nowrap>
+              {$files[i].usr_full_name|escape:"html"}
+              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
+                [ <span title="{t}delete attachment{/t}" class="js_link delete_attachment" data-iat-id="{$files[i].iat_id}">{t}delete{/t}</span> ]{/if}
+            </td>
+            {if $core.current_role > $core.roles.customer}
+            <td width="5%" align="center">
+              {if $files[i].iat_status == 'internal'}
+                <span style="color: red;">{$files[i].iat_status|capitalize}</span>
+              {else}
+                {$files[i].iat_status|capitalize}
               {/if}
-              </form>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
+            </td>
+            {/if}
+            <td width="15%" nowrap>{$files[i].iat_created_date}</td>
+            <td width="45%">{$files[i].iat_description}</td>
+          </tr>
+          {sectionelse}
+          <tr class="no_results">
+            <td colspan="{if $core.current_role > $core.roles.customer}5{else}4{/if}">
+              {t}No attachments could be found.{/t}
+            </td>
+          </tr>
+          {/section}
+        </table>
+    </div>
+      {if $core.current_role > $core.roles.viewer}
+      <form>
+      <div class="buttons">
+          <input type="button" value="{t}Upload File{/t}" id='upload_file' data-issue-id="{$issue_id}">
+      </div>
+      </form>
+      {/if}
+</div>

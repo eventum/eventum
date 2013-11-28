@@ -60,5 +60,4 @@ if (empty($projects)) {
 } else {
     $tpl->assign("anonymous_post", 1);
 }
-
 $tpl->displayTemplate();

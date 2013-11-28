@@ -30,34 +30,41 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/news.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "news");
-
 $role_id = Auth::getCurrentRole();
-if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
-    if ($role_id == User::getRoleID('administrator')) {
-        $tpl->assign("show_setup_links", true);
-    }
-
-    if (@$_POST["cat"] == "new") {
-        $tpl->assign("result", News::insert());
-    } elseif (@$_POST["cat"] == "update") {
-        $tpl->assign("result", News::update());
-    } elseif (@$_POST["cat"] == "delete") {
-        News::remove();
-    }
-
-    if (@$_GET["cat"] == "edit") {
-        $tpl->assign("info", News::getAdminDetails($_GET["id"]));
-    }
-
-    $tpl->assign("list", News::getList());
-    $tpl->assign("project_list", Project::getAll());
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('manager')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+
+if (@$_POST["cat"] == "new") {
+    $res = News::insert();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the news entry was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the news entry.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this news entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this news entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "update") {
+    $res = News::update();
+    Misc::mapMessages($res, array(
+            1   =>  array(ev_gettext('Thank you, the news entry was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the news entry.'), Misc::MSG_ERROR),
+            -2  =>  array(ev_gettext('Please enter the title for this news entry.'), Misc::MSG_ERROR),
+            -3  =>  array(ev_gettext('Please enter the message for this news entry.'), Misc::MSG_ERROR),
+    ));
+} elseif (@$_POST["cat"] == "delete") {
+    News::remove();
+}
+
+if (@$_GET["cat"] == "edit") {
+    $tpl->assign("info", News::getAdminDetails($_GET["id"]));
+}
+
+$tpl->assign("list", News::getList());
+$tpl->assign("project_list", Project::getAll());
 
 $tpl->displayTemplate();

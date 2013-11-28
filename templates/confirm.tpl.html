@@ -3,24 +3,24 @@
 <br />
 <br />
 
-<table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="400" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         {if $confirm_result != 1}
         <tr>
-          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default">
+          <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%">
             <span style="font-weight: bold; font-size: 160%; color: red;">{if $smarty.get.cat == 'password'}{t}Password Confirmation{/t}{else}{t}Account Creation{/t}{/if} {t}Error{/t}:</span>
           </td>
         </tr>
         {else}
         <tr>
-          <td colspan="2" width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: blue;">{t}Password Confirmation Success{/t}!</span></td>
+          <td colspan="2" width="100%"><span style="font-weight: bold; font-size: 160%; color: blue;">{t}Password Confirmation Success{/t}!</span></td>
         </tr>
         {/if}
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <br />
             <b>
             {if $confirm_result == -1}
@@ -31,7 +31,7 @@
             {t}The provided trial account encrypted hash could not be authenticated. Please contact the local Technical Support staff for further assistance.{/t}
             {elseif $confirm_result == 1}
             {t}Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.{/t}<br /><br />
-            <center><a href="{$rel_url}index.php?email={$email}" class="link">{t}Back to Login Form{/t}</a></center>
+            <center><a href="{$core.rel_url}index.php?email={$email}">{t}Back to Login Form{/t}</a></center>
             {/if}
             </b>
             <br />

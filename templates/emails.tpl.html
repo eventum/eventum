@@ -1,291 +1,290 @@
-{capture assign="extra_title"}{t}Associate Emails{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block "title"}{t}Associate Emails{/t}{/block}
+{block "page_id"}emails{/block}
 
-{if $app_setup.support_email != 'enabled'}
-  <table width="300" align="center">
+{block "content"}
+
+{if $core.app_setup.support_email != 'enabled'}
+<table width="300" align="center">
     <tr>
-      <td>
-        &nbsp;<span class="default"><b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
+        <td>
+            &nbsp;<span><b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-        <br /><br />
-      </td>
+        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+            <br /><br />
+        </td>
     </tr>
-  </table>
-{elseif $no_access == 1}
-  <table width="300" align="center">
+</table>
+{elseif $no_access|default:'' == 1}
+<table width="300" align="center">
     <tr>
-      <td>
-        &nbsp;<span class="default"><b>{t}Sorry, but you do not have access to this page.{/t}</b>
+        <td>
+            &nbsp;<span><b>{t}Sorry, but you do not have access to this page.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-        <br /><br />
-      </td>
+        &nbsp;<a href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
+            <br /><br />
+        </td>
     </tr>
-  </table>
+</table>
 {else}
-  {include file="email_filter_form.tpl.html"}
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
+{include file="email_filter_form.tpl.html"}
 <script type="text/javascript">
-<!--
-var page_url = '{$smarty.server.PHP_SELF}';
-var current_page = {$list_info.current_page};
-var last_page = {$list_info.last_page};
-{literal}
-function viewEmail(account_id, email_id)
-{
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('view_email.php?cat=list_emails&ema_id=' + account_id + '&id=' + email_id, '_email_' + email_id, features);
-    emailWin.focus();
-}
-function goPage(f, new_page)
-{
-    if ((new_page > last_page+1) || (new_page <= 0) ||
-            (new_page == current_page+1) || (!isNumberOnly(new_page))) {
-        f.page.value = current_page+1;
-        return false;
+    <!--
+    var page_url = '{$smarty.server.PHP_SELF}';
+    var current_page = {$list_info.current_page};
+    var last_page = {$list_info.last_page};
+    {literal}
+    function viewEmail(account_id, email_id)
+    {
+        var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var emailWin = window.open('view_email.php?cat=list_emails&ema_id=' + account_id + '&id=' + email_id, '_email_' + email_id, features);
+        emailWin.focus();
     }
-    setPage(new_page-1);
-}
-function setPage(new_page)
-{
-    if ((new_page > last_page) || (new_page < 0) ||
-            (new_page == current_page)) {
-        return false;
-    }
-    window.location.href = page_url + "?" + replaceParam(window.location.href, 'pagerRow', new_page);
-}
-function hideAssociated(f)
-{
-    if (f.hide_associated.checked) {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_associated', '1');
-    } else {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_associated', '0');
-    }
-}
-function resizePager(f)
-{
-    var pagesize = f.page_size.options[f.page_size.selectedIndex].value;
-    window.location.href = page_url + "?" + replaceParam(window.location.href, 'rows', pagesize);
-}
-window.onload = disableFields;
-function disableFields()
-{
-    var f = document.email_list_form;
-    if (current_page == 0) {
-        f.first.disabled = true;
-        f.previous.disabled = true;
-    }
-    if (current_page == last_page) {
-        f.next.disabled = true;
-        f.last.disabled = true;
-    }
-    if ((current_page == 0) && (current_page == last_page)) {
-        f.page.disabled = true;
-        f.go.disabled = true;
-    }
-}
-function openRemovedList()
-{
-    var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var removedEmailWin = window.open('removed_emails.php', '_removedEmail', features);
-    removedEmailWin.focus();
-}
-function associateEmails(f)
-{
-    if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
-        return false;
-    }
-    if (f.issue.options[f.issue.selectedIndex].value == 'new') {
-        f.target = '';
-        f.action = 'new.php';
-    } else {
-        var issue_id = jQuery('#issue_id').fieldValue();
-        if (issue_id == '') {
-            alert('{/literal}{t escape=js}Please enter an issue to associate these emails with.{/t}{literal}');
+    function goPage(new_page)
+    {
+        if ((new_page > last_page+1) || (new_page <= 0) ||
+                (new_page == current_page+1) || (!Validation.isNumberOnly(new_page))) {
+            Eventum.getField('page').val(current_page+1);
             return false;
         }
-        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var window_name = '_associateEmail_' + issue_id;
-        f.target = window_name;
-        var popupWin = window.open('', window_name, features);
-        popupWin.focus();
+        setPage(new_page-1);
     }
-    f.submit();
-}
-function removeEmails(f)
-{
-    if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t escape=js}Please choose which emails need to be marked as deleted.{/t}{literal}');
-        return false;
+    function setPage(new_page)
+    {
+        if ((new_page > last_page) || (new_page < 0) ||
+                (new_page == current_page)) {
+            return false;
+        }
+        window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'pagerRow', new_page);
     }
-    if (!confirm('{/literal}{t escape=js}This action will mark the selected email messages as deleted.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('', '_popup', features);
-        f.cat.value = 'remove_email';
-        f.method = 'post';
-        f.action = 'popup.php';
+    function hideAssociated(f)
+    {
+        if (f.hide_associated.checked) {
+            window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_associated', '1');
+        } else {
+            window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_associated', '0');
+        }
+    }
+    function resizePager(f)
+    {
+        var pagesize = f.page_size.options[f.page_size.selectedIndex].value;
+        window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'rows', pagesize);
+    }
+    function disableFields()
+    {
+        var f = $('#email_list_form')[0];
+        if (current_page == 0) {
+            f.first.disabled = true;
+            f.previous.disabled = true;
+        }
+        if (current_page == last_page) {
+            f.next.disabled = true;
+            f.last.disabled = true;
+        }
+        if ((current_page == 0) && (current_page == last_page)) {
+            f.page.disabled = true;
+            f.go.disabled = true;
+        }
+    }
+    function openRemovedList()
+    {
+        var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var removedEmailWin = window.open('removed_emails.php', '_removedEmail', features);
+        removedEmailWin.focus();
+    }
+    function associateEmails(f)
+    {
+        if (!hasOneChecked(f, 'item[]')) {
+            alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
+            return false;
+        }
+        if (f.issue.options[f.issue.selectedIndex].value == 'new') {
+            f.target = '';
+            f.action = 'new.php';
+        } else {
+            var issue_id = jQuery('#issue_id').fieldValue();
+            if (issue_id == '') {
+                alert('{/literal}{t escape=js}Please enter an issue to associate these emails with.{/t}{literal}');
+                return false;
+            }
+            var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var window_name = '_associateEmail_' + issue_id;
+            f.target = window_name;
+            var popupWin = window.open('', window_name, features);
+            popupWin.focus();
+        }
         f.submit();
-        popupWin.focus();
     }
-}
-function toggleIssueField()
-{
-    var new_existing = jQuery('#new_existing');
-    var issue_field_span = jQuery('#issue_id').parent();
-    if (new_existing.fieldValue() == 'new') {
-        issue_field_span.hide();
-    } else {
-        issue_field_span.show();
+    function removeEmails()
+    {
+        if (!Validation.hasOneChecked('item[]')) {
+            alert('{/literal}{t escape=js}Please choose which emails need to be marked as deleted.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape=js}This action will mark the selected email messages as deleted.{/t}{literal}')) {
+            return false;
+        } else {
+            var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var popupWin = window.open('', '_popup', features);
+            var f = $('form#email_list_form')[0];
+            f.cat.value = 'remove_email';
+            f.method = 'post';
+            f.action = 'popup.php';
+            f.submit();
+            popupWin.focus();
+        }
     }
-}
-jQuery(function() { toggleIssueField(); });
-//-->
+    function toggleIssueField()
+    {
+        var new_existing = $('#new_existing');
+        var issue_field_span = $('#issue_id').parent();
+        if (new_existing.val() == 'new') {
+            issue_field_span.hide();
+        } else {
+            issue_field_span.show();
+        }
+    }
+    $().ready(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
+        toggleIssueField();
+        disableFields();
+
+        $('#new_existing').change(toggleIssueField);
+        $('#remove_emails').click(removeEmails);
+
+    });
+    //-->
 </script>
 {/literal}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="email_list_form" target="_popup" method="get" action="associate.php">
-<input type="hidden" name="cat" value="associate">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default">
-            {math equation="x + 1" x=$list_info.start_offset assign="start_offset_plus_one"}
-            <b>{t count=$list_info.end_offset 1=$list_info.total_rows 2=$start_offset_plus_one 3=$list_info.end_offset plural="Viewing Emails (%1 emails found, %2 - %3 shown)"}Viewing Emails (%1 email found){/t}</b>
-            {include file="help_link.tpl.html" topic="support_emails"}
-          </td>
+<form id="email_list_form" target="_popup" method="get" action="associate.php">
+    <input type="hidden" name="cat" value="associate">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="{if $core.has_customer_integration}7{else}6{/if}">
+                {math equation="x + 1" x=$list_info.start_offset assign="start_offset_plus_one"}
+                <b>{t count=$list_info.end_offset 1=$list_info.total_rows 2=$start_offset_plus_one 3=$list_info.end_offset plural="Viewing Emails (%1 emails found, %2 - %3 shown)"}Viewing Emails (%1 email found){/t}</b>
+                {include file="help_link.tpl.html" topic="support_emails"}
+            </th>
         </tr>
-        <tr bgcolor="{$cell_color}">
-          <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">{/if}</td>
-          <td align="center" class="default_white">
-            <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
-            {if $sorting.images.sup_from != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
-          </td>
-          {if $has_customer_integration}
-          <td align="center" class="default_white" nowrap>
-            <a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
-            {if $sorting.images.sup_customer_id != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
-          </td>
-          {/if}
-          <td align="center" class="default_white">
-            <a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
-            {if $sorting.images.sup_date != ""}<a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
-          </td>
-          <td align="center" class="default_white">
-            <a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
-            {if $sorting.images.sup_to != ""}<a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
-          </td>
-          <td align="center" class="default_white" nowrap>
-            <a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
-            {if $sorting.images.sup_iss_id != ""}<a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
-          </td>
-          <td class="default_white" width="45%">
-            &nbsp;<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
-            {if $sorting.images.sup_subject != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
-          </td>
+        <tr>
+            <th width="1%">{if $list}<input type="button" value="{t}All{/t}" class="select_all" >{/if}</th>
+            <th align="center">
+                <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
+                {if $sorting.images.sup_from|default:'' != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
+            </th>
+            {if $core.has_customer_integration}
+            <th align="center" nowrap>
+                <a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
+                {if $sorting.images.sup_customer_id|default:'' != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
+            </th>
+            {/if}
+            <th align="center">
+                <a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
+                {if $sorting.images.sup_date|default:'' != ""}<a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
+            </th>
+            <th align="center">
+                <a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
+                {if $sorting.images.sup_to|default:'' != ""}<a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
+            </th>
+            <th align="center" nowrap>
+                <a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
+                {if $sorting.images.sup_iss_id|default:'' != ""}<a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
+            </th>
+            <th width="45%">
+                &nbsp;<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
+                {if $sorting.images.sup_subject|default:'' != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
+            </th>
         </tr>
         {section name="i" loop=$list}
-        <tr bgcolor="{if $list[i].sup_iss_id != 0}{$light_color}{else}#99CCFF{/if}">
-          <td align="center" width="1%" class="default"><input type="checkbox" name="item[]" value="{$list[i].sup_id}" {if $list[i].sup_iss_id != 0}disabled{/if}></td>
-          <td class="default">{$list[i].sup_from|escape:"html"}</td>
-          {if $has_customer_integration}
-          <td class="default" nowrap>{$list[i].customer_title|escape:"html"}</td>
-          {/if}
-          <td align="center" class="default" nowrap>{$list[i].sup_date}</td>
-          <td class="default">{$list[i].sup_to|escape:"html"|replace:",":" "}</td>
-          <td align="center" class="default" nowrap>
-            {if $list[i].sup_iss_id != 0}
-            {t}associated{/t} (<a class="link" title="{t}view issue details{/t}" href="view.php?id={$list[i].sup_iss_id}">{$list[i].sup_iss_id}</a>)
-            {else}
-            <b>{t}pending{/t}</b>
+        <tr class="{cycle values='odd,even'}">
+            <td align="center" width="1%"><input type="checkbox" name="item[]" value="{$list[i].sup_id}" {if $list[i].sup_iss_id != 0}disabled{/if}></td>
+            <td>{$list[i].sup_from|escape:"html"}</td>
+            {if $core.has_customer_integration}
+            <td nowrap>{$list[i].customer_title|escape:"html"}</td>
             {/if}
-          </td>
-          <td class="default" width="45%">
-            {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
-            &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
-            {if $list[i].sup_has_attachment}
-            <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a
-            {/if}
-          </td>
+            <td align="center" nowrap>{$list[i].sup_date}</td>
+            <td>{$list[i].sup_to|escape:"html"|replace:",":" "}</td>
+            <td align="center" nowrap>
+                {if $list[i].sup_iss_id != 0}
+                {t}associated{/t} (<a title="{t}view issue details{/t}" href="view.php?id={$list[i].sup_iss_id}">{$list[i].sup_iss_id}</a>)
+                {else}
+                <b>{t}pending{/t}</b>
+                {/if}
+            </td>
+            <td width="45%">
+                {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
+                &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
+                {if $list[i].sup_has_attachment}
+                <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a
+                        {/if}
+            </td>
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
-          <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white" align="center">
-            <i>{t}No emails could be found.{/t}</i>
-          </td>
+            <td colspan="{if $core.has_customer_integration}7{else}6{/if}" align="center">
+                <i>{t}No emails could be found.{/t}</i>
+            </td>
         </tr>
         {/section}
-        <tr bgcolor="{$cell_color}">
-          <td colspan="{if $has_customer_integration}7{else}6{/if}">
-            <table width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="35%">
-                  {if $list}
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                  <select name="issue" class="default" onchange="toggleIssueField()" id="new_existing">
-                    <option value="new">{t}New Issue{/t}</option>
-                    <option value="existing">{t}Existing Issue{/t}</option>
-                  </select>
-                  {include file="include/issue_field.tpl.html" field_name="issue_id" form_name='email_list_form' span_class="default_white"}
-                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="associateEmails(this.form);">
-                  {/if}
-                </td>
-                <td width="40%" align="center">
-                  <input name="first" type="button" value="|&lt;" class="shortcut" onClick="setPage(0);">
-                  <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="setPage({$list_info.previous_page});">
-                  <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" style="background: {$cell_color};" class="paging_input">
-                  <input name="go" type="button" value="Go" class="shortcut" onClick="goPage(this.form, this.form.page.value);">
-                  <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="setPage({$list_info.next_page});">
-                  <input name="last" type="button" value="&gt;|" class="shortcut" onClick="setPage({$list_info.last_page});">
-                </td>
-                <td nowrap align="center">
-                  <span class="default_white">{t}Rows per Page:{/t}</span>
-                  <select name="page_size" class="default" onChange="resizePager(this.form);">
-                    <option value="5" {if $options.rows == 5}selected{/if}>5</option>
-                    <option value="10" {if $options.rows == 10}selected{/if}>10</option>
-                    <option value="25" {if $options.rows == 25}selected{/if}>25</option>
-                    <option value="50" {if $options.rows == 50}selected{/if}>50</option>
-                    <option value="100" {if $options.rows == 100}selected{/if}>100</option>
-                    <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
-                  </select>
-                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="resizePager(this.form);">
-                </td>
-                <td width="25%" class="default_white" align="right">
-                  <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="hideAssociated(this.form);"> <label for="hide_associated">{t}Hide Associated Emails{/t}</label>&nbsp;
-                </td>
-              </tr>
-            </table>
-          </td>
+        <tr class="buttons">
+            <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="35%">
+                            {if $list}
+                            <input type="button" value="{t}All{/t}" class="select_all">
+                            <select name="issue" id="new_existing">
+                                <option value="new">{t}New Issue{/t}</option>
+                                <option value="existing">{t}Existing Issue{/t}</option>
+                            </select>
+                            {include file="include/issue_field.tpl.html" field_name="issue_id" form_name='email_list_form' span_class="default_white"}
+                            <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="associateEmails(this.form);">
+                            {/if}
+                        </td>
+                        <td width="40%" align="center">
+                            <input name="first" type="button" value="|&lt;" class="shortcut" onClick="setPage(0);">
+                            <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="setPage({$list_info.previous_page});">
+                            <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" class="paging_input">
+                            <input name="go" type="button" value="Go" class="shortcut" onClick="goPage(this.form.page.value);">
+                            <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="setPage({$list_info.next_page});">
+                            <input name="last" type="button" value="&gt;|" class="shortcut" onClick="setPage({$list_info.last_page});">
+                        </td>
+                        <td nowrap align="center">
+                            <span>{t}Rows per Page:{/t}</span>
+                            <select name="page_size" onChange="resizePager(this.form);">
+                                <option value="5" {if $options.rows == 5}selected{/if}>5</option>
+                                <option value="10" {if $options.rows == 10}selected{/if}>10</option>
+                                <option value="25" {if $options.rows == 25}selected{/if}>25</option>
+                                <option value="50" {if $options.rows == 50}selected{/if}>50</option>
+                                <option value="100" {if $options.rows == 100}selected{/if}>100</option>
+                                <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
+                            </select>
+                            <input type="button" value="{t}Set{/t}" class="shortcut" onClick="resizePager(this.form);">
+                        </td>
+                        <td width="25%" align="right">
+                            <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="hideAssociated(this.form);"> <label for="hide_associated">{t}Hide Associated Emails{/t}</label>&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-        <tr bgcolor="{$dark_color}">
-          <td colspan="{if $has_customer_integration}7{else}6{/if}">
-            <table width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td colspan="3">
-                  {if $list}
-                  <input type="button" value="{t}Remove Selected Emails{/t}" class="shortcut" onClick="removeEmails(this.form);">
-                  {/if}
-                </td>
-                <td align="right" class="default">
-                  <a title="{t}list all removed emails{/t}" class="link" href="javascript:void(null);" onClick="openRemovedList();">{t}List Removed Emails{/t}</a>&nbsp;
-                </td>
-              </tr>
-            </table>
-          </td>
+        <tr class="buttons">
+            <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td colspan="3">
+                            {if $list}
+                            <input type="button" value="{t}Remove Selected Emails{/t}" id="remove_emails">
+                            {/if}
+                        </td>
+                        <td align="right">
+                            <a title="{t}list all removed emails{/t}" href="javascript:void(null);" onClick="openRemovedList();">{t}List Removed Emails{/t}</a>&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-      </table>
-    </td>
-  </tr>
+    </table>
 </form>
-</table>
-
 {/if}
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

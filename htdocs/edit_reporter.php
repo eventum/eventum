@@ -38,9 +38,17 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
+if (Auth::getCurrentRole() < User::getRoleID("Standard User")) {
+    Auth::redirect(APP_RELATIVE_URL . "list.php");
+}
+
 if (@$_POST["cat"] == "update") {
     $res = Edit_Reporter::update($issue_id, $_POST['email']);
-    $tpl->assign("insert_result", $res);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the Reporter was updated successfully.', Misc::MSG_INFO),
+            -1  =>  array('An error occurred while trying to update the Reporter.', Misc::MSG_ERROR),
+    ));
+    Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $issue_id);
 }
 
 $t = Project::getAddressBook($prj_id, $issue_id);

@@ -35,8 +35,12 @@ $tpl->setTemplate("duplicate.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 if (@$_POST["cat"] == "mark") {
-    $res = Issue::markAsDuplicate($_POST["issue_id"]);
-    $tpl->assign("duplicate_result", $res);
+    Misc::mapMessages(Issue::markAsDuplicate($_POST["issue_id"]), array(
+            1   =>  array('Thank you, the issue was marked as a duplicate successfully', Misc::MSG_INFO),
+            -1  =>  array('Sorry, an error happened while trying to run your query.', Misc::MSG_ERROR),
+    ));
+
+    Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $_POST['issue_id']);
 }
 
 $tpl->displayTemplate();

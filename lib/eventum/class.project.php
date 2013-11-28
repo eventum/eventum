@@ -353,7 +353,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
+            return -1;
         } else {
             self::removeUserByProjects($_POST["items"]);
             Category::removeByProjects($_POST["items"]);
@@ -367,7 +367,7 @@ class Project
                 Status::removeProjectAssociations($statuses, $prj_id);
             }
             Group::disassociateProjects($_POST["items"]);
-            return true;
+            return 1;
         }
     }
 

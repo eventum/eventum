@@ -21,10 +21,11 @@
  * Installation: simply copy this file to the smarty plugins directory.
  *
  * @package	smarty-gettext
- * @version	$Id: block.t.php,v 1.1 2005/07/27 17:58:56 sagi Exp $
+ * @version	1.1
  * @link	http://smarty-gettext.sourceforge.net/
  * @author	Sagi Bashari <sagi@boom.org.il>
- * @copyright 2004-2005 Sagi Bashari
+ * @author	Vincenzo Buttazzo <vbuttazzo@yahoo.com>
+ * @copyright 2004-2005 Sagi Bashari - 2012 Vincenzo Buttazzo
  */
 
 /**
@@ -40,8 +41,7 @@ function smarty_gettext_strarg($str)
 	$tr = array();
 	$p = 0;
 
-	$nargs = func_num_args();
-	for ($i=1; $i < $nargs; $i++) {
+	for ($i=1; $i < func_num_args(); $i++) {
 		$arg = func_get_arg($i);
 
 		if (is_array($arg)) {
@@ -71,14 +71,18 @@ function smarty_gettext_strarg($str)
  *   - plural - The plural version of the text (2nd parameter of ngettext())
  *   - count - The item count for plural mode (3rd parameter of ngettext())
  */
-function smarty_block_t($params, $text, &$smarty)
+function smarty_block_t($params, $text, $smarty, &$repeat)
 {
+	if ($repeat) return;
+
 	$text = stripslashes($text);
 
 	// set escape mode
 	if (isset($params['escape'])) {
 		$escape = $params['escape'];
 		unset($params['escape']);
+	} else {
+		$escape = null;
 	}
 
 	// set plural version
@@ -105,21 +109,24 @@ function smarty_block_t($params, $text, &$smarty)
 		$text = smarty_gettext_strarg($text, $params);
 	}
 
-	if (!isset($escape) || $escape == 'html') { // html escape, default
-	   $text = nl2br(htmlspecialchars($text));
-   } elseif (isset($escape)) {
-		switch ($escape) {
-			case 'javascript':
-			case 'js':
-				// javascript escape
-				$text = str_replace('\'', '\\\'', stripslashes($text));
-				break;
-			case 'url':
-				// url escape
-				$text = urlencode($text);
-				break;
-		}
+	switch ($escape) {
+		case 'html':
+			$text = nl2br(htmlspecialchars($text));
+			break;
+		case 'javascript':
+		case 'js':
+			// javascript escape
+			$text = str_replace('\'', '\\\'', stripslashes($text));
+			break;
+		case 'url':
+			// url escape
+			$text = urlencode($text);
+			break;
+		default:
+			$text = nl2br($text);
 	}
 
 	return $text;
 }
+
+?>

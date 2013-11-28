@@ -59,7 +59,7 @@ class Search
      * Method used to save the current search parameters in a cookie.
      * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
-     * @param   string $save_db Whether to save search parameters also to database
+     * @param   bool $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
     public static function saveSearchParams($save_db = true)

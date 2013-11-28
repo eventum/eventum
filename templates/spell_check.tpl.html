@@ -96,42 +96,42 @@ function buildSuggestionBox()
     <td>
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="2" class="default">
+          <td colspan="2">
             <b>{t}Spell Check{/t}</b>
           </td>
         </tr>
         {if $spell_check.total_words == 0}
         <tr>
-          <td bgcolor="{$light_color}" class="default" align="center">
+          <td align="center">
             <b>{t}No spelling mistakes could be found.{/t}</b>
           </td>
         </tr>
         {else}
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
+          <td width="130">
             <b>{t}Misspelled Words:{/t}</b>
           </td>
-          <td width="60%" bgcolor="{$light_color}">
-            <select class="default" name="misspelled_words" onChange="buildSuggestionBox();">
+          <td width="60%">
+            <select name="misspelled_words" onChange="buildSuggestionBox();">
             {html_options options=$spell_check.words}
             </select>
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
+          <td width="130">
             <b>{t}Suggestions:{/t}</b>
           </td>
-          <td width="60%" bgcolor="{$light_color}">
-            <select class="default" name="suggestion">
+          <td width="60%">
+            <select name="suggestion">
               <option>{t}Choose a misspelled word{/t}</option>
             </select>
           </td>
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            {if $spell_check.total_words > 0}<input class="button" type="button" value="{t}Fix Spelling{/t}" onClick="fixSpelling();">&nbsp;&nbsp;{/if}
-            <input class="button" type="button" value="Close" onClick="window.close();">
+          <td colspan="2" align="center">
+            {if $spell_check.total_words > 0}<input type="button" value="{t}Fix Spelling{/t}" onClick="fixSpelling();">&nbsp;&nbsp;{/if}
+            <input type="button" value="Close" onClick="window.close();">
           </td>
         </tr>
       </table>
@@ -149,4 +149,4 @@ buildSuggestionBox();
 {/if}
 
 {include file="app_info.tpl.html"}
-{include file="footer.tpl.html"} 
+{include file="footer.tpl.html"}

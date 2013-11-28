@@ -1,73 +1,50 @@
-{include file="header.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}edit_reporter{/block}
+{block title}{t 1=$smarty.get.id|intval}Issue #%1 - Edit Reporter{/t}{/block}
 
-<br />
-
+{block "content"}
 {literal}
 <script type="text/javascript">
-<!--
-function validate(f)
-{
-    if (isWhitespace(f.email.value)) {
-        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
-        selectField(f, 'email');
-        return false;
+    <!--
+    function validate()
+    {
+        if (!Validation.isEmail(Eventum.getField('email').val())) {
+            alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+            Validation.selectField('email');
+            return false;
+        }
+        return true;
     }
-    return true;
-}
-//-->
+    //-->
 </script>
 {/literal}
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="{$rel_url}js/overlib_mini.js?c=d23a"></script>
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <form name="reporter_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
-        <input type="hidden" name="cat" value="update">
-        <input type="hidden" name="id" value="{$smarty.get.id|intval}">
-        <input type="hidden" name="issue_id" value="{$issue_id|intval}">
-        {if $current_role > $roles.reporter}
-        <tr>
-          <td colspan="2" class="default">
-            <b>{t}Project Reporters{/t}</b>
-          </td>
+<form name="reporter_form" onSubmit="return validate();" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+    <input type="hidden" name="issue_id" value="{$issue_id|intval}">
+    <table class="bordered narrow">
+        {if $core.current_role > $core.roles.reporter}
+        <tr class="title">
+            <th colspan="2">
+                {t}Project Reporters{/t}
+            </th>
         </tr>
-        {if $insert_result != ""}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
-            {if $insert_result == -1}
-              {t}An error occurred while trying to update the Reporter.{/t}
-            {elseif $insert_result == 1}
-              {t}Thank you, the Reporter was updated successfully.{/t}
-            {/if}
-          </td>
+            <th width="120">
+                {t}Reporter{/t}:
+            </th>
+            <td>
+                <input type="text" name="email" size="40" value="">
+                {include file="error_icon.tpl.html" field="email"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input class="button" type="submit" value="{t}Save Reporter{/t}">
+                <input type="button" value="{t}Cancel{/t}" class="button" onClick="history.go(-1);">
+            </td>
         </tr>
         {/if}
-        <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Reporter{/t}:</b>
-          </td>
-          <td bgcolor="{$light_color}">
-            <input type="text" name="email" size="40" class="default" value="{$info.sub_email}">
-            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$allowed_reporters}', 'reporter_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
-            {include file="error_icon.tpl.html" field="email"}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="{t}Save Reporter{/t}">
-            <input type="button" value="{t}Cancel{/t}" class="button" onClick="closeAndRefresh();">
-          </td>
-        </tr>
-        </form>
-        {/if}
-      </table>
-    </td>
-  </tr>
-</table>
-
-<br />
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+    </table>
+</form>
+{/block}

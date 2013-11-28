@@ -66,6 +66,11 @@ if (@$_REQUEST["cat"] == "close") {
     }
 
     $tpl->assign("close_result", $res);
+    if ($res == 1) {
+        Misc::setMessage("Thank you, the issue was closed successfully");
+        Misc::displayNotifiedUsers(Notification::getLastNotifiedAddresses($issue_id));
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+    }
 }
 
 $tpl->assign(array(

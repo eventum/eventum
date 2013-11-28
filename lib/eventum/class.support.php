@@ -1423,6 +1423,7 @@ class Support
      */
     function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
+        debug_print_backtrace();
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
         }
@@ -1779,7 +1780,7 @@ class Support
             return "";
         } else {
             if (count($res) == 0) {
-                return "";
+                return array();
             } else {
                 for ($i = 0; $i < count($res); $i++) {
                     $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);

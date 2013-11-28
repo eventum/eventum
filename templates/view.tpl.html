@@ -1,64 +1,42 @@
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
-<script type="text/javascript" src="{$rel_url}js/httpclient.js"></script>
-<script type="text/javascript" src="{$rel_url}js/expandable_cell.js"></script>
-{if $issue == ""}
-  <table width="400" align="center">
-    <tr>
-      <td>
-        &nbsp;<span class="default"><b>{t 1=$smarty.get.id|intval}Error: The issue #%1 could not be found.{/t}</b>
-        <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-      </td>
-    </tr>
-  </table>
-{elseif $auth_customer == 'denied' OR $auth_user == 'denied'}
-  <table width="500" align="center">
-    <tr>
-      <td>
-        &nbsp;<span class="default"><b>{t}Sorry, you do not have the required privileges to view this issue.{/t}</b>
-        <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
-      </td>
-    </tr>
-  </table>
-{else}
+{extends "base_full.tpl.html"}
+{block page_id}issue_view{/block}
+{block title}{t 1=$smarty.get.id|intval}Issue #%1 Details{/t}{/block}
+
+{block "content"}
+{if $issue|default:'' != ''}
   {include file="view_form.tpl.html"}
+
   {if $custom_fields|@count > 0}
-  <div class="view_issue_seperator"></div>
   {include file="custom_fields.tpl.html"}
   {/if}
-  <div class="view_issue_seperator"></div>
-  {if $has_customer_integration and $issue.iss_customer_id}
+
+  {if $core.has_customer_integration and $issue.iss_customer_id}
   {include file="customer/$customer_backend_name/customer_info.tpl.html"}
-  <div class="view_issue_seperator"></div>
   {/if}
+
   {include file="attachments.tpl.html"}
-  <div class="view_issue_seperator"></div>
-  {if $current_role > $roles.customer and $app_setup.scm_integration == 'enabled'}
+  {if $core.current_role > $core.roles.customer and $core.app_setup.scm_integration|default:'' == 'enabled'}
   {include file="checkins.tpl.html"}
-  <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $core.current_role > $core.roles.customer}
   {include file="time_tracking.tpl.html"}
-  <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $core.current_role > $core.roles.customer}
   {include file="notes.tpl.html"}
-  <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role > $roles.customer}
+
+  {if $core.current_role > $core.roles.customer}
   {include file="phone_support.tpl.html"}
-  <div class="view_issue_seperator"></div>
   {/if}
-  {if $app_setup.support_email == 'enabled'}
-    {if $current_role > $roles.customer}
+
+  {if $core.app_setup.support_email == 'enabled'}
+    {if $core.current_role > $core.roles.customer}
       {include file="email_drafts.tpl.html"}
-      <div class="view_issue_seperator"></div>
     {/if}
   {include file="support_emails.tpl.html"}
   {/if}
 {/if}
 
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

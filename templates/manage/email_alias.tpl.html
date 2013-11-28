@@ -1,133 +1,101 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
 
-{if $result_msg != ''}
-<br />
-<center>
-  <span class="default">
-{if $result_msg == -1}
-  <b>{t}An error occurred while trying to run your query{/t}</b>
-{elseif $result_msg == 1}
-  <b>{t}Thank you, the email aliases were removed successfully{/t}</b>
-{/if}
-  </span>
-</center>
+{block "title"}{t}Email Aliases for {$username|escape:"html"}{/t}{/block}
+
+{block "content"}
+{literal}
 <script type="text/javascript">
 <!--
-opener.location.href = opener.location;
-setTimeout('window.close()', 2000);
+function validateForm()
+{
+    if (!Validation.isEmail(Eventum.getField('alias').val())) {
+        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+        return false;
+    }
+    return true;
+}
+function removeEmails()
+{
+    if (!Validation.hasOneChecked('item[]')) {
+        alert('{/literal}{t escape=js}Please choose which aliases need to be removed.{/t}{literal}');
+        return false;
+    }
+    if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected email aliases from the email account.{/t}{literal}')) {
+        return false;
+    }
+    return true;
+}
 
+  $().ready(function() {
+      $('#save_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
+
+      $('#delete_form').submit(removeEmails);
+  });
 //-->
 </script>
-{else}
-<br />
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        <tr>
-          <td class="default">
-            <b>{t}Email Aliases for {$username|escape:"html"}{/t}</b>
-          </td>
-        </tr>
-        <form method="post" action="{$smarty.server.PHP_SELF}">
+{/literal}
+       <h3>{t}Email Aliases for {$username|escape:"html"}{/t}</h3>
+
+        <form id="save_form" method="post" action="{$smarty.server.PHP_SELF}">
         <input type="hidden" name="cat" value="save">
         <input type="hidden" name="id" value="{$id}">
+      <table class="bordered">
+        <tr class="title"><th colspan="2">{t}New Alias{/t}</th></tr>
         <tr>
-         <td bgcolor="{$cell_color}" class="default_white">
-            <b>{t}New Alias{/t}: </b>
-            </td></tr><tr><td>
-            <input type="text" name="alias" class="default" size="50" value="">
-            <input type="button" class="button" value="{t}Save{/t}" onClick="save_email(this.form);">
+            <th>
+                {t}Alias{/t}
+            </th>
+            <td>
+                <input type="text" name="alias" size="50" value="">
+            </td>
+        </tr>
+        <tr class="buttons">
+          <td colspan="2">
+            <input type="submit" value="{t}Save{/t}">
           </td>
 		</tr>
-		</form>
-        <tr>
-          <td>
-            {literal}
-            <script type="text/javascript">
-            <!--
-            function validateForm(f)
-            {
-                if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t escape=js}Please choose which emails need to be restored.{/t}{literal}');
-                    return false;
-                }
-                f.submit();
-            }
-            function removeEmails(f)
-            {
-                if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t escape=js}Please choose which aliases need to be removed.{/t}{literal}');
-                    return false;
-                }
-                if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected email aliases from your email account.{/t}{literal}')) {
-                    return false;
-                } else {
-                    f.cat.value = 'remove';
-                    f.submit();
-                }
-            }
-            function save_email(f)
-            {
-            	checkWindowClose(false);
-            	f.cat.value = 'save';
-            	f.submit();
-            }
+      </table>
+	  </form>
 
-            //-->
-            </script>
-            {/literal}
-            <form method="post" action="{$smarty.server.PHP_SELF}">
-            <input type="hidden" name="cat" value="restore">
+            <form method="post" id="delete_form" action="{$smarty.server.PHP_SELF}">
+            <input type="hidden" name="cat" value="remove">
             <input type="hidden" name="id" value="{$id}">
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+      <table class="bordered grid">
+          <tr class="title">
+              <th colspan="2">Existing Aliases</th>
+          </tr>
               <tr>
-                <td width="1%" bgcolor="{$cell_color}">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-                </td>
-                <td bgcolor="{$cell_color}" width="50%" class="default_white">{t}Email Alias{/t}</td>
+                <th width="1%">
+                  <input type="button" value="{t}All{/t}" class="select_all">
+                </th>
+                <th width="50%">{t}Email Alias{/t}</th>
               </tr>
               {section name="i" loop=$list}
-              {cycle values=$cycle assign="row_color"}
-              <tr>
-                <td width="1%" align="center" bgcolor="{$row_color}">
+              <tr class="{cycle values='odd,even'}">
+                <td width="1%" align="center">
                   <input type="checkbox" name="item[]" value="{$list[i]}">
                 </td>
-                <td bgcolor="{$row_color}" width="50%" class="default">
+                <td width="50%">
                   {$list[i]|escape:"html"}
                 </td>
               </tr>
               {sectionelse}
-              <tr>
-                <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
-                  <i>{t}No aliases could be found.{/t}</i>
+              <tr class="no_results">
+                <td colspan="2">
+                  {t}No aliases could be found.{/t}
                 </td>
               </tr>
               {/section}
-              <tr>
-                <td bgcolor="{$cell_color}" width="1%" align="center">
-                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
+              <tr class="buttons">
+                <td width="1%" align="center">
+                  <input type="button" value="{t}All{/t}" class="select_all">
                 </td>
-                <td colspan="3" bgcolor="{$cell_color}">
-                  <input type="button" class="button" value="{t}Delete Alias{/t}" onClick="removeEmails(this.form);">
-                  <input type="button" class="button" value="{t}Close{/t}" onClick="window.close();">
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4" bgcolor="{$dark_color}" align="left">
-                   &nbsp;
+                <td colspan="3">
+                  <input type="submit" value="{t}Delete Alias{/t}">
+                  <input type="button" value="{t}Close{/t}" class="close_window">
                 </td>
               </tr>
             </table>
             </form>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
-{include file="app_info.tpl.html"}
-{/if}
-
-{include file="footer.tpl.html"}
+{/block}

@@ -38,4 +38,4 @@ if (php_sapi_name() == 'cli') {
 
 $tpl->assign("error_type", $error_type);
 
-$tpl->smarty->display($tpl->tpl_name);
+$tpl->displayTemplate();

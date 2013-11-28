@@ -1,11 +1,11 @@
 <tr>
   <td colspan="5">
   <hr>
-    <input id="show_custom_fields_checkbox" type="checkbox" name="show_custom_fields" value="1" class="default" onClick="changeVisibility('custom_fields_row', this.checked);disableCustomFields(!this.checked)">
-    <label for="show_custom_fields_checkbox" class="default">{t}Show additional fields to search by{/t}</label>
+    <input id="show_custom_fields_checkbox" type="checkbox" name="show_custom_fields" value="1">
+    <label for="show_custom_fields_checkbox">{t}Show additional fields to search by{/t}</label>
   </td>
 </tr>
-<tr id="custom_fields_row" style="display: none;">
+<tr id="custom_fields_row">
   <td colspan="5">
     <br />
     <table width="100%" cellspacing="0" border="0" cellpadding="0">
@@ -14,36 +14,36 @@
       {if $smarty.foreach.custom_fields.iteration % 2 == 1}
       <tr>
       {/if}
-        <td nowrap width="15%" class="default" height="30" align="right" valign="top">
+        <td nowrap width="15%" height="30" align="right" valign="top">
           {$field.fld_title}:&nbsp;
         </td>
         <td width="35%" align="left" valign="top">
           {if $field.fld_type == 'text' OR $field.fld_type == 'textarea'}
-          <input type="text" name="custom_field[{$field.fld_id}]" class="default" value="{$options.cst_custom_field[$field.fld_id]}" disabled>
+          <input type="text" name="custom_field[{$field.fld_id}]" value="{$options.cst_custom_field[$field.fld_id]|default:''}" disabled>
           {elseif $field.fld_type == 'integer'}
           {assign var="cmp" value=$options.cst_custom_field[$field.fld_id].filter_type}
-          <select name="custom_field[{$field.fld_id}][filter_type]" class="default">
+          <select name="custom_field[{$field.fld_id}][filter_type]">
             <option value="eq" {if $cmp == 'eq'}selected{/if}>{t}Equals{/t}</option>
             <option value="ge" {if $cmp == 'ge'}selected{/if}>{t}Greater or Equal{/t}</option>
             <option value="le" {if $cmp == 'le'}selected{/if}>{t}Less or Equal{/t}</option>
             <option value="gt" {if $cmp == 'gt'}selected{/if}>{t}Greater Than{/t}</option>
             <option value="lt" {if $cmp == 'lt'}selected{/if}>{t}Less Than{/t}</option>
           </select>
-          <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" class="default" value="{$options.cst_custom_field[$field.fld_id].value}" disabled>
+          <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" value="{$options.cst_custom_field[$field.fld_id].value|default:''}" disabled>
           {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple'}
-          <select name="custom_field[{$field.fld_id}][]" class="default" multiple
+          <select name="custom_field[{$field.fld_id}][]" multiple
             {if $field.field_options|@count > 10}
               size="10"
             {else}
               size="{$field.field_options|@count}"
             {/if}
             disabled>
-            {html_options options=$field.field_options selected=$options.cst_custom_field[$field.fld_id]}
+            {html_options options=$field.field_options selected=$options.cst_custom_field[$field.fld_id]|default:''}
           </select>
           {elseif $field.fld_type == 'date'}
             {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time='--' display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
             {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Month]"}
-            {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time='--' display_months=false display_years=false day_value_format=%02d day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
+            {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time='--' display_months=false display_years=false day_value_format="%02d" day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
             {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Day]"}
             {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" year_empty='' time='--' display_months=false display_days=false start_year=-1 end_year=+2 year_extra="id=\"custom_field_`$custom_field_id`_year\" tabindex=\"`$tabindex++`\""}
             {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Year]"}

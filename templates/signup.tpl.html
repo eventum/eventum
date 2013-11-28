@@ -2,12 +2,12 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 
 <br /><br /><br />
-{if $app_setup.open_signup != 'enabled'}
+{if $core.app_setup.open_signup != 'enabled'}
 <center>
-<span class="default">
+<span>
 <b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
 <br /><br />
-<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a>
+<a href="javascript:history.go(-1);">{t}Go Back{/t}</a>
 </span>
 </center>
 {else}
@@ -70,34 +70,34 @@ function validateForm(f)
         {/if}
         {if $signup_result != 1}
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}Full Name:{/t}</b></td>
+          <td align="right" width="130"><b>{t}Full Name:{/t}</b></td>
           <td width="75%">
-            <input accessKey="f" class="default" type="text" name="full_name" size="50" maxlength="255">
+            <input accessKey="f" type="text" name="full_name" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}Email Address:{/t}</b></td>
+          <td align="right" width="130"><b>{t}Email Address:{/t}</b></td>
           <td width="75%">
-            <input accessKey="e" class="default" type="text" name="email" size="50" maxlength="255">
+            <input accessKey="e" type="text" name="email" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}Password:{/t}</b></td>
+          <td align="right" width="130"><b>{t}Password:{/t}</b></td>
           <td width="75%">
-            <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32" autocomplete="off">
+            <input accessKey="p" type="password" name="passwd" size="20" maxlength="32" autocomplete="off">
             {include file="error_icon.tpl.html" field="passwd"}
           </td>
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input class="button" type="submit" value="{t}Create Account{/t}">
+            <input type="submit" value="{t}Create Account{/t}">
           </td>
         </tr>
         {/if}
         <tr align="center">
-          <td colspan="2" class="default_white">
+          <td colspan="2">
             <a class="white_link" href="index.php">{t}Back to Login Form{/t}</a>
           </td>
         </tr>

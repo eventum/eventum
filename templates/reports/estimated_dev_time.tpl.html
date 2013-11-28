@@ -1,30 +1,26 @@
-{include file="header.tpl.html"}
+{extends "reports/reports_base.tpl.html"}
+{block "page_id"}development_time_report{/block}
+{block "title"}Estimated Development Time by Category{/block}
+
+{block "report_content"}
 <h3 align="center">{t}Estimated Development Time by Category{/t}</h3>
-<p align="center" class="default" width="80%">{t escape=no 1=$current_project_name}Based on all open issue in Eventum for <b>%1</b>.{/t}</p>
+<p align="center" width="80%">{t escape=no 1=$core.project_name}Based on all open issue in Eventum for <b>%1</b>.{/t}</p>
 <br />
-<table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr bgcolor="{$cell_color}">
-          <th class="default_white">
+<table class="bordered grid">
+    <tr>
+        <th>
             {t}Category{/t}
-          </th>
-          <th class="default_white">
+        </th>
+        <th>
             {t}Estimated time (Hours){/t}
-          </th>
-        </tr>
-        {section name="issues" loop=$data}
-        {cycle values=$cycle assign="row_color"}
-        <tr bgcolor="{$row_color}">
-          <td align="center" class="default">{$data[issues].prc_title}</td>
-          <td align="center" class="default">{$data[issues].dev_time}</td>
-        </tr>
-        {/section}
-      </table>
-    </td>
-  </tr>
+        </th>
+    </tr>
+    {section name="issues" loop=$data}
+    <tr class="{cycle values='odd,even'}">
+        <td align="center">{$data[issues].prc_title}</td>
+        <td align="center">{$data[issues].dev_time}</td>
+    </tr>
+    {/section}
 </table>
 <br />
-
-{include file="footer.tpl.html"}
+{/block}

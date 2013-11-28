@@ -30,49 +30,55 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/index.tpl.html");
+$tpl->setTemplate("manage/general.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("type", "general");
-
 $role_id = Auth::getCurrentRole();
-if ($role_id == User::getRoleID('administrator')) {
-    $tpl->assign("show_setup_links", true);
-
-    $tpl->assign("project_list", Project::getAll());
-
-    if (@$_POST["cat"] == "update") {
-        $setup = Setup::load();
-        $setup["tool_caption"] = $_POST["tool_caption"];
-        $setup["support_email"] = $_POST["support_email"];
-        $setup["daily_tips"] = $_POST["daily_tips"];
-        $setup["spell_checker"] = $_POST["spell_checker"];
-        $setup["irc_notification"] = $_POST["irc_notification"];
-        $setup["allow_unassigned_issues"] = $_POST["allow_unassigned_issues"];
-        $setup["update"] = $_POST["update"];
-        $setup["closed"] = $_POST["closed"];
-        $setup["emails"] = $_POST["emails"];
-        $setup["files"] = $_POST["files"];
-        $setup["smtp"] = $_POST["smtp"];
-        $setup["open_signup"] = $_POST["open_signup"];
-        $setup["accounts_projects"] = isset($_POST["accounts_projects"]) ? $_POST["accounts_projects"] : null;
-        $setup["accounts_role"] = isset($_POST["accounts_role"]) ? $_POST["accounts_role"] : null;
-        $setup['subject_based_routing'] = $_POST['subject_based_routing'];
-        $setup['email_routing'] = $_POST['email_routing'];
-        $setup['note_routing'] = $_POST['note_routing'];
-        $setup['draft_routing'] = $_POST['draft_routing'];
-        $setup['email_error'] = $_POST['email_error'];
-        $setup['email_reminder'] = $_POST['email_reminder'];
-        $setup['handle_clock_in'] = $_POST['handle_clock_in'];
-        $res = Setup::save($setup);
-        $tpl->assign("result", $res);
-    }
-    $options = Setup::load(true);
-    $tpl->assign("setup", $options);
-    $tpl->assign("user_roles", User::getRoles(array('Customer')));
-} else {
-    $tpl->assign("show_not_allowed_msg", true);
+if ($role_id < User::getRoleID('administrator')) {
+    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    $tpl->displayTemplate();exit;
 }
+$tpl->assign("project_list", Project::getAll());
+
+if (@$_POST["cat"] == "update") {
+    $setup = Setup::load();
+    $setup["tool_caption"] = $_POST["tool_caption"];
+    $setup["support_email"] = $_POST["support_email"];
+    $setup["daily_tips"] = $_POST["daily_tips"];
+    $setup["spell_checker"] = $_POST["spell_checker"];
+    $setup["irc_notification"] = $_POST["irc_notification"];
+    $setup["allow_unassigned_issues"] = $_POST["allow_unassigned_issues"];
+    $setup["update"] = $_POST["update"];
+    $setup["closed"] = $_POST["closed"];
+    $setup["emails"] = $_POST["emails"];
+    $setup["files"] = $_POST["files"];
+    $setup["smtp"] = $_POST["smtp"];
+    $setup["open_signup"] = $_POST["open_signup"];
+    $setup["accounts_projects"] = isset($_POST["accounts_projects"]) ? $_POST["accounts_projects"] : null;
+    $setup["accounts_role"] = isset($_POST["accounts_role"]) ? $_POST["accounts_role"] : null;
+    $setup['subject_based_routing'] = $_POST['subject_based_routing'];
+    $setup['email_routing'] = $_POST['email_routing'];
+    $setup['note_routing'] = $_POST['note_routing'];
+    $setup['draft_routing'] = $_POST['draft_routing'];
+    $setup['email_error'] = $_POST['email_error'];
+    $setup['email_reminder'] = $_POST['email_reminder'];
+    $setup['handle_clock_in'] = $_POST['handle_clock_in'];
+    $res = Setup::save($setup);
+    $tpl->assign("result", $res);
+
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
+            -1  =>  array("ERROR: The system doesn't have the appropriate permissions to create the configuration file
+                        in the setup directory (" . APP_CONFIG_PATH . "). Please contact your local system administrator
+                        and ask for write privileges on the provided path.", Misc::MSG_NOTE_BOX),
+            -2  =>  array("ERROR: The system doesn't have the appropriate permissions to update the configuration file
+                        in the setup directory (" . APP_SETUP_FILE . "). Please contact your local system administrator
+                        and ask for write privileges on the provided filename.", Misc::MSG_NOTE_BOX),
+    ));
+}
+$options = Setup::load(true);
+$tpl->assign("setup", $options);
+$tpl->assign("user_roles", User::getRoles(array('Customer')));
 
 $tpl->displayTemplate();

@@ -29,17 +29,16 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("clock_status.tpl.html");
-
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 
 if (User::isClockedIn($usr_id)) {
-    $tpl->assign('result', User::ClockOut($usr_id));
+    User::ClockOut($usr_id);
+    Misc::setMessage("You have been clocked out", Misc::MSG_INFO);
 } else {
-    $tpl->assign('result', User::ClockIn($usr_id));
+    User::ClockIn($usr_id);
+    Misc::setMessage("You have been clocked in", Misc::MSG_INFO);
 }
 
-$tpl->displayTemplate();
+Auth::redirect(!empty($_REQUEST['current_page']) ? $_REQUEST['current_page'] : APP_RELATIVE_URL . 'list.php');

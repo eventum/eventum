@@ -1,7 +1,15 @@
-{if $app_messages|@count > 0}
-<div class="app_messages" align="center">
-{foreach from=$app_messages item=app_message}
-{$app_message}<br />
-{/foreach}
+{if $core.messages|@count|default:0 > 0}
+<div id="global_messages">
+    {foreach from=$core.messages item=message}
+    <div class="{$message.type}">
+        {if $message.type == 'html_box'}
+            {$message.text}
+        {else}
+        <span>
+            {$message.text|escape}
+        </span>
+        {/if}
+    </div>
+    {/foreach}
 </div>
 {/if}

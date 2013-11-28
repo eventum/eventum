@@ -21,7 +21,7 @@ function removeEmails(f)
 //-->
 </script>
 {/literal}
-<table width="600" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="600" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       &nbsp;
@@ -29,7 +29,7 @@ function removeEmails(f)
     <td width="100%">
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$light_color}" colspan="3" class="default">
+          <td colspan="3">
             <b>{t}Attached Emails{/t}</b>
           </td>
         </tr>
@@ -37,10 +37,10 @@ function removeEmails(f)
           <td>
             <table cellpadding="2" cellspacing="1" bgcolor="white" width="100%" border="0">
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white" width="10">{t}Remove?{/t}</td>
-                <td bgcolor="{$cell_color}" class="default_white">{t}Sender{/t}</td>
-                <td bgcolor="{$cell_color}" class="default_white">{t}Subject{/t}</td>
-                <td bgcolor="{$cell_color}" class="default_white" width="10"><nobr>{t}Notify Sender?{/t}</nobr></td>
+                <td width="10">{t}Remove?{/t}</td>
+                <td>{t}Sender{/t}</td>
+                <td>{t}Subject{/t}</td>
+                <td width="10"><nobr>{t}Notify Sender?{/t}</nobr></td>
               </tr>
               {section name="i" loop=$emails}
               {cycle values=$cycle assign="row_color"}
@@ -48,10 +48,10 @@ function removeEmails(f)
                 <td align="center">
                   <input type="checkbox" name="emails[]" value="{$emails[i].sup_id}">
                 </td>
-                <td class="default" width="30%">
+                <td width="30%">
                   {$emails[i].sup_from|escape:"html"}
                 </td>
-                <td class="default" width="50%">
+                <td width="50%">
                   {$emails[i].sup_subject|escape:"html"}
                 </td>
                 <td align="center">
@@ -61,7 +61,7 @@ function removeEmails(f)
               {/section}
               <tr>
                 <td colspan="4">
-                  <input type="button" class="button" value="{t}Remove Selected{/t}" onClick="removeEmails(this.form);">
+                  <input type="button" value="{t}Remove Selected{/t}" onClick="removeEmails(this.form);">
                 </td>
               </tr>
             </table>

@@ -1,6 +1,8 @@
-{capture assign="extra_title"}{t}Stats{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block "title"}Stats{/block}
+{block "page_id"}stats{/block}
+
+{block "content"}
 <script type="text/javascript">
 <!--
 var page_url = '{$smarty.server.PHP_SELF}';
@@ -19,128 +21,120 @@ function hideClosed(hide_closed)
 </script>
 {/literal}
 
-{if $current_role == $roles.customer}
+{if $core.current_role == $core.roles.customer}
   {include file="customer/$customer_backend_name/customer_report.tpl.html"}
 {else}
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<table width="100%">
   <tr>
   {if $hide_stats != true}
     <td valign="top">
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-              <tr>
-                <td>
-                  <span class="default"><b>{t}Overall Stats{/t}</b></span><br />
-                  <span class="default">
-                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
-                  </span>
-                  <hr size="1" noshade color="{$cell_color}">
-                </td>
-              </tr>
-              <tr>
-                <td nowrap class="default">
-                  <b>{t}Issues by Status{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    {section name="i" loop=$status}
-                    <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&priority=&status={$status[i].iss_sta_id}">{$status[i].sta_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$status[i].total_items}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td class="default">{t}No issues could be found.{/t}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                  <br /><br />
-                  <b>{t}Issues by Release{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    {section name="i" loop=$releases}
-                    <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&status=&priority=&release={$releases[i].iss_pre_id}">{$releases[i].pre_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$releases[i].total_open_items}{if !$hide_closed} / {$releases[i].total_closed_items}{/if}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td class="default">{t}No issues could be found.{/t}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                  <br /><br />
-                  <b>{t}Issues by Priority{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    {section name="i" loop=$priorities}
-                    <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&status=&priority={$priorities[i].iss_pri_id}">{$priorities[i].pri_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$priorities[i].total_open_items}{if !$hide_closed} / {$priorities[i].total_closed_items}{/if}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td class="default">{t}No issues could be found.{/t}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                  <br /><br />
-                  <b>{t}Issues by Category{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    {section name="i" loop=$categories}
-                    <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&users=&category={$categories[i].iss_prc_id}&status=&priority=&release=">{$categories[i].prc_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$categories[i].total_open_items}{if !$hide_closed} / {$categories[i].total_closed_items}{/if}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td class="default">{t}No issues could be found.{/t}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                  <br /><br />
-                  <b>{t}Assigned Issues{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    {section name="i" loop=$users}
-                    <tr>
-                      <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name|escape:html}</a></td>
-                      <td align="right" class="default">{$users[i].total_open_items}{if !$hide_closed} / {$users[i].total_closed_items}{/if}</td>
-                    </tr>
-                    {sectionelse}
-                    <tr>
-                      <td class="default">{t}No issues could be found.{/t}</td>
-                    </tr>
-                    {/section}
-                  </table>
-                  {if $app_setup.support_email == 'enabled' and $current_role > $roles.reporter}
-                  <br /><br />
-                  <b>{t}Emails{/t}:</b>
-                  <br /><br />
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td class="default"><a class="link" href="emails.php?hide_associated=0">{t}Associated{/t}</a></td>
-                      <td align="right" class="default">{$emails.associated}</td>
-                    </tr>
-                    <tr>
-                      <td class="default"><a class="link" href="emails.php?hide_associated=1">{t}Pending{/t}</a></td>
-                      <td align="right" class="default">{$emails.pending}</td>
-                    </tr>
-                    <tr>
-                      <td class="default">{t}Removed{/t}</td>
-                      <td align="right" class="default">{$emails.removed}</td>
-                    </tr>
-                  </table>
-                  {/if}
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <br />
+        <table width="100%" class="bordered">
+          <tr>
+            <td>
+              <span><b>{t}Overall Stats{/t}</b></span><br />
+              <span>
+              <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td nowrap>
+              <b>{t}Issues by Status{/t}:</b>
+              <br /><br />
+              <table width="100%">
+                {section name="i" loop=$status}
+                <tr>
+                  <td><a href="list.php?keywords=&users=&category=&release=&priority=&status={$status[i].iss_sta_id}">{$status[i].sta_title|escape:"html"}</a></td>
+                  <td align="right">{$status[i].total_items}</td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td>{t}No issues could be found.{/t}</td>
+                </tr>
+                {/section}
+              </table>
+              <br /><br />
+              <b>{t}Issues by Release{/t}:</b>
+              <br /><br />
+              <table width="100%">
+                {section name="i" loop=$releases}
+                <tr>
+                  <td><a href="list.php?keywords=&users=&category=&status=&priority=&release={$releases[i].iss_pre_id}">{$releases[i].pre_title|escape:"html"}</a></td>
+                  <td align="right">{$releases[i].total_open_items}{if !$hide_closed} / {$releases[i].total_closed_items}{/if}</td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td>{t}No issues could be found.{/t}</td>
+                </tr>
+                {/section}
+              </table>
+              <br /><br />
+              <b>{t}Issues by Priority{/t}:</b>
+              <br /><br />
+              <table width="100%">
+                {section name="i" loop=$priorities}
+                <tr>
+                  <td><a href="list.php?keywords=&users=&category=&release=&status=&priority={$priorities[i].iss_pri_id}">{$priorities[i].pri_title|escape:"html"}</a></td>
+                  <td align="right">{$priorities[i].total_open_items}{if !$hide_closed} / {$priorities[i].total_closed_items}{/if}</td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td>{t}No issues could be found.{/t}</td>
+                </tr>
+                {/section}
+              </table>
+              <br /><br />
+              <b>{t}Issues by Category{/t}:</b>
+              <br /><br />
+              <table width="100%">
+                {section name="i" loop=$categories}
+                <tr>
+                  <td><a href="list.php?keywords=&users=&category={$categories[i].iss_prc_id}&status=&priority=&release=">{$categories[i].prc_title|escape:"html"}</a></td>
+                  <td align="right">{$categories[i].total_open_items}{if !$hide_closed} / {$categories[i].total_closed_items}{/if}</td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td>{t}No issues could be found.{/t}</td>
+                </tr>
+                {/section}
+              </table>
+              <br /><br />
+              <b>{t}Assigned Issues{/t}:</b>
+              <br /><br />
+              <table width="100%">
+                {section name="i" loop=$users}
+                <tr>
+                  <td><a href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name|escape:html}</a></td>
+                  <td align="right">{$users[i].total_open_items}{if !$hide_closed} / {$users[i].total_closed_items}{/if}</td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td>{t}No issues could be found.{/t}</td>
+                </tr>
+                {/section}
+              </table>
+              {if $core.app_setup.support_email == 'enabled' and $core.current_role > $core.roles.reporter}
+              <br /><br />
+              <b>{t}Emails{/t}:</b>
+              <br /><br />
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td><a href="emails.php?hide_associated=0">{t}Associated{/t}</a></td>
+                  <td align="right">{$emails.associated}</td>
+                </tr>
+                <tr>
+                  <td><a href="emails.php?hide_associated=1">{t}Pending{/t}</a></td>
+                  <td align="right">{$emails.pending}</td>
+                </tr>
+                <tr>
+                  <td>{t}Removed{/t}</td>
+                  <td align="right">{$emails.removed}</td>
+                </tr>
+              </table>
+              {/if}
+            </td>
+          </tr>
+        </table>
     </td>
     <td>
       &nbsp;
@@ -148,35 +142,26 @@ function hideClosed(hide_closed)
     {/if}
     <td width="80%" valign="top">
       {include file="latest_news.tpl.html"}
-      {if $app_setup.daily_tips == 'enabled'}
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+      {if $core.app_setup.daily_tips|default:'' == 'enabled'}
+            <table class="bordered">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Did you Know?{/t}</b></span>
+                  <span><b>{t}Did you Know?{/t}</b></span>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$light_color}" class="default">
+                <td class="light">
                   {include file="tips/$random_tip"}
                 </td>
               </tr>
             </table>
-          </td>
-        </tr>
-      </table>
       <br />
       {/if}
       {if $pie_chart && $hide_stats != true}
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+            <table class="bordered">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Graphical Stats{/t}
+                  <span><b>{t}Graphical Stats{/t}
                   {if $hide_closed}
                     {t}(Open Issues){/t}
                   {else}
@@ -186,23 +171,18 @@ function hideClosed(hide_closed)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$light_color}" class="default">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=status&hide_closed={$hide_closed}">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=priority&hide_closed={$hide_closed}">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=user&hide_closed={$hide_closed}">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=release&hide_closed={$hide_closed}">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=category&hide_closed={$hide_closed}">
+                <td class="light">
+                  <img border="0" src="{$core.rel_url}stats_chart.php?plot=status&hide_closed={$hide_closed}">
+                  <img border="0" src="{$core.rel_url}stats_chart.php?plot=priority&hide_closed={$hide_closed}">
+                  <img border="0" src="{$core.rel_url}stats_chart.php?plot=user&hide_closed={$hide_closed}">
+                  <img border="0" src="{$core.rel_url}stats_chart.php?plot=release&hide_closed={$hide_closed}">
+                  <img border="0" src="{$core.rel_url}stats_chart.php?plot=category&hide_closed={$hide_closed}">
                 </td>
               </tr>
             </table>
-          </td>
-        </tr>
-      </table>
       {/if}
     </td>
   </tr>
 </table>
 {/if}
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

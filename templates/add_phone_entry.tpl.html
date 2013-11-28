@@ -1,28 +1,31 @@
-{capture name="extra_title" assign="extra_title"}{t 1=$issue_id}Issue #%1 - Add Phone Entry{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base.tpl.html"}
+{block "title"}Issue #{$issue_id} - Add Phone Entry{/block}
 
-{if $add_phone_result != ''}
+{block "content"}
+
+{if $add_phone_result|default:'' != ''}
     <br />
     <center>
-        <span class="default"><b>
+        <span><b>
     {if $add_phone_result == -1}
         {t}An error occurred while trying to run your query{/t}
     {elseif $add_phone_result == 1}
         {t}Thank you, the phone entry was added successfully.{/t}
     {/if}
-    </b></span>
+        </b>
+    </span>
     </center>
     <script type="text/javascript">
     <!--
     {if $current_user_prefs.close_popup_windows == '1'}
-    setTimeout('closeAndRefresh()', 2000);
+    setTimeout('Eventum.close_and_refresh()', 2000);
     {/if}
     //-->
     </script>
     <br />
     {if not $current_user_prefs.close_popup_windows}
     <center>
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="closeAndRefresh();">{t}Continue{/t}</a></span>
+      <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
     </center>
     {/if}
 {else}
@@ -31,90 +34,87 @@
 <!--
 function validatePhoneSupportForm(f)
 {
-    if (!isValidDate(f, 'date')) {
+    if (!Validation.isValidDate('date')) {
         alert('{/literal}{t escape=js}Please select a valid date for when the phone call took place.{/t}{literal}');
         return false;
     }
-    if ((isWhitespace(f.call_length.value)) || (!isNumberOnly(f.call_length.value))) {
-        selectField(f, 'call_length');
+    if ((Validation.isFieldWhitespace('call_length')) || (!Validation.isNumberOnly(Eventum.getField('call_length').val()))) {
+        Validation.selectField('call_length');
         alert('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.description.value)) {
-        selectField(f, 'description');
+    if (Validation.isFieldWhitespace('description')) {
+        Validation.selectField('description');
         alert('{/literal}{t escape=js}Please enter the description for this new phone support entry.{/t}{literal}');
         return false;
     }
-    if (getSelectedOption(f, 'phone_category') == -1) {
-        selectField(f, 'phone_category');
+    if (Eventum.getField('phone_category').val() == -1) {
+        Validation.selectField('phone_category');
         alert('{/literal}{t escape=js}Please choose the category for this new phone support entry.{/t}{literal}');
         return false;
     }
     return true;
 }
+$().ready(function() {
+    Eventum.updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
+});
 //-->
 </script>
 {/literal}
-<table align="center" width="100%" cellpadding="3">
-  <tr>
-    <td>
-      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center">
       <form name="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
-      <input type="hidden" name="cat" value="add_phone">
-      <input type="hidden" name="issue_id" value="{$issue_id}">
-        <tr>
-          <td>
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-              {if $current_role > $roles.customer}
-              <tr>
-                <td colspan="2" class="default"><b>{t}Record Phone Call{/t}:</b></td>
+          <input type="hidden" name="cat" value="add_phone">
+          <input type="hidden" name="issue_id" value="{$issue_id}">
+            <table class="bordered">
+              {if $core.current_role > $core.roles.customer}
+              <tr class="title">
+                <th colspan="2">{t}Record Phone Call{/t}</th>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Date of Call{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default"'}&nbsp;
-                  {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default"' display_seconds=false}
+                <th width="190" nowrap>{t}Date of Call{/t}</th>
+                <td width="100%">
+                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=''}&nbsp;
+                  {html_select_time minute_interval=5 field_array='date' prefix='' all_extra='' display_seconds=false}
                   <a href="javascript:void(null);" onClick="updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Reason{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  <select name="phone_category" class="default">
+                <th width="190" nowrap>{t}Reason{/t}</th>
+                <td width="100%">
+                  <select name="phone_category">
                     {html_options options=$phone_categories selected=5}
                   </select>
                   {include file="error_icon.tpl.html" field="phone_category"}
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Call From{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  <input type="text" class="default" name="from_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span class="default">,</span>
-                  <input type="text" class="default" name="from_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
+                <th width="190" nowrap>{t}Call From{/t}</th>
+                <td width="100%">
+                  <input type="text" name="from_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span>,</span>
+                  <input type="text" name="from_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Call To{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  <input type="text" class="default" name="to_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span class="default">,</span>
-                  <input type="text" class="default" name="to_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
+                <th width="190" nowrap>{t}Call To{/t}</th>
+                <td width="100%">
+                  <input type="text" name="to_lname" value="{t}last name{/t}" onFocus="if (this.value == 'last name') this.value='';"><span>,</span>
+                  <input type="text" name="to_fname" value="{t}first name{/t}" onFocus="if (this.value == 'first name') this.value='';">
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Type{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  <select class="default" name="type">
+                <th width="190" nowrap>{t}Type{/t}</th>
+                <td width="100%">
+                  <select name="type">
                     <option value="incoming">{t}Incoming{/t}</option>
                     <option value="outgoing">{t}Outgoing{/t}</option>
                   </select>
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Customer Phone Number{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%">
-                  <input type="text" size="20" maxlength="32" name="phone_number" class="default">
+                <th width="190" nowrap>{t}Customer Phone Number{/t}</th>
+                <td width="100%">
+                  <input type="text" size="20" maxlength="32" name="phone_number">
                   {include file="error_icon.tpl.html" field="phone_number"}
-                  <select class="default" name="phone_type">
+                  <select name="phone_type">
                     <option value="office">{t}Office{/t}</option>
                     <option value="home">{t}Home{/t}</option>
                     <option value="mobile">{t}Mobile{/t}</option>
@@ -124,35 +124,23 @@ function validatePhoneSupportForm(f)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Time Spent{/t}:</b></td>
-                <td bgcolor="{$light_color}" width="100%"><input type="text" size="5" name="call_length" class="default"> {include file="error_icon.tpl.html" field="call_length"} <span class="small_default"><i>({t}in minutes{/t})</i></span></td>
+                <th width="190" nowrap>{t}Time Spent{/t}</th>
+                <td width="100%"><input type="text" size="5" name="call_length"> {include file="error_icon.tpl.html" field="call_length"} <span><i>({t}in minutes{/t})</i></span></td>
               </tr>
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Description{/t}:</b></td>
-                <td bgcolor="{$light_color}">
+                <th width="190" nowrap>{t}Description{/t}</th>
+                <td>
                   <textarea name="description" rows="8" style="width: 97%"></textarea>
                   {include file="error_icon.tpl.html" field="description"}
                 </td>
               </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$internal_color}" align="center">
-                  <input type="submit" value="{t}Save Phone Call{/t}" class="button">
+              <tr class="buttons">
+                <td colspan="2">
+                  <input type="submit" value="{t}Save Phone Call{/t}">
                 </td>
               </tr>
               {/if}
             </table>
-          </td>
-        </tr>
       </form>
-      </table>
-    </td>
-  </tr>
-</table>
-<script type="text/javascript">
-<!--
-updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
-//-->
-</script>
-{include file="app_info.tpl.html"}
 {/if}
-{include file="footer.tpl.html"}
+{/block}
