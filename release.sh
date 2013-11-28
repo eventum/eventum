@@ -3,7 +3,7 @@ set -e
 set -x
 app=eventum
 rc=dev # development version
-#rc=RC1 # release candidate
+rc=RC1 # release candidate
 #rc= # release
 dir=$app
 podir=po
@@ -76,14 +76,18 @@ fi
 rm -rf .bzr*
 cd -
 
+if [ "$rc" = "dev" ]; then
+	rc=
+fi
+
 # make tarball and md5 checksum
 rm -rf $app-$version
 mv $dir $app-$version
-tar --owner=root --group=root -czf $app-$version.tar.gz $app-$version
+tar --owner=root --group=root -czf $app-$version$rc.tar.gz $app-$version
 rm -rf $app-$version
-md5sum -b $app-$version.tar.gz > $app-$version.tar.gz.md5
-chmod a+r $app-$version.tar.gz $app-$version.tar.gz.md5
+md5sum -b $app-$version$rc.tar.gz > $app-$version$rc.tar.gz.md5
+chmod a+r $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 
 if [ -x dropin ]; then
-	./dropin $app-$version.tar.gz $app-$version.tar.gz.md5
+	./dropin $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 fi
