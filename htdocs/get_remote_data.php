@@ -69,7 +69,7 @@ if ($callback) {
      *
      * If ec_id is not passed as a parameter, only the data is returned.
      */
-    if (true || empty($_GET["ec_id"])) {
+    if (empty($_GET["ec_id"])) {
         echo $res['message'];
     } else {
         echo $res['ec_id'] . ':' . $res['list_id'] . ':' . $res['message'];
