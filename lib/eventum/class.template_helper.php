@@ -146,7 +146,7 @@ class Template_Helper
         // create the list of projects
         $usr_id = Auth::getUserID();
         if ($usr_id != '') {
-            $prj_id = Auth::getCurrentProject();  
+            $prj_id = Auth::getCurrentProject();
             $setup = Setup::load();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
