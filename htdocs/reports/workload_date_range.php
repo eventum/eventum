@@ -28,7 +28,6 @@
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
-require_once(APP_PATH . "/lib/eventum/class.date_helper.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("reports/workload_date_range.tpl.html");
