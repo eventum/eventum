@@ -27,8 +27,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-require_once APP_SMARTY_PATH . '/Smarty.class.php';
-
 /**
  * Class used to abstract the backend template system used by the site. This
  * is especially useful to be able to change template backends in the future

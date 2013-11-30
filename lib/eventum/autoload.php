@@ -26,7 +26,7 @@ class Eventum_Autoload {
 
 		// Smarty
 		if ($className === 'Smarty') {
-			require_once 'Smarty/Smarty.class.php';
+			require_once APP_SMARTY_PATH . '/Smarty.class.php';
 			return true;
 		}
 
