@@ -42,6 +42,7 @@
 		"ext-mysql": "*",
 		"ext-pcre": "*",
 		"ext-session": "*",
+		"ext-spl": "*",
 		"glen/smarty-gettext": "dev-master",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
@@ -62,7 +63,7 @@
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
-		"smarty/smarty": "@stable"
+		"smarty/smarty": "3.1.12"
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend",
