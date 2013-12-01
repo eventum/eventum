@@ -28,6 +28,21 @@
 		{
 			"type": "package",
 			"package": {
+				"name": "sphinx/php-sphinxapi",
+				"version": "2.0.1",
+				"dist": {
+					"url": "http://sphinxsearch.googlecode.com/svn/tags/REL_2_0_1/api/sphinxapi.php",
+					"shasum": "2b1274cbbc4b2be2aba2cb90dc5daf2036df0f49",
+					"type": "file"
+				},
+				"autoload": {
+					"classmap": [ "sphinxapi.php" ]
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
 				"name": "php-gettext/php-gettext",
 				"version": "1.0.11",
 				"dist": {
@@ -78,13 +93,14 @@
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
 		"php-gettext/php-gettext": "1.0.*",
-		"smarty/smarty": "3.1.12"
+		"smarty/smarty": "3.1.12",
+		"sphinx/php-sphinxapi": "2.0.*"
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend",
 		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum/", "lib/jpgraph/", "lib/sphinxapi/"]
+		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
 	}
 }
