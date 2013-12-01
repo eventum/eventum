@@ -97,8 +97,7 @@
 		"sphinx/php-sphinxapi": "2.0.*"
 	},
 	"suggest": {
-		"ext-ldap": "Adds support for LDAP auth backend",
-		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
+		"ext-ldap": "Adds support for LDAP auth backend"
 	},
 	"autoload": {
 		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
