@@ -93,12 +93,12 @@
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
 		"php-gettext/php-gettext": "1.0.*",
-		"smarty/smarty": "3.1.12"
+		"smarty/smarty": "3.1.12",
+		"sphinx/php-sphinxapi": "2.0.*"
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend",
-		"pear/Net_LDAP2": "Adds support for LDAP auth backend",
-		"sphinx/php-sphinxapi": "Adds support for using Sphinx Search backend"
+		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
 	},
 	"autoload": {
 		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
