@@ -2,7 +2,7 @@
 set -e
 set -x
 app=eventum
-#rc=dev # development version
+rc=dev # development version
 #rc=RC1 # release candidate
 #rc= # release
 dir=$app
@@ -45,7 +45,7 @@ version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
 if [ "$rc" = "dev" ]; then
 	version=$(git describe --tags)
 	# not good tags, try trimming
-	version=$(echo "$version" | sed -e 's,release-,,; s/-final//')
+	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; ')
 
 	sed -i -e "
 		/define('APP_VERSION'/ {
