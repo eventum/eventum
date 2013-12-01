@@ -85,7 +85,6 @@
 		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
 	},
 	"autoload": {
-		"files": ["lib/eventum/autoload.php"],
-		"classmap": [ "lib/jpgraph/", "lib/sphinxapi/"]
+		"classmap": [ "lib/eventum/", "lib/jpgraph/", "lib/sphinxapi/"]
 	}
 }
