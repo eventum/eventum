@@ -82,6 +82,10 @@ if (!defined('APP_SPHINXAPI_PATH')) {
     define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
 }
 
+if (!defined('APP_PHP_GETTEXT_PATH')) {
+    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
+}
+
 if (!defined('APP_SMARTY_PATH')) {
     define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
 }
@@ -213,6 +217,7 @@ if (get_magic_quotes_gpc()) {
     $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 }
 
+require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
 
 // set charset
