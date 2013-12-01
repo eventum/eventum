@@ -105,23 +105,23 @@ class Language
 
     /**
      * Method used to get available languages.
-	 * Uses $avail_langs array and verifies that the language can be used.
+     * Uses $avail_langs array and verifies that the language can be used.
      *
      * @access  public
      * @return  array
      */
     function getAvailableLanguages()
     {
-		$languages = array();
-		foreach (self::$avail_langs as $code => $language) {
-			$res = self::set($code);
-			if ($res) {
-				$languages[$code] = $language;
-			}
-		}
+        $languages = array();
+        foreach (self::$avail_langs as $code => $language) {
+            $res = self::set($code);
+            if ($res) {
+                $languages[$code] = $language;
+            }
+        }
 
-		self::restore();
-		return $languages;
+        self::restore();
+        return $languages;
     }
 
     /**
@@ -134,66 +134,66 @@ class Language
     function setPreference()
     {
         $usr_id = Auth::getUserID();
-		$lang = null;
+        $lang = null;
         if (!empty($usr_id)) {
-			// try user preference
+            // try user preference
             $usr_lang = User::getLang($usr_id);
-			if (self::set($usr_lang)) {
-				$lang = $usr_lang;
-			}
+            if (self::set($usr_lang)) {
+                $lang = $usr_lang;
+            }
         }
 
-		if ($lang == null) {
-			// fall back to system default
-			define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
-			// we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
-			// self::set(APP_CURRENT_LOCALE);
-		} else {
-			define('APP_CURRENT_LOCALE', $lang);
-		}
+        if ($lang == null) {
+            // fall back to system default
+            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+            // we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
+            // self::set(APP_CURRENT_LOCALE);
+        } else {
+            define('APP_CURRENT_LOCALE', $lang);
+        }
     }
 
     /**
      * Sets active language for for the application.
-	 * Returns false if locale is invalid or cannot be used.
+     * Returns false if locale is invalid or cannot be used.
      *
      * @access  public
      * @return  boolean
      */
-	public static function set($locale)
+    public static function set($locale)
     {
-		// XXX do not append charset to en_US locale
-		if ($locale != 'en_US') {
-			$locale = $locale . '.' . APP_CHARSET;
-		}
-		$res = _setlocale(LC_TIME, $locale);
-		if ($res === false) {
-			return false;
-		}
+        // XXX do not append charset to en_US locale
+        if ($locale != 'en_US') {
+            $locale = $locale . '.' . APP_CHARSET;
+        }
+        $res = _setlocale(LC_TIME, $locale);
+        if ($res === false) {
+            return false;
+        }
 
-		$res = _setlocale(LC_MESSAGES, $locale);
-		if ($res === false) {
-			return false;
-		}
+        $res = _setlocale(LC_MESSAGES, $locale);
+        if ($res === false) {
+            return false;
+        }
 
-		// XXX do not require translations for en_US locale
-		if ($locale != 'en_US') {
-			// get translator info
-			$res = _gettext('');
-			// if empty gettext is returned then the mo catalog is not installed.
-			if (empty($res)) {
-				return false;
-			}
-		}
+        // XXX do not require translations for en_US locale
+        if ($locale != 'en_US') {
+            // get translator info
+            $res = _gettext('');
+            // if empty gettext is returned then the mo catalog is not installed.
+            if (empty($res)) {
+                return false;
+            }
+        }
         User::resetLocalizedRoles();
 
-		return true;
+        return true;
     }
 
 
     public static function restore()
     {
-		$locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
-		self::set($locale);
+        $locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
+        self::set($locale);
     }
 }

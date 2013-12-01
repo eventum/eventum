@@ -83,7 +83,7 @@ class Customer
                     prj_id";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
@@ -480,7 +480,7 @@ class Customer
      */
     function getTitles($prj_id, $customer_ids)
     {
-	    // TODO: this or backend prototype mismatches
+        // TODO: this or backend prototype mismatches
         $backend =& self::_getBackend($prj_id);
         return $backend->getTitles($customer_ids);
     }
@@ -1022,7 +1022,7 @@ class Customer
                     cam_usr_id=usr_id";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {

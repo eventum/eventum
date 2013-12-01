@@ -103,7 +103,7 @@ class Draft
         $stmt .= ")";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
@@ -249,7 +249,7 @@ class Draft
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
@@ -276,7 +276,7 @@ class Draft
                     emd_id=$emd_id";
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {

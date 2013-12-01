@@ -1581,7 +1581,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         }
@@ -1599,7 +1599,7 @@ class User
                     ual_email = '" . Misc::escapeString($email) . "'";
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         }

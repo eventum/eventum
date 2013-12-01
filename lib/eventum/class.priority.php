@@ -363,7 +363,7 @@ class Priority
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
                     pri_prj_id=" . Misc::escapeInteger($prj_id) . "
-					AND pri_title = '" . Misc::escapeString($pri_title) . "'";
+                    AND pri_title = '" . Misc::escapeString($pri_title) . "'";
 
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {

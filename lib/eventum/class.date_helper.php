@@ -56,7 +56,7 @@ class Date_Helper
     const HOUR = 3600;
     const DAY = 86400;
     const WEEK = 604800;
-	// MONTH and YEAR are rather approximate (4 weeks in month), do not use them
+    // MONTH and YEAR are rather approximate (4 weeks in month), do not use them
     const MONTH = 2419200; // WEEK * 4
     const YEAR = 29030400; // MONTH * 12
 
