@@ -72,13 +72,13 @@
 				and has allowed us to dramatically improve our
 				response times.
 			</description>
-			
+
 			<lead user="glen" name="Elan Ruusamäe" email="glen@delfi.ee"/>
 			<license>LGPL</license>
-			
+
 			<version release="${version}" api="${version}"/>
 			<stability release="stable" api="stable"/>
-			
+
 			<dependencies>
 				<php minimum_version="5.1.2"/>
 				<pear minimum_version="1.6.0"/>
@@ -94,7 +94,6 @@
 				<package name="Net_SMTP" channel="pear.php.net" minimum_version="1.4.2"/>
 				<package name="Net_SmartIRC" channel="pear.php.net" minimum_version="1.0.1"/>
 				<package name="Net_Socket" channel="pear.php.net" minimum_version="1.0.9"/>
-				<package name="Net_UserAgent_Detect" channel="pear.php.net" minimum_version="2.5.2"/>
 				<package name="Net_URL" channel="pear.php.net" minimum_version="1.0.15"/>
 				<package name="Text_Diff" channel="pear.php.net" minimum_version="1.1.1"/>
 				<package name="XML_RPC" channel="pear.php.net" minimum_version="1.5.4"/>

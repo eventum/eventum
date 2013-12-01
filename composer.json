@@ -73,7 +73,6 @@
 		"pear/Net_SmartIRC": "*",
 		"pear/Net_Socket": "*",
 		"pear/Net_URL": "*",
-		"pear/Net_UserAgent_Detect": "*",
 		"pear/PEAR": "*",
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
