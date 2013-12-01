@@ -83,6 +83,18 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
     }
 
+    /**
+     * TODO: refactor this and make __construct to throw on error
+     */
+    public function getConnectError()
+    {
+        if (PEAR::isError($this->conn)) {
+            return $this->conn->getMessage();
+        } else {
+            return false;
+        }
+    }
+
     private function isValidUser($uid, $password)
     {
         $setup = self::loadSetup();

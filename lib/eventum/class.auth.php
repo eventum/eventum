@@ -604,6 +604,10 @@ class Auth
             $instance = new $class();
 
             if (!$instance->isSetup()) {
+                $message = $instance->getConnectError();
+                if ($message) {
+                    error_log("Unable to use auth backend '$class': $message");
+                }
                 die("Unable to use auth backend: " . $class);
             }
         }
