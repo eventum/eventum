@@ -24,6 +24,21 @@
 			"type": "pear",
 			"url": "http://pear.php.net",
 			"vendor-alias": "pear"
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "php-gettext/php-gettext",
+				"version": "1.0.11",
+				"dist": {
+					"url": "https://launchpad.net/php-gettext/trunk/1.0.11/+download/php-gettext-1.0.11.tar.gz",
+					"shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71",
+					"type": "tar"
+				},
+				"autoload": {
+					"classmap": [ "gettext.php", "streams.php" ]
+				}
+			}
 		}
 	],
 	"config": {
@@ -63,6 +78,7 @@
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
+		"php-gettext/php-gettext": "1.0.*",
 		"smarty/smarty": "3.1.12"
 	},
 	"suggest": {
@@ -71,6 +87,6 @@
 	},
 	"autoload": {
 		"files": ["lib/eventum/autoload.php"],
-		"classmap": [ "lib/jpgraph/", "lib/php-gettext/", "lib/sphinxapi/"]
+		"classmap": [ "lib/jpgraph/", "lib/sphinxapi/"]
 	}
 }
