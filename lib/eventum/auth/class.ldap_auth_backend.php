@@ -67,6 +67,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         );
 
         $this->user_dn_string = $setup['userdn'];
+        $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
@@ -129,7 +130,15 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     public function getRemoteUserInfo($uid)
     {
 
-        $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
+        if (strpos($uid, '@') === false) {
+            $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
+        } else {
+            $filter = Net_LDAP2_Filter::create('mail', 'equals',  $uid);
+        }
+        if (!empty($this->user_filter_string)) {
+            $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
+            $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
+        }
         $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
@@ -222,7 +231,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
         }
 
-        $user_info = $this->isValidUser($login, $password);
+        $user_info = $this->isValidUser($local_user_info['usr_external_id'], $password);
         if ($user_info == null) {
             return false;
         } else {
@@ -304,5 +313,21 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return -2;
         }
         return 1;
+    }
+    /**
+     * Method used to update the account password for a specific user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @param   string  $password The password.
+     * @return  boolean true if update worked, false otherwise
+     */
+    function updatePassword($usr_id, $password)
+    {
+        if (!$this->isLDAPuser($usr_id)) {
+            return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
+        } else {
+            return false;
+        }
     }
 }
