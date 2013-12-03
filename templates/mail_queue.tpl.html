@@ -1,55 +1,49 @@
-{capture assign="extra_title"}{t}Mail Queue{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
-{if $denied == 1}
-    <div align="center">{t}Sorry, you do not have permission to view this page{/t}</div>
+{extends "base_full.tpl.html"}
+{block page_id}mail_queue{/block}
+{block title}{t 1=$smarty.get.iss_id|intval}Issue #%1 - Mail Queue{/t}{/block}
+
+{block "content"}
+{if $denied|default:'' == 1}
+<div align="center">{t}Sorry, you do not have permission to view this page{/t}</div>
 {else}
 <script type="text/javascript" src="{$core.rel_url}js/httpclient.js"></script>
 <script type="text/javascript" src="{$core.rel_url}js/expandable_cell.js"></script>
 <form>
-  <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-    <tr>
-      <td nowrap>
-        <b>{t 1=$issue_id}Mail Queue for Issue #%1{/t}</b>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <table width="100%" cellpadding="2" cellspacing="1">
-          <tr>
-            <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue"}</td>
-            <td width="20%">{t}Recipient{/t}</td>
-            <td width="20%" nowrap>{t}Queued Date{/t}</td>
-            <td width="10%">{t}Status{/t}</td>
-            <td width="50%">{t}Subject{/t}</td>
-          </tr>
-          {section name="i" loop=$data}
-          {cycle values=$cycle assign="row_color"}
-          <tr>
-            <td NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id}</td>
-            <td width="20%" bgcolor="{$row_color}">{$data[i].maq_recipient|escape:"html"}</td>
-            <td width="20%" nowrap bgcolor="{$row_color}">{$data[i].maq_queued_date}</td>
-            <td width="10%" bgcolor="{$row_color}">{$data[i].maq_status}</td>
-            <td width="50%" bgcolor="{$row_color}">{$data[i].maq_subject|escape:"html"}</td>
-          </tr>
-          {include file="expandable_cell/body.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id colspan="5"}
-          {sectionelse}
-          <tr>
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="5">
+                {t 1=$issue_id}Mail Queue for Issue #%1{/t}
+            </th>
+        </tr>
+        <tr>
+            <th NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue"}</th>
+            <th width="20%">{t}Recipient{/t}</th>
+            <th width="20%" nowrap>{t}Queued Date{/t}</th>
+            <th width="10%">{t}Status{/t}</th>
+            <th width="50%">{t}Subject{/t}</th>
+        </tr>
+        {section name="i" loop=$data}
+        <tr class="{cycle values='odd,even'}">
+            <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id}</td>
+            <td width="20%">{$data[i].maq_recipient|escape:"html"}</td>
+            <td width="20%" nowrap>{$data[i].maq_queued_date}</td>
+            <td width="10%">{$data[i].maq_status}</td>
+            <td width="50%">{$data[i].maq_subject|escape:"html"}</td>
+        </tr>
+        {include file="expandable_cell/body.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id colspan="5"}
+        {sectionelse}
+        <tr>
             <td colspan="5" align="center">
-              <i>{t}No mail queue could be found.{/t}</i>
+                {t}No mail queue could be found.{/t}
             </td>
-          </tr>
-          {/section}
-          <tr>
+        </tr>
+        {/section}
+        <tr>
             <td colspan="5">
-              <input type="button" value="&lt;&lt; Back" onClick="location.href='{$core.rel_url}view.php?id={$issue_id}';">
+                <input type="button" value="&lt;&lt; Back" onClick="location.href='{$core.rel_url}view.php?id={$issue_id}';">
             </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+        </tr>
+    </table>
 </form>
 {/if}
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

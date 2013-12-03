@@ -63,17 +63,7 @@ $res = array(
 if ($callback) {
     echo $callback, '(', json_encode($res), ')';
 } else {
-    /**
-     * Since jsrs only supports returning one value, the string that is
-     * returned is in the format of ec_id:id:<data>.
-     *
-     * If ec_id is not passed as a parameter, only the data is returned.
-     */
-    if (empty($_GET["ec_id"])) {
-        echo $res['message'];
-    } else {
-        echo $res['ec_id'] . ':' . $res['list_id'] . ':' . $res['message'];
-    }
+    echo $res['message'];
 }
 exit;
 
