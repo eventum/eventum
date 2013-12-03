@@ -38,24 +38,24 @@ $tpl->assign("all_projects", Project::getAll());
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
 if (@$_POST["cat"] == "new") {
     Misc::mapMessages(Email_Account::insert(), array(
-            1   =>  array('Thank you, the email account was added successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to add the new account.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the email account was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the new account.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "update") {
     Misc::mapMessages(Email_Account::update(), array(
-            1   =>  array('Thank you, the email account was updated successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to update the account information.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the email account was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the account information.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "delete") {
     Misc::mapMessages(Email_Account::remove(), array(
-            1   =>  array('Thank you, the email account was deleted successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to delete the account information.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the email account was deleted successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to delete the account information.'), Misc::MSG_ERROR),
     ));
 }
 

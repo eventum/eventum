@@ -46,7 +46,13 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     {
         $usr_id = User::getUserIDByEmail($login, true);
         $user = User::getDetails($usr_id);
-        return $user['usr_password'] == self::hashPassword($password);
+        if ($user['usr_password'] == self::hashPassword($password)) {
+            self::resetFailedLogins($usr_id);
+            return true;
+        } else {
+            self::incrementFailedLogins($usr_id);
+            return false;
+        }
     }
 
     /**
@@ -79,5 +85,80 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     public function getUserIDByLogin($login)
     {
         return User::getUserIDByEmail($login, true);
+    }
+
+     /**
+     * Increment the failed logins attempts for this user
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean
+     */
+    public function incrementFailedLogins($usr_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_failed_logins = usr_failed_logins + 1,
+                    usr_last_failed_login = NOW()
+                 WHERE
+                    usr_id=" . Misc::escapeInteger($usr_id);
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Reset the failed logins attempts for this user
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean
+     */
+    public function resetFailedLogins($usr_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_failed_logins = 0,
+                    usr_last_login = NOW(),
+                    usr_last_failed_login = NULL
+                 WHERE
+                    usr_id=" . Misc::escapeInteger($usr_id);
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns the true if the account is currently locked because of Back-Off locking
+     *
+     * @access  public
+     * @param   string $usr_id The email address to check for
+     * @return  boolean
+     */
+    function isUserBackOffLocked($usr_id)
+    {
+        if (!is_int(APP_FAILED_LOGIN_BACKOFF_COUNT)) {
+            return false;
+        }
+        $stmt = "SELECT
+                    IF( usr_failed_logins >= " . APP_FAILED_LOGIN_BACKOFF_COUNT . ", NOW() < DATE_ADD(usr_last_failed_login, INTERVAL " . APP_FAILED_LOGIN_BACKOFF_MINUTES . " MINUTE), 0)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id=" . Misc::escapeInteger($usr_id);
+        $res = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return true;
+        }
+        return $res == 1;
     }
 }

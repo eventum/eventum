@@ -105,23 +105,23 @@ class Language
 
     /**
      * Method used to get available languages.
-	 * Uses $avail_langs array and verifies that the language can be used.
+     * Uses $avail_langs array and verifies that the language can be used.
      *
      * @access  public
      * @return  array
      */
     function getAvailableLanguages()
     {
-		$languages = array();
-		foreach (self::$avail_langs as $code => $language) {
-			$res = self::set($code);
-			if ($res) {
-				$languages[$code] = $language;
-			}
-		}
+        $languages = array();
+        foreach (self::$avail_langs as $code => $language) {
+            $res = self::set($code);
+            if ($res) {
+                $languages[$code] = $language;
+            }
+        }
 
-		self::restore();
-		return $languages;
+        self::restore();
+        return $languages;
     }
 
     /**
@@ -134,126 +134,66 @@ class Language
     function setPreference()
     {
         $usr_id = Auth::getUserID();
-		$lang = null;
+        $lang = null;
         if (!empty($usr_id)) {
-			// try user preference
+            // try user preference
             $usr_lang = User::getLang($usr_id);
-			if (self::set($usr_lang)) {
-				$lang = $usr_lang;
-			}
+            if (self::set($usr_lang)) {
+                $lang = $usr_lang;
+            }
         }
 
-		if ($lang == null) {
-			// fall back to system default
-			define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
-			// we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
-			// self::set(APP_CURRENT_LOCALE);
-		} else {
-			define('APP_CURRENT_LOCALE', $lang);
-		}
+        if ($lang == null) {
+            // fall back to system default
+            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+            // we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
+            // self::set(APP_CURRENT_LOCALE);
+        } else {
+            define('APP_CURRENT_LOCALE', $lang);
+        }
     }
 
     /**
      * Sets active language for for the application.
-	 * Returns false if locale is invalid or cannot be used.
+     * Returns false if locale is invalid or cannot be used.
      *
      * @access  public
      * @return  boolean
      */
-	public static function set($locale)
+    public static function set($locale)
     {
-		// XXX do not append charset to en_US locale
-		if ($locale != 'en_US') {
-			$locale = $locale . '.' . APP_CHARSET;
-		}
-		$res = _setlocale(LC_TIME, $locale);
-		if ($res === false) {
-			return false;
-		}
+        // XXX do not append charset to en_US locale
+        if ($locale != 'en_US') {
+            $locale = $locale . '.' . APP_CHARSET;
+        }
+        $res = _setlocale(LC_TIME, $locale);
+        if ($res === false) {
+            return false;
+        }
 
-		$res = _setlocale(LC_MESSAGES, $locale);
-		if ($res === false) {
-			return false;
-		}
+        $res = _setlocale(LC_MESSAGES, $locale);
+        if ($res === false) {
+            return false;
+        }
 
-		// XXX do not require translations for en_US locale
-		if ($locale != 'en_US') {
-			// get translator info
-			$res = _gettext('');
-			// if empty gettext is returned then the mo catalog is not installed.
-			if (empty($res)) {
-				return false;
-			}
-		}
+        // XXX do not require translations for en_US locale
+        if ($locale != 'en_US') {
+            // get translator info
+            $res = _gettext('');
+            // if empty gettext is returned then the mo catalog is not installed.
+            if (empty($res)) {
+                return false;
+            }
+        }
         User::resetLocalizedRoles();
 
-		return true;
+        return true;
     }
 
 
     public static function restore()
     {
-		$locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
-		self::set($locale);
+        $locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
+        self::set($locale);
     }
 }
-
-// if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
-if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE == 'php')) {
-    require_once APP_PATH . '/lib/php-gettext/gettext.inc';
-
-	function ev_gettext($string) {
-		if (func_num_args() > 1) {
-			$arg = array();
-			for($i = 1 ; $i < func_num_args(); $i++) {
-				$arg[] = func_get_arg($i);
-			}
-			$string = _gettext($string);
-			return vsprintf($string, $arg);
-		} else {
-			return _gettext($string);
-		}
-	}
-	function ev_ngettext($string, $plural, $number) {
-		return _ngettext($string, $plural, $number);
-	}
-
-} else {
-	function ev_gettext($string) {
-		if (func_num_args() > 1) {
-			$arg = array();
-			for($i = 1 ; $i < func_num_args(); $i++) {
-				$arg[] = func_get_arg($i);
-			}
-
-			$string = gettext($string);
-			return vsprintf($string, $arg);
-		} else {
-			return gettext($string);
-		}
-	}
-
-	function ev_ngettext($string, $plural, $number) {
-		return ngettext($string, $plural, $number);
-	}
-	function _bind_textdomain_codeset($domain, $codeset) {
-		return bind_textdomain_codeset($domain, $codeset);
-	}
-	function _bindtextdomain($domain, $path) {
-		return bindtextdomain($domain, $path);
-	}
-	function _textdomain($domain) {
-		return textdomain($domain);
-	}
-	function _gettext($msgid) {
-		return gettext($msgid);
-	}
-	function _setlocale($category, $locale) {
-		return setlocale($category, $locale);
-	}
-}
-
-// this won't change over the request. so set it once and permanently
-_bindtextdomain('eventum', APP_PATH . '/localization/');
-_bind_textdomain_codeset('eventum', APP_CHARSET);
-_textdomain('eventum');

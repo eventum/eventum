@@ -4,6 +4,7 @@
 localedir   := /usr/share/locale
 DOMAIN      := eventum
 MOFILES     := $(patsubst %.po,%.mo,$(wildcard *.po))
+tsmarty2c   := $(abspath ..)/vendor/bin/tsmarty2c.php
 
 all: $(MOFILES)
 
@@ -36,8 +37,20 @@ install: $(MOFILES)
 clean:
 	rm -f *.mo
 
-tools-check:
-	@TOOLS='bzr find sort xargs xgettext sed mv rm'; \
+$(tsmarty2c):
+	@set -e; \
+	echo "\nMissing tsmarty2c from gettext-smarty\n"; \
+	echo "Run 'composer update' in '$(abspath ..)'\n"; \
+	exit 1
+
+tools-check: $(tsmarty2c)
+	@TOOLS='git find sort xargs xgettext sed mv rm'; \
+	which --version > /dev/null 2>&1 || which() {\
+		local ifs=$$IFS d x=$$1; IFS=:; \
+		for d in $$PATH; do [ -x $$d/$$x ] && { p=$$d/$$x; break; }; done; \
+		IFS=$$ifs; \
+		echo $$p; \
+	}; \
 	for t in $$TOOLS; do \
 		p=`which $$t 2>/dev/null`; \
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
@@ -46,12 +59,12 @@ tools-check:
 # generate .pot file from clean copy
 pot: tools-check
 	@set -x -e; \
-	export tsmarty2c=`pwd`/tsmarty2c; \
 	umask 002; \
 	rm -rf workdir; \
-	bzr export workdir; \
+	install -d workdir; \
+	(cd .. && git archive HEAD) | tar -x -C workdir; \
 	cd workdir; \
-		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $$tsmarty2c -o ts.pot; \
+		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
 		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
 		msgcat -o merged.pot code.pot ts.pot; \
 		sed -ne '1,/^$$/p' code.pot > header.pot; \

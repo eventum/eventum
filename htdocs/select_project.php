@@ -49,7 +49,7 @@ if (@$_GET["err"] == '') {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
-            Auth::redirect("main.php");
+            Auth::redirect("list.php");
         }
     }
 
@@ -67,7 +67,7 @@ if (@$_GET["err"] == '') {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
-            Auth::redirect("main.php");
+            Auth::redirect("list.php");
         }
     } elseif ((!empty($_GET["url"])) && (
             (preg_match("/.*view\.php\?id=(\d*)/", $_GET["url"], $matches) > 0) ||

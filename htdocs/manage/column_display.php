@@ -38,7 +38,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 
@@ -46,8 +46,8 @@ if (@$_POST["cat"] == "save") {
     $res = Display_Column::save();
     $tpl->assign("result", $res);
     Misc::mapMessages($res, array(
-            1   =>  array('Thank you, columns to display was saved successfully.', Misc::MSG_INFO),
-            -1  =>  array('An error occurred while trying to save columns to display.', Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, columns to display was saved successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to save columns to display.'), Misc::MSG_ERROR),
     ));
 }
 

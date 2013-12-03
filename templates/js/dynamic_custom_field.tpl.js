@@ -139,34 +139,39 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                     'data': {
                         'fld_id':   details[i].target_field_id
                     },
-                    'success': function(options, status) {
-                        var wrapped_target = $(target);
-                        var target_id_chunks = wrapped_target.attr('id').split('_');
-                        var details = custom_field_get_details_by_target(target_id_chunks[2]);
-                        if (options != null) {
-                            target.options.length = 0;
-                            $.each(options, function(key, val) {
-                                target.options[target.options.length] = new Option(val, key);
-                                return true;
-                            });
-                            $(target).unbind("focus.choose_controller");
-                            show = true;
-                        } else {
-                            target.options.length = 0;
-                            target.options[0] = new Option('Please choose an option', "");
-                            wrapped_target.bind("focus.choose_controller", details.target_field_id, prompt_choose_controller_first);
-                            show = false;
-                        }
-                        if (details.hide_when_no_options == 1) {
-                            custom_field_change_visibility(target, show);
-                        }
-                    }
+                    'success': getSuccessCallback(target)
                 });
             }
 
             if (details[i].hide_when_no_options == 1) {
                 custom_field_change_visibility(target, show);
             }
+        }
+    }
+}
+
+function getSuccessCallback(target)
+{
+    return function(options, status) {
+        var wrapped_target = $(target);
+        var target_id_chunks = wrapped_target.attr('id').split('_');
+        var details = custom_field_get_details_by_target(target_id_chunks[2]);
+        if (options != null) {
+            target.options.length = 0;
+            $.each(options, function(key, val) {
+                target.options[target.options.length] = new Option(val, key);
+                return true;
+            });
+            $(target).unbind("focus.choose_controller");
+            show = true;
+        } else {
+            target.options.length = 0;
+            target.options[0] = new Option('Please choose an option', "");
+            wrapped_target.bind("focus.choose_controller", details.target_field_id, prompt_choose_controller_first);
+            show = false;
+        }
+        if (details.hide_when_no_options == 1) {
+            custom_field_change_visibility(target, show);
         }
     }
 }

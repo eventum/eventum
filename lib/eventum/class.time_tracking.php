@@ -39,27 +39,42 @@
 class Time_Tracking
 {
     /**
+     * These categories are required by Eventum and cannot be deleted.
+     * @var array
+     */
+    private static $default_categories = array('Note Discussion', 'Email Discussion', 'Telephone Discussion');
+
+    /**
      * Method used to get the ID of a given category.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @param   string $ttc_title The time tracking category title
-     * @return  integerThe time tracking category ID
+     * @return  integer The time tracking category ID
      */
-    function getCategoryID($ttc_title)
+    function getCategoryID($prj_id, $ttc_title = '')
     {
+        // LEGACY: handle swapped params, i.e one parameter call where
+        // $ttc_title was only arg. This is not needed by Eventum Core, but
+        // kept for the sake of Workflow and Customer integration.
+        if (func_num_args() == 1) {
+            $ttc_title = $prj_id;
+            $prj_id = Auth::getCurrentProject();
+        }
+
         $stmt = "SELECT
                     ttc_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     ttc_title='" . Misc::escapeString($ttc_title) . "'";
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+        return $res;
     }
 
 
@@ -82,21 +97,54 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+        return $res;
     }
 
+    /**
+     * Get statistic of time categories usage
+     *
+     * @return  array $ttc_id => issue_count
+     */
+    private static function getCategoryStats($ttc_ids)
+    {
+        $list = implode(", ", Misc::escapeInteger($ttc_ids));
+        $stmt = "SELECT
+                    ttr_ttc_id,
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                 WHERE
+                    ttr_ttc_id IN ($list)
+                 GROUP BY 1";
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        }
+
+        return $res;
+    }
 
     /**
      * Method used to remove a specific set of time tracking categories
      *
      * @access  public
-     * @return  boolean
+     * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
     function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+
+        // check that none of the categories are in use
+        $usage = self::getCategoryStats($items);
+        foreach ($usage as $ttc_id => $count) {
+            if ($count > 0) {
+                return -2;
+            }
+        }
+
+        $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
@@ -104,10 +152,10 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
-        } else {
-            return true;
+            return -1;
         }
+
+        return 1;
     }
 
 
@@ -127,72 +175,101 @@ class Time_Tracking
                  SET
                     ttc_title='" . Misc::escapeString($_POST["title"]) . "'
                  WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
                     ttc_id=" . Misc::escapeInteger($_POST["id"]);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
+        return 1;
     }
 
 
     /**
      * Method used to add a new time tracking category
      *
-     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   string $title The title of the time tracking category
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function insert()
+    public static function insert($prj_id, $title)
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($title)) {
             return -2;
         }
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  (
+                    ttc_prj_id,
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
-                    '" . Misc::escapeString($_POST["title"]) . "',
+                    " . Misc::escapeInteger($prj_id) . ",
+                    '" . Misc::escapeString($title) . "',
                     '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
+    /**
+     * Method used to add a default timetracking categories for project.
+     *
+     * @param   integer $prj_id The project ID
+     * @return  integer 1 if the inserts worked, -1 otherwise
+     */
+    public static function addProjectDefaults($prj_id)
+    {
+        $res = 1;
+        foreach (self::$default_categories as $title) {
+            $res = min($res, self::insert($prj_id, $title));
+        }
+        return $res;
+    }
 
     /**
-     * Method used to get the full list of time tracking categories available in
-     * the system exclusing those reserved by the system.
+     * Method used to get the full list of time tracking categories associated
+     * with a specific project.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
-    function getList()
+    function getList($prj_id)
     {
+        $ttc_list = join(', ', Misc::escapeString(self::$default_categories, true));
         $stmt = "SELECT
                     ttc_id,
                     ttc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
-                    ttc_title NOT IN ('Note Discussion', 'Email Discussion', 'Telephone Discussion')
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    ttc_title NOT IN ($ttc_list)
                  ORDER BY
                     ttc_title ASC";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        $ttc_usage = self::getCategoryStats(Misc::collect('ttc_id', $res));
+        foreach ($res as &$row) {
+            $ttc_id = $row['ttc_id'];
+            if (isset($ttc_usage[$ttc_id])) {
+                $row['ttc_count'] = $ttc_usage[$ttc_id];
+            }
+        }
+
+        return $res;
     }
 
 
@@ -203,22 +280,24 @@ class Time_Tracking
      * @access  public
      * @return  array The list of categories
      */
-    function getAssocCategories()
+    function getAssocCategories($prj_id)
     {
         $stmt = "SELECT
                     ttc_id,
                     ttc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                 WHERE
+                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     ttc_title ASC";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -251,10 +330,11 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
-            for ($i = 0; $i < count($result); $i++) {
-                @$result[$i]['time_spent'] = $res[$result[$i]['iss_id']];
-            }
+            return;
+        }
+
+        for ($i = 0; $i < count($result); $i++) {
+            @$result[$i]['time_spent'] = $res[$result[$i]['iss_id']];
         }
     }
 
@@ -278,9 +358,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
 
@@ -316,34 +396,34 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            $total_time_spent = 0;
-            $total_time_by_user = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
-                $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
-                $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
-
-                if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
-                   $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
-                } else {
-                    $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
-                        'usr_full_name' => $res[$i]['usr_full_name'],
-                        'time_spent'    => $res[$i]['ttr_time_spent']
-                    );
-                }
-                $total_time_spent += $res[$i]["ttr_time_spent"];
-            }
-            usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
-            foreach ($total_time_by_user as &$item) {
-                $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
-            }
-            return array(
-                "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
-                "total_time_by_user" => $total_time_by_user,
-                "list"               => $res
-            );
         }
+
+        $total_time_spent = 0;
+        $total_time_by_user = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
+            $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
+            $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
+
+            if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
+               $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+            } else {
+                $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
+                    'usr_full_name' => $res[$i]['usr_full_name'],
+                    'time_spent'    => $res[$i]['ttr_time_spent']
+                );
+            }
+            $total_time_spent += $res[$i]["ttr_time_spent"];
+        }
+        usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
+        foreach ($total_time_by_user as &$item) {
+            $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
+        }
+        return array(
+            "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
+            "total_time_by_user" => $total_time_by_user,
+            "list"               => $res
+        );
     }
 
 
@@ -366,9 +446,8 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
 
@@ -454,12 +533,12 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Issue::markAsUpdated($_POST["issue_id"], 'time added');
-            // need to save a history entry for this
-            History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
-            return 1;
         }
+
+        Issue::markAsUpdated($_POST["issue_id"], 'time added');
+        // need to save a history entry for this
+        History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
+        return 1;
     }
 
 
@@ -497,12 +576,12 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id)));
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id)));
+        return 1;
     }
 
 
@@ -537,14 +616,14 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            if (count($res) > 0) {
-                foreach ($res as $index => $row) {
-                    $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
-                }
-            }
-            return $res;
         }
+
+        if (count($res) > 0) {
+            foreach ($res as $index => $row) {
+                $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
+            }
+        }
+        return $res;
     }
 
     /**
@@ -572,9 +651,9 @@ class Time_Tracking
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
     /**
      * Method used to add time spent on issue to a list of user issues.
@@ -609,11 +688,11 @@ class Time_Tracking
         if (PEAR::isError($result)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
-        } else {
-            foreach($res as $key => $item) {
-                @$res[$key]['it_spent'] = $result[$item['iss_id']];
-                @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
-            }
+        }
+
+        foreach($res as $key => $item) {
+            @$res[$key]['it_spent'] = $result[$item['iss_id']];
+            @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
         }
     }
 }

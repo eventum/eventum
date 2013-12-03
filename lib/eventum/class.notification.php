@@ -1103,6 +1103,10 @@ class Notification
             $crm = CRM::getInstance($prj_id);
             $crm->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
         } else {
+            $sent = false;
+        }
+
+        if ($sent === false) {
             if ($additional_recipient != false) {
                 $recipient = $additional_recipient;
                 $is_message_sender = false;

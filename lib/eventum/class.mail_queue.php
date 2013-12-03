@@ -151,23 +151,62 @@ class Mail_Queue
      * @access  public
      * @param   string $status The status of the messages that need to be sent
      * @param   integer $limit The limit of emails that we should send at one time
+     * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
-    function send($status, $limit)
+    function send($status, $limit = false, $merge = false)
     {
-        // foreach email, we use retrieve one email details a time to avoid
-        // running out of memory.
+        if ($merge !== false) {
+            foreach (self::_getMergedList($status, $limit) as $maq_ids) {
+                $emails = self::_getEntries($maq_ids);
+                $recipients = array();
+
+                foreach ($emails as $email) {
+                    $recipients[] = $email['recipient'];
+                }
+
+                $email = $emails[0];
+                $recipients = implode(',', $recipients);
+                $message = $email['headers'] . "\r\n\r\n" . $email['body'];
+                $structure = Mime_Helper::decode($message, false, false);
+                $headers = $structure->headers;
+
+                $headers['to'] = $recipients;
+                $headers = Mime_Helper::encodeHeaders($headers);
+
+                $res = Mail_Helper::prepareHeaders($headers);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    return $res;
+                }
+
+                list(,$text_headers) = $res;
+                $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
+
+                if (PEAR::isError($result)) {
+                    $maq_id = implode(',', $maq_ids);
+                    $details = $result->getMessage() . "/" . $result->getDebugInfo();
+                    echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
+
+                    foreach ($emails as $email) {
+                        self::_saveStatusLog($email['id'], 'error', $details);
+                    }
+
+                    continue;
+                }
+
+                foreach ($emails as $email) {
+                    self::_saveStatusLog($email['id'], 'sent', '');
+
+                    if ($email['save_copy']) {
+                        Mail_Helper::saveOutgoingEmailCopy($email);
+                    }
+                }
+            }
+        }
+
         foreach (self::_getList($status, $limit) as $maq_id) {
             $email = self::_getEntry($maq_id);
-            if (empty($email)) {
-                // skip on error
-                continue;
-            }
-
-            $current_status = $status;
-            if ($email['maq_type'] == 'error') {
-                $current_status = 'error';
-            }
-            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $current_status);
+            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
             if (PEAR::isError($result)) {
                 $details = $result->getMessage() . "/" . $result->getDebugInfo();
@@ -178,7 +217,6 @@ class Mail_Queue
 
             self::_saveStatusLog($email['id'], 'sent', '');
             if ($email['save_copy']) {
-                // send a copy of this email to eventum_sent@
                 Mail_Helper::saveOutgoingEmailCopy($email);
             }
         }
@@ -264,7 +302,7 @@ class Mail_Queue
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getList($status, $limit = 50)
+    private function _getList($status, $limit = false)
     {
         $sql = "SELECT
                     maq_id id
@@ -273,13 +311,56 @@ class Mail_Queue
                  WHERE
                     maq_status='$status'
                  ORDER BY
-                    maq_id ASC
-                 LIMIT
-                    0, $limit";
+                    maq_id ASC";
+
+        if ($limit !== false) {
+            $sql .= " LIMIT 0, $limit";
+        }
+
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
+        }
+
+        return $res;
+    }
+
+    /**
+     * Retrieves the list of queued email messages ids, given a status, merged together by type
+     *
+     * @access  private
+     * @param   string $status The status of the messages
+     * @param   integer $limit The limit on the number of messages that need to be returned
+     * @return  array The list of queued email messages
+     */
+    private function _getMergedList($status, $limit = false)
+    {
+        $sql = "SELECT
+                    GROUP_CONCAT(maq_id) ids
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 WHERE
+                    maq_status='$status'
+                 AND
+                    maq_type_id > 0
+                 GROUP BY
+                    maq_type_id
+                 ORDER BY
+                    MIN(maq_id) ASC";
+
+        if ($limit !== false) {
+            $sql .= " LIMIT 0, $limit";
+        }
+
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+
+        foreach ($res as &$value) {
+           $value = explode(',', $value['ids']);
         }
 
         return $res;
@@ -316,6 +397,36 @@ class Mail_Queue
         return $res;
     }
 
+    /**
+     * Retrieves queued email by maq_ids.
+     *
+     * @access  private
+     * @param   array $maq_ids IDs of queue entries
+     * @return  array The queued email message
+     */
+    private function _getEntries($maq_ids)
+    {
+        $stmt = "SELECT
+                    maq_id id,
+                    maq_iss_id,
+                    maq_save_copy save_copy,
+                    maq_recipient recipient,
+                    maq_headers headers,
+                    maq_body body,
+                    maq_type,
+                    maq_usr_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 WHERE
+                    maq_id IN (" . implode(',', $maq_ids) . ")";
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+
+        return $res;
+    }
 
     /**
      * Saves a log entry about the attempt, successful or otherwise, to send the

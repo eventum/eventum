@@ -503,18 +503,18 @@ class Mime_Helper
     function getHeaderNames($input)
     {
         if ($input === '') {
-	        return array();
+            return array();
         }
 
-		$return = array();
-		// Unfold the input
-		$input   = preg_replace("/\r?\n/", "\r\n", $input);
-		$input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
-		$headers = explode("\r\n", trim($input));
-		foreach ($headers as $value) {
-			$hdr_name = substr($value, 0, strpos($value, ':'));
-			$return[strtolower($hdr_name)] = $hdr_name;
-		}
+        $return = array();
+        // Unfold the input
+        $input   = preg_replace("/\r?\n/", "\r\n", $input);
+        $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+        $headers = explode("\r\n", trim($input));
+        foreach ($headers as $value) {
+            $hdr_name = substr($value, 0, strpos($value, ':'));
+            $return[strtolower($hdr_name)] = $hdr_name;
+        }
         return $return;
     }
 

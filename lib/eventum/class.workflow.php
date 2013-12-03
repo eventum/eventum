@@ -78,7 +78,7 @@ class Workflow
                     prj_id";
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {

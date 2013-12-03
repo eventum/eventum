@@ -96,6 +96,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return false;
         }
     }
+
     private function isValidUser($uid, $password)
     {
         $setup = self::loadSetup();
@@ -324,6 +325,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         return 1;
     }
 
+
     /**
      * Method used to update the account password for a specific user.
      *
@@ -340,5 +342,4 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return false;
         }
     }
-
 }

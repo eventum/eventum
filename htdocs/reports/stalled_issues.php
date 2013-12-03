@@ -28,7 +28,6 @@
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
-require_once(APP_PATH . "/lib/eventum/class.date_helper.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("reports/stalled_issues.tpl.html");
@@ -43,12 +42,12 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 $prj_id = Auth::getCurrentProject();
 
 if (count(@$_REQUEST['before']) < 1) {
-    $before = date("Y-m-d", (time()-MONTH));
+    $before = date("Y-m-d", (time()-Date_Helper::MONTH));
 } else {
     $before = join('-', $_REQUEST['before']);
 }
 if (count(@$_REQUEST['after']) < 1) {
-    $after = date("Y-m-d", (time()-YEAR));
+    $after = date("Y-m-d", (time()-Date_Helper::YEAR));
 } else {
     $after = join('-', $_REQUEST['after']);
 }

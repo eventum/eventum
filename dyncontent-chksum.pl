@@ -11,7 +11,8 @@ sub checksum {
 
 	return $cache{$file} if exists $cache{$file};
 
-	open(my $fh, '<', 'htdocs/'.$file) or die $!;
+	$file = "htdocs/$file";
+	open(my $fh, '<', $file) or die "Can't open $file: $!";
 	my $checksum = do {
 		local $/;  # slurp!
 		unpack('%32C*', <$fh>) % 65535;
@@ -33,7 +34,7 @@ sub process_file {
 	my @lines;
 	open(my $fh, '<', $file) or die $!;
 	while (<$fh>) {
-		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="{\$rel_url})([^"]+)/i) {
+		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="{\$core\.rel_url})([^"]+)/i) {
 			my ($pre, $post) = ($`, $');
 			if ($script !~ /\?/) {
 				$_ = $pre. $tag. $script .'?c='.checksum($script). $post;

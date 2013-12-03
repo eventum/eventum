@@ -42,8 +42,7 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modifie
 header('Pragma: no-cache');
 header('Cache-Control: must-revalidate, post-check=0,pre-check=0');
 
-header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment; filename='. uniqid('') . '.xls');
-header('Content-Length: ' . strlen($csv));
-
-echo $csv;
+$filename = uniqid('csv') . '.xls';
+$mimetype = 'application/vnd.ms-excel';
+$filesize = strlen($csv);
+Attachment::outputDownload($csv, $filename, $filesize, $mimetype);

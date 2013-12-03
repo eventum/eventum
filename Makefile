@@ -36,7 +36,7 @@ install-eventum:
 # install eventum cli
 install-cli:
 	install -d $(DESTDIR)$(bindir)
-	cp -a cli/eventum $(DESTDIR)$(bindir)
+	cp -a cli/$(name).php $(DESTDIR)$(bindir)/$(name)
 
 	install -d $(DESTDIR)$(datadir)/cli
 	cp -a cli/lib $(DESTDIR)$(datadir)/cli
@@ -44,12 +44,13 @@ install-cli:
 # install eventum irc bot
 install-irc:
 	install -d $(DESTDIR)$(sbindir)
-	cp -a irc/*-bot $(DESTDIR)$(sbindir)
+	cp -a irc/eventum-irc-bot.php $(DESTDIR)$(sbindir)/eventum-irc-bot
 
 # install eventum scm (cvs, eventum) hooks
 install-scm:
 	install -d $(DESTDIR)$(sbindir)
-	install -p scm/*-hook $(DESTDIR)$(sbindir)
+	install -p scm/eventum-cvs-hook.php $(DESTDIR)$(sbindir)/eventum-cvs-hook
+	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
 
 # install extra libraries for eventum
 install-libs: install-pear install-jpgraph install-gettext install-smarty

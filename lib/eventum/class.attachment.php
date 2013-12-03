@@ -91,9 +91,9 @@ class Attachment
             $filename = ev_gettext("Untitled");
         }
         $disposition = self::displayInline($mimetype) ? 'inline' : 'attachment';
-        $filename = Mime_Helper::encodeQuotedPrintable($filename);
+        $filename = rawurlencode($filename);
         header("Content-Type: " . $mimetype);
-        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"");
+        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=".APP_CHARSET."''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;
         exit;

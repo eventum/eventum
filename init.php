@@ -42,7 +42,7 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://launchpad.net/eventum/');
-define('APP_VERSION', '2.3.3');
+define('APP_VERSION', '2.4.0');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)));
@@ -84,6 +84,10 @@ if (!defined('APP_PEAR_PATH')) {
 
 if (!defined('APP_SPHINXAPI_PATH')) {
     define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
+}
+
+if (!defined('APP_PHP_GETTEXT_PATH')) {
+    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
 }
 
 if (!defined('APP_SMARTY_PATH')) {
@@ -181,6 +185,16 @@ if (!defined('APP_EMAIL_ENCODING')) {
     }
 }
 
+// Number of failed attempts before Back-Off locking kicks in.
+// If set to false do not use Back-Off locking.
+if (!defined('APP_FAILED_LOGIN_BACKOFF_COUNT')) {
+	define('APP_FAILED_LOGIN_BACKOFF_COUNT', false);
+}
+// How many minutes to lock account for during Back-Off
+if (!defined('APP_FAILED_LOGIN_BACKOFF_MINUTES')) {
+	define('APP_FAILED_LOGIN_BACKOFF_MINUTES', 15);
+}
+
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
 // if set, normal calls to eventum are redirected to a maintenance page while
@@ -213,6 +227,7 @@ if (get_magic_quotes_gpc()) {
 
 set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
 
+require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
 
 // set charset

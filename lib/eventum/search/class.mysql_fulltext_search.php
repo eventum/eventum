@@ -84,7 +84,8 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                 WHERE
-                    MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
+                    (MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE) OR
+                     MATCH (icf_value_integer) AGAINST ('" . Misc::escapeInteger($options['keywords']) . "' IN BOOLEAN MODE))";
         $custom_res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($custom_res)) {
             Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);

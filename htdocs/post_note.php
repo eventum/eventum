@@ -48,7 +48,11 @@ if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::
 
 Workflow::prePage($prj_id, 'post_note');
 
-if (@$_POST["cat"] == "post_note") {
+if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
+    $res = (int)$_GET['post_result'];
+    $tpl->assign("post_result", $res);
+
+} elseif (@$_POST["cat"] == "post_note") {
     // change status
     if (!@empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
@@ -62,11 +66,12 @@ if (@$_POST["cat"] == "post_note") {
     Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
 
     if ($res == -1) {
-        Misc::setMessage(_("An error occurred while trying to run your query"), Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('An error occurred while trying to run your query'), Misc::MSG_ERROR);
     } else {
-        Misc::setMessage(_('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
+        Misc::setMessage(ev_gettext('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
     }
     $tpl->assign("post_result", $res);
+
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
@@ -74,6 +79,9 @@ if (@$_POST["cat"] == "post_note") {
         $_POST['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
+
+    Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
+
 } elseif (@$_GET["cat"] == "reply") {
     if (!@empty($_GET["id"])) {
         $note = Note::getDetails($_GET["id"]);
@@ -87,6 +95,7 @@ if (@$_POST["cat"] == "post_note") {
         $reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
     }
 }
+
 if (empty($reply_subject)) {
     // TRANSLATORS: %1 = issue summary
     $reply_subject = ev_gettext('Re: %1$s', $details['iss_summary']);
@@ -99,8 +108,8 @@ $tpl->assign(array(
     'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User")),
     'statuses'           => Status::getAssocStatusList($prj_id, false),
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
-    'time_categories'    => Time_Tracking::getAssocCategories(),
-    'note_category_id'   => Time_Tracking::getCategoryID('Note Discussion'),
+    'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
+    'note_category_id'   => Time_Tracking::getCategoryID($prj_id, 'Note Discussion'),
     'reply_subject'      => $reply_subject,
     'issue_fields'       => Issue_Field::getDisplayData($issue_id, 'post_note'),
 ));

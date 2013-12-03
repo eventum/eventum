@@ -44,18 +44,18 @@ class DB_Helper
      */
     private static $instance;
 
-	/**
-	 * @static
-	 * @return DB_common
-	 */
+    /**
+     * @static
+     * @return DB_common
+     */
     public static function getInstance() {
         if (!self::$instance) {
             self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
-	            /** @var $e PEAR_Error */
+                /** @var $e PEAR_Error */
                 Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
-	            /** @global $error_type  */
+                /** @global $error_type  */
                 $error_type = "db";
                 require_once APP_PATH . "/htdocs/offline.php";
                 exit(2);
@@ -64,7 +64,7 @@ class DB_Helper
         return self::$instance->dbh;
     }
 
-	/** @var DB_common */
+    /** @var DB_common */
     private $dbh;
     /**
      * Connects to the database and creates a data dictionary array to be used
@@ -115,10 +115,14 @@ class DB_Helper
      *
      * @access  public
      * @param   string $str The string that needs to be escaped
+     * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
      */
-    static function escapeString($str)
+    static function escapeString($str, $add_quotes = false)
     {
+        if ($add_quotes) {
+            return "'". mysql_real_escape_string($str, self::getInstance()->connection) . "'";
+        }
         return mysql_real_escape_string($str, self::getInstance()->connection);
     }
 

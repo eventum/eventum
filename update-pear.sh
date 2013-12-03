@@ -41,7 +41,6 @@ Net_SMTP-stable
 Net_SmartIRC-stable
 Net_Socket-stable
 Net_URL-stable
-Net_UserAgent_Detect-stable
 PEAR-stable
 Text_Diff-stable
 XML_RPC-stable
@@ -120,6 +119,6 @@ if [ ! -f pear.clean ]; then
 	# and as well can remove trailing spaces/tabs:
 	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
 	# remove DOS EOL
-	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'  
+	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 	cd -
 fi

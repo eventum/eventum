@@ -8,7 +8,12 @@ Eventum Issue Tracking System
 - Automatically uncompress gzip files when using the "view" link (Bryan)
 - Send notification on private file uploads to internal users (Bryan)
 
-2012-??-??, Version 2.3.4
+201?-??-??, Version 2.4.0
+- Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
+- Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
+
+
+2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
 - Add logged in username in automated error reports (Elan Ruusamäe)
@@ -20,6 +25,13 @@ Eventum Issue Tracking System
 - Fix preg_replace warning, when someone managed to upload file containing slash in it's name (Elan Ruusamäe)
 - Move SCM configuration to separate admin panel (Elan Ruusamäe)
 - Handle cases when broken clients send out email with duplicate Message-Id headers. RFC2822 clearly states maximum count of one header allowed (Elan Ruusamäe)
+- Make time tracking categories project specific (Elan Ruusamäe)
+- API: Misc::escapeString can add quotes around strings (Elan Ruusamäe)
+- fix bug for adding time entries is broken at the end of month Edit (#1186330)
+- Add Back-Off functionallity (Petter Sandholdt) (GH#4)
+- Redirect to issues listing when signing in (Elan Ruusamäe)
+- Change downloading attachments encoding to urlencode (Elan Ruusamäe) (#1251335)
+- Save eventum setup.php as PHP code, not base64 encoded data (Elan Ruusamäe)
 
 2012-07-09, Version 2.3.3 RC3
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)

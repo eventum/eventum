@@ -37,7 +37,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();exit;
 }
 $tpl->assign("project_list", Project::getAll());
@@ -45,20 +45,20 @@ $tpl->assign("project_list", Project::getAll());
 if (@$_POST["cat"] == "new") {
     $res = Custom_Field::insert();
     Misc::mapMessages($res, array(
-            1   =>  array('Thank you, the custom field was added successfully.', Misc::MSG_INFO),
-            -1  =>  array("An error occurred while trying to add the new custom field.", Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the custom field was added successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to add the new custom field.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "update") {
     $res = Custom_Field::update();
     Misc::mapMessages($res, array(
-            1   =>  array('Thank you, the custom field was updated successfully.', Misc::MSG_INFO),
-            -1  =>  array("An error occurred while trying to update the custom field information.", Misc::MSG_ERROR),
+            1   =>  array(ev_gettext('Thank you, the custom field was updated successfully.'), Misc::MSG_INFO),
+            -1  =>  array(ev_gettext('An error occurred while trying to update the custom field information.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "delete") {
     $res = Custom_Field::remove();
     Misc::mapMessages($res, array(
-            true   =>  array('Thank you, the custom field was removed successfully.', Misc::MSG_INFO),
-            false  =>  array("An error occurred while trying to remove the custom field information.", Misc::MSG_ERROR),
+            true   =>  array(ev_gettext('Thank you, the custom field was removed successfully.'), Misc::MSG_INFO),
+            false  =>  array(ev_gettext('An error occurred while trying to remove the custom field information.'), Misc::MSG_ERROR),
     ));
 }elseif (@$_REQUEST["cat"] == "change_rank") {
     Custom_Field::changeRank();

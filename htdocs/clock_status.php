@@ -35,10 +35,10 @@ $usr_id = Auth::getUserID();
 
 if (User::isClockedIn($usr_id)) {
     User::ClockOut($usr_id);
-    Misc::setMessage("You have been clocked out", Misc::MSG_INFO);
+    Misc::setMessage(ev_gettext('You have been clocked out'), Misc::MSG_INFO);
 } else {
     User::ClockIn($usr_id);
-    Misc::setMessage("You have been clocked in", Misc::MSG_INFO);
+    Misc::setMessage(ev_gettext('You have been clocked in'), Misc::MSG_INFO);
 }
 
 Auth::redirect(!empty($_REQUEST['current_page']) ? $_REQUEST['current_page'] : APP_RELATIVE_URL . 'list.php');

@@ -48,9 +48,10 @@ if (@$_POST["cat"] == "add_time") {
     $tpl->assign("time_add_result", $res);
 }
 
+$prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
     "issue_id"           => $issue_id,
-    "time_categories"    => Time_Tracking::getAssocCategories(),
+    "time_categories"    => Time_Tracking::getAssocCategories($prj_id),
     "current_user_prefs" => Prefs::get(Auth::getUserID())
 ));
 

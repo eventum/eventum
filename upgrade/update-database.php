@@ -118,10 +118,11 @@ function patch_database() {
         }
     }
 
+    $version = max(array_keys($files));
     if ($addCount == 0) {
-        echo "* Your database is already up-to-date\n";
+        echo "* Your database is already up-to-date. Version $version\n";
     } else {
-        echo "* Your database is now up-to-date\n";
+        echo "* Your database is now up-to-date. Updated from $last_patch to $version\n";
     }
 }
 

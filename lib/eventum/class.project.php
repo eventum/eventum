@@ -547,23 +547,26 @@ class Project
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            $new_prj_id = DB_Helper::get_last_insert_id();
-            for ($i = 0; $i < count($_POST["users"]); $i++) {
-                if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
-                    $role_id = User::getRoleID("Manager");
-                } else {
-                    $role_id = User::getRoleID("Standard User");
-                }
-                self::associateUser($new_prj_id, $_POST["users"][$i], $role_id);
-            }
-            foreach ($_POST['statuses'] as $sta_id) {
-                Status::addProjectAssociation($sta_id, $new_prj_id);
-            }
-            Display_Column::setupNewProject($new_prj_id);
-
-            return 1;
         }
+
+        $new_prj_id = DB_Helper::get_last_insert_id();
+        for ($i = 0; $i < count($_POST["users"]); $i++) {
+            if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
+                $role_id = User::getRoleID("Manager");
+            } else {
+                $role_id = User::getRoleID("Standard User");
+            }
+            self::associateUser($new_prj_id, $_POST["users"][$i], $role_id);
+        }
+        foreach ($_POST['statuses'] as $sta_id) {
+            Status::addProjectAssociation($sta_id, $new_prj_id);
+        }
+        Display_Column::setupNewProject($new_prj_id);
+
+        // insert default timetracking categories
+        $res = Time_Tracking::addProjectDefaults($new_prj_id);
+
+        return 1;
     }
 
 

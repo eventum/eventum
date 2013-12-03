@@ -27,8 +27,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-require_once APP_SMARTY_PATH . '/Smarty.class.php';
-
 /**
  * Class used to abstract the backend template system used by the site. This
  * is especially useful to be able to change template backends in the future
@@ -150,10 +148,17 @@ class Template_Helper
             'current_url'   =>  $_SERVER['PHP_SELF'],
         );
 
+        // If version is something like "Eventum 2.3.3-148-g78b3368", link ref to github
+        if (preg_match('/^[\d.-]+-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
+            $link = "https://github.com/eventum/eventum/commit/{$m['hash']}";
+            $core['application_version_link'] = $link;
+        }
+
         $usr_id = Auth::getUserID();
         if ($usr_id != '') {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
+            $setup = Setup::load();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
@@ -197,6 +202,12 @@ class Template_Helper
                 'roles' =>  User::getAssocRoleIDs(),
 
             );
+            $this->assign("current_full_name", $core['user']["usr_full_name"]);
+            $this->assign("current_email", $core['user']["usr_email"]);
+            $this->assign("current_user_id", $usr_id);
+            $this->assign("handle_clock_in", $setup['handle_clock_in'] == 'enabled');
+            $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
+            $this->assign("roles", User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
     }

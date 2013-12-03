@@ -28,24 +28,41 @@
 		{
 			"type": "package",
 			"package": {
-				"name": "smarty/smarty",
-				"version": "2.6.27",
+				"name": "sphinx/php-sphinxapi",
+				"version": "2.0.1",
 				"dist": {
-					"url": "http://www.smarty.net/files/Smarty-2.6.27.tar.gz",
-					"type": "tar"
-				},
-				"source": {
-					"url": "http://smarty-php.googlecode.com/svn/",
-					"type": "svn",
-					"reference": "tags/Smarty_2_6_27/"
+					"url": "http://sphinxsearch.googlecode.com/svn/tags/REL_2_0_1/api/sphinxapi.php",
+					"shasum": "2b1274cbbc4b2be2aba2cb90dc5daf2036df0f49",
+					"type": "file"
 				},
 				"autoload": {
-					"classmap": ["libs/"]
+					"classmap": [ "sphinxapi.php" ]
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "php-gettext/php-gettext",
+				"version": "1.0.11",
+				"dist": {
+					"url": "https://launchpad.net/php-gettext/trunk/1.0.11/+download/php-gettext-1.0.11.tar.gz",
+					"shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71",
+					"type": "tar"
+				},
+				"autoload": {
+					"classmap": [ "gettext.php", "streams.php" ]
 				}
 			}
 		}
 	],
+	"config": {
+		"component-dir": "htdocs/components",
+		"component-baseurl": "/components"
+	},
+	"minimum-stability": "stable",
 	"require": {
+		"components/jquery": "1.8.*",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
@@ -55,7 +72,8 @@
 		"ext-mysql": "*",
 		"ext-pcre": "*",
 		"ext-session": "*",
-		"php": ">=5.1.2",
+		"ext-spl": "*",
+		"glen/smarty-gettext": "dev-master",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
 		"pear/Date": "*",
@@ -70,19 +88,18 @@
 		"pear/Net_SmartIRC": "*",
 		"pear/Net_Socket": "*",
 		"pear/Net_URL": "*",
-		"pear/Net_UserAgent_Detect": "*",
 		"pear/PEAR": "*",
 		"pear/Text_Diff": "*",
 		"pear/XML_RPC": "*",
-		"smarty/smarty": "2.6.*"
+		"php": ">=5.1.2",
+		"php-gettext/php-gettext": "1.0.*",
+		"smarty/smarty": "3.1.12",
+		"sphinx/php-sphinxapi": "2.0.*"
 	},
 	"suggest": {
-		"ext-ldap": "Adds support for LDAP auth backend",
-		"pear/Net_LDAP2": "Adds support for LDAP auth backend"
+		"ext-ldap": "Adds support for LDAP auth backend"
 	},
 	"autoload": {
-		"files": ["lib/eventum/autoload.php"],
-		"classmap": [ "lib/jpgraph/", "lib/php-gettext/", "lib/sphinxapi/"]
-	},
-	"minimum-stability": "stable"
+		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
+	}
 }
