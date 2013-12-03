@@ -17,6 +17,13 @@ dist:
 phpcs:
 	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
 
+composer.lock:
+	composer install
+
+# https://security.sensiolabs.org/api
+composer-security-checker: composer.lock
+	curl -H "Accept: text/plain" https://security.sensiolabs.org/check_lock -F lock=@composer.lock
+
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)
