@@ -85,6 +85,17 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
     }
 
+    /**
+     * TODO: refactor this and make __construct to throw on error
+     */
+    public function getConnectError()
+    {
+        if (PEAR::isError($this->conn)) {
+            return $this->conn->getMessage();
+        } else {
+            return false;
+        }
+    }
     private function isValidUser($uid, $password)
     {
         $setup = self::loadSetup();
@@ -272,15 +283,20 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     {
         static $setup;
         if (empty($setup) || $force == true) {
-            $eventum_setup_string = null;
             if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
                 return array();
             }
+            $ldap_setup_string = $ldap_setup = null;
             require APP_CONFIG_PATH . '/ldap.php';
-            if (empty($ldap_setup_string)) {
+            if ($ldap_setup_string == null and $ldap_setup == null) {
                 return null;
             }
-            $setup = unserialize(base64_decode($ldap_setup_string));
+            if (isset($ldap_setup)) {
+                $setup = $ldap_setup;
+            } else {
+                // support reading legacy base64 encoded config
+                $setup = unserialize(base64_decode($ldap_setup_string));
+            }
         }
         return $setup;
     }
@@ -300,7 +316,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 return -2;
             }
         }
-        $contents = "<"."?php\n\$ldap_setup_string='" . base64_encode(serialize($options)) . "';\n";
+        $contents = "<"."?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
         if ($res === false) {
             return -2;
