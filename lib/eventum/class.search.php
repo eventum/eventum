@@ -59,7 +59,7 @@ class Search
      * Method used to save the current search parameters in a cookie.
      * TODO: split to buildSearchParams() and actual saveSearchParams()
      *
-     * @param   bool $save_db Whether to save search parameters also to database
+     * @param bool|string $save_db Whether to save search parameters also to database
      * @return  array The search parameters
      */
     public static function saveSearchParams($save_db = true)
@@ -85,7 +85,7 @@ class Search
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
-            "customer_id"    => Misc::escapeInteger(self::getParam('customer_id')),
+            "customer_id"    => Misc::escapeString(self::getParam('customer_id')),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
             'match_mode'     => self::getParam('match_mode'),
@@ -658,7 +658,7 @@ class Search
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
                     if ($field['fld_type'] == 'combo') {
-                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN(" . join(', ', Misc::escapeInteger($search_value)) . ")";
+                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN('" . join("', '", Misc::escapeString($search_value)) . "')";
                     } else {
                         $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
                     }
