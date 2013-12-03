@@ -309,7 +309,7 @@ class Abstract_Customer_Backend
      * @param   array $customer_ids The list of customers
      * @return  array The associative array of customer id => customer name
      */
-    function getTitles($prj_id, $customer_ids)
+    function getTitles($customer_ids)
     {
     }
 
