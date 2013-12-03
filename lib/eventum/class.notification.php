@@ -1144,8 +1144,12 @@ class Notification
     function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
         if (Customer::hasCustomerIntegration($prj_id)) {
-            Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
+            $sent = Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
         } else {
+            $sent = false;
+        }
+
+        if ($sent === false) {
             if ($additional_recipient != false) {
                 $recipient = $additional_recipient;
                 $is_message_sender = false;
