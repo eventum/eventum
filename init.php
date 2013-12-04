@@ -34,9 +34,10 @@ if (!file_exists(dirname(__FILE__) . '/config/config.php') || !filesize(dirname(
 }
 
 // setup change some PHP settings
-ini_set('allow_url_fopen', 0);
-set_time_limit(0);
-ini_set('memory_limit', '128M');
+ini_set('date.timezone', 'UTC');
+ini_set('display_errors', 1);
+ini_set('memory_limit', '512M');
+ini_set('html_errors', 0);
 
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
@@ -52,6 +53,10 @@ if (!defined('APP_CONFIG_PATH')) {
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
+
+if (!defined('APP_LOCAL_PATH')) {
+    define('APP_LOCAL_PATH', APP_PATH . '/local');
+}
 
 if (!defined('APP_COOKIE')) {
     define('APP_COOKIE', 'eventum');
@@ -130,7 +135,7 @@ if (!defined('APP_SYSTEM_USER_ID')) {
 // email address of anonymous user.
 // if you want anonymous users getting access to your eventum.
 if (!defined('APP_ANON_USER')) {
-	define('APP_ANON_USER', '');
+    define('APP_ANON_USER', '');
 }
 
 // if full text searching is enabled
@@ -203,6 +208,10 @@ if (!defined('APP_MAINTENANCE')) {
 if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
     set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 }
+
+set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
+set_include_path(APP_LOCAL_PATH . "/include/" . PATH_SEPARATOR . get_include_path());
+
 // add sphinxapi to the include path
 if (defined('APP_SPHINXAPI_PATH') && APP_SPHINXAPI_PATH) {
     set_include_path(APP_SPHINXAPI_PATH . PATH_SEPARATOR . get_include_path());
@@ -216,6 +225,8 @@ if (get_magic_quotes_gpc()) {
     $_POST = Misc::dispelMagicQuotes($_POST);
     $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 }
+
+set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
 
 require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
@@ -231,7 +242,7 @@ if (APP_MAINTENANCE){
         $tpl->setTemplate("maintenance.tpl.html");
         $tpl->displayTemplate();
         exit(0);
-	}
+    }
 }
 
 // Default IRC category

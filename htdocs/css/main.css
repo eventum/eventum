@@ -274,6 +274,15 @@ table.bordered td {
     margin: 0 auto;
 }
 
+.bordered.medium {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.bordered.left {
+    margin: 0;
+}
+
 /* End Bordered Table */
 
 /* Grid table */
@@ -346,6 +355,13 @@ div.note_box {
     padding: 10px;
     text-align: center;
     font-weight: bold;
+}
+
+div.yellow_note {
+    margin: 1em auto;
+    width: 480px;
+    background: #FFFFCC;
+    padding: 1em;
 }
 
 div#global_messages div {

@@ -61,7 +61,7 @@ class Display_Column
 
         $current_role = Auth::getCurrentRole();
         $data = self::getSelectedColumns($prj_id, $page);
-        $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
+        $has_customer_integration = CRM::hasCustomerIntegration($prj_id);
         $only_with_customers = array('iss_customer_id', 'support_level');
 
         // remove groups if there are no groups in the system.
@@ -177,6 +177,9 @@ class Display_Column
                 "pri_rank"    =>  array(
                     "title" =>  ev_gettext("Priority")
                 ),
+                "sev_rank"    =>  array(
+                    "title" =>  ev_gettext("Severity")
+                ),
                 "iss_id"    =>  array(
                     "title" =>  ev_gettext("Issue ID")
                 ),
@@ -186,7 +189,7 @@ class Display_Column
                 "iss_created_date"    =>  array(
                     "title" =>  ev_gettext("Created Date")
                 ),
-                "iss_grp_id"    =>  array(
+                "grp_name"    =>  array(
                     "title" =>  ev_gettext("Group")
                 ),
                 "assigned"  =>  array(

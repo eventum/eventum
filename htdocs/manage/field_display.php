@@ -56,7 +56,7 @@ if (count(@$_POST["min_role"]) > 0) {
 $fields = Project::getDisplayFields();
 
 $excluded_roles = array("viewer");
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     $excluded_roles[] = "customer";
 }
 $user_roles = User::getRoles($excluded_roles);

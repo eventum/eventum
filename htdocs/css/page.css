@@ -11,6 +11,14 @@ body#new_issue #create_issue {
     width: 80%;
 }
 
+body#new_issue #severity_desc {
+    background: #FFFF00;
+    padding: 2px;
+    border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+
 
 /* Login Page */
 body#login h1 {
@@ -247,6 +255,10 @@ body#list_issues div#quick_filter {
     width: 80%;
     margin: 0 auto;
 }
+body#list_issues div#quick_filter div#ft_options div {
+    width: 50%;
+    float: left;
+}
 
 body#list_issues div#quick_filter div.bottom_bar {
     background: #dddddd;
@@ -350,4 +362,19 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 
 #select_project table tr.title {
     font-size: 2em;
+}
+
+/* Begin Select Customer */
+#select_customer ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#select_customer ul li {
+    padding: .3em 0;
+}
+
+#select_customer label {
+    display: block;
 }

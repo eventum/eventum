@@ -84,6 +84,9 @@ class Auth
      */
     public static function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
+        if ($cookie_name == NULL) {
+            $cookie_name = APP_COOKIE;
+        }
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
@@ -97,7 +100,23 @@ class Auth
                 self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
-                self::redirect($failed_url, $is_popup);
+                // check for valid HTTP_BASIC params
+                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                    if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                        $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
+                        $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
+                        self::createFakeCookie($usr_id, $prj_id);
+                        self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                        self::setCurrentProject($prj_id, true);
+                    } else {
+                        header('WWW-Authenticate: Basic realm="Eventum"');
+                        header('HTTP/1.0 401 Unauthorized');
+                        echo "Login Failed";
+                        return;
+                    }
+                } else {
+                    self::redirect($failed_url, $is_popup);
+                }
             }
         }
         $cookie = $_COOKIE[$cookie_name];
@@ -128,15 +147,13 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect("select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+            self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
-        $customer_id = User::getCustomerID($usr_id);
         $contact_id = User::getCustomerContactID($usr_id);
-        if ((!empty($customer_id)) && ($customer_id != -1) &&
-                (!empty($contact_id)) && (Customer::hasCustomerIntegration($prj_id))) {
-
-            Customer::authenticateCustomer($prj_id, $customer_id, $contact_id);
+        if ((!empty($contact_id)) && (CRM::hasCustomerIntegration($prj_id))) {
+            $crm = CRM::getInstance($prj_id);
+            $crm->authenticateCustomer();
         }
 
         // auto switch project
@@ -401,7 +418,7 @@ class Auth
      * @param   string $password The password of the user to check for
      * @return  boolean
      */
-    function isCorrectPassword($email, $password)
+    public static function isCorrectPassword($email, $password)
     {
         return self::getAuthBackend()->verifyPassword($email, $password);
     }
@@ -479,7 +496,7 @@ class Auth
      *
      * @return  integer The project ID
      */
-    public static function getCurrentProject()
+    public static function getCurrentProject($redirect=true)
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie) || @$cookie['prj_id'] == false) {
@@ -491,7 +508,11 @@ class Auth
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            self::redirect("select_project.php");
+            if ($redirect) {
+                self::redirect("select_project.php");
+            } else {
+                return false;
+            }
         }
         return $cookie["prj_id"];
     }
@@ -525,6 +546,40 @@ class Auth
         } else {
             return 1;
         }
+    }
+
+
+    /**
+     * Returns the current customer ID.
+     *
+     * @param bool $redirect
+     * @return  string  The current customer ID
+     */
+    public static function getCurrentCustomerID($redirect=true)
+    {
+        $customer_id = Session::get("current_customer_id");
+        if (empty($customer_id) && $redirect == true) {
+            self::redirect(APP_RELATIVE_URL . "select_customer.php");
+        } else {
+            return $customer_id;
+        }
+    }
+
+
+    public static function setCurrentCustomerID($customer_id)
+    {
+        Session::set("current_customer_id", $customer_id);
+    }
+
+
+    /**
+     * @static
+     * @return Contact
+     */
+    public static function getCurrentContact()
+    {
+        $crm = CRM::getInstance(self::getCurrentProject());
+        return $crm->getContact(User::getCustomerContactID(self::getUserID()));
     }
 
 
@@ -590,6 +645,7 @@ class Auth
         }
     }
 
+
     /**
      * @static
      * @return Abstract_Auth_Backend
@@ -604,11 +660,14 @@ class Auth
             $instance = new $class();
 
             if (!$instance->isSetup()) {
-                $message = $instance->getConnectError();
-                if ($message) {
-                    error_log("Unable to use auth backend '$class': $message");
-                }
-                die("Unable to use auth backend: " . $class);
+                Error_Handler::logError("Unable to use auth backend: " . $class);
+                $instance = self::getFallBackAuthBackend();
+                // TODO: Should we fail or switch to fallback?
+//                $message = $instance->getConnectError();
+//                if ($message) {
+//                    error_log("Unable to use auth backend '$class': $message");
+//                }
+//                die("Unable to use auth backend: " . $class);
             }
         }
         return $instance;

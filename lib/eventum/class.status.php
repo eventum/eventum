@@ -531,7 +531,7 @@ class Status
      * @param   string $sta_title The status title
      * @return  integer The status ID
      */
-    function getStatusID($sta_title)
+    public static function getStatusID($sta_title)
     {
         static $returns;
 

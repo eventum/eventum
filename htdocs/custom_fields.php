@@ -37,7 +37,7 @@ Auth::checkAuthentication(APP_COOKIE);
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["issue_id"];
 
-if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+if (!Issue::canUpdate($issue_id, Auth::getUserID())) {
     $tpl = new Template_Helper();
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();

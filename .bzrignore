@@ -9,6 +9,8 @@ config/sphinx.conf
 *.gz.md5
 logs/*.log
 templates_c/*
+misc/routed_emails/*
+misc/routed_notes/*
 localization/*.mo
 *.patch
 *.rej

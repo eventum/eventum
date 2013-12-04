@@ -260,11 +260,10 @@ class Support
     /**
      * Method used to get the sender of a given set of emails.
      *
-     * @access  public
-     * @param   integer $sup_ids The email IDs
+     * @param   integer[] $sup_ids The email IDs
      * @return  array The 'From:' headers for those emails
      */
-    function getSender($sup_ids)
+    public static function getSender($sup_ids)
     {
         $stmt = "SELECT
                     sup_from
@@ -913,9 +912,12 @@ class Support
 
         // only create a new issue if this email is coming from a known customer
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
-                (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
-            list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
-            if (empty($customer_id)) {
+                (CRM::hasCustomerIntegration($info['ema_prj_id']))) {
+            try {
+                $crm = CRM::getInstance($info['ema_prj_id']);
+                $contact = $crm->getContactByEmail($sender_email);
+                $should_create_issue = true;
+            } catch (CRMException $e) {
                 $should_create_issue = false;
             }
         }
@@ -925,7 +927,7 @@ class Support
             Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
                     $from, Mime_Helper::fixEncoding($subject), $message_body, @$options['category'],
-                    $options['priority'], @$options['users'], $date, $message_id);
+                    @$options['priority'], @$options['users'], $date, $message_id);
 
             // add sender to authorized repliers list if they are not a real user
             $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -941,16 +943,27 @@ class Support
         // need to check crm for customer association
         if (!empty($from)) {
             $details = Email_Account::getDetails($info['ema_id']);
-            if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
+            if (CRM::hasCustomerIntegration($info['ema_prj_id'])) {
                 // check for any customer contact association
-                @list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
+                try {
+                    $crm = CRM::getInstance($info['ema_prj_id']);
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $contact_id = $contact->getContactID();
+                    $contracts = $contact->getContracts(array(CRM_EXCLUDE_EXPIRED));
+                    $contract = $contracts[0];
+                    $customer_id = $contract->getCustomerID();
+                } catch (CRMException $e) {
+                    $customer_id = null;
+                    $contact_id = null;
+                }
             }
         }
         return array(
             'should_create_issue'   =>  $should_create_issue,
             'associate_email'   =>  $associate_email,
             'issue_id'  =>  $issue_id,
-            'customer_id'   =>  @$customer_id,
+            'customer_id'   =>  $customer_id,
+            'contact_id'   =>  $contact_id,
             'type'      =>  $type,
             'parent_id' =>  $parent_id
         );
@@ -1309,7 +1322,8 @@ class Support
             Auth::redirect("emails.php?pagerRow=0&rows=$max");
         }
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             $customer_ids = array();
             for ($i = 0; $i < count($res); $i++) {
                 if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
@@ -1317,7 +1331,7 @@ class Support
                 }
             }
             if (count($customer_ids) > 0) {
-                $company_titles = Customer::getTitles($prj_id, $customer_ids);
+                $company_titles = $crm->getCustomerTitles($customer_ids);
             }
         }
 
@@ -1334,7 +1348,7 @@ class Support
                     $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
             }
         }
@@ -1433,11 +1447,14 @@ class Support
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
         if (empty($usr_id)) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 // try checking if a customer technical contact has this email associated with it
-                list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-                if (!empty($contact_id)) {
-                    $usr_id = User::getUserIDByContactID($contact_id);
+                try {
+                    $crm = CRM::getInstance($prj_id);
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $usr_id = User::getUserIDByContactID($contact->getContactID());
+                } catch (CRMException $e) {
+                    $usr_id = null;
                 }
             }
             if (empty($usr_id)) {
@@ -1764,6 +1781,7 @@ class Support
                     sup_to,
                     sup_cc,
                     sup_date,
+                    UNIX_TIMESTAMP(sup_date) as date_ts,
                     sup_subject,
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
@@ -1877,7 +1895,7 @@ class Support
      * @param   string $sender_email The email address
      * @return  boolean
      */
-    function isAllowedToEmail($issue_id, $sender_email)
+    public static function isAllowedToEmail($issue_id, $sender_email)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -1890,11 +1908,16 @@ class Support
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (empty($sender_usr_id)) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
-                $customer_id = Issue::getCustomerID($issue_id);
-                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
-                $contact_emails = array_map('strtolower', $contact_emails);
+                $crm = CRM::getInstance($prj_id);
+                try {
+                    $contract = $crm->getContract(Issue::getContractID($issue_id));
+                    $contact_emails = array_keys($contract->getContactEmailAssocList());
+                    $contact_emails = array_map('strtolower', $contact_emails);
+                } catch (CRMException $e) {
+                    $contact_emails = array();
+                }
                 if ((!in_array(strtolower($sender_email), $contact_emails)) &&
                         (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                     $is_allowed = false;
@@ -1912,14 +1935,13 @@ class Support
             $details = Issue::getDetails($issue_id);
             if ($sender_usr_id == $details['iss_usr_id']) {
                 $is_allowed = true;
+            } elseif ((User::isPartner($sender_usr_id)) && (in_array(User::getPartnerID($sender_usr_id), Partner::getPartnerCodesByIssue($issue_id)))) {
+                $is_allowed = true;
             } elseif ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                 $is_allowed = false;
             } elseif ((!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
-                $is_allowed = false;
-            } elseif ((User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) &&
-                    (User::getCustomerID($sender_usr_id) != Issue::getCustomerID($issue_id))) {
                 $is_allowed = false;
             }
         }
@@ -2098,7 +2120,7 @@ class Support
         $message_id = Mail_Helper::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = self::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
-                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, $_FILES["attachment"]);
+                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, @$_FILES["attachment"]);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
@@ -2188,7 +2210,7 @@ class Support
             'subject'        => @$_POST['subject'],
             'body'           => $_POST['message'],
             'full_email'     => $full_email,
-            'has_attachment' => $_FILES['attachment'] && !empty($_FILES['attachment']['name'][0]) ? 1 : 0
+            'has_attachment' => @$_FILES['attachment'] && !empty($_FILES['attachment']['name'][0]) ? 1 : 0
         );
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
@@ -2545,7 +2567,8 @@ class Support
         $prj_id = Issue::getProjectID($issue_id);
         $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
-        if ((Mail_Helper::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
+        if ((Mail_Helper::isVacationAutoResponder($email['headers'])) ||
+                (Notification::isBounceMessage($sender_email)) ||
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(

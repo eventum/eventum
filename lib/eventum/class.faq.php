@@ -34,15 +34,18 @@ class FAQ
      * Returns the list of FAQ entries associated to a given support level.
      *
      * @access  public
-     * @param   integer $support_level_id The support level ID
+     * @param   array $support_level_ids The support level IDs
      * @return  array The list of FAQ entries
      */
-    function getListBySupportLevel($support_level_id)
+    function getListBySupportLevel($support_level_ids)
     {
-        $support_level_id = Misc::escapeInteger($support_level_id);
+        if (!is_array($support_level_ids)) {
+            $support_level_ids = array($support_level_ids);
+        }
+        $support_level_ids = Misc::escapeString($support_level_ids);
         $prj_id = Auth::getCurrentProject();
 
-        if ($support_level_id == -1) {
+        if (count($support_level_ids) == 0) {
             $stmt = "SELECT
                         *
                      FROM
@@ -59,8 +62,10 @@ class FAQ
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                      WHERE
                         faq_id=fsl_faq_id AND
-                        fsl_support_level_id=$support_level_id AND
+                        fsl_support_level_id IN('" . join("', '", $support_level_ids) . "') AND
                         faq_prj_id = $prj_id
+                     GROUP BY
+                        faq_id
                      ORDER BY
                         faq_rank ASC";
         }
@@ -166,7 +171,7 @@ class FAQ
         } else {
             // remove all of the associations with support levels, then add them all again
             self::removeSupportLevelAssociations($_POST['id']);
-            if (Customer::doesBackendUseSupportLevels($_POST['project'])) {
+            if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
                 foreach ($_POST['support_levels'] as $support_level_id) {
                     self::addSupportLevelAssociation($_POST['id'], $support_level_id);
                 }
@@ -213,7 +218,7 @@ class FAQ
             return -1;
         } else {
             $new_faq_id = DB_Helper::get_last_insert_id();
-            if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($_POST['project']))) {
+            if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
                 // now populate the faq-support level mapping table
                 foreach ($_POST['support_levels'] as $support_level_id) {
                     self::addSupportLevelAssociation($new_faq_id, $support_level_id);
@@ -241,7 +246,7 @@ class FAQ
                     fsl_support_level_id
                  ) VALUES (
                     " . Misc::escapeInteger($faq_id) . ",
-                    " . Misc::escapeInteger($support_level_id) . "
+                    '" . Misc::escapeString($support_level_id) . "'
                  )";
         DB_Helper::getInstance()->query($stmt);
     }
@@ -267,10 +272,10 @@ class FAQ
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            if (Customer::doesBackendUseSupportLevels($res['faq_prj_id'])) {
-                // get all of the support level associations here as well
-                $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
+            if ($res == NULL) {
+                return "";
             }
+            $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
             if (empty($res['faq_updated_date'])) {
                 $res['faq_updated_date'] = $res['faq_created_date'];
             }
@@ -305,9 +310,7 @@ class FAQ
         } else {
             // get the list of associated support levels
             for ($i = 0; $i < count($res); $i++) {
-                if (Customer::doesBackendUseSupportLevels($res[$i]['faq_prj_id'])) {
-                    $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
-                }
+                $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
             }
             return $res;
         }
@@ -325,22 +328,27 @@ class FAQ
      */
     function getAssociatedSupportLevels($prj_id, $faq_id)
     {
-        $stmt = "SELECT
-                    fsl_support_level_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
-                 WHERE
-                    fsl_faq_id=" . Misc::escapeInteger($faq_id);
-        $ids = DB_Helper::getInstance()->getCol($stmt);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            $stmt = "SELECT
+                        fsl_support_level_id
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
+                     WHERE
+                        fsl_faq_id=" . Misc::escapeInteger($faq_id);
+            $ids = DB_Helper::getInstance()->getCol($stmt);
 
-        $t = array();
-        $levels = Customer::getSupportLevelAssocList(Misc::escapeInteger($prj_id));
-        foreach ($levels as $support_level_id => $support_level) {
-            if (in_array($support_level_id, $ids)) {
-                $t[$support_level_id] = $support_level;
+            $t = array();
+            $levels = $crm->getSupportLevelAssocList();
+            foreach ($levels as $support_level_id => $support_level) {
+                if (in_array($support_level_id, $ids)) {
+                    $t[$support_level_id] = $support_level;
+                }
             }
+            return $t;
+        } else {
+            return array();
         }
-        return $t;
     }
 
 

@@ -1,5 +1,8 @@
-{include file="header.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}customer_lookup{/block}
+{block title}{t}Customer Lookup{/t}{/block}
 
+{block "content"}
 {literal}
 <script type="text/javascript">
 <!--
@@ -143,5 +146,4 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
   {/section}
 </table>
 {/if}
-
-{include file="footer.tpl.html"}
+{/block}

@@ -37,29 +37,30 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-if (!Customer::hasCustomerIntegration($prj_id)) {
+if (!CRM::hasCustomerIntegration($prj_id)) {
     // show all FAQ entries
-    $support_level_id = -1;
+    $support_level_ids = array();
 } else {
-    if (!Customer::doesBackendUseSupportLevels($prj_id)) {
+    $crm = CRM::getInstance($prj_id);
+    if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
         // show all FAQ entries
-        $support_level_id = -1;
+        $support_level_ids = array();
     } else {
-        if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
-            // show all FAQ entries
-            $support_level_id = -1;
-        } else {
-            $customer_id = User::getCustomerID(Auth::getUserID());
-            $support_level_id = Customer::getSupportLevelID($prj_id, $customer_id);
+        $customer_id = User::getCustomerID(Auth::getUserID());
+        $contact = Auth::getCurrentContact();
+        $support_level_ids = array();
+        // TODOCRM: only active contracts?
+        foreach ($contact->getContracts() as $contract) {
+            $support_level_ids[] = $contract->getSupportLevel()->getLevelID();
         }
     }
 }
-$tpl->assign("faqs", FAQ::getListBySupportLevel($support_level_id));
+$tpl->assign("faqs", FAQ::getListBySupportLevel($support_level_ids));
 
 if (!empty($_GET["id"])) {
     $t = FAQ::getDetails($_GET['id']);
     // check if this customer should have access to this FAQ entry or not
-    if (($support_level_id != -1) && (!in_array($support_level_id, $t['support_levels']))) {
+    if ((count($support_level_ids) > 0) && (count(array_intersect($support_level_ids, $t['support_levels'])) < 1)) {
         $tpl->assign('faq', -1);
     } else {
         $t['faq_created_date'] = Date_Helper::getFormattedDate($t["faq_created_date"]);

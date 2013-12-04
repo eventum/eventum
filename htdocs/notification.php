@@ -39,6 +39,12 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
+if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 // format default actions properly
 $default = Notification::getDefaultActions();
 $res = array();
@@ -50,6 +56,9 @@ $tpl->assign("default_actions", $res);
 if (@$_GET['cat'] == "selfnotify") {
     $usr_email = User::getEmail($usr_id);
     $res = Notification::subscribeEmail($usr_id, $issue_id, $usr_email, $default);
+    $sub_id = Notification::getSubscriberID($issue_id, $usr_email);
+    Auth::redirect(APP_RELATIVE_URL . "notification.php?cat=edit&iss_id=" . $issue_id . "&id=" . $sub_id);
+    $tpl->assign("insert_result", $res);
     if ($res == 1) {
         Misc::setMessage(ev_gettext("Thank you, you have been subscribed to the issue."));
     }

@@ -416,6 +416,10 @@ $private_key = "' . md5(microtime()) . '";
     if (!mysql_select_db($_POST['db_name'])) {
         return getErrorMessage('select_db', mysql_error());
     }
+
+    // set sql mode (sad that we rely on old bad mysql defaults)
+    mysql_query("SET SQL_MODE = ''");
+
     // check the CREATE and DROP privileges by trying to create and drop a test table
     $table_list = getTableList($conn);
     $table_list = array_map('strtolower', $table_list);

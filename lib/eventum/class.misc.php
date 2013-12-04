@@ -384,7 +384,7 @@ class Misc
      * Accepts a value and cleans it to only contain numeric values
      *
      * @param   mixed $input The original input.
-     * @return  integer The input converted to an integer
+     * @return  mixed The input converted to an integer
      */
     public static function escapeInteger($input)
     {
@@ -445,7 +445,11 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        $tip_dir = APP_TPL_PATH . "/tips";
+        $tpl_dir = $tpl->smarty->template_dir;
+        if (is_array($tpl_dir)) {
+            $tpl_dir = $tpl_dir[1];
+        }
+        $tip_dir = $tpl_dir . "/tips";
         $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
@@ -799,5 +803,117 @@ class Misc
             $update_tpl->assign("notify_list", $notify_list);
             Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
         }
+    }
+
+
+    /**
+     * Shortcut method to check if if an element is set in the array and if not
+     * return a default value.
+     *
+     * @param  array   $array The array to check if the element is in
+     * @param  string  $var_name The name of the element to check for
+     * @param  mixed   $default The default value to return if the element is not set
+     * @return mixed
+     */
+    public static function ifSet($array, $var_name, $default = null)
+    {
+        if (isset($array[$var_name])) {
+            return $array[$var_name];
+        } else {
+            return $default;
+        }
+    }
+
+
+    public static function arrayToQueryString($array, $parent_name = false)
+    {
+        $qs = '';
+        foreach ($array as $key => $val) {
+            if (is_array($val)) {
+                $qs .= self::arrayToQueryString($val, $key);
+            } else {
+                if ($parent_name != false) {
+                    $key = $parent_name . "[" . $key . "]";
+                }
+                $qs .= "&" . $key . "=" . urlencode($val);
+            }
+        }
+        return $qs;
+    }
+
+
+    /**
+     * Method used to get the full contents of the given file.
+     *
+     * @access  public
+     * @param   string $full_path The full path to the file
+     * @return  string The full contents of the file
+     */
+    function getFileContents($full_path)
+    {
+        if (!@file_exists($full_path)) {
+            return '';
+        }
+        $fp = @fopen($full_path, "rb");
+        if (!$fp) {
+            return '';
+        }
+        $contents = @fread($fp, filesize($full_path));
+        @fclose($fp);
+        return $contents;
+    }
+
+
+    /**
+     * Method used to get the standard input.
+     *
+     * @access  public
+     * @return  string The standard input value
+     */
+    function getInput($is_one_liner = FALSE)
+    {
+        static $return;
+
+        if (!empty($return)) {
+            return $return;
+        }
+
+        $terminator = "\n";
+
+        $stdin = fopen("php://stdin", "r");
+        $input = '';
+        while (!feof($stdin)) {
+            $buffer = fgets($stdin, 256);
+            $input .= $buffer;
+            if (($is_one_liner) && (strstr($input, $terminator))) {
+                break;
+            }
+        }
+        fclose($stdin);
+        $return = $input;
+        return $input;
+    }
+
+
+    public static function displayErrorMessage($msg)
+    {
+        Misc::setMessage(ev_gettext($msg), Misc::MSG_ERROR);
+        $tpl = new Template_Helper();
+        $tpl->setTemplate('error_message.tpl.html');
+        $tpl->displayTemplate();
+        exit;
+    }
+
+
+    public static function base64_encode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_encode($v);
+            }
+        } else {
+            $data = base64_encode($data);
+        }
+        return $data;
     }
 }

@@ -1,0 +1,23 @@
+{if $core.current_role > $core.roles.developer}
+                <li><a title="{t}manage the application settings, users, projects, etc{/t}"
+                       href="{$core.rel_url}manage/projects.php">{t}Administration{/t}</a></li>
+                {/if}
+                {if $core.current_role >= $core.roles.reporter}
+                <li><a title="{t}create a new issue{/t}" href="{$core.rel_url}new.php">{t}Create Issue{/t}</a></li>
+                {/if}
+                <li><a title="{t}list the issues stored in the system{/t}" href="{$core.rel_url}list.php">{t}List Issues{/t}</a></li>
+                {if $core.current_role != $core.roles.customer}
+                <li><a title="{t}get access to advanced search parameters{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a></li>
+                {/if}
+                {if $core.app_setup.support_email == 'enabled' and $core.current_role > $core.roles.customer}
+                <li><a title="{t}list available emails{/t}" href="{$core.rel_url}emails.php">{t}Associate Emails{/t}</a></li>
+                {/if}
+                {if $core.current_role > $core.roles.customer}
+                <li><a title="{t}list all issues assigned to you{/t}" href="{$core.rel_url}list.php?view=my_assignments">{t}My Assignments{/t}</a></li>
+                {/if}
+                <li><a title="{t}Home{/t}" href="{$core.rel_url}main.php">{t}Home{/t}</a></li>
+                {if $core.current_role > $core.roles.customer}
+                <li><a title="{t}reporting system{/t}" href="{$core.rel_url}reports/index.php">{t}Reports{/t}</a></li>
+                {/if}
+                <li id="internal_faq_link"><a title="{t}internal faq{/t}" href="{$core.rel_url}faq.php">{t}Internal FAQ{/t}</a></li>
+                <li id="help_link"><a title="{t}help documentation{/t}" href="{$core.rel_url}help.php" class="help">{t}Help{/t}</a></li>

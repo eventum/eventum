@@ -50,9 +50,9 @@
             <input type="text" name="keywords" value="{$options.cst_keywords|escape:'html'|default:''}" size="40"></label>
           </td>
           <td colspan="3">
-            {if $core.has_customer_integration}
-            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
+            {if $core.has_crm}
+            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type|default:'' != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type|default:'' == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
             {else}
             <input type="hidden" name="search_type" value="all_text">
             {/if}
@@ -78,6 +78,7 @@
             </label>
           </td>
           {/if}
+          {if $priorities|@count > 0}
           <td>
             <label>{t}Priority{/t}<br />
             <select name="priority">
@@ -88,6 +89,18 @@
             </select>
             </label>
           </td>
+          {/if}
+          {if $severities|@count > 0}
+          <td>
+            <span class="default">{t}Severity{/t}:</span><br />
+            <select name="severity" class="default">
+              <option value="">{t}any{/t}</option>
+              {section name="i" loop=$severities}
+              <option value="{$severities[i].sev_id}" {if $severities[i].sev_id == $options.cst_iss_sev_id}selected{/if}>{$severities[i].sev_title}</option>
+              {/section}
+            </select>
+          </td>
+          {/if}
           <td valign="top">
             <label>{t}Status{/t}<br />
             <select name="status">
@@ -118,6 +131,17 @@
               {/foreach}
             </select>
             </label>
+          </td>
+          {/if}
+          {if $products|@count > 0}
+          <td>
+            <span class="default">{t}Product{/t}:</span><br />
+            <select name="product" class="default">
+              <option value="">{t}any{/t}</option>
+              {foreach key=pro_id item=pro_title from=$products}
+              <option value="{$pro_id}" {if $pro_id == $options.cst_pro_id}selected{/if}>{$pro_title}</option>
+              {/foreach}
+            </select>
           </td>
           {/if}
         </tr>

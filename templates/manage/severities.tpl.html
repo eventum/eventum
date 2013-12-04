@@ -1,0 +1,145 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
+{literal}
+<script type="text/javascript">
+    <!--
+    function validateForm()
+    {
+        if (Validation.isFieldWhitespace('title')) {
+            Validation.selectField('title');
+            alert('{/literal}{t escape=js}Please enter the title of this severity{/t}{literal}');
+            return false;
+        }
+        if (Validation.isFieldWhitespace('rank')) {
+            Validation.selectField('rank');
+            alert('{/literal}{t escape=js}Please enter the rank of this severity{/t}{literal}');
+            return false;
+        }
+        return true;
+    }
+    function checkDelete()
+    {
+        if (!Validation.hasOneChecked('items[]')) {
+            alert('{/literal}{t escape=js}Please select at least one of the severities.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    $().ready(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+        $('#delete_form').submit(checkDelete);
+        $('#severity_form').submit(validateForm);
+    });
+    //-->
+</script>
+{/literal}
+<form id="severity_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="prj_id" value="{$project.prj_id}">
+    {if $smarty.get.cat|default:'' == 'edit'}
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="id" value="{$smarty.get.id}">
+    {else}
+    <input type="hidden" name="cat" value="new">
+    {/if}
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}Manage Severities{/t}
+                <div class="right">
+                    ({t}Current Project{/t}: {$project.prj_title})
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Title{/t} *
+            </th>
+            <td>
+                <input type="text" name="title" size="40" value="{$info.sev_title|default:''}">
+                {include file="error_icon.tpl.html" field="title"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Description{/t} *
+            </th>
+            <td>
+                <input type="text" name="description" size="100" value="{$info.sev_description|default:''}">
+                {include file="error_icon.tpl.html" field="title"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Rank{/t} *
+            </th>
+            <td>
+                <input type="text" name="rank" size="5" value="{$info.sev_rank|default:''}">
+                {include file="error_icon.tpl.html" field="rank"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                {if $smarty.get.cat|default:'' == 'edit'}
+                <input class="button" type="submit" value="{t}Update Severity{/t}">
+                {else}
+                <input class="button" type="submit" value="{t}Create Severity{/t}">
+                {/if}
+                <input class="button" type="reset" value="{t}Reset{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+
+<form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+    <input type="hidden" name="prj_id" value="{$project.prj_id}">
+    <input type="hidden" name="cat" value="delete">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="4">
+                {t}Existing Severities{/t}:
+            </th>
+        </tr>
+        <tr>
+            <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+            <th align="center">&nbsp;{t}Rank{/t}&nbsp;</th>
+            <th width="200">&nbsp;{t}Title{/t}</th>
+            <th width="100%">&nbsp;{t}Description{/t}</th>
+        </tr>
+        {section name="i" loop=$list}
+        <tr class="{cycle values='odd,even'}">
+            <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].sev_id}"></td>
+            <td align="center" nowrap>
+                <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].sev_rank}
+                <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+            </td>
+            <td width="200" nowrap>
+                &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].sev_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].sev_title}</a>
+            </td>
+            <td width="100%">
+                &nbsp;{$list[i].sev_description}
+            </td>
+        </tr>
+        {sectionelse}
+        <tr class="no_results">
+            <td colspan="4" align="center">
+                {t}No severities could be found.{/t}
+            </td>
+        </tr>
+        {/section}
+        <tr class="buttons">
+            <td width="4" align="center">
+                <input type="button" value="{t}All{/t}" class="select_all">
+            </td>
+            <td colspan="3">
+                <input type="submit" value="{t}Delete{/t}" class="button">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}

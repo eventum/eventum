@@ -24,14 +24,17 @@
             </td>
         </tr>
         {/if}
+        {foreach from=$active_projects key=prj_id item=project}
         <tr>
-            <th width="40%">{t}Project{/t}</th>
-            <td width="60%">
-                <select accessKey="p" name="project" tabindex="0">
-                    {html_options options=$active_projects}
-                </select>
+            <td width="10">
+                <input type="radio" name="project" value="{$prj_id}" id="project_{$prj_id}"
+                {if $project@first}checked="checked"{/if}>
+            </td>
+            <td>
+                <label for="project_{$prj_id}">{$project}</label>
             </td>
         </tr>
+        {/foreach}
         <tr class="buttons">
             <td colspan="2">
                 <input type="submit" name="Submit" value="{t}Continue{/t} &gt;&gt;">

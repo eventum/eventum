@@ -461,4 +461,10 @@ class Date_Helper
         $display = date($display_format, $start) . " - " . date($display_format, $end);
         return array($value,$display);
     }
+
+
+    public static function getSecondsDiff($old_ts, $new_ts)
+    {
+        return $new_ts - $old_ts;
+    }
 }

@@ -35,7 +35,7 @@ $tpl->setTemplate("reports/workload_time_period.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 
-if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
+if (!Access::canAccessReports(Auth::getUserID())) {
     echo "Invalid role";
     exit;
 }

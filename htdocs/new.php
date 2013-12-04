@@ -32,12 +32,13 @@ require_once dirname(__FILE__) . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate("new.tpl.html");
 
-Auth::checkAuthentication(APP_COOKIE);
-if (Auth::getCurrentRole() < User::getRoleID("Reporter")) {
-    Auth::redirect("main.php");
-}
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
+
+Auth::checkAuthentication(APP_COOKIE);
+if (!Access::canCreateIssue($usr_id)) {
+    Auth::redirect("main.php");
+}
 
 
 $tpl->assign("new_issue_id", '');
@@ -57,17 +58,14 @@ if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
     }
 }
 
-if (Customer::hasCustomerIntegration($prj_id)) {
+if (CRM::hasCustomerIntegration($prj_id)) {
     if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
-        $customer_id = User::getCustomerID($usr_id);
-        // check if the current customer has already redeemed all available per-incident tickets
-        if ((empty($_POST['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) &&
-                (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
-            // show warning about per-incident limitation
-            $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/incident_limit_reached.tpl.html");
-            $tpl->assign('customer', Customer::getDetails($prj_id, $customer_id));
-            $tpl->displayTemplate();
-            exit;
+        $crm = CRM::getInstance($prj_id);
+        $customer_id = Auth::getCurrentCustomerID();
+        $customer = $crm->getCustomer($customer_id);
+        $new_issue_message = $customer->getNewIssueMessage();
+        if (!empty($new_issue_message)) {
+            Misc::setMessage($new_issue_message, Misc::MSG_INFO);
         }
         // FIXME: not translated
         Misc::setMessage(Customer::getNewIssueMessage($prj_id, $customer_id), Misc::MSG_INFO);
@@ -93,16 +91,19 @@ if (@$_GET["cat"] == "associate") {
         $res = Support::getListDetails($_GET["item"]);
         $tpl->assign("emails", $res);
         $tpl->assign("attached_emails", @implode(",", $_GET["item"]));
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             // also need to guess the contact_id from any attached emails
-            $info = Customer::getCustomerInfoFromEmails($prj_id, $_GET["item"]);
-            $tpl->assign(array(
-                "customer_id"   => $info['customer_id'],
-                'customer_name' => $info['customer_name'],
-                "contact_id"    => $info['contact_id'],
-                'contact_name'  => $info['contact_name'],
-                'contacts'      => $info['contacts']
-            ));
+            try {
+                $info = $crm->getCustomerInfoFromEmails($prj_id, $_GET["item"]);
+                $tpl->assign(array(
+                    "customer_id"   => $info['customer_id'],
+                    'customer_name' => $info['customer_name'],
+                    "contact_id"    => $info['contact_id'],
+                    'contact_name'  => $info['contact_name'],
+                    'contacts'      => $info['contacts']
+                ));
+            } catch (CRMException $e) {}
         }
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
@@ -113,12 +114,12 @@ if (@$_GET["cat"] == "associate") {
                 'issue_description' => $email_details['seb_body']
             ));
             // also auto pre-fill the customer contact text fields
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 $sender_email = Mail_Helper::getEmailAddress($email_details['sup_from']);
-                list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-                if (!empty($contact_id)) {
-                    $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $contact_id));
-                }
+                try {
+                    $contact = $crm->getContactByEmail($sender_email);
+                    $tpl->assign("contact_details", $contact->getDetails());
+                } catch (CRMException $e) {}
             }
         }
     }
@@ -127,12 +128,14 @@ if (@$_GET["cat"] == "associate") {
 $tpl->assign(array(
     "cats"                   => Category::getAssocList($prj_id),
     "priorities"             => Priority::getAssocList($prj_id),
+    "severities"             => Severity::getList($prj_id),
     "users"                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"               => Release::getAssocList($prj_id),
     "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
     "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
-    "groups"                 => Group::getAssocList($prj_id)
+    "groups"                 => Group::getAssocList($prj_id),
+    "products"               => Product::getList(false),
 ));
 
 $setup = Setup::load();
@@ -142,13 +145,17 @@ $prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("zones", Date_Helper::getTimezoneList());
 if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
+    $crm = CRM::getInstance(Auth::getCurrentProject());
     $customer_contact_id = User::getCustomerContactID($usr_id);
-    $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $customer_contact_id));
-    $customer_id = User::getCustomerID($usr_id);
-    $tpl->assign("contacts", Customer::getContactEmailAssocList($prj_id, $customer_id));
+    $contact = $crm->getContact($customer_contact_id);
+    $customer_id = Auth::getCurrentCustomerID();
+    $customer = $crm->getCustomer($customer_id);
+    // TODOCRM: Pull contacts via ajax when user selects contract
     $tpl->assign(array(
-        "customer_id" => User::getCustomerID($usr_id),
-        "contact_id"  => User::getCustomerContactID($usr_id)
+        "customer_id" => $customer_id,
+        "contact_id"  => $customer_contact_id,
+        "customer"    => $customer,
+        "contact"     => $contact,
     ));
 }
 

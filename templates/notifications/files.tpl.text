@@ -1,7 +1,7 @@
 {textformat style="email"}{t escape=no}This is an automated message sent at your request from{/t} {$app_title}.
 
 {t escape=no}To view more details of this issue, or to update it, please visit the following URL{/t}:
-{$app_base_url}view.php?id={$data.iss_id}
+{$core.base_url}view.php?id={$data.iss_id}
 {/textformat}
 
 {t escape=no}New Attachment{/t}:
@@ -11,7 +11,7 @@
       {t escape=no}Files{/t}:
 {section name="i" loop=$data.attachment.files}
              {$data.attachment.files[i].iaf_filename} ({$data.attachment.files[i].iaf_filesize})
-             {$app_base_url}download.php?cat=attachment&id={$data.attachment.files[i].iaf_id}
+             {$core.base_url}download.php?cat=attachment&id={$data.attachment.files[i].iaf_id}
 {/section}
 {t escape=no}Description{/t}:
 ----------------------------------------------------------------------
@@ -20,4 +20,4 @@
 
 {textformat style="email"}
 {t escape=no 1=$app_title}Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below{/t}:
-{$app_base_url}preferences.php{/textformat}
+{$core.base_url}preferences.php{/textformat}

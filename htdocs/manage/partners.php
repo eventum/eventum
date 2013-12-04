@@ -3,9 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 Eventum Team              .                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,58 +22,37 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
 
-/**
- * Class to hold methods and algorythms that woudln't fit in other classes, such
- * as functions to work around PHP bugs or incompatibilities between separate
- * PHP configurations.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
+require_once dirname(__FILE__) . '/../../init.php';
 
-class Misc
-{
-    /**
-     * Method used to print a prompt asking the user for information.
-     *
-     * @access  public
-     * @param   string $message The message to print
-     * @param   string $default_value The default value to be used if the user just press <enter>
-     * @return  string The user response
-     */
-    function prompt($message, $default_value)
-    {
-        echo $message;
-        if ($default_value !== FALSE) {
-            echo " [default: $default_value] -> ";
-        } else {
-            echo " [required] -> ";
-        }
-        flush();
-        $input = trim(self::getInput());
-        if (empty($input)) {
-            if ($default_value === FALSE) {
-                die("ERROR: Required parameter was not provided!\n");
-            } else {
-                return $default_value;
-            }
-        } else {
-            return $input;
-        }
+$tpl = new Template_Helper();
+$tpl->setTemplate("manage/index.tpl.html");
+
+Auth::checkAuthentication(APP_COOKIE);
+
+$tpl->assign("type", "partners");
+
+$role_id = Auth::getCurrentRole();
+if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
+    if ($role_id == User::getRoleID('administrator')) {
+        $tpl->assign("show_setup_links", true);
     }
 
-
-    /**
-     * Method used to get the standard input.
-     *
-     * @access  public
-     * @return  string The standard input value
-     */
-    function getInput()
-    {
-        return fgets(STDIN);
+    if (@$_POST["cat"] == "update") {
+        $tpl->assign("result", Partner::update($_POST['code'], @$_POST['projects']));
     }
+
+    if (@$_GET["cat"] == "edit") {
+        $info = Partner::getDetails($_GET["code"]);
+        $tpl->assign("info", $info);
+    }
+
+    $tpl->assign("list", Partner::getList());
+    $tpl->assign("project_list", Project::getAll());
+} else {
+    $tpl->assign("show_not_allowed_msg", true);
 }
+
+$tpl->displayTemplate();

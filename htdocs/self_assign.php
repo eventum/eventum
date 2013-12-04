@@ -46,6 +46,7 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
         "assigned_users"    =>  Issue::getAssignedUsers($issue_id)
     ));
 } else {
+    $issue_details = Issue::getDetails($issue_id);
     // force assignment change
     if (@$_REQUEST["target"] == "replace") {
         // remove current user(s) first
@@ -54,7 +55,7 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
     $res = Issue::addUserAssociation($usr_id, $issue_id, $usr_id);
     $tpl->assign("self_assign_result", $res);
     Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'self_assign'));
-    Workflow::handleAssignment($prj_id, $issue_id, $usr_id);
+    Workflow::handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, Issue::getAssignedUserIDs($issue_id), false);
 }
 
 

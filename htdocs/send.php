@@ -57,7 +57,8 @@ if (!empty($issue_id)) {
 if (@$_POST["cat"] == "send_email") {
     $res = Support::sendEmail($_POST['parent_id']);
     $tpl->assign("send_result", $res);
-    if (!@empty($_POST['new_status'])) {
+    if (Access::canChangeStatus($issue_id, $usr_id) && isset($_POST['new_status']) &&
+        !empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
@@ -172,6 +173,7 @@ $tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id))
 
 $user_prefs = Prefs::get($usr_id);
 $tpl->assign("current_user_prefs", $user_prefs);
+$tpl->assign('issue_access', Access::getIssueAccessArray($issue_id, $usr_id));
 
 // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
 if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_email_sig"] == 1) &&

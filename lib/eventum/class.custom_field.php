@@ -587,7 +587,8 @@ class Custom_Field
                     icf_value,
                     icf_value_date,
                     icf_value_integer,
-                    fld_min_role
+                    fld_min_role,
+                    fld_description
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
@@ -1583,6 +1584,7 @@ class Custom_Field
     {
         $list = array();
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
         foreach ($files as $file) {
             // make sure we only list the backends
             if (preg_match('/^class\.(.*)\.php$/', $file)) {
@@ -1636,12 +1638,14 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } elseif (!empty($res)) {
-            $file_name = APP_INC_PATH . "/custom_field/$res";
-            if (!file_exists($file_name)) {
+            if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
+                require_once(APP_LOCAL_PATH . "/custom_field/$res");
+            } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
+                require_once APP_INC_PATH . "/custom_field/$res";
+            } else {
                 $returns[$fld_id] = false;
                 return $returns[$fld_id];
             }
-            require_once $file_name;
 
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";

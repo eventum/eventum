@@ -71,7 +71,8 @@ $tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 // in the case of a customer user, also need to check if that customer has access to this issue
 if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
         !Issue::canAccess($issue_id, $usr_id) ||
-        !($role_id > User::getRoleID('Reporter'))) {
+        !($role_id > User::getRoleID('Reporter')) || !Issue::canUpdate($issue_id, $usr_id)) {
+    $tpl->setTemplate("base_full.tpl.html");
     Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -130,6 +131,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "subscribers"  => Notification::getSubscribers($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
+        "severities"   => Severity::getAssocList($prj_id),
         "status"       => $statuses,
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),
@@ -138,7 +140,9 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
+        "products"     => Product::getList(false),
     ));
+
 }
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();

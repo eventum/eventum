@@ -4,5 +4,5 @@
 	<Description>{t}Search Eventum Issues{/t}</Description>
 	<OutputEncoding>{$app_charset}</OutputEncoding>
 	<InputEncoding>{$app_charset}</InputEncoding>
-	<Url type="text/html" template="{$app_base_url}view.php?id={literal}{{/literal}searchTerms{literal}}{/literal}" />
+	<Url type="text/html" template="{$core.base_url}view.php?id={literal}{{/literal}searchTerms{literal}}{/literal}" />
 </OpenSearchDescription>

@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
@@ -5,7 +6,6 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,38 +24,36 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <bryan@montyprogram.com>                      |
 // +----------------------------------------------------------------------+
+//
+
+/**
+ * Starts the IRC bot and automatically restarts it if it dies
+ */
+
+ini_set('memory_limit', '1024M');
 
 require_once dirname(__FILE__) . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
-
-if (!empty($_GET['custom_id'])) {
-    $filters = Filter::getListing(true);
-    foreach ($filters as $filter) {
-        if ($filter['cst_id'] == (int )$_GET['custom_id']) {
-            parse_str($filter['url'], $params);
-            $params = array_merge($params, $_POST, $_GET);
-            unset($params['custom_id']);
-            $url = 'list.php?cat=search&' . http_build_query($params);
-            Auth::redirect($url);
-        }
-    }
+// if requested, clear the lock
+if (in_array('--fix-lock', $argv)) {
+    Lock::release('irc_bot_runner');
+    echo "The lock file was removed successfully.\n";
+    exit;
 }
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("searchbar.tpl.html");
+// acquire a lock to prevent multiple scripts from
+// running at the same time
+if (!Lock::acquire('irc_bot_runner', $check)) {
+    echo 'Error: Another instance of the script is still running. ',
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
+                "as the only parameter.\n";
+    exit;
+}
 
-$prj_id = Auth::getCurrentProject();
-$tpl->assign("priorities", Priority::getList($prj_id));
-$tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("users", Project::getUserAssocList($prj_id));
-$tpl->assign("categories", Category::getAssocList($prj_id));
-
-$tpl->assign("custom", Filter::getListing($prj_id));
-
-$options = Search::saveSearchParams();
-$tpl->assign("options", $options);
-
-$tpl->displayTemplate();
+while (true) {
+    $command = APP_PATH . '/irc/eventum-irc-bot';
+    `$command`;
+    `$command --fix-lock`;
+}

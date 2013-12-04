@@ -41,38 +41,38 @@ if ($role_id < User::getRoleID('manager')) {
 }
 
 if (@$_POST["cat"] == "new") {
-    $res = Customer::insertNote($_POST["project"], $_POST["customer"], $_POST["note"]);
+    $res = CRM::insertNote($_POST["project"], $_POST["customer"], $_POST["note"]);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the note was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new note.'), Misc::MSG_ERROR),
     ));
 } else if (@$_POST["cat"] == "update") {
-    $res = Customer::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"]);
+    $res = CRM::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"]);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the note was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the note.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "delete") {
-    $res = Customer::removeNotes($_POST['items']);
+    $res = CRM::removeNotes($_POST['items']);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the note was deleted successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to delete the note.'), Misc::MSG_ERROR),
     ));
 } elseif (!empty($_GET['prj_id'])) {
     $tpl->assign("info", array('cno_prj_id' => $_GET['prj_id']));
-    $tpl->assign('customers', Customer::getAssocList($_GET['prj_id']));
+    $tpl->assign('customers', CRM::getInstance($_GET['prj_id'])->getCustomerAssocList());
 }
 
 if (@$_GET["cat"] == "edit") {
-    $info = Customer::getNoteDetailsByID($_GET["id"]);
+    $info = CRM::getNoteDetailsByID($_GET["id"]);
     if (!empty($_GET['prj_id'])) {
         $info['cno_prj_id'] = $_GET['prj_id'];
     }
-    $tpl->assign('customers', Customer::getAssocList($info['cno_prj_id']));
+    $tpl->assign('customers', CRM::getInstance($info['cno_prj_id'])->getCustomerAssocList());
     $tpl->assign("info", $info);
 }
 
-$tpl->assign("list", Customer::getNoteList());
+$tpl->assign("list", CRM::getNoteList());
 $tpl->assign("project_list", Project::getAll(false));
 
 $tpl->displayTemplate();

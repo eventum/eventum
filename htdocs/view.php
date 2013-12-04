@@ -56,24 +56,27 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 
 $details = Issue::getDetails($issue_id);
 if ($details == '') {
-    Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
-    $tpl->displayTemplate();
-    exit;
+    Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id));
 }
 
 // TRANSLATORS: %1 = issue id
 $tpl->assign("issue", $details);
 
 // in the case of a customer user, also need to check if that customer has access to this issue
-if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
-        !Issue::canAccess($issue_id, $usr_id)) {
-    Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'), Misc::MSG_ERROR);
-    $tpl->displayTemplate();
-    exit;
+if (!Issue::canAccess($issue_id, $usr_id)) {
+    Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
 } else {
+
+    // if the issue has a different customer then the currently selected one, switch customers
+    if (Auth::getCurrentRole() == User::getRoleID("Customer") && Auth::getCurrentCustomerID() != $details['iss_customer_id']) {
+        Auth::setCurrentCustomerID($details['iss_customer_id']);
+        Misc::setMessage("Active customer changed to '" . $details['customer']->getName() . '"');
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+    }
+
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
-        $tpl->assign('issue', '');
+        Misc::displayErrorMessage(ev_gettext(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id)));
     } else {
         // now that we can access to the issue, add more verbose HTML <title>
         // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
@@ -82,26 +85,10 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         // check if the requested issue is a part of one of the projects
         // associated with this user
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
-            $tpl->assign("auth_customer", 'denied');
+            Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         } else {
             $options = Search::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);
-
-            // check if scheduled release should be displayed
-            $releases = Release::getAssocList($prj_id);
-            if (count($releases) > 0) {
-                $show_releases = 1;
-            } else {
-                $show_releases = 0;
-            }
-
-            // get if categories should be displayed
-            $cats = Category::getList($prj_id);
-            if (count($cats) > 0) {
-                $show_category = 1;
-            } else {
-                $show_category = 0;
-            }
 
             $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
             if (!empty($auto_switched_from)) {
@@ -112,6 +99,126 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
             }
             $setup = Setup::load();
             $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
+
+            // figure out what data to show in each column
+            $columns = array(0 => array(), 1 => array());
+
+            $issue_fields_display = Issue_Field::getFieldsToDisplay($issue_id, 'view_issue');
+
+            # TODO: Add customer fields
+            $cats = Category::getList($prj_id);
+            if (count($cats) > 0) {
+                $column[0][] = array(
+                    'title' =>  ev_gettext('Category'),
+                    'data'  =>  $details['prc_title'],
+                );
+            }
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Status'),
+                    'data'  =>  $details['sta_title'],
+                    'data_bgcolor'  =>  $details['status_color'],
+            );
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Severity'),
+                    'data'  =>  $details['sev_title'],
+            );
+
+            if ((!isset($issue_fields_display['priority'])) ||
+                ($issue_fields_display['priority'] != false)) {
+                    if ((isset($issue_fields_display['priority']['min_role'])) &&
+                        ($issue_fields_display['priority']['min_role'] > User::getRoleID('Customer'))) {
+                            $bgcolor = APP_INTERNAL_COLOR;
+                        } else {
+                            $bgcolor = '';
+                        }
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Priority'),
+                        'data'  =>  $details['pri_title'],
+                        'title_bgcolor'  =>  $bgcolor,
+                );
+            }
+            $releases = Release::getAssocList($prj_id);
+            if ((count($releases) > 0) && ($role_id != User::getRoleID('Customer'))) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Scheduled Release'),
+                        'data'  =>  $details['pre_title'],
+                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                );
+            }
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Resolution'),
+                    'data'  =>  $details['iss_resolution'],
+            );
+            if ((!isset($issue_fields_display['percent_complete'])) ||
+                ($issue_fields_display['percent_complete'] != false)) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Percentage Complete'),
+                        'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
+                );
+            }
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Reporter'),
+                    'tpl_block' =>  'reporter',
+            );
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Product'),
+                    'tpl_block' =>  'product',
+            );
+            $column[0][] = array(
+                    'title' =>  ev_gettext('Assignment'),
+                    'data' =>  $details['assignments'],
+            );
+
+            $column[1][] = array(
+                    'title' =>  ev_gettext('Notification List'),
+                    'tpl_block' =>  'notification_list',
+            );
+            $column[1][] = array(
+                    'title' =>  ev_gettext('Submitted Date'),
+                    'data'  =>  $details['iss_created_date'],
+            );
+            $column[1][] = array(
+                    'title' =>  ev_gettext('Last Updated Date'),
+                    'data'  =>  $details['iss_updated_date'],
+            );
+            $column[1][] = array(
+                    'title' =>  ev_gettext('Associated Issues'),
+                    'tpl_block' =>  'associated_issues',
+            );
+            if ((!isset($issue_fields_display['expected_resolution'])) ||
+                ($issue_fields_display['expected_resolution'] != false)) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Expected Resolution Date'),
+                        'tpl_block' =>  'expected_resolution',
+                );
+            }
+            if ((!isset($issue_fields_display['estimated_dev_time'])) ||
+                ($issue_fields_display['estimated_dev_time'] != false)) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Estimated Dev. Time'),
+                        'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                );
+            }
+            if ($role_id > User::getRoleID('Customer')) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Duplicates'),
+                        'tpl_block' =>  'duplicates',
+                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                );
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Authorized Repliers'),
+                        'tpl_block' =>  'authorized_repliers',
+                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                );
+            }
+            $groups = Group::getAssocList($prj_id);
+            if (($role_id > User::getRoleID('Customer')) && (count($groups) > 0)) {
+                $column[1][] = array(
+                        'title' =>  ev_gettext('Group'),
+                        'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
+                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                );
+            }
 
             $tpl->assign(array(
                 'next_issue'          => @$sides['next'],
@@ -124,9 +231,12 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                 'users'               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
                 'ema_id'              => Email_Account::getEmailAccount(),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'show_releases'       => $show_releases,
-                'show_category'       => $show_category,
                 'quarantine'          => Issue::getQuarantineInfo($issue_id),
+                'columns'             => $column,
+                'can_update'          => Issue::canUpdate($issue_id, $usr_id),
+                'enabled_partners'    => Partner::getPartnersByProject($prj_id),
+                'partners'            => Partner::getPartnersByIssue($issue_id),
+                'issue_access'        => Access::getIssueAccessArray($issue_id, $usr_id),
             ));
 
             if ($role_id != User::getRoleID('customer')) {
@@ -162,7 +272,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
                     'impacts'            => Impact_Analysis::getListing($issue_id),
                     'statuses'           => $statuses,
                     'drafts'             => Draft::getList($issue_id, $show_all_drafts),
-                    'groups'             => Group::getAssocList($prj_id)
+                    'groups'             => $groups,
                 ));
             }
         }

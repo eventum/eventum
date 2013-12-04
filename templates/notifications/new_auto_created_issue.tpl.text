@@ -16,7 +16,7 @@
 {if $sender_can_access == 1}
 {t escape=no}
 To view more details of this issue, or to update it, please visit the following URL{/t}:
-{$app_base_url}view.php?id={$data.iss_id}
+{$core.base_url}view.php?id={$data.iss_id}
 {else}
 
 {t escape=no}To add more information to this issue, simply reply to this email.{/t}

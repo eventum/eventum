@@ -273,9 +273,8 @@ class History
                     self::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
                 }
                 foreach ($res as $index => $row) {
-                    if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
-                        $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"], $res['iss_customer_contract_id']);
-                        $row["customer_name"] = $details["customer_name"];
+                    if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
+                        $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;

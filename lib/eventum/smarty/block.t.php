@@ -122,6 +122,8 @@ function smarty_block_t($params, $text, $smarty, &$repeat)
 			// url escape
 			$text = urlencode($text);
 			break;
+        case 'no':
+            break;
 		default:
 			$text = nl2br($text);
 	}

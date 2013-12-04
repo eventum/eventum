@@ -91,6 +91,12 @@ if (!empty($_GET['field'])) {
             'show_category_options' => 'yes',
             'categories'            => Category::getAssocList($prj_id)
         ));
+    } elseif ((strtolower($field_title) == 'group') || (strtolower($field_title) == 'active group')) {
+            $prj_id = Reminder::getProjectID($rem_id);
+            $tpl->assign(array(
+                'show_group_options' => 'yes',
+                'groups'             => Group::getAssocList($prj_id)
+            ));
     } else {
         $tpl->assign('show_status_options', 'no');
     }

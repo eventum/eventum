@@ -1,25 +1,9 @@
-{include file="header.tpl.html"}
+{extends "base.tpl.html"}
+{block page_id}associate_email{/block}
+{block title}{t}Associate Email{/t}{/block}
 
-	<br />
-	<br />
-
-	<table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
-	  <tr>
-	    <td>
-	      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-	        <tr>
-	          <td colspan="2" style="font-weight: bold; font-size: 100%; color: Blue; text-align: center;">
-	            <br />
-	            <b>
-	            {t}{$core.app_setup.tool_caption|default:$application_title|escape:"html"} has been PURPOSELY TAKEN OFFLINE for maintenance. Please check back later.{/t}
-
-	            </b>
-	            <br />
-	            <br />
-	          </td>
-	        </tr>
-	      </table>
-	    </td>
-	  </tr>
-	</table>
-{include file="footer.tpl.html"}
+{block content}
+<div class="note_box">
+{t}{$core.app_setup.tool_caption|default:$core.app_title|escape:"html"} has been PURPOSELY TAKEN OFFLINE for maintenance. Please check back later.{/t}
+</div>
+{/block}

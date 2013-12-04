@@ -1,0 +1,35 @@
+{extends "base.tpl.html"}
+{block "title"}Select Customer{/block}
+{block "page_id"}select_customer{/block}
+
+{block "content"}
+<br />
+<form name="login_form" method="post" action="">
+    <input type="hidden" name="url" value="{$smarty.get.url|default:''}">
+    <table class="bordered narrow">
+        <tr class="title">
+            <th>
+                Select a Customer
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    {foreach from=$customers item=customer}
+                    <li>
+                        <label><input type="radio" name="customer_id" value="{$customer.customer_id}"
+                                {if $core.current_customer.customer_id|default:'' == $customer.customer_id ||
+                            ($core.current_customer|default:'' == '' && $customer@first)}checked="checked"{/if}
+                                >{$customer.name}</label>
+                    </li>
+                    {/foreach}
+                </ul></td>
+        </tr>
+        <tr class="buttons">
+            <td>
+                <input type="submit" name="submit" value="Choose Customer" />
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}

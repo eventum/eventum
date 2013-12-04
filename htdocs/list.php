@@ -47,6 +47,7 @@ if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
 }
 
+$options_override = array();
 if (isset($_REQUEST['view'])) {
     if ($_REQUEST['view'] == 'my_assignments') {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
@@ -54,6 +55,23 @@ if (isset($_REQUEST['view'])) {
         Auth::redirect("list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
                 $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
     } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
+        $options_override = array(
+            'customer_id'   =>  Misc::escapeString($_REQUEST['customer_id']),
+            'rows'          =>  $rows,
+        );
+        if (Search::getParam('hide_closed', true) === '') {
+            $options_override['hide_closed'] = 1;
+        }
+        $_REQUEST['nosave'] = 1;
+    } elseif (($_REQUEST['view'] == 'customer_all') && (isset($_REQUEST['customer_id']))) {
+        $options_override = array(
+            'customer_id'   =>  Misc::escapeString($_REQUEST['customer_id']),
+            'rows'          =>  $rows,
+        );
+        if (Search::getParam('hide_closed', true) === '') {
+            $options_override['hide_closed'] = 0;
+        }
+        $_REQUEST['nosave'] = 1;
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
         Search_Profile::remove($usr_id, $prj_id, 'issue');
         Auth::redirect("list.php?customer_id=" . Misc::escapeString($_REQUEST['customer_id']) .
@@ -68,6 +86,9 @@ if (isset($_REQUEST['view'])) {
     } elseif ($_REQUEST['view'] == 'clear') {
         Search_Profile::remove($usr_id, $prj_id, 'issue');
         Auth::redirect("list.php");
+    } elseif ($_REQUEST['view'] == 'clearandfilter') {
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php?" . str_replace('view=clearandfilter&', '', $_SERVER['QUERY_STRING']));
     }
 }
 
@@ -76,6 +97,9 @@ if (!empty($_REQUEST['nosave'])) {
 } else {
 	$options = Search::saveSearchParams();
 }
+
+$options += $options_override;
+$options = array_merge($options, $options_override);
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Search::getSortingInfo($options));
 
@@ -109,6 +133,7 @@ $tpl->assign("supports_excerpts", Search::doesBackendSupportExcerpts());
 
 $tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
 $tpl->assign("priorities", Priority::getAssocList($prj_id));
+$tpl->assign("severities", Severity::getAssocList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("assign_options", $assign_options);
 $tpl->assign("custom", Filter::getAssocList($prj_id));
@@ -117,6 +142,9 @@ $tpl->assign("active_filters", Filter::getActiveFilters($options));
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("releases", Release::getAssocList($prj_id, true));
 $tpl->assign("reporters", Project::getReporters($prj_id));
+$tpl->assign(array(
+    "products"      => Product::getAssocList(false)
+));
 
 $prefs = Prefs::get($usr_id);
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);

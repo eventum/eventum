@@ -34,7 +34,7 @@ $tpl->setTemplate("reports/stalled_issues.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if ((Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
+if (!Access::canAccessReports(Auth::getUserID())) {
     echo "Invalid role";
     exit;
 }

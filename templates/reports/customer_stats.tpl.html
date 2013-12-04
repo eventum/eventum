@@ -37,7 +37,7 @@ function clearDate()
         </tr>
         <tr>
           <td width="30%" align="center">
-            {if $has_support_levels == 1}<b>{t}Support Level{/t}</b>{/if}
+            <b>{t}Support Level{/t}</b>
           </td>
           <td width="40%" align="center">
             <b>{t}Date Range{/t}</b>
@@ -48,11 +48,9 @@ function clearDate()
         </tr>
         <tr>
           <td align="center" valign="top">
-            {if $has_support_levels == 1}
             <select name="support_level[]" size="5" multiple>
                 {html_options options=$support_levels selected=$support_level}
             </select>
-            {/if}
           </td>
           <td align="center" valign="top">
             <table>

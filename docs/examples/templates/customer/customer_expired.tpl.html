@@ -1,5 +1,8 @@
-{include file="header.tpl.html"}
-<br />
+{extends "base_full.tpl.html"}
+{block page_id}customer_expired{/block}
+{block title}{t}Customer Expired{/t}{/block}
+
+{block "content"}
 <br />
 <table align="center" width="400" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
     <tr>
@@ -44,4 +47,4 @@
 <br />
 <a href="javascript:back(-1)">{t}Back{/t}</a>
 </div>
-{include file="footer.tpl.html"}
+{/block}

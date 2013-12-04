@@ -1,0 +1,99 @@
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1">
+    <tr>
+        <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+                <form name="partner_form"  method="post" action="{$smarty.server.PHP_SELF}">
+                {if $smarty.get.cat == 'edit'}
+                <input type="hidden" name="cat" value="update">
+                <input type="hidden" name="code" value="{$smarty.get.code|escape}">
+                {/if}
+                <tr>
+                    <td colspan="2" class="default">
+                        <b>{t}Manage Partners{/t}</b>
+                    </td>
+                </tr>
+                {if $result != ""}
+                <tr>
+                    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                    {if $result == -1}
+                        {t}An error occurred while trying to update the partner information.{/t}
+                    {elseif $result == 1}
+                        {t}Thank you, the partner was updated successfully.{/t}
+                    {/if}
+                    </td>
+                </tr>
+                {/if}
+                {if $smarty.get.cat == 'edit'}
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>{t}Code{/t}:</b>
+                    </td>
+                    <td bgcolor="{$light_color}" class="default">
+                        {$info.code}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>{t}Name{/t}:</b>
+                    </td>
+                    <td bgcolor="{$light_color}" class="default">
+                        {$info.name}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <nobr><b>{t}Projects{/t}: *</b></nobr>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <select name="projects[]" multiple="multiple">
+                            {html_options options=$project_list selected=$info.projects|@array_keys}
+                        </select>
+                        {include file="error_icon.tpl.html" field="rank"}
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="{$cell_color}" colspan="2" align="center">
+                        <input type="submit" name="submit" value="Update" class="button" />
+                    </td>
+                </tr>
+                {/if}
+                </form>
+                <tr>
+                    <td colspan="2" class="default">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                            <tr>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Code{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Name{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
+                            </tr>
+                            {foreach from=$list item=partner}
+                            {cycle values=$cycle assign="row_color"}
+                            <tr>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;<a href="partners.php?cat=edit&code={$partner.code}">{$partner.code}</a>
+                                </td>
+                                <td width="40%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$partner.name}
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{","|join:$partner.projects}
+                                </td>
+                            </tr>
+                            {foreachelse}
+                            <tr>
+                                <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                                    <i>{t}No partners found.{/t}</i>
+                                </td>
+                            </tr>
+                            {/foreach}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

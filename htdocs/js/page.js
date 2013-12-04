@@ -50,6 +50,10 @@ list_issues.ready = function(page_id)
     $('.custom_field').click(list_issues.updateCustomFields);
 
     list_issues.disableFields();
+
+    setTimeout(function() {
+        location.reload();
+    }, parseInt(list_form.attr('data-refresh-rate')) * 1000);
 }
 
 list_issues.reset_bulk_update = function(e)
@@ -465,6 +469,11 @@ close_issue.ready = function()
     $('form[name=close_form]').submit(function() {
         return Validation.checkFormSubmission($('form[name=close_form]'), close_issue.validateForm);
     });
+
+    var status_options = Eventum.getField('status').children('option');
+    if (status_options.length == 2) {
+        status_options[1].selected = true;
+    }
 }
 
 close_issue.toggleNotificationList = function()
@@ -724,6 +733,9 @@ new_issue.ready = function()
     report_form.find('input,select').filter(':visible').first().focus();
 
     report_form.submit(function() { return Validation.checkFormSubmission(report_form, new_issue.validateForm) });
+
+    $('#severity').bind('change', new_issue.display_severity_description).change();
+    product.ready();
 }
 
 new_issue.validateForm = function()
@@ -738,8 +750,12 @@ new_issue.validateForm = function()
     if (priority_field.attr('type') != 'hidden' && priority_field.val() == -1) {
         Validation.errors[Validation.errors.length] = new Option('Priority', 'priority');
     }
+    var severity_field = Eventum.getField('severity')
+    if (severity_field.attr('type') != 'hidden' && severity_field.val() == -1) {
+        Validation.errors[Validation.errors.length] = new Option('Severity', 'severity');
+    }
     var user_field = Eventum.getField('users[]');
-    if (user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
+    if (user_field.length > 0 && user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
         !Validation.hasOneSelected(user_field)) {
             Validation.errors[Validation.errors.length] = new Option('Assignment', 'users');
     }
@@ -764,7 +780,17 @@ new_issue.validateForm = function()
 
     // check customer fields (if function exists
     if (window.validateCustomer) {
-        validateCustomer(form);
+        validateCustomer();
+    }
+}
+
+new_issue.display_severity_description = function()
+{
+    var description = $('#severity :selected').attr('data-desc');
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
     }
 }
 
@@ -807,4 +833,25 @@ anon_post.validateForm = function(form)
 
     Validation.checkCustomFields(form);
 
+}
+
+
+/*
+ * Product chooser functions used in multiplepages
+ */
+function product() {}
+
+product.ready = function()
+{
+    $('#product').bind('change', product.display_product_version_howto).change();
+}
+
+product.display_product_version_howto = function()
+{
+    var howto = $('#product :selected').attr('data-desc');
+    if (howto == undefined || howto == '') {
+        $('#product_version_howto').hide();
+    } else {
+        $('#product_version_howto').text(howto).show();
+    }
 }
