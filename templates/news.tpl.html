@@ -1,35 +1,21 @@
-{capture assign="extra_title"}{t}Important Notices{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-{include file="navigation.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}news{/block}
+{block title}{t}News{/t}{/block}
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td valign="top">
-      <table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
-        <tr>
-          <td width="100%">
-            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-              <tr>
-                <td>
-                  <span><b>{t}Important Notices{/t}</b></span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {section name="i" loop=$news}
-                  <p><b>{$news[i].nws_created_date} - {$news[i].nws_title}</b></p>
-                  <p>{$news[i].nws_message|activateLinks:"links"}</p>
-                  {/section}
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      <br />
-    </td>
-  </tr>
+{block "content"}
+<table class="bordered">
+    <tr class="title">
+        <th>
+            {t}Important Notices{/t}
+        </th>
+    </tr>
+    <tr>
+        <td>
+            {section name="i" loop=$news}
+            <h3>{$news[i].nws_created_date} - {$news[i].nws_title}</h3>
+            <p>{$news[i].nws_message|activateLinks:"links"}</p>
+            {/section}
+        </td>
+    </tr>
 </table>
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

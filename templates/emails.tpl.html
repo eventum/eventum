@@ -94,7 +94,7 @@
     }
     function associateEmails(f)
     {
-        if (!hasOneChecked(f, 'item[]')) {
+        if (!Validation.hasOneChecked('item[]')) {
             alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
             return false;
         }
@@ -102,7 +102,7 @@
             f.target = '';
             f.action = 'new.php';
         } else {
-            var issue_id = jQuery('#issue_id').fieldValue();
+            var issue_id = jQuery('#issue_id').val();
             if (issue_id == '') {
                 alert('{/literal}{t escape=js}Please enter an issue to associate these emails with.{/t}{literal}');
                 return false;

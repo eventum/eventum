@@ -1,6 +1,8 @@
-{capture assign="extra_title"}{t}Permission Denied{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
+{extends "base_full.tpl.html"}
+{block page_id}permission_denied{/block}
+{block title}{t 1=$issue_id}Permission Denied{/t}{/block}
 
+{block "content"}
 <table width="100%" align="center">
     <tr>
       <td align="center">
@@ -10,5 +12,4 @@
       </td>
     </tr>
   </table>
-
-{include file="footer.tpl.html"}
+{/block}

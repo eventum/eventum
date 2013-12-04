@@ -1,63 +1,40 @@
-{capture assign="extra_title"}{t 1=$issue_id}Redeem Incident - Issue#%1{/t}{/capture}
-{include file="header.tpl.html" extra_title=$extra_title}
-<br />
-<table align="center" width="95%">
-  <form method="POST" action="redeem_incident.php" name="redeem_incident">
-  <input type="hidden" name="iss_id" value="{$issue_id}">
+{extends "base.tpl.html"}
+{block page_id}redeem_incident{/block}
+{block title}{t 1=$issue_id}Redeem Incident - Issue#%1{/t}{/block}
 
-  <tr>
-    <td align="center">
-    {if $res != ''}
-      {if $res == -1}
-        <span style="color: red"><b>{t}There was an error marking this issue as redeemed{/t}</b></span>
-      {elseif $res == -2}
-        <b>{t}This issue already has been marked as redeemed{/t}</b>
-      {elseif $res == 1}
-        <b>{t}Thank you, the issue was successfully marked.{/t}</b>
-      {/if}
-    {else}
-      {t}Please choose the incident types to redeem for this issue.{/t}
-    {/if}
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <table width="100%" align="center" bgcolor="White">
+{block content}
+<br />
+<form method="POST" action="redeem_incident.php" name="redeem_incident">
+    <input type="hidden" name="iss_id" value="{$issue_id}">
+    <table class="bordered">
         {foreach from=$incident_details item=type_details key=type_id}
         {cycle values=$cycle assign="row_color"}
-        <tr bgcolor="{$row_color}">
-          <td>
-            {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
-            <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} ({t}Total{/t}: {$type_details.total}; {t}Left{/t}: {$type_details.total-$type_details.redeemed})</a>
-          </td>
+        <tr>
+            <td>
+                {if $res|default:'' == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
+                <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} ({t}Total{/t}: {$type_details.total}; {t}Left{/t}: {$type_details.total-$type_details.redeemed})</a>
+            </td>
         </tr>
         {/foreach}
-        {if $res == ''}
-        <tr>
-          <td align="center">
-            <input type="submit" name="submit" value="{t}Redeem Incidents{/t}" class="shortcut">
-          </td>
+        {if $res|default:'' == ''}
+        <tr class="buttons">
+            <td align="center">
+                <input type="submit" name="submit" value="{t}Redeem Incidents{/t}" class="shortcut">
+            </td>
         </tr>
         {/if}
-      </table>
-    </td>
-  </tr>
-  {if $res != ''}
-  <tr>
-    <td align="center">
+    </table>
+    {if $res|default:'' != ''}
     <script type="text/javascript">
-    <!--
-    {if $current_user_prefs.close_popup_windows == '1'}
-    setTimeout('Eventum.close_and_refresh()', 2000);
-    {/if}
-    //-->
+        <!--
+        {if $current_user_prefs.close_popup_windows == '1'}
+            setTimeout('Eventum.close_and_refresh()', 2000);
+            {/if}
+        //-->
     </script>
     {if not $current_user_prefs.close_popup_windows}
-      <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
+    <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
     {/if}
-    </td>
-  </tr>
-  {/if}
-  </form>
-</table>
-{include file="footer.tpl.html"}
+    {/if}
+</form>
+{/block}
