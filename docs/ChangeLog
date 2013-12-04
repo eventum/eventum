@@ -1,16 +1,16 @@
 Eventum Issue Tracking System
 =============================
 
+
+201?-??-??, Version 2.4.0
+- Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
+- Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
 - Added "Product" filter to adv search page (Bryan)
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
 - Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
 - Automatically uncompress gzip files when using the "view" link (Bryan)
 - Send notification on private file uploads to internal users (Bryan)
-
-201?-??-??, Version 2.4.0
-- Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
-- Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
 
 
 2013-11-28, Version 2.3.4
