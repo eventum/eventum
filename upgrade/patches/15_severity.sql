@@ -8,7 +8,7 @@ CREATE TABLE `%TABLE_PREFIX%project_severity` (
   UNIQUE KEY sev_title (sev_title, sev_prj_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `%TABLE_PREFIX%project_severity` VALUES (1,1,'S1 ','Total Production Outage',0);
+INSERT INTO `%TABLE_PREFIX%project_severity` VALUES (1,1,'S1','Total Production Outage',0);
 INSERT INTO `%TABLE_PREFIX%project_severity` VALUES (2,1,'S2','Serious Production Failure',1);
 INSERT INTO `%TABLE_PREFIX%project_severity` VALUES (3,1,'S3','Minor Failure',2);
 INSERT INTO `%TABLE_PREFIX%project_severity` VALUES (4,1,'S4','General Requests',3);
