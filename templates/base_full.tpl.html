@@ -85,9 +85,15 @@
 
 {block "footer"}
   <div id="footer">
-      <a href="https://launchpad.net/eventum"  title="Eventum Issue Tracking System">{$core.app_title}</a> {$core.app_version}<br />
+      <a href="https://launchpad.net/eventum" title="Eventum Issue Tracking System">{$core.app_title}</a>
+      {if $application_version_link}
+         <a href="{$application_version_link}" target="_blank">{$core.app_version}</a>
+      {else}
+        {$core.app_version}
+      {/if}
+      <br />
       Copyright &copy; 2003 - 2008 MySQL AB,
       2008 - 2010 Sun Microsystem Inc,
-      2011 Eventum Team.
+      2011 - 2013 Eventum Team.
   </div>
 {/block}
