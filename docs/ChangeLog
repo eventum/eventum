@@ -1,16 +1,16 @@
 Eventum Issue Tracking System
 =============================
 
+
+2014-??-??, Version 2.4.0
+- Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
+- Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
 - Added "Product" filter to adv search page (Bryan)
 - Changed close issue to default to sending to all users instead of internal only (Bryan)
 - Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
 - Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
 - Automatically uncompress gzip files when using the "view" link (Bryan)
 - Send notification on private file uploads to internal users (Bryan)
-
-201?-??-??, Version 2.4.0
-- Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
-- Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
 
 
 2013-11-28, Version 2.3.4
@@ -284,7 +284,7 @@ Eventum Issue Tracking System
 - Don't hide Total Time Spent: when hiding time tracking block in issue details page (Raul Raat)
 - Added ability to control if a custom fields is required and validation options from backend (Bryan)
 - Added option to include custom fields on close issue page (Bryan)
-- Added more parameters to Customer_OLD::notifyIssueClosed() (Bryan)
+- Added more parameters to Customer::notifyIssueClosed() (Bryan)
 - Call Workflow::getAdditionalEmailAddresses() when notifying an issue has been updated (Bryan)
 - Add extra parameter to Workflow::getAdditionalEmailAddresses() to allow issue diffs to be passed (Bryan)
 - Fixed bug with not encoding [ and ] in address strings (Bryan)
@@ -667,7 +667,7 @@ Eventum Issue Tracking System
 - Added missing function to Abstract_Workflow_Backend class (Bryan)
 - Display the current textarea value when trying to update the custom fields (João)
 - Issue assignment emails now go out from project email address (Bryan)
-- Back button on mail queue log page uses core.base_url now (Bryan)
+- Back button on mail queue log page uses app_base_url now (Bryan)
 - Users can now have seperate roles per project (Bryan)
 - Added option to hide priority and file field on create issue page (Bryan)
 - Drafts are now never deleted (Bryan)

@@ -67,6 +67,8 @@ if (CRM::hasCustomerIntegration($prj_id)) {
         if (!empty($new_issue_message)) {
             Misc::setMessage($new_issue_message, Misc::MSG_INFO);
         }
+        // FIXME: not translated
+        Misc::setMessage(Customer::getNewIssueMessage($prj_id, $customer_id), Misc::MSG_INFO);
     }
 }
 

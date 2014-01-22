@@ -1071,7 +1071,7 @@ class Notification
         }
         $irc_notice .= $data['iss_summary'];
         // MPAB: Disable notification so it is done in workflow
-//        self::notifyIRC($prj_id, $irc_notice, $issue_id);
+        self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
         // generate new Message-ID
