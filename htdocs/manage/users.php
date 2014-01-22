@@ -71,9 +71,9 @@ foreach ($project_list as $prj_id => $prj_title) {
         } else {
             $excluded_roles = array('administrator');
         }
-    }
-    if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID("administrator")) {
-        $excluded_roles = false;
+        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID("administrator")) {
+            $excluded_roles = false;
+        }
     }
     $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
 }

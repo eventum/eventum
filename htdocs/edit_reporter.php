@@ -38,8 +38,10 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
-if (Auth::getCurrentRole() < User::getRoleID("Standard User")) {
-    Auth::redirect(APP_RELATIVE_URL . "list.php");
+if (!Access::canChangeReporter($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
 }
 
 if (@$_POST["cat"] == "update") {

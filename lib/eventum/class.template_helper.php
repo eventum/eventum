@@ -49,12 +49,14 @@ class Template_Helper
     function __construct()
     {
         $this->smarty = new Smarty();
-        $this->smarty->setTemplateDir(APP_TPL_PATH);
+        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH, APP_TPL_PATH));
         $this->smarty->setCompileDir(APP_TPL_COMPILE_PATH);
         $this->smarty->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
         $this->smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
         $this->smarty->registerPlugin("modifier", "activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
         $this->smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
+        $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
+        $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
     }
 
 
@@ -159,15 +161,28 @@ class Template_Helper
             $setup = Setup::load();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
+                $has_crm = CRM::hasCustomerIntegration($prj_id);
                 $core = $core + array(
                     'project_id'    =>  $prj_id,
                     'project_name'  =>  Auth::getCurrentProjectName(),
-                    'has_customer_integration'  =>  Customer::hasCustomerIntegration($prj_id),
-                    'customer_backend_name'     =>  Customer::getBackendImplementationName($prj_id),
+                    'has_crm'       =>  $has_crm,
                     'current_role'              =>  $role_id,
                     'current_role_name'         =>  User::getRole($role_id),
+                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id)
                 );
+                if ($has_crm) {
+                    $crm = CRM::getInstance($prj_id);
+                    $core['crm_template_path'] = $crm->getTemplatePath();
+                    if ($role_id == User::getRoleID('Customer')) {
+                        try {
+                            $contact = $crm->getContact($core['user']['usr_customer_contact_id']);
+                            $core['allowed_customers'] = $contact->getCustomers();
+                            $core['current_customer'] = $crm->getCustomer(Auth::getCurrentCustomerID(false));
+                        } catch (CRMException $e) {}
+                    }
+                }
             }
+            $info = User::getDetails($usr_id);
             $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
@@ -178,8 +193,14 @@ class Template_Helper
             }
             $core = $core + array(
                 'active_projects'   =>  $active_projects,
-                'is_current_user_clocked_in'    =>  User::isClockedIn($usr_id),
+                'current_full_name' =>  $info['usr_full_name'],
+                'current_email'     =>  $info['usr_email'],
+                'current_user_id'   =>  $usr_id,
+                'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
                 'is_anon_user'  =>  Auth::isAnonUser(),
+                'is_current_user_partner'   =>  !empty($info['usr_par_code']),
+                'roles' =>  User::getAssocRoleIDs(),
+
             );
             $this->assign("current_full_name", $core['user']["usr_full_name"]);
             $this->assign("current_email", $core['user']["usr_email"]);

@@ -37,14 +37,17 @@ class Search
      * Method used to get a specific parameter in the issue listing cookie.
      *
      * @param   string $name The name of the parameter
+     * @param   bool $request_only If only $_GET and $_POST should be checked
      * @return  mixed The value of the specified parameter
      */
-    public static function getParam($name)
+    public static function getParam($name, $request_only = false)
     {
         if (isset($_GET[$name])) {
             return $_GET[$name];
         } elseif (isset($_POST[$name])) {
             return $_POST[$name];
+        } elseif ($request_only) {
+            return '';
         }
 
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
@@ -64,44 +67,48 @@ class Search
      */
     public static function saveSearchParams($save_db = true)
     {
-        $sort_by = self::getParam('sort_by');
-        $sort_order = self::getParam('sort_order');
-        $rows = self::getParam('rows');
-        $hide_closed = self::getParam('hide_closed');
+        $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
+
+        $sort_by = self::getParam('sort_by', $request_only);
+        $sort_order = self::getParam('sort_order', $request_only);
+        $rows = self::getParam('rows', $request_only);
+        $hide_closed = self::getParam('hide_closed', $request_only);
         if ($hide_closed === '') {
             $hide_closed = 1;
         }
-        $search_type = self::getParam('search_type');
+        $search_type = self::getParam('search_type', $request_only);
         if (empty($search_type)) {
             $search_type = 'all_text';
         }
-        $custom_field = self::getParam('custom_field');
+        $custom_field = self::getParam('custom_field', $request_only);
         if (is_string($custom_field)) {
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = array(
             'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
-            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow')),
+            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed'    => $hide_closed,
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
             "customer_id"    => Misc::escapeString(self::getParam('customer_id')),
             // quick filter form
-            'keywords'       => self::getParam('keywords'),
-            'match_mode'     => self::getParam('match_mode'),
-            'hide_excerpts'  => self::getParam('hide_excerpts'),
+            'keywords'       => self::getParam('keywords', $request_only),
+            'match_mode'     => self::getParam('match_mode', $request_only),
+            'hide_excerpts'  => self::getParam('hide_excerpts', $request_only),
             'search_type'    => Misc::stripHTML($search_type),
-            'users'          => Misc::escapeInteger(self::getParam('users')),
-            'status'         => Misc::escapeInteger(self::getParam('status')),
-            'priority'       => Misc::escapeInteger(self::getParam('priority')),
-            'category'       => Misc::escapeInteger(self::getParam('category')),
-            'customer_email' => Misc::stripHTML(self::getParam('customer_email')),
+            'users'          => Misc::escapeString(self::getParam('users', $request_only)),
+            'status'         => Misc::escapeInteger(self::getParam('status', $request_only)),
+            'priority'       => Misc::escapeInteger(self::getParam('priority', $request_only)),
+            'severity'       => Misc::escapeInteger(self::getParam('severity', $request_only)),
+            'category'       => Misc::escapeInteger(self::getParam('category', $request_only)),
+            'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues')),
-            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues')),
-            'reporter'       => Misc::escapeInteger(self::getParam('reporter')),
+            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues', $request_only)),
+            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues', $request_only)),
+            'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
+            'product'        => Misc::escapeInteger(self::getParam('product', $request_only)),
             // other fields
-            'release'        => Misc::escapeInteger(self::getParam('release')),
+            'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
             'custom_field'   => Misc::stripHTML($custom_field)
         );
@@ -114,7 +121,7 @@ class Search
             'closed_date'
         );
         foreach ($date_fields as $field_name) {
-            $field = Misc::stripHTML(self::getParam($field_name));
+            $field = Misc::stripHTML(self::getParam($field_name, $request_only));
             if (empty($field)) {
                 continue;
             }
@@ -125,7 +132,7 @@ class Search
                 );
             } else {
                 $end_field_name = $field_name . '_end';
-                $end_field = Misc::stripHTML(self::getParam($end_field_name));
+                $end_field = Misc::stripHTML(self::getParam($end_field_name, $request_only));
                 @$cookie[$field_name] = array(
                     'past_hour'   => $field['past_hour'],
                     'Year'        => $field['Year'],
@@ -165,6 +172,7 @@ class Search
         // for textual fields, like summary, ascending is reasonable
         $fields = array(
             "pri_rank" => "desc",
+            "sev_rank" => "asc",
             "iss_id" => "desc",
             "iss_customer_id" => "desc",
             "prc_title" => "asc",
@@ -176,6 +184,7 @@ class Search
             "iss_expected_resolution_date" => "desc",
             "pre_title" => "asc",
             "assigned" => "asc",
+            "grp_name"  =>  "asc",
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
@@ -223,6 +232,7 @@ class Search
         // get the current user's role
         $usr_id = Auth::getUserID();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
+        $usr_details = User::getDetails($usr_id);
 
         // get any custom fields that should be displayed
         $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
@@ -247,7 +257,7 @@ class Search
                     sta_color status_color,
                     sta_id,
                     iqu_status,
-                    grp_name ". DB_Helper::getInstance()->quoteIdentifier("group") .",
+                    grp_name,
                     pre_title,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
@@ -259,7 +269,8 @@ class Search
                     usr_full_name,
                     iss_percent_complete,
                     iss_dev_time,
-                    iss_expected_resolution_date
+                    iss_expected_resolution_date,
+                    sev_title
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
@@ -306,6 +317,14 @@ class Search
                  ON
                     isu_iss_id=iss_id";
         }
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                 ON
+                    ipa_iss_id=iss_id";
+        }
         if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= "
                  LEFT JOIN
@@ -319,6 +338,13 @@ class Search
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  ON
                     sub_iss_id=iss_id";
+        }
+        if (!empty($options["product"])) {
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                 ON
+                    ipv_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
@@ -341,6 +367,10 @@ class Search
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  ON
@@ -380,9 +410,9 @@ class Search
             Issue::getAssignedUsersByIssues($res);
             Time_Tracking::getTimeSpentByIssues($res);
             // need to get the customer titles for all of these issues...
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                Customer::getCustomerTitlesByIssues($prj_id, $res);
-                Customer::getSupportLevelsByIssues($prj_id, $res);
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
+                $crm->processListIssuesResult($res);
             }
             Issue::formatLastActionDates($res);
             Issue::getLastStatusChangeDates($prj_id, $res);
@@ -417,7 +447,7 @@ class Search
             // hide the group column from the output if no
             // groups are available in the database
             if (count($groups) > 0) {
-                $fields[] = $res[$i]['group'];
+                $fields[] = $res[$i]['grp_name'];
             }
             $fields[] = $res[$i]['assigned_users'];
             $fields[] = $res[$i]['time_spent'];
@@ -426,15 +456,16 @@ class Search
             if (count($categories) > 0) {
                 $fields[] = $res[$i]['prc_title'];
             }
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
                 $fields[] = @$res[$i]['customer_title'];
-                // check if current user is acustomer and has a per incident contract.
+                // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
-                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
-                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
-                        $res[$i]['redeemed'] = true;
-                    }
+                    // TODOCRM: Fix per incident usage
+//                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
+//                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
+//                        $res[$i]['redeemed'] = true;
+//                    }
                 }
             }
             $fields[] = $res[$i]['sta_title'];
@@ -488,15 +519,24 @@ class Search
         $usr_id = Auth::getUserID();
         $prj_id = Auth::getCurrentProject();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
+        $usr_details = User::getDetails($usr_id);
 
         $stmt = ' AND iss_usr_id = usr_id';
         if ($role_id == User::getRoleID('Customer')) {
-            $stmt .= " AND iss_customer_id='" . User::getCustomerID($usr_id) . "'";
+            $crm = CRM::getInstance($prj_id);
+            $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
+            $stmt .= " AND iss_customer_contract_id IN('" . join("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
                         iur_usr_id = $usr_id
                         )";
+        }
+
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= " AND ipa_par_code = '" . Misc::escapeString($usr_details['usr_par_code']) . "'";
         }
 
         if (!empty($options["users"])) {
@@ -532,9 +572,10 @@ class Search
             $stmt .= " AND (\n";
             if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
                 $stmt .= "iss_id IN(" . join(', ', self::getFullTextIssues($options)) . ")";
-            } elseif (($options['search_type'] == 'customer') && (Customer::hasCustomerIntegration($prj_id))) {
-                // check if the user is trying to search by customer email
-                $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['keywords']);
+            } elseif (($options['search_type'] == 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
+                // check if the user is trying to search by customer name / email
+                $crm = CRM::getInstance($prj_id);
+                $customer_ids = $crm->getCustomerIDsByString($options['keywords'], true);
                 if (count($customer_ids) > 0) {
                     $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
                 } else {
@@ -567,6 +608,9 @@ class Search
         }
         if (!empty($options['release'])) {
             $stmt .= " AND iss_pre_id = " . Misc::escapeInteger($options['release']);
+        }
+        if (!empty($options["product"])) {
+            $stmt .= " AND ipv_pro_id = " . Misc::escapeInteger($options['product']);
         }
         // now for the date fields
         $date_fields = array(

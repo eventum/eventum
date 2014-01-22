@@ -129,13 +129,15 @@
                   {t}Value:{/t}
                 </th>
                 <td width="90%">
-                  {if $show_status_options|default:'' == 'yes' or $show_category_options|default:'' == 'yes'}
+                  {if $show_status_options|default:'' == 'yes' or $show_category_options|default:'' == 'yes' or $show_group_options|default:'' == 'yes'}
                   <select name="value">
                     <option value="-1">{t}Please choose an option{/t}</option>
                     {if $show_status_options|default:'' == 'yes'}
                     {html_options options=$statuses selected=$info.rlc_value}
                     {elseif $show_category_options|default:'' == 'yes'}
                     {html_options options=$categories selected=$info.rlc_value}
+                    {elseif $show_group_options == 'yes'}
+                    {html_options options=$groups selected=$info.rlc_value}
                     {/if}
                   </select>
                   {else}

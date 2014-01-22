@@ -31,7 +31,7 @@
           {/section}
         </table>
     </div>
-      {if $core.current_role > $core.roles.reporter and $custom_fields != ""}
+      {if $issue_access.update and $custom_fields != "" }
       <form>
       <div class="buttons">
           <input type="button" value="{t}Update{/t}" id='update_custom_fields' data-issue-id="{$issue_id}">

@@ -675,3 +675,75 @@ ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_date date NULL DEFAU
 
 # October 6th
 ALTER TABLE eventum_issue ADD COLUMN iss_customer_contract_id int(11) unsigned AFTER iss_customer_id;
+
+
+##########################################
+### From here down needs merging into schema.sql and sql patch system
+
+# November 13th
+INSERT INTO reminder_field VALUES (null, 'Group', 'iss_grp_id', 'iss_grp_id', 0);
+
+ALTER TABLE resolution ADD COLUMN res_rank int(2) NOT NULL;
+
+
+
+# December 2nd
+INSERT INTO reminder_field SET rmf_title = 'Active Group', rmf_sql_field = 'iss_grp_id', rmf_sql_representation = '';
+
+
+# December 3rd - Products
+CREATE TABLE product (
+  pro_id int(11) unsigned NOT NULL auto_increment,
+  pro_title varchar(255) NOT NULL,
+  pro_version_howto varchar(255) NOT NULL,
+  pro_rank mediumint unsigned NOT NULL default 0,
+  pro_removed tinyint(1) unsigned NOT NULL default 0,
+  PRIMARY KEY (pro_id),
+  KEY (pro_rank)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE issue_product_version (
+  ipv_id int(11) unsigned NOT NULL auto_increment,
+  ipv_iss_id int(11) unsigned NOT NULL,
+  ipv_pro_id int(11) unsigned NOT NULL,
+  ipv_version varchar(255) NOT NULL,
+  PRIMARY KEY (ipv_id),
+  KEY ipv_iss_id (ipv_iss_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO history_type (htt_name, htt_role) VALUES ('version_details_updated', '4');
+
+
+CREATE TABLE `reminder_product` (
+  rpr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  rpr_rem_id INT(11) UNSIGNED NOT NULL,
+  rpr_pro_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY(rpr_id)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE faq_support_level CHANGE fsl_support_level_id fsl_support_level_id varchar(50) NOT NULL;
+
+
+# December 9th - partner system
+ALTER TABLE user ADD COLUMN usr_par_code varchar(30) NULL;
+
+CREATE TABLE partner_project  (
+  pap_prj_id int(11) unsigned NOT NULL,
+  pap_par_code varchar(30) NOT NULL,
+  PRIMARY KEY(pap_prj_id, pap_par_code)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE issue_partner (
+  ipa_iss_id int(11) unsigned NOT NULL,
+  ipa_par_code varchar(30) NOT NULL,
+  ipa_created_date DATETIME NOT NULL,
+  PRIMARY KEY(ipa_iss_id, ipa_par_code)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO history_type SET htt_name = 'partner_added', htt_role = 4;
+INSERT INTO history_type SET htt_name = 'partner_removed', htt_role = 4;
+
+
+# reminder expected date
+INSERT INTO reminder_field SET rmf_title = 'Expected Resolution Date', rmf_sql_field = 'iss_expected_resolution_date', rmf_sql_representation = '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_expected_resolution_date), 0))', rmf_allow_column_compare = 1;

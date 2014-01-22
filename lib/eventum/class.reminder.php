@@ -38,6 +38,9 @@
 
 class Reminder
 {
+    public static $debug = false;
+
+
     /**
      * Returns whether we are in "debug mode" or not. Returning true
      * here will enable all sorts of helpful messages in the reminder
@@ -48,7 +51,7 @@ class Reminder
      */
     function isDebug()
     {
-        return false;
+        return self::$debug;
     }
 
 
@@ -233,6 +236,16 @@ class Reminder
                 $res['check_priority'] = 'yes';
                 $res['rer_pri_id'] = $priorities;
             }
+            $products = self::getAssociatedProducts($rem_id);
+            if (count($products) > 0) {
+                $res['check_product'] = 'yes';
+                $res['rer_pro_id'] = $products;
+            }
+            $severities = self::getAssociatedSeverities($rem_id);
+            if (count($severities) > 0) {
+                $res['check_severity'] = 'yes';
+                $res['rer_sev_id'] = $severities;
+            }
             return $res;
         }
     }
@@ -264,6 +277,50 @@ class Reminder
     }
 
 
+    function getAssociatedProducts($rem_id)
+    {
+        $stmt = "SELECT
+                    rpr_pro_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                 WHERE
+                    rpr_rem_id=" . Misc::escapeInteger($rem_id);
+        $res = DB_Helper::getInstance()->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get a list of all severity IDs associated with the given
+     * reminder.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @return  array The list of associated severity IDs
+     */
+    function getAssociatedSeverities($rem_id)
+    {
+        $stmt = "SELECT
+                    rms_sev_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 WHERE
+                    rms_rem_id=" . Misc::escapeInteger($rem_id);
+        $res = DB_Helper::getInstance()->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
     /**
      * Method used to associate a support level ID with a given
      * reminder entry ID.
@@ -282,7 +339,7 @@ class Reminder
                     rer_support_level_id
                  ) VALUES (
                     " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($support_level_id) . "
+                    '" . Misc::escapeString($support_level_id) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -410,6 +467,56 @@ class Reminder
     }
 
 
+    function addProductAssociation($rem_id, $pro_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                 (
+                    rpr_rem_id,
+                    rpr_pro_id
+                 ) VALUES (
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($pro_id) . "
+                 )";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Method used to associate a severity with a given reminder.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @param   integer $priority_id The severity ID
+     * @return  boolean
+     */
+    function addSeverityAssociation($rem_id, $severity_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 (
+                    rms_rem_id,
+                    rms_sev_id
+                 ) VALUES (
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($severity_id) . "
+                 )";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     /**
      * Method used to remove all requirements and priority associations for a
      * given reminder.
@@ -432,6 +539,16 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
+        DB_Helper::getInstance()->query($stmt);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                 WHERE
+                    rpr_rem_id IN (" . implode(',', $rem_id) . ")";
+        $res = DB_Helper::getInstance()->query($stmt);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                 WHERE
+                    rms_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
     }
 
@@ -486,6 +603,16 @@ class Reminder
                     self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
                 }
             }
+            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+                for ($i = 0; $i < count($_POST['products']); $i++) {
+                    self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
+                }
+            }
+            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+                for ($i = 0; $i < count($_POST['severities']); $i++) {
+                    self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
+                }
+            }
             return 1;
         }
     }
@@ -534,6 +661,16 @@ class Reminder
             if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
                 for ($i = 0; $i < count($_POST['priorities']); $i++) {
                     self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+                }
+            }
+            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+                for ($i = 0; $i < count($_POST['products']); $i++) {
+                    self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
+                }
+            }
+            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+                for ($i = 0; $i < count($_POST['severities']); $i++) {
+                    self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
                 }
             }
             return 1;
@@ -719,14 +856,22 @@ class Reminder
     {
         // - build the SQL query to check if we have an issue that matches these conditions...
         $stmt = "SELECT
-                    iss_id
+                    iss_id,
+                    iss_prj_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ",
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version";
+        }
+
         $stmt .= self::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
-        $res = DB_Helper::getInstance()->getCol($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -735,7 +880,22 @@ class Reminder
             if (empty($res)) {
                 return array();
             } else {
-                return $res;
+                // check for conditions that can't be run in the DB
+                foreach ($res as $iss_id => $iss_prj_id) {
+                    foreach ($conditions as $condition) {
+                        if (!empty($condition['rmf_sql_representation'])) {
+                            continue;
+                        }
+                        if ($condition['rmf_title'] == 'Active Group') {
+                            $equal = (Workflow::getActiveGroup($iss_prj_id) == $condition['rlc_value']);
+                            if ((($condition['rmo_sql_representation'] == '=') && ($equal != true)) ||
+                                (($condition['rmo_sql_representation'] == '<>') && ($equal != false))) {
+                                unset($res[$iss_id]);
+                            }
+                        }
+                    }
+                }
+                return array_keys($res);
             }
         }
     }
@@ -758,18 +918,17 @@ class Reminder
         if ($requirement['type'] == 'issue') {
             $stmt .= ' AND iss_id IN (' . implode(', ', $requirement['values']) . ")\n";
         } else {
-            if (Customer::hasCustomerIntegration($reminder['rem_prj_id'])) {
+            if (CRM::hasCustomerIntegration($reminder['rem_prj_id'])) {
+                $crm = CRM::getInstance($reminder['rem_prj_id']);
                 if ($requirement['type'] == 'customer') {
                     $stmt .= ' AND iss_customer_id IN (' . implode(', ', $requirement['values']) . ")\n";
                 } elseif ($requirement['type'] == 'support_level') {
-                    if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
-                        $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values'], CUSTOMER_EXCLUDE_EXPIRED);
-                        // break the query on purpose if no customers could be found
-                        if (count($customer_ids) == 0) {
-                            $customer_ids = array(-1);
-                        }
-                        $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
+                    $customer_ids = $crm->getCustomerIDsBySupportLevel($requirement['values'], array(CRM_EXCLUDE_EXPIRED));
+                    // break the query on purpose if no customers could be found
+                    if (count($customer_ids) == 0) {
+                        $customer_ids = array(-1);
                     }
+                    $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
                 }
             }
         }
@@ -777,8 +936,20 @@ class Reminder
         if (count($priorities) > 0) {
             $stmt .= ' AND iss_pri_id IN (' . implode(', ', $priorities) . ")\n";
         }
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ' AND ipv_iss_id = iss_id AND ipv_pro_id IN (' . implode(', ', $products) . ")\n";
+        }
+        $severities = self::getAssociatedSeverities($reminder['rem_id']);
+        if (count($severities) > 0) {
+            $stmt .= ' AND iss_sev_id IN (' . implode(', ', $severities) . ")\n";
+        }
         // now for the interesting stuff
         for ($i = 0; $i < count($conditions); $i++) {
+            if (empty($conditions[$i]['rmf_sql_representation'])) {
+                continue;
+            }
+
             // check for fields that compare to other fields
             if (!empty($conditions[$i]['rlc_comparison_rmf_id'])) {
                 $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_comparison_rmf_id']);
@@ -791,6 +962,10 @@ class Reminder
                     // support NULL as values for a date field
                     if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
                         $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
+                    } elseif (strtoupper($conditions[$i]['rlc_value']) == 'NOW') {
+                        $conditions[$i]['rmf_sql_representation'] = "UNIX_TIMESTAMP(" .
+                            $conditions[$i]['rmf_sql_field'] . ")";
+                        $conditions[$i]['rlc_value'] = 'UNIX_TIMESTAMP()';
                     } else {
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
                         if (@$reminder["rem_skip_weekend"] == 1) {
@@ -826,6 +1001,11 @@ class Reminder
                     iss_id
                  FROM
                     " . APP_TABLE_PREFIX . "issue";
+        $products = self::getAssociatedProducts($reminder['rem_id']);
+        if (count($products) > 0) {
+            $stmt .= ",
+                    issue_product_version";
+        }
         $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);

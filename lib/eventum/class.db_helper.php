@@ -143,7 +143,7 @@ class DB_Helper
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
         }
 
-        // this is crazy, but it does work. Anyone with a better solution email bryan@mysql.com
+        // this is crazy, but it does work. Anyone with a better solution email balsdorf@gmail.com
         $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) - (CASE
             WHEN DAYOFWEEK($start_date_field) = 1 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))-1)/7) * 86400 * 2)
             WHEN DAYOFWEEK($start_date_field) = 2 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field)))/7) * 86400 *2)
@@ -162,5 +162,16 @@ class DB_Helper
             ELSE 0
         END)";
         return str_replace("\n", " ", $sql);
+    }
+
+
+    public static function fatalDBError($e)
+    {
+        /** @var $e PEAR_Error */
+        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
+        /** @global $error_type  */
+        $error_type = "db";
+        require_once APP_PATH . "/htdocs/offline.php";
+        exit(2);
     }
 }

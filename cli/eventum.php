@@ -15,6 +15,8 @@ define('APP_PATH', dirname(__FILE__) . '/');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
 
+error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED);
+
 if (defined('APP_PEAR_PATH')) {
     set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 }
@@ -74,12 +76,14 @@ if ($issue_id > 0) {
                 Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $argv[3]);
                 break;
             case 'set-status':
+            case 'ss':
                 if (count($argv) == 3) {
                     Command_Line::quit("Missing parameter for the status");
                 }
                 Command_Line::setIssueStatus($client, $auth, $issue_id, $argv[3]);
                 break;
             case 'add-time':
+            case 'at':
                 if (count($argv) == 3) {
                     Command_Line::quit("Missing parameter for time worked");
                 }

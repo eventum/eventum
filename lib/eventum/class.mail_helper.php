@@ -762,19 +762,16 @@ class Mail_Helper
                 }
             }
 
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                if (empty($support_levels)) {
-                    $support_levels = Customer::getSupportLevelAssocList($prj_id);
-                }
-                $customer_id = Issue::getCustomerID($issue_id);
-                $contract_id = Issue::getContractID($issue_id);
-                if (!empty($customer_id)) {
-                    $customer_details = Customer::getDetails($prj_id, $customer_id, false, $contract_id);
-                    $new_headers['X-Eventum-Customer'] = $customer_details['customer_name'];
-                }
-                if (count($support_levels) > 0) {
-                    $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id, $contract_id)];
-                }
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
+                try {
+                    $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
+                    $new_headers['X-Eventum-Customer'] = $customer->getName();
+                } catch (CustomerNotFoundException $e) { }
+                try {
+                    $contract = $crm->getContract(Issue::getContractID($issue_id));
+                    $new_headers['X-Eventum-Level'] = $contract->getSupportLevel()->getName();
+                } catch (ContractNotFoundException $e) {}
             }
 
             // add assignee header

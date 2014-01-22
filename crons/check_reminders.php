@@ -47,6 +47,10 @@ if (!Lock::acquire('check_reminders')) {
     exit;
 }
 
+if (in_array('--debug', $argv)) {
+    Reminder::$debug = true;
+}
+
 /*
 1 - Get list of reminders with all of its actions
 2 - Loop through each reminder level and build the SQL query

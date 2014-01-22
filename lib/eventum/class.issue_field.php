@@ -46,6 +46,7 @@ class Issue_Field
         return array(
             'assignee'  =>  'Assignee',
             'priority'  =>  'Priority',
+            'severity'  =>  'Severity',
             'custom'    =>  'Custom Fields',
         );
     }
@@ -81,15 +82,18 @@ class Issue_Field
 
     /**
      * Returns a list of fields that should be displayed in the specified location.
+     * A field should be set to false to specifically hide it. If a field is
+     * not set a location may choose to use its default.
      *
      * @param   integer $issue_id The issue ID
      * @param   string $location The name of the location
      * @return  array An array of field names.
      */
-    private static function getFieldsToDisplay($issue_id, $location)
+    public static function getFieldsToDisplay($issue_id, $location)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        return Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
+        $workflow = Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
+        return $workflow;
     }
 
 
@@ -108,6 +112,8 @@ class Issue_Field
                 return Issue::getAssignedUserIDs($issue_id);
             case 'priority':
                 return Issue::getPriority($issue_id);
+            case 'severity':
+                return Issue::getSeverity($issue_id);
         }
         return false;
     }
@@ -128,6 +134,8 @@ class Issue_Field
                 return Issue::setAssignees($issue_id, $value);
             case 'priority':
                 return Issue::setPriority($issue_id, $value);
+            case 'severity':
+                return Issue::setSeverity($issue_id, $value);
         }
     }
 
@@ -155,6 +163,8 @@ class Issue_Field
                 return $users;
             case 'priority':
                 return Priority::getAssocList($prj_id);
+            case 'severity':
+                return Severity::getAssocList($prj_id);
         }
         return array();
     }

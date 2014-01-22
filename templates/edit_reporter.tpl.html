@@ -1,6 +1,6 @@
 {extends "base_full.tpl.html"}
 {block page_id}edit_reporter{/block}
-{block title}{t 1=$smarty.get.id|intval}Issue #%1 - Edit Reporter{/t}{/block}
+{block title}{t 1=$smarty.get.iss_id|intval}Issue #%1 - Edit Reporter{/t}{/block}
 
 {block "content"}
 {literal}
@@ -20,7 +20,6 @@
 {/literal}
 <form name="reporter_form" onSubmit="return validate();" method="post" action="{$smarty.server.PHP_SELF}">
     <input type="hidden" name="cat" value="update">
-    <input type="hidden" name="id" value="{$smarty.get.id|intval}">
     <input type="hidden" name="issue_id" value="{$issue_id|intval}">
     <table class="bordered narrow">
         {if $core.current_role > $core.roles.reporter}

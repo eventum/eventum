@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2013 Eventum Team.                              |
+// | Copyright (c) 2012 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -72,6 +72,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
         $this->conn = Net_LDAP2::connect($this->config);
+
     }
 
     public function isSetup()
@@ -129,7 +130,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
     public function getRemoteUserInfo($uid)
     {
-
         if (strpos($uid, '@') === false) {
             $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
         } else {
@@ -222,6 +222,16 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         return $created;
     }
 
+    private function isLDAPuser($usr_id)
+    {
+        $local_user_info = User::getDetails($usr_id);
+        if (empty($local_user_info['usr_external_id'])) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function verifyPassword($login, $password)
     {
         // check if this is an ldap or internal
@@ -277,7 +287,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
                 return array();
             }
-
             $ldap_setup_string = $ldap_setup = null;
             require APP_CONFIG_PATH . '/ldap.php';
             if ($ldap_setup_string == null and $ldap_setup == null) {
@@ -292,6 +301,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
         return $setup;
     }
+
 
     public static function saveSetup($options)
     {
@@ -314,6 +324,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
         return 1;
     }
+
+
     /**
      * Method used to update the account password for a specific user.
      *

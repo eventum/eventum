@@ -77,7 +77,7 @@ class User
      * @param   integer $customer_contact_id The customer contact ID
      * @return  integer The user ID
      */
-    function getUserIDByContactID($customer_contact_id)
+    public static function getUserIDByContactID($customer_contact_id)
     {
         $stmt = "SELECT
                     usr_id
@@ -103,7 +103,7 @@ class User
      * @param   integer $customer_contact_id The customer contact ID
      * @return  string The user's email address
      */
-    function getEmailByContactID($customer_contact_id)
+    public static function getEmailByContactID($customer_contact_id)
     {
         $stmt = "SELECT
                     usr_email
@@ -129,7 +129,7 @@ class User
      * @param   integer $usr_id The user ID
      * @return  string The user's SMS email address
      */
-    function getSMS($usr_id)
+    public static function getSMS($usr_id)
     {
         $stmt = "SELECT
                     usr_sms_email
@@ -156,7 +156,7 @@ class User
      * @param   string $sms_email The user's SMS email address
      * @return  boolean Whether the update was successfull or not
      */
-    function updateSMS($usr_id, $sms_email)
+    public static function updateSMS($usr_id, $sms_email)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -207,7 +207,7 @@ class User
      * @param   integer $usr_id The user ID
      * @return  integer The customer ID
      */
-    function getCustomerID($usr_id)
+    public static function getCustomerID($usr_id)
     {
         static $returns;
 
@@ -239,7 +239,7 @@ class User
      * @param   string $email The email address
      * @return  boolean
      */
-    function confirmVisitorAccount($email)
+    public static function confirmVisitorAccount($email)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -267,7 +267,7 @@ class User
      * @return  integer -1 if there was an error in the query, -2 for users that don't exist,
      *                  -3 if it cannot be authenticated and 1 if it did work
      */
-    function checkHash($email, $hash)
+    public static function checkHash($email, $hash)
     {
         $stmt = "SELECT
                     usr_full_name
@@ -303,7 +303,7 @@ class User
      * @param   array $projects The list of projects that this user will be associated with
      * @return  integer 1 if the creation worked, -1 otherwise
      */
-    function createVisitorAccount($role, $projects)
+    public static function createVisitorAccount($role, $projects)
     {
         // check for double submits
         if (Auth::userExists($_POST["email"])) {
@@ -367,7 +367,7 @@ class User
      * @param   string $usr_id The user ID
      * @return  void
      */
-    function sendPasswordConfirmationEmail($usr_id)
+    public static function sendPasswordConfirmationEmail($usr_id)
     {
         $info = self::getDetails($usr_id);
         // send confirmation email to user
@@ -397,7 +397,7 @@ class User
      * @param   string $email The email address
      * @return  void
      */
-    function confirmNewPassword($email)
+    public static function confirmNewPassword($email)
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
@@ -477,7 +477,7 @@ class User
      * @param   string $status The status of the user
      * @return  boolean
      */
-    function isActiveStatus($status)
+    public static function isActiveStatus($status)
     {
         if ($status == 'active') {
             return true;
@@ -495,7 +495,7 @@ class User
      * @param   string $status The status of the user
      * @return  boolean
      */
-    function isPendingStatus($status)
+    public static function isPendingStatus($status)
     {
         if ($status == 'pending') {
             return true;
@@ -516,7 +516,7 @@ class User
      * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    function getActiveAssocList($prj_id = false, $role = NULL, $exclude_grouped = false, $grp_id = false)
+    public static function getActiveAssocList($prj_id = false, $role = NULL, $exclude_grouped = false, $grp_id = false)
     {
         $grp_id = Misc::escapeInteger($grp_id);
         $stmt = "SELECT
@@ -546,7 +546,7 @@ class User
                 $stmt .= " AND usr_grp_id = $grp_id";
             }
         } elseif ($exclude_grouped == true) {
-            $stmt .= " AND usr_grp_id IS NULL";
+            $stmt .= " AND (usr_grp_id IS NULL or usr_grp_id = 0)";
         }
         $stmt .= "
                  ORDER BY
@@ -566,7 +566,7 @@ class User
      * @access  public
      * @return  array The list of roles
      */
-    function getAssocRoleIDs()
+    public static function getAssocRoleIDs()
     {
         $assoc_roles = array();
         foreach (self::$roles as $key => $value) {
@@ -585,7 +585,7 @@ class User
      * @param   array $exclude_role The list of roles to ignore
      * @return  array The list of roles
      */
-    function getRoles($exclude_role = null)
+    public static function getRoles($exclude_role = null)
     {
         if (empty($exclude_role)) {
             return self::getLocalizedRoles();
@@ -611,7 +611,7 @@ class User
      * @param   integer $role_id The role ID
      * @return  string The role title
      */
-    function getRole($role_id)
+    public static function getRole($role_id)
     {
         $roles = self::getLocalizedRoles();
         // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
@@ -643,7 +643,7 @@ class User
      * @param   integer $prj_id The project ID
      * @return  integer The role ID
      */
-    function getRoleByUser($usr_id, $prj_id)
+    public static function getRoleByUser($usr_id, $prj_id)
     {
         static $returns;
 
@@ -733,7 +733,7 @@ class User
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
-    function getFullName($usr_id)
+    public static function getFullName($usr_id)
     {
         static $returns;
 
@@ -839,7 +839,7 @@ class User
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
-    function getGroupID($usr_id)
+    public static function getGroupID($usr_id)
     {
         static $returns;
 
@@ -889,6 +889,8 @@ class User
             return $returns[$email];
         }
 
+        $email = User::getEmail(User::getUserIDByEmail($email, true));
+
         $stmt = "SELECT
                     usr_status
                  FROM
@@ -913,7 +915,7 @@ class User
      * @access  public
      * @return  boolean
      */
-    function changeStatus()
+    public static function changeStatus()
     {
         // check if the user being inactivated is the last one
         $stmt = "SELECT
@@ -944,13 +946,45 @@ class User
     }
 
     /**
+     * Method used to update the account password for a specific user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @param   boolean $send_notification Whether to send the notification email or not
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    public static function updatePassword($usr_id, $send_notification = FALSE)
+    {
+        if ($_POST['new_password'] != $_POST['confirm_password']) {
+            return -2;
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_password='" . Auth::hashPassword($_POST["new_password"]) . "'
+                 WHERE
+                    usr_id=" . Misc::escapeInteger($usr_id);
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            if ($send_notification) {
+                Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
+            }
+            return 1;
+        }
+    }
+
+
+    /**
      * Method used to update the account full name for a specific user.
      *
      * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updateFullName($usr_id)
+    public static function updateFullName($usr_id)
     {
         $full_name = trim(strip_tags($_POST["full_name"]));
         $stmt = "UPDATE
@@ -977,7 +1011,7 @@ class User
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updateEmail($usr_id)
+    public static function updateEmail($usr_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1005,7 +1039,11 @@ class User
             'password'  =>  $_POST['password'],
             'role'      =>  $_POST['role'],
         );
-        self::update($usr_id, $data);
+
+        if (isset($_POST['par_code'])) {
+            $data['par_code'] = $_POST['par_code'];
+        }
+        return self::update($usr_id, $data);
     }
 
 
@@ -1018,7 +1056,7 @@ class User
      * @param bool $notify
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update($usr_id, $data, $notify = true)
+    public static function update($usr_id, $data, $notify = true)
     {
         // system account should not be updateable
         if ($usr_id == APP_SYSTEM_USER_ID) {
@@ -1042,6 +1080,10 @@ class User
         if (isset($data["external_id"])) {
             $stmt .= ",
                     usr_external_id='" . Misc::escapeString($data["external_id"]) . "'";
+        }
+        if (isset($data["par_code"])) {
+            $stmt .= ",
+                    usr_par_code='" . Misc::escapeString($data["par_code"]) . "'";
         }
         $stmt .= "
                  WHERE
@@ -1107,6 +1149,11 @@ class User
             'role'      =>  $_POST['role'],
             'external_id'   =>  '',
         );
+
+        if (isset($_POST['par_code'])) {
+            $user['par_code'] = $_POST['par_code'];
+        }
+
         $insert = self::insert($user);
         if ($insert != -1) {
             return 1;
@@ -1143,6 +1190,7 @@ class User
             $user['email'],
             $user['grp_id'],
             $user['external_id'],
+            isset($user['par_code']) ? $user['par_code'] : null,
         );
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1154,8 +1202,10 @@ class User
                     usr_full_name,
                     usr_email,
                     usr_grp_id,
-                    usr_external_id
+                    usr_external_id,
+                    usr_par_code
                  ) VALUES (
+                    ?,
                     ?,
                     ?,
                     ?,
@@ -1197,7 +1247,7 @@ class User
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    function getList($show_customers = false)
+    public static function getList($show_customers)
     {
         $stmt = "SELECT
                     *
@@ -1229,6 +1279,9 @@ class User
                 if (!empty($res[$i]["usr_grp_id"])) {
                     $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
                 }
+                if (!empty($res[$i]["usr_par_code"])) {
+                    $row["partner_name"] = Partner::getName($res[$i]["usr_par_code"]);
+                }
                 $data[] = $row;
             }
             return $data;
@@ -1243,7 +1296,7 @@ class User
      * @access  public
      * @return  array The list of users
      */
-    function getAssocEmailList()
+    public static function getAssocEmailList()
     {
         static $emails;
 
@@ -1274,7 +1327,7 @@ class User
      * @access  public
      * @return  array The list of users
      */
-    function getAssocList()
+    public static function getAssocList()
     {
         $stmt = "SELECT
                     usr_id,
@@ -1348,7 +1401,7 @@ class User
      * @access  public
      * @return  array The list of clocked-in users
      */
-    function getClockedInList()
+    public static function getClockedInList()
     {
         $stmt = "SELECT
                     usr_full_name,
@@ -1374,7 +1427,7 @@ class User
      * @access  public
      * @param   int $usr_id The id of the user to clock out.
      */
-    function clockIn($usr_id)
+    public static function clockIn($usr_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1398,7 +1451,7 @@ class User
      * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      */
-    function clockOut($usr_id)
+    public static function clockOut($usr_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1423,7 +1476,7 @@ class User
      * @param   integer $usr_id The id of the user to clock out.
      * @return  boolean True if the user is logged in, false otherwise
      */
-    function isClockedIn($usr_id)
+    public static function isClockedIn($usr_id)
     {
         $setup = Setup::load();
         // If clock in handling is disabled, say that we are always clocked in
@@ -1481,7 +1534,7 @@ class User
     }
 
 
-    function getLang($usr_id, $force_refresh = false)
+    public static function getLang($usr_id, $force_refresh = false)
     {
         static $returns;
 
@@ -1509,7 +1562,7 @@ class User
     }
 
 
-    function setLang($usr_id, $language)
+    public static function setLang($usr_id, $language)
     {
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -1527,7 +1580,7 @@ class User
     }
 
 
-    function getAliases($usr_id)
+    public static function getAliases($usr_id)
     {
         $sql = "SELECT
                     ual_email
@@ -1544,7 +1597,7 @@ class User
         return $res;
     }
 
-    function addAlias($usr_id, $email)
+    public static function addAlias($usr_id, $email)
     {
         // see if alias belongs to a user right now
         $email_usr_id = self::getUserIDByEmail($email);
@@ -1572,7 +1625,7 @@ class User
     }
 
 
-    function removeAlias($usr_id, $email)
+    public static function removeAlias($usr_id, $email)
     {
         $sql = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
@@ -1606,6 +1659,41 @@ class User
         return $res;
     }
 
+
+    public static function isPartner($usr_id)
+    {
+        $sql = "SELECT
+                    usr_par_code
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                WHERE
+                    usr_id = ?";
+        $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return !empty($res);
+    }
+
+
+    public static function getPartnerID($usr_id)
+    {
+        $sql = "SELECT
+                    usr_par_code
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                WHERE
+                    usr_id = ?";
+        $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        if (PEAR::isError($res)) {
+	        /** @var $res PEAR_Error */
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return $res;
+    }
 
     public static function getExternalID($usr_id)
     {

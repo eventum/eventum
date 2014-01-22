@@ -77,7 +77,7 @@ $display_customer_fields = false;
 if (!empty($prj_id)) {
     $tpl->assign("status_list", Status::getAssocStatusList($prj_id, TRUE));
     $tpl->assign('project_id', $prj_id);
-    $display_customer_fields = Customer::hasCustomerIntegration($prj_id);
+    $display_customer_fields = CRM::hasCustomerIntegration($prj_id);
 }
 
 $tpl->assign("date_fields", Issue::getDateFieldsAssocList($display_customer_fields));

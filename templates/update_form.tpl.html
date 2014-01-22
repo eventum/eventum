@@ -106,11 +106,11 @@
 <div id="colwrap1">
 <div id="colwrap2">
 <div id="column1" class="column">
-    {if $core.has_customer_integration and $issue.iss_customer_id}
+    {if $core.has_crm and $issue.iss_customer_id}
     <div class="issue_field_display">
         <div class="background">
             <div class="label">{t}Customer{/t}</div>
-            <div class="display">{$issue.customer_info.customer_name}
+            <div class="display">{$issue.customer.name}
                 (<a href="#customer_details">{t}Complete Details{/t}</a>)
             </div>
         </div>
@@ -140,6 +140,19 @@
             </div>
         </div>
     </div>
+
+    {if $severities|@count > 0 }
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Severity{/t}</div>
+            <div class="display">
+                <select class="default" name="severity">
+                    {html_options options=$severities selected=$issue.iss_sev_id}
+                </select>
+            </div>
+        </div>
+    </div>
+    {/if}
 
     <div class="issue_field_display">
         <div class="background">
@@ -185,6 +198,35 @@
             </div>
         </div>
     </div>
+
+    {if $products|@count > 0}
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Product{/t}</div>
+            <div class="display">
+                <select id="product" name="product[{$issue.products[0].ipv_id|default:0}]">
+                    <option value="-1"></option>
+                      {foreach from=$products item=product}
+                      <option value="{$product.pro_id}" {if $product.pro_id == $issue.products[0].pro_id|default:''}selected{/if}
+                        data-desc="{$product.pro_version_howto|escape}">{$product.pro_title|escape}</option>
+                      {/foreach}
+                </select>
+                {include file="error_icon.tpl.html" field="product"}
+            </div>
+        </div>
+    </div>
+
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Product Version{/t}</div>
+            <div class="display">
+                <input type="text" name="product_version[{$issue.products[0].ipv_id|default:0}]" value="{$issue.products[0].version|default:''}" size="20" />
+                <div id="product_version_howto"></div>
+                {include file="error_icon.tpl.html" field="product_version"}
+            </div>
+        </div>
+    </div>
+    {/if}
 
     <div class="issue_field_display">
         <div class="background">
@@ -235,17 +277,17 @@
 
 <div id="column2" class="column">
 
-    {if $core.has_customer_integration and $issue.iss_customer_id}
+    {if $core.has_crm and $issue.iss_customer_id}
     <div class="issue_field_display">
         <div class="background">
             <div class="label">{t}Customer Contract{/t}</div>
             <div class="display">
-                {t}Support Level{/t}: {$issue.customer_info.support_level}
-                {if $issue.customer_info.support_options}
+                {t}Support Level{/t}: {$issue.contract.support_level}
+                {if $issue.contract.options_display|default:''}
                 <br />
-                {t}Support Options{/t}: {$issue.customer_info.support_options}
+                {t}Support Options{/t}: {$issue.contract.options_display|default:''}
                 {/if}
-                {if $issue.customer_info.is_per_incident}
+                {if $issue.contract.is_per_incident}
                 <br />
                 {t}Redeemed Incident Types{/t}:
                 {strip}
@@ -271,6 +313,13 @@
                 {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
                 {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             </div>
+        </div>
+    </div>
+
+    <div class="issue_field_display">
+        <div class="background">
+            <div class="label">{t}Reporter{/t}</div>
+            <div class="display">{$issue.reporter|escape:html|default:''}</div>
         </div>
     </div>
 
@@ -306,6 +355,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     <div class="issue_field_display">
         <div class="background">
@@ -364,7 +414,6 @@
             </div>
         </div>
     </div>
-    {/if}
 </div>
 </div>
 </div>
@@ -403,6 +452,7 @@
 {else}
 <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
 {/if}
+
 {if $core.current_role > $core.roles.standard_user}
 <div class="issue_field_display">
     <div class="background">
@@ -417,9 +467,10 @@
 <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
 {/if}
 
-{if $core.has_customer_integration}
-{include file="customer/$customer_backend_name/update_report_form_fields.tpl.html"}
+{if $core.has_crm}
+{include file="`$core.crm_template_path`/update_report_form_fields.tpl.html"}
 {/if}
+
 {if $core.current_role > $core.roles.reporter}
 <div class="buttons1">
     <input type="submit" value="{t}Update{/t}">

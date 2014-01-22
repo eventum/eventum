@@ -17,9 +17,9 @@
                 {t}Report Type{/t}:
             </th>
             <td width="200" NOWRAP>
-                <label><input type="radio" name="report_type" value="recent" {if $smarty.request.report_type!='range'}checked{/if} onClick="changeType('recent');">
+                <label><input type="radio" name="report_type" value="recent" {if $smarty.request.report_type|default:'' != 'range'}checked{/if} onClick="changeType('recent');">
                     {t}Recent{/t}</label>&nbsp;
-                <label><input type="radio" name="report_type" value="range" {if $smarty.request.report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+                <label><input type="radio" name="report_type" value="range" {if $smarty.request.report_type|default:'' == 'range'}CHECKED{/if} onClick="changeType('range');">
                     {t}Date Range{/t}</label>&nbsp;
             </td>
         </tr>
@@ -113,14 +113,14 @@
 {if $data.phone != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
+        <td colspan="{if $core.has_crm}8{else}7{/if}">
             {t}Recent Phone Calls{/t}
         </td>
     </tr>
     <tr>
         <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone"}</td>
         <td>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}Date{/t}</td>
@@ -136,7 +136,7 @@
         <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.phs_iss_id}">{$row.phs_iss_id}</a>
         </td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td bgcolor="{$row_color}">{$row.customer}</td>
         {/if}
         <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
@@ -158,14 +158,14 @@
 {if $data.note != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}6{else}5{/if}">
+        <td colspan="{if $core.has_crm}6{else}5{/if}">
             {t}Recent Notes{/t}
         </td>
     </tr>
     <tr>
         <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note"}</td>
         <td>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}Posted Date{/t}</td>
@@ -179,7 +179,7 @@
         <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.not_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.not_iss_id}</a>
         </td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td bgcolor="{$row_color}">{$row.customer}</td>
         {/if}
         <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
@@ -199,14 +199,14 @@
 {if $data.email != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+        <td colspan="{if $core.has_crm}7{else}6{/if}">
             {t}Recent Emails{/t}
         </td>
     </tr>
     <tr>
         <td align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</td>
         <td nowrap>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}From{/t}</td>
@@ -223,7 +223,7 @@
         <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.sup_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.sup_iss_id}</a>
         </td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td bgcolor="{$row_color}">{$row.customer}</td>
         {/if}
         <td bgcolor="{$row_color}">{$row.sup_from|escape:"html"}</td>
@@ -250,14 +250,14 @@
 {if $data.draft != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}8{else}7{/if}">
+        <td colspan="{if $core.has_crm}8{else}7{/if}">
             {t}Recent Drafts{/t}
         </td>
     </tr>
     <tr>
         <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="draft"}</td>
         <td>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}Status{/t}</td>
@@ -273,7 +273,7 @@
     <td bgcolor="{$row.sta_color}" align="right">
         <a target="_blank" href="{$core.rel_url}view.php?id={$row.emd_iss_id}">{$row.emd_iss_id}</a>
     </td>
-    {if $core.has_customer_integration}
+    {if $core.has_crm}
     <td bgcolor="{$row_color}">{$row.customer}</td>
     {/if}
     <td bgcolor="{$row_color}">{$row.emd_status}</td>
@@ -296,13 +296,13 @@
 {if $data.time != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+        <td colspan="{if $core.has_crm}7{else}6{/if}">
             {t}Recent Time Entries{/t}
         </td>
     </tr>
     <tr>
         <td>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}Date of Work{/t}</td>
@@ -317,7 +317,7 @@
         <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.ttr_iss_id}" title="{$row.iss_summary|htmlspecialchars}">{$row.ttr_iss_id}</a>
         </td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td bgcolor="{$row_color}">{$row.customer}</td>
         {/if}
         <td bgcolor="{$row_color}" nowrap>{$row.date}</td>
@@ -338,13 +338,13 @@
 {if $data.reminder|default:'' != ''}
 <table class="bordered grid">
     <tr>
-        <td colspan="{if $core.has_customer_integration}4{else}3{/if}">
+        <td colspan="{if $core.has_crm}4{else}3{/if}">
             {t}Recent Reminder Actions{/t}
         </td>
     </tr>
     <tr>
         <td>{t}Issue ID{/t}</td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td>{t}Customer{/t}</td>
         {/if}
         <td>{t}Date Triggered{/t}</td>
@@ -356,7 +356,7 @@
         <td bgcolor="{$row.sta_color}" align="right">
             <a target="_blank" href="{$core.rel_url}view.php?id={$row.rmh_iss_id}">{$row.rmh_iss_id}</a>
         </td>
-        {if $core.has_customer_integration}
+        {if $core.has_crm}
         <td bgcolor="{$row_color}">{$row.customer}</td>
         {/if}
         <td bgcolor="{$row_color}" nowrap>{$row.date}</td>

@@ -5,5 +5,5 @@ For security reasons we need you to confirm this request so we can finish the ac
 
 If this is not a real request from you, or you are not interested in creating a new account anymore, please disregard this email. In a week the request will be erased automatically. However, if you would like to confirm the new account, please do so by visiting the URL below:
 {/t}
-{$app_base_url}confirm.php?cat=newuser&email={$email}&hash={$hash}
+{$core.base_url}confirm.php?cat=newuser&email={$email}&hash={$hash}
 {/textformat}

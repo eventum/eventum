@@ -1,1 +1,1 @@
-{textformat style="email"}{t name=$data.iss_id}This is a SMS reminder alert regarding issue # %1. Certain conditions triggered this action, and this issue may require immediate action in your part.{/t}{/textformat}
+{textformat style="email"}{t}Reminder{/t}: {$reminder.rem_title} {t}for{/t} #{$data.iss_id}, {$action.rma_boilerplate}{/textformat}

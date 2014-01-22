@@ -250,7 +250,7 @@ $().ready(function() {
                   <td width="80%">
                     <input type="text" name="smtp[from]" size="30" value="{$setup.smtp.from|default:''|escape:"html"}">
                     {include file="error_icon.tpl.html" field="smtp[from]"}
-                    <span>{t 1="eventum@example.com" 2="Eventum <eventum@example.com>"}(This MUST contain a real email address, e.g. "%1" or "%2"){/t}</span>
+                    <span>{t 1="eventum@example.com" 2="Eventum &lt;eventum@example.com&gt;"}(This MUST contain a real email address, e.g. "%1" or "%2"){/t}</span>
                   </td>
                 </tr>
                 <tr>

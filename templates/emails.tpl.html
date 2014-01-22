@@ -160,7 +160,7 @@
     <input type="hidden" name="cat" value="associate">
     <table class="bordered grid">
         <tr class="title">
-            <th colspan="{if $core.has_customer_integration}7{else}6{/if}">
+            <th colspan="{if $core.has_crm}7{else}6{/if}">
                 {math equation="x + 1" x=$list_info.start_offset assign="start_offset_plus_one"}
                 <b>{t count=$list_info.end_offset 1=$list_info.total_rows 2=$start_offset_plus_one 3=$list_info.end_offset plural="Viewing Emails (%1 emails found, %2 - %3 shown)"}Viewing Emails (%1 email found){/t}</b>
                 {include file="help_link.tpl.html" topic="support_emails"}
@@ -172,7 +172,7 @@
                 <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
                 {if $sorting.images.sup_from|default:'' != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
             </th>
-            {if $core.has_customer_integration}
+            {if $core.has_crm}
             <th align="center" nowrap>
                 <a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
                 {if $sorting.images.sup_customer_id|default:'' != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
@@ -199,7 +199,7 @@
         <tr class="{cycle values='odd,even'}">
             <td align="center" width="1%"><input type="checkbox" name="item[]" value="{$list[i].sup_id}" {if $list[i].sup_iss_id != 0}disabled{/if}></td>
             <td>{$list[i].sup_from|escape:"html"}</td>
-            {if $core.has_customer_integration}
+            {if $core.has_crm}
             <td nowrap>{$list[i].customer_title|escape:"html"}</td>
             {/if}
             <td align="center" nowrap>{$list[i].sup_date}</td>
@@ -221,13 +221,13 @@
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
-            <td colspan="{if $core.has_customer_integration}7{else}6{/if}" align="center">
+            <td colspan="{if $core.has_crm}7{else}6{/if}" align="center">
                 <i>{t}No emails could be found.{/t}</i>
             </td>
         </tr>
         {/section}
         <tr class="buttons">
-            <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+            <td colspan="{if $core.has_crm}7{else}6{/if}">
                 <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                         <td width="35%">
@@ -269,7 +269,7 @@
             </td>
         </tr>
         <tr class="buttons">
-            <td colspan="{if $core.has_customer_integration}7{else}6{/if}">
+            <td colspan="{if $core.has_crm}7{else}6{/if}">
                 <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                         <td colspan="3">

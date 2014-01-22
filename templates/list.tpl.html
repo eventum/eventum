@@ -4,16 +4,8 @@
 {block "content"}
 {if $core.current_role != $core.roles.customer}
 {include file="quick_filter_form.tpl.html"}
-{include file="current_filters.tpl.html"}
 {/if}
-<script type="text/javascript">
-<!--
-{literal}
-
-
-//-->
-</script>
-{/literal}
+{include file="current_filters.tpl.html"}
 {* Figure out how many columns there are *}
 {assign var="col_count" value=$columns|@count}
 {if $list_info.custom_fields|@count > 1}
@@ -24,7 +16,7 @@
 {/if}
   <form id="list_form" method="post" action="{$smarty.server.PHP_SELF}"
         data-current-page="{$list_info.current_page|default:0}"
-        data-last-page="{$list_info.last_page|default:0}">
+        data-last-page="{$list_info.last_page|default:0}" data-refresh-rate="{$refresh_rate}">
   <input type="hidden" name="cat" value="bulk_update">
       <table class="bordered grid">
         <tr class="title">
@@ -58,13 +50,14 @@
           {if $field_name == 'custom_fields'}
             {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
               {assign var="fld_name_id" value="custom_field_`$fld_id`"}
-                <th align="{$column.align|default:'center'}" nowrap>
+                <th align="{$column.align|default:'center'}" nowrap class="cstm_{$fld_id}">
                   <a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}">{$fld_title|escape:"html"}</a>
                   {if $sorting.images[$fld_name_id]|default:'' != ""}<a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
                 </th>
               {/foreach}
           {else}
-          <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
+          <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}
+            class="{$field_name}">
             {if $field_name == 'iss_summary'}
               <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}Summary{/t}</a>
               {if $sorting.images.iss_summary|default:'' != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
@@ -87,18 +80,20 @@
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
             {foreach from=$list[i].custom_field key=fld_id item=fld_value}
-                <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="default custom_field">
+                <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="custom_field cstm_{$fld_id}">
                   {$fld_value|formatCustomValue:$fld_id:$list[i].iss_id}
                 </td>
               {/foreach}
           {else}
-          <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}">
+          <td style="background: {$list[i].status_color}" align="{$column.align|default:'center'}" class="{$field_name}">
             {if $field_name == 'iss_id'}
               <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
             {elseif $field_name == 'pri_rank'}
               {$list[i].pri_title|escape:"html"}
-            {elseif $field_name == 'iss_grp_id'}
-              {$list[i].group}
+            {elseif $field_name == 'sev_rank'}
+              {$list[i].sev_title|escape:"html"}
+            {elseif $field_name == 'grp_name'}
+              {$list[i].grp_name}
             {elseif $field_name == 'assigned'}
               {$list[i].assigned_users}
             {elseif $field_name == 'time_spent'}
@@ -112,7 +107,7 @@
               title="View other issues from this customer">
               {$list[i].customer_title|default:''|escape:"html"}</a>
             {elseif $field_name == 'support_level'}
-              {$list[i].support_level|escape:"html"}
+              {$list[i].support_level|escape:"html"|default:''}
             {elseif $field_name == 'sta_rank'}
               {$list[i].sta_title|escape:"html"}
             {elseif $field_name == 'iss_created_date'}

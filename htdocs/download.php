@@ -31,7 +31,6 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
-
 if (stristr(APP_BASE_URL, 'https:')) {
     // fix for IE 5.5/6 with SSL sites
     header('Pragma: cache');
@@ -48,6 +47,8 @@ if ($_GET['cat'] == 'attachment') {
             $tpl->displayTemplate();
             exit;
         }
-        Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'], $file['iaf_filetype']);
+        $force_inline = filter_input(INPUT_GET, 'force_inline');
+        Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'],
+                                   $file['iaf_filetype'], $force_inline);
     }
 }

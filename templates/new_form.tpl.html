@@ -1,0 +1,282 @@
+<script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?form_type=report_form"></script>
+{if $message|default:'' != ''}
+<table align="center" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
+  <tr>
+    <td>
+        <table align="center" width="500" bgcolor="#FFFFFF">
+            <tr>
+                <td class="default" align="center">
+                    {$message}
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data">
+<input type="hidden" name="cat" value="report">
+<input type="hidden" name="prj_id" value="{$core.project_id}">
+<input type="hidden" name="customer" value="{$customer_id|default:''}" id="customer_id">
+<input type="hidden" name="contact" value="{$contact_id|default:''}">
+<input type="hidden" name="attached_emails" value="{$attached_emails|default:''}">
+{if $core.current_role < $field_display_settings.assignment}
+    <input type="hidden" name="assignment[]" value="">
+{/if}
+{if $releases|@count < 1 || $core.current_role < $field_display_settings.release}
+    {* Hidden field if there are no scheduled releases *}
+    <input type="hidden" name="release" value="">
+{/if}
+{if $cats|@count < 1 || $core.current_role < $field_display_settings.category}
+    <input type="hidden" name="category" value="">
+{/if}
+{if $core.current_role < $field_display_settings.priority}
+    <input type="hidden" name="priority" value="">
+{/if}
+{if $core.current_role < $field_display_settings.estimated_dev_time}
+    <input type="hidden" name="estimated_dev_time" value="">
+{/if}
+{if $core.current_role < $field_display_settings.private}
+    <input type="hidden" name="private" value="0">
+{/if}
+<table class="bordered two_column" id="create_issue">
+{assign var="tabindex" value=1}
+    <tr class="title">
+      <th colspan="2">
+        {t}Create New Issue{/t}
+        <span class="menu">({t}Current Project{/t}: {$core.project_name})</span>
+      </th>
+    </tr>
+    {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category}
+    <tr>
+      <th {if $field_display_settings.category > $core.roles.customer}class="internal"{/if}>
+        {t}Category{/t}: * {include file="help_link.tpl.html" topic="report_category"}
+      </th>
+      <td>
+        <select id="category" name="category" tabindex="{$tabindex++}">
+          <option value="-1">{t}Please choose a category{/t}</option>
+          {html_options options=$cats selected=$smarty.post.category|default:''}
+        </select>
+        {include file="error_icon.tpl.html" field="category"}
+      </td>
+    </tr>
+    {/if}
+    {if $core.current_role >= $field_display_settings.severity}
+    <tr>
+      <th width="150" {if $field_display_settings.severity > $core.roles.customer}class="internal"{/if}">
+        {t}Severity *{/t}
+      </th>
+      <td>
+        <select id="severity" name="severity" tabindex="{$tabindex++}">
+          <option value="-1">{t}Please choose a severity{/t}</option>
+          {foreach from=$severities item=severity}
+          <option value="{$severity.sev_id}" {if $severity.sev_id == $smarty.post.severity|default:''}selected{/if}
+            data-desc="{$severity.sev_description|escape}">{$severity.sev_title|escape}</option>
+          {/foreach}
+        </select>
+        <span id="severity_desc" class="alerts"></span>
+        {include file="error_icon.tpl.html" field="severity"}
+      </td>
+    </tr>
+    {/if}
+    {if $core.current_role >= $field_display_settings.priority}
+    <tr>
+      <th>
+        {t}Priority{/t}: * {include file="help_link.tpl.html" topic="report_priority"}
+      </th>
+      <td>
+        {* Figure out default priority *}
+        {if $smarty.request.priority|default:'' != '' && $new_issue_id == ''}
+          {assign var="priority" value=$smarty.request.priority}
+        {else}
+          {assign var="priority" value=3}
+        {/if}
+        <select id="priority" name="priority" tabindex="{$tabindex++}">
+          <option value="-1">{t}Please choose a priority{/t}</option>
+          {html_options options=$priorities selected=$priority}
+        </select>
+        {include file="error_icon.tpl.html" field="priority"}
+      </td>
+    </tr>
+    {/if}
+    {if $core.current_role >= $field_display_settings.assignment}
+    <tr>
+      <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}">
+        {t}Assignment{/t}: {if $allow_unassigned_issues != 'yes'}*{/if} {include file="help_link.tpl.html" topic="report_assignment"}
+      </th>
+      <td>
+        {if $new_issue_id == ''}
+            {assign var='selected_users' value=$smarty.request.users|default:''}
+        {/if}
+        <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
+                data-allow-unassigned="{$allow_unassigned_issues}">
+          {html_options options=$users selected=$selected_users}
+        </select>
+        {include file="error_icon.tpl.html" field="users[]"}
+      </td>
+    </tr>
+    {/if}
+    {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group}
+    <tr>
+      <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
+        {t}Group{/t}:
+      </th>
+      <td>
+        {if $new_issue_id == ''}
+            {assign var='selected_group' value=$smarty.post.group|default:''}
+        {/if}
+        <select name="group" tabindex="{$tabindex++}">
+            <option value=""></option>
+            {html_options options=$groups selected=$selected_group}
+        </select>
+        {include file="error_icon.tpl.html" field="group"}
+      </td>
+    </tr>
+    {/if}
+    {if $releases|@count > 0 && $core.current_role >= $field_display_settings.release}
+    <tr>
+      <th {if $field_display_settings.release > $core.roles.customer}class="internal"{/if}>
+        {t}Scheduled Release{/t}: {include file="help_link.tpl.html" topic="report_release"}
+      </th>
+      <td>
+        {if $new_issue_id == ''}
+            {assign var='selected_release' value=$smarty.request.release|default:''}
+        {/if}
+        <select name="release" tabindex="{$tabindex++}">
+          <option value="0">{t}un-scheduled{/t}</option>
+          {html_options options=$releases selected=$selected_release}
+        </select>
+      </td>
+    </tr>
+    {/if}
+    <tr>
+      <th>
+        {t}Summary{/t}: * {include file="help_link.tpl.html" topic="report_summary"}
+      </th>
+      <td>
+        {if $new_issue_id != ''}
+            {assign var='issue_summary' value=''}
+        {elseif $issue_summary|default:'' == ''}
+            {assign var='issue_summary' value=$smarty.request.summary|default:''}
+        {/if}
+        <input type="text" name="summary" size="50" tabindex="{$tabindex++}" value="{$issue_summary|default:''|escape:"html"}">
+        {include file="error_icon.tpl.html" field="summary"}
+      </td>
+    </tr>
+    <tr>
+      <th>
+        {t}Initial Description{/t}: * {include file="help_link.tpl.html" topic="report_description"}
+      </th>
+      <td>
+        {if $new_issue_id != ''}
+            {assign var='issue_description' value=''}
+        {elseif $issue_description|default:'' == ''}
+            {assign var='issue_description' value=$smarty.request.description|default:''}
+        {/if}
+        <textarea name="description" rows="10" tabindex="{$tabindex++}" style="width: 97%">{$issue_description|default:''}</textarea>
+        {include file="error_icon.tpl.html" field="description"}
+      </td>
+    </tr>
+    {if $core.current_role >= $field_display_settings.estimated_dev_time}
+    <tr>
+      <th {if $field_display_settings.estimated_dev_time > $core.roles.customer}class="internal"{/if}>
+        <nobr>{t}Estimated Dev. Time{/t}: {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
+      </th>
+      <td>
+        {if $new_issue_id == ''}
+            {assign var='estimated_dev_time' value=$smarty.post.estimated_dev_time|default:''}
+        {/if}
+        <input type="text" name="estimated_dev_time" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
+        {include file="error_icon.tpl.html" field="estimated_dev_time"} <span>({t}in hours{/t})</span>
+      </td>
+    </tr>
+    {/if}
+    {if $products|@count > 0 && $core.current_role >= $field_display_settings.product}
+    <tr>
+      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
+        {t}Product{/t}
+      </th>
+      <td>
+        <select class="default" id="product" name="product" tabindex="{$tabindex++}">
+            <option value="-1"></option>
+          {foreach from=$products item=product}
+          <option value="{$product.pro_id}" {if $product.pro_id == $smarty.post.product|default:''}selected{/if}
+            data-desc="{$product.pro_version_howto|escape}">{$product.pro_title|escape}</option>
+          {/foreach}
+        </select>
+        {include file="error_icon.tpl.html" field="product"}
+      </td>
+    </tr>
+    <tr>
+      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
+        {t}Product Version{/t}
+      </th>
+      <td>
+        <input type="text" name="product_version" value="{$smarty.post.product_version|default:''}" size="40" />
+        <span id="product_version_howto"></span>
+        {include file="error_icon.tpl.html" field="product_version"}
+      </td>
+    </tr>
+    {/if}
+    {if $core.current_role >= $field_display_settings.private}
+    <tr>
+      <th {if $field_display_settings.private > $core.roles.customer}class="internal"{/if}>
+        <nobr>{t}Private{/t}: &nbsp;</nobr>
+      </th>
+      <td>
+        <label><input type="radio" name="private" value="1" {if $smarty.request.private|default:''}checked{/if} tabindex="{$tabindex++}">
+        {t}Yes{/t}</label>
+        <label><input type="radio" name="private" value="0" {if not $smarty.request.private|default:''}checked{/if} tabindex="{$tabindex++}">
+        {t}No{/t}</label>
+        {include file="error_icon.tpl.html" field="private"}
+      </td>
+    </tr>
+    {/if}
+    {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
+    {assign var=tabindex value=$tabindex+50}
+    {if $core.has_crm}
+    {include file="`$core.crm_template_path`/report_form_fields.tpl.html"}
+
+    {* set tab index very high now to account for inputs in customer file *}
+    {assign var="tabindex" value=$tabindex+30}
+    {/if}
+    {if $core.current_role >= $field_display_settings.file}
+    <tr class="title">
+      <th colspan="2">
+        {t}Add Files{/t}
+      </th>
+    </tr>
+    <tr>
+      <th>
+        {t}Files{/t}:
+      </th>
+      <td>
+        <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+          <tr>
+            <td>
+              <input type="file" name="file[]" size="40" class="growing_file_field">
+            </td>
+          </tr>
+        </table>
+        <span><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></span>
+      </td>
+    </tr>
+    {/if}
+    <tr>
+      <td colspan="2" class="footer">
+        <input name="main_submit_button" type="submit" value="{t}Submit{/t}" tabindex="{$tabindex++}">
+        <input type="reset" value="{t}Reset{/t}" tabindex="{$tabindex++}">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="footnote">
+        * {t}Required fields{/t}
+      </td>
+    </tr>
+</table>
+
+{if $emails|default:'' != ""}
+    {include file="attached_emails.tpl.html"}
+{/if}
+</form>

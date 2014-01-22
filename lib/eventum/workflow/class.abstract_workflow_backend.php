@@ -161,6 +161,8 @@ class Abstract_Workflow_Backend
 
 
     /**
+     * THIS METHOD IS NOW DEPRECATED AND ISN"T CALLED FROM ANYWHERE.
+     * USE handleAssignmentChange instead.
      * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID
@@ -208,11 +210,25 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
     function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    {
+    }
+
+
+    /**
+     * Called when the severity of an issue changes.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The id of the user who changed the issue.
+     * @param   array $old_details The old details of the issue.
+     * @param   array $changes The changes that were applied to this issue (the $_POST)
+     */
+    function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
 
@@ -321,9 +337,10 @@ class Abstract_Workflow_Backend
      * @param   integer $resolution_id The resolution ID
      * @param   integer $status_id The status ID
      * @param   string $reason The reason for closing this issue
+     * @param   integer $usr_id The ID of the user closing this issue
      * @return  void
      */
-    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
+    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
     }
 
@@ -375,7 +392,7 @@ class Abstract_Workflow_Backend
 
 
     /**
-     * Determines if the address should should be emailed.
+     * Determines if the address should be emailed.
      *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
@@ -420,6 +437,20 @@ class Abstract_Workflow_Backend
 
 
     /**
+     * Called to check if an email address that does not have an eventum account can send notes to an issue.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The email address to check
+     * @return  boolean True if the note should be added, false otherwise
+     */
+    function canSendNote($prj_id, $issue_id, $email, $structure)
+    {
+        return null;
+    }
+
+
+    /**
      * Handles when an authorized replier is added
      *
      * @param   integer $prj_id The project ID
@@ -445,6 +476,21 @@ class Abstract_Workflow_Backend
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
     function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    {
+        return null;
+    }
+
+
+    /**
+     * Called before inserting a note. If it returns false the rest of the note code
+     * will not be executed. Return null to continue as normal (possibly with changed $data)
+     *
+     * @param   integer $prj_id
+     * @param   integer $issue_id
+     * @param   array   $data
+     * @return  mixed   Null by default, false if the note should not be inserted
+     */
+    public function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
     {
         return null;
     }
@@ -567,6 +613,24 @@ class Abstract_Workflow_Backend
     function getLinkFilters($prj_id)
     {
         return array();
+    }
+
+
+    /**
+     * Returns if a user can update an issue. Return null to use default rules.
+     */
+    function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+
+    /**
+     * Returns the ID of the group that is "active" right now.
+     */
+    public function getActiveGroup($prj_id)
+    {
+        return null;
     }
 
 

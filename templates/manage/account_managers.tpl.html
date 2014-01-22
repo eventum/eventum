@@ -91,8 +91,9 @@ function checkDelete()
                 </th>
                 <td width="80%">
                   <select name="type">
-                    <option value="primary" {if $info.cam_type == 'primary'}selected{/if}>{t}Primary Technical Account Manager{/t}</option>
-                    <option value="backup" {if $info.cam_type == 'backup'}selected{/if}>{t}Backup Technical Account Manager{/t}</option>
+                    <option value="primary" {if $info.cam_type|default:'' == 'primary'}selected{/if}>{t}Primary Technical Account Manager{/t}</option>
+                    <option value="backup" {if $info.cam_type|default:'' == 'backup'}selected{/if}>{t}Backup Technical Account Manager{/t}</option>
+                    <option value="intpart" {if $info.cam_type|default:'' == 'intpart'}selected{/if}>{t}Interested Party{/t}</option>
                   </select>
                 </td>
               </tr>
@@ -129,7 +130,7 @@ function checkDelete()
                     <input type="checkbox" name="items[]" value="{$list[i].cam_id}">
                   </td>
                   <td width="40%">
-                    &nbsp;{$list[i].customer_title}
+                    &nbsp;{$list[i].customer_title|default:''}
                   </td>
                   <td width="40%">
                     &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cam_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name|escape:html}</a>

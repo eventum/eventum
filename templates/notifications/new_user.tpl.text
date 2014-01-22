@@ -1,7 +1,7 @@
 {t escape=no}A new user was just created for you in the system.{/t}
 
 {t escape=no}To start using the system, please load the URL below{/t}:
-{$app_base_url}index.php
+{$core.base_url}index.php
 
 ----------------------------------------------------------------------
         {t escape=no}Full Name{/t}: {$user.usr_full_name}

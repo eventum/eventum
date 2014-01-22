@@ -65,6 +65,30 @@ class Resolution
 
 
     /**
+     * Method used to get the id of a specific resolution.
+     *
+     * @param   string  $title The resolution title
+     * @return  id The id of the resolution
+     */
+    public static function getID($title)
+    {
+        $stmt = "SELECT
+                    res_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                 WHERE
+                    res_title=" . Misc::escapeString($title);
+        $res = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+
+        return $res;
+    }
+
+
+    /**
      * Method used to remove resolutions by using the administrative
      * interface of the system.
      *

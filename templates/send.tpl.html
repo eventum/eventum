@@ -60,6 +60,12 @@ $(function() {
     Eventum.checkWindowClose('{t}If you close this window, you will lose your message{/t}');
 });
 
+{if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
+var contact_list = new Array();
+{section name="i" loop=$assoc_emails}
+contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
+{/section}
+{/if}
 
 var email_responses = new Array();
 {section name="i" loop=$js_canned_responses}
@@ -80,7 +86,6 @@ function validateForm()
     if (Validation.isFieldWhitespace('message')) {
         Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Message{/t}{literal}', 'message');
     }
-
 {/literal}
     var leave_page = true;
 {if $core.current_role != $core.roles.customer and $issue_id != 0}
@@ -143,6 +148,10 @@ function setSignature(f)
         f.message.value = old_message;
     }
 }
+
+$().ready(function() {
+   Eventum.getField('message').focus();
+});
 //-->
 </script>
 {/literal}
@@ -217,10 +226,10 @@ function setSignature(f)
         {include file="error_icon.tpl.html" field="subject"}
       </td>
     </tr>
-    {if $core.current_role != $core.roles.customer and $canned_responses != '' and $read_only|default:'' != 1}
+    {if $core.current_role != $core.roles.customer and $canned_responses|@count > 0 and $read_only|default:'' != 1}
     <tr class="internal">
       <th>
-        {t}Canned Responses{/t}
+        {t}Canned Responses{/t} {$canned_responses}
       </th>
       <td>
         <select name="email_response">
@@ -277,10 +286,7 @@ function setSignature(f)
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           <input type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
           {/if}
-          <input type="button" value="{t}Cancel{/t}" onClick="confirmCloseWindow();">
-            {if $core.app_setup.spell_checker|default:'' == 'enabled'}
-              <input type="button" value="{t}Check Spelling{/t}" onClick="checkSpelling('send_email_form', 'message');">
-            {/if}
+          <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
@@ -313,22 +319,6 @@ function setSignature(f)
     </tr>
   </table>
 </form>
-
-{if $parent_email_id|default:'' or $smarty.get.cat|default:'' == 'reply'}
-{literal}
-<script type="text/javascript">
-<!--
-window.onload = focusMessageBox;
-function focusMessageBox()
-{
-    var f = getForm('send_email_form');
-    f.message.focus();
-}
-//-->
-</script>
-{/literal}
-{/if}
-
 {/if}
 
 {/block}

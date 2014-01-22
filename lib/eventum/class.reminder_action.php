@@ -685,14 +685,20 @@ class Reminder_Action
                 }
                 break;
         }
-        $data = Notification::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $conditions = Reminder_Condition::getAdminList($action['rma_id']);
         // alert IRC if needed
         if ($action['rma_alert_irc']) {
             if (Reminder::isDebug()) {
                 echo "  - Processing IRC notification\n";
             }
-            $irc_notice = "Issue #$issue_id (Priority: " . $data['pri_title'];
+            $irc_notice = "Issue #$issue_id (";
+            if (!empty($data['pri_title'])) {
+                $irc_notice .= "Priority: " . $data['pri_title'];
+            }
+            if (!empty($data['sev_title'])) {
+                $irc_notice .= "Severity: " . $data['sev_title'];
+            }
             // also add information about the assignee, if any
             $assignment = Issue::getAssignedUsers($issue_id);
             if (count($assignment) > 0) {
@@ -701,7 +707,7 @@ class Reminder_Action
             if (!empty($data['iss_grp_id'])) {
                 $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
             }
-            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered";
+            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
             Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id);
         }
         $setup = Setup::load();
@@ -741,7 +747,7 @@ class Reminder_Action
                 "reminder"                 => $reminder,
                 "action"                   => $action,
                 "conditions"               => $conditions,
-                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
@@ -781,7 +787,7 @@ class Reminder_Action
                 "reminder"                 => $reminder,
                 "action"                   => $action,
                 "conditions"               => $conditions,
-                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {

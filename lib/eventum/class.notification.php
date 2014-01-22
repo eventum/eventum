@@ -357,72 +357,6 @@ class Notification
 
 
     /**
-     * Method used to get the details of a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @return  array The issue details
-     */
-    function getIssueDetails($issue_id)
-    {
-        $stmt = "SELECT
-                    iss_id,
-                    iss_customer_id,
-                    iss_customer_contract_id,
-                    iss_summary,
-                    iss_description,
-                    iss_duplicated_iss_id,
-                    prj_id,
-                    prj_title,
-                    usr_full_name,
-                    usr_email,
-                    prc_title,
-                    pre_title,
-                    pri_title,
-                    sta_title,
-                    sta_color
-                 FROM
-                    (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                    )
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
-                 ON
-                    iss_pri_id=pri_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
-                 ON
-                    iss_prc_id=prc_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
-                 ON
-                    iss_pre_id=pre_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
-                 ON
-                    iss_sta_id=sta_id
-                 WHERE
-                    iss_id=" . Misc::escapeInteger($issue_id) . " AND
-                    iss_prj_id=prj_id AND
-                    iss_usr_id=usr_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            $res['assigned_users'] = implode(", ", Issue::getAssignedUsers($issue_id));
-            // get customer information, if any
-            if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['prj_id']))) {
-                $res['customer_info'] = Customer::getDetails($res['prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
-            }
-            return $res;
-        }
-    }
-
-
-    /**
      * Method used to get the details of a given note and issue.
      *
      * @access  public
@@ -467,7 +401,7 @@ class Notification
                 $res['reference_msg_id'] = false;
             }
 
-            $data = self::getIssueDetails($issue_id);
+            $data = Issue::getDetails($issue_id);
             $data["note"] = $res;
             return $data;
         }
@@ -504,7 +438,7 @@ class Notification
             if (count($res) == 0) {
                 return "";
             } else {
-                $data = self::getIssueDetails($issue_id);
+                $data = Issue::getDetails($issue_id);
                 $data["emails"] = $res;
                 return $data;
             }
@@ -541,7 +475,7 @@ class Notification
             return "";
         } else {
             $res["files"] = Attachment::getFileList($res["iat_id"]);
-            $data = self::getIssueDetails($issue_id);
+            $data = Issue::getDetails($issue_id);
             $data["attachment"] = $res;
             return $data;
         }
@@ -632,6 +566,10 @@ class Notification
             $diffs[] = '-' . ev_gettext('Priority') . ': ' . Priority::getTitle($old["iss_pri_id"]);
             $diffs[] = '+' . ev_gettext('Priority') . ': ' . Priority::getTitle($new["priority"]);
         }
+        if (isset($new["severity"]) && $old["iss_sev_id"] != $new["severity"]) {
+            $diffs[] = '-' . ev_gettext('Severity') . ': ' . Severity::getTitle($old["iss_sev_id"]);
+            $diffs[] = '+' . ev_gettext('Severity') . ': ' . Severity::getTitle($new["severity"]);
+        }
         if (isset($new["status"]) && $old["iss_sta_id"] != $new["status"]) {
             $diffs[] = '-' . ev_gettext('Status') . ': ' . Status::getStatusTitle($old["iss_sta_id"]);
             $diffs[] = '+' . ev_gettext('Status') . ': ' . Status::getStatusTitle($new["status"]);
@@ -692,7 +630,7 @@ class Notification
         // get additional email addresses to notify
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
 
-        $data = self::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
@@ -742,7 +680,7 @@ class Notification
                 $emails[] = $email;
             }
         }
-        $data = self::getIssueDetails($issue_id);
+        $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
@@ -794,6 +732,10 @@ class Notification
                 if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
+                if ($type == 'notes' && User::isPartner($users[$i]["sub_usr_id"]) &&
+                        !Partner::canUserAccessIssueSection($users[$i]["sub_usr_id"], 'notes')) {
+                    continue;
+                }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
             // now add it to the list of emails
@@ -803,7 +745,8 @@ class Notification
         }
         // prevent the primary customer contact from receiving two emails about the issue being closed
         if ($type == 'closed') {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
                 $stmt = "SELECT
                             iss_customer_contact_id
                          FROM
@@ -812,7 +755,12 @@ class Notification
                             iss_id=" . Misc::escapeInteger($issue_id);
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                 if (!empty($customer_contact_id)) {
-                    list($contact_email,,) = Customer::getContactLoginDetails($prj_id, $customer_contact_id);
+                    try {
+                        $contact = $crm->getContact($customer_contact_id);
+                        $contact_email = $contact->getEmail();
+                    } catch (CRMException $e) {
+                        $contact_email = '';
+                    }
                     for ($i = 0; $i < count($emails); $i++) {
                         $email = Mail_Helper::getEmailAddress($emails[$i]);
                         if ($email == $contact_email) {
@@ -828,7 +776,7 @@ class Notification
             $headers = false;
             switch ($type) {
                 case 'closed':
-                    $data = self::getIssueDetails($issue_id);
+                    $data = Issue::getDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
                     $subject = ev_gettext('Closed');
 
@@ -927,7 +875,8 @@ class Notification
         for ($i = 0; $i < count($emails); $i++) {
 
             $can_access = true;
-            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]));
+            $email_address = Mail_Helper::getEmailAddress($emails[$i]);
+            $recipient_usr_id = User::getUserIDByEmail($email_address);
             if (!empty($recipient_usr_id)) {
                 if (!Issue::canAccess($issue_id, $recipient_usr_id)) {
                     $can_access = false;
@@ -949,6 +898,11 @@ class Notification
             if ($can_access != true) {
                 continue;
             }
+
+            if (!Workflow::shouldEmailAddress(Issue::getProjectID($issue_id), $email_address, $issue_id, $type)) {
+                continue;
+            }
+
 
             // change the current locale
             if (!empty($recipient_usr_id)) {
@@ -1112,11 +1066,12 @@ class Notification
             $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
         }
         $irc_notice .= "), ";
-        if (@isset($data['customer_info'])) {
-            $irc_notice .= $data['customer_info']['customer_name'] . ", ";
+        if (@isset($data['customer'])) {
+            $irc_notice .= $data['customer']['name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
-        self::notifyIRC($prj_id, $irc_notice, $issue_id);
+        // MPAB: Disable notification so it is done in workflow
+//        self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
         // generate new Message-ID
@@ -1124,6 +1079,7 @@ class Notification
         $headers = array(
             "Message-ID" => $message_id
         );
+
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
 
@@ -1138,13 +1094,14 @@ class Notification
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
-     * @param   string $additional_recipient The user who should recieve this email who is not the sender of the original email.
+     * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
      * @return  void
      */
     function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            $sent = Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            $crm->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
         } else {
             $sent = false;
         }
@@ -1224,13 +1181,14 @@ class Notification
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The email IDs
-     * @param   integer $customer_id The customer ID
+     * @param bool|int $customer_id The customer ID
      * @return  array The list of recipient emails
      */
     function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
     {
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            return Customer::notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            return $crm->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
         } else {
             // build the list of recipients
             $recipients = array();
@@ -1495,7 +1453,7 @@ class Notification
         if (count($assignees) > 0) {
 
             // get issue details
-            $issue = self::getIssueDetails($issue_id);
+            $issue = Issue::getDetails($issue_id);
             // open text template
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/' . $type . '.tpl.text');
@@ -1553,7 +1511,7 @@ class Notification
             return false;
         }
         // get issue details
-        $issue = self::getIssueDetails($issue_id);
+        $issue = Issue::getDetails($issue_id);
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
@@ -1908,6 +1866,57 @@ class Notification
     }
 
 
+    public static function removeByEmail($issue_id, $email)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $usr_id = User::getUserIDByEmail($email, true);
+        $stmt = "SELECT
+                    sub_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_iss_id = $issue_id AND";
+        if (empty($usr_id)) {
+            $stmt .= "
+                    sub_email = '" . Misc::escapeString($email) . "'";
+        } else {
+            $stmt .= "
+                    sub_usr_id = $usr_id";
+        }
+        $sub_id = DB_Helper::getInstance()->getOne($stmt);
+        if (PEAR::isError($sub_id)) {
+        	Error_Handler::logError(array($sub_id->getMessage(), $sub_id->getDebugInfo()));
+            return false;
+        }
+
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_id=$sub_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            return false;
+        }
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                 WHERE
+                    sbt_sub_id=$sub_id";
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            return false;
+        }
+
+        // need to save a history entry for this
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
+                        ev_gettext('Notification list entry (%1$s) removed by %2$s', $email, User::getFullName(Auth::getUserID())));
+
+        Issue::markAsUpdated($issue_id);
+        return true;
+    }
+
+
     /**
      * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
@@ -1935,6 +1944,41 @@ class Notification
             } else {
                 return User::getFromHeader($res['sub_usr_id']);
             }
+        }
+    }
+
+
+    /**
+     * Returns the subscription ID for the specified email and issue ID
+     *
+     * @param $issue_id
+     * @param $email
+     * @return  string The email address
+     */
+    public static function getSubscriberID($issue_id, $email)
+    {
+        $usr_id = User::getUserIDByEmail($email);
+
+        $params = array($issue_id);
+        $stmt = "SELECT
+                    sub_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 WHERE
+                    sub_iss_id = ? AND";
+        if ($usr_id) {
+            $stmt .= " sub_usr_id = ?";
+            $params[] = $usr_id;
+        } else {
+            $stmt .= " sub_email = ?";
+            $params[] = $email;
+        }
+        $res = DB_Helper::getInstance()->getOne($stmt, $params);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        } else {
+            return $res;
         }
     }
 

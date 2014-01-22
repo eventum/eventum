@@ -63,15 +63,27 @@ class Attachment
      *
      * This method never returns to caller.
      *
-     * @access  public
      * @param   string $data The binary data of this file download
      * @param   string $filename The filename
      * @param   integer $filesize The size of this file
-     * @param   string $filetype The mimetype of this file
+     * @param   string $mimetype The mimetype of this file
+     * @param   boolean $force_inline If the file should be forced to render in the browser
      * @return  void
      */
-    function outputDownload(&$data, $filename, $filesize, $mimetype)
+    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline=false)
     {
+        if ($force_inline == true) {
+            header('Content-Type: text/plain');
+
+            if (stristr($mimetype, 'gzip')) {
+                header('Content-Encoding: gzip');
+            }
+            header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
+            header("Content-Length: " . $filesize);
+            print $data;
+            exit;
+        }
+
         if (empty($mimetype)) {
             $mimetype = "application/octet-stream";
         }
@@ -427,17 +439,14 @@ class Attachment
         History::add($_POST["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
 
         // if there is customer integration, mark last customer action
-        if ((Customer::hasCustomerIntegration(Issue::getProjectID($_POST["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($_POST["issue_id"])) == User::getRoleID('Customer'))) {
+        if ((CRM::hasCustomerIntegration(Issue::getProjectID($_POST["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($_POST["issue_id"])) == User::getRoleID('Customer'))) {
             Issue::recordLastCustomerAction($_POST["issue_id"]);
         }
 
         Workflow::handleAttachment(Issue::getProjectID($_POST["issue_id"]), $_POST["issue_id"], $usr_id);
 
         // send notifications for the issue being updated
-        // XXX: eventually need to restrict the list of people who receive a notification about this in a better fashion
-        if ($status == 'public') {
-            Notification::notify($_POST["issue_id"], 'files', $attachment_id);
-        }
+        Notification::notify($_POST["issue_id"], 'files', $attachment_id, $internal_only);
         return 1;
     }
 

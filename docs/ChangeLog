@@ -1,6 +1,13 @@
 Eventum Issue Tracking System
 =============================
 
+- Added "Product" filter to adv search page (Bryan)
+- Changed close issue to default to sending to all users instead of internal only (Bryan)
+- Changed HTTP Basic Auth handling in Auth::checkAuthentication() so it does not redirect (Bryan)
+- Added Partner API to help make Eventum integrate with partners / external systems (Bryan)
+- Automatically uncompress gzip files when using the "view" link (Bryan)
+- Send notification on private file uploads to internal users (Bryan)
+
 201?-??-??, Version 2.4.0
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
 - Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
@@ -94,6 +101,31 @@ Eventum Issue Tracking System
 - Show summary of users time tracking if there are more than one user timetracking record (Raul Raat)
 - Fixed bug with quoting email addresses when they are surrounded by < > (Bryan Alsdorf)
 - Fixed XSS vulnerabilities in advisory ZSL-2011-4989 (Bryan, Elan Ruusamäe) [lp#706385]
+
+- Made workflow class also look in /local/workflow/ for backends (Bryan)
+- Set SQL_MODE to '' in setup (Bryan)
+- Added script to sort incoming emails/notes/drafts and route to correct method (Bryan)
+- Allow customers to use the quick filters (Bryan)
+- Added basic auth support to Auth::checkAuthentication() (Bryan)
+- Added 'close_popup_windows' to Prefs::getDefaults() (Bryan)
+- Check if session is already started before calling session_start() (Bryan)
+- Added "Severity" field, this can be used with or instead of "Priority" (Bryan)
+- Changed view page and template to better manage fields that can be disabled or selectively shown (Bryan)
+- Look for templates in local directory before main directory so installations can be customized (Bryan)
+- Fixed permission check problem for close issue page (Bryan)
+- Changed "Custom Fields" to "Additional Details" on view issues page (Bryan)
+- Deprecated workflow "handleAssignment" in favor of "handleAssignmentChange" (Bryan)
+- Added workflow method to control if a user has access to update an issue (Bryan)
+- Added "Group" to reminder conditions (Bryan)
+- Allow ordering of resolutions (Bryan)
+- Allow aliases to be used when requesting new password (Bryan)
+- Changed FAQ entries to not popup in new windows (Bryan)
+- Added "getActiveGroup" to workflow (Bryan)
+- Added "Active Group" to reminder conditions
+- Added 'Product' field. Eventually multiple products per issue will be supported (Bryan)
+- Added Workflow::canSendNote() method (Bryan)
+- Call Workflow::shouldEmailAddress() from Notification::notifySubscribers() (Bryan)
+- Added "hasFeature" to Customer backend (Bryan Alsdorf)
 
 2010-08-19, Version 2.3
 - Removed reference to dynCalendar.css (Bryan, #42301)
@@ -252,7 +284,7 @@ Eventum Issue Tracking System
 - Don't hide Total Time Spent: when hiding time tracking block in issue details page (Raul Raat)
 - Added ability to control if a custom fields is required and validation options from backend (Bryan)
 - Added option to include custom fields on close issue page (Bryan)
-- Added more parameters to Customer::notifyIssueClosed() (Bryan)
+- Added more parameters to Customer_OLD::notifyIssueClosed() (Bryan)
 - Call Workflow::getAdditionalEmailAddresses() when notifying an issue has been updated (Bryan)
 - Add extra parameter to Workflow::getAdditionalEmailAddresses() to allow issue diffs to be passed (Bryan)
 - Fixed bug with not encoding [ and ] in address strings (Bryan)
@@ -635,7 +667,7 @@ Eventum Issue Tracking System
 - Added missing function to Abstract_Workflow_Backend class (Bryan)
 - Display the current textarea value when trying to update the custom fields (João)
 - Issue assignment emails now go out from project email address (Bryan)
-- Back button on mail queue log page uses app_base_url now (Bryan)
+- Back button on mail queue log page uses core.base_url now (Bryan)
 - Users can now have seperate roles per project (Bryan)
 - Added option to hide priority and file field on create issue page (Bryan)
 - Drafts are now never deleted (Bryan)

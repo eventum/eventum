@@ -34,7 +34,7 @@ require_once APP_JPGRAPH_PATH . '/jpgraph_bar.php';
 Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 
-if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
+if (!Access::canAccessReports(Auth::getUserID())) {
     echo "Invalid role";
     exit;
 }

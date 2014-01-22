@@ -27,7 +27,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-require_once APP_INC_PATH . '/class.misc.php';
+require_once APP_INC_PATH . '/class.cli_misc.php';
 require_once 'PEAR.php';
 require_once 'XML/RPC.php';
 
@@ -58,7 +58,7 @@ class Command_Line
                 $prompt .= sprintf(" [%s] => %s\n", $key, $value);
             }
             $prompt .= "Please enter the resolution";
-            $resolution_id = Misc::prompt($prompt, false);
+            $resolution_id = CLI_Misc::prompt($prompt, false);
             $available_ids = array_keys($list);
             if (!in_array($resolution_id, $available_ids)) {
                 self::quit("Entered resolution doesn't match any in the list available to you");
@@ -101,7 +101,7 @@ class Command_Line
                 $prompt .= sprintf(" [%s] => %s\n", $key, $value);
             }
             $prompt .= "Please enter the status";
-            $status = Misc::prompt($prompt, false);
+            $status = CLI_Misc::prompt($prompt, false);
             $lowercase_keys = array_map('strtolower', array_keys($list));
             $lowercase_values = array_map('strtolower', array_values($list));
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
@@ -148,7 +148,7 @@ class Command_Line
 
         // ask whether to send a notification email about this action or not (defaults to yes)
         $msg = "Would you like to send a notification email about this issue being closed? [y/n]";
-        $ret = Misc::prompt($msg, false);
+        $ret = CLI_Misc::prompt($msg, false);
         if (strtolower($ret) == 'y') {
             $send_notification = true;
         } else {
@@ -157,7 +157,7 @@ class Command_Line
 
         // prompt for internal note
         $prompt = "Please enter a reason for closing this issue (one line only)";
-        $note = Misc::prompt($prompt, false);
+        $note = CLI_Misc::prompt($prompt, false);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -369,7 +369,7 @@ class Command_Line
         // check if the file already exists
         if (@file_exists($details['iaf_filename'])) {
             $msg = "The requested file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
-            $ret = Misc::prompt($msg, false);
+            $ret = CLI_Misc::prompt($msg, false);
             if (strtolower($ret) == 'y') {
                 @unlink($details['iaf_filename']);
                 if (@file_exists($details['iaf_filename'])) {
@@ -441,9 +441,7 @@ class Command_Line
         }
         $details = XML_RPC_decode($result->value());
 
-        foreach ($details as $k => $v) {
-            $details[$k] = base64_decode($v);
-        }
+        $details = CLI_Misc::base64_decode($details);
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
@@ -646,13 +644,13 @@ class Command_Line
             $prompt .= sprintf(" [%s] => %s\n", $id, $title);
         }
         $prompt .= "Please enter the number of the time tracking category";
-        $cat_id = Misc::prompt($prompt, false);
+        $cat_id = CLI_Misc::prompt($prompt, false);
         if (!in_array($cat_id, array_keys($cats))) {
             self::quit("The selected time tracking category number didn't match any existing category");
         }
 
         $prompt = "Please enter a quick summary of what you worked on";
-        $summary = Misc::prompt($prompt, false);
+        $summary = CLI_Misc::prompt($prompt, false);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -697,14 +695,14 @@ class Command_Line
      Assignment: " . $details['assignments'] . "
  Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
        Reporter: " . $details['reporter'];
-        if (@isset($details['customer_info'])) {
+        if (@isset($details['customer'])) {
             $msg .= "
-       Customer: " . @$details['customer_info']['customer_name'] . "
-  Support Level: " . @$details['customer_info']['support_level'] . "
-Support Options: " . @$details['customer_info']['support_options'] . "
+       Customer: " . @$details['customer']['name'] . "
+  Support Level: " . @$details['contract']['support_level'] . "
+Support Options: " . @$details['contract']['options_display'] . "
           Phone: " . $details['iss_contact_phone'] . "
        Timezone: " . $details['iss_contact_timezone'] . "
-Account Manager: " . @$details['customer_info']['account_manager'];
+Account Manager: " . @$details['customer']['account_manager_name'];
         }
         $msg .= "
   Last Response: " . $details['iss_last_response_date'] . "
@@ -826,7 +824,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                 $prompt .= sprintf(" [%s] => %s\n", $projects[$i]['id'], $projects[$i]['title']);
             }
             $prompt .= "Please enter the number of the project";
-            $project_id = Misc::prompt($prompt, false);
+            $project_id = CLI_Misc::prompt($prompt, false);
             $found = 0;
             for ($i = 0; $i < $nprojects; $i++) {
                 if ($project_id == $projects[$i]['id']) {
@@ -1438,7 +1436,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         foreach ($types as $id => $data) {
             $prompt .= sprintf(" [%s] => %s (Total: %s; Left: %s)\n", $id, $data['title'], $data['total'], ($data['total'] - $data['redeemed']));
         }
-        $requested_types = Misc::prompt($prompt, false);
+        $requested_types = CLI_Misc::prompt($prompt, false);
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
             self::quit("Please enter a comma seperated list of issue types");
@@ -1525,7 +1523,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                             "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
                             "Are you sure you want to change this issue?";
             }
-            $ret = Misc::prompt($msg, 'y');
+            $ret = CLI_Misc::prompt($msg, 'y');
             if (strtolower($ret) != 'y') {
                 exit;
             }

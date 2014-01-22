@@ -46,7 +46,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  array The outgoing sender information
      */
-    function getOutgoingSenderAddress($prj_id)
+    public static function getOutgoingSenderAddress($prj_id)
     {
         $stmt = "SELECT
                     prj_outgoing_sender_name,
@@ -86,7 +86,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  integer The status ID
      */
-    function getInitialStatus($prj_id)
+    public static function getInitialStatus($prj_id)
     {
         $stmt = "SELECT
                     prj_initial_sta_id
@@ -112,7 +112,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  array The anonymous posting options
      */
-    function getAnonymousPostOptions($prj_id)
+    public static function getAnonymousPostOptions($prj_id)
     {
         $stmt = "SELECT
                     prj_anonymous_post_options
@@ -140,7 +140,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updateAnonymousPost($prj_id)
+    public static function updateAnonymousPost($prj_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
@@ -166,7 +166,7 @@ class Project
      * @access  public
      * @return  array The list of projects
      */
-    function getAnonymousList()
+    public static function getAnonymousList()
     {
         $stmt = "SELECT
                     prj_id,
@@ -194,7 +194,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function exists($prj_id)
+    public static function exists($prj_id)
     {
         $stmt = "SELECT
                     COUNT(*) AS total
@@ -223,7 +223,7 @@ class Project
      * @param   string $prj_title The project title
      * @return  integer The project ID
      */
-    function getID($prj_title)
+    public static function getID($prj_title)
     {
         $stmt = "SELECT
                     prj_id
@@ -248,7 +248,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  string The project title
      */
-    function getName($prj_id)
+    public static function getName($prj_id)
     {
         static $returns;
 
@@ -280,7 +280,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  boolean If reporters should be segregated
      */
-    function getSegregateReporters($prj_id)
+    public static function getSegregateReporters($prj_id)
     {
         static $returns;
 
@@ -317,7 +317,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  array The project details
      */
-    function getDetails($prj_id)
+    public static function getDetails($prj_id)
     {
         $stmt = "SELECT
                     *
@@ -343,7 +343,7 @@ class Project
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -406,7 +406,7 @@ class Project
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -463,7 +463,7 @@ class Project
      * @param   integer $role The role of the user
      * @return  boolean
      */
-    function associateUser($prj_id, $usr_id, $role)
+    public static function associateUser($prj_id, $usr_id, $role)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -511,7 +511,7 @@ class Project
      * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -577,7 +577,7 @@ class Project
      * @access  public
      * @return  array The list of projects
      */
-    function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     prj_id,
@@ -669,7 +669,7 @@ class Project
      * @param   integer $role The role ID of the user
      * @return  array The list of users
      */
-    function getUserAssocList($prj_id, $status = NULL, $role = NULL)
+    public static function getUserAssocList($prj_id, $status = NULL, $role = NULL)
     {
         $stmt = "SELECT
                     usr_id,
@@ -708,7 +708,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  array The list of user IDs
      */
-    function getUserColList($prj_id)
+    public static function getUserColList($prj_id)
     {
         $stmt = "SELECT
                     usr_id
@@ -738,7 +738,7 @@ class Project
      * @param   boolean $include_no_customer_association Whether to include in the results projects with customer integration or not
      * @return  array List of projects
      */
-    function getAll($include_no_customer_association = TRUE)
+    public static function getAll($include_no_customer_association = TRUE)
     {
         $stmt = "SELECT
                     prj_id,
@@ -770,7 +770,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of emails
      */
-    function getAddressBookEmails($prj_id, $issue_id)
+    public static function getAddressBookEmails($prj_id, $issue_id)
     {
         $list = self::getAddressBook($prj_id, $issue_id);
         $emails = array();
@@ -790,7 +790,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    function getAddressBook($prj_id, $issue_id = FALSE)
+    public static function getAddressBook($prj_id, $issue_id = FALSE)
     {
         static $returns;
 
@@ -822,7 +822,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    function getAddressBookAssocList($prj_id, $issue_id = FALSE)
+    public static function getAddressBookAssocList($prj_id, $issue_id = FALSE)
     {
         if ($issue_id) {
             $customer_id = Issue::getCustomerID($issue_id);
@@ -865,7 +865,7 @@ class Project
      * @access  public
      * @return  array The list of projects
      */
-    function getRemoteAssocList()
+    public static function getRemoteAssocList()
     {
         $stmt = "SELECT
                     prj_id,
@@ -895,7 +895,7 @@ class Project
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    function getRemoteAssocListByUser($usr_id, $only_customer_projects = FALSE)
+    public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = FALSE)
     {
         static $returns;
 
@@ -941,7 +941,7 @@ class Project
      * @param   string $status The desired user status
      * @return  array The list of users
      */
-    function getUserEmailAssocList($prj_id, $status = NULL, $role = NULL)
+    public static function getUserEmailAssocList($prj_id, $status = NULL, $role = NULL)
     {
         static $returns;
 
@@ -986,7 +986,7 @@ class Project
      * @param   string $status The desired user status
      * @return  array The list of users
      */
-    function getReporters($prj_id)
+    public static function getReporters($prj_id)
     {
 
         $stmt = "SELECT
@@ -1021,7 +1021,7 @@ class Project
      * @param   array $settings An array of fields and role is required to view them.
      * @return  integer 1 if the update worked, -1 otherwise.
      */
-    function updateFieldDisplaySettings($prj_id, $settings)
+    public static function updateFieldDisplaySettings($prj_id, $settings)
     {
         // delete current settings
         $stmt = "DELETE FROM
@@ -1064,7 +1064,7 @@ class Project
      * @param   integer $prj_id The project ID
      * @return  array An associative array of minimum role required to access a field.
      */
-    function getFieldDisplaySettings($prj_id)
+    public static function getFieldDisplaySettings($prj_id)
     {
         $stmt = "SELECT
                     pfd_field,
@@ -1094,17 +1094,19 @@ class Project
      * @access  public
      * @return  array
      */
-    function getDisplayFields()
+    public static function getDisplayFields()
     {
         return array(
             "category"  =>  ev_gettext("Category"),
             "priority"  =>  ev_gettext("Priority"),
+            "severity"  =>  ev_gettext("Severity"),
             "assignment"    =>  ev_gettext("Assignment"),
             "release"   =>  ev_gettext("Scheduled Release"),
             "estimated_dev_time"    =>  ev_gettext("Estimated Dev. Time"),
             "group"     =>  ev_gettext("Group"),
             "file"  =>  ev_gettext("File"),
-            "private"   =>  ev_gettext("Private")
+            "private"   =>  ev_gettext("Private"),
+            "product"   =>  ev_gettext("Product"),
         );
     }
 }

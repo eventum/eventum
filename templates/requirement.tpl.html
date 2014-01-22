@@ -1,5 +1,8 @@
-{include file="header.tpl.html"}
+{extends "base_full.tpl.html"}
+{block page_id}requirement{/block}
+{block title}{/block}
 
+{block "content"}
 
 {if $set_analysis_result}
 <script type="text/javascript">
@@ -81,7 +84,4 @@ function validate(f)
 </table>
 </form>
 {/if}
-
-
-{include file="app_info.tpl.html"}
-{include file="footer.tpl.html"}
+{/block}

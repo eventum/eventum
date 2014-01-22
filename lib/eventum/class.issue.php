@@ -96,7 +96,7 @@ class Issue
         if (count($categories) > 0) {
             $headings[] = 'Category';
         }
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
             $headings[] = 'Customer';
         }
         $headings[] = 'Status';
@@ -261,11 +261,10 @@ class Issue
     /**
      * Returns the contract ID associated with the given issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
-     * @return  integer The customer ID associated with the issue
+     * @return  integer The contract ID associated with the issue
      */
-    function getContractID($issue_id)
+    public static function getContractID($issue_id)
     {
         static $returns;
 
@@ -366,7 +365,7 @@ class Issue
      * @param   boolean $force_refresh If the cache should not be used.
      * @return  integer The project ID
      */
-    function getProjectID($issue_id, $force_refresh = false)
+    public static function getProjectID($issue_id, $force_refresh = false)
     {
         static $returns;
 
@@ -611,6 +610,60 @@ class Issue
         }
 
         return $res;
+    }
+
+
+    /**
+     * Method used to set the severity of an issue
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $pri_id The ID of the severity to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    public static function setSeverity($issue_id, $sev_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $sev_id = Misc::escapeInteger($sev_id);
+
+        if ($sev_id != self::getSeverity($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_sev_id = $sev_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = DB_Helper::getInstance()->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the current issue severity
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The severity
+     */
+    public static function getSeverity($issue_id)
+    {
+        $sql = "SELECT
+                    iss_sev_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = DB_Helper::getInstance()->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return $res;
+        }
     }
 
     /**
@@ -1349,7 +1402,8 @@ class Issue
      * @param   string  $send_notification_to Who this notification should be sent too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $send_notification_to = 'internal')
+    public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
+                                 $send_notification_to = 'internal')
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $issue_id = Misc::escapeInteger($issue_id);
@@ -1412,7 +1466,8 @@ class Issue
         }
 
         if ($send_notification) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
                 // send a special confirmation email when customer issues are closed
                 $stmt = "SELECT
                             iss_customer_contact_id
@@ -1422,13 +1477,16 @@ class Issue
                             iss_id=$issue_id";
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                 if (!empty($customer_contact_id)) {
-                    Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
+                    try {
+                        $contact = $crm->getContact($customer_contact_id);
+                        $contact->notifyIssueClosed($issue_id, $reason);
+                    } catch (CRMException $e) {}
                 }
             }
             // send notifications for the issue being closed
             Notification::notify($issue_id, 'closed', $ids);
         }
-        Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason);
+        Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
         return 1;
     }
 
@@ -1543,7 +1601,6 @@ class Issue
         }
         $stmt .= "
                     iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",
-                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
                     iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
                     iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . ",
                     iss_summary='" . Misc::escapeString($_POST["summary"]) . "',
@@ -1556,6 +1613,14 @@ class Issue
             $stmt .= ",
                     iss_private = " . Misc::escapeInteger($_POST['private']);
         }
+        if (isset($_POST['priority'])) {
+            $stmt .= ",
+                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]);
+        }
+        if (isset($_POST['severity'])) {
+            $stmt .= ",
+                    iss_sev_id=" . Misc::escapeInteger($_POST["severity"]);
+        }
         $stmt .= "
                  WHERE
                     iss_id=$issue_id";
@@ -1563,123 +1628,135 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        }
-
-        // add change to the history (only for changes on specific fields?)
-        $updated_fields = array();
-        if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
-            $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $_POST['expected_resolution_date']);
-        }
-        if ($current["iss_prc_id"] != $_POST["category"]) {
-            $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($_POST["category"]));
-        }
-        if ($current["iss_pre_id"] != $_POST["release"]) {
-            $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($_POST["release"]));
-        }
-        if ($current["iss_pri_id"] != $_POST["priority"]) {
-            $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
-            Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
-        }
-        if ($current["iss_sta_id"] != $_POST["status"]) {
-            // clear out the last-triggered-reminder flag when changing the status of an issue
-            Reminder_Action::clearLastTriggered($issue_id);
-
-            // if old status was closed and new status is not, clear closed data from issue.
-            $old_status_details = Status::getDetails($current['iss_sta_id']);
-            if ($old_status_details['sta_is_closed'] == 1) {
-                $new_status_details = Status::getDetails($_POST["status"]);
-                if ($new_status_details['sta_is_closed'] != 1) {
-                    self::clearClosed($issue_id);
-                }
+        } else {
+            // change product
+            if (isset($_POST['product'])) {
+                $product_changes = Product::updateProductsByIssue($issue_id, $_POST['product'], $_POST['product_version']);
             }
-            $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($_POST["status"]));
-        }
-        if ($current["iss_res_id"] != $_POST["resolution"]) {
-            $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($_POST["resolution"]));
-        }
-        if ($current["iss_dev_time"] != $_POST["estimated_dev_time"]) {
-            $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($_POST["estimated_dev_time"]*60)));
-        }
-        if ($current["iss_summary"] != $_POST["summary"]) {
-            $updated_fields["Summary"] = '';
-        }
 
-        if ($current["iss_original_percent_complete"] != $_POST["percent_complete"]) {
-            $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"],$_POST["percent_complete"]);
-        }
-
-        if ($current["iss_description"] != $_POST["description"]) {
-            $updated_fields["Description"] = '';
-        }
-        if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
-            $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
-        }
-        if (count($updated_fields) > 0) {
-            // log the changes
-            $changes = '';
-            $i = 0;
-            foreach ($updated_fields as $key => $value) {
-                if ($i > 0) {
-                    $changes .= "; ";
-                }
-                if (($key != "Summary") && ($key != "Description")) {
-                    $changes .= "$key: $value";
-                } else {
-                    $changes .= "$key";
-                }
-                $i++;
+            // add change to the history (only for changes on specific fields?)
+            $updated_fields = array();
+            if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
+                $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $_POST['expected_resolution_date']);
             }
-            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated ($changes) by " . User::getFullName($usr_id));
-            // send notifications for the issue being updated
-            Notification::notifyIssueUpdated($issue_id, $current, $_POST);
-        }
+            if (isset($_POST["category"]) && $current["iss_prc_id"] != $_POST["category"]) {
+                $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($_POST["category"]));
+            }
+            if ($current["iss_pre_id"] != $_POST["release"]) {
+                $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($_POST["release"]));
+            }
+            if (isset($_POST["priority"]) && $current["iss_pri_id"] != $_POST["priority"]) {
+                $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
+                Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
+            }
+            if (isset($_POST["severity"]) && $current["iss_sev_id"] != $_POST["severity"]) {
+                $updated_fields["Severity"] = History::formatChanges(Severity::getTitle($current["iss_sev_id"]), Severity::getTitle($_POST["severity"]));
+                Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
+            }
+            if ($current["iss_sta_id"] != $_POST["status"]) {
+                // clear out the last-triggered-reminder flag when changing the status of an issue
+                Reminder_Action::clearLastTriggered($issue_id);
 
-        // record group change as a seperate change
-        if ($current["iss_grp_id"] != (int)$_POST["group"]) {
-            History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
-                "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($_POST["group"])) . ") by " . User::getFullName($usr_id));
-        }
-
-        // now update any duplicates, if any
-        $update_dupe = array(
-            'Category',
-            'Release',
-            'Priority',
-            'Release',
-            'Resolution'
-        );
-        // COMPAT: the following line requires PHP > 4.0.4
-        $intersect = array_intersect($update_dupe, array_keys($updated_fields));
-        if (($current["duplicates"] != '') && (count($intersect) > 0)) {
-            self::updateDuplicates($issue_id);
-        }
-
-        // if there is customer integration, mark last customer action
-        if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
-            self::recordLastCustomerAction($issue_id);
-        }
-
-        if ($assignments_changed) {
-            // XXX: we may want to also send the email notification for those "new" assignees
-            Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), @$_POST['assignments'], false);
-        }
-
-        Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
-        // Move issue to another project
-        if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Developer"))) {
-            $new_prj_id = (int)@$_POST['new_prj'];
-            if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
-                if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
-                    $res = self::moveIssue($issue_id, $new_prj_id);
-                    if ($res == -1) {
-                        return $res;
+                // if old status was closed and new status is not, clear closed data from issue.
+                $old_status_details = Status::getDetails($current['iss_sta_id']);
+                if ($old_status_details['sta_is_closed'] == 1) {
+                    $new_status_details = Status::getDetails($_POST["status"]);
+                    if ($new_status_details['sta_is_closed'] != 1) {
+                        self::clearClosed($issue_id);
                     }
-                } else {
-                    return -1;
+                }
+                $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($_POST["status"]));
+            }
+            if ($current["iss_res_id"] != $_POST["resolution"]) {
+                $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($_POST["resolution"]));
+            }
+            if ($current["iss_dev_time"] != $_POST["estimated_dev_time"]) {
+                $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($_POST["estimated_dev_time"]*60)));
+            }
+            if ($current["iss_summary"] != $_POST["summary"]) {
+                $updated_fields["Summary"] = '';
+            }
+
+            if ($current["iss_original_percent_complete"] != $_POST["percent_complete"]) {
+                $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"],$_POST["percent_complete"]);
+            }
+
+            if ($current["iss_description"] != $_POST["description"]) {
+                $updated_fields["Description"] = '';
+            }
+            if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
+                $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
+            }
+            if (isset($_POST['product']) && count($product_changes) > 0) {
+                $updated_fields['Product'] = join('; ', $product_changes);
+            }
+            if (count($updated_fields) > 0) {
+                // log the changes
+                $changes = '';
+                $i = 0;
+                foreach ($updated_fields as $key => $value) {
+                    if ($i > 0) {
+                        $changes .= "; ";
+                    }
+                    if (($key != "Summary") && ($key != "Description")) {
+                        $changes .= "$key: $value";
+                    } else {
+                        $changes .= "$key";
+                    }
+                    $i++;
+                }
+                History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated ($changes) by " . User::getFullName($usr_id));
+                // send notifications for the issue being updated
+                Notification::notifyIssueUpdated($issue_id, $current, $_POST);
+            }
+
+            // record group change as a seperate change
+            if ($current["iss_grp_id"] != (int)$_POST["group"]) {
+                History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
+                    "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($_POST["group"])) . ") by " . User::getFullName($usr_id));
+            }
+
+            // now update any duplicates, if any
+            $update_dupe = array(
+                'Category',
+                'Release',
+                'Priority',
+                'Release',
+                'Resolution'
+            );
+            // COMPAT: the following line requires PHP > 4.0.4
+            $intersect = array_intersect($update_dupe, array_keys($updated_fields));
+            if (($current["duplicates"] != '') && (count($intersect) > 0)) {
+                self::updateDuplicates($issue_id);
+            }
+
+            // if there is customer integration, mark last customer action
+            if ((CRM::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
+                self::recordLastCustomerAction($issue_id);
+            }
+
+            if ($assignments_changed) {
+                // XXX: we may want to also send the email notification for those "new" assignees
+                Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), @$_POST['assignments'], false);
+            }
+
+            Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
+            // Move issue to another project
+            if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Developer"))) {
+                $new_prj_id = (int)@$_POST['new_prj'];
+                if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
+                    if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
+                        $res = self::moveIssue($issue_id, $new_prj_id);
+                        if ($res == -1) {
+                            return $res;
+                        }
+                    } else {
+                        return -1;
+                    }
                 }
             }
+            return 1;
         }
-        return 1;
     }
 
 
@@ -1970,23 +2047,26 @@ class Issue
             'msg_id' => $msg_id,
         );
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
-            if (!empty($customer_id)) {
-                $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                $contact = $crm->getContactByEmail($sender_email);
                 // overwrite the reporter with the customer contact
-                $reporter = User::getUserIDByContactID($customer_contact_id);
+                $reporter = User::getUserIDByContactID($contact->getContactID());
                 $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
 
-                $data['customer'] = $customer_id;
-                $data['contact'] = $customer_contact_id;
-#                $data['contract'] =  // XXX missing
+                // Just use first contract / customer for now.
+                $contracts = $contact->getContracts(array('active'=>true));
+                $contract = $contracts[0];
+                $data['customer'] = $contract->getCustomerID();
+                $data['contact'] = $contact->getContactID();
+                $data['contract'] =  $contract->getContractID();
                 $data['contact_person_lname'] = $contact['last_name'];
                 $data['contact_person_fname'] = $contact['first_name'];
                 $data['contact_email'] = $sender_email;
                 $data['contact_phone'] = $contact['phone'];
                 $data['contact_timezone'] = $contact_timezone;
-            }
+            } catch (CRMException $e) {}
         } else {
             $customer_id = false;
         }
@@ -2007,13 +2087,12 @@ class Issue
         History::add($issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
         $emails = array();
-        $manager_usr_ids = array();
-        if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
-            // if there are any technical account managers associated with this customer, add these users to the notification list
-            $managers = Customer::getAccountManagers($prj_id, $customer_id);
-            $manager_usr_ids = array_keys($managers);
-            $manager_emails = array_values($managers);
-            $emails = array_merge($emails, $manager_emails);
+        // if there are any technical account managers associated with this customer, add these users to the notification list
+        if (isset($data['customer'])) {
+            $managers = CRM::getAccountManagers($prj_id, $data['customer']);
+            foreach ($managers as $manager) {
+                $emails[] = $manager['usr_email'];
+            }
         }
         // add the reporter to the notification list
         $emails[] = $sender;
@@ -2025,11 +2104,15 @@ class Issue
 
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-            foreach ($manager_usr_ids as $manager_usr_id) {
-                $users[] = $manager_usr_id;
-                self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $manager_usr_id, false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+        $has_TAM = false;
+        if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+            foreach ($managers as $manager) {
+                if ($manager['cam_type'] == 'intpart') {
+                    continue;
+                }
+                $users[] = $manager['cam_usr_id'];
+                self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
             }
             $has_TAM = true;
         }
@@ -2045,7 +2128,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($manager_usr_ids) < 1) {
+            if (@count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
@@ -2092,7 +2175,8 @@ class Issue
         $keys = array(
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
-            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'summary', 'users',
+            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
+            'product', 'product_version',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2106,7 +2190,8 @@ class Issue
 
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
             $contact_usr_id = User::getUserIDByContactID($data['contact']);
             if (empty($contact_usr_id)) {
                 $contact_usr_id = $usr_id;
@@ -2130,22 +2215,24 @@ class Issue
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
 
         $emails = array();
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $customer = $crm->getCustomer($data['customer']);
+            $contract = $crm->getContract($data['contract']);
             if (!empty($data['contact_extra_emails']) && count($data['contact_extra_emails']) > 0) {
                 $emails = $data['contact_extra_emails'];
             }
             // add the primary contact to the notification list
-            if ($data['add_primary_contact'] == 'yes') {
+            if (isset($data['add_primary_contact']) && ($data['add_primary_contact'] == 'yes')) {
                 $contact_email = User::getEmailByContactID($data['contact']);
                 if (!empty($contact_email)) {
                     $emails[] = $contact_email;
                 }
             }
             // if there are any technical account managers associated with this customer, add these users to the notification list
-            $managers = Customer::getAccountManagers($prj_id, $data['customer']);
-            $manager_usr_ids = array_keys($managers);
-            $manager_emails = array_values($managers);
-            $emails = array_merge($emails, $manager_emails);
+            $managers = $customer->getEventumAccountManagers();
+            foreach ($managers as $manager) {
+                $emails[] = $manager['usr_email'];
+            }
         }
         // add the reporter to the notification list
         $emails[] = $info['usr_email'];
@@ -2157,11 +2244,14 @@ class Issue
         // only assign the issue to an user if the associated customer has any technical account managers
         $users = array();
         $has_TAM = false;
-        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-            foreach ($manager_usr_ids as $manager_usr_id) {
-                $users[] = $manager_usr_id;
-                self::addUserAssociation($usr_id, $issue_id, $manager_usr_id, false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+        if ((CRM::hasCustomerIntegration($prj_id)) && (count($managers) > 0)) {
+            foreach ($managers as $manager) {
+                if ($manager['cam_type'] == 'intpart') {
+                    continue;
+                }
+                $users[] = $manager['cam_usr_id'];
+                self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
             }
             $has_TAM = true;
         }
@@ -2178,7 +2268,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            if (@count($manager_usr_ids) < 1) {
+            if (@count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
@@ -2188,6 +2278,11 @@ class Issue
                     $has_RR = true;
                 }
             }
+        }
+
+        // set product and version
+        if (isset($data['product'])) {
+            Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
         // now process any files being uploaded
@@ -2243,11 +2338,24 @@ class Issue
         }
         // also send a special confirmation email to the customer contact
         if ((@$data['notify_customer'] == 'yes') && (!empty($data['contact']))) {
+            $contact = $contract->getContact($data['contact']);
             // also need to pass the list of sender emails already notified,
             // so we can avoid notifying the same person again
             $contact_email = User::getEmailByContactID($data['contact']);
             if (@!in_array($contact_email, $recipients)) {
-                Customer::notifyCustomerIssue($prj_id, $issue_id, $data['contact']);
+                $contact->notifyNewIssue($issue_id);
+            }
+            // now check for additional emails in contact_extra_emails
+            if (@count($data['contact_extra_emails']) > 0) {
+                $notification_emails = $data['contact_extra_emails'];
+                foreach($notification_emails as $notification_email) {
+                    if (@!in_array($notification_email, $recipients)) {
+                        try {
+                            $notification_contact = $crm->getContactByEmail($notification_email);
+                            $notification_contact->notifyNewIssue($issue_id);
+                        } catch (ContactNotFoundException $e) {}
+                    }
+                }
             }
         }
 
@@ -2288,6 +2396,10 @@ class Issue
             $data['estimated_dev_time'] = 0;
         }
 
+        if (!isset($data['private'])) {
+            $data['private'] = 0;
+        }
+
         // add new issue
         $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
                 "SET ".
@@ -2304,6 +2416,9 @@ class Issue
         if (!empty($data['priority'])) {
             $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
         }
+        if (!empty($data['severity'])) {
+            $stmt .= "iss_sev_id=". Misc::escapeInteger($data['severity']) . ",";
+        }
 
         $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
@@ -2312,7 +2427,7 @@ class Issue
             $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
         }
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
+        if (CRM::hasCustomerIntegration($prj_id)) {
             $stmt .= "
                     iss_customer_id='". Misc::escapeString($data['customer']) . "',";
             if (!empty($data['contract'])) {
@@ -2452,6 +2567,7 @@ class Issue
     {
         $usr_id = Auth::getUserID();
         $role_id = Auth::getCurrentRole();
+        $usr_details = User::getDetails($usr_id);
 
         $stmt = "SELECT
                     iss_id,
@@ -2528,6 +2644,14 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  ON
                     iss_prc_id = prc_id";
+        }
+        if (!empty($usr_details['usr_par_code'])) {
+            // restrict partners
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                 ON
+                    ipa_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
@@ -2750,7 +2874,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    function getAssignedUsers($issue_id)
+    public static function getAssignedUsers($issue_id)
     {
         $stmt = "SELECT
                     usr_full_name
@@ -2826,6 +2950,7 @@ class Issue
                     prc_title,
                     pre_title,
                     pri_title,
+                    sev_title,
                     sta_title,
                     sta_abbreviation,
                     sta_color status_color,
@@ -2839,6 +2964,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                 ON
+                    iss_sev_id=sev_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON
@@ -2864,20 +2993,29 @@ class Issue
             } else {
                 $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
                 // get customer information, if any
-                if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
-                    $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
-                    $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
-                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id'], $res['iss_customer_contact_id']);
-                    $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
-                    $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
-                    $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
-                    if (empty($res['iss_first_response_date'])) {
-                        $first_response_deadline = $created_date_ts + $max_first_response_time;
-                        if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                            $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
-                        } else {
-                            $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                if ((!empty($res['iss_customer_id'])) && (CRM::hasCustomerIntegration($res['iss_prj_id']))) {
+                    $crm = CRM::getInstance($res['iss_prj_id']);
+                    try {
+                        $customer = $crm->getCustomer($res['iss_customer_id']);
+                        $contract = $crm->getContract($res['iss_customer_contract_id']);
+                        $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
+                        $res['customer'] = $customer;
+                        $res['contract'] = $contract;
+                        $res['contact'] = $crm->getContact($res['iss_customer_contact_id']);
+                        // TODOCRM: Deal with incidents
+    //                    $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
+                        $max_first_response_time = $contract->getMaximumFirstResponseTime($issue_id);
+                        $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
+                        if (empty($res['iss_first_response_date'])) {
+                            $first_response_deadline = $created_date_ts + $max_first_response_time;
+                            if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
+                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
+                            } else {
+                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                            }
                         }
+                    } catch (CRMException $e) {
+                        // TODOCRM: Log exception?
                     }
                 }
                 $res['iss_original_description'] = $res["iss_description"];
@@ -2935,6 +3073,8 @@ class Issue
 
                 // get quarantine issue
                 $res["quarantine"] = self::getQuarantineInfo($res["iss_id"]);
+
+                $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
                 $returns[$issue_id] = $res;
                 return $res;
@@ -2999,6 +3139,8 @@ class Issue
                 continue;
             }
 
+            $issue_details = Issue::getDetails($items[$i]);
+
             $updated_fields = array();
 
             // update assignment
@@ -3045,9 +3187,9 @@ class Issue
                         // add the assignment
                         self::addUserAssociation(Auth::getUserID(), $items[$i], $usr_id, false);
                         Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
-                        Workflow::handleAssignment(Auth::getCurrentProject(), $items[$i], Auth::getUserID());
                     }
                 }
+                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
                 $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
             }
@@ -3501,61 +3643,22 @@ class Issue
      * @param   integer $usr_id The ID of the user
      * @return  boolean If the user can access the issue
      */
-    function canAccess($issue_id, $usr_id)
+    public static function canAccess($issue_id, $usr_id)
     {
-        static $access;
-
-        if (empty($issue_id)) {
-            return true;
-        }
-
-        if (isset($access[$issue_id . "-" . $usr_id])) {
-            return $access[$issue_id . "-" . $usr_id];
-        }
-
-        $details = self::getDetails($issue_id);
-        if (empty($details)) {
-            return true;
-        }
-        $usr_details = User::getDetails($usr_id);
-        $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
-        $prj_id = self::getProjectID($issue_id);
+        return Access::canAccessIssue($issue_id, $usr_id);
+    }
 
 
-        if (empty($usr_role)) {
-            // check if they are even allowed to access the project
-            $return = false;
-        } elseif ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
-                ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
-            // check customer permissions
-            $return = false;
-        } elseif ($details['iss_private'] == 1) {
-            // check if the issue is even private
-
-            // check role, reporter, assigment and group
-            if ($usr_role > User::getRoleID("Developer")) {
-                $return = true;
-            } elseif ($details['iss_usr_id'] == $usr_id) {
-                $return = true;
-            } elseif (self::isAssignedToUser($issue_id, $usr_id)) {
-                $return = true;
-            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
-                        ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
-                $return = true;
-            } elseif (Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)) {
-                $return = true;
-            } else {
-                $return = false;
-            }
-        } elseif ((Auth::getCurrentRole() == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)) &&
-                ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
-            return false;
-        } else {
-            $return = true;
-        }
-
-        $access[$issue_id . "-" . $usr_id] = $return;
-        return $return;
+    /**
+     * Returns true if the user can update the issue
+     *
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean If the user can update the issue
+     */
+    public static function canUpdate($issue_id, $usr_id)
+    {
+        return Access::canUpdateIssue($issue_id, $usr_id);
     }
 
 

@@ -318,12 +318,20 @@ class Note
     function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
+        $prj_id = Issue::getProjectID($issue_id);
 
         if (@$_POST['add_extra_recipients'] != 'yes') {
             $note_cc = array();
         } else {
             $note_cc = $_POST['note_cc'];
         }
+
+        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $unknown_user, $_POST);
+        if ($workflow !== null) {
+            // cancel insert of note
+            return $workflow;
+        }
+
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
@@ -406,7 +414,7 @@ class Note
                 } else {
                     Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
                 }
-                Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing, $new_note_id);
+                Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $closing, $new_note_id);
             }
             // need to return the new note id here so it can
             // be re-used to associate internal-only attachments
@@ -557,8 +565,9 @@ class Note
      *
      * @access  public
      * @param   $note_id The id of the note
-     * @param   $target What the not should be converted too
-     * @param   $authorize_sender If the sender should be added to authorized senders list.
+     * @param   $target What the note should be converted too
+     * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
+     * @return int
      */
     function convertNote($note_id, $target, $authorize_sender = false)
     {
@@ -595,12 +604,16 @@ class Note
             if (!empty($structure->headers['from'])) {
                 $details = Email_Account::getDetails($email_account_id);
                 // check from the associated project if we need to lookup any customers by this email address
-                if (Customer::hasCustomerIntegration($details['ema_prj_id'])) {
+                if (CRM::hasCustomerIntegration($details['ema_prj_id'])) {
+                    $crm = CRM::getInstance($details['ema_prj_id']);
                     // check for any customer contact association
-                    list($customer_id,) = Customer::getCustomerIDByEmails($details['ema_prj_id'], array($sender_email));
-                    if (!empty($customer_id)) {
-                        $t['customer_id'] = $customer_id;
-                    }
+                    try {
+                        $contact = $crm->getContactByEmail($sender_email);
+                        $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
+                        if ($contact->canAccessContract($issue_contract)) {
+                            $t['customer_id'] = $issue_contract->getCustomerID();
+                        }
+                    } catch (CRMException $e) {}
                 }
             }
             if (empty($t['customer_id'])) {

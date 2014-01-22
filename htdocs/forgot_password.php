@@ -36,7 +36,7 @@ if (@$_POST["cat"] == "reset_password") {
     if (empty($_POST["email"])) {
         $tpl->assign("result", 4);
     }
-    $usr_id = User::getUserIDByEmail($_POST["email"]);
+    $usr_id = User::getUserIDByEmail($_POST["email"], true);
     if (empty($usr_id)) {
         $tpl->assign("result", 5);
     } else {

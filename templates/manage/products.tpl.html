@@ -1,0 +1,153 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
+
+{literal}
+<script type="text/javascript">
+    function validateForm()
+    {
+        if (Validation.isFieldWhitespace('title')) {
+            Validation.selectField('title');
+            alert('{/literal}{t escape=js}Please enter the name of this product.{/t}{literal}');
+            return false;
+        }
+        if (Validation.isFieldWhitespace('rank')) {
+            Validation.selectField('rank');
+            alert('{/literal}{t escape=js}Please enter the rank of this product.{/t}{literal}');
+            return false;
+        }
+        return true;
+    }
+
+    function checkDelete()
+    {
+        if (!Validation.hasOneChecked('items[]')) {
+            alert('{/literal}{t escape=js}Please select at least one of the products.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected products permanently.{/t}{literal}\n{/literal}{t escape=js}Please click OK to confirm.{/t}{literal}')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    $().ready(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+        $('#delete_product').submit(checkDelete);
+        $('#product_form').submit(validateForm);
+    });
+</script>
+{/literal}
+<form id="product_form" method="post" action="{$smarty.server.PHP_SELF}">
+    {if $smarty.get.cat|default:'' == 'edit'}
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
+    {else}
+    <input type="hidden" name="cat" value="new">
+    {/if}
+    <table class="bordered">
+        <tr class="title">
+            <th colspan="2">
+                {t}Manage Products{/t}
+            </th>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Title{/t} *
+            </th>
+            <td>
+                <input type="text" name="title" size="40" value="{$info.pro_title|default:''}">
+                {include file="error_icon.tpl.html" field="title"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Version How To{/t}
+            </th>
+            <td>
+                <input type="text" name="version_howto" size="100" value="{$info.pro_version_howto|default:''|escape}">
+                {include file="error_icon.tpl.html" field="version_howto"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                <nobr>{t}Rank{/t} *</nobr>
+            </th>
+            <td>
+                <input type="text" name="rank" size="3" value="{$info.pro_rank|default:''}" />
+                {include file="error_icon.tpl.html" field="rank"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Removed{/t}
+            </th>
+            <td width="80%">
+                <input type="checkbox" name="removed" value="1" {if $info.pro_removed|default:'' == 1}checked{/if} />
+            </td>
+        </tr>
+        <tr class="buttons">
+            <th colspan="2">
+                {if $smarty.get.cat|default:'' == 'edit'}
+                <input type="submit" value="{t}Update Product{/t}">
+                {else}
+                <input type="submit" value="{t}Create Product{/t}">
+                {/if}
+                <input type="reset" value="{t}Reset{/t}">
+            </th>
+        </tr>
+    </table>
+</form>
+
+<form id="delete_product" method="post" action="{$smarty.server.PHP_SELF}">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="5">
+                {t}Existing Products{/t}
+            </th>
+        </tr>
+        <tr>
+            <th nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+            <th>&nbsp;{t}Title{/t}</th>
+            <th>&nbsp;{t}Version How To{/t}</th>
+            <th>&nbsp;{t}Rank{/t}</th>
+            <th>&nbsp;{t}Removed{/t}</th>
+        </tr>
+        {section name="i" loop=$list}
+        <tr class="{cycle values='odd,even'}">
+            <td width="4" nowrap align="center">
+                <input type="checkbox" name="items[]" value="{$list[i].pro_id}" {if $smarty.section.i.total == 0}disabled{/if}>
+            </td>
+            <td width="20%">
+                &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pro_id}" title="{t}update this entry{/t}">{$list[i].pro_title}</a>
+            </td>
+            <td width="20%">
+                &nbsp;{$list[i].pro_version_howto}
+            </td>
+            <td width="40%">
+                &nbsp;{$list[i].pro_rank}
+            </td>
+            <td width="20%">
+                &nbsp;{if $list[i].pro_removed == 1}Yes{/if}
+            </td>
+        </tr>
+        {sectionelse}
+        <tr class="no_results">
+            <td colspan="5">
+                {t}No products could be found.{/t}
+            </td>
+        </tr>
+        {/section}
+        <tr class="buttons">
+            <td width="4">
+                <input type="button" value="{t}All{/t}" class="select_all">
+                <input type="hidden" name="cat" value="delete">
+            </td>
+            <td colspan="4">
+                <input type="submit" value="{t}Delete{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}

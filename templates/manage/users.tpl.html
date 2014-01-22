@@ -174,6 +174,18 @@
                   </td>
               </tr>
               <tr>
+                  <th width="120" >
+                      {t}Partner{/t}
+                  </th>
+                  <td width="80%">
+                      <select name="par_code" size="1" class="default">
+                          <option value="">{t}-- Select One --{/t}</option>
+                          {html_options options=$partners selected=$info.usr_par_code}
+                      </select>
+                      {include file="error_icon.tpl.html" field="par_code"}
+                  </td>
+              </tr>
+              <tr>
                 <th width="120">
                   <nobr>{t}Assigned Projects and Roles{/t}</nobr>
                 </th>
@@ -212,9 +224,9 @@
                   {if $smarty.get.cat|default:'' == 'edit'}
                   <input type="submit" value="{t}Update User{/t}">
                   {else}
-                  <input type="submit" value="{t}Create User{/t}">
+                  <input class="button" type="submit" value="{t}Create User{/t}">
                   {/if}
-                  <input type="reset" value="{t}Reset{/t}">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
             </table>
@@ -236,6 +248,7 @@
               <th>&nbsp;{t}Email Alias{/t}</th>
               <th>&nbsp;{t}Status{/t}</th>
               <th>&nbsp;{t}Group{/t}</th>
+              <th>&nbsp;{t}Partner{/t}</th>
             </tr>
             {section name="i" loop=$list}
             <tr class="{cycle values='odd,even'}">
@@ -262,6 +275,9 @@
               <td width="20%">
                 &nbsp;{$list[i].group_name|default:''}
               </td>
+              <td width="20%" bgcolor="{$row_color}" class="default">
+                &nbsp;{$list[i].partner_name|default:''}
+              </td>
             </tr>
             {sectionelse}
             <tr class="no_results">
@@ -271,7 +287,7 @@
             </tr>
             {/section}
             <tr class="buttons">
-              <td colspan="7">
+              <td colspan="8">
                       <input type="button" value="{t}All{/t}" class="select_all">
                       <input type="submit" value="{t}Update Status{/t} &gt;&gt;">
                       <select name="status">

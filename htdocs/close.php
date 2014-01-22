@@ -36,6 +36,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
+$role_id = Auth::getCurrentRole();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
 $tpl->assign("user_prefs", Prefs::get($usr_id));
@@ -44,7 +45,12 @@ if (!Issue::exists($issue_id, false)) {
     $tpl->assign("no_issue", true);
     $tpl->displayTemplate();
     exit;
+} elseif (($role_id == User::getRoleID('customer')) || (!Issue::canAccess($issue_id, $usr_id))) {
+    $tpl->assign("auth_customer", 'denied');
+    $tpl->displayTemplate();
+    exit;
 }
+$details = Issue::getDetails($issue_id);
 
 $notification_list = Notification::getSubscribers($issue_id, 'closed');
 $tpl->assign("notification_list_all", $notification_list['all']);
@@ -61,8 +67,12 @@ if (@$_REQUEST["cat"] == "close") {
         Time_Tracking::insertEntry();
     }
 
-    if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
-        Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
+    if (CRM::hasCustomerIntegration($prj_id) && isset($details['contract'])) {
+        $crm = CRM::getInstance($prj_id);
+        $contract = $details['contract'];
+        if ($contract->hasPerIncident()) {
+            $contract->updateRedeemedIncidents($issue_id, @$_REQUEST['redeem']);
+        }
     }
 
     $tpl->assign("close_result", $res);
@@ -82,12 +92,16 @@ $tpl->assign(array(
     "issue_id"          => $issue_id,
 ));
 
-if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
-    $details = Issue::getDetails($issue_id);
-    $tpl->assign(array(
-            'redeemed'  =>  Customer::getRedeemedIncidentDetails($prj_id, $issue_id),
-            'incident_details'  =>  $details['customer_info']['incident_details']
-    ));
+if (CRM::hasCustomerIntegration($prj_id) && isset($details['contract'])) {
+    $crm = CRM::getInstance($prj_id);
+    $contract = $details['contract'];
+    if ($contract->hasPerIncident()) {
+        $details = Issue::getDetails($issue_id);
+        $tpl->assign(array(
+                'redeemed'  =>  $contract->getRedeemedIncidentDetails($issue_id),
+                'incident_details'  =>  $details['customer']['incident_details']
+        ));
+    }
 }
 
 $usr_id = Auth::getUserID();

@@ -30,6 +30,22 @@
           Eventum.getField('priorities[]').prop('disabled', false);
       }
   }
+  function toggleIssueSeverityField()
+  {
+      if ($('[name=check_severity]:checked').length < 1) {
+          Eventum.getField('severities[]').prop('disabled', true).val('');
+      } else {
+          Eventum.getField('severities[]').prop('disabled', false);
+      }
+  }
+  function toggleIssueProductField()
+  {
+      if ($('[name=check_product]:checked').length < 1) {
+          Eventum.getField('products[]').prop('disabled', true).val('');
+      } else {
+          Eventum.getField('products[]').prop('disabled', false);
+      }
+  }
   function validateForm()
   {
       if (Eventum.getField('project').val() == -1) {
@@ -67,6 +83,14 @@
           alert('{/literal}{t escape=js}Please choose the priorities that will be associated with this reminder.{/t}{literal}');
           return false;
       }
+      if (($('[name=check_product]:checked').length > 0) && (!Validation.hasOneSelected('products[]'))) {
+          alert('{/literal}{t escape=js}Please choose the products that will be associated with this reminder.{/t}{literal}');
+          return false;
+      }
+      if (($('[name=check_severity]:checked').length > 0) && (!Validation.hasOneSelected('severities[]'))) {
+          alert('{/literal}{t escape=js}Please choose the severities that will be associated with this reminder.{/t}{literal}');
+          return false;
+      }
       return true;
   }
   function checkDelete()
@@ -88,11 +112,15 @@
       $('select[name=project]').change(populateIssueComboBox);
       $('input[name=reminder_type]').click(toggleReminderTypeFields);
       $('input[name=check_priority]').click(toggleIssuePriorityField);
+      $('input[name=check_severity]').click(toggleIssueSeverityField);
+      $('input[name=check_product]').click(toggleIssueProductField);
 
       $('#delete_form').submit(checkDelete);
 
       toggleReminderTypeFields();
       toggleIssuePriorityField();
+      toggleIssueSeverityField();
+      toggleIssueProductField();
   });
   //-->
   </script>
@@ -151,7 +179,7 @@
       <table cellpadding="1" border="0">
         <tr>
           {counter start=0 assign="next_field"}
-          {if $backend_uses_support_levels}
+          {if $project_has_customer_integration}
           <td>
             <label>
             <input type="radio" name="reminder_type" value="support_level" {if $info.type|default:'' == 'support_level'}checked{/if} onClick="toggleReminderTypeFields();">
@@ -159,8 +187,6 @@
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             {counter}
-          {/if}
-          {if $project_has_customer_integration}
           <td>
             <label>
             <input type="radio" name="reminder_type" value="customer" {if $info.type|default:'' == 'customer'}checked{/if} onClick="toggleReminderTypeFields();">
@@ -177,18 +203,16 @@
           {counter}
         </tr>
         <tr>
-          {if $backend_uses_support_levels}
+          {if $project_has_customer_integration}
           <td>
             <select class="type_filter" name="support_levels[]" size="4" multiple>
-              {html_options options=$support_levels selected=$info.rer_support_level_id}
+              {html_options options=$support_levels selected=$info.rer_support_level_id|default:''}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-          {/if}
-          {if $project_has_customer_integration}
           <td>
             <select class="type_filter" name="customers[]" size="4" multiple>
-              {html_options options=$customers selected=$info.rer_customer_id}
+              {html_options options=$customers selected=$info.rer_customer_id|default:''}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -214,6 +238,12 @@
                 {t}Also Filter By Issue Priorities{/t}</label>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <label>
+            <input type="checkbox" name="check_product" value="yes" {if $info.check_product|default:'' == 'yes'}checked{/if}
+                onClick="toggleReminderTypeFields();">
+            {t}Also Filter By Issue Product{/t}</label>
+          </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
@@ -222,6 +252,35 @@
           <td>
             <select name="priorities[]" size="4" multiple>
               {html_options options=$priorities|default:'' selected=$info.rer_pri_id|default:''}
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <select name="products[]" size="4" multiple>
+              {html_options options=$products selected=$info.rer_pro_id|default:''}
+            </select></td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td>
+            &nbsp;
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <label>
+            <input type="checkbox" name="check_severity" value="yes" {if $info.check_severity|default:'' == 'yes'}checked{/if}
+                onClick="javascript:toggleReminderTypeFields();">
+            {t}Also Filter By Issue Severities{/t}</label>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>
+            <select name="severities[]" size="4" multiple>
+              {html_options options=$severities selected=$info.rer_sev_id}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -257,7 +316,7 @@
 <input type="hidden" name="cat" value="delete">
 <table class="bordered grid">
       <tr class="title">
-        <th colspan="2">
+        <th colspan="8">
           {t}Existing Issue Reminders{/t}:
         </th>
       </tr>

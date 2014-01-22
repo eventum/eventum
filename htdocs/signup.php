@@ -41,6 +41,11 @@ if (@$_POST['cat'] == 'signup') {
     $setup = Setup::load();
     $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);
     $tpl->assign('signup_result', $res);
+    Misc::mapMessages($res, array(
+            1   =>  array('Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.', Misc::MSG_INFO),
+            -1  =>  array('Error: An error occurred while trying to run your query.', Misc::MSG_ERROR),
+            -2  =>  array('Error: The email address specified is already associated with an user in the system.', Misc::MSG_ERROR),
+    ));
 }
 
 $tpl->displayTemplate();

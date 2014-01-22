@@ -9,30 +9,39 @@
   {if $custom_fields|@count > 0}
   {include file="custom_fields.tpl.html"}
   {/if}
+  {if $issue_access.partners && $enabled_partners|@count > 0}
+  <div class="view_issue_seperator"></div>
+  {include file="partners.tpl.html"}
+  {/if}
+  <div class="view_issue_seperator"></div>
 
-  {if $core.has_customer_integration and $issue.iss_customer_id}
-  {include file="customer/$customer_backend_name/customer_info.tpl.html"}
+  {if $core.has_crm and $issue.iss_customer_id}
+  {include file="`$core.crm_template_path`/customer_info.tpl.html"}
   {/if}
 
+  {if $issue_access.files}
   {include file="attachments.tpl.html"}
+  <div class="view_issue_seperator"></div>
+  {/if}
+
   {if $core.current_role > $core.roles.customer and $core.app_setup.scm_integration|default:'' == 'enabled'}
   {include file="checkins.tpl.html"}
   {/if}
 
-  {if $core.current_role > $core.roles.customer}
+  {if $issue_access.time}
   {include file="time_tracking.tpl.html"}
   {/if}
 
-  {if $core.current_role > $core.roles.customer}
+  {if $issue_access.notes}
   {include file="notes.tpl.html"}
   {/if}
 
-  {if $core.current_role > $core.roles.customer}
+  {if $issue_access.phone}
   {include file="phone_support.tpl.html"}
   {/if}
 
   {if $core.app_setup.support_email == 'enabled'}
-    {if $core.current_role > $core.roles.customer}
+    {if $issue_access.drafts}
       {include file="email_drafts.tpl.html"}
     {/if}
   {include file="support_emails.tpl.html"}

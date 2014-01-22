@@ -101,7 +101,7 @@
           {include file="error_icon.tpl.html" field="project"}
         </td>
       </tr>
-      {if $backend_uses_support_levels|default:''}
+      {if $support_levels|default:'' != ''}
       <tr>
         <th width="140">
           <nobr>{t}Assigned Support{/t}<br />{t}Levels{/t}</nobr>

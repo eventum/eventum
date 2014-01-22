@@ -21,39 +21,29 @@ function removeEmails(f)
 //-->
 </script>
 {/literal}
-<table width="600" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td width="100%">
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td colspan="3">
-            <b>{t}Attached Emails{/t}</b>
-          </td>
+      <table class="bordered medium">
+        <tr class="title">
+          <th colspan="3">
+            {t}Attached Emails{/t}
+          </th>
         </tr>
         <tr>
-          <td>
-            <table cellpadding="2" cellspacing="1" bgcolor="white" width="100%" border="0">
-              <tr>
-                <td width="10">{t}Remove?{/t}</td>
-                <td>{t}Sender{/t}</td>
-                <td>{t}Subject{/t}</td>
-                <td width="10"><nobr>{t}Notify Sender?{/t}</nobr></td>
-              </tr>
-              {section name="i" loop=$emails}
-              {cycle values=$cycle assign="row_color"}
-              <tr bgcolor="{$row_color}">
-                <td align="center">
-                  <input type="checkbox" name="emails[]" value="{$emails[i].sup_id}">
-                </td>
-                <td width="30%">
-                  {$emails[i].sup_from|escape:"html"}
-                </td>
-                <td width="50%">
-                  {$emails[i].sup_subject|escape:"html"}
-                </td>
+            <th width="10">{t}Remove?{/t}</th>
+            <th>{t}Sender{/t}</th>
+            <th>{t}Subject{/t}</th>
+            <th width="10"><nobr>{t}Notify Sender?{/t}</nobr></th>
+          </tr>
+          {section name="i" loop=$emails}
+          <tr class="{cycle values='odd,even'}">
+            <td align="center">
+              <input type="checkbox" name="emails[]" value="{$emails[i].sup_id}">
+            </td>
+            <td width="30%">
+              {$emails[i].sup_from|escape:"html"}
+            </td>
+            <td width="50%">
+              {$emails[i].sup_subject|escape:"html"}
+            </td>
                 <td align="center">
                   <input type="checkbox" name="notify_senders[]" value="{$emails[i].sup_id}">
                 </td>
@@ -64,14 +54,7 @@ function removeEmails(f)
                   <input type="button" value="{t}Remove Selected{/t}" onClick="removeEmails(this.form);">
                 </td>
               </tr>
-            </table>
           </td>
         </tr>
-      </table>
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
 </table>
 

@@ -4,7 +4,7 @@
 
 
 {t escape=no}To view more details of this issue, or to update it, please visit the following URL{/t}:
-{$app_base_url}view.php?id={$issue.iss_id}
+{$core.base_url}view.php?id={$issue.iss_id}
 {/textformat}
 
 ----------------------------------------------------------------------
@@ -21,4 +21,4 @@
 
 {textformat style="email"}
 {t escape=no 1=$app_title}Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below{/t}:
-{$app_base_url}preferences.php{/textformat}
+{$core.base_url}preferences.php{/textformat}

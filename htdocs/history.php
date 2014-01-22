@@ -34,8 +34,15 @@ $tpl->setTemplate("history.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$tpl->assign('issue_id', $_GET["iss_id"]);
-$tpl->assign("changes", History::getListing($_GET["iss_id"]));
+$iss_id = $_GET["iss_id"];
+if (!Access::canViewHistory($iss_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
+$tpl->assign("changes", History::getListing($iss_id));
+$tpl->assign('issue_id', $iss_id);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id > User::getRoleID('Customer')) {

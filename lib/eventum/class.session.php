@@ -86,7 +86,9 @@ class Session
      */
     public static function init($usr_id)
     {
-        @session_start();
+        if (session_id() == '') {
+            session_start();
+        }
 
         // clear all old session variables
         $_SESSION = array();

@@ -1,6 +1,6 @@
 <div id="quick_filter" class="bordered" {get_display_style element_name='quick_filter'}>
-    <form id="quick_filter_form" action="list.php" method="get">
-      <table>
+<form id="quick_filter_form" action="list.php" method="get">
+    <table width="100%">
         <input type="hidden" name="cat" value="search">
         <input type="hidden" name="pagerRow" value="0">
         <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year|default:''}">
@@ -28,109 +28,134 @@
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
         <input type="hidden" name="reporter" value="{$options.reporter|default:''}">
         <input type="hidden" name="customer_id" value="{$options.customer_id|default:''}">
+        <input type="hidden" name="product" value="">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}
-        <input type="hidden" name="release" value="{$options.release|default:''}">
+        {if $severities|@count < 1}
+        <input type="hidden" name="severity" value="">
+        {/if}
+        {if $priorities|@count < 1}
+        <input type="hidden" name="priority" value="">
+        {/if}
+        <input type="hidden" name="release" value="{$options.release|default:''}}">
+        {if $core.current_role == $core.roles.customer}
+        <input type="hidden" name="users" value="" />
+        {/if}
         <tr>
-          <td nowrap>
-            <span>{t}Keyword(s){/t}:</span><br />
-            <input type="text" name="keywords" size="40" value="{$options.keywords|default:''|escape:"html"}">
-          </td>
-          <td nowrap colspan="{if $categories|@count > 0}3{else}2{/if}">
-            {if $core.has_customer_integration and $core.current_role != $core.roles.customer}
-            <div style="float: left; margin-right: 1em;">
-            <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
-            <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
-            </div>
-            {else}
-            <input type="hidden" name="search_type" value="all_text" id="search_type">
-            {/if}
-            {if $match_modes != false}
-            <div style="float: left;">
-                <span>{t}Match Mode{/t}:</span><br />
-                <select name="match_mode">
-                    {html_options options=$match_modes selected=$options.match_mode}
+            <td nowrap>
+                <span>{t}Keyword(s){/t}:</span><br />
+                <input type="text" name="keywords" size="40" value="{$options.keywords|default:''|escape:"html"}">
+                <div id="ft_options">
+                    {if $match_modes != false}
+                    <div>
+                        <span>{t}Match Mode{/t}:</span><br />
+                        <select name="match_mode">
+                            {html_options options=$match_modes selected=$options.match_mode}
+                        </select>
+                        &nbsp;&nbsp;
+                    </div>
+                    {/if}
+                    {if $supports_excerpts}
+                    <div>
+                        <span>{t}Excerpts{/t}:</span><br />
+                        <label><input type="radio" name="hide_excerpts" value="0"
+                            {if $options.hide_excerpts == 0}CHECKED{/if} />
+                            {t}Show{/t}</label>
+                        <label><input type="radio" name="hide_excerpts" value="1"
+                            {if $options.hide_excerpts == 1}CHECKED{/if} />
+                            {t}Hide{/t}</label>
+                    </div>
+                    {/if}
+                </div>
+            </td>
+            <td nowrap colspan="{if $categories|@count > 0}4{else}3{/if}">
+                {if $core.has_crm and $core.current_role != $core.roles.customer}
+                <div style="float: left; margin-right: 1em;">
+                    <input type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer">{t}Customer Identity (e.g. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+                    <input type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text">{t}All Text (emails, notes, etc){/t}</label>
+                </div>
+                {else}
+                <input type="hidden" name="search_type" value="all_text" id="search_type">
+                {/if}
+            </td>
+            <td rowspan="2" align="center" width="100">
+                <input type="submit" value="{t}Search{/t}"><br /><br />
+                <input type="button" value="{t}Clear Filters{/t}" id="clear_filters">
+            </td>
+        </tr>
+        <tr>
+            {if $core.current_role != $core.roles.customer}
+            <td valign="top">
+                <span>{t}Assigned{/t}:</span><br />
+                <select name="users">
+                    {html_options options=$assign_options selected=$options.users}
                 </select>
-                &nbsp;&nbsp;
-            </div>
+            </td>
             {/if}
-            {if $supports_excerpts}
-            <div style="float: left;">
-                <span>{t}Excerpts{/t}:</span><br />
-                <label><input type="radio" name="hide_excerpts" value="0"
-                    {if $options.hide_excerpts == 0}CHECKED{/if} />
-                    {t}Show{/t}</label>
-                <label><input type="radio" name="hide_excerpts" value="1"
-                    {if $options.hide_excerpts == 1}CHECKED{/if} />
-                    {t}Hide{/t}</label>
-            </div>
+            {if $categories|@count > 0}
+            <td valign="top">
+                <span>{t}Category{/t}:</span><br />
+                <select name="category">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$categories selected=$options.category}
+                </select>
+            </td>
             {/if}
-          </td>
-          <td rowspan="2" align="center" width="100">
-            <input type="submit" value="{t}Search{/t}"><br /><br />
-            <input type="button" value="{t}Clear Filters{/t}" id="clear_filters">
-          </td>
+            {if $priorities|@count > 0}
+            <td valign="top">
+                <span>{t}Priority{/t}:</span><br />
+                <select name="priority">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$priorities selected=$options.priority}
+                </select>
+            </td>
+            {/if}
+            {if $severities|@count > 0}
+            <td valign="top">
+                <span class="default">{t}Severity{/t}:</span><br />
+                <select name="severity" class="default">
+                    <option value="">{t}any{/t}</option>
+                    {html_options options=$severities selected=$options.severity}
+                </select>
+            </td>
+            {/if}
+            <td valign="top">
+                <span>{t}Status{/t}:</span><br />
+                <select name="status">
+                    <option value="">{t}any{/t}</option>
+                    {foreach key=sta_id item=sta_title from=$status}
+                    <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
+                    {/foreach}
+                </select>
+            </td>
         </tr>
-        <tr>
-          <td valign="top">
-            <span>{t}Assigned{/t}:</span><br />
-            <select name="users">
-              {html_options options=$assign_options selected=$options.users}
-            </select>
-          </td>
-          {if $categories|@count > 0}
-          <td valign="top">
-            <span>{t}Category{/t}:</span><br />
-            <select name="category">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$categories selected=$options.category}
-            </select>
-          </td>
-          {/if}
-          <td valign="top">
-            <span>{t}Priority{/t}:</span><br />
-            <select name="priority">
-              <option value="">{t}any{/t}</option>
-              {html_options options=$priorities selected=$options.priority}
-            </select>
-          </td>
-          <td valign="top">
-            <span>{t}Status{/t}:</span><br />
-            <select name="status">
-              <option value="">{t}any{/t}</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
-              {/foreach}
-            </select>
-          </td>
-        </tr>
-      </table>
-    </form>
-  {if $core.current_role > $core.roles.reporter}
-  <div class="bottom_bar">
-      <table>
+    </table>
+</form>
+{if $core.current_role > $core.roles.reporter}
+<div class="bottom_bar">
+    <table>
         <form action="list.php" method="get">
-        <tr>
-          <td>
-          </td>
-          <td align="center">
-            <a target="_top" title="{t}create advanced searches{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a>
-          </td>
-          <td align="right">
-            <span>{t}Saved Searches{/t}:</span>
-            <select name="custom_filter" id="custom_filter">
-              <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
-                {section name="i" loop=$csts}
-                <option value="{$csts[i].url}">{$csts[i].cst_title}</option>
-                {/section}
-            </select>
-          </td>
-        </tr>
+            <tr>
+                <td>
+                </td>
+                <td align="center">
+                    <a target="_top" title="{t}create advanced searches{/t}" href="{$core.rel_url}adv_search.php">{t}Advanced Search{/t}</a>
+                </td>
+                <td align="right">
+                    <span>{t}Saved Searches{/t}:</span>
+                    <select name="custom_filter" id="custom_filter">
+                        <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                        {section name="i" loop=$csts}
+                        <option value="{$csts[i].url}">{$csts[i].cst_title}</option>
+                        {/section}
+                    </select>
+                </td>
+            </tr>
         </form>
-      </table>
-  </div>
-  {/if}
+    </table>
+</div>
+{/if}
 </div>
 
 <br />

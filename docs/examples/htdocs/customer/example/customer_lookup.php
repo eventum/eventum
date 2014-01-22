@@ -43,7 +43,7 @@ if ($role_id < User::getRoleID('Developer')) {
 }
 
 if (@$_POST['cat'] == 'lookup') {
-    $tpl->assign("results", Customer::lookup($prj_id, $_POST['field'], $_POST['value']));
+    $tpl->assign("results", Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
 }
 
 $tpl->displayTemplate();
