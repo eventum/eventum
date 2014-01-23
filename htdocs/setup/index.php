@@ -362,6 +362,10 @@ function getTableList($conn)
     return $tables;
 }
 
+function e($s) {
+    return var_export($s, 1);
+}
+
 function install()
 {
     $private_key_path = APP_CONFIG_PATH . '/private_key.php';
@@ -469,34 +473,30 @@ $private_key = "' . md5(microtime()) . '";
         $_POST['db_password'] = $_POST['eventum_password'];
     }
 
-    $config_contents = file_get_contents('config.php');
-    $config_contents = str_replace("%{APP_SQL_DBHOST}%", $_POST['db_hostname'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBNAME}%", $_POST['db_name'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBUSER}%", $_POST['db_username'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBPASS}%", $_POST['db_password'], $config_contents);
-    $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $_POST['db_table_prefix'], $config_contents);
-    $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
-    $config_contents = str_replace("%{CHARSET}%", APP_CHARSET, $config_contents);
-    $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
-    $config_contents = str_replace("'%{APP_DEFAULT_TIMEZONE}%'", var_export($_POST['default_timezone'], 1), $config_contents);
-    $config_contents = str_replace("'%{APP_DEFAULT_WEEKDAY}%'", (int )$_POST['default_weekday'], $config_contents);
-
-    if (@$_POST['is_ssl'] == 'yes') {
-        $protocol_type = 'https://';
-    } else {
-        $protocol_type = 'http://';
-    }
-    $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
     // disable the full-text search feature for certain mysql server users
     $stmt = "SELECT VERSION();";
     $res = mysql_query($stmt, $conn);
     $mysql_version = mysql_result($res, 0, 0);
     preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
-    if ($matches[1] > '4.0.23') {
-        $config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", "true", $config_contents);
-    } else {
-        $config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", "false", $config_contents);
-    }
+    $enable_fulltext = $matches[1] > '4.0.23';
+
+    $replace = array(
+        "'%{APP_SQL_DBHOST}%'" => e($_POST['db_hostname']),
+        "'%{APP_SQL_DBNAME}%'" => e($_POST['db_name']),
+        "'%{APP_SQL_DBUSER}%'" => e($_POST['db_username']),
+        "'%{APP_SQL_DBPASS}%'" => e($_POST['db_password']),
+        "'%{APP_TABLE_PREFIX}%'" => e($_POST['db_table_prefix']),
+        "'%{APP_HOSTNAME}%'" => e($_POST['hostname']),
+        "'%{CHARSET}%'" => e(APP_CHARSET),
+        "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
+        "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int )$_POST['default_weekday'],
+        "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ?  'https://' : 'http://'),
+        "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
+    );
+
+    $config_contents = file_get_contents('config.php');
+    $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
     $fp = @fopen($config_file_path, 'w');
     if ($fp === false) {
