@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -114,6 +114,18 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
     }
 }
 
+if (!function_exists('gettext')) {
+    function gettext($str)
+    {
+        return $str;
+    }
+}
+
+function ev_gettext($str)
+{
+    return $str;
+}
+
 require_once APP_SMARTY_PATH . '/Smarty.class.php';
 
 $tpl = new Smarty();
@@ -155,7 +167,6 @@ $tpl->assign('ssl_mode', $ssl_mode);
 $tpl->assign("zones", Date_Helper::getTimezoneList());
 
 $tpl->display('setup.tpl.html');
-
 
 function checkPermissions($file, $desc, $is_directory = false)
 {
@@ -516,10 +527,4 @@ $private_key = "' . md5(microtime()) . '";
     }
 
     return 'success';
-}
-
-
-function ev_gettext($str)
-{
-    return $str;
 }
