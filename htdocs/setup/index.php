@@ -35,7 +35,7 @@
 ini_set('memory_limit', '64M');
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
 date_default_timezone_set('UTC');
 define('APP_CHARSET', 'UTF-8');
