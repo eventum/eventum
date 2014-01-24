@@ -223,6 +223,10 @@ if (get_magic_quotes_gpc()) {
     $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 }
 
+// set default timezone
+date_default_timezone_set(APP_DEFAULT_TIMEZONE);
+
+
 set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
 
 require_once APP_INC_PATH . '/gettext.php';
