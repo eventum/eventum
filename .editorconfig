@@ -26,3 +26,18 @@ indent_size = 4
 [*.{sh,xml,json}]
 indent_style = tab
 indent_size = 4
+
+[templates_c/**]
+; Use editor default (possible autodetection).
+indent_style =
+indent_size =
+max_line_length =
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[vendor/**]
+; Use editor default (possible autodetection).
+indent_style =
+indent_size =
+trim_trailing_whitespace = false
+insert_final_newline = false
