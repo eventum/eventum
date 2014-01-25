@@ -12,7 +12,7 @@ podir=po
 rm -rf $dir
 install -d $dir
 
-git archive master | tar -x -C $dir
+git archive HEAD | tar -x -C $dir
 
 # update timestamps from last commit
 # http://stackoverflow.com/questions/1964470/whats-the-equivalent-of-use-commit-times-for-git/5531813#5531813
