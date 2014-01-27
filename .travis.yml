@@ -5,3 +5,5 @@ php:
   - "5.3"
 install:
   - composer install
+notifications:
+  irc: "chat.freenode.net#eventum"
