@@ -182,6 +182,12 @@ if (!defined('APP_EMAIL_ENCODING')) {
         define('APP_EMAIL_ENCODING', '7bit');
     }
 }
+if (!defined('APP_DEFAULT_TIMEZONE')) {
+    define('APP_DEFAULT_TIMEZONE', 'UTC');
+}
+if (!defined('APP_DEFAULT_WEEKDAY')) {
+    define('APP_DEFAULT_WEEKDAY', 0);
+}
 
 // Number of failed attempts before Back-Off locking kicks in.
 // If set to false do not use Back-Off locking.

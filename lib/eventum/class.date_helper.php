@@ -32,13 +32,6 @@ $GLOBALS['_DATE_TIMEZONE_DEFAULT'] = 'UTC';
 
 require_once 'Date.php';
 
-if (!defined('APP_DEFAULT_TIMEZONE')) {
-    define('APP_DEFAULT_TIMEZONE', 'UTC');
-}
-if (!defined('APP_DEFAULT_WEEKDAY')) {
-    define('APP_DEFAULT_WEEKDAY', 0);
-}
-
 /**
  * Class to handle date convertion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
