@@ -1,0 +1,14 @@
+<phpunit
+	backupGlobals="false"
+	backupStaticAttributes="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite name="Test Suite">
+			<directory>./tests/</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
