@@ -41,7 +41,15 @@ define('APP_CHARSET', 'utf-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
 
-require_once APP_INC_PATH . '/autoload.php';
+if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
+    // composer paths
+    require_once $autoload;
+    define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/distribution/libs');
+    define('APP_SPHINXAPI_PATH', APP_PATH . '/vendor/sphinx/php-sphinxapi');
+} else {
+    require_once APP_INC_PATH . '/autoload.php';
+}
+
 require_once APP_INC_PATH . '/gettext.php';
 
 // this setups ev_gettext wrappers
