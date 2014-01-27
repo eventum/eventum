@@ -65,7 +65,7 @@ touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh update-pear.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl phpcs.xml build.xml pear.xml
-rm -f .editorconfig .gitignore .bzrignore composer.json
+rm -f .editorconfig .gitignore .bzrignore composer.json .travis.yml phpunit.xml.dist
 rm -rf tests
 
 # sanity check
