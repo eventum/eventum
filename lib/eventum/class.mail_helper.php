@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -1036,12 +1036,13 @@ class Mail_Helper
         $full_email = $headers. "\n\n";
         $structure = Mime_Helper::decode($full_email);
 
+        $has_message_id = isset($structure->headers['message-id']);
         // handle cases when there is duplicate message-id header
         // (presented as Array by PEAR Mail_mimeDecode class)
-        if (is_string($structure->headers['message-id'])) {
+        if ($has_message_id && is_string($structure->headers['message-id'])) {
             return $structure->headers['message-id'];
 
-        } elseif (is_array($structure->headers['message-id'])) {
+        } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
             return current($structure->headers['message-id']);
         }
 
