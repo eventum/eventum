@@ -378,7 +378,6 @@ function install()
 {
     $private_key_path = APP_CONFIG_PATH . '/private_key.php';
     $config_file_path = APP_CONFIG_PATH . '/config.php';
-    $setup_file_path = APP_SETUP_FILE;
 
     clearstatcache();
     // check if config directory is writable
