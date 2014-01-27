@@ -6,4 +6,6 @@ php:
 install:
   - composer install
 notifications:
-  irc: "chat.freenode.net#eventum"
+  irc:
+    channels: "chat.freenode.net#eventum"
+    skip_join: true
