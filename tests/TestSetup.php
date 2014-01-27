@@ -42,6 +42,7 @@ define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
 
 require_once APP_INC_PATH . '/autoload.php';
+require_once APP_INC_PATH . '/gettext.php';
 
 // this setups ev_gettext wrappers
 Language::setup();
