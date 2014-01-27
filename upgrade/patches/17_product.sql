@@ -17,7 +17,7 @@ CREATE TABLE `%TABLE_PREFIX%issue_product_version` (
   KEY ipv_iss_id (ipv_iss_id)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `%TABLE_PREFIX%history_type (htt_name, htt_role) VALUES ('version_details_updated', '4');
+INSERT INTO `%TABLE_PREFIX%history_type` (htt_name, htt_role) VALUES ('version_details_updated', '4');
 
 
 CREATE TABLE `%TABLE_PREFIX%reminder_product` (
