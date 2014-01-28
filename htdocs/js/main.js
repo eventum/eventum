@@ -492,16 +492,6 @@ Validation.hasOneSelected = function(field)
     }
 }
 
-Validation.hasOneSelected = function(field)
-{
-    field = Eventum.getField(field);
-    if (field.val() != null && field.val().length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 Validation.isEmail = function(s)
 {
     // email text field.
