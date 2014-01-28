@@ -492,6 +492,16 @@ Validation.hasOneSelected = function(field)
     }
 }
 
+Validation.hasOneSelected = function(field)
+{
+    field = Eventum.getField(field);
+    if (field.val() != null && field.val().length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 Validation.isEmail = function(s)
 {
     // email text field.
@@ -600,7 +610,10 @@ Validation.checkFormSubmission = function(form, callback_func)
 Validation.checkCustomFields = function(form)
 {
     $.each(CustomField.getFieldInfo(), function(index, info) {
-        var field = $('#custom_field_' + info.id);
+        var field = Eventum.getField('custom_fields[' + info.id + ']');
+        if (field.length < 1) {
+            var field = Eventum.getField('custom_fields[' + info.id + '][]');
+        }
 
         if (((field.val() == null || field.val().length < 1) ||
                 (field.val() == -1)) &&
@@ -615,6 +628,10 @@ Validation.checkCustomFields = function(form)
                 }
             } else if (info.type == 'multiple') {
                 if (!Validation.hasOneSelected(field)) {
+                    Validation.errors.push(new Option(info.title, field.attr('name')));
+                }
+            } else if (info.type == 'checkbox') {
+                if (!Validation.hasOneChecked(field)) {
                     Validation.errors.push(new Option(info.title, field.attr('name')));
                 }
             } else {

@@ -193,7 +193,8 @@ class Custom_Field
 
                 $option_types = array(
                     'multiple',
-                    'combo'
+                    'combo',
+                    'checkbox',
                 );
                 if (!in_array($field_types[$fld_id], $option_types)) {
                     // check if this is a date field
@@ -638,7 +639,7 @@ class Custom_Field
 
                         $fields[] = $row;
 
-                    } elseif ($row['fld_type'] == 'multiple') {
+                    } elseif ($row['fld_type'] == 'multiple' || $row['fld_type'] == 'checkbox') {
                         // check whether this field is already in the array
                         $found = 0;
                         foreach ($fields as $y => $field) {
@@ -660,7 +661,7 @@ class Custom_Field
                         }
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                        if (!in_array($original_value, $fields[$found_index]['field_options'])) {
+                        if (!is_null($original_value) && !in_array($original_value, $fields[$found_index]['field_options'])) {
                             $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($row['fld_id'], $original_value);
                         }
                     } else {
@@ -1170,7 +1171,8 @@ class Custom_Field
                 }
             }
             // update the custom field options, if any
-            if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple")) {
+            if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple") ||
+                ($_POST["field_type"] == "checkbox")) {
                 $updated_options = array();
                 foreach ($_POST["field_options"] as $option_value) {
                     $params = self::parseParameters($option_value);

@@ -299,6 +299,10 @@
                     <input type="radio" name="field_type" value="integer" {if $info.fld_type|default:'' == 'integer'}checked{/if} />
                     {t}Integer{/t}
                   </label><br />
+                  <label>
+                    <input type="radio" name="field_type" class="enable_custom_options" value="checkbox" {if $info.fld_type|default:'' == 'checkbox'}checked{/if} />
+                    {t}Checkbox{/t}
+                  </label><br />
 
                   <br />
                   <div class="warning"><strong>{t}Warning{/t}: {t}Changing field types can result in loss of data.{/t}</strong></div>
@@ -420,7 +424,7 @@
                 &nbsp;{$list[i].min_role_name}
               </td>
               <td width="5%">
-                <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{else}{t}Text Input{/t}{/if}</nobr>
+                <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{elseif $list[i].fld_type == 'checkbox'}Checkbox{else}{t}Text Input{/t}{/if}</nobr>
               </td>
               <td width="50%">
                 &nbsp;{$list[i].field_options|default:''}

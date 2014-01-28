@@ -155,6 +155,15 @@ div#content {
     float: right;
 }
 
+.custom_field_checkbox {
+    margin: 0;
+    padding-left: 0;
+}
+
+.custom_field_checkbox li {
+    list-style: none;
+}
+
 /* Bordered Table & div */
 .bordered {
     width: 100%;
