@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+2014-01-28, Version 2.3.6
+- fix hardcoded table names in database upgrade. LP#1273540, LP#1265589
+
 2014-01-24, Version 2.3.5
 - [CWE-276] disable setup when already configured (Elan Ruusamäe)
 - [CWE-94] fix improper escaping of creating config file (Elan Ruusamäe)
