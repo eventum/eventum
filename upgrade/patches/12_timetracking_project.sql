@@ -4,7 +4,7 @@ ALTER TABLE %TABLE_PREFIX%time_tracking_category
 	ADD KEY ttc_title (ttc_prj_id, ttc_title);
 
 -- select first project id - we keep this as default
-select prj_id from eventum_project limit 1 into @prj_id;
+select prj_id from %TABLE_PREFIX%project limit 1 into @prj_id;
 
 -- set existing records for the first project
 update %TABLE_PREFIX%time_tracking_category set ttc_prj_id=@prj_id;
@@ -25,7 +25,7 @@ insert into migrate_ttc_prj set ttc_id=@max_ttc_id;
 
 insert into migrate_ttc_prj
 select 0 ttc_id, ttc_id orig_ttc_id, prj_id ttc_prj_id, ttc_title, ttc_created_date
-from %TABLE_PREFIX%time_tracking_category ttc, eventum_project prj
+from %TABLE_PREFIX%time_tracking_category ttc, %TABLE_PREFIX%project prj
 where prj.prj_id!=@prj_id order by ttc_prj_id;
 
 delete from migrate_ttc_prj where orig_ttc_id is null;
