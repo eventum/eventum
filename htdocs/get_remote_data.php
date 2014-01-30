@@ -96,7 +96,7 @@ function getEmail($id)
         return $info["seb_body"];
     }
 
-    return Link_Filter::processText(Auth::getCurrentProject(), $details['iss_description']);
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
 }
 
 
