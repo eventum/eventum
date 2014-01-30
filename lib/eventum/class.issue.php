@@ -2025,11 +2025,15 @@ class Issue
      * @param   array $assignment The list of users to assign this issue to
      * @param   string $date The date the email was originally sent.
      * @param   string $msg_id The message ID of the email we are creating this issue from.
+     * @param   integer $severity
+     * @param   string $customer_id
+     * @param   string $contact_id
+     * @param   string $contract_id
      * @return  void
      */
-    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date, $msg_id)
+    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
+                             $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
     {
-        $data = array();
         $exclude_list = array();
 
         $sender_email = Mail_Helper::getEmailAddress($sender);
@@ -2042,33 +2046,61 @@ class Issue
         $data = array(
             'category' => $category,
             'priority' => $priority,
+            'severity' => $severity,
             'description' => $description,
             'summary' => $summary,
             'msg_id' => $msg_id,
+            'customer'  =>  false,
+            'contact'   =>  false,
+            'contract'  =>  false,
+            'contact_person_lname'  =>  '',
+            'contact_person_fname'  =>  '',
+            'contact_email' =>  '',
+            'contact_phone' =>  '',
+            'contact_timezone'  =>  '',
         );
 
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             try {
-                $contact = $crm->getContactByEmail($sender_email);
+                if ($contact_id != false) {
+                    $contact = $crm->getContact($contact_id);
+                } else {
+                    $contact = $crm->getContactByEmail($sender_email);
+                }
                 // overwrite the reporter with the customer contact
                 $reporter = User::getUserIDByContactID($contact->getContactID());
-                $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
-
-                // Just use first contract / customer for now.
-                $contracts = $contact->getContracts(array('active'=>true));
-                $contract = $contracts[0];
-                $data['customer'] = $contract->getCustomerID();
                 $data['contact'] = $contact->getContactID();
-                $data['contract'] =  $contract->getContractID();
                 $data['contact_person_lname'] = $contact['last_name'];
                 $data['contact_person_fname'] = $contact['first_name'];
                 $data['contact_email'] = $sender_email;
                 $data['contact_phone'] = $contact['phone'];
-                $data['contact_timezone'] = $contact_timezone;
-            } catch (CRMException $e) {}
+                $data['contact_timezone'] = Date_Helper::getPreferredTimezone($reporter);;
+            } catch (ContactNotFoundException $e) {}
+
+            try {
+                if ($contract_id != false) {
+                    $contract = $crm->getContract($contract_id);
+                    $data['contract'] =  $contract->getContractID();
+                } elseif (isset($contact)) {
+                    // Just use first contract / customer for now.
+                    $contracts = $contact->getContracts(array('active'=>true));
+                    $contract = $contracts[0];
+                    $data['contract'] =  $contract->getContractID();
+                }
+            } catch (ContractNotFoundException $e) {}
+
+            try {
+                if ($customer_id != false) {
+                    $customer = $crm->getCustomer($customer_id);
+                    $data['customer'] = $customer->getCustomerID();
+                } elseif (isset($contract)) {
+                    $customer = $contract->getCustomer();
+                    $data['customer'] = $customer->getCustomerID();
+                }
+            } catch (CustomerNotFoundException $e) {
+            }
         } else {
-            $customer_id = false;
         }
         if (empty($reporter)) {
             $reporter = APP_SYSTEM_USER_ID;

@@ -1102,6 +1102,7 @@ class Notification
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             $crm->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
+            $sent = true;
         } else {
             $sent = false;
         }

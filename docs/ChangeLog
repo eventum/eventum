@@ -38,6 +38,7 @@ Eventum Issue Tracking System
 - [CWE-94][CVE-2014-1632] fix improper escaping of creating config file (Elan Ruusamäe)
 - Added "checkbox" type to custom fields (Bryan)
 - Added description as Email #0 (Bryan)
+- Allow Workflow::getIssueIDforNewEmail to return customer and severity info (Bryan)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)

@@ -655,7 +655,7 @@ class Support
             'headers'        => @$structure->headers
         );
         $should_create_array = self::createIssueFromEmail(
-            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$structure->headers['subject']), $t['to'], $t['cc']);
+            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::decodeQuotedPrintable( @$structure->headers['subject']), $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];
         if (!empty($should_create_array['issue_id'])) {
@@ -833,6 +833,10 @@ class Support
         $associate_email = '';
         $type = 'email';
         $parent_id = '';
+        $customer_id = false;
+        $contact_id = false;
+        $contract_id = false;
+        $severity = false;
 
         // we can't trust the in-reply-to from the imap c-client, so let's
         // try to manually parse that value from the full headers
@@ -840,7 +844,21 @@ class Support
 
         $message_id = Mail_Helper::getMessageID($headers, $message_body);
         $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
-        if ($workflow == 'new') {
+        if (is_array($workflow)) {
+            $should_create_issue = true;
+            if (isset($workflow['customer_id'])) {
+                $customer_id = $workflow['customer_id'];
+            }
+            if (isset($workflow['contract_id'])) {
+                $contract_id = $workflow['contract_id'];
+            }
+            if (isset($workflow['contact_id'])) {
+                $contact_id = $workflow['contact_id'];
+            }
+            if (isset($workflow['severity'])) {
+                $severity = $workflow['severity'];
+            }
+        } elseif ($workflow == 'new') {
             $should_create_issue = true;
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
@@ -912,7 +930,7 @@ class Support
 
         // only create a new issue if this email is coming from a known customer
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
-                (CRM::hasCustomerIntegration($info['ema_prj_id']))) {
+                (CRM::hasCustomerIntegration($info['ema_prj_id'])) && !$customer_id) {
             try {
                 $crm = CRM::getInstance($info['ema_prj_id']);
                 $contact = $crm->getContactByEmail($sender_email);
@@ -926,8 +944,9 @@ class Support
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
             Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
-                    $from, Mime_Helper::fixEncoding($subject), $message_body, @$options['category'],
-                    @$options['priority'], @$options['users'], $date, $message_id);
+                    $from, Mime_Helper::decodeQuotedPrintable($subject), $message_body, @$options['category'],
+                    @$options['priority'], @$options['users'], $date, $message_id, $severity, $customer_id, $contact_id,
+                    $contract_id);
 
             // add sender to authorized repliers list if they are not a real user
             $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -943,7 +962,7 @@ class Support
         // need to check crm for customer association
         if (!empty($from)) {
             $details = Email_Account::getDetails($info['ema_id']);
-            if (CRM::hasCustomerIntegration($info['ema_prj_id'])) {
+            if (CRM::hasCustomerIntegration($info['ema_prj_id']) && !$customer_id) {
                 // check for any customer contact association
                 try {
                     $crm = CRM::getInstance($info['ema_prj_id']);
