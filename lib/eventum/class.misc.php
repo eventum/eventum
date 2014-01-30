@@ -706,27 +706,6 @@ class Misc
 
 
     /**
-     * Base 64 encodes all elements of an array.
-     *
-     * @param   array $values The values to encode
-     * @return  array The array of encoded values.
-     */
-    public static function base64encode($values)
-    {
-        foreach ($values as $key => $value) {
-            if (is_array($value)) {
-                $values[$key] = self::base64encode($value);
-            } elseif (is_object($value)) {
-                $values[$key] = $value;
-            } else {
-                $values[$key] = base64_encode($value);
-            }
-        }
-        return $values;
-    }
-
-
-    /**
      * Changes a boolean value to either "Yes" or "No".
      *
      * @access  public
@@ -905,6 +884,12 @@ class Misc
     }
 
 
+    /**
+     * Base 64 encodes all elements of an array.
+     *
+     * @param   array $data The values to encode
+     * @return  array The array of encoded values.
+     */
     public static function base64_encode($data)
     {
         if (is_array($data)) {
