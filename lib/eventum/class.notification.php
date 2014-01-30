@@ -1070,8 +1070,7 @@ class Notification
             $irc_notice .= $data['customer']['name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
-        // MPAB: Disable notification so it is done in workflow
-        self::notifyIRC($prj_id, $irc_notice, $issue_id);
+        self::notifyIRC($prj_id, $irc_notice, $issue_id, false, false, 'new_issue');
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
         // generate new Message-ID
@@ -1281,9 +1280,11 @@ class Notification
      * @param   bool|integer $issue_id The issue ID
      * @param   bool|integer $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
+     * @param   bool|string $type The type of notification (new_issue, etc)
      * @return  bool
      */
-    public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false)
+    public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false,
+                                     $type=False)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
@@ -1291,7 +1292,7 @@ class Notification
             return false;
         }
 
-        $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category);
+        $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category, $type);
 
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice

@@ -634,7 +634,8 @@ class Abstract_Workflow_Backend
     }
 
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false)
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
+                                            $type = false)
     {
         return $notice;
     }

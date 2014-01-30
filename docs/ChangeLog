@@ -39,6 +39,7 @@ Eventum Issue Tracking System
 - Added "checkbox" type to custom fields (Bryan)
 - Added description as Email #0 (Bryan)
 - Allow Workflow::getIssueIDforNewEmail to return customer and severity info (Bryan)
+- Added $type parameter to Workflow::formatIRCMessage() (Bryan)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
