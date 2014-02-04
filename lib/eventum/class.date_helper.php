@@ -175,13 +175,15 @@ class Date_Helper
      * Method used to get the user's current time (timezone included) as
      * a UNIX timestamp.
      *
-     * @access  public
-     * @param   integer $timestamp The current UNIX timestamp
-     * @param   string $timezone The needed timezone
+     * @param   bool|int $timestamp The current UNIX timestamp
+     * @param   bool|string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
      */
-    function getUnixTimestamp($timestamp, $timezone = FALSE)
+    public static function getUnixTimestamp($timestamp = false, $timezone = FALSE)
     {
+        if (!$timestamp) {
+            $timestamp = self::getCurrentUnixTimestampGMT();
+        }
         if (!$timezone) {
             $timezone = self::getPreferredTimezone();
         }
