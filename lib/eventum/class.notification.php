@@ -1294,6 +1294,10 @@ class Notification
 
         $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category, $type);
 
+        if ($notice === false) {
+            return;
+        }
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
                  (
