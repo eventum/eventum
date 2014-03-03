@@ -47,7 +47,7 @@ class Mail_Queue
      */
     function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
-        Workflow::modifyMailQueue(Auth::getCurrentProject(), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
@@ -67,7 +67,7 @@ class Mail_Queue
 
         // add specialized headers
         if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID("Customer"))) ||
-                (@in_array(Mail_Helper::getEmailAddress($to), $reminder_addresses))) {
+                (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
 
