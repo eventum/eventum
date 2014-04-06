@@ -9,3 +9,5 @@ notifications:
   irc:
     channels: "chat.freenode.net#eventum"
     skip_join: true
+script:
+  - phpunit
