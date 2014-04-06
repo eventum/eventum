@@ -18,8 +18,8 @@ potential developers at http://lists.mysql.com/:
 We welcome you to send patches, bug fixes and other contributions to Eventum.
 Please see the CONTRIB file for more details into how to do so.
 
-Bryan Alsdorf
-Elan Ruusamäe
+Bryan Alsdorf  
+Elan Ruusamäe  
 The Eventum Team
 
   [1]: http://lists.mysql.com/eventum-users
