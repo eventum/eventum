@@ -300,16 +300,11 @@ class Date_TimeZone
      */
     function inDaylightTime($date)
     {
-        $env_tz = '';
-        if(isset($_ENV['TZ']) && getenv('TZ')) {
-            $env_tz = getenv('TZ');
-        }
+        $old_default_tz = date_default_timezone_get();
 
-        putenv('TZ=' . $this->id);
+        date_default_timezone_set($this->id);
         $ltime = localtime($date->getTime(), true);
-        if ($env_tz != '') {
-            putenv('TZ=' . $env_tz);
-        }
+        date_default_timezone_set($old_default_tz);
         return $ltime['tm_isdst'];
     }
 
