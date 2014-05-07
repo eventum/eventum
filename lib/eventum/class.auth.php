@@ -483,7 +483,8 @@ class Auth
         if ($usr_id == APP_SYSTEM_USER_ID) {
             return isset($cookie['prj_id']) ? (int) $cookie['prj_id'] : null;
         }
-        if (!in_array($cookie["prj_id"], array_keys($projects))) {
+
+        if ($projects != null && !in_array($cookie["prj_id"], array_keys($projects))) {
             if ($redirect) {
                 self::redirect("select_project.php");
             } else {
