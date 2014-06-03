@@ -94,24 +94,26 @@ class Partner
 
     public static function addPartnerToIssue($iss_id, $par_code)
     {
-        $params = array($iss_id, $par_code, Date_Helper::getCurrentDateGMT());
-        $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
-                SET
-                    ipa_iss_id = ?,
-                    ipa_par_code = ?,
-                    ipa_created_date = ?";
-        $res = DB_Helper::getInstance()->query($sql, $params);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-            return false;
+        $current_partners = self::getPartnerCodesByIssue($iss_id);
+        if (!in_array($par_code, $current_partners)) {
+            $params = array($iss_id, $par_code, Date_Helper::getCurrentDateGMT());
+            $sql = "INSERT INTO
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                    SET
+                        ipa_iss_id = ?,
+                        ipa_par_code = ?,
+                        ipa_created_date = ?";
+            $res = DB_Helper::getInstance()->query($sql, $params);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+                return false;
+            }
+            $backend = self::getBackend($par_code);
+            $backend->issueAdded($iss_id);
+
+            History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"),
+                "Partner '" . $backend->getName() . "' added to issue by " . User::getFullName(Auth::getUserID()));
         }
-        $backend = self::getBackend($par_code);
-        $backend->issueAdded($iss_id);
-
-        History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"),
-            "Partner '" . $backend->getName() . "' added to issue by " . User::getFullName(Auth::getUserID()));
-
         return true;
     }
 
