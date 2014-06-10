@@ -2138,16 +2138,15 @@ class Support
         }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
-        if ((@$_POST['add_unknown'] == 'yes') || (Workflow::shouldAutoAddToNotificationList(Issue::getProjectID($_POST['issue_id'])))) {
-            if (!empty($_POST['issue_id'])) {
-                // add the recipients to the notification list of the associated issue
-                $recipients = array($_POST['to']);
-                $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
-                for ($i = 0; $i < count($recipients); $i++) {
-                    if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
-                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_Helper::getEmailAddress($recipients[$i]),
-                                        Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
-                    }
+        if (((@$_POST['add_unknown'] == 'yes') || (Workflow::shouldAutoAddToNotificationList(Issue::getProjectID($_POST['issue_id'])))) &&
+                (!empty($_POST['issue_id']))) {
+            // add the recipients to the notification list of the associated issue
+            $recipients = array($_POST['to']);
+            $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
+            for ($i = 0; $i < count($recipients); $i++) {
+                if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
+                    Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_Helper::getEmailAddress($recipients[$i]),
+                                    Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
                 }
             }
         } else {
