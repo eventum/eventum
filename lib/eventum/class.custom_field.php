@@ -852,7 +852,8 @@ class Custom_Field
             return -1;
         } else {
             $new_id = DB_Helper::get_last_insert_id();
-            if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')) {
+            if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')
+                 || ($_POST["field_type"] == 'checkbox')) {
                 foreach ($_POST["field_options"] as $option_value) {
                     $params = self::parseParameters($option_value);
                     self::addOptions($new_id, $params["value"]);
