@@ -845,7 +845,6 @@ class Support
         $message_id = Mail_Helper::getMessageID($headers, $message_body);
         $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if (is_array($workflow)) {
-            $should_create_issue = true;
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];
             }
@@ -857,6 +856,11 @@ class Support
             }
             if (isset($workflow['severity'])) {
                 $severity = $workflow['severity'];
+            }
+            if (isset($workflow['should_create_issue'])) {
+                $should_create_issue = $workflow['should_create_issue'];
+            } else {
+                $should_create_issue = true;
             }
         } elseif ($workflow == 'new') {
             $should_create_issue = true;
