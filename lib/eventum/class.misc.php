@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -361,6 +362,40 @@ class Misc
         return $var;
     }
 
+    /**
+     * Clean input from control characters (low bits in ASCII table).
+     *
+     * In case of UTF-8 encoding, strip also Unicode characters over 3 bytes
+     * as MySQL 'utf8' encoding does not support it and truncates input in place of such Unicode character.
+     *
+     * As a better solution, since of MySQL 5.5.3, there exists
+     * {@link http://dev.mysql.com/doc/refman/5.5/en/charset-unicode-utf8mb4.html utf8mb4} encoding
+     *
+     * @param string|array $value input to modify in place
+     * @author Elan Ruusamäe <glen@delfi.ee>
+     */
+    public function stripInput(&$value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $k => &$v) {
+                self::stripInput($v);
+            }
+            return;
+        }
+
+        // strip control chars, backspace and delete (including \r)
+        $value = preg_replace('/[\x00-\x08\x0b-\x1f\x7f]/', '', $value);
+
+        static $is_utf8;
+        if (!isset($is_utf8)) {
+            $is_utf8 = strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8';
+        }
+
+        if ($is_utf8) {
+            // strip unicode chars over 3 bytes
+            $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $value);
+        }
+    }
 
     /**
      * Method used to escape a string before using it in a query.

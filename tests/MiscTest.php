@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -35,7 +35,6 @@ class MiscTest extends PHPUnit_Framework_TestCase
     /**
      * Method used to strip HTML from a string or array
      *
-     * @access  public
      * @param   string $str The original string or array
      * @return  string The escaped (or not) string
      * @dataProvider StripHTMLData
@@ -45,6 +44,17 @@ class MiscTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, Misc::stripHTML($str));
     }
 
+    /**
+     * @param   string $str The original string or array
+     * @return  string The escaped (or not) string
+     * @dataProvider StripInputData
+     */
+    public function testStripInput($str, $exp)
+    {
+        Misc::stripInput($str);
+        $this->assertEquals($exp, $str);
+    }
+
     public function StripHTMLData()
     {
         return array(
@@ -52,5 +62,37 @@ class MiscTest extends PHPUnit_Framework_TestCase
             array('<b>bold</b>', '&#60;b&#62;bold&#60;/b&#62;'),
             array(array('<b>bold</b>'), array('&#60;b&#62;bold&#60;/b&#62;')),
         );
+    }
+
+    public function StripInputData()
+    {
+        return array(
+            array('plain', 'plain'),
+            // nothing bad happens with empty array
+            array(array(), array()),
+            // ctrl char: \r
+            array(
+                array('a' => "a\r\nb"),
+                array('a' => "a\nb"),
+            ),
+            // some emoji
+            array(
+                array('a' => self::unichr(0x1F6B2).self::unichr(0x1F4A8)),
+                array('a' => ''),
+            ),
+        );
+    }
+
+    /**
+     * Return unicode char by its code
+     *
+     * @link http://php.net/manual/en/function.chr.php#88611
+
+     * @param int $u
+     * @return string
+     */
+    private function unichr($u)
+    {
+        return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
     }
 }
