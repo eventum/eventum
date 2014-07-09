@@ -38,6 +38,7 @@ Eventum Issue Tracking System
 - [CWE-94][CVE-2014-1632] fix improper escaping of creating config file (Elan Ruusamäe)
 - Added "checkbox" type to custom fields (Bryan)
 - Fixed bug with emails not being sent when not associated with an issue (Bryan)
+- Clean POST of unwanted characters, handle 4-byte unicode (Elan Ruusamäe)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
