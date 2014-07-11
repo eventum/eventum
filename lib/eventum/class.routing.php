@@ -415,7 +415,8 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($structure->headers['from'])), true);
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
             if ($sender_role < User::getRoleID('Standard User')) {

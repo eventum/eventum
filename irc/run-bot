@@ -53,7 +53,7 @@ if (!Lock::acquire('irc_bot_runner', $check)) {
 }
 
 while (true) {
-    $command = APP_PATH . '/irc/eventum-irc-bot';
+    $command = APP_PATH . '/irc/eventum-irc-bot.php';
     `$command`;
     `$command --fix-lock`;
 }

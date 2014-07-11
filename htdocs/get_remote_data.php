@@ -31,6 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
+$usr_id = Auth::getUserID();
 
 /*
  * This page is used to return a single content to the expandable table using
@@ -43,6 +44,7 @@ $valid_functions = array(
     'draft' => 'getDraft',
     'phone' => 'getPhoneSupport',
     'mailqueue' => 'getMailQueue',
+    'description'   =>  'getIssueDescription',
 );
 $action = Misc::escapeString($_REQUEST['action']);
 if (in_array($action, array_keys($valid_functions))) {
@@ -67,6 +69,14 @@ if ($callback) {
 }
 exit;
 
+function getIssueDescription($issue_id)
+{
+    if (Issue::canAccess($issue_id, $GLOBALS['usr_id'])) {
+        $details = Issue::getDetails($issue_id);
+        return Link_Filter::processText(Auth::getCurrentProject(), $details['iss_description']);
+    }
+}
+
 /**
  * Selects the email from the table and returns the contents.
  *
@@ -77,6 +87,11 @@ function getEmail($id)
 {
     $split = explode("-", $id);
     $info = Support::getEmailDetails($split[0], $split[1]);
+
+    if (!Issue::canAccess($info['sup_iss_id'], $GLOBALS['usr_id'])) {
+        return '';
+    }
+
     if (empty($_GET["ec_id"])) {
         return $info["seb_body"];
     }
@@ -94,6 +109,9 @@ function getEmail($id)
 function getNote($id)
 {
     $note = Note::getDetails($id);
+    if (!Issue::canAccess($note['not_iss_id'], $GLOBALS['usr_id'])) {
+        return '';
+    }
     if (empty($_GET["ec_id"])) {
         return $note["not_note"];
     }
@@ -111,6 +129,9 @@ function getNote($id)
 function getDraft($id)
 {
     $info = Draft::getDetails($id);
+    if (!Issue::canAccess($info['emd_iss_id'], $GLOBALS['usr_id'])) {
+        return '';
+    }
     if (empty($_GET["ec_id"])) {
         return $info["emd_body"];
     }
@@ -128,6 +149,9 @@ function getDraft($id)
 function getPhoneSupport($id)
 {
     $res = Phone_Support::getDetails($id);
+    if (!Issue::canAccess($res['phs_iss_id'], $GLOBALS['usr_id'])) {
+        return '';
+    }
     if (empty($_GET["ec_id"])) {
         return $res["phs_description"];
     }
@@ -149,6 +173,9 @@ function getMailQueue($id)
     }
 
     $res = Mail_Queue::getEntry($id);
+    if (!Issue::canAccess($res['maq_iss_id'], $GLOBALS['usr_id'])) {
+        return '';
+    }
     if (empty($_GET["ec_id"])) {
         return $res["maq_body"];
     }

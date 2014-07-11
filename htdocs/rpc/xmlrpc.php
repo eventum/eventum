@@ -557,7 +557,21 @@ function getEmailListing($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
-    $emails = Support::getEmailsByIssue($issue_id);
+    $real_emails = Support::getEmailsByIssue($issue_id);
+
+    $issue = Issue::getDetails($issue_id);
+    $email = array(
+        'sup_date'  =>  $issue['iss_created_date'],
+        'sup_from'  =>  $issue['reporter'],
+        'sup_to'    => '',
+        'sup_cc'    =>  '',
+        'sup_subject'   =>  $issue['iss_summary']
+    );
+    if ($real_emails != '') {
+        $emails = array_merge(array($email), $real_emails);
+    } else {
+        $emails[] = $email;
+    }
 
     // since xml-rpc has issues, lets base64 encode everything
     if (is_array($emails)) {
@@ -582,7 +596,24 @@ function getEmail($p)
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
     $email_id = XML_RPC_decode($p->getParam(3));
-    $email = Support::getEmailBySequence($issue_id, $email_id);
+
+    if ($email_id == 0) {
+        // return issue description instead
+        $issue = Issue::getDetails($issue_id);
+        $email = array(
+            'sup_date'  =>  $issue['iss_created_date'],
+            'sup_from'  =>  $issue['reporter'],
+            'sup_to'    => '',
+            'recipients'=>  '',
+            'sup_cc'    =>  '',
+            'sup_has_attachment'    =>  0,
+            'sup_subject'   =>  $issue['iss_summary'],
+            'message'   =>  $issue['iss_original_description'],
+            'seb_full_email'    =>  $issue['iss_original_description']
+        );
+    } else {
+        $email = Support::getEmailBySequence($issue_id, $email_id);
+    }
 
     // get requested email
     if ((count($email) < 1) || (!is_array($email))) {
@@ -590,9 +621,7 @@ function getEmail($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Email #" . $email_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
-    foreach ($email as $key => $val) {
-        $email[$key] = base64_encode($val);
-    }
+    $email = Misc::base64_encode($email);
     return new XML_RPC_Response(XML_RPC_Encode($email));
 }
 

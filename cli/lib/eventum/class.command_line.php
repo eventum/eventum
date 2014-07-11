@@ -927,7 +927,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             foreach ($emails[$i] as $key => $val) {
                 $emails[$i][$key] = base64_decode($val);
             }
-            $emails[$i]["id"] = ($i+1);
+            $emails[$i]["id"] = $i;
         }
         $format = array(
             "id" => array(
@@ -977,9 +977,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
         $email = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
-        foreach ($email as $key => $val) {
-            $email[$key] = base64_decode($val);
-        }
+        $email = CLI_Misc::base64_decode($email);
         if ($display_full) {
             echo $email["seb_full_email"];
         } else {
@@ -991,6 +989,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             echo sprintf("%15s: %s\n", "Subject", $email["sup_subject"]);
             echo "------------------------------------------------------------------------\n";
             echo $email["message"];
+            if (substr($email["message"], -1) != "\n") { echo "\n"; }
         }
     }
 

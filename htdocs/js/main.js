@@ -735,9 +735,12 @@ ExpandableCell.ready = function()
         if (list_id != '') {
             ExpandableCell.expand(expand_type, list_id);
         } else {
-            $('.expandable_buttons.' + expand_type + ' .expand').each(function() {
-                this.click();
-            })
+            $.each(expand_type.split(","), function(index, value) {
+                console.debug(value);
+                $('.expandable_buttons.' + value + ' .expand').each(function() {
+                    this.click();
+                })
+            });
         }
     });
     $('.expandable_buttons .collapse').click(function(e) {
@@ -747,9 +750,11 @@ ExpandableCell.ready = function()
         if (list_id != '') {
             ExpandableCell.collapse(expand_type, list_id);
         } else {
-            $('.expandable_buttons.' + expand_type + ' .collapse').each(function() {
-                this.click();
-            })
+            $.each(expand_type.split(","), function(index, value) {
+                $('.expandable_buttons.' + value + ' .collapse').each(function() {
+                    this.click();
+                })
+            });
         }
     });
 }

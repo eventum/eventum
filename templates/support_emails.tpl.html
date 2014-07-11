@@ -1,61 +1,61 @@
 
 {literal}
 <script type="text/javascript">
-<!--
-$(function() {
-    $('.select_all').click(function() { Eventum.toggleCheckAll('item[]') });
-});
+    <!--
+    $(function() {
+        $('.select_all').click(function() { Eventum.toggleCheckAll('item[]') });
+    });
 
 
-function removeEmails(f)
-{
-    if (!Validation.hasOneChecked('item[]')) {
-        alert('{/literal}{t escape="js"}Please choose which entries need to be disassociated with the current issue.{/t}{literal}');
-        return false;
+    function removeEmails(f)
+    {
+        if (!Validation.hasOneChecked('item[]')) {
+            alert('{/literal}{t escape="js"}Please choose which entries need to be disassociated with the current issue.{/t}{literal}');
+            return false;
+        }
+        if (!confirm('{/literal}{t escape="js"}This action will remove the association of the selected entries to the current issue.{/t}{literal}')) {
+            return false;
+        } else {
+            var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var popupWin = window.open('', '_removeEmails', features);
+            popupWin.focus();
+            return true;
+        }
     }
-    if (!confirm('{/literal}{t escape="js"}This action will remove the association of the selected entries to the current issue.{/t}{literal}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('', '_removeEmails', features);
-        popupWin.focus();
-        return true;
+    function viewEmail(account_id, email_id)
+    {
+        var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var emailWin = window.open('view_email.php?ema_id=' + account_id + '&id=' + email_id, '_email' + email_id, features);
+        emailWin.focus();
     }
-}
-function viewEmail(account_id, email_id)
-{
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('view_email.php?ema_id=' + account_id + '&id=' + email_id, '_email' + email_id, features);
-    emailWin.focus();
-}
-function reply(account_id, email_id)
-{
-{/literal}
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
-    emailWin.focus();
-{literal}
-}
-function sendEmail(account_id, issue_id)
-{
-    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('send.php?issue_id=' + issue_id + '&ema_id=' + account_id, '_email', features);
-    emailWin.focus();
-}
-//-->
+    function reply(account_id, email_id)
+    {
+        {/literal}
+            var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
+            emailWin.focus();
+            {literal}
+        }
+        function sendEmail(account_id, issue_id)
+        {
+            var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var emailWin = window.open('send.php?issue_id=' + issue_id + '&ema_id=' + account_id, '_email', features);
+            emailWin.focus();
+        }
+    //-->
 </script>
 {/literal}
 {if $core.current_role > $core.roles.viewer}
-    {assign var="email_col_count" value="8"}
+{assign var="email_col_count" value="8"}
 {else}
-    {assign var="email_col_count" value="7"}
+{assign var="email_col_count" value="7"}
 {/if}
 
 <div class="issue_section bordered" id="support_emails">
     <form onSubmit="return removeEmails(this);" target="_removeEmails" action="popup.php" method="post">
         <input type="hidden" name="cat" value="remove_support_email">
-    <div class="title">
-        {t}Associated Emails{/t} ({if $emails|@is_array}{$emails|@count}{else}0{/if})
+        <div class="title">
+            {t}Associated Emails{/t} ({if $emails|@is_array}{$emails|@count}{else}0{/if})
         <span class="menu">
             [ <a href="#top">{t}Back to Top{/t}</a> ]
             {if $core.current_role > $core.roles.standard_user}
@@ -63,78 +63,99 @@ function sendEmail(account_id, issue_id)
             {/if}
             [ <span id="toggle_support_emails" class="js_link">{get_display_label element_name="support_emails" total=$emails|@count}</span> ]
         </span>
-    </div>
-    <div class="content" {get_display_style element_name='support_emails' total=$emails|@count}>
-        <table class="grid">
-          <tr>
-            {if $emails|@count > 0 and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
-            <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
-            {/if}
-            <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email"}</th>
-            <th width="5" align="center">#</th>
-            <th width="5">{t}Reply{/t}</th>
-            <th width="15%">{t}From{/t}</th>
-            <th width="20%">{t}Recipients{/t}</th>
-            <th width="15%" nowrap>{t}Received{/t}</th>
-            <th width="50%">{t}Subject{/t}</th>
-          </tr>
-          {section name="i" loop=$emails}
-          {cycle values='odd,even' assign="row_class"}
-          <tr class="{$row_class}">
-            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
-            <td align="center">
-              <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
-            </td>
-            {/if}
-            <td align="center" nowrap align="center">
-                {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
-            </td>
-            <td align="center">{$smarty.section.i.iteration}</td>
-            <td align="center">
-              <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
-            </td>
-            <td>{$emails[i].sup_from|escape:"html"}</td>
-            <td>
-              {if $emails[i].sup_to == ""}
-              <i>{t}sent to notification list{/t}</i>
-              {else}
-              {$emails[i].sup_to|escape:"html"}
-              {/if}
-              {if $emails[i].sup_cc != ""}
-              <br/>
-              {$emails[i].sup_cc|escape:"html"}
-              {/if}
-            </td>
-            <td nowrap>{$emails[i].sup_date}</td>
-            <td>
-              <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
-              {if $emails[i].sup_has_attachment}
-              <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
-              {/if}
-            </td>
-          </tr>
-          {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count class=$row_class}
-          {sectionelse}
-          <tr class="no_results">
-            <td colspan="{$email_col_count}">
-              {t}No associated emails could be found.{/t}
-            </td>
-          </tr>
-          {/section}
-        </table>
-    </div>
-    {if $core.current_role > $core.roles.viewer}
-    <div class="buttons">
-        {if $ema_id != ""}
-        <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
-        {/if}
-
-        {if $emails|@count > 0 and $core.current_role != $core.roles.customer}
-        <div class="right">
-            <input type="submit" value="{t}Disassociate Selected{/t}">
         </div>
-        {/if}
+        <div class="content" {get_display_style element_name='support_emails' total=$emails|@count}>
+        <table class="grid">
+            <tr>
+                {if $emails|@count > 0 and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+                <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
+                {/if}
+                <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email,description"}</th>
+                <th width="5" align="center">#</th>
+                <th width="5">{t}Reply{/t}</th>
+                <th width="15%">{t}From{/t}</th>
+                <th width="20%">{t}Recipients{/t}</th>
+                <th width="15%" nowrap>{t}Received{/t}</th>
+                <th width="50%">{t}Subject{/t}</th>
+            </tr>
+            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+            <tr class="even">
+                <td align="center">&nbsp;</td>
+                <td align="center" nowrap align="center">
+                    {include file="expandable_cell/buttons.tpl.html" ec_id="description" list_id=$issue.iss_id}
+                </td>
+                <td align="center">0</td>
+                <td align="center">
+                    <a title="{t}reply to this email{/t}" href="javascript:void(null);" class="reply_issue"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+                </td>
+                <td>{$issue.reporter}</td>
+                <td>
+                    <em>{t}sent to notification list{/t}</em>
+                </td>
+                <td nowrap>{$issue.iss_created_date}</td>
+                <td>
+                    {$issue.iss_summary|escape:"html"}
+                </td>
+            </tr>
+            {include file="expandable_cell/body.tpl.html" ec_id="description" list_id=$issue.iss_id colspan=$email_col_count class='even'}
+            {/if}
+            {section name="i" loop=$emails}
+            {cycle values='odd,even' assign="row_class"}
+            <tr class="{$row_class}">
+                {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+                <td align="center">
+                    <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
+                </td>
+                {/if}
+                <td align="center" nowrap align="center">
+                    {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
+                </td>
+                <td align="center">{$smarty.section.i.iteration}</td>
+                <td align="center">
+                    <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+                </td>
+                <td>{$emails[i].sup_from|escape:"html"}</td>
+                <td>
+                    {if $emails[i].sup_to == ""}
+                    <i>{t}sent to notification list{/t}</i>
+                    {else}
+                    {$emails[i].sup_to|escape:"html"}
+                    {/if}
+                    {if $emails[i].sup_cc != ""}
+                    <br/>
+                    {$emails[i].sup_cc|escape:"html"}
+                    {/if}
+                </td>
+                <td nowrap>{$emails[i].sup_date}</td>
+                <td>
+                    <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+                    {if $emails[i].sup_has_attachment}
+                    <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+                    {/if}
+                </td>
+            </tr>
+            {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count class=$row_class}
+            {sectionelse}
+            <tr class="no_results">
+                <td colspan="{$email_col_count}">
+                    {t}No associated emails could be found.{/t}
+                </td>
+            </tr>
+            {/section}
+        </table>
+</div>
+{if $core.current_role > $core.roles.viewer}
+<div class="buttons">
+    {if $ema_id != ""}
+    <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
+    {/if}
+
+    {if $emails|@count > 0 and $core.current_role != $core.roles.customer}
+    <div class="right">
+        <input type="submit" value="{t}Disassociate Selected{/t}">
     </div>
     {/if}
-    </form>
+</div>
+{/if}
+</form>
 </div>

@@ -632,6 +632,7 @@ class Workflow
     /**
      * Returns the issue ID to associate a new email with, null to use the default logic and "new" to create
      * a new issue.
+     * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
      * @param   integer $prj_id The ID of the project
      * @param   array   $info An array of info about the email account.
@@ -642,8 +643,9 @@ class Workflow
      * @param   string  $subject The subject of this message.
      * @param   array   $to An array of to addresses
      * @param   array   $cc An array of cc addresses
+     * @return  string|array
      */
-    function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    function getIssueIDForNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -792,12 +794,13 @@ class Workflow
     }
 
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, &$category = false)
+    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, &$category = false,
+                                            $type = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return $notice;
         }
         $backend =& self::_getBackend($prj_id);
-        return $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category);
+        return $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
     }
 }

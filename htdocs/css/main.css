@@ -288,6 +288,12 @@ table.bordered td {
     margin: 0 auto;
 }
 
+
+.bordered.large {
+    width: 800px;
+    margin: 0 auto;
+}
+
 .bordered.left {
     margin: 0;
 }
