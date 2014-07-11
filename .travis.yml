@@ -4,6 +4,8 @@ php:
   - "5.4"
   - "5.3"
 install:
+  # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
+  - sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
   - composer install
 notifications:
   irc:
