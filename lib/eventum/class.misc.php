@@ -372,7 +372,7 @@ class Misc
      * @param string|array $value input to modify in place
      * @author Elan Ruusamäe <glen@delfi.ee>
      */
-    public function stripInput(&$value)
+    public static function stripInput(&$value)
     {
         if (is_array($value)) {
             foreach ($value as $k => &$v) {
