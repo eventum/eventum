@@ -160,10 +160,13 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'title' =>  ev_gettext('Reporter'),
                     'tpl_block' =>  'reporter',
             );
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Product'),
-                    'tpl_block' =>  'product',
-            );
+            $products = Product::getAssocList(false);
+            if (count($products) > 0) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Product'),
+                        'tpl_block' =>  'product',
+                );
+            }
             $column[0][] = array(
                     'title' =>  ev_gettext('Assignment'),
                     'data' =>  $details['assignments'],
