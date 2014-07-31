@@ -211,9 +211,8 @@ class History
      * @param   array $htt_exclude Addtional History Types to ignore
      * @return  array An array of issues touched by the user.
      */
-    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array())
+    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
     {
-
         $htt_list = self::getTypeID(
             array_merge(array(
                 'notification_removed',
@@ -262,6 +261,7 @@ class History
             return "";
         } else {
             $data = array(
+                "not_mine"  =>  array(),
                 "closed"    =>  array(),
                 "other"     =>  array()
             );
@@ -280,6 +280,8 @@ class History
                         $data['closed'][] = $row;
                     } elseif ((isset($_REQUEST['separate_status_changed'])) && $row['only_stat_changed']) {
                         $data['status_changed'][] = $row;
+                    } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
+                        $data['not_mine'][] = $row;
                     } else {
                         $data['other'][] = $row;
                     }
