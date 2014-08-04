@@ -207,9 +207,9 @@ class History
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
-     * @param   bool $separate_closed If closed issues should be included in a separate array
+     * @param   boolean $separate_closed If closed issues should be included in a separate array
      * @param   array $htt_exclude Addtional History Types to ignore
-     * @param   bool $separate_not_assigned_to_user  Separate Issues Not Assigned to User
+     * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
      * @return  array An array of issues touched by the user.
      */
     function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
