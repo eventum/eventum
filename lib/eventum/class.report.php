@@ -293,6 +293,7 @@ class Report
      * @param   string The end date of this report.
      * @param   boolean If closed issues should be separated from other issues.
      * @param   boolean If issue status changes should be ignored in report.
+     * @param bool $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
     function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
