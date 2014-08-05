@@ -293,9 +293,10 @@ class Report
      * @param   string The end date of this report.
      * @param   boolean If closed issues should be separated from other issues.
      * @param   boolean If issue status changes should be ignored in report.
+     * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
-    function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false)
+    function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
     {
         $prj_id = Auth::getCurrentProject();
         $usr_id = Misc::escapeInteger($usr_id);
@@ -366,7 +367,7 @@ class Report
             "end"       => str_replace('-', '.', $end),
             "user"      => User::getDetails($usr_id),
             "group_name"=> Group::getName(User::getGroupID($usr_id)),
-            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude),
+            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
             "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
             "new_assigned_count"    =>  $newly_assigned,
             "time_tracking" => $time_tracking,

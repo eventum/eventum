@@ -24,6 +24,19 @@ $smarty.request.show_status == 1} ({$data.issues.closed[issue].sta_title}){/if}{
 
 {/if}
 
+{if $smarty.request.separate_not_assigned_to_user|default:'' == 1}
+{t}Not Assigned to User{/t}:
+
+{section name=issue loop=$data.issues.not_mine}
+<a href="{$core.rel_url}view.php?id={$data.issues.not_mine[issue].iss_id}" style="text-decoration: none" target="_blank">{$data.issues.not_mine[issue].iss_id|str_pad:5:" ":$smarty.const.STR_PAD_LEFT}</a> {$data.issues.not_mine[issue].iss_summary|htmlspecialchars} {if
+$smarty.request.show_status == 1} ({$data.issues.not_mine[issue].sta_title}){/if}{if $smarty.request.show_priority == 1} ({$data.issues.not_mine[issue].pri_title}){/if} {if $smarty.request.show_per_issue|default:'' == 1}({$data.issues.not_mine[issue].time_spent}){/if}
+
+{sectionelse}
+{t}No issues that were not assigned to user at this time period{/t}
+{/section}
+
+{/if}
+
 {if $smarty.request.separate_status_changed|default:'' == 1}
 {t}Issues with only status changed{/t}:
 
