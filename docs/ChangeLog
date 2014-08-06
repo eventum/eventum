@@ -44,6 +44,7 @@ Eventum Issue Tracking System
 - Allow Workflow::getIssueIDforNewEmail to return customer and severity info (Bryan)
 - Added $type parameter to Workflow::formatIRCMessage() (Bryan)
 - Add option to "Separate Not Assigned to User" to weekly report (Raul Raat, GH#2)
+- Replace "Only Status Changes" with "No time spent" in weekly report (Raul Raat, GH#3)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
