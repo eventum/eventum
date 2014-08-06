@@ -262,6 +262,7 @@ class History
             return "";
         } else {
             $data = array(
+                "no_time"   =>  array(),
                 "not_mine"  =>  array(),
                 "closed"    =>  array(),
                 "other"     =>  array()
@@ -270,19 +271,16 @@ class History
                 if (isset($_REQUEST['show_per_issue'])) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
-                if (isset($_REQUEST['separate_status_changed'])) {
-                    self::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
-                }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
                         $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
-                    } elseif ((isset($_REQUEST['separate_status_changed'])) && $row['only_stat_changed']) {
-                        $data['status_changed'][] = $row;
                     } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
                         $data['not_mine'][] = $row;
+                    } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
+                        $data['no_time'][] = $row;
                     } else {
                         $data['other'][] = $row;
                     }
@@ -403,46 +401,5 @@ class History
             return 0;
         }
         return $res;
-    }
-
-    /**
-     * Fills a result set with a flag indicating if this issue only had it's status
-     * changed in the given time period.
-     *
-     * @param   array $res User issues
-     * @param   integer $usr_id The ID of the user this report is for.
-     * @param   integer $start The timestamp of the beginning of the report.
-     * @param   integer $end The timestamp of the end of this report.
-     * @return  boolean True if only status changed else false
-     */
-    public static function fillStatusChangedOnlyIssues(&$res, $usr_id, $start, $end) {
-
-        $issue_ids = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $issue_ids[] = Misc::escapeInteger($res[$i]["iss_id"]);
-        }
-        $ids = implode(", ", $issue_ids);
-
-        $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
-                 WHERE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('status_changed') . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('issue_updated') . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id IN (" . $ids . ") AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
-                GROUP BY his_iss_id";
-
-        $result = DB_Helper::getInstance()->getAssoc($sql);
-        if (PEAR::isError($result)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
-            foreach($res as $key => $item) {
-                @$res[$key]['only_stat_changed'] = (array_key_exists($item['iss_id'], $result) ? false : true);
-            }
-        }
     }
 }
