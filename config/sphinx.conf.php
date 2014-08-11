@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 Eventum Team.                                     |
+// | Copyright (c) 2012-2014 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -67,7 +67,7 @@ indexer
 #############################################################################
 searchd
 {
-    port         = <?php echo SPHINX_SEARCHD_PORT . "\n"; ?>
+    listen       = <?php echo SPHINX_SEARCHD_PORT . "\n"; ?>
     log          = <?php echo SPHINX_LOG_PATH; ?>searchd-eventum.log
     query_log    = <?php echo SPHINX_LOG_PATH; ?>query-eventum.log
     read_timeout = 5
