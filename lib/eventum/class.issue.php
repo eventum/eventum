@@ -2640,7 +2640,7 @@ class Issue
             $stmt .= "\n LEFT JOIN \n" .
                 APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf_sort
                 ON
-                    (icf_iss_id = iss_id AND icf_fld_id = $fld_id) \n";
+                    (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
         if (!empty($options["users"]) || @$options["sort_by"] == "isu_usr_id") {
             $stmt .= "
