@@ -65,11 +65,12 @@
         </tr>
         <tr>
           <th width="160">
-            {t}Send Notification To{/t}
+            {t}Send Notification Reason To{/t}
           </th>
           <td>
             <input id="notification_internal" type="radio" name="notification_list" checked value="internal">
-            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<em>None</em>"}) ({t}Will save as a note{/t})</label><br />
+            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<em>None</em>"})
+                ({t}Will save as a note{/t}{if $core.has_crm}; {t}Customer may still receive generic issue closure email{/t}{/if})</label><br />
             <input id="notification_all" type="radio" name="notification_list" value="all">
             <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"}) ({t}Will save as email{/t})</label>
           </td>
