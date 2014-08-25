@@ -1075,7 +1075,7 @@ class Support
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
-        if (!empty($usr_id) && !empty($row["customer_id"])) {
+        if (!empty($usr_id) && empty($row["customer_id"])) {
             $row["customer_id"] = User::getCustomerID($usr_id);
         }
         if (empty($row['customer_id'])) {
@@ -2237,9 +2237,21 @@ class Support
         );
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
-            $customer_id = User::getCustomerID(Auth::getUserID());
-            if ((!empty($customer_id)) && ($customer_id != -1)) {
-                $t['customer_id'] = $customer_id;
+            if (!empty($_POST['issue_id'])) {
+                $prj_id = Issue::getProjectID($_POST['issue_id']);
+                $crm = CRM::getInstance($prj_id);
+                try {
+                    $contact = $crm->getContact(User::getCustomerContactID(Auth::getUserID()));
+                    $issue_contract = $crm->getContract(Issue::getContractID($_POST['issue_id']));
+                    if ($contact->canAccessContract($issue_contract)) {
+                        $t['customer_id'] = $issue_contract->getCustomerID();
+                    }
+                } catch (CRMException $e) {}
+            } else {
+                $customer_id = User::getCustomerID(Auth::getUserID());
+                if ((!empty($customer_id)) && ($customer_id != -1)) {
+                    $t['customer_id'] = $customer_id;
+                }
             }
         }
         if ($t['has_attachment'] == 1) {
