@@ -433,7 +433,15 @@
             {t}Initial Description{/t}
         </div>
         <div class="display">
-            <textarea name="description" rows="20" style="width: 97%">{$issue.iss_original_description|escape:"html"}</textarea>
+            {if $page_lock.locked}
+              <div id="page_locked">
+              {t 1=$page_lock.locked_by 2=$page_lock.expires}WARNING: Page locked by %1 expires at %2{/t}
+              </div>
+
+              <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+            {else}
+              <textarea name="description" rows="20" style="width: 97%">{$issue.iss_original_description|escape:"html"}</textarea>
+            {/if}
             {include file="error_icon.tpl.html" field="description"}
         </div>
     </div>
@@ -473,7 +481,9 @@
 
 {if $core.current_role > $core.roles.reporter}
 <div class="buttons1">
-    <input type="submit" value="{t}Update{/t}">
+    {if !$page_lock.locked}
+      <input type="submit" value="{t}Update{/t}">
+    {/if}
     <input type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">
     <input type="reset" value="{t}Reset{/t}">
     {if (not $issue.sta_is_closed) and $core.current_role > $core.roles.customer}
