@@ -34,6 +34,7 @@
 class Issue_Lock {
     /**
      * Creates a lock file for the given name.
+     * Returns FALSE if lock couldn't be created (lock already exists)
      *
      * @param int $issue_id Issue id what is being locked
      * @param string $locker Identity who locks the issue
@@ -41,6 +42,10 @@ class Issue_Lock {
      * @return bool
      */
     public static function acquire($issue_id, $locker, $expires) {
+        if (self::isLocked($issue_id, $expires)) {
+            return false;
+        }
+
         $lockfile = self::getLockFilename($issue_id);
         $info = array(
             'locker' => $locker,
@@ -84,6 +89,31 @@ class Issue_Lock {
             return false;
         }
         return unserialize($info);
+    }
+
+    /**
+     * Checks if the locker is in LOCKED stage
+     *
+     * @param $issue_id
+     * @return bool TRUE - if locked, otherwise - FALSE
+     */
+    private function isLocked($issue_id) {
+        $now = time();
+        $lockfile = self::getLockFilename($issue_id);
+
+        clearstatcache();
+        if (!is_file($lockfile)) {
+            return false;
+        }
+
+        $info = self::getInfo($issue_id);
+        if (!isset($info['expires'])) {
+            // lock corrupted, so don't know
+            return false;
+        }
+
+        $stale = $info['expires'] <= $now;
+        return !$stale;
     }
 
     /**
