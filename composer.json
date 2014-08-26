@@ -61,6 +61,7 @@
 		"component-baseurl": "/components"
 	},
 	"minimum-stability": "stable",
+	"prefer-stable": true,
 	"require": {
 		"components/jquery": "1.8.*",
 		"ext-filter": "*",
@@ -73,7 +74,7 @@
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
-		"glen/smarty-gettext": "dev-master",
+		"smarty-gettext/smarty-gettext": "~1.0",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
 		"pear/Date": "*",
