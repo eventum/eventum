@@ -127,11 +127,14 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
 
-    $lock_status = array(
-        'locked' => true,
-        'locked_by' => 'glen',
-        'expires' => Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT()),
-    );
+    if (Issue_Lock::acquire($issue_id, $usr_id)) {
+        $issue_lock = false;
+    } else {
+        $issue_lock = Issue_Lock::getInfo($issue_id);
+        $issue_lock['locker'] = User::getDetails($issue_lock['usr_id']);
+        $issue_lock['expires_formatted_time'] = Date_Helper::getFormattedDate($issue_lock['expires']);
+    }
+
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
         "categories"   => Category::getAssocList($prj_id),
@@ -146,7 +149,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "groups"       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
         "products"     => Product::getList(false),
-        'page_lock'    => $lock_status,
+        'issue_lock'   => $issue_lock,
     ));
 }
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));

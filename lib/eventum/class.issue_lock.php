@@ -36,19 +36,21 @@ class Issue_Lock {
      * Creates a lock file for the given name.
      * Returns FALSE if lock couldn't be created (lock already exists)
      *
-     * @param int $issue_id Issue id what is being locked
-     * @param string $locker Identity who locks the issue
-     * @param int $expires Timestamp when lock expires
+     * @param int $issue_id Issue Id what is being locked
+     * @param string $usr_id User Id who locked the issue
      * @return bool
      */
-    public static function acquire($issue_id, $locker, $expires) {
-        if (self::isLocked($issue_id, $expires)) {
+    public static function acquire($issue_id, $usr_id) {
+        // default expiry: 5 minutes
+        $expires = Date_Helper::convertDateGMTByTS(time() + 300);
+
+        if (self::isLocked($issue_id)) {
             return false;
         }
 
         $lockfile = self::getLockFilename($issue_id);
         $info = array(
-            'locker' => $locker,
+            'usr_id' => $usr_id,
             'expires' => $expires,
         );
         $fp = fopen($lockfile, 'w');
@@ -56,6 +58,7 @@ class Issue_Lock {
         fwrite($fp, serialize($info));
         flock($fp, LOCK_UN);
         fclose($fp);
+
         return true;
     }
 
@@ -98,7 +101,6 @@ class Issue_Lock {
      * @return bool TRUE - if locked, otherwise - FALSE
      */
     private function isLocked($issue_id) {
-        $now = time();
         $lockfile = self::getLockFilename($issue_id);
 
         clearstatcache();
@@ -112,7 +114,9 @@ class Issue_Lock {
             return false;
         }
 
-        $stale = $info['expires'] <= $now;
+        $expires = Date_Helper::getUnixTimestamp($info['expires']);
+        $now = time();
+        $stale = $expires <= $now;
         return !$stale;
     }
 

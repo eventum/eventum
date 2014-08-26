@@ -433,9 +433,9 @@
             {t}Initial Description{/t}
         </div>
         <div class="display">
-            {if $page_lock.locked}
+            {if $issue_lock}
               <div id="page_locked">
-              {t 1=$page_lock.locked_by 2=$page_lock.expires}WARNING: Page locked by %1 expires at %2{/t}
+              {t 1=$issue_lock.locker.usr_full_name 2=$issue_lock.expires_formatted_time}Page is locked by <b>%1</b>. Lock expires at %2{/t}
               </div>
 
               <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
@@ -481,7 +481,7 @@
 
 {if $core.current_role > $core.roles.reporter}
 <div class="buttons1">
-    {if !$page_lock.locked}
+    {if !$issue_lock}
       <input type="submit" value="{t}Update{/t}">
     {/if}
     <input type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">
