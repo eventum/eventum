@@ -45,7 +45,11 @@ class Issue_Lock {
         $expires = Date_Helper::convertDateGMTByTS(time() + 300);
 
         if (self::isLocked($issue_id)) {
-            return false;
+            $info = self::getInfo($issue_id);
+            // allow lock, if locked by user himself
+            if ($info['usr_id'] != $usr_id) {
+                return false;
+            }
         }
 
         $lockfile = self::getLockFilename($issue_id);
