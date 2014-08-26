@@ -64,10 +64,20 @@
             }
         }
 
-    $().ready(function() {
-        $('#update_form').submit(validateForm);
-        $('#clear_selected').click(function() { Eventum.clearSelectedOptions('assignments[]'); });
-        Eventum.setupShowSelections($('#assignments'));
+    $(function() {
+      var $updateForm = $('#update_form');
+      $updateForm.submit(validateForm);
+
+      // remove validation if hitting cancel
+      $updateForm.find('[name=cancel]').click(function() {
+        $updateForm.unbind('submit', validateForm);
+      });
+
+      $('#clear_selected').click(function() {
+        Eventum.clearSelectedOptions('assignments[]');
+      });
+
+      Eventum.setupShowSelections($('#assignments'));
     });
 
 //-->
