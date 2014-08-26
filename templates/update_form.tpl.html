@@ -484,7 +484,7 @@
     {if !$issue_lock}
       <input type="submit" value="{t}Update{/t}">
     {/if}
-    <input type="button" value="{t}Cancel Update{/t}" onClick="history.go(-1);">
+    <input type="submit" name="cancel" value="{t}Cancel Update{/t}">
     <input type="reset" value="{t}Reset{/t}">
     {if (not $issue.sta_is_closed) and $core.current_role > $core.roles.customer}
     <div class="right">
