@@ -53,10 +53,11 @@ require_once APP_CONFIG_PATH . '/config.php';
 
 /**
  * Path for local overrides:
- * APP_LOCAL_PATH/include
- * APP_LOCAL_PATH/partner
  * APP_LOCAL_PATH/crm
  * APP_LOCAL_PATH/custom_field
+ * APP_LOCAL_PATH/include
+ * APP_LOCAL_PATH/partner
+ * APP_LOCAL_PATH/templates
  * APP_LOCAL_PATH/workflow
  */
 if (!defined('APP_LOCAL_PATH')) {

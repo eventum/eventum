@@ -49,7 +49,8 @@ class Template_Helper
     function __construct()
     {
         $this->smarty = new Smarty();
-        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH, APP_TPL_PATH));
+        // TODO: remove APP_LOCAL_PATH from the list in 2.4.1
+        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH));
         $this->smarty->setCompileDir(APP_TPL_COMPILE_PATH);
         $this->smarty->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
         $this->smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
