@@ -1,7 +1,7 @@
 body {
     background: white;
     font-family: Verdana, Arial, Helvetica;
-    font-size: 70%;
+    font-size: .8em;
     padding: 0;
     margin: 0;
 }
@@ -155,6 +155,10 @@ div#content {
     float: right;
 }
 
+.left {
+    float: left;
+}
+
 .custom_field_checkbox {
     margin: 0;
     padding-left: 0;
@@ -262,6 +266,7 @@ table.bordered td {
     background: #255282;
     color: #FFFFFF;
     padding: .3em;
+    text-align: center;
 }
 
 .bordered.internal .buttons, .bordered.internal .buttons td, .bordered .buttons.internal td {

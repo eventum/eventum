@@ -202,6 +202,7 @@ body.issue_view div#issue_overview div.buttons1 {
     padding: .3em;
     clear: both;
     border-top: #FFFFFF 1px solid;
+    text-align: center;
 }
 
 body#issue_view div#issue_overview div.buttons2 {
@@ -246,6 +247,11 @@ body#issue_view div#time_tracking tr.total_time td:first-child {
 
 body#issue_view div#custom_fields div.content th {
     width: 200px;
+}
+
+body#issue_view #drafts .buttons_div {
+    width: 200px;
+    text-align: right;
 }
 
 /* End View Issue Page */
