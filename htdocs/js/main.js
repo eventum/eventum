@@ -36,16 +36,22 @@ $(document).ready(function() {
 
     $('#change_clock_status').click(Eventum.changeClockStatus);
 
-    $('#search').click(function(e) {
-        $(e.target).select();
-        e.preventDefault();
-    });
+    $('#search, #shortcut').focus(function(e) {
+        var target = $(this);
+        this.select();
+        target.removeClass('inactive');
 
-    $('#shortcut').click(function(e) {
-        $(e.target).select();
-        e.preventDefault();
-    }).submit(function(e) {
-        var target = $(e.target);
+        // Work around Chrome's little problem
+        target.mouseup(function() {
+            // Prevent further mouseup intervention
+            target.unbind("mouseup");
+            return false;
+        });
+    }).blur(function(e) {
+        $(this).addClass('inactive');
+    });
+    $('#shortcut_form').submit(function(e) {
+        var target = $('#shortcut');
         if (!Validation.isNumberOnly(target.val())) {
             alert('Please enter numbers only');
             return false;
