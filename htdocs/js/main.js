@@ -51,6 +51,8 @@ $(document).ready(function() {
             return false;
         }
     });
+
+    $("a.help").click(Eventum.openHelp);
 });
 
 
@@ -407,6 +409,23 @@ Eventum.changeClockStatus = function()
 {
     window.location.href = Eventum.rel_url + 'clock_status.php?current_page=' + window.location.href;
     return false;
+}
+
+Eventum.openHelp = function(e)
+{
+    var target = $(e.target);
+    var topic = target.parent().attr('data-topic');
+    var width = 500;
+    var height = 450;
+    var w_offset = 30;
+    var h_offset = 30;
+    var location = 'top=' + h_offset + ',left=' + w_offset + ',';
+    if (screen.width) {
+        location = 'top=' + h_offset + ',left=' + (screen.width - (width + w_offset)) + ',';
+    }
+    var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var helpWin = window.open(Eventum.rel_url + 'help.php?topic=' + topic, '_help', features);
+    helpWin.focus();
 }
 
 
