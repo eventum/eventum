@@ -51,8 +51,16 @@ if (!defined('APP_CONFIG_PATH')) {
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
 
+/**
+ * Path for local overrides:
+ * APP_LOCAL_PATH/include
+ * APP_LOCAL_PATH/partner
+ * APP_LOCAL_PATH/crm
+ * APP_LOCAL_PATH/custom_field
+ * APP_LOCAL_PATH/workflow
+ */
 if (!defined('APP_LOCAL_PATH')) {
-    define('APP_LOCAL_PATH', APP_PATH . '/local');
+    define('APP_LOCAL_PATH', APP_CONFIG_PATH . '/local');
 }
 
 if (!defined('APP_COOKIE')) {
@@ -233,9 +241,6 @@ Misc::stripInput($_POST);
 
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
-
-
-set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
 
 require_once APP_INC_PATH . '/gettext.php';
 Language::setup();

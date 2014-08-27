@@ -341,7 +341,7 @@ class Misc
  * @since   Horde 3.0
  * @package Horde_Util
  */
-    function dispelMagicQuotes(&$var)
+    public static function dispelMagicQuotes(&$var)
     {
         static $magic_quotes;
 
