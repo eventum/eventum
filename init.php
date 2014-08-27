@@ -60,7 +60,7 @@ require_once APP_CONFIG_PATH . '/config.php';
  * APP_LOCAL_PATH/workflow
  */
 if (!defined('APP_LOCAL_PATH')) {
-    define('APP_LOCAL_PATH', APP_CONFIG_PATH . '/local');
+    define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 }
 
 if (!defined('APP_COOKIE')) {
