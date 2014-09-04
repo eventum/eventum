@@ -41,7 +41,6 @@ class Priority
      * Method used to quickly change the ranking of a reminder entry
      * from the administration screen.
      *
-     * @access  public
      * @param   integer $pri_id The reminder entry ID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
@@ -94,11 +93,10 @@ class Priority
      * Returns an associative array with the list of reminder IDs and
      * their respective ranking.
      *
-     * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array The list of reminders
      */
-    public function _getRanking($prj_id)
+    private function _getRanking($prj_id)
     {
         $stmt = "SELECT
                     pri_id,
@@ -122,7 +120,6 @@ class Priority
     /**
      * Method used to get the full details of a priority.
      *
-     * @access  public
      * @param   integer $pri_id The priority ID
      * @return  array The information about the priority provided
      */
@@ -148,7 +145,6 @@ class Priority
      * Method used to remove all priorities related to a set of
      * specific projects.
      *
-     * @access  public
      * @param   array $ids The project IDs to be removed
      * @return  boolean Whether the removal worked or not
      */
@@ -173,7 +169,6 @@ class Priority
      * Method used to remove user-selected priorities from the
      * database.
      *
-     * @access  public
      * @return  boolean Whether the removal worked or not
      */
     public function remove()
@@ -198,7 +193,6 @@ class Priority
      * Typically the user would modify the title of the priority in
      * the application and this method would be called.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function update()
@@ -227,7 +221,6 @@ class Priority
     /**
      * Method used to add a new priority to the application.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function insert()
@@ -260,7 +253,6 @@ class Priority
      * Method used to get the full list of priorities associated with
      * a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The full list of priorities
      */
@@ -289,7 +281,6 @@ class Priority
     /**
      * Method used to get the title for a priority ID.
      *
-     * @access  public
      * @param   integer $pri_id The priority ID
      * @return  string The priority title
      */
@@ -315,7 +306,6 @@ class Priority
      * Method used to get the list of priorities as an associative array in the
      * style of (id => title)
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of priorities
      */
@@ -351,7 +341,6 @@ class Priority
     /**
      * Method used to get the pri_id of a project by priority title.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $pri_id The priority ID
      * @param   string $pri_title The priority title

@@ -41,7 +41,6 @@ class Reminder_Condition
     /**
      * Method used to get the details for a specific reminder condition.
      *
-     * @access  public
      * @param   integer $rlc_id The reminder condition ID
      * @return  array The details for the specified reminder condition
      */
@@ -66,7 +65,6 @@ class Reminder_Condition
     /**
      * Method used to create a new reminder condition.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
     public function insert()
@@ -101,7 +99,6 @@ class Reminder_Condition
     /**
      * Method used to update the details of a specific reminder condition.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public function update()
@@ -130,7 +127,6 @@ class Reminder_Condition
      * Method used to remove reminder conditions by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -147,7 +143,6 @@ class Reminder_Condition
      * Method used to get the list of reminder conditions associated with a given
      * reminder action ID.
      *
-     * @access  public
      * @param   integer $action_id The reminder action ID
      * @return  array The list of reminder conditions
      */
@@ -181,7 +176,6 @@ class Reminder_Condition
      * Method used to get the list of reminder conditions to be displayed in the
      * administration section.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of reminder conditions
      */
@@ -230,7 +224,6 @@ class Reminder_Condition
     /**
      * Method used to get the title of a specific reminder field.
      *
-     * @access  public
      * @param   integer $field_id The reminder field ID
      * @return  string The title of the reminder field
      */
@@ -255,7 +248,6 @@ class Reminder_Condition
     /**
      * Method used to get the sql_field of a specific reminder field.
      *
-     * @access  public
      * @param   integer $field_id The reminder field ID
      * @return  string The sql_field of the reminder field
      */
@@ -281,7 +273,6 @@ class Reminder_Condition
      * Method used to get the list of reminder fields to be displayed in the
      * administration section.
      *
-     * @access  public
      * @param   boolean $comparable_only If true, only fields that can be compared to other fields will be returned
      * @return  array The list of reminder fields
      */
@@ -311,7 +302,6 @@ class Reminder_Condition
      * Method used to get the list of reminder operators to be displayed in the
      * administration section.
      *
-     * @access  public
      * @return  array The list of reminder operators
      */
     public function getOperatorAdminList()
@@ -336,7 +326,6 @@ class Reminder_Condition
     /**
      * Method used to see if a specific reminder field can be compared to other fields.
      *
-     * @access  public
      * @param   integer $field_id The reminder field ID
      * @return  boolean If this field can be compared to other fields.
      */

@@ -33,7 +33,6 @@ class Monitor
     /**
      * Checks the mail queue logs for any email that wasn't delivered.
      *
-     * @access  public
      * @return  integer Number of errors encountered.
      */
     public function checkMailQueue()
@@ -62,7 +61,6 @@ class Monitor
      * Checks the associated emails page (emails.php) that there aren't any unassociated mails
      *
      * @see class.support.php getEmailListing()
-     * @access  public
      * @return  integer Number of mails not associated.
      */
     public function checkMailAssociation()
@@ -98,7 +96,6 @@ class Monitor
     /**
      * Checks the free disk space status on the server.
      *
-     * @access  public
      * @return  integer Number of errors encountered.
      */
     public function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
@@ -124,7 +121,6 @@ class Monitor
      * Checks on the status of the required configuration and auxiliary files
      * and directories.
      *
-     * @access  public
      * @param   array $required_files An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
@@ -167,7 +163,6 @@ class Monitor
     /**
      * Checks on the status of the required directories.
      *
-     * @access  public
      * @param   array $required_directories An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
@@ -195,7 +190,6 @@ class Monitor
     /**
      * Checks on the status of the MySQL database.
      *
-     * @access  public
      * @return  integer Number of errors encountered.
      */
     public function checkDatabase()
@@ -288,7 +282,6 @@ class Monitor
     /**
      * Checks on the status of the IRC bot.
      *
-     * @access  public
      * @return  integer Number of errors encountered.
      */
     public function checkIRCBot()

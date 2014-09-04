@@ -41,7 +41,6 @@ class Custom_Field
     /**
      * Method used to remove a group of custom field options.
      *
-     * @access  public
      * @param   array $fld_id The list of custom field IDs
      * @param   array $fld_id The list of custom field option IDs
      * @return  boolean
@@ -82,7 +81,6 @@ class Custom_Field
     /**
      * Method used to add possible options into a given custom field.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
      * @return  integer 1 if the insert worked, -1 otherwise
@@ -117,7 +115,6 @@ class Custom_Field
     /**
      * Method used to update an existing custom field option value.
      *
-     * @access  public
      * @param   integer $cfo_id The custom field option ID
      * @param   string $cfo_value The custom field option value
      * @return  boolean
@@ -144,7 +141,6 @@ class Custom_Field
     /**
      * Method used to update the values stored in the database.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function updateValues()
@@ -325,13 +321,12 @@ class Custom_Field
      * Method used to associate a custom field value to a given
      * issue ID.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @param   integer $fld_id The custom field ID
      * @param   string  $value The custom field value
      * @return  boolean Whether the association worked or not
      */
-    public function associateIssue($iss_id, $fld_id, $value)
+    public static function associateIssue($iss_id, $fld_id, $value)
     {
         // check if this is a date field
         $fld_details = self::getDetails($fld_id);
@@ -372,7 +367,6 @@ class Custom_Field
      * Method used to get the list of custom fields associated with
      * a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
@@ -457,7 +451,6 @@ class Custom_Field
     /**
      * Method used to get the custom field option value.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
@@ -514,7 +507,6 @@ class Custom_Field
     /**
      * Method used to get the custom field key based on the value.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
@@ -570,7 +562,6 @@ class Custom_Field
      * values associated with a given issue ID. If usr_id is false method
      * defaults to current user.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
@@ -712,7 +703,6 @@ class Custom_Field
     /**
      * Returns an array of fields and values for a specific issue
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   integer $iss_id The ID of the issue to return values for
      * @return  array An array containging fld_id => value
@@ -742,7 +732,6 @@ class Custom_Field
     /**
      * Method used to remove a given list of custom fields.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -798,7 +787,6 @@ class Custom_Field
     /**
      * Method used to add a new custom field to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
     public function insert()
@@ -887,7 +875,6 @@ class Custom_Field
     /**
      * Method used to associate a custom field to a project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $fld_id The custom field ID
      * @return  boolean
@@ -917,7 +904,6 @@ class Custom_Field
      * Method used to get the list of custom fields available in the
      * system.
      *
-     * @access  public
      * @return  array The list of custom fields
      */
     public function getList()
@@ -955,7 +941,6 @@ class Custom_Field
      * Method used to get the list of associated projects with a given
      * custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The project ID
      * @return  array The list of associated projects
      */
@@ -985,7 +970,6 @@ class Custom_Field
     /**
      * Method used to get the details of a specific custom field.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   boolean $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
@@ -1026,7 +1010,6 @@ class Custom_Field
      * Method used to get the list of custom field options associated
      * with a given custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   array $ids An array of ids to return values for.
      * @param   integer $issue_id The ID of the issue
@@ -1088,11 +1071,10 @@ class Custom_Field
      * used as a way to flag the system for whether the custom field
      * option is a new one or one that should be updated.
      *
-     * @access  private
      * @param   string $value The custom field option format string
      * @return  array Parameters used by the update/insert methods
      */
-    public function parseParameters($value)
+    private function parseParameters($value)
     {
         if (substr($value, 0, 4) == 'new:') {
             return array(
@@ -1113,7 +1095,6 @@ class Custom_Field
     /**
      * Method used to update the details for a specific custom field.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -1250,7 +1231,6 @@ class Custom_Field
      * Method used to get the list of custom fields associated with a
      * given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of custom fields
      */
@@ -1276,7 +1256,6 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $issue_id The issue ID (not required)
      * @param   integer $prj_id The project ID (not required)
@@ -1327,7 +1306,6 @@ class Custom_Field
      * Method used to remove the custom field options associated with
      * a given list of custom field IDs.
      *
-     * @access  public
      * @param   array $ids The list of custom field IDs
      * @return  boolean
      */
@@ -1359,7 +1337,6 @@ class Custom_Field
      * Method used to remove all custom field entries associated with
      * a given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
@@ -1384,7 +1361,6 @@ class Custom_Field
      * Method used to remove all custom fields associated with
      * a given set of projects.
      *
-     * @access  public
      * @param   array $ids The array of project IDs
      * @return  boolean
      */
@@ -1439,7 +1415,6 @@ class Custom_Field
     /**
      * Returns the fld_id of the field with the specified title
      *
-     * @access  public
      * @param   string $title The title of the field
      * @return  integer The fld_id
      */
@@ -1468,11 +1443,10 @@ class Custom_Field
     /**
      * Returns the value for the specified field
      *
-     * @access  public
      * @param   integer $iss_id The ID of the issue
      * @param   integer $fld_id The ID of the field
      * @param   boolean $raw If the raw value should be displayed
-     * @param   mixed an array or string containing the value
+     * @return mixed an array or string containing the value
      */
     public function getDisplayValue($iss_id, $fld_id, $raw = false)
     {
@@ -1516,7 +1490,6 @@ class Custom_Field
     /**
      * Returns the current maximum rank of any custom fields.
      *
-     * @access  public
      * @return  integer The highest rank
      */
     public function getMaxRank()
@@ -1532,7 +1505,6 @@ class Custom_Field
     /**
      * Changes the rank of a custom field
      *
-     * @access  public
      */
     public function changeRank()
     {
@@ -1577,7 +1549,6 @@ class Custom_Field
     /**
      * Sets the rank of a custom field
      *
-     * @access  public
      * @param   integer $fld_id The ID of the field
      * @param   integer $rank The new rank for this field
      * @return  integer 1 if successful, -1 otherwise
@@ -1604,7 +1575,6 @@ class Custom_Field
      * Returns the list of available custom field backends by listing the class
      * files in the backend directory.
      *
-     * @access  public
      * @return  array Associative array of filename => name
      */
     public function getBackendList()
@@ -1626,7 +1596,6 @@ class Custom_Field
     /**
      * Returns the 'pretty' name of the backend
      *
-     * @access  public
      * @param   string $backend The full backend file name
      * @return  string The pretty name of the backend.
      */
@@ -1641,7 +1610,6 @@ class Custom_Field
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
      *
-     * @access  public
      * @param   integer $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
@@ -1696,7 +1664,6 @@ class Custom_Field
     /**
      * Searches a specified custom field for a string and returns any issues that match
      *
-     * @access  public
      * @param   integer $fld_id The ID of the custom field
      * @param   string  $search The string to search for
      * @return  array An array of issue IDs
@@ -1727,7 +1694,6 @@ class Custom_Field
     /**
      * Formats the return value
      *
-     * @access  public
      * @param   mixed   $value The value to format
      * @param   integer $fld_id The ID of the field
      * @param   integer $issue_id The ID of the issue
@@ -1747,7 +1713,6 @@ class Custom_Field
      * This method inserts a blank value for all custom fields that do not already have a record.
      * It currently is not called by the main code, but is included to be called from workflow classes.
      *
-     * @access  public
      * @param   integer $issue_id The Issue ID
      */
     public function populateAllFields($issue_id)

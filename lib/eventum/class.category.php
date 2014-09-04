@@ -40,7 +40,6 @@ class Category
     /**
      * Method used to get the full details of a category.
      *
-     * @access  public
      * @param   integer $prc_id The category ID
      * @return  array The information about the category provided
      */
@@ -66,7 +65,6 @@ class Category
      * Method used to remove all categories related to a set of
      * specific projects.
      *
-     * @access  public
      * @param   array $ids The project IDs to be removed
      * @return  boolean Whether the removal worked or not
      */
@@ -91,7 +89,6 @@ class Category
      * Method used to remove user-selected categories from the
      * database.
      *
-     * @access  public
      * @return  boolean Whether the removal worked or not
      */
     public function remove()
@@ -116,7 +113,6 @@ class Category
      * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function update()
@@ -144,7 +140,6 @@ class Category
     /**
      * Method used to add a new category to the application.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function insert()
@@ -175,11 +170,10 @@ class Category
      * Method used to get the full list of categories associated with
      * a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The full list of categories
      */
-    public function getList($prj_id)
+    public static function getList($prj_id)
     {
         $stmt = "SELECT
                     prc_id,
@@ -204,7 +198,6 @@ class Category
      * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The associative array of categories
      */
@@ -240,7 +233,6 @@ class Category
     /**
      * Method used to get the title for a specific project category.
      *
-     * @access  public
      * @param   integer $prc_id The category ID
      * @return  string The category title
      */

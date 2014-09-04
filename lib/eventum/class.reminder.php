@@ -45,7 +45,6 @@ class Reminder
      * here will enable all sorts of helpful messages in the reminder
      * check script.
      *
-     * @access  public
      * @return  boolean
      */
     public function isDebug()
@@ -57,7 +56,6 @@ class Reminder
      * Method used to quickly change the ranking of a reminder entry
      * from the administration screen.
      *
-     * @access  public
      * @param   integer $rem_id The reminder entry ID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
@@ -108,10 +106,9 @@ class Reminder
      * Returns an associative array with the list of reminder IDs and
      * their respective ranking.
      *
-     * @access  private
      * @return  array The list of reminders
      */
-    public function _getRanking()
+    private function _getRanking()
     {
         $stmt = "SELECT
                     rem_id,
@@ -134,7 +131,6 @@ class Reminder
      * Method used by the administration screen to list the available
      * issues in a project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
@@ -151,7 +147,6 @@ class Reminder
     /**
      * Method used to get the title of a specific reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  string The title of the reminder
      */
@@ -176,7 +171,6 @@ class Reminder
     /**
      * Method used to get the project associated to a given reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  integer The project ID
      */
@@ -201,7 +195,6 @@ class Reminder
     /**
      * Method used to get the details for a specific reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The details for the specified reminder
      */
@@ -254,7 +247,6 @@ class Reminder
      * Method used to get a list of all priority IDs associated with the given
      * reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated priority IDs
      */
@@ -298,7 +290,6 @@ class Reminder
      * Method used to get a list of all severity IDs associated with the given
      * reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated severity IDs
      */
@@ -324,7 +315,6 @@ class Reminder
      * Method used to associate a support level ID with a given
      * reminder entry ID.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $support_level_id The support level ID
      * @return  boolean
@@ -353,7 +343,6 @@ class Reminder
     /**
      * Method used to associate an issue with a given reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $issue_id The issue ID
      * @return  boolean
@@ -383,7 +372,6 @@ class Reminder
      * Method used to associate a customer ID with a given reminder
      * entry ID.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $customer_id The customer ID
      * @return  boolean
@@ -412,7 +400,6 @@ class Reminder
     /**
      * Method used to associate a reminder with any issue.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  boolean
      */
@@ -440,7 +427,6 @@ class Reminder
     /**
      * Method used to associate a priority with a given reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $priority_id The priority ID
      * @return  boolean
@@ -490,7 +476,6 @@ class Reminder
     /**
      * Method used to associate a severity with a given reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $priority_id The severity ID
      * @return  boolean
@@ -520,7 +505,6 @@ class Reminder
      * Method used to remove all requirements and priority associations for a
      * given reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      */
     public function removeAllAssociations($rem_id)
@@ -554,7 +538,6 @@ class Reminder
     /**
      * Method used to create a new reminder.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
     public function insert()
@@ -620,7 +603,6 @@ class Reminder
     /**
      * Method used to update the details of a specific reminder.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public function update()
@@ -682,7 +664,6 @@ class Reminder
      * Method used to remove reminders by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -718,7 +699,6 @@ class Reminder
      * Method used to get the list of requirements associated with a given
      * reminder.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The list of requirements
      */
@@ -767,7 +747,6 @@ class Reminder
      * Method used to get the list of reminders to be displayed in the
      * administration section.
      *
-     * @access  public
      * @return  array The list of reminders
      */
     public function getAdminList()
@@ -851,7 +830,6 @@ class Reminder
     /**
      * Method used to get the list of issue IDs that match the given conditions.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   array $conditions The list of conditions
      * @return  array The list of issue IDs
@@ -909,7 +887,6 @@ class Reminder
     /**
      * Method used to generate a where clause from the given list of conditions.
      *
-     * @access  public
      * @param   array $reminder An array of reminder info.
      * @param   array $conditions The list of conditions
      * @return  string The where clause
@@ -993,7 +970,6 @@ class Reminder
      * Method used to generate an SQL query to be used in debugging the reminder
      * conditions.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $rma_id The reminder action ID
      * @return  string The SQL query
@@ -1022,7 +998,6 @@ class Reminder
      * Method used to list the history of triggered reminder actions
      * for a given issue.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @return  array The list of triggered reminder actions
      */
@@ -1057,7 +1032,6 @@ class Reminder
      * Method used to get the list of email addresses to use
      * to send diagnostic information about the reminder system.
      *
-     * @access  private
      * @return  array The list of alert email addresses
      */
     public function _getReminderAlertAddresses()

@@ -47,7 +47,6 @@ class Time_Tracking
     /**
      * Method used to get the ID of a given category.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $ttc_title The time tracking category title
      * @return  integer The time tracking category ID
@@ -82,7 +81,6 @@ class Time_Tracking
     /**
      * Method used to get the details of a time tracking category.
      *
-     * @access  public
      * @param   integer $ttc_id The time tracking category ID
      * @return  array The details of the category
      */
@@ -133,7 +131,6 @@ class Time_Tracking
     /**
      * Method used to remove a specific set of time tracking categories
      *
-     * @access  public
      * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
     public function remove()
@@ -166,7 +163,6 @@ class Time_Tracking
     /**
      * Method used to update a specific time tracking category
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -245,7 +241,6 @@ class Time_Tracking
      * Method used to get the full list of time tracking categories associated
      * with a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
@@ -284,7 +279,6 @@ class Time_Tracking
      * Method used to get the full list of time tracking categories as an
      * associative array in the style of (id => title)
      *
-     * @access  public
      * @return  array The list of categories
      */
     public function getAssocCategories($prj_id)
@@ -311,7 +305,6 @@ class Time_Tracking
     /**
      * Method used to get the time spent on a given list of issues.
      *
-     * @access  public
      * @param   array $result The result set
      * @return  void
      */
@@ -349,7 +342,6 @@ class Time_Tracking
     /**
      * Method used to get the total time spent for a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  integer The total time spent
      */
@@ -375,7 +367,6 @@ class Time_Tracking
      * Method used to get the full listing of time entries in the system for a
      * specific issue
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of time entries
      */
@@ -439,7 +430,6 @@ class Time_Tracking
      * Method used to remove all time entries associated with the specified list
      * of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
@@ -463,7 +453,6 @@ class Time_Tracking
     /**
      * Method used to remove a specific time entry from the system.
      *
-     * @access  public
      * @param   integer $time_id The time entry ID
      * @param   integer $usr_id The user ID of the person trying to remove this entry
      * @return  integer 1 if the update worked, -1 otherwise
@@ -505,7 +494,6 @@ class Time_Tracking
     /**
      * Method used to add a new time entry in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function insertEntry()
@@ -556,7 +544,6 @@ class Time_Tracking
     /**
      * Method used to remotely record a time tracking entry.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   integer $cat_id The time tracking category ID
@@ -600,7 +587,6 @@ class Time_Tracking
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer The timestamp of the beginning of the report.
      * @param   integer The timestamp of the end of this report.
@@ -644,7 +630,6 @@ class Time_Tracking
      * Method used to get the time spent for a specific issue
      * at a specific time.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer The timestamp of the beginning of the report.
@@ -673,7 +658,6 @@ class Time_Tracking
     /**
      * Method used to add time spent on issue to a list of user issues.
      *
-     * @access  private
      * @param   array $res User issues
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer $start The timestamp of the beginning of the report.

@@ -33,7 +33,6 @@ class FAQ
     /**
      * Returns the list of FAQ entries associated to a given support level.
      *
-     * @access  public
      * @param   array $support_level_ids The support level IDs
      * @return  array The list of FAQ entries
      */
@@ -89,7 +88,6 @@ class FAQ
     /**
      * Method used to remove a FAQ entry from the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -115,7 +113,6 @@ class FAQ
      * Method used to remove the support level associations for a given
      * FAQ entry.
      *
-     * @access  public
      * @param   integer $faq_id The FAQ ID
      * @return  boolean
      */
@@ -143,7 +140,6 @@ class FAQ
     /**
      * Method used to update a FAQ entry in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -187,7 +183,6 @@ class FAQ
     /**
      * Method used to add a FAQ entry to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
     public function insert()
@@ -236,7 +231,6 @@ class FAQ
     /**
      * Method used to add a support level association to a FAQ entry.
      *
-     * @access  public
      * @param   integer $faq_id The FAQ ID
      * @param   integer $support_level_id The support level ID
      * @return  void
@@ -258,7 +252,6 @@ class FAQ
     /**
      * Method used to get the details of a FAQ entry for a given FAQ ID.
      *
-     * @access  public
      * @param   integer $faq_id The FAQ entry ID
      * @return  array The FAQ entry details
      */
@@ -293,7 +286,6 @@ class FAQ
     /**
      * Method used to get the list of FAQ entries available in the system.
      *
-     * @access  public
      * @return  array The list of news entries
      */
     public function getList()
@@ -326,7 +318,6 @@ class FAQ
      * Method used to get the list of associated support levels for a given
      * FAQ entry.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $faq_id The FAQ ID
      * @return  array The list of projects
@@ -361,7 +352,6 @@ class FAQ
      * Method used to quickly change the ranking of a faq entry
      * from the administration screen.
      *
-     * @access  public
      * @param   integer $faq_id The faq entry ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
@@ -412,10 +402,9 @@ class FAQ
      * Returns an associative array with the list of faq entry
      * IDs and their respective ranking.
      *
-     * @access  private
      * @return  array The list of faq entries
      */
-    public function _getRanking()
+    private function _getRanking()
     {
         $stmt = "SELECT
                     faq_id,

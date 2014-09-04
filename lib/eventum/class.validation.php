@@ -43,11 +43,10 @@ class Validation
      * Method used to check whether a string is totally compromised of
      * whitespace characters, such as spaces, tabs or newlines.
      *
-     * @access  public
      * @param   string $str The string to check against
      * @return  boolean
      */
-    public function isWhitespace($str)
+    public static function isWhitespace($str)
     {
         $str = trim($str);
         if (strlen($str) == 0) {
@@ -60,7 +59,6 @@ class Validation
     /**
      * Method used to check whether an email address is a valid one.
      *
-     * @access  public
      * @param   string $str The email address to check against
      * @return  boolean
      */
@@ -115,7 +113,6 @@ class Validation
      * Method used to check whether a string has only valid (ASCII)
      * characters.
      *
-     * @access  public
      * @param   string $str The string to check against
      * @return  boolean
      */

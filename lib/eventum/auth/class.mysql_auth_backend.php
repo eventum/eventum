@@ -37,7 +37,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
      * Checks whether the provided password match against the email
      * address provided.
      *
-     * @access  public
      * @param   string $login The email address to check for
      * @param   string $password The password of the user to check for
      * @return  boolean
@@ -60,7 +59,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string  $password The password.
      * @return  boolean
@@ -94,7 +92,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
      /**
      * Increment the failed logins attempts for this user
      *
-     * @access  public
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
@@ -120,7 +117,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     /**
      * Reset the failed logins attempts for this user
      *
-     * @access  public
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
@@ -147,7 +143,6 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     /**
      * Returns the true if the account is currently locked because of Back-Off locking
      *
-     * @access  public
      * @param   string $usr_id The email address to check for
      * @return  boolean
      */

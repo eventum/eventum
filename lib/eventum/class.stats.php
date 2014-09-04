@@ -41,7 +41,6 @@ class Stats
     /**
      * Method used to check if the provided array has valid data (e.g. non-zero)
      *
-     * @access  public
      * @param   array $data The data to check against
      * @return  boolean
      */
@@ -60,7 +59,6 @@ class Stats
      * Method used to check if the pie charts should be displayed in the main
      * screen of the application.
      *
-     * @access  public
      * @return  boolean
      */
     public function getPieChart()
@@ -76,7 +74,6 @@ class Stats
      * Method used to get an associative array of the list of categories and the
      * total number of issues associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
@@ -113,7 +110,6 @@ class Stats
      * Method used to get an associative array of the list of releases and the
      * total number of issues associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
@@ -150,7 +146,6 @@ class Stats
      * Method used to get an associative array of the list of statuses and the
      * total number of issues associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
@@ -187,7 +182,6 @@ class Stats
      * Method used to get the list of statuses and the total number of issues
      * associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
@@ -227,7 +221,6 @@ class Stats
      * Method used to get the list of categories and the total number of issues
      * associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
@@ -270,7 +263,6 @@ class Stats
      * Method used to get the list of releases and the total number of issues
      * associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
@@ -313,7 +305,6 @@ class Stats
      * Method used to get an associative array of the list of priorities and the
      * total number of issues associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of priorities
      */
@@ -350,7 +341,6 @@ class Stats
      * Method used to get the list of priorities and the total number of issues
      * associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
@@ -393,7 +383,6 @@ class Stats
      * Method used to get an associative array of the list of users and the
      * total number of issues associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
@@ -432,7 +421,6 @@ class Stats
      * Method used to get the list of users and the total number of issues
      * associated with each of them.
      *
-     * @access  public
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
@@ -477,7 +465,6 @@ class Stats
      * Method used to get the total number of issues associated with each
      * email status.
      *
-     * @access  public
      * @return  array List of statuses
      */
     public function getEmailStatus()

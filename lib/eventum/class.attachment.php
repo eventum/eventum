@@ -40,8 +40,6 @@ class Attachment
     /**
      * Returns true if specified mime type should be displayed
      * directly in the browser window.
-     *
-     * @access  private
      */
     private static function displayInline($mimetype)
     {
@@ -101,7 +99,6 @@ class Attachment
     /**
      * Method used to remove a specific file out of an existing attachment.
      *
-     * @access  public
      * @param   integer $iaf_id The attachment file ID
      * @return  -1 or -2 if the removal was not successful, 1 otherwise
      */
@@ -156,7 +153,6 @@ class Attachment
     /**
      * Method used to return the details for a given attachment.
      *
-     * @access  public
      * @param   integer $file_id The attachment ID
      * @return  array The details of the attachment
      */
@@ -191,7 +187,6 @@ class Attachment
      * Removes all attachments (and associated files) related to a set
      * of specific issues.
      *
-     * @access  public
      * @param   array $ids The issue IDs that need to be removed
      * @return  boolean Whether the removal worked or not
      */
@@ -224,7 +219,6 @@ class Attachment
      *
      * @param   integer $iat_id attachment_id.
      * @param   boolean $add_history whether to add history entry.
-     * @access  public
      * @return  integer Numeric code used to check for any errors
      */
     public function remove($iat_id, $add_history = true)
@@ -281,7 +275,6 @@ class Attachment
      * Method used to remove a specific file from an attachment, since every
      * attachment can have several files associated with it.
      *
-     * @access  public
      * @param   integer $iaf_id The attachment file ID
      * @return  void
      */
@@ -303,7 +296,6 @@ class Attachment
     /**
      * Method used to get the full listing of files for a specific attachment.
      *
-     * @access  public
      * @param   integer $attachment_id The attachment ID
      * @return  array The full list of files
      */
@@ -336,7 +328,6 @@ class Attachment
      * Method used to return the full list of attachments related to a specific
      * issue in the database.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of attachments
      */
@@ -396,7 +387,6 @@ class Attachment
      * -2 - The uploaded file is already attached to the current issue.
      *  1 - The uploaded file was associated with the issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $status The attachment status
      * @return  integer Numeric code used to check for any errors
@@ -460,12 +450,11 @@ class Attachment
     /**
      * Method used to add files to a specific attachment in the database.
      *
-     * @access  public
      * @param   integer $attachment_id The attachment ID
      * @param   string $filename The filename to be added
      * @return  boolean
      */
-    public function addFile($attachment_id, $filename, $filetype, &$blob)
+    public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
         $attachment_id = Misc::escapeInteger($attachment_id);
         $filesize = strlen($blob);
@@ -497,7 +486,6 @@ class Attachment
     /**
      * Method used to add an attachment to the database.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   string $description The description for this new attachment
@@ -506,7 +494,7 @@ class Attachment
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  integer The new attachment ID
      */
-    public function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = false, $associated_note_id = false)
+    public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = false, $associated_note_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -556,7 +544,6 @@ class Attachment
     /**
      * Returns the current maximum file upload size.
      *
-     * @access  public
      * @return  string A string containing the formatted max file size.
      */
     public function getMaxAttachmentSize()

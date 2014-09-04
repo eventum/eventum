@@ -159,7 +159,6 @@ class Help
      * if a requested topic exists, and to show a default one
      * otherwise.
      *
-     * @access  public
      * @param   string $topic The topic title to check for
      * @return  boolean Whether the topic exists or not
      */
@@ -178,7 +177,6 @@ class Help
      * Method used to get the parent help documentation topic
      * associated with a specific topic title.
      *
-     * @access  public
      * @param   string $topic The topic title
      * @return  array The information related to the parent help topic
      */
@@ -201,7 +199,6 @@ class Help
      * Method used to get all the help topics related to a specific
      * 'parent' one.
      *
-     * @access  public
      * @param   string $topic The 'parent' help topic
      * @return  array The list of help topics
      */
@@ -229,7 +226,6 @@ class Help
      * Method used to get all of the navigation links related to a
      * specific help topic.
      *
-     * @access  public
      * @param   string $topic The topic title
      * @return  array The list of navigation links
      */

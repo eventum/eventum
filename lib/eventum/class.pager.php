@@ -41,7 +41,6 @@ class Pager
      * Returns the total number of rows for a specific query. It is used to
      * calculate the total number of pages of data.
      *
-     * @access  public
      * @param   string $stmt The SQL statement
      * @return  int The total number of rows
      */
@@ -80,10 +79,9 @@ class Pager
     /**
      * Returns the query string to be used on the paginated links
      *
-     * @access  private
      * @return  string The query string
      */
-    public function _buildQueryString()
+    private function _buildQueryString()
     {
         $query_str = "";
         // gotta check manually here
@@ -100,7 +98,6 @@ class Pager
     /**
      * Returns an array with the paginated links, one in each item.
      *
-     * @access  public
      * @param   int $row Current page number (starts from zero)
      * @param   int $total_rows Total number of rows, as returned by Pager::getTotalRows()
      * @param   int $per_page Maximum number of rows per page
@@ -169,7 +166,6 @@ class Pager
      * function. This is especially useful for preventing a huge list of links
      * on the paginated list.
      *
-     * @access  public
      * @param   array $array The full list of paginated links
      * @param   int $current The current page number
      * @param   int $target_size The maximum number of paginated links

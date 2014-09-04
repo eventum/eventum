@@ -41,7 +41,6 @@ class Prefs
     /**
      * Method used to get the system-wide default preferences.
      *
-     * @access  public
      * @param   array $projects An array of projects this user will have access too.
      * @return  string array of the default preferences
      */
@@ -151,7 +150,6 @@ class Prefs
     /**
      * Method used to set the preferences for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   array   $preferences An array of preferences
      * @return  integer 1 if the update worked, -1 otherwise

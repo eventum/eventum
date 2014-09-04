@@ -43,7 +43,6 @@ class Error_Handler
      * Logs the error condition to a specific file and if asked and possible
      * queue error in mail queue for reporting.
      *
-     * @access public
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
@@ -74,7 +73,6 @@ class Error_Handler
     /**
      * Notifies site administrators of the error condition
      *
-     * @access private
      * @param  string $notify_msg The formatted error message
      * @param  string $notify_from Sender of the email
      * @param  string $notify_list Email addresses to whom send the error report.
@@ -143,7 +141,6 @@ class Error_Handler
     /**
      * Formats backtrace
      *
-     * @access public
      * @param  array    $backtrace The backtrace to format
      * @return string   A nicely formatted backtrace.
      */
@@ -198,7 +195,6 @@ class Error_Handler
     /**
      * Creates error report.
      *
-     * @access private
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened

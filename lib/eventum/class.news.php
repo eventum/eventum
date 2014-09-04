@@ -34,7 +34,6 @@ class News
      * Method used to get the list of news entries available in the
      * system for a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of news entries
      */
@@ -83,7 +82,6 @@ class News
     /**
      * Method used to add a project association to a news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @param   integer $prj_id The project ID
      * @return  void
@@ -105,7 +103,6 @@ class News
     /**
      * Method used to add a news entry to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
     public function insert()
@@ -150,7 +147,6 @@ class News
     /**
      * Method used to remove a news entry from the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -176,7 +172,6 @@ class News
      * Method used to remove the project associations for a given
      * news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @param   integer $prj_id The project ID
      * @return  boolean
@@ -207,7 +202,6 @@ class News
     /**
      * Method used to update a news entry in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -245,7 +239,6 @@ class News
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @access  public
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
@@ -274,7 +267,6 @@ class News
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @access  public
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
@@ -302,7 +294,6 @@ class News
     /**
      * Method used to get the list of news entries available in the system.
      *
-     * @access  public
      * @return  array The list of news entries
      */
     public function getList()
@@ -334,7 +325,6 @@ class News
      * Method used to get the list of associated projects for a given
      * news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @return  array The list of projects
      */

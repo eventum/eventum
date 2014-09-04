@@ -275,14 +275,15 @@ class Severity
                     sev_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     sev_rank ASC";
+
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
             return false;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**

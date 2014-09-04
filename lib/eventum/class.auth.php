@@ -39,7 +39,6 @@ class Auth
     /**
      * Method used to get private key used for hashing session cookies.
      *
-     * @access  public
      * @return  string  The private_key hash.
      */
     public static function privateKey()
@@ -57,7 +56,6 @@ class Auth
      * useful for administrative purposes, so we know which customers were able
      * to login.
      *
-     * @access  public
      * @param   string $email The email associated with the user
      * @param   string $type Whether it was a successful login or not
      * @param   string $extra The reason for not being a successful login
@@ -174,7 +172,6 @@ class Auth
     /**
      * Method for logging out the currently logged in user.
      *
-     * @access  public
      * @returns void
      */
     public function logout()
@@ -191,7 +188,6 @@ class Auth
      * Method to check whether an user is pending its confirmation
      * or not.
      *
-     * @access  public
      * @param   string $email The email address to be checked
      * @return  boolean
      */
@@ -208,7 +204,6 @@ class Auth
     /**
      * Method to check whether an user is active or not.
      *
-     * @access  public
      * @param   string $email The email address to be checked
      * @return  boolean
      */
@@ -226,7 +221,6 @@ class Auth
      * Method to check if the user has cookie support enabled in his browser or
      * not.
      *
-     * @access  public
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
@@ -242,7 +236,6 @@ class Auth
     /**
      * Method to check if the user has a valid cookie.
      *
-     * @access  public
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
@@ -260,10 +253,9 @@ class Auth
     /**
      * Method to check if the current user is an anonymous user.
      *
-     * @access  public
      * @return  boolean
      */
-    public function isAnonUser()
+    public static function isAnonUser()
     {
         return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
     }
@@ -312,7 +304,6 @@ class Auth
     /**
      * Method used to create the login cookie in the user's machine.
      *
-     * @access  public
      * @param   string $cookie_name The cookie name to be created
      * @param   string $email The email address to be stored in the cookie
      * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
@@ -320,7 +311,6 @@ class Auth
      */
     public function createLoginCookie($cookie_name, $email, $permanent = true)
     {
-
         $time = time();
         $cookie = array(
             "email"      => $email,
@@ -369,7 +359,6 @@ class Auth
     /**
      * Method used to remove a cookie from the user's browser.
      *
-     * @access  public
      * @param   string $cookie_name The name of the cookie that needs to be deleted
      * @return  void
      */
@@ -381,7 +370,6 @@ class Auth
     /**
      * Checks whether an user exists or not in the database.
      *
-     * @access  public
      * @param   string $login The email address to check for
      * @return  boolean
      */
@@ -403,7 +391,6 @@ class Auth
      * Checks whether the provided password match against the email
      * address provided.
      *
-     * @access  public
      * @param   string $email The email address to check for
      * @param   string $password The password of the user to check for
      * @return  boolean
@@ -416,7 +403,6 @@ class Auth
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param $password
      * @param $password_confirm
@@ -443,7 +429,6 @@ class Auth
     /**
      * Returns the true if the account is currently locked becouse of Back-Off lock
      *
-     * @access  public
      * @param   string $usr_id The user id to check for
      * @return  boolean
      */
@@ -573,7 +558,6 @@ class Auth
     /**
      * Sets the current selected project for the user session.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $remember Whether to automatically remember the setting or not
      * @return  void

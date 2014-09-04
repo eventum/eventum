@@ -44,7 +44,6 @@ class Report
     /**
      * Method used to get all open issues and group them by user.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param $users
      * @param $status
@@ -146,7 +145,6 @@ class Report
     /**
      * Method used to get all open issues and group them by assignee or reporter.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $cutoff_days The number of days to use as a cutoff period
      * @param bool $group_by_reporter
@@ -234,7 +232,6 @@ class Report
      * Method used to get the list of issues in a project, and group
      * them by the assignee.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
@@ -289,7 +286,6 @@ class Report
     /**
      * Returns the data used by the weekly report.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   string The start date of this report.
      * @param   string The end date of this report.
@@ -385,7 +381,6 @@ class Report
     /**
      * Returns data used by the workload by time period report.
      *
-     * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
@@ -473,7 +468,6 @@ class Report
     /**
      * Returns data on when support emails are sent/received.
      *
-     * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
@@ -594,7 +588,6 @@ class Report
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
      *
-     * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $group_by How the data should be grouped.
@@ -792,7 +785,6 @@ class Report
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
-     * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $start_date
@@ -878,7 +870,6 @@ class Report
     /**
      * Returns workload information for the specified date range and interval.
      *
-     * @access  public
      * @param   string $interval The interval to use in this report.
      * @param   string $type If this report is aggregate or individual
      * @param   string $start The start date of this report.

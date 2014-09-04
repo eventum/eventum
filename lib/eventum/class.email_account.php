@@ -34,7 +34,6 @@ class Email_Account
      * Method used to get the options related to the auto creation of
      * new issues.
      *
-     * @access  public
      * @param   integer $ema_id The email account ID
      * @return  array The issue auto creation options
      */
@@ -63,7 +62,6 @@ class Email_Account
     /**
      * Method used to update the issue auto creation related options.
      *
-     * @access  public
      * @param   integer $ema_id The email account ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -90,7 +88,6 @@ class Email_Account
      * Method used to get the support email account associated with a given
      * support email message.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  integer The email account ID
      */
@@ -115,7 +112,6 @@ class Email_Account
     /**
      * Method used to get the account ID for a given email account.
      *
-     * @access  public
      * @param   string $username The username for the specific email account
      * @param   string $hostname The hostname for the specific email account
      * @param   string $mailbox The mailbox for the specific email account
@@ -148,7 +144,6 @@ class Email_Account
     /**
      * Method used to get the project ID associated with a given email account.
      *
-     * @access  public
      * @param   integer $ema_id The support email account ID
      * @return  integer The project ID
      */
@@ -163,7 +158,6 @@ class Email_Account
      * Method used to get the details of a given support email
      * account.
      *
-     * @access  public
      * @param   integer $ema_id The support email account ID
      * @return  array The account details
      */
@@ -192,7 +186,6 @@ class Email_Account
      * Method used to remove all support email accounts associated
      * with a specified set of projects.
      *
-     * @access  public
      * @param   array $ids The list of projects
      * @return  boolean
      */
@@ -230,7 +223,6 @@ class Email_Account
     /**
      * Method used to remove the specified support email accounts.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -255,7 +247,6 @@ class Email_Account
     /**
      * Method used to add a new support email account.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function insert()
@@ -310,7 +301,6 @@ class Email_Account
     /**
      * Method used to update a support email account details.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -356,7 +346,6 @@ class Email_Account
      * Method used to get the list of available support email
      * accounts in the system.
      *
-     * @access  public
      * @return  array The list of accounts
      */
     public function getList()
@@ -385,7 +374,6 @@ class Email_Account
      * Method used to get an associative array of the support email
      * accounts in the format of account ID => account title.
      *
-     * @access  public
      * @param   integer $projects An array of project IDs
      * @return  array The list of accounts
      */
@@ -425,7 +413,6 @@ class Email_Account
      * Method used to get the first support email account associated
      * with the current activated project.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project. If blank the currently project will be used.
      * @return  integer The email account ID
      */
@@ -456,7 +443,6 @@ class Email_Account
      * Method used to get the email account associated with the given
      * issue' project.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  integer The email account ID
      */

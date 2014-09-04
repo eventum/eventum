@@ -34,7 +34,6 @@ class Draft
     /**
      * Method used to save the routed draft into a backup directory.
      *
-     * @access  public
      * @param   string $message The full body of the draft
      */
     public function saveRoutedMessage($message)
@@ -53,7 +52,6 @@ class Draft
      * Method used to save the draft response in the database for
      * further use.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $to The primary recipient of the draft
      * @param   string $cc The secondary recipients of the draft
@@ -126,7 +124,6 @@ class Draft
     /**
      * Method used to update an existing draft response.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $emd_id The email draft ID
      * @param   string $to The primary recipient of the draft
@@ -171,7 +168,6 @@ class Draft
     /**
      * Method used to remove a draft response.
      *
-     * @access  public
      * @param   integer $emd_id The email draft ID
      * @return  boolean
      */
@@ -198,7 +194,6 @@ class Draft
      * Method used to remove the recipients associated with the given
      * email draft response.
      *
-     * @access  public
      * @param   integer $emd_id The email draft ID
      * @return  boolean
      */
@@ -262,7 +257,6 @@ class Draft
     /**
      * Method used to get the details on a given email draft response.
      *
-     * @access  public
      * @param   integer $emd_id The email draft ID
      * @return  array The email draft details
      */
@@ -297,7 +291,6 @@ class Draft
     /**
      * Returns a list of drafts associated with an issue.
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $show_all If all draft statuses should be shown
      * @return  array An array of drafts.
@@ -348,7 +341,6 @@ class Draft
      * Method used to get the list of email recipients for a
      * given draft response.
      *
-     * @access  public
      * @param   integer $emd_id The email draft ID
      * @return  array The list of email recipients
      */
@@ -388,7 +380,6 @@ class Draft
     /**
      * Returns the nth draft for the specific issue. Sequence starts at 1.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the draft.
      * @return  array An array of data containing details about the draft.
@@ -424,7 +415,6 @@ class Draft
     /**
      * Converts an email to a draft and sends it.
      *
-     * @access  public
      * @param   integer $draft_id The id of the draft to send.
      */
     public function send($draft_id)
@@ -449,7 +439,6 @@ class Draft
     /**
      * Returns the number of drafts by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date

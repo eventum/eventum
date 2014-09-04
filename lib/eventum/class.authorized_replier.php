@@ -39,7 +39,6 @@ class Authorized_Replier
      * Method used to get the full list of users (the full names) authorized to
      * reply to emails in a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
@@ -97,7 +96,6 @@ class Authorized_Replier
     /**
      * Removes the specified authorized replier
      *
-     * @access  public
      * @param   integer $iur_id The id of the authorized replier
      */
     public function removeRepliers($iur_ids)
@@ -193,7 +191,6 @@ class Authorized_Replier
     /**
      * Adds a real user to the authorized repliers list.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $usr_id The id of the user.
      * @param   boolean $add_history If this should be logged.
@@ -278,7 +275,6 @@ class Authorized_Replier
     /**
      * Returns if the specified usr_id is authorized to reply.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue
      * @param   integer $usr_id The id of the user.
      * @return  boolean If the user is authorized to reply.
@@ -309,8 +305,7 @@ class Authorized_Replier
     /**
      * Returns the replier based on the iur_id
      *
-     * @access  public
-     * @param   integer iur_id The id of the authorized replier
+     * @param   integer $iur_id The id of the authorized replier
      * @return  string The name/email of the replier
      */
     public function getReplier($iur_id)
@@ -336,7 +331,6 @@ class Authorized_Replier
     /**
      * Returns the replier based on the given issue and email address combo.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email address of the user
      * @return  integer The id of the replier
@@ -367,7 +361,6 @@ class Authorized_Replier
     /**
      * Method used to remotely add an authorized replier to a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID of the person performing the change
      * @param   boolean $replier The user ID of the authorized replier

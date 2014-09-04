@@ -41,7 +41,6 @@ class History
     /**
      * Method used to format the changes done to an issue.
      *
-     * @access  public
      * @param   string $old_value The old value for a specific issue parameter
      * @param   string $new_value The new value for a specific issue parameter
      * @return  string The formatted string
@@ -101,7 +100,6 @@ class History
     /**
      * Method used to get the list of changes made against a specific issue.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @param   string $order_by The order to sort the history
      * @return  array The list of changes
@@ -139,7 +137,6 @@ class History
      * Method used to remove all history entries associated with a
      * given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
@@ -203,7 +200,6 @@ class History
     /**
      * Returns a list of issues touched by the specified user in the specified time frame.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
@@ -298,7 +294,6 @@ class History
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
@@ -345,7 +340,6 @@ class History
     /**
      * Returns the history for a specified user in a specified time frame for an optional type
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date

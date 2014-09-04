@@ -39,7 +39,6 @@ class Edit_Reporter
     /**
      * Modifies an Issue's Reporter.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $fullname The id of the user.
      * @param   boolean $add_history If this should be logged.

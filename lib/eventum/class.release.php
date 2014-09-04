@@ -41,7 +41,6 @@ class Release
     /**
      * Method used to check whether a release is assignable or not.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  boolean
      */
@@ -71,7 +70,6 @@ class Release
     /**
      * Method used to get the details of a specific release.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  array The details of the release
      */
@@ -98,7 +96,6 @@ class Release
     /**
      * Method used to get the title of a specific release.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  string The title of the release
      */
@@ -124,7 +121,6 @@ class Release
      * Method used to remove all releases associated with a specific
      * set of projects.
      *
-     * @access  public
      * @param   array $ids The list of projects
      * @return  boolean
      */
@@ -149,7 +145,6 @@ class Release
      * Method used to remove releases by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -187,7 +182,6 @@ class Release
      * Method used to update the release by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public function update()
@@ -219,7 +213,6 @@ class Release
      * Method used to add a new release by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public function insert()
@@ -255,7 +248,6 @@ class Release
      * Method used to get the list of releases associated with a
      * specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of releases
      */
@@ -286,12 +278,11 @@ class Release
      * Method used to get a list as an associative array of the
      * releases.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   boolean $show_all_dates If true all releases, not just those with future dates will be returned
      * @return  array The list of releases
      */
-    public function getAssocList($prj_id, $show_all_dates = false)
+    public static function getAssocList($prj_id, $show_all_dates = false)
     {
         $stmt = "SELECT
                     pre_id,

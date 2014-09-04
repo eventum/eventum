@@ -44,7 +44,6 @@ class Group
     /**
      * Inserts a new group into the database
      *
-     * @access  public
      * @return integer 1 if successful, -1 or -2 otherwise
      */
     public function insert()
@@ -81,7 +80,6 @@ class Group
     /**
      * Updates a group
      *
-     * @access  public
      * @return integer 1 if successful, -1 or -2 otherwise
      */
     public function update()
@@ -122,7 +120,6 @@ class Group
     /**
      * Removes groups
      *
-     * @access  public
      */
     public function remove()
     {
@@ -153,7 +150,6 @@ class Group
     /**
      * Sets projects for the group.
      *
-     * @access  public
      * @param   integer $grp_id The id of the group.
      * @param   array $projects An array of projects to associate with the group.
      */
@@ -188,10 +184,9 @@ class Group
     /**
      * Removes all the projects for a group
      *
-     * @access  private
      * @param   integer $grp_id The ID of the group
      */
-    public function removeProjectsByGroup($grp_id)
+    private function removeProjectsByGroup($grp_id)
     {
         // delete all current associations
         $stmt = "DELETE FROM
@@ -211,7 +206,6 @@ class Group
     /**
      * Removes specified projects from all groups.
      *
-     * @access  public
      * @param   array $projects An array of projects to remove from all groups.
      * @return  integer 1 if successful, -1 otherwise
      */
@@ -235,7 +229,6 @@ class Group
     /**
      * Returns details about a specific group
      *
-     * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of group information
      */
@@ -280,7 +273,6 @@ class Group
     /**
      * Returns the name of the group
      *
-     * @access  public
      * @param   integer $grp_id The id of the group
      * @return  string The name of the group
      */
@@ -301,7 +293,6 @@ class Group
     /**
      * Returns a list of groups
      *
-     * @access  public
      * @return  array An array of group information
      */
     public function getList()
@@ -334,11 +325,10 @@ class Group
     /**
      * Returns an associative array of groups
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array An associated array of groups
      */
-    public function getAssocList($prj_id)
+    public static function getAssocList($prj_id)
     {
         static $list;
 
@@ -375,7 +365,6 @@ class Group
      * Method used to get an associative array of group ID and name
      * of all groups that exist in the system.
      *
-     * @access  public
      * @return  array List of groups
      */
     public function getAssocListAllProjects()
@@ -400,7 +389,6 @@ class Group
     /**
      * Returns an array of users who belong to the current group.
      *
-     * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of usr ids
      */
@@ -425,7 +413,6 @@ class Group
     /**
      * Returns an array of projects who belong to the current group.
      *
-     * @access  public
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of project ids
      */
@@ -453,7 +440,6 @@ class Group
     /**
      * Returns a group ID based on group name
      *
-     * @access  public
      * @param   string $name Name of the group
      * @return  integer The ID of the group, or -1 if no group by that name could be found.
      */

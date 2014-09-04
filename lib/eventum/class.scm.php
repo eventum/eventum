@@ -39,7 +39,6 @@ class SCM
     /**
      * Method used to remove all checkins associated with a list of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
@@ -63,7 +62,6 @@ class SCM
     /**
      * Method used to remove a specific list of checkins
      *
-     * @access  public
      * @param   int[] $isc_id list to remove
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -101,7 +99,6 @@ class SCM
      * Method used to parse an user provided URL and substitute a known set of
      * placeholders for the appropriate information.
      *
-     * @access  public
      * @param   string $url The user provided URL
      * @return  string The parsed URL
      */
@@ -127,7 +124,6 @@ class SCM
     /**
      * Method used to get the full list of checkins associated with an issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of checkins
      */
@@ -171,7 +167,6 @@ class SCM
     /**
      * Method used to associate a new checkin with an existing issue
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue.
      * @param   string $module The SCM module commit was made.
      * @param   array $file File info with their version numbers changes made on.

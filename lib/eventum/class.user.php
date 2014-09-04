@@ -74,7 +74,6 @@ class User
      * Method used to get the user ID associated with the given customer
      * contact ID.
      *
-     * @access  public
      * @param   integer $customer_contact_id The customer contact ID
      * @return  integer The user ID
      */
@@ -100,7 +99,6 @@ class User
      * Method used to get the account email address associated with the given
      * customer contact ID.
      *
-     * @access  public
      * @param   integer $customer_contact_id The customer contact ID
      * @return  string The user's email address
      */
@@ -126,7 +124,6 @@ class User
      * Method used to get the SMS email address associated with the given
      * user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user's SMS email address
      */
@@ -152,7 +149,6 @@ class User
      * Method used to update the SMS email address associated with the given
      * user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $sms_email The user's SMS email address
      * @return  boolean Whether the update was successfull or not
@@ -204,7 +200,6 @@ class User
      * Method used to get the customer ID associated with
      * the given user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer The customer ID
      */
@@ -237,7 +232,6 @@ class User
     /**
      * Method used to update the user account and set the user as a confirmed one.
      *
-     * @access  public
      * @param   string $email The email address
      * @return  boolean
      */
@@ -263,7 +257,6 @@ class User
      * Method used to check whether the hash passed in the confirmation URL is
      * a valid one when comparing against the provided email address.
      *
-     * @access  public
      * @param   string $email The email address associated with the user account
      * @param   string $hash The md5 hash string to be checked against
      * @return  integer -1 if there was an error in the query, -2 for users that don't exist,
@@ -300,7 +293,6 @@ class User
      * Method used to create a new user account with pending status and send a
      * confirmation email to the prospective user.
      *
-     * @access  public
      * @param   string $role The user role
      * @param   array $projects The list of projects that this user will be associated with
      * @return  integer 1 if the creation worked, -1 otherwise
@@ -366,7 +358,6 @@ class User
      * Method used to send a confirmation email to the user that is associated
      * to the email address.
      *
-     * @access  public
      * @param   string $usr_id The user ID
      * @return  void
      */
@@ -396,7 +387,6 @@ class User
      * Method used to confirm the request of a new password and send an email
      * to the user with the new random password.
      *
-     * @access  public
      * @param   string $email The email address
      * @return  void
      */
@@ -479,7 +469,6 @@ class User
      * Method used to check whether an user is set to status active
      * or not.
      *
-     * @access  public
      * @param   string $status The status of the user
      * @return  boolean
      */
@@ -496,7 +485,6 @@ class User
      * Method used to check whether an user is set to status pending
      * or not.
      *
-     * @access  public
      * @param   string $status The status of the user
      * @return  boolean
      */
@@ -513,7 +501,6 @@ class User
      * Method used to get the list of all active users available in the system
      * as an associative array of user IDs => user full names.
      *
-     * @access  public
      * @param   integer $prj_id The id of the project to show users from
      * @param   integer $role The role ID of the user
      * @param   boolean $exclude_grouped If users with a group should be excluded
@@ -568,7 +555,6 @@ class User
     /**
      * Method used to get an associative array of the available roles.
      *
-     * @access  public
      * @return  array The list of roles
      */
     public static function getAssocRoleIDs()
@@ -586,7 +572,6 @@ class User
      * Method used to get the full list of roles available in the
      * system.
      *
-     * @access  public
      * @param   array $exclude_role The list of roles to ignore
      * @return  array The list of roles
      */
@@ -611,7 +596,6 @@ class User
     /**
      * Method used to get the role title for a specific role ID.
      *
-     * @access  public
      * @param   integer $role_id The role ID
      * @return  string The role title
      */
@@ -640,7 +624,6 @@ class User
     /**
      * Method used to get the role for a specific user and project.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @return  integer The role ID
@@ -732,7 +715,6 @@ class User
     /**
      * Method used to get the full name of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
@@ -784,7 +766,6 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID or user ids
      * @return  string The user' full name
      */
@@ -839,7 +820,6 @@ class User
     /**
      * Method used to get the group id of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
@@ -918,7 +898,6 @@ class User
      * Method used to change the status of users, making them inactive
      * or active.
      *
-     * @access  public
      * @return  boolean
      */
     public static function changeStatus()
@@ -955,7 +934,6 @@ class User
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $send_notification Whether to send the notification email or not
      * @return  integer 1 if the update worked, -1 otherwise
@@ -988,7 +966,6 @@ class User
     /**
      * Method used to update the account full name for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -1016,7 +993,6 @@ class User
     /**
      * Method used to update the account email for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -1061,7 +1037,6 @@ class User
     /**
      * Method used to update the account details for a specific user.
      *
-     * @access  public
      * @param $usr_id
      * @param $data
      * @param bool $notify
@@ -1180,7 +1155,6 @@ class User
     /**
      * Method used to add a new user to the system.
      *
-     * @access  public
      * @param   array $user The array of user information
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -1258,7 +1232,6 @@ class User
     /**
      * Method used to get the list of users available in the system.
      *
-     * @access  public
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
@@ -1309,7 +1282,6 @@ class User
      * Method used to get an associative array of the user's email address and
      * user ID.
      *
-     * @access  public
      * @return  array The list of users
      */
     public static function getAssocEmailList()
@@ -1341,7 +1313,6 @@ class User
      * Method used to get an associative array of the user ID and
      * full name of the users available in the system.
      *
-     * @access  public
      * @return  array The list of users
      */
     public static function getAssocList()
@@ -1416,7 +1387,6 @@ class User
      * Returns the list of all users who are currently marked as
      * clocked-in.
      *
-     * @access  public
      * @return  array The list of clocked-in users
      */
     public static function getClockedInList()
@@ -1442,7 +1412,6 @@ class User
     /**
      * Marks a user as clocked in.
      *
-     * @access  public
      * @param   int $usr_id The id of the user to clock out.
      */
     public static function clockIn($usr_id)
@@ -1467,7 +1436,6 @@ class User
     /**
      * Marks a user as clocked out.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      */
     public static function clockOut($usr_id)
@@ -1492,7 +1460,6 @@ class User
     /**
      * Returns true if a user is clocked in.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      * @return  boolean True if the user is logged in, false otherwise
      */
@@ -1526,7 +1493,6 @@ class User
     /**
      * Sets the group ID
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   integer $grp_id The id of the group.
      */

@@ -44,7 +44,6 @@ class Template_Helper
     /**
      * Constructor of the class
      *
-     * @access public
      */
     public function __construct()
     {
@@ -88,7 +87,6 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @access public
      * @param  array $array Array with the PLACEHOLDER=>VALUE pairs to be assigned
      */
     public function bulkAssign($array)
@@ -101,7 +99,6 @@ class Template_Helper
     /**
      * Prints the actual parsed template.
      *
-     * @access public
      */
     public function displayTemplate()
     {
@@ -113,7 +110,6 @@ class Template_Helper
     /**
      * Returns the contents of the parsed template
      *
-     * @access public
      * @return string The contents of the parsed template
      */
     public function getTemplateContents($process=true)
@@ -127,8 +123,6 @@ class Template_Helper
 
     /**
      * Processes the template and assigns common variables automatically.
-     *
-     * @access    private
      */
     private function processTemplate()
     {

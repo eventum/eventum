@@ -53,7 +53,6 @@ class Mail_Helper
      * Class constructor. It includes and initializes the required
      * PEAR::Mail related objects
      *
-     * @access  public
      */
     public function Mail_Helper()
     {
@@ -65,7 +64,6 @@ class Mail_Helper
     /**
      * Correctly formats the subject line of outgoing emails/notes
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $subject The subject to be formatted
      * @return  string The formatted subject
@@ -80,7 +78,6 @@ class Mail_Helper
      * of 'Re:' that commonly are found in email subject lines.
      * If the second parameter is true, issue #'s will also be stripped.
      *
-     * @access  public
      * @param   string $subject The subject line
      * @param   boolean $remove_issue_id If the issue ID should be removed
      * @return  string The subject line with the extra occurrences removed from it
@@ -108,7 +105,6 @@ class Mail_Helper
      * Returns the canned explanation about why an email message was blocked
      * and saved into an internal note.
      *
-     * @access  public
      * @return  string The canned explanation
      */
     public function getCannedBlockedMsgExplanation()
@@ -124,7 +120,6 @@ class Mail_Helper
      * Checks whether the given headers are from a vacation
      * auto-responder message or not.
      *
-     * @access  public
      * @param   array $headers The list of headers
      * @return  boolean
      */
@@ -146,7 +141,6 @@ class Mail_Helper
      * Method used to parse a string and return all email addresses contained
      * within it.
      *
-     * @access  public
      * @param   string $str The string containing email addresses
      * @return  array The list of email addresses
      */
@@ -169,7 +163,6 @@ class Mail_Helper
      * Method used to build a properly quoted email address, in the form of
      * "Sender Name" <sender@example.com>.
      *
-     * @access  public
      * @param   string $address The email address value
      * @return  array The address information
      */
@@ -213,7 +206,6 @@ class Mail_Helper
      * Method used to break down the email address information and
      * return it for easy manipulation.
      *
-     * @access  public
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
@@ -268,7 +260,6 @@ class Mail_Helper
     /**
      * Method used to get the name portion of a given recipient information.
      *
-     * @access  public
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  mixed The name or an array of names if multiple is true
@@ -301,7 +292,6 @@ class Mail_Helper
      * Method used to get the formatted name of the passed address
      * information.
      *
-     * @access  public
      * @param   string $name The name of the recipient
      * @param   string $email The email of the recipient
      * @return  string
@@ -315,7 +305,6 @@ class Mail_Helper
      * Method used to get the application specific settings regarding
      * which SMTP server to use, such as login and server information.
      *
-     * @access  public
      * @return  array
      */
     public function getSMTPSettings()
@@ -333,7 +322,6 @@ class Mail_Helper
      * Method used to set the text version of the body of the MIME
      * multipart message that you wish to send.
      *
-     * @access  public
      * @param   string $text The text-based message
      * @return  void
      */
@@ -347,7 +335,6 @@ class Mail_Helper
      * Method used to set the HTML version of the body of the MIME
      * multipart message that you wish to send.
      *
-     * @access  public
      * @param   string $html The HTML-based message
      * @return  void
      */
@@ -359,7 +346,6 @@ class Mail_Helper
     /**
      * Method used to add an embedded image to a MIME message.
      *
-     * @access  public
      * @param   string $filename The full path to the image
      * @return  void
      */
@@ -372,7 +358,6 @@ class Mail_Helper
      * Method used to set extra headers that you may wish to use when
      * sending the email.
      *
-     * @access  public
      * @param   mixed $header The header(s) to set
      * @param   mixed $value The value of the header to be set
      * @return  void
@@ -391,7 +376,6 @@ class Mail_Helper
     /**
      * Method used to add an email address in the Cc list.
      *
-     * @access  public
      * @param   string $email The email address to be added
      * @return  void
      */
@@ -403,7 +387,6 @@ class Mail_Helper
     /**
      * Method used to add an attachment to the message.
      *
-     * @access  public
      * @param   string $name The attachment name
      * @param   string $data The attachment data
      * @param   string $content_type The content type of the attachment
@@ -417,7 +400,6 @@ class Mail_Helper
     /**
      * Method used to add a message/rfc822 attachment to the message.
      *
-     * @access  public
      * @param   string $message_body The attachment data
      * @return  void
      */
@@ -464,7 +446,6 @@ class Mail_Helper
      * Method used to add a customized warning message to the body
      * of outgoing emails.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
@@ -511,7 +492,6 @@ class Mail_Helper
      * validate the sender of the message, and because of that some emails were
      * not being delivered correctly.
      *
-     * @access  public
      * @param   array $headers An array of headers for this email
      * @return  array The headers of the email, without the stripped ones
      */
@@ -539,7 +519,6 @@ class Mail_Helper
     /**
      * Method used to send the SMTP based email message.
      *
-     * @access  public
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
      * @param   string $subject The subject of the message
@@ -586,7 +565,6 @@ class Mail_Helper
     /**
      * Returns the full headers for the email properly encoded.
      *
-     * @access  public
      * @param   string $from The sender of the email
      * @param   string $to The recipient of the email
      * @param   string $subject The subject of this email
@@ -620,7 +598,6 @@ class Mail_Helper
     /**
      * Method used to save a copy of the given email to a configurable address.
      *
-     * @access  public
      * @param   array $email The email to save.
      */
     public function saveOutgoingEmailCopy(&$email)
@@ -713,7 +690,6 @@ class Mail_Helper
     /**
      * Generates the specialized headers for an email.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
      * @param   string $headers The existing headers of this message.
@@ -802,7 +778,6 @@ class Mail_Helper
      * Method used to get the appropriate Message-ID header for a
      * given issue.
      *
-     * @access  public
      * @return  string The Message-ID header
      */
     public function generateMessageID()
@@ -820,7 +795,6 @@ class Mail_Helper
     /**
      * Returns the referenced message-id for a given reply.
      *
-     * @access  public
      * @param   string $text_headers The full headers of the reply
      * @return  string The message-id of the original email
      */
@@ -843,7 +817,6 @@ class Mail_Helper
     /**
      * Returns the message IDs of all emails this message references.
      *
-     * @access  public
      * @param   string $text_headers The full headers of the message
      * @return  array An array of message-ids
      */
@@ -928,13 +901,12 @@ class Mail_Helper
      * Returns a complete list of references for an email/note, including
      * the issue root message ID
      *
-     * @access  private
      * @param   integer $issue_id The ID of the issue
      * @param   string $msg_id The ID of the message
      * @param   string $type If this is a note or an email
      * @return  array An array of message IDs
      */
-    public function getReferences($issue_id, $msg_id, $type)
+    private function getReferences($issue_id, $msg_id, $type)
     {
         $references = array();
         self::_getReferences($msg_id, $type, $references);
@@ -947,12 +919,11 @@ class Mail_Helper
     /**
      * Method to get the list of messages an email/note references
      *
-     * @access  private
      * @param   string $msg_id The ID of the parent message
      * @param   string $type If this is a note or an email
      * @param   array $references The array the references will be stored in.
      */
-    public function _getReferences($msg_id, $type, &$references)
+    private function _getReferences($msg_id, $type, &$references)
     {
         $references[] = $msg_id;
         if ($type == 'note') {
@@ -980,7 +951,6 @@ class Mail_Helper
     /**
      * Unfolds message headers
      *
-     * @access  public
      * @param   string $input The headers to unfold
      * @return  string The unfolded headers
      */
@@ -995,7 +965,6 @@ class Mail_Helper
     /**
      * Folds message headers
      *
-     * @access  public
      * @param   string $input The headers to fold
      * @return  string The folded headers
      */
@@ -1008,7 +977,6 @@ class Mail_Helper
      * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
      * generate them in some cases) a "fake" message-id will be calculated.
      *
-     * @access  public
      * @param   string $headers The message headers
      * @param   string $body The message body
      */

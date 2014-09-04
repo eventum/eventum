@@ -43,7 +43,6 @@ class Support
      * Permanently removes the given support emails from the associated email
      * server.
      *
-     * @access  public
      * @param   array $sup_ids The list of support emails
      * @return  integer 1 if the removal worked, -1 otherwise
      */
@@ -102,7 +101,6 @@ class Support
     /**
      * Removes the given support email from the database table.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  boolean
      */
@@ -137,7 +135,6 @@ class Support
      * Method used to get the next and previous messages in order to build
      * side links when viewing a particular email.
      *
-     * @access  public
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
@@ -197,7 +194,6 @@ class Support
      * Method used to get the next and previous messages in order to build
      * side links when viewing a particular email associated with an issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
@@ -245,7 +241,6 @@ class Support
     /**
      * Method used to save the email note into a backup directory.
      *
-     * @access  public
      * @param   string $message The full body of the email
      */
     public function saveRoutedEmail($message)
@@ -291,7 +286,6 @@ class Support
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
      *
-     * @access  public
      * @return  void
      */
     public function clearErrors()
@@ -303,7 +297,6 @@ class Support
      * Method used to restore the specified support emails from
      * 'removed' to 'active'.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function restoreEmails()
@@ -329,7 +322,6 @@ class Support
      * Method used to get the list of support email entries that are
      * set as 'removed'.
      *
-     * @access  public
      * @return  array The list of support emails
      */
     public function getRemovedList()
@@ -366,7 +358,6 @@ class Support
      * Method used to remove all support email entries associated with
      * a specified list of support email accounts.
      *
-     * @access  public
      * @param   array $ids The list of support email accounts
      * @return  boolean
      */
@@ -393,7 +384,6 @@ class Support
     /**
      * Method used to build the server URI to connect to.
      *
-     * @access  public
      * @param   array $info The email server information
      * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
@@ -413,7 +403,6 @@ class Support
     /**
      * Method used to connect to the provided email server.
      *
-     * @access  public
      * @param   array $info The email server information
      * @return  resource The email server connection
      */
@@ -436,7 +425,6 @@ class Support
      * Method used to get the total number of emails in the specified
      * mailbox.
      *
-     * @access  public
      * @param   resource $mbox The mailbox
      * @return  integer The number of emails
      */
@@ -448,7 +436,6 @@ class Support
     /**
      * Bounce message to sender.
      *
-     * @access  public
      * @param   object  $message parsed message structure.
      * @param   array   array(ERROR_CODE, ERROR_STRING) of error to bounce
      * @return  void
@@ -495,7 +482,6 @@ class Support
      *
      * XXX this function does more than that.
      *
-     * @access  public
      * @param   resource $mbox The mailbox
      * @param   array $info The support email account information
      * @param   integer $num The index of the message
@@ -819,7 +805,6 @@ class Support
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
      *
-     * @access  private
      * @param   array   $info An array of info about the email account.
      * @param   string  $headers The headers of the email.
      * @param   string  $message_body The body of the message.
@@ -830,7 +815,7 @@ class Support
      * @param   array   $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    public function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    private function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -1001,7 +986,6 @@ class Support
      * Method used to close the existing connection to the email
      * server.
      *
-     * @access  public
      * @param   resource $mbox The mailbox
      * @return  void
      */
@@ -1014,7 +998,6 @@ class Support
      * Builds a list of all distinct message-ids available in the provided
      * email account.
      *
-     * @access  public
      * @param   integer $ema_id The support email account ID
      * @return  array The list of message-ids
      */
@@ -1039,7 +1022,6 @@ class Support
     /**
      * Checks if a message already is downloaded.
      *
-     * @access  public
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
@@ -1067,7 +1049,6 @@ class Support
     /**
      * Method used to add a new support email to the system.
      *
-     * @access  public
      * @param   array $row The support email details
      * @param   object $structure The email structure object
      * @param   integer $sup_id The support ID to be passed out
@@ -1173,7 +1154,6 @@ class Support
      * Method used to get a specific parameter in the email listing
      * cookie.
      *
-     * @access  public
      * @param   string $name The name of the parameter
      * @return  mixed The value of the specified parameter
      */
@@ -1195,7 +1175,6 @@ class Support
      *
      * TODO: Merge with Search::saveSearchParams()
      *
-     * @access  public
      * @return  array The search parameters
      */
     public function saveSearchParams()
@@ -1250,7 +1229,6 @@ class Support
      * Method used to get the current sorting options used in the grid
      * layout of the emails listing page.
      *
-     * @access  public
      * @param   array $options The current search parameters
      * @return  array The sorting options
      */
@@ -1289,7 +1267,6 @@ class Support
      * Method used to get the list of emails to be displayed in the
      * grid layout.
      *
-     * @access  public
      * @param   array $options The search parameters
      * @param   integer $current_row The current page number
      * @param   integer $max The maximum number of rows per page
@@ -1402,7 +1379,6 @@ class Support
     /**
      * Method used to get the list of emails to be displayed in the grid layout.
      *
-     * @access  public
      * @param   array $options The search parameters
      * @return  string The where clause
      */
@@ -1456,7 +1432,6 @@ class Support
      * Method used to extract and associate attachments in an email
      * to the given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   mixed   $input The full body of the message or decoded email.
      * @param   boolean $internal_only Whether these files are supposed to be internal only or not
@@ -1521,7 +1496,6 @@ class Support
      * Method used to silently associate a support email with an
      * existing issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
@@ -1567,14 +1541,13 @@ class Support
      * Method used to associate a support email with an existing
      * issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
      * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
+    public static function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
     {
         $res = self::associateEmail($usr_id, $issue_id, $items);
         if ($res == 1) {
@@ -1630,7 +1603,6 @@ class Support
     /**
      * Method used to get the support email entry details.
      *
-     * @access  public
      * @param   integer $ema_id The support email account ID
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details
@@ -1674,7 +1646,6 @@ class Support
     /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the email.
      * @return  array An array of data containing details about the email.
@@ -1707,7 +1678,6 @@ class Support
      * Method used to get the list of support emails associated with
      * a given set of issues.
      *
-     * @access  public
      * @param   array $items List of issues
      * @return  array The list of support emails
      */
@@ -1744,7 +1714,6 @@ class Support
      * Method used to get the full email message for a given support
      * email ID.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  string The full email message
      */
@@ -1770,7 +1739,6 @@ class Support
      * Method used to get the email message for a given support
      * email ID.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  string The email message
      */
@@ -1796,7 +1764,6 @@ class Support
      * Method used to get all of the support email entries associated
      * with a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of support emails
      */
@@ -1846,7 +1813,6 @@ class Support
      * Method used to update all of the selected support emails as
      * 'removed' ones.
      *
-     * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
     public function removeEmails()
@@ -1872,7 +1838,6 @@ class Support
      * Method used to remove the association of all support emails
      * for a given issue.
      *
-     * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
     public function removeAssociation()
@@ -1921,7 +1886,6 @@ class Support
      * Checks whether the given email address is allowed to send emails in the
      * issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender_email The email address
      * @return  boolean
@@ -1983,7 +1947,6 @@ class Support
     /**
      * Method used to build the headers of a web-based message.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $message_id The message-id
      * @param   string $from The sender of this message
@@ -2044,7 +2007,6 @@ class Support
      * recipient. This will not re-write the sender's email address
      * to issue-xxxx@ or whatever.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
@@ -2099,7 +2061,6 @@ class Support
      * Method used to parse the Cc list in a string format and return
      * an array of the email addresses contained within.
      *
-     * @access  public
      * @param   string $cc The Cc list
      * @return  array The list of email addresses
      */
@@ -2118,7 +2079,6 @@ class Support
     /**
      * Method used to send an email from the user interface.
      *
-     * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
     public function sendEmail($parent_sup_id = false)
@@ -2280,7 +2240,6 @@ class Support
      * Method used to get the message-id associated with a given support
      * email entry.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  integer The email ID
      */
@@ -2306,7 +2265,6 @@ class Support
      * Method used to get the support ID associated with a given support
      * email message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The email ID
      */
@@ -2336,7 +2294,6 @@ class Support
      * Method used to get the issue ID associated with a given support
      * email message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
@@ -2362,7 +2319,6 @@ class Support
      * Method used to get the issue ID associated with a given support
      * email entry.
      *
-     * @access  public
      * @param   integer $sup_id The support email ID
      * @return  integer The issue ID
      */
@@ -2387,7 +2343,6 @@ class Support
     /**
      * Returns the message-id of the parent email.
      *
-     * @access  public
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent email or false
      */
@@ -2419,7 +2374,6 @@ class Support
     /**
      * Returns the number of emails sent by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date
@@ -2458,7 +2412,6 @@ class Support
     /**
      * Returns the projectID based on the email account
      *
-     * @access  public
      * @param   integer $ema_id The id of the email account.
      * @return  integer The ID of the of the project.
      */
@@ -2490,7 +2443,6 @@ class Support
     /**
      * Moves an email from one account to another.
      *
-     * @access  public
      * @param   integer $sup_id The ID of the message.
      * @param   integer $current_ema_id The ID of the account the message is currently in.
      * @param   integer $new_ema_id The ID of the account to move the message too.

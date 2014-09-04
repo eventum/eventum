@@ -42,7 +42,6 @@ class Email_Response
      * Method used to add a project association to a email
      * response entry.
      *
-     * @access  public
      * @param   integer $ere_id The email response ID
      * @param   integer $prj_id The project ID
      * @return  void
@@ -64,7 +63,6 @@ class Email_Response
     /**
      * Method used to add a new canned email response to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
     public function insert()
@@ -100,7 +98,6 @@ class Email_Response
     /**
      * Method used to remove a canned email response from the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -126,7 +123,6 @@ class Email_Response
      * Method used to remove the project associations for a given
      * email response entry.
      *
-     * @access  public
      * @param   integer $ere_id The email response ID
      * @param   integer $prj_id The project ID
      * @return  boolean
@@ -158,7 +154,6 @@ class Email_Response
     /**
      * Method used to update a canned email response in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public function update()
@@ -195,7 +190,6 @@ class Email_Response
      * Method used to get the details of a canned email response for a given
      * response ID.
      *
-     * @access  public
      * @param   integer $ere_id The email response ID
      * @return  array The canned email response details
      */
@@ -225,7 +219,6 @@ class Email_Response
      * Method used to get the list of associated projects for a given
      * email response entry.
      *
-     * @access  public
      * @param   integer $ere_id The email response ID
      * @return  array The list of projects
      */
@@ -255,7 +248,6 @@ class Email_Response
      * Method used to get the list of canned email responses available in the
      * system.
      *
-     * @access  public
      * @return  array The list of canned email responses
      */
     public function getList()
@@ -286,7 +278,6 @@ class Email_Response
      * Method used to get an associate array of all canned email responses
      * available in the system.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses
      */
@@ -317,7 +308,6 @@ class Email_Response
      * Method used to get an associative array of all of the canned email
      * responses' bodies.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses' bodies.
      */

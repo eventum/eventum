@@ -41,7 +41,6 @@ class Phone_Support
     /**
      * Method used to add a new category to the application.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function insertCategory()
@@ -73,7 +72,6 @@ class Phone_Support
      * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function updateCategory()
@@ -102,7 +100,6 @@ class Phone_Support
      * Method used to remove user-selected categories from the
      * database.
      *
-     * @access  public
      * @return  boolean Whether the removal worked or not
      */
     public function removeCategory()
@@ -125,7 +122,6 @@ class Phone_Support
     /**
      * Method used to get the full details of a category.
      *
-     * @access  public
      * @param   integer $phc_id The category ID
      * @return  array The information about the category provided
      */
@@ -151,7 +147,6 @@ class Phone_Support
      * Method used to get the full list of categories associated with
      * a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The full list of categories
      */
@@ -180,7 +175,6 @@ class Phone_Support
      * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The associative array of categories
      */
@@ -208,7 +202,6 @@ class Phone_Support
     /**
      * Method used to get the details of a given phone support entry.
      *
-     * @access  public
      * @param   integer $phs_id The phone support entry ID
      * @return  array The phone support entry details
      */
@@ -234,7 +227,6 @@ class Phone_Support
      * Method used to get the full listing of phone support entries
      * associated with a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
@@ -278,7 +270,6 @@ class Phone_Support
      * Method used to add a phone support entry using the user
      * interface form available in the application.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
     public function insert()
@@ -372,7 +363,6 @@ class Phone_Support
      * Method used to remove a specific phone support entry from the
      * application.
      *
-     * @access  public
      * @param   integer $phone_id The phone support entry ID
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
      */
@@ -425,7 +415,6 @@ class Phone_Support
      * Method used to remove all phone support entries associated with
      * a given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
@@ -449,7 +438,6 @@ class Phone_Support
     /**
      * Returns the number of calls by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestamp of the end date

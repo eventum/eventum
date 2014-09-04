@@ -56,7 +56,6 @@ class Date_Helper
     /**
      * Returns whether the given hour is AM or not.
      *
-     * @access  public
      * @param   integer $hour The hour number
      * @return  boolean
      */
@@ -72,7 +71,6 @@ class Date_Helper
     /**
      * Returns whether the given hour is PM or not.
      *
-     * @access  public
      * @param   integer $hour The hour number
      * @return  boolean
      */
@@ -142,10 +140,9 @@ class Date_Helper
     /**
      * Returns the current UNIX timestamp in the GMT timezone.
      *
-     * @access  public
      * @return  integer The current UNIX timestamp in GMT
      */
-    public function getCurrentUnixTimestampGMT()
+    public static function getCurrentUnixTimestampGMT()
     {
         return gmmktime();
     }
@@ -154,7 +151,6 @@ class Date_Helper
      * Method used to get a pretty-like formatted time output for the
      * difference in time between two unix timestamps.
      *
-     * @access  public
      * @param   integer $now_ts The current UNIX timestamp
      * @param   integer $old_ts The old UNIX timestamp
      * @return  string The formatted difference in time
@@ -196,7 +192,6 @@ class Date_Helper
      * Method used to get the current date in the GMT timezone in an
      * RFC822 compliant format.
      *
-     * @access  public
      * @return  string The current GMT date
      * @param   string $timezone The needed timezone
      */
@@ -226,7 +221,6 @@ class Date_Helper
      * Method used to get the full list of available timezones to be
      * presented to the user.
      *
-     * @access  public
      * @return  array The list of timezones
      */
     public function getTimezoneList()
@@ -240,7 +234,6 @@ class Date_Helper
     /**
      * Method used to get the proper short name for a given date.
      *
-     * @access  public
      * @param   Date $date The Date object
      * @return  string The timezone short name
      * @note    PEAR Date 1.5.0 Includes this method itself.
@@ -258,7 +251,6 @@ class Date_Helper
      * Method used to get the proper timezone short name for the current date
      * and time on the given user's timezone.
      *
-     * @access  public
      * @param   object $date The Date object
      * @return  string The timezone short name
      */
@@ -295,7 +287,6 @@ class Date_Helper
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
      *
-     * @access  public
      * @param   string $timestamp The date timestamp to be formatted
      * @param   boolean $convert If the timestamp should be converted to the preferred timezone
      * @return  string
@@ -350,7 +341,6 @@ class Date_Helper
     /**
      * Method used to get the default start of week day.
      *
-     * @access  public
      * @return  integer 0 - Sunday, 1 - Monday
      */
     public function getDefaultWeekday()
@@ -362,7 +352,6 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * @access  public
      * @param   string $date The date in use timezone
      * @return  string The date in the GMT timezone
      */
@@ -378,7 +367,6 @@ class Date_Helper
     /**
      * Method used to convert a unix timestamp date to a GMT date.
      *
-     * @access  public
      * @param   integer $timestamp The user based date
      * @return  string The date in the GMT timezone
      */
@@ -390,7 +378,6 @@ class Date_Helper
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
      *
-     * @access public
      * @param   integer $weeks_past The number of weeks in the past to include.
      * @param   integer $weeks_future The number of weeks in the future to include.
      * @return  array An array of weeks.
@@ -423,7 +410,6 @@ class Date_Helper
     /**
      * Returns the current week in the same format formatWeekOption users.
      *
-     * @access  public
      * @return  string A string containg the current week.
      */
     public function getCurrentWeek()

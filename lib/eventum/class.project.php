@@ -42,7 +42,6 @@ class Project
      * Method used to get the outgoing email sender address associated with
      * a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The outgoing sender information
      */
@@ -82,7 +81,6 @@ class Project
      * Method used to get the initial status that should be set to a new issue
      * created and associated with a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  integer The status ID
      */
@@ -108,7 +106,6 @@ class Project
      * Method used to get the options related to the anonymous posting
      * of new issues.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The anonymous posting options
      */
@@ -137,7 +134,6 @@ class Project
     /**
      * Method used to update the anonymous posting related options.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -164,7 +160,6 @@ class Project
      * Method used to get the list of projects that allow anonymous
      * posting of new issues.
      *
-     * @access  public
      * @return  array The list of projects
      */
     public static function getAnonymousList()
@@ -191,7 +186,6 @@ class Project
     /**
      * Method used to check whether a project exists or not.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -220,7 +214,6 @@ class Project
     /**
      * Method used to get the project ID of the given project title.
      *
-     * @access  public
      * @param   string $prj_title The project title
      * @return  integer The project ID
      */
@@ -245,7 +238,6 @@ class Project
     /**
      * Method used to get the title of a given project ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  string The project title
      */
@@ -278,7 +270,6 @@ class Project
     /**
      * Method used to get if reporters should be segregated for a project ID
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  boolean If reporters should be segregated
      */
@@ -316,7 +307,6 @@ class Project
     /**
      * Method used to get the details for a given project ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The project details
      */
@@ -344,7 +334,6 @@ class Project
     /**
      * Method used to remove a given set of projects from the system.
      *
-     * @access  public
      * @return  boolean
      */
     public static function remove()
@@ -408,7 +397,6 @@ class Project
     /**
      * Method used to update the details of the project information.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public static function update()
@@ -463,7 +451,6 @@ class Project
      * Method used to associate an user to a project. If the user association already exists
      * no change will be made.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $usr_id The user ID
      * @param   integer $role The role of the user
@@ -516,7 +503,6 @@ class Project
     /**
      * Method used to add a new project to the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public static function insert()
@@ -582,7 +568,6 @@ class Project
      * Method used to get the list of projects available in the
      * system.
      *
-     * @access  public
      * @return  array The list of projects
      */
     public static function getList()
@@ -613,7 +598,6 @@ class Project
      * Method used to get an associative array of project ID and title
      * of all projects available in the system to a given user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $force_refresh If the cache should not be used.
      * @param   boolean $include_extra If extra data should be included.
@@ -672,7 +656,6 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $status The desired user status
      * @param   integer $role The role ID of the user
@@ -713,7 +696,6 @@ class Project
      * Method used to get a list of user IDs associated with a given
      * project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of user IDs
      */
@@ -743,7 +725,6 @@ class Project
      * Method used to get an associative array of project ID and title
      * of all projects that exist in the system.
      *
-     * @access  public
      * @param   boolean $include_no_customer_association Whether to include in the results projects with customer integration or not
      * @return  array List of projects
      */
@@ -774,7 +755,6 @@ class Project
      * Method used to get a list of emails that are associated with a given
      * project and issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @return  array List of emails
@@ -794,7 +774,6 @@ class Project
      * Method used to get a list of names and emails that are
      * associated with a given project and issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
@@ -826,7 +805,6 @@ class Project
      * Method used to get an associative array of names and emails
      * that are associated with a given project and issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
@@ -871,7 +849,6 @@ class Project
      * Method used to get the list of projects that allow remote
      * invocation of issues.
      *
-     * @access  public
      * @return  array The list of projects
      */
     public static function getRemoteAssocList()
@@ -899,7 +876,6 @@ class Project
      * Method used to get the list of projects assigned to a given user that
      * allow remote invocation of issues.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
@@ -946,7 +922,6 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $status The desired user status
      * @return  array The list of users
@@ -992,7 +967,6 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $status The desired user status
      * @return  array The list of users
@@ -1027,7 +1001,6 @@ class Project
     /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
      *
-     * @access  public
      * @param   integer $prj_id The project ID.
      * @param   array $settings An array of fields and role is required to view them.
      * @return  integer 1 if the update worked, -1 otherwise.
@@ -1073,7 +1046,6 @@ class Project
     /**
      * Returns display settings for a specific project.
      *
-     * @access public
      * @param   integer $prj_id The project ID
      * @return  array An associative array of minimum role required to access a field.
      */
@@ -1105,7 +1077,6 @@ class Project
     /**
      * Returns an array of fields which can be hidden.
      *
-     * @access  public
      * @return  array
      */
     public static function getDisplayFields()

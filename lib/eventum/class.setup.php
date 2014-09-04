@@ -72,7 +72,6 @@ class Setup
     /**
      * Method used to save the setup options for the application.
      *
-     * @access  public
      * @param   array $options The system-wide preferences
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */

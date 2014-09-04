@@ -41,7 +41,6 @@ class Abstract_Customer_Backend
      * Return what business hours a customer falls into. Mainly used for international
      * customers.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  string The business hours
      */
@@ -62,7 +61,6 @@ class Abstract_Customer_Backend
      * Checks whether the given customer has a support contract that
      * enforces limits for the minimum first response time or not.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  boolean
@@ -75,7 +73,6 @@ class Abstract_Customer_Backend
      * Returns the minimum first response time in seconds for the
      * support level associated with the given customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  integer The minimum first response time
@@ -88,7 +85,6 @@ class Abstract_Customer_Backend
      * Returns the maximum first response time associated with the
      * support contract of the given customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  integer The maximum first response time, in seconds
@@ -110,7 +106,6 @@ class Abstract_Customer_Backend
     /**
      * Returns true if the backend uses support levels, false otherwise
      *
-     * @access  public
      * @return  boolean True if the project uses support levels.
      */
     public function usesSupportLevels()
@@ -121,7 +116,6 @@ class Abstract_Customer_Backend
     /**
      * Connect to the customer database
      *
-     * @access  public
      */
     public function connect()
     {
@@ -131,7 +125,6 @@ class Abstract_Customer_Backend
      * Returns the contract status associated with the given customer ID.
      * Possible return values are 'active', 'in_grace_period' and 'expired'.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  string The contract status
@@ -143,7 +136,6 @@ class Abstract_Customer_Backend
     /**
      * Retrieves the customer titles associated with the given list of issues.
      *
-     * @access  public
      * @param   array $result The list of issues
      * @see     Search::getListing()
      */
@@ -154,7 +146,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the details of the given customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array The customer details
      */
@@ -166,7 +157,6 @@ class Abstract_Customer_Backend
      * Returns true if this issue has been counted a valid incident
      *
      * @see /docs/Customer_API.html
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      * @return  boolean True if this is a redeemed incident.
      */
@@ -178,7 +168,6 @@ class Abstract_Customer_Backend
      * Marks an issue as a redeemed incident.
      *
      * @see /docs/Customer_API.html
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      */
     public function flagIncident($issue_id)
@@ -189,7 +178,6 @@ class Abstract_Customer_Backend
      * Marks an issue as not a redeemed incident.
      *
      * @see /docs/Customer_API.html
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      */
     public function unflagIncident($issue_id)
@@ -200,7 +188,6 @@ class Abstract_Customer_Backend
      * Checks whether the active per-incident contract associated with the given
      * customer ID has any incidents available to be redeemed.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  boolean
      */
@@ -212,7 +199,6 @@ class Abstract_Customer_Backend
      * Checks whether the active contract associated with the given customer ID
      * is a per-incident contract or not.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  boolean
      */
@@ -225,7 +211,6 @@ class Abstract_Customer_Backend
      * Returns the total number of allowed incidents for the given support
      * contract ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $support_no The support contract ID
      * @return  integer The total number of incidents
@@ -238,7 +223,6 @@ class Abstract_Customer_Backend
      * Returns the number of incidents remaining for the given support
      * contract ID.
      *
-     * @access  public
      * @param   integer $support_no The support contract ID
      * @return  integer The number of incidents remaining.
      */
@@ -249,7 +233,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to send a notice that the per-incident limit being reached.
      *
-     * @access  public
      * @param   integer $contact_id The customer contact ID
      * @param   integer $customer_id The customer ID
      * @param   boolean $new_issue If the customer just tried to create a new issue.
@@ -262,7 +245,6 @@ class Abstract_Customer_Backend
     /**
      * Returns a list of customers (companies) in the customer database.
      *
-     * @access  public
      * @return  array An associated array of customers.
      */
     public function getAssocList()
@@ -272,7 +254,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the customer names for the given customer id.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  string The customer name
      */
@@ -284,7 +265,6 @@ class Abstract_Customer_Backend
      * Method used to get an associative array of the customer names
      * for the given list of customer ids.
      *
-     * @access  public
      * @param   array $customer_ids The list of customers
      * @return  array The associative array of customer id => customer name
      */
@@ -296,7 +276,6 @@ class Abstract_Customer_Backend
      * Method used to get the list of email addresses associated with the
      * contacts of a given customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array The list of email addresses
      */
@@ -308,7 +287,6 @@ class Abstract_Customer_Backend
      * Method used to get the customer and customer contact IDs associated
      * with a given list of email addresses.
      *
-     * @access  public
      * @param   array $emails The list of email addresses
      * @return  array The customer and customer contact ID
      */
@@ -320,7 +298,6 @@ class Abstract_Customer_Backend
      * Method used to get the overall statistics of issues in the system for a
      * given customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array The customer related issue statistics
      */
@@ -332,7 +309,6 @@ class Abstract_Customer_Backend
      * Method used to build the overall customer profile from the information
      * stored in the customer database.
      *
-     * @access  public
      * @param   integer $usr_id The Eventum user ID
      * @return  array The customer profile information
      */
@@ -343,7 +319,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the contract details for a given customer contact.
      *
-     * @access  public
      * @param   integer $contact_id The customer contact ID
      * @return  array The customer contract details
      */
@@ -354,7 +329,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the details associated with a customer contact.
      *
-     * @access  public
      * @param   integer $contact_id The customer contact ID
      * @return  array The contact details
      */
@@ -366,7 +340,6 @@ class Abstract_Customer_Backend
      * Returns the list of customer IDs that are associated with the given
      * email value (wildcards welcome).
      *
-     * @access  public
      * @param   string $email The email value
      * @return  array The list of customer IDs
      */
@@ -378,7 +351,6 @@ class Abstract_Customer_Backend
      * Method used to notify the customer contact that an existing issue
      * associated with him was just marked as closed.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $contact_id The customer contact ID
      * @return  void
@@ -391,7 +363,6 @@ class Abstract_Customer_Backend
      * Performs a customer lookup and returns the matches, if
      * appropriate.
      *
-     * @access  public
      * @param   string $field The field that we are trying to search against
      * @param   string $value The value that we are searching for
      * @return  array The list of customers
@@ -404,7 +375,6 @@ class Abstract_Customer_Backend
      * Method used to notify the customer contact that a new issue was just
      * created and associated with his Eventum user.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $contact_id The customer contact ID
      * @return  void
@@ -416,7 +386,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the list of available support levels.
      *
-     * @access  public
      * @return  array The list of available support levels
      */
     public function getSupportLevelAssocList()
@@ -427,7 +396,6 @@ class Abstract_Customer_Backend
      * Returns the support level of the current support contract for a given
      * customer ID.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  string The support contract level
@@ -439,7 +407,6 @@ class Abstract_Customer_Backend
     /**
      * Returns the list of customer IDs for a given support contract level.
      *
-     * @access  public
      * @param   integer $support_level_id The support level ID
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array The list of customer IDs
@@ -451,7 +418,6 @@ class Abstract_Customer_Backend
     /**
      * Returns an array of support levels grouped together.
      *
-     * @access  public
      * @return  array an array of support levels.
      */
     public function getGroupedSupportLevels()
@@ -461,7 +427,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to send an expiration notice.
      *
-     * @access  public
      * @param   integer $contact_id The customer contact ID
      * @param   boolean $is_expired Whether this customer is expired or not
      * @return  void
@@ -474,7 +439,6 @@ class Abstract_Customer_Backend
      * Checks whether the given technical contact ID is allowed in the current
      * support contract or not.
      *
-     * @access  public
      * @param   integer $customer_contact_id The customer technical contact ID
      * @return  boolean
      */
@@ -488,7 +452,6 @@ class Abstract_Customer_Backend
      * associate an issue to the appropriate customer contact that sent a
      * support email.
      *
-     * @access  public
      * @param   array $sup_ids The list of support email IDs
      * @return  array The customer and customer contact ID
      */
@@ -501,7 +464,6 @@ class Abstract_Customer_Backend
      * set of email messages that were manually converted into an
      * issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The email IDs
      * @param   integer $customer_id The customer ID
@@ -515,7 +477,6 @@ class Abstract_Customer_Backend
      * Method used to send an email notification to the sender of an
      * email message that was automatically converted into an issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
@@ -529,7 +490,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the customer login grace period (number of days).
      *
-     * @access  public
      * @return  integer The customer login grace period
      */
     public function getExpirationOffset()
@@ -539,7 +499,6 @@ class Abstract_Customer_Backend
     /**
      * Method used to get the details of the given customer contact.
      *
-     * @access  public
      * @param   integer $contact_id The customer contact ID
      * @return  array The customer details
      */
@@ -551,7 +510,6 @@ class Abstract_Customer_Backend
      * Returns the end date of the current support contract for a given
      * customer ID.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  string The support contract end date
@@ -563,7 +521,6 @@ class Abstract_Customer_Backend
     /**
      * Returns the name and email of the sales account manager of the given customer ID.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array An array containing the name and email of the sales account manager
      */
@@ -575,7 +532,6 @@ class Abstract_Customer_Backend
      * Returns the start date of the current support contract for a given
      * customer ID.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @param   integer $contract_id The contract ID
      * @return  string The support contract start date

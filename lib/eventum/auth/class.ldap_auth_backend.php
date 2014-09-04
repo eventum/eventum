@@ -334,7 +334,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string  $password The password.
      * @return  boolean true if update worked, false otherwise

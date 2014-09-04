@@ -42,7 +42,6 @@ class Reminder_Action
      * Method used to quickly change the ranking of a reminder action
      * from the administration screen.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $rma_id The reminder action ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
@@ -94,11 +93,10 @@ class Reminder_Action
      * Returns an associative array with the list of reminder action
      * IDs and their respective ranking.
      *
-     * @access  private
      * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    public function _getRanking($rem_id)
+    private function _getRanking($rem_id)
     {
         $stmt = "SELECT
                     rma_id,
@@ -122,7 +120,6 @@ class Reminder_Action
     /**
      * Method used to get the title of a specific reminder action.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  string The title of the reminder action
      */
@@ -147,7 +144,6 @@ class Reminder_Action
     /**
      * Method used to get the details for a specific reminder action.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  array The details for the specified reminder action
      */
@@ -177,7 +173,6 @@ class Reminder_Action
     /**
      * Method used to create a new reminder action.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
     public function insert()
@@ -223,7 +218,6 @@ class Reminder_Action
      * Returns the list of users associated with a given reminder
      * action ID
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of associated users
      */
@@ -259,7 +253,6 @@ class Reminder_Action
      * Method used to associate a list of users with a given reminder
      * action ID
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @param   array $user_list The list of users
      * @return  void
@@ -292,7 +285,6 @@ class Reminder_Action
     /**
      * Method used to update the details of a specific reminder action.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
     public function update()
@@ -330,7 +322,6 @@ class Reminder_Action
      * Checks whether the given reminder action type is one where a
      * list of users is used or not.
      *
-     * @access  public
      * @param   integer $rmt_id The reminder action type ID
      * @return  boolean
      */
@@ -363,7 +354,6 @@ class Reminder_Action
     /**
      * Removes the full user list for a given reminder action ID.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  void
      */
@@ -384,7 +374,6 @@ class Reminder_Action
      * Method used to remove reminder actions by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove($action_ids)
@@ -411,7 +400,6 @@ class Reminder_Action
     /**
      * Method used to get an associative array of action types.
      *
-     * @access  public
      * @return  array The list of action types
      */
     public function getActionTypeList()
@@ -437,7 +425,6 @@ class Reminder_Action
      * Method used to get the list of reminder actions to be displayed in the
      * administration section.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
@@ -483,7 +470,6 @@ class Reminder_Action
      * Method used to get the list of reminder actions associated with a given
      * reminder ID.
      *
-     * @access  public
      * @param   integer $reminder_id The reminder ID
      * @return  array The list of reminder actions
      */
@@ -514,7 +500,6 @@ class Reminder_Action
     /**
      * Method used to get the title of a reminder action type.
      *
-     * @access  public
      * @param   integer $rmt_id The reminder action type
      * @return  string The action type title
      */
@@ -540,7 +525,6 @@ class Reminder_Action
      * Method used to save a history entry about the execution of the current
      * reminder.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
@@ -571,7 +555,6 @@ class Reminder_Action
     /**
      * Method used to perform a specific action to an issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $reminder The reminder details
      * @param   array $action The action details
@@ -770,14 +753,13 @@ class Reminder_Action
      * a reminder action was triggered, but no action was really
      * taken because no recipients could be found.
      *
-     * @access  private
      * @param   integer $issue_id The issue ID
      * @param   string $type Which reminder are we trying to send, email or sms
      * @param   array $reminder The reminder details
      * @param   array $action The action details
      * @return  void
      */
-    public function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
+    private function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {
@@ -806,7 +788,6 @@ class Reminder_Action
      * Returns the given list of issues with only the issues that
      * were last triggered for the given reminder action ID.
      *
-     * @access  public
      * @param   array $issues The list of issue IDs
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of issue IDs
@@ -847,7 +828,6 @@ class Reminder_Action
      * Records the last triggered reminder action for a given
      * issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
@@ -894,7 +874,6 @@ class Reminder_Action
     /**
      * Clears the last triggered reminder for a given issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */

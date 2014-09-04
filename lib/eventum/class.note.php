@@ -43,7 +43,6 @@ class Note
      * Returns the next and previous notes associated with the given issue ID
      * and the currently selected note.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $not_id The currently selected note ID
      * @return  array The next and previous note ID
@@ -86,7 +85,6 @@ class Note
     /**
      * Retrieves the details about a given note.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  array The note details
      */
@@ -179,7 +177,6 @@ class Note
     /**
      * Returns the blocked email message body associated with the given note ID.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  string The blocked email message body
      */
@@ -205,7 +202,6 @@ class Note
     /**
      * Returns the issue ID associated with the given note ID.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  integer The issue ID
      */
@@ -231,7 +227,6 @@ class Note
     /**
      * Returns the nth note for the specific issue. Sequence starts at 1.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the note.
      * @return  array An array of data containing details about the note.
@@ -263,7 +258,6 @@ class Note
     /**
      * Method used to get the unknown_user from the note table for the specified note id.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      */
     public function getUnknownUser($note_id)
@@ -288,7 +282,6 @@ class Note
     /**
      * Method used to save the routed note into a backup directory.
      *
-     * @access  public
      * @param   string $message The full body of the note
      */
     public function saveRoutedNote($message)
@@ -313,7 +306,6 @@ class Note
      * @param   boolean $log If adding this note should be logged. Default true.
      * @param   boolean $closing If The issue is being closed. Default false
      * @param   boolean $send_notification Whether to send a notification about this note or not
-     * @access  public
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
     public function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
@@ -428,7 +420,6 @@ class Note
      * Method used to remove all notes associated with a specific set
      * of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
@@ -452,7 +443,6 @@ class Note
     /**
      * Method used to remove a specific note from the application.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @param   boolean $log If this event should be logged or not. Default true
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
@@ -510,7 +500,6 @@ class Note
      * Method used to get the full listing of notes associated with
      * a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
@@ -566,7 +555,6 @@ class Note
     /**
      * Converts a note to a draft or an email
      *
-     * @access  public
      * @param   $note_id The id of the note
      * @param   $target What the note should be converted too
      * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
@@ -668,7 +656,6 @@ class Note
     /**
      * Returns the number of notes by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date
@@ -700,7 +687,6 @@ class Note
     /**
      * Method used to mark a note as having attachments associated with it.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  boolean
      */
@@ -725,7 +711,6 @@ class Note
     /**
      * Returns the total number of notes associated to the given issue ID.
      *
-     * @access  public
      * @param   string $issue_id The issue ID
      * @return  integer The number of notes
      */
@@ -752,7 +737,6 @@ class Note
      * Method used to get the issue ID associated with a given note
      * message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
@@ -777,7 +761,6 @@ class Note
     /**
      * Returns the message-id of the parent note.
      *
-     * @access  public
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent note or false
      */
@@ -810,7 +793,6 @@ class Note
      * Method used to get the note ID associated with a given note
      * message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The note ID
      */
@@ -840,7 +822,6 @@ class Note
      * Method used to get the message-ID associated with a given note
      * id.
      *
-     * @access  public
      * @param   integer $id The ID
      * @return  string The Message-ID
      */
@@ -869,7 +850,6 @@ class Note
     /**
      * Checks if a message already is downloaded..
      *
-     * @access  public
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */

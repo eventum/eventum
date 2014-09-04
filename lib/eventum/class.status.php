@@ -42,7 +42,6 @@ class Status
      * Returns the label and date field associated with the customization of
      * the given project and status IDs.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   array $sta_ids The list of status IDs
      * @return  array The label and date field
@@ -72,7 +71,6 @@ class Status
     /**
      * Returns the details of a given project status customization entry.
      *
-     * @access  public
      * @param   integer $psd_id The customization entry ID
      * @return  array The details
      */
@@ -97,7 +95,6 @@ class Status
     /**
      * Removes a given set of customizations.
      *
-     * @access  public
      * @param   array $items The customization entry IDs
      * @return  boolean
      */
@@ -121,7 +118,6 @@ class Status
     /**
      * Method used to update the details of a customization entry in the system.
      *
-     * @access  public
      * @param   integer $psd_id The customization entry ID
      * @param   integer $prj_id The project ID
      * @param   integer $sta_id The status ID
@@ -153,7 +149,6 @@ class Status
     /**
      * Method used to add a new customization entry to the system.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $sta_id The status ID
      * @param   string $date_field The date field name
@@ -188,7 +183,6 @@ class Status
     /**
      * Method used to get a list of all existing customizations.
      *
-     * @access  public
      * @return  array The list of available customizations
      */
     public function getCustomizationList()
@@ -229,7 +223,6 @@ class Status
      * Method used to check whether the given status has a closed context or
      * not.
      *
-     * @access  public
      * @return  boolean
      */
     public function hasClosedContext($sta_id)
@@ -257,7 +250,6 @@ class Status
     /**
      * Method used to add a new custom status to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
     public function insert()
@@ -299,7 +291,6 @@ class Status
     /**
      * Method used to update the details of a given custom status.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function update()
@@ -358,7 +349,6 @@ class Status
     /**
      * Method used to remove a set of custom statuses.
      *
-     * @access  public
      * @return  boolean
      */
     public function remove()
@@ -391,7 +381,6 @@ class Status
     /**
      * Method used to add a project association to a status.
      *
-     * @access  public
      * @param   integer $sta_id The status ID
      * @param   integer $prj_id The project ID
      * @return  void
@@ -414,7 +403,6 @@ class Status
      * Method used to remove the project associations for a given
      * custom status.
      *
-     * @access  public
      * @param   integer $sta_id The custom status ID
      * @param   integer $prj_id The project ID
      * @return  boolean
@@ -445,7 +433,6 @@ class Status
     /**
      * Method used to get the details of a given status ID.
      *
-     * @access  public
      * @param   integer $sta_id The custom status ID
      * @return  array The status details
      */
@@ -473,7 +460,6 @@ class Status
     /**
      * Method used to get the list of statuses ordered by title.
      *
-     * @access  public
      * @return  array The list of statuses
      */
     public function getList()
@@ -504,7 +490,6 @@ class Status
      * Method used to get the list of associated projects for a given
      * custom status.
      *
-     * @access  public
      * @param   integer $sta_id The custom status ID
      * @return  array The list of projects
      */
@@ -532,7 +517,6 @@ class Status
     /**
      * Method used to get the status ID for a given status title.
      *
-     * @access  public
      * @param   string $sta_title The status title
      * @return  integer The status ID
      */
@@ -565,7 +549,6 @@ class Status
     /**
      * Method used to get the status title for a given status ID.
      *
-     * @access  public
      * @param   integer $sta_id The status ID
      * @return  string The status title
      */
@@ -591,7 +574,6 @@ class Status
      * Method used to get the list of available closed-context statuses as an
      * associative array in the style of (abbreviation => title)
      *
-     * @access  public
      * @param   array $prj_id List of project IDs
      * @return  array The list of closed-context statuses
      */
@@ -627,7 +609,6 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (abbreviation => title)
      *
-     * @access  public
      * @param   array $prj_id List of project IDs
      * @param   boolean $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
@@ -667,7 +648,6 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (id => title)
      *
-     * @access  public
      * @param   array $prj_id List of project IDs
      * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
@@ -707,7 +687,6 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (id => title)
      *
-     * @access  public
      * @return  array The list of statuses
      */
     public function getAssocList()
@@ -734,7 +713,6 @@ class Status
      * in the style of (id => title). Only return the list of statuses that have
      * a 'closed' context.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of statuses
      */
@@ -765,7 +743,6 @@ class Status
     /**
      * Method used to get the list of statuses and their respective colors
      *
-     * @access  public
      * @return  array List of statuses
      */
     public function getStatusColors()

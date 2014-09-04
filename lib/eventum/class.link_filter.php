@@ -38,7 +38,6 @@ class Link_Filter
     /**
      * Returns information about a specific link filter.
      *
-     * @access  public
      * @param   integer $lfi_id The ID of the link filter to return info about.
      * @return  array An array of information.
      */
@@ -264,13 +263,12 @@ class Link_Filter
     /**
      * Processes text through all link filters.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   string $text The text to process
      * @param   string $class The CSS class to use on the actual links
      * @return  string The processed text.
      */
-    public function processText($prj_id, $text, $class = "link")
+    public static function processText($prj_id, $text, $class = "link")
     {
 
         // process issue link seperatly since it has to do something special
@@ -293,7 +291,6 @@ class Link_Filter
     /**
      * Callback function to be used from template class.
      *
-     * @access  public
      * @param   string $text The text to process
      * @return  string the processed text.
      */
@@ -305,7 +302,6 @@ class Link_Filter
     /**
      * Callback function to be used from template class.
      *
-     * @access  public
      * @param   string $text The text to process
      * @param   integer $issue_id The ID of the issue from where attachment list is taken
      * @return  string the processed text.
@@ -338,7 +334,6 @@ class Link_Filter
     /**
      * Returns an array of patterns and replacements.
      *
-     * @access  private
      * @return  array An array of patterns and replacements
      */
     private static function getFilters()
@@ -354,7 +349,6 @@ class Link_Filter
     /**
      * Returns an array of patterns and replacements.
      *
-     * @access  private
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
@@ -397,7 +391,6 @@ class Link_Filter
      * Method used as a callback with the regular expression code that parses
      * text and creates links to other issues.
      *
-     * @access  public
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */

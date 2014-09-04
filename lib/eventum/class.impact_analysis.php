@@ -43,7 +43,6 @@ class Impact_Analysis
     /**
      * Method used to insert a new requirement for an existing issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
@@ -81,7 +80,6 @@ class Impact_Analysis
      * Method used to get the full list of requirements and impact analysis for
      * a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of requirements
      */
@@ -130,7 +128,6 @@ class Impact_Analysis
      * Method used to update an existing requirement with the appropriate
      * impact analysis.
      *
-     * @access  public
      * @param   integer $isr_id The requirement ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
@@ -173,7 +170,6 @@ class Impact_Analysis
     /**
      * Method used to remove an existing set of requirements.
      *
-     * @access  public
      * @return  integer -1 if an error occurred or 1 otherwise
      */
     public function remove()
@@ -209,7 +205,6 @@ class Impact_Analysis
      * Method used to remove all of the requirements associated with a set of
      * issue IDs.
      *
-     * @access  public
      * @param   array $ids The list of issue IDs
      * @return  boolean
      */

@@ -45,7 +45,6 @@ class Misc
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
-     * @access  public
      * @param   array $foo The first array
      * @param   array $bar The second array
      * @return  array The different values
@@ -107,7 +106,6 @@ class Misc
     /**
      * Method used to get the title given to the current installation of Eventum.
      *
-     * @access  public
      * @return  string The installation title
      */
     public function getToolCaption()
@@ -120,7 +118,6 @@ class Misc
     /**
      * Method used to print a prompt asking the user for information.
      *
-     * @access  public
      * @param   string $message The message to print
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
@@ -149,7 +146,6 @@ class Misc
     /**
      * Method used to get a line from the standard input.
      *
-     * @access  public
      * @return  string The standard input value
      */
     private static function getInputLine()
@@ -160,7 +156,6 @@ class Misc
     /**
      * Method used to check the spelling of a given text.
      *
-     * @access  public
      * @param   string $text The text to check the spelling against
      * @return  array Information about the mispelled words, if any
      */
@@ -228,7 +223,6 @@ class Misc
      * \r and \t) by their string equivalents. It is usually used in
      * JavaScript code.
      *
-     * @access  public
      * @param   string $str The string to be escaped
      * @return  string The escaped string
      */
@@ -278,7 +272,6 @@ class Misc
      * Method used to format a filesize in bytes to the appropriate string,
      * showing 'Kb' and 'Mb'.
      *
-     * @access  public
      * @param   integer $bytes The filesize to format
      * @return  string The formatted filesize
      */
@@ -305,11 +298,10 @@ class Misc
      * The available options are K (for Kilobytes), M (for Megabytes) and G
      * (for Gigabytes; available since PHP 5.1.0).
      *
-     * @access  public
      * @param   string  $val The size to format
      * @return  integer size in bytes
      */
-    public function return_bytes($val)
+    public static function return_bytes($val)
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
@@ -401,7 +393,6 @@ class Misc
     /**
      * Method used to escape a string before using it in a query.
      *
-     * @access  public
      * @param   string|array $input The original string
      * @return  string The escaped (or not) string
      */
@@ -459,7 +450,6 @@ class Misc
     /**
      * Method used to prepare a set of fields and values for a boolean search
      *
-     * @access  public
      * @param   string $field The field name
      * @param   string $value The value for that field
      * @return  string The prepared boolean search string
@@ -503,7 +493,6 @@ class Misc
      * Method used to get the full list of files contained in a specific
      * directory.
      *
-     * @access  public
      * @param   string $directory The path to list the files from
      * @return  array The list of files
      */
@@ -525,7 +514,6 @@ class Misc
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *
-     * @access  public
      * @param   integer $minutes The number of minutes to format
      * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
      * @param   boolean $omit_empty If true, values that are "00" will be omitted.
@@ -563,7 +551,7 @@ class Misc
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    public function activateLinks($text, $class = "link")
+    public static function activateLinks($text, $class = "link")
     {
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
@@ -580,7 +568,6 @@ class Misc
     /**
      * Method used to indent a given string.
      *
-     * @access  public
      * @param   string $str The string to be indented
      * @return  string The indented string
      */
@@ -593,7 +580,6 @@ class Misc
      * Method used to format the reply of someone's email that is available in
      * the system.
      *
-     * @access  public
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
@@ -610,7 +596,6 @@ class Misc
      * Method used to format a RFC 822 compliant date for the given unix
      * timestamp.
      *
-     * @access  public
      * @param   integer $ts The unix timestamp
      * @return  string The formatted date string
      */
@@ -624,7 +609,6 @@ class Misc
      * Method used to check whether the given directory is writable by the
      * web server user or not.
      *
-     * @access  public
      * @param   string $file The full path to the directory
      * @return  boolean
      */
@@ -671,7 +655,6 @@ class Misc
      * Highlights quoted replies. Relies on a smarty plugin written by
      * Joscha Feth, joscha@feth.com, www.feth.com
      *
-     * @access  public
      * @param   string $text The text to highlight
      * @return  string The highlighted text
      */
@@ -686,7 +669,6 @@ class Misc
      * Method used to display a nice error message when one (or more) of the
      * system requirements for Eventum is not found.
      *
-     * @access  public
      * @param   array $errors The list of errors
      * @return  void
      */
@@ -741,7 +723,6 @@ class Misc
     /**
      * Changes a boolean value to either "Yes" or "No".
      *
-     * @access  public
      * @param   boolean $value The boolean value
      * @return  string Either 'Yes' or 'No'.
      */
@@ -853,7 +834,6 @@ class Misc
     /**
      * Method used to get the full contents of the given file.
      *
-     * @access  public
      * @param   string $full_path The full path to the file
      * @return  string The full contents of the file
      */
@@ -875,7 +855,6 @@ class Misc
     /**
      * Method used to get the standard input.
      *
-     * @access  public
      * @return  string The standard input value
      */
     public function getInput($is_one_liner = false)

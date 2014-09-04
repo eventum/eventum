@@ -33,7 +33,6 @@ class Lock
     /**
      * Creates a lock file for the given name.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @param   bool $check If we should check if the process exists in addition to check for a lock file
      * @return  boolean
@@ -75,7 +74,6 @@ class Lock
      * Removes the process file to allow other instances of this
      * script to run.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @return  boolean
      */
@@ -93,7 +91,6 @@ class Lock
      * Returns the full path to the file that keeps the process
      * ID of the running script.
      *
-     * @access  private
      * @param   string $name The name of this lock file
      * @return  string The full path of the process file
      */
@@ -105,7 +102,6 @@ class Lock
     /**
      * Returns the process ID of the script, if any.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @return  integer The process ID of the script
      */

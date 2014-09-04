@@ -107,7 +107,6 @@ class Language
      * Method used to get available languages.
      * Uses $avail_langs array and verifies that the language can be used.
      *
-     * @access  public
      * @return  array
      */
     public function getAvailableLanguages()
@@ -129,7 +128,6 @@ class Language
      * Method used to set the appropriate preference of the language
      * for the application based on user preference.
      *
-     * @access  public
      * @return  void
      */
     public function setPreference()
@@ -158,7 +156,6 @@ class Language
      * Sets active language for for the application.
      * Returns false if locale is invalid or cannot be used.
      *
-     * @access  public
      * @return  boolean
      */
     public static function set($locale)

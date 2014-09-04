@@ -68,11 +68,10 @@ class DB_Helper
 
     /** @var DB_common */
     private $dbh;
+
     /**
      * Connects to the database and creates a data dictionary array to be used
      * on database related schema dynamic lookups.
-     *
-     * @access public
      */
     private function __construct()
     {
@@ -104,7 +103,6 @@ class DB_Helper
      * the somewhat annoying implementation of PEAR::DB to create
      * separate tables to host the ID sequences.
      *
-     * @access  public
      * @return  integer The last inserted ID
      */
     public static function get_last_insert_id()
@@ -115,7 +113,6 @@ class DB_Helper
     /**
      * Returns the escaped version of the given string.
      *
-     * @access  public
      * @param   string $str The string that needs to be escaped
      * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
@@ -134,7 +131,6 @@ class DB_Helper
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.
      *
-     * @access  public
      * @param   string $start_date_field The name of the field the first date is.
      * @param   string $end_date_field The name of the field where the second date is.
      * @return  string The SQL used to compare the 2 dates.

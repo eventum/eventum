@@ -41,7 +41,6 @@ class Filter
      * Method used to check whether the given custom filter is a
      * global one or not.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @return  boolean
      */
@@ -72,7 +71,6 @@ class Filter
      * Method used to check whether the given user is the owner of the custom
      * filter ID.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @param   integer $usr_id The user ID
      * @return  boolean
@@ -104,7 +102,6 @@ class Filter
      * Method used to save the changes made to an existing custom
      * filter, or to create a new custom filter.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
     public function save()
@@ -304,7 +301,6 @@ class Filter
      * Method used to get the filter ID associated with a specific
      * filter title.
      *
-     * @access  public
      * @param   string $cst_title The custom filter title
      * @return  integer The custom filter ID
      */
@@ -333,7 +329,6 @@ class Filter
      * custom filters (filter id => filter title) associated with the
      * current user and the current 'active' project.
      *
-     * @access  public
      * @return  array The full list of custom filters
      */
     public function getAssocList()
@@ -366,7 +361,6 @@ class Filter
      * filters associated with the current user and the current
      * 'active' project.
      *
-     * @access  public
      * @param   boolean $build_url If a URL for this filter should be constructed.
      * @return  array The full list of custom filters
      */
@@ -466,12 +460,11 @@ class Filter
      * Takes the saved search details and information about filters and returns an array of
      * of the saved search information.
      *
-     * @access  private
      * @param   array $details An array of information about the saved search, usually the direct row from the database.
      * @param   array $info An array of information about filters
      * @return  array An array of information about the saved search.
      */
-    public function buildOptions($details, $info)
+    private function buildOptions($details, $info)
     {
         $options = array();
         foreach ($info as $field => $filter) {
@@ -510,7 +503,6 @@ class Filter
      * Method used to get an associative array of the full details of
      * a specific custom filter.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @param   boolean $check_perm Whether to check for the permissions or not
      * @return  array The custom filter details
@@ -546,7 +538,6 @@ class Filter
     /**
      * Method used to remove specific custom filters.
      *
-     * @access  public
      * @return  integer 1 if the removals worked properly, any other value otherwise
      */
     public function remove()
@@ -585,7 +576,6 @@ class Filter
      * Method used to remove all custom filters associated with some
      * specific projects.
      *
-     * @access  public
      * @param   array $ids List of projects to remove from
      * @return  boolean Whether the removal worked properly or not
      */
@@ -754,7 +744,6 @@ class Filter
     /**
      * Returns an array of information about all the different filter fields.
      *
-     * @access  public
      * @return  Array an array of information.
      */
     public function getFiltersInfo()

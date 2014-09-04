@@ -34,7 +34,6 @@ class Mail_Queue
     /**
      * Adds an email to the outgoing mail queue.
      *
-     * @access  public
      * @param   string $recipient The recipient of this email
      * @param   array $headers The list of headers that should be sent with this email
      * @param   string $body The body of the message
@@ -149,7 +148,6 @@ class Mail_Queue
      * to send emails that couldn't be sent before (status = 'error'), or just
      * emails just recently queued (status = 'pending').
      *
-     * @access  public
      * @param   string $status The status of the messages that need to be sent
      * @param   integer $limit The limit of emails that we should send at one time
      * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
@@ -227,7 +225,6 @@ class Mail_Queue
     /**
      * Connects to the SMTP server and sends the queued message.
      *
-     * @access  private
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
@@ -282,7 +279,6 @@ class Mail_Queue
      * Parses the full email message and returns an array of the headers
      * contained in it.
      *
-     * @access  private
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
      * @return  array The list of headers
@@ -298,7 +294,6 @@ class Mail_Queue
     /**
      * Retrieves the list of queued email messages ids, given a status.
      *
-     * @access  private
      * @param   string $status The status of the messages
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
@@ -331,7 +326,6 @@ class Mail_Queue
     /**
      * Retrieves the list of queued email messages ids, given a status, merged together by type
      *
-     * @access  private
      * @param   string $status The status of the messages
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
@@ -372,7 +366,6 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_id.
      *
-     * @access  private
      * @param   integer $maq_id ID of queue entry
      * @return  array The queued email message
      */
@@ -404,7 +397,6 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_ids.
      *
-     * @access  private
      * @param   array $maq_ids IDs of queue entries
      * @return  array The queued email message
      */
@@ -437,7 +429,6 @@ class Mail_Queue
      * Saves a log entry about the attempt, successful or otherwise, to send the
      * queued email message. Also updates maq_status of $maq_id to $status.
      *
-     * @access  private
      * @param   integer $maq_id The queued email message ID
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
@@ -479,7 +470,6 @@ class Mail_Queue
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @access  public
      * @param   integer $issue_is The issue ID
      * @return  array An array of emails from the queue
      */

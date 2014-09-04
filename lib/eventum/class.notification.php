@@ -41,7 +41,6 @@ class Notification
      * Method used to check whether a given email address is subsbribed to
      * email notifications for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $email The email address
      * @return  boolean
@@ -66,7 +65,6 @@ class Notification
      * Method used to get the list of email addresses currently
      * subscribed to a notification type for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @return  array The list of email addresses
@@ -110,7 +108,6 @@ class Notification
      * Method used to build a properly encoded email address that will be
      * used by the email/note routing system.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
@@ -192,7 +189,6 @@ class Notification
      * Method used to check whether the current sender of the email is the
      * mailer daemon responsible for dealing with bounces.
      *
-     * @access  public
      * @param   string $email The email address to check against
      * @return  boolean
      */
@@ -209,7 +205,6 @@ class Notification
      * Method used to check whether the given sender email address is
      * the same as the issue routing email address.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender The address of the sender
      * @return  boolean
@@ -229,7 +224,6 @@ class Notification
     /**
      * Method used to forward the new email to the list of subscribers.
      *
-     * @access  public
      * @param   integer $user_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
      * @param   array $message An array containing the email
@@ -354,7 +348,6 @@ class Notification
     /**
      * Method used to get the details of a given note and issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The note ID
      * @return  array The details of the note / issue
@@ -408,7 +401,6 @@ class Notification
      * Method used to get the details of a given issue and its
      * associated emails.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The list of associated emails
      * @return  array The issue / emails details
@@ -446,7 +438,6 @@ class Notification
     /**
      * Method used to get the details of a given issue and attachment.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $attachment_id The attachment ID
      * @return  array The issue / attachment details
@@ -484,7 +475,6 @@ class Notification
      * Method used to get the list of users / emails that are
      * subscribed for notifications of changes for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @return  array The list of users / emails
@@ -529,7 +519,6 @@ class Notification
      * Method used to send a diff-style notification email to the issue
      * subscribers about updates to its attributes.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $old The old issue details
      * @param   array $new The new issue details
@@ -638,7 +627,6 @@ class Notification
      * Method used to send a diff-style notification email to the issue
      * subscribers about status changes
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $old_status The old issue status
      * @param   array $new_status The new issue status
@@ -686,7 +674,6 @@ class Notification
     /**
      * Method used to send email notifications for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @param   array $ids The list of entries that were changed
@@ -813,7 +800,6 @@ class Notification
     /**
      * Method used to get list of addresses that were email sent to.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array   list of addresse
      */
@@ -839,7 +825,6 @@ class Notification
     /**
      * Method used to format and send the email notifications.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $emails The list of emails
      * @param   string $type The notification type
@@ -966,13 +951,12 @@ class Notification
      * Method used to send an email notification to users that want
      * to be alerted when new issues are created in the system.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array   $exclude_list The list of users NOT to notify.
      * @return  void
      */
-    public function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
+    public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $issue_id = Misc::escapeInteger($issue_id);
@@ -1080,7 +1064,6 @@ class Notification
      * Method used to send an email notification to the sender of an
      * email message that was automatically converted into an issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   string $sender The sender of the email message (and the recipient of this notification)
@@ -1169,14 +1152,13 @@ class Notification
      * set of email messages that were manually converted into an
      * issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The email IDs
      * @param bool|int $customer_id The customer ID
      * @return  array The list of recipient emails
      */
-    public function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = false)
+    public static function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = false)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
@@ -1248,7 +1230,6 @@ class Notification
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
      */
@@ -1331,7 +1312,6 @@ class Notification
      * Method used to send an email notification when the account
      * details of an user is changed.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  void
      */
@@ -1365,7 +1345,6 @@ class Notification
      * Method used to send an email notification when the account
      * password of an user is changed.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
      * @return  void
@@ -1401,7 +1380,6 @@ class Notification
      * Method used to send an email notification when a new user
      * account is created.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
      * @return  void
@@ -1436,7 +1414,6 @@ class Notification
     /**
      * Send an email to all issue assignees
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      * @param   string $type The type of notification to send
      * @param   array $data Any extra data to pass to the template
@@ -1482,7 +1459,6 @@ class Notification
      * Method used to send an email notification when an issue is
      * assigned to an user.
      *
-     * @access  public
      * @param   array $users The list of users
      * @param   integer $issue_id The issue ID
      * @return  void
@@ -1531,7 +1507,6 @@ class Notification
     /**
      * Method used to send the account details of an user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  void
      */
@@ -1561,7 +1536,6 @@ class Notification
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $type The type of subscription
      * @param   integer $min_role Only show subscribers with this role or above
@@ -1676,7 +1650,6 @@ class Notification
      * Method used to get the details of a given email notification
      * subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subcription ID
      * @return  array The details of the subscription
      */
@@ -1707,7 +1680,6 @@ class Notification
      * Method used to get the subscribed actions for a given
      * subscription ID.
      *
-     * @access  public
      * @param   integer $sub_id The subcription ID
      * @return  array The subscribed actions
      */
@@ -1733,7 +1705,6 @@ class Notification
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of subscribers
      */
@@ -1770,7 +1741,6 @@ class Notification
     /**
      * Returns if the specified user is notified in this issue.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $usr_id The user to check.
      * @return  boolean If the specified user is notified in the issue.
@@ -1799,7 +1769,6 @@ class Notification
      * Method used to remove all subscriptions associated with a given
      * set of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
@@ -1828,7 +1797,6 @@ class Notification
      * Method used to remove all rows associated with a set of
      * subscription IDs
      *
-     * @access  public
      * @param   array $items The list of subscription IDs
      * @return  boolean
      */
@@ -1923,7 +1891,6 @@ class Notification
      * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @return  string The email address
      */
@@ -1988,7 +1955,6 @@ class Notification
     /**
      * Method used to get the full list of possible notification actions.
      *
-     * @access  public
      * @return  array All of the possible notification actions
      */
     public function getAllActions()
@@ -2005,13 +1971,12 @@ class Notification
      * Method used to get the full list of default notification
      * actions.
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue the user is being subscribed too
      * @param   string  $email The email address of the user to be subscribed
      * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
-    public function getDefaultActions($issue_id = false, $email = false, $source = false)
+    public static function getDefaultActions($issue_id = false, $email = false, $source = false)
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
@@ -2041,7 +2006,6 @@ class Notification
     /**
      * Method used to subscribe an user to a set of actions in an issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
      * @param   integer $subscriber_usr_id The user ID of the subscriber
@@ -2049,7 +2013,7 @@ class Notification
      * @param   boolean $add_history Whether to add a history entry about this change or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
+    public static function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
@@ -2118,14 +2082,13 @@ class Notification
      * Method used to add a new subscriber manually, by using the
      * email notification interface.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   string $form_email The email address to subscribe
      * @param   array $actions The actions to subcribe to
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
+    public static function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
     {
         $form_email = Mail_Helper::getEmailAddress($form_email);
         if (!is_string($form_email)) {
@@ -2204,7 +2167,6 @@ class Notification
      * Method used to add the subscription type to the given
      * subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @param   string $type The subscription type
      * @return  void
@@ -2226,7 +2188,6 @@ class Notification
     /**
      * Method used to update the details of a given subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @return  integer 1 if the update worked, -1 otherwise
      */

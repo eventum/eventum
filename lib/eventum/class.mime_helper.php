@@ -57,7 +57,6 @@ class Mime_Helper
     /**
      * Method used to get charset from raw email.
      *
-     * @access  public
      * @param   mixed   $input The full body of the message or decoded email.
      * @return  string charset extracted from Content-Type header of email.
      */
@@ -90,7 +89,6 @@ class Mime_Helper
      * Returns the appropriate message body for a given MIME-based decoded
      * structure.
      *
-     * @access  public
      * @param   object $output The parsed message structure
      * @return  string The message body
      * @see     self::decode()
@@ -460,7 +458,6 @@ class Mime_Helper
     /**
      * Method used to encode a given string in the quoted-printable standard.
      *
-     * @access  public
      * @param   string $hdr_value The string to be encoded
      * @param   string $charset The charset of the string
      * @return  string The encoded string
@@ -481,7 +478,6 @@ class Mime_Helper
      * section, this function will split them (at the first
      * blank line) and return them.
      *
-     * @access  public
      * @param   string $input Input to split apart
      * @return  array Contains header and body section
      */
@@ -496,11 +492,10 @@ class Mime_Helper
      * Parse headers given in $input and return
      * as assoc array.
      *
-     * @access  public
      * @param   string $input Headers to parse
      * @return  array Contains parsed headers
      */
-    public function getHeaderNames($input)
+    public static function getHeaderNames($input)
     {
         if ($input === '') {
             return array();
@@ -564,7 +559,6 @@ class Mime_Helper
     /**
      * Method used to check whether a given email message has any attachments.
      *
-     * @access  public
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  boolean
      */
@@ -585,7 +579,6 @@ class Mime_Helper
      * Method used to parse and return the full list of attachments
      * associated with a message.
      *
-     * @access  public
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachments, if any
      */
@@ -602,7 +595,6 @@ class Mime_Helper
      * Method used to parse and return the full list of attachment CIDs
      * associated with a message.
      *
-     * @access  public
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachment CIDs, if any
      */
@@ -693,7 +685,6 @@ class Mime_Helper
      * Method used to get the encoded content of a specific message
      * attachment.
      *
-     * @access  public
      * @param   mixed   $message The full content of the message or parsed message structure.
      * @param   string $filename The filename to look for
      * @param   string $cid The content-id to look for, if any
@@ -719,7 +710,6 @@ class Mime_Helper
     /**
      * Method used to decode the content of a MIME encoded message.
      *
-     * @access  public
      * @param   string $message The full body of the message
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
@@ -841,11 +831,10 @@ class Mime_Helper
      *
      * FIXME: it does not respect charset being used in qp string
      *
-     * @access private
-     * @param  string Input body to decode
+     * @param  string $input Input body to decode
      * @return string Decoded body
      */
-    public function _quotedPrintableDecode($input)
+    private function _quotedPrintableDecode($input)
     {
         // Remove soft line breaks
         $input = preg_replace("/=\r?\n/", '', $input);
@@ -860,10 +849,9 @@ class Mime_Helper
      * Returns the internal list of content types that we do not support as
      * valid attachment types.
      *
-     * @access private
      * @return array The list of content types
      */
-    public function _getInvalidContentTypes()
+    private function _getInvalidContentTypes()
     {
         return array(
             'message/rfc822',
@@ -876,10 +864,9 @@ class Mime_Helper
      * Returns the internal list of attachment dispositions that we do not
      * support as valid attachment types.
      *
-     * @access private
      * @return array The list of valid dispositions
      */
-    public function _getValidDispositions()
+    private function _getValidDispositions()
     {
         return array(
             'attachment',
@@ -890,7 +877,6 @@ class Mime_Helper
     /**
      * Splits the full email into headers and body
      *
-     * @access  public
      * @param   string $message The full email message
      * @param   boolean $unfold If headers should be unfolded
      * @return  array An array containing the headers and body

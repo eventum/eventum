@@ -302,7 +302,6 @@ abstract class CRM
      * Returns the customer backend class file associated with the given
      * project ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  string The customer backend class filename
      */
@@ -337,7 +336,6 @@ abstract class CRM
      * Includes the appropriate customer backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @access  private
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -557,7 +555,6 @@ abstract class CRM
     /**
      * Returns any notes for for the specified customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array An array containg the note details.
      */

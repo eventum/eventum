@@ -45,7 +45,6 @@ class Display_Column
      * This method will remove columns that should not be displayed, due to
      * lack of customer integration or insufficient role.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
@@ -107,7 +106,6 @@ class Display_Column
      * Returns the columns that have been selected to be displayed on the specified page. This list
      * contains all selected columns, even if they won't actually be displayed.
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
@@ -152,7 +150,6 @@ class Display_Column
     /**
      * Returns the info of the column
      *
-     * @access  public
      * @param   string $page The name of the page.
      * @param   string $column The name of the column
      * @return  string Info on the column
@@ -167,7 +164,6 @@ class Display_Column
     /**
      * Returns all columns available for a page
      *
-     * @access  public
      * @param   string $page The name of the page
      * @return  array An array of columns
      */
@@ -248,7 +244,6 @@ class Display_Column
     /**
      * Saves settings on which columns should be displayed.
      *
-     * @access  public
      * @return  integer 1 if settings were saved successfully, -1 if there was an error.
      */
     public function save()
