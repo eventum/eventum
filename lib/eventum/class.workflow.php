@@ -504,7 +504,7 @@ class Workflow
      * @param   array   $extra Extra information, contains different info depending on where it is called from
      * @return  array   An array of email addresses to be notified.
      */
-    public function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
+    public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return array();
@@ -618,7 +618,7 @@ class Workflow
      * @param   integer $prj_id The project ID.
      * @return  boolean
      */
-    public function shouldAutoAddToNotificationList($prj_id)
+    public static function shouldAutoAddToNotificationList($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -771,7 +771,7 @@ class Workflow
     /**
      * Returns if a user can update an issue. Return null to use default rules.
      */
-    public function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    public static function canUpdateIssue($prj_id, $issue_id, $usr_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;

@@ -45,7 +45,7 @@ class Issue
      * @param   boolean $check_project If we should check that this issue is in the current project
      * @return  boolean
      */
-    public function exists($issue_id, $check_project = true)
+    public static function exists($issue_id, $check_project = true)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -116,7 +116,7 @@ class Issue
      * @param   boolean $display_customer_fields Whether to include any customer related fields or not
      * @return  array The list of available date fields
      */
-    public function getDateFieldsAssocList($display_customer_fields = false)
+    public static function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = array(
             'iss_created_date'              => 'Created Date',
@@ -139,7 +139,7 @@ class Issue
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    public function getAssocListByProject($prj_id)
+    public static function getAssocListByProject($prj_id)
     {
         $stmt = "SELECT
                     iss_id,
@@ -200,7 +200,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function recordLastCustomerAction($issue_id)
+    public static function recordLastCustomerAction($issue_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -557,7 +557,7 @@ class Issue
      * @param   integer $pri_id The ID of the priority to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setPriority($issue_id, $pri_id)
+    public static function setPriority($issue_id, $pri_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $pri_id = Misc::escapeInteger($pri_id);
@@ -752,7 +752,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  integer The category
      */
-    public function getCategory($issue_id)
+    public static function getCategory($issue_id)
     {
         $sql = "SELECT
                     iss_prc_id
@@ -876,7 +876,7 @@ class Issue
      * @param   string $type The type of update that was made (optional)
      * @return  boolean
      */
-    public function markAsUpdated($issue_id, $type = false)
+    public static function markAsUpdated($issue_id, $type = false)
     {
         $public = array("staff response", "customer action", "file uploaded", "user response");
         $stmt = "UPDATE
@@ -1332,7 +1332,7 @@ class Issue
      * @param   array $ids The list of projects to look for
      * @return  boolean
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
@@ -2006,9 +2006,8 @@ class Issue
      * @param   string $customer_id
      * @param   string $contact_id
      * @param   string $contract_id
-     * @return  void
      */
-    public function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
+    public static function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
                              $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
     {
         $exclude_list = array();
@@ -3463,7 +3462,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer Indicates what the current state of quarantine is.
      */
-    public function getQuarantineInfo($issue_id)
+    public static function getQuarantineInfo($issue_id)
     {
         $stmt = "SELECT
                     iqu_status,
@@ -3610,7 +3609,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer The associated group ID
      */
-    public function getGroupID($issue_id)
+    public static function getGroupID($issue_id)
     {
         $stmt = "SELECT
                     iss_grp_id
@@ -3658,7 +3657,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  boolean If the issue is private or not
      */
-    public function isPrivate($issue_id)
+    public static function isPrivate($issue_id)
     {
         static $returns;
 
@@ -3736,7 +3735,7 @@ class Issue
      * @param   string $msg_id The Message ID
      * @return  integer The ID of the issue
      */
-    public function getIssueByRootMessageID($msg_id)
+    public static function getIssueByRootMessageID($msg_id)
     {
         static $returns;
 
@@ -3770,7 +3769,7 @@ class Issue
      * @param   integer $issue_id
      * @param   array   $assignees
      */
-    public function setAssignees($issue_id, $assignees)
+    public static function setAssignees($issue_id, $assignees)
     {
         if (!is_array($assignees)) {
             $assignees = array();

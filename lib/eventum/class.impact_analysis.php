@@ -208,7 +208,7 @@ class Impact_Analysis
      * @param   array $ids The list of issue IDs
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM

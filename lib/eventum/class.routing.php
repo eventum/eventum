@@ -235,7 +235,7 @@ class Routing
      * @param   string $full_message The full note
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    public function route_notes($full_message)
+    public static function route_notes($full_message)
     {
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
@@ -362,7 +362,7 @@ class Routing
      * @param   string $full_message The complete draft.
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    public function route_drafts($full_message)
+    public static function route_drafts($full_message)
     {
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);

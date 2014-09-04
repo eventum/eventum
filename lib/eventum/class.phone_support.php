@@ -205,7 +205,7 @@ class Phone_Support
      * @param   integer $phs_id The phone support entry ID
      * @return  array The phone support entry details
      */
-    public function getDetails($phs_id)
+    public static function getDetails($phs_id)
     {
         $stmt = "SELECT
                     *
@@ -418,7 +418,7 @@ class Phone_Support
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM

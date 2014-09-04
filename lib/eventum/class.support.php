@@ -361,7 +361,7 @@ class Support
      * @param   array $ids The list of support email accounts
      * @return  boolean
      */
-    public function removeEmailByAccounts($ids)
+    public static function removeEmailByAccounts($ids)
     {
         if (count($ids) < 1) {
             return true;
@@ -1053,7 +1053,7 @@ class Support
      * @param   boolean $closing If this email comes from closing the issue
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function insertEmail($row, &$structure, &$sup_id, $closing = false)
+    public static function insertEmail($row, &$structure, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
@@ -1435,7 +1435,7 @@ class Support
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  void
      */
-    public function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
+    public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
@@ -1476,7 +1476,7 @@ class Support
 
             $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
             foreach ($attachments as &$attachment) {
-                $attach = WorkFlow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
+                $attach = Workflow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
                 if ($attach) {
                     Attachment::addFile($attachment_id, $attachment['filename'], $attachment['filetype'], $attachment['blob']);
                 }
@@ -1604,7 +1604,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details
      */
-    public function getEmailDetails($ema_id, $sup_id)
+    public static function getEmailDetails($ema_id, $sup_id)
     {
         // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = "SELECT
@@ -1739,7 +1739,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  string The email message
      */
-    public function getEmail($sup_id)
+    public static function getEmail($sup_id)
     {
         $stmt = "SELECT
                     seb_body
@@ -1953,7 +1953,7 @@ class Support
      * @param   array $attachments Array with attachment information
      * @return  string The full email
      */
-    public function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
+    public static function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_Helper();
@@ -2084,7 +2084,7 @@ class Support
      *
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public function sendEmail($parent_sup_id = false)
+    public static function sendEmail($parent_sup_id = false)
     {
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {
@@ -2545,7 +2545,7 @@ class Support
      *
      *
      */
-    public function blockEmailIfNeeded($email)
+    public static function blockEmailIfNeeded($email)
     {
         if (empty($email['issue_id'])) {
             return false;

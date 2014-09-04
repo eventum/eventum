@@ -525,7 +525,7 @@ abstract class CRM
      * @param   integer $customer_id The customer ID
      * @return  array The list of account managers
      */
-    public function getAccountManagers($prj_id, $customer_id)
+    public static function getAccountManagers($prj_id, $customer_id)
     {
         $stmt = "SELECT
                     cam_usr_id,

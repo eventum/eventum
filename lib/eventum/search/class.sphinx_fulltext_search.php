@@ -163,7 +163,8 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $note = Note::getDetails($match['match_id']);
                     $documents = array($note['not_title'] . "\n" . $note['not_note']);
                     $res = $this->sphinx->BuildExcerpts($documents, 'note_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['note'][Note::getNoteSequenceNumber($issue_id, $match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    $note_seq = Note::getNoteSequenceNumber($issue_id, $match['match_id']);
+                    $excerpt['note'][$note_seq] = self::cleanUpExcerpt($res[0]);
                 }
             }
 

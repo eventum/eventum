@@ -46,7 +46,7 @@ class Status
      * @param   array $sta_ids The list of status IDs
      * @return  array The label and date field
      */
-    public function getProjectStatusCustomization($prj_id, $sta_ids)
+    public static function getProjectStatusCustomization($prj_id, $sta_ids)
     {
         $sta_ids = array_unique($sta_ids);
         $stmt = "SELECT
@@ -385,7 +385,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  void
      */
-    public function addProjectAssociation($sta_id, $prj_id)
+    public static function addProjectAssociation($sta_id, $prj_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
@@ -407,7 +407,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($sta_id, $prj_id=false)
+    public static function removeProjectAssociations($sta_id, $prj_id=false)
     {
         if (!is_array($sta_id)) {
             $sta_id = array($sta_id);
@@ -436,7 +436,7 @@ class Status
      * @param   integer $sta_id The custom status ID
      * @return  array The status details
      */
-    public function getDetails($sta_id)
+    public static function getDetails($sta_id)
     {
         $stmt = "SELECT
                     *
@@ -552,7 +552,7 @@ class Status
      * @param   integer $sta_id The status ID
      * @return  string The status title
      */
-    public function getStatusTitle($sta_id)
+    public static function getStatusTitle($sta_id)
     {
         $stmt = "SELECT
                     sta_title
@@ -652,7 +652,7 @@ class Status
      * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */
-    public function getAssocStatusList($prj_id, $show_closed = true)
+    public static function getAssocStatusList($prj_id, $show_closed = true)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);

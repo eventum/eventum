@@ -44,7 +44,7 @@ class Mail_Queue
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return  true, or a PEAR_Error object
      */
-    public function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    public static function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
         Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 

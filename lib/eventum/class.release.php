@@ -44,7 +44,7 @@ class Release
      * @param   integer $pre_id The release ID
      * @return  boolean
      */
-    public function isAssignable($pre_id)
+    public static function isAssignable($pre_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -73,7 +73,7 @@ class Release
      * @param   integer $pre_id The release ID
      * @return  array The details of the release
      */
-    public function getDetails($pre_id)
+    public static function getDetails($pre_id)
     {
         $stmt = "SELECT
                     *,
@@ -99,7 +99,7 @@ class Release
      * @param   integer $pre_id The release ID
      * @return  string The title of the release
      */
-    public function getTitle($pre_id)
+    public static function getTitle($pre_id)
     {
         $stmt = "SELECT
                     pre_title
@@ -124,7 +124,7 @@ class Release
      * @param   array $ids The list of projects
      * @return  boolean
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM

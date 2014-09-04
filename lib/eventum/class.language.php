@@ -130,7 +130,7 @@ class Language
      *
      * @return  void
      */
-    public function setPreference()
+    public static function setPreference()
     {
         $usr_id = Auth::getUserID();
         $lang = null;

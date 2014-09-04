@@ -68,7 +68,7 @@ class Mail_Helper
      * @param   string $subject The subject to be formatted
      * @return  string The formatted subject
      */
-    public function formatSubject($issue_id, $subject)
+    public static function formatSubject($issue_id, $subject)
     {
         return "[#$issue_id] " . trim(preg_replace("/\[#$issue_id\] {0,1}/", '', $subject));
     }
@@ -107,7 +107,7 @@ class Mail_Helper
      *
      * @return  string The canned explanation
      */
-    public function getCannedBlockedMsgExplanation()
+    public static function getCannedBlockedMsgExplanation()
     {
         $msg = ev_gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
         $msg .= ev_gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
@@ -123,7 +123,7 @@ class Mail_Helper
      * @param   array $headers The list of headers
      * @return  boolean
      */
-    public function isVacationAutoResponder($headers)
+    public static function isVacationAutoResponder($headers)
     {
         // loop through the headers and make sure they are all lowercase.
         foreach ($headers as $key => $value) {
@@ -144,7 +144,7 @@ class Mail_Helper
      * @param   string $str The string containing email addresses
      * @return  array The list of email addresses
      */
-    public function getEmailAddresses($str)
+    public static function getEmailAddresses($str)
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
@@ -166,7 +166,7 @@ class Mail_Helper
      * @param   string $address The email address value
      * @return  array The address information
      */
-    public function fixAddressQuoting($address)
+    public static function fixAddressQuoting($address)
     {
         // split multiple addresses if needed
         $addresses = self::splitAddresses($address);
@@ -210,7 +210,7 @@ class Mail_Helper
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
      */
-    public function getAddressInfo($address, $multiple = false)
+    public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
@@ -264,7 +264,7 @@ class Mail_Helper
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  mixed The name or an array of names if multiple is true
      */
-    public function getName($address, $multiple = false)
+    public static function getName($address, $multiple = false)
     {
         $info = self::getAddressInfo($address, true);
         if (PEAR::isError($info)) {
@@ -296,7 +296,7 @@ class Mail_Helper
      * @param   string $email The email of the recipient
      * @return  string
      */
-    public function getFormattedName($name, $email)
+    public static function getFormattedName($name, $email)
     {
         return $name . " <" . $email . ">";
     }
@@ -307,7 +307,7 @@ class Mail_Helper
      *
      * @return  array
      */
-    public function getSMTPSettings()
+    public static function getSMTPSettings()
     {
         $settings = Setup::load();
         settype($settings['smtp']['auth'], 'boolean');
@@ -449,10 +449,10 @@ class Mail_Helper
      * @param   integer $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
-     * @param   headers $headers The headers of the message
+     * @param   array $headers The headers of the message
      * @return  string The body of the message with the warning message, if appropriate
      */
-    public function addWarningMessage($issue_id, $to, $body, $headers)
+    public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
         $setup = Setup::load();
         if ((@$setup['email_routing']['status'] == 'enabled') &&
@@ -495,7 +495,7 @@ class Mail_Helper
      * @param   array $headers An array of headers for this email
      * @return  array The headers of the email, without the stripped ones
      */
-    public function stripHeaders($headers)
+    public static function stripHeaders($headers)
     {
         $ignore_headers = array(
             'to',
@@ -598,7 +598,7 @@ class Mail_Helper
      *
      * @param   array $email The email to save.
      */
-    public function saveOutgoingEmailCopy(&$email)
+    public static function saveOutgoingEmailCopy(&$email)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::load();
@@ -677,7 +677,7 @@ class Mail_Helper
      *               elements: Any From: address found in the headers,
      *               and the plain text version of the headers.
      */
-    public function prepareHeaders($headers)
+    public static function prepareHeaders($headers)
     {
         $params = self::getSMTPSettings();
         $mail =& Mail::factory('smtp', $params);
@@ -694,7 +694,7 @@ class Mail_Helper
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  array An array of specialized headers
      */
-    public function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
+    public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
     {
 
         $new_headers = array();
@@ -778,7 +778,7 @@ class Mail_Helper
      *
      * @return  string The Message-ID header
      */
-    public function generateMessageID()
+    public static function generateMessageID()
     {
         list($usec, $sec) = explode(" ", microtime());
         $time = ((float) $usec + (float) $sec);
@@ -796,7 +796,7 @@ class Mail_Helper
      * @param   string $text_headers The full headers of the reply
      * @return  string The message-id of the original email
      */
-    public function getReferenceMessageID($text_headers)
+    public static function getReferenceMessageID($text_headers)
     {
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             return trim($matches[1]);
@@ -817,7 +817,7 @@ class Mail_Helper
      * @param   string $text_headers The full headers of the message
      * @return  array An array of message-ids
      */
-    public function getAllReferences($text_headers)
+    public static function getAllReferences($text_headers)
     {
         $references = array();
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
@@ -841,7 +841,7 @@ class Mail_Helper
      * Checks to make sure In-Reply-To and References headers are correct.
      *
      */
-    public function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
+    public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
     {
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
 
@@ -903,7 +903,7 @@ class Mail_Helper
      * @param   string $type If this is a note or an email
      * @return  array An array of message IDs
      */
-    public function getReferences($issue_id, $msg_id, $type)
+    public static function getReferences($issue_id, $msg_id, $type)
     {
         $references = array();
         self::_getReferences($msg_id, $type, $references);
@@ -934,7 +934,7 @@ class Mail_Helper
         }
     }
 
-    public function getBaseThreadingHeaders($issue_id)
+    public static function getBaseThreadingHeaders($issue_id)
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
 
@@ -951,7 +951,7 @@ class Mail_Helper
      * @param   string $input The headers to unfold
      * @return  string The unfolded headers
      */
-    public function unfold($input)
+    public static function unfold($input)
     {
         $input = preg_replace("/\r?\n/", "\r\n", $input);
         $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
@@ -965,7 +965,7 @@ class Mail_Helper
      * @param   string $input The headers to fold
      * @return  string The folded headers
      */
-    public function fold($input)
+    public static function fold($input)
     {
         return wordwrap($input, 70, "\r\n ");
     }

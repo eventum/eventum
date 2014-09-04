@@ -49,7 +49,7 @@ class Misc
      * @param   array $bar The second array
      * @return  array The different values
      */
-    public function arrayDiff($foo, $bar)
+    public static function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
             $bar = array();
@@ -108,7 +108,7 @@ class Misc
      *
      * @return  string The installation title
      */
-    public function getToolCaption()
+    public static function getToolCaption()
     {
         $setup = Setup::load();
 
@@ -226,7 +226,7 @@ class Misc
      * @param   string $str The string to be escaped
      * @return  string The escaped string
      */
-    public function escapeWhitespace($str)
+    public static function escapeWhitespace($str)
     {
         $str = str_replace("\n", '\n', $str);
         $str = str_replace("\r", '\r', $str);
@@ -275,7 +275,7 @@ class Misc
      * @param   integer $bytes The filesize to format
      * @return  string The formatted filesize
      */
-    public function formatFileSize($bytes)
+    public static function formatFileSize($bytes)
     {
         $kb = 1024;
         $mb = 1024 * 1024;
@@ -454,7 +454,7 @@ class Misc
      * @param   string $value The value for that field
      * @return  string The prepared boolean search string
      */
-    public function prepareBooleanSearch($field, $value)
+    public static function prepareBooleanSearch($field, $value)
     {
         $boolean = array();
         $pieces = explode(" ", $value);
@@ -726,7 +726,7 @@ class Misc
      * @param   boolean $value The boolean value
      * @return  string Either 'Yes' or 'No'.
      */
-    public function getBooleanDisplayValue($value)
+    public static function getBooleanDisplayValue($value)
     {
         if ($value == true) {
             return ev_gettext('Yes');
@@ -735,7 +735,7 @@ class Misc
         }
     }
 
-    public function removeNewLines($str, $no_space = false)
+    public static function removeNewLines($str, $no_space = false)
     {
         if ($no_space) {
             $replacement = '';
@@ -746,7 +746,7 @@ class Misc
         return str_replace(array("\n", "\r"), $replacement, $str);
     }
 
-    public function htmlentities($var)
+    public static function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }

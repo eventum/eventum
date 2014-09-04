@@ -1495,7 +1495,7 @@ class User
      * @param   integer $usr_id The id of the user.
      * @param   integer $grp_id The id of the group.
      */
-    public function setGroupID($usr_id, $grp_id)
+    public static function setGroupID($usr_id, $grp_id)
     {
         if ($grp_id == false) {
             $grp_id = 'null';

@@ -47,7 +47,7 @@ class Reminder
      *
      * @return  boolean
      */
-    public function isDebug()
+    public static function isDebug()
     {
         return self::$debug;
     }
@@ -1035,7 +1035,7 @@ class Reminder
      *
      * @return  array The list of alert email addresses
      */
-    public function _getReminderAlertAddresses()
+    public static function _getReminderAlertAddresses()
     {
         $emails = array();
         $setup = Setup::load();

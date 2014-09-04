@@ -45,7 +45,7 @@ class Notification
      * @param   string $email The email address
      * @return  boolean
      */
-    public function isSubscribedToEmails($issue_id, $email)
+    public static function isSubscribedToEmails($issue_id, $email)
     {
         $email = strtolower(Mail_Helper::getEmailAddress($email));
         if ($email == '@') {
@@ -69,7 +69,7 @@ class Notification
      * @param   string $type The notification type
      * @return  array The list of email addresses
      */
-    public function getSubscribedEmails($issue_id, $type = false)
+    public static function getSubscribedEmails($issue_id, $type = false)
     {
         $stmt = "SELECT
                     IF(usr_id <> 0, usr_email, sub_email) AS email
@@ -113,7 +113,7 @@ class Notification
      * @param   string $type Whether this is a note or email routing message
      * @return  string The properly encoded email address
      */
-    public function getFixedFromHeader($issue_id, $sender, $type)
+    public static function getFixedFromHeader($issue_id, $sender, $type)
     {
         $setup = Setup::load();
         if ($type == 'issue') {
@@ -192,7 +192,7 @@ class Notification
      * @param   string $email The email address to check against
      * @return  boolean
      */
-    public function isBounceMessage($email)
+    public static function isBounceMessage($email)
     {
         if (strtolower(substr($email, 0, 14)) == 'mailer-daemon@') {
             return true;
@@ -209,7 +209,7 @@ class Notification
      * @param   string $sender The address of the sender
      * @return  boolean
      */
-    public function isIssueRoutingSender($issue_id, $sender)
+    public static function isIssueRoutingSender($issue_id, $sender)
     {
         $check = self::getFixedFromHeader($issue_id, $sender, 'issue');
         $check_email = strtolower(Mail_Helper::getEmailAddress($check));
@@ -233,7 +233,7 @@ class Notification
      * @param   integer $sup_id the ID of this email
      * @return  void
      */
-    public function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
+    public static function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -523,7 +523,7 @@ class Notification
      * @param   array $old The old issue details
      * @param   array $new The new issue details
      */
-    public function notifyIssueUpdated($issue_id, $old, $new)
+    public static function notifyIssueUpdated($issue_id, $old, $new)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $diffs = array();
@@ -631,7 +631,7 @@ class Notification
      * @param   array $old_status The old issue status
      * @param   array $new_status The new issue status
      */
-    public function notifyStatusChange($issue_id, $old_status, $new_status)
+    public static function notifyStatusChange($issue_id, $old_status, $new_status)
     {
         $diffs = array();
         if ($old_status != $new_status) {
@@ -680,7 +680,7 @@ class Notification
      * @param   integer $internal_only Whether the notification should only be sent to internal users or not
      * @return  void
      */
-    public function notify($issue_id, $type, $ids = false, $internal_only = false, $extra_recipients = false)
+    public static function notify($issue_id, $type, $ids = false, $internal_only = false, $extra_recipients = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         if ($extra_recipients) {
@@ -1315,7 +1315,7 @@ class Notification
      * @param   integer $usr_id The user ID
      * @return  void
      */
-    public function notifyUserAccount($usr_id)
+    public static function notifyUserAccount($usr_id)
     {
         $info = User::getDetails($usr_id);
         $info["projects"] = Project::getAssocList($usr_id, true, true);
@@ -1349,7 +1349,7 @@ class Notification
      * @param   string $password The user' password
      * @return  void
      */
-    public function notifyUserPassword($usr_id, $password)
+    public static function notifyUserPassword($usr_id, $password)
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
@@ -1384,7 +1384,7 @@ class Notification
      * @param   string $password The user' password
      * @return  void
      */
-    public function notifyNewUser($usr_id, $password)
+    public static function notifyNewUser($usr_id, $password)
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
@@ -1463,7 +1463,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @return  void
      */
-    public function notifyNewAssignment($users, $issue_id)
+    public static function notifyNewAssignment($users, $issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
@@ -1772,7 +1772,7 @@ class Notification
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
@@ -1957,7 +1957,7 @@ class Notification
      *
      * @return  array All of the possible notification actions
      */
-    public function getAllActions()
+    public static function getAllActions()
     {
         return array(
             'updated',

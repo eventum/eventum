@@ -51,7 +51,7 @@ class Time_Tracking
      * @param   string $ttc_title The time tracking category title
      * @return  integer The time tracking category ID
      */
-    public function getCategoryID($prj_id, $ttc_title = '')
+    public static function getCategoryID($prj_id, $ttc_title = '')
     {
         // LEGACY: handle swapped params, i.e one parameter call where
         // $ttc_title was only arg. This is not needed by Eventum Core, but
@@ -281,7 +281,7 @@ class Time_Tracking
      *
      * @return  array The list of categories
      */
-    public function getAssocCategories($prj_id)
+    public static function getAssocCategories($prj_id)
     {
         $stmt = "SELECT
                     ttc_id,
@@ -308,7 +308,7 @@ class Time_Tracking
      * @param   array $result The result set
      * @return  void
      */
-    public function getTimeSpentByIssues(&$result)
+    public static function getTimeSpentByIssues(&$result)
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
@@ -433,7 +433,7 @@ class Time_Tracking
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -457,7 +457,7 @@ class Time_Tracking
      * @param   integer $usr_id The user ID of the person trying to remove this entry
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function removeEntry($time_id, $usr_id)
+    public static function removeEntry($time_id, $usr_id)
     {
         $time_id = Misc::escapeInteger($time_id);
         $stmt = "SELECT
@@ -496,7 +496,7 @@ class Time_Tracking
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function insertEntry()
+    public static function insertEntry()
     {
         if (!empty($_POST["date"])) {
             // format the date from the form

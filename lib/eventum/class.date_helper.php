@@ -59,7 +59,7 @@ class Date_Helper
      * @param   integer $hour The hour number
      * @return  boolean
      */
-    public function isAM($hour)
+    public static function isAM($hour)
     {
         if (($hour >= 0) && ($hour <= 11)) {
             return true;
@@ -74,7 +74,7 @@ class Date_Helper
      * @param   integer $hour The hour number
      * @return  boolean
      */
-    public function isPM($hour)
+    public static function isPM($hour)
     {
         if (($hour >= 12) && ($hour <= 23)) {
             return true;
@@ -155,7 +155,7 @@ class Date_Helper
      * @param   integer $old_ts The old UNIX timestamp
      * @return  string The formatted difference in time
      */
-    public function getFormattedDateDiff($now_ts, $old_ts)
+    public static function getFormattedDateDiff($now_ts, $old_ts)
     {
         $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf("%d", round($value, 1)) . "d";
@@ -291,7 +291,7 @@ class Date_Helper
      * @param   boolean $convert If the timestamp should be converted to the preferred timezone
      * @return  string
      */
-    public function getSimpleDate($timestamp, $convert = true)
+    public static function getSimpleDate($timestamp, $convert = true)
     {
         if (empty($timestamp)) {
             return '';
@@ -343,7 +343,7 @@ class Date_Helper
      *
      * @return  integer 0 - Sunday, 1 - Monday
      */
-    public function getDefaultWeekday()
+    public static function getDefaultWeekday()
     {
         return APP_DEFAULT_WEEKDAY;
     }
@@ -355,7 +355,7 @@ class Date_Helper
      * @param   string $date The date in use timezone
      * @return  string The date in the GMT timezone
      */
-    public function convertDateGMT($date)
+    public static function convertDateGMT($date)
     {
         $dt = new Date($date);
         $dt->setTZbyID(self::getPreferredTimezone());

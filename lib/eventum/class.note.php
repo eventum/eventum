@@ -88,7 +88,7 @@ class Note
      * @param   integer $note_id The note ID
      * @return  array The note details
      */
-    public function getDetails($note_id)
+    public static function getDetails($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -137,7 +137,7 @@ class Note
      * as a valid reference number.  It is simply a sequence, starting with the
      * first note created as #1, and each increasing by 1 there after.
      */
-    public function getNoteSequenceNumber($issue_id, $note_id)
+    public static function getNoteSequenceNumber($issue_id, $note_id)
     {
         static $issue_note_numbers;
 
@@ -284,7 +284,7 @@ class Note
      *
      * @param   string $message The full body of the note
      */
-    public function saveRoutedNote($message)
+    public static function saveRoutedNote($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -308,7 +308,7 @@ class Note
      * @param   boolean $send_notification Whether to send a notification about this note or not
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
-    public function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
+    public static function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
@@ -423,7 +423,7 @@ class Note
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
@@ -690,7 +690,7 @@ class Note
      * @param   integer $note_id The note ID
      * @return  boolean
      */
-    public function setAttachmentFlag($note_id)
+    public static function setAttachmentFlag($note_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
@@ -740,7 +740,7 @@ class Note
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
-    public function getIssueByMessageID($message_id)
+    public static function getIssueByMessageID($message_id)
     {
         $stmt = "SELECT
                     not_iss_id
@@ -796,7 +796,7 @@ class Note
      * @param   string $message_id The message ID
      * @return  integer The note ID
      */
-    public function getIDByMessageID($message_id)
+    public static function getIDByMessageID($message_id)
     {
         $stmt = "SELECT
                     not_id
@@ -825,7 +825,7 @@ class Note
      * @param   integer $id The ID
      * @return  string The Message-ID
      */
-    public function getMessageIDbyID($id)
+    public static function getMessageIDbyID($id)
     {
         $stmt = "SELECT
                     not_message_id
@@ -853,7 +853,7 @@ class Note
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
-    public function exists($message_id)
+    public static function exists($message_id)
     {
         $sql = "SELECT
                     count(*)

@@ -36,7 +36,7 @@ class Draft
      *
      * @param   string $message The full body of the draft
      */
-    public function saveRoutedMessage($message)
+    public static function saveRoutedMessage($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -62,7 +62,7 @@ class Draft
      * @param   boolean $add_history_entry Whether to add a history entry automatically or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = false, $unknown_user = false, $add_history_entry = true)
+    public static function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = false, $unknown_user = false, $add_history_entry = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $parent_id = Misc::escapeInteger($parent_id);

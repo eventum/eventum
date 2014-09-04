@@ -45,7 +45,7 @@ class History
      * @param   string $new_value The new value for a specific issue parameter
      * @return  string The formatted string
      */
-    public function formatChanges($old_value, $new_value)
+    public static function formatChanges($old_value, $new_value)
     {
         if (empty($old_value)) {
             return 'no value set -> ' . $new_value;
@@ -127,7 +127,8 @@ class History
 
         foreach ($res as &$row) {
             $row["his_created_date"] = Date_Helper::getFormattedDate($row["his_created_date"]);
-            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"])));
+            $t = Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"]));
+            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), $t);
         }
 
         return $res;
@@ -140,7 +141,7 @@ class History
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
@@ -379,7 +380,7 @@ class History
      * @param   integer $issue_id The ID of the issue
      * @return  integer usr_id
      */
-    public function getIssueCloser($issue_id)
+    public static function getIssueCloser($issue_id)
     {
         $sql = "SELECT
                     his_usr_id

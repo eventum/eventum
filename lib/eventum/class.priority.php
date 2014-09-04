@@ -284,7 +284,7 @@ class Priority
      * @param   integer $pri_id The priority ID
      * @return  string The priority title
      */
-    public function getTitle($pri_id)
+    public static function getTitle($pri_id)
     {
         $stmt = "SELECT
                     pri_title
@@ -309,7 +309,7 @@ class Priority
      * @param   integer $prj_id The project ID
      * @return  array The list of priorities
      */
-    public function getAssocList($prj_id)
+    public static function getAssocList($prj_id)
     {
         static $list;
 

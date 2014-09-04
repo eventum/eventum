@@ -62,7 +62,7 @@ class Validation
      * @param   string $str The email address to check against
      * @return  boolean
      */
-    public function isEmail($str)
+    public static function isEmail($str)
     {
         $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',

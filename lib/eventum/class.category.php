@@ -68,7 +68,7 @@ class Category
      * @param   array $ids The project IDs to be removed
      * @return  boolean Whether the removal worked or not
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -201,7 +201,7 @@ class Category
      * @param   integer $prj_id The project ID
      * @return  array The associative array of categories
      */
-    public function getAssocList($prj_id)
+    public static function getAssocList($prj_id)
     {
         static $list;
 
@@ -236,7 +236,7 @@ class Category
      * @param   integer $prc_id The category ID
      * @return  string The category title
      */
-    public function getTitle($prc_id)
+    public static function getTitle($prc_id)
     {
         $stmt = "SELECT
                     prc_title

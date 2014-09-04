@@ -45,7 +45,7 @@ class Resolution
      * @param   integer $res_id The resolution ID
      * @return  string The title of the resolution
      */
-    public function getTitle($res_id)
+    public static function getTitle($res_id)
     {
         $stmt = "SELECT
                     res_title

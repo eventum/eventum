@@ -209,7 +209,7 @@ class Group
      * @param   array $projects An array of projects to remove from all groups.
      * @return  integer 1 if successful, -1 otherwise
      */
-    public function disassociateProjects($projects)
+    public static function disassociateProjects($projects)
     {
         // delete all current associations
         $stmt = "DELETE FROM
@@ -232,7 +232,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of group information
      */
-    public function getDetails($grp_id)
+    public static function getDetails($grp_id)
     {
         static $returns;
 

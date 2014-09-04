@@ -146,7 +146,7 @@ class Reminder_Condition
      * @param   integer $action_id The reminder action ID
      * @return  array The list of reminder conditions
      */
-    public function getList($action_id)
+    public static function getList($action_id)
     {
         $stmt = "SELECT
                     *
@@ -179,7 +179,7 @@ class Reminder_Condition
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of reminder conditions
      */
-    public function getAdminList($rma_id)
+    public static function getAdminList($rma_id)
     {
         $stmt = "SELECT
                     rlc_id,
@@ -251,7 +251,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  string The sql_field of the reminder field
      */
-    public function getSQLField($field_id)
+    public static function getSQLField($field_id)
     {
         $stmt = "SELECT
                     rmf_sql_field

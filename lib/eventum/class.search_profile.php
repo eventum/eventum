@@ -66,7 +66,7 @@ class Search_Profile
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  array The user's search profile
      */
-    public function getProfile($usr_id, $prj_id, $type)
+    public static function getProfile($usr_id, $prj_id, $type)
     {
         static $returns;
 
@@ -141,7 +141,7 @@ class Search_Profile
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    public function save($usr_id, $prj_id, $type, $profile)
+    public static function save($usr_id, $prj_id, $type, $profile)
     {
         if (!self::_exists($usr_id, $prj_id, $type)) {
             return self::_insert($usr_id, $prj_id, $type, $profile);

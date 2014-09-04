@@ -373,7 +373,7 @@ class Auth
      * @param   string $login The email address to check for
      * @return  boolean
      */
-    public function userExists($login)
+    public static function userExists($login)
     {
         if (empty($login)) {
             return false;
@@ -409,7 +409,7 @@ class Auth
      * @param   boolean $send_notification Whether to send the notification email or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
+    public static function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
     {
         if ($password != $password_confirm) {
             return -2;
@@ -579,7 +579,7 @@ class Auth
      * @param   integer $usr_id The ID of the user.
      * @param   bool|int $prj_id The ID of the project.
      */
-    public function createFakeCookie($usr_id, $prj_id = false)
+    public static function createFakeCookie($usr_id, $prj_id = false)
     {
         $user_details = User::getDetails($usr_id);
 

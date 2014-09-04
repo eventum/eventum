@@ -44,7 +44,7 @@ class Pager
      * @param   string $stmt The SQL statement
      * @return  int The total number of rows
      */
-    public function getTotalRows($stmt)
+    public static function getTotalRows($stmt)
     {
         $stmt = str_replace("\n", "", $stmt);
         $stmt = str_replace("\r", "", $stmt);

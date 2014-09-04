@@ -580,7 +580,7 @@ class Filter
      * @param   array $ids List of projects to remove from
      * @return  boolean Whether the removal worked properly or not
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM

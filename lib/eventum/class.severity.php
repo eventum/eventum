@@ -292,7 +292,7 @@ class Severity
      * @param   integer $sev_id The severity ID
      * @return  string The severity title
      */
-    public function getTitle($sev_id)
+    public static function getTitle($sev_id)
     {
         $sql = "SELECT
                     sev_title

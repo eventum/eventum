@@ -190,7 +190,7 @@ class Attachment
      * @param   array $ids The issue IDs that need to be removed
      * @return  boolean Whether the removal worked or not
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $ids = Misc::escapeInteger($ids);
         $items = @implode(", ", $ids);
@@ -299,7 +299,7 @@ class Attachment
      * @param   integer $attachment_id The attachment ID
      * @return  array The full list of files
      */
-    public function getFileList($attachment_id)
+    public static function getFileList($attachment_id)
     {
         $attachment_id = Misc::escapeInteger($attachment_id);
         $stmt = "SELECT
@@ -331,7 +331,7 @@ class Attachment
      * @param   integer $issue_id The issue ID
      * @return  array The full list of attachments
      */
-    public function getList($issue_id)
+    public static function getList($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Auth::getUserID();

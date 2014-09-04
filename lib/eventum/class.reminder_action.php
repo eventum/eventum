@@ -376,7 +376,7 @@ class Reminder_Action
      *
      * @return  boolean
      */
-    public function remove($action_ids)
+    public static function remove($action_ids)
     {
         $items = @implode(", ", Misc::escapeInteger($action_ids));
         $stmt = "DELETE FROM
@@ -473,7 +473,7 @@ class Reminder_Action
      * @param   integer $reminder_id The reminder ID
      * @return  array The list of reminder actions
      */
-    public function getList($reminder_id)
+    public static function getList($reminder_id)
     {
         $stmt = "SELECT
                     *
@@ -877,7 +877,7 @@ class Reminder_Action
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    public function clearLastTriggered($issue_id)
+    public static function clearLastTriggered($issue_id)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action

@@ -93,7 +93,7 @@ class Mime_Helper
      * @return  string The message body
      * @see     self::decode()
      */
-    public function getMessageBody(&$output)
+    public static function getMessageBody(&$output)
     {
         $parts = array();
         self::parse_output($output, $parts);
@@ -124,7 +124,7 @@ class Mime_Helper
     /**
      * @deprecated  use decodeQuotedPrintable
      */
-    public function fixEncoding($input)
+    public static function fixEncoding($input)
     {
         return self::decodeQuotedPrintable($input);
     }
@@ -210,7 +210,7 @@ class Mime_Helper
      * @param   string $address The address to decode
      * @return  string The decoded address
      */
-    public function decodeAddress($address)
+    public static function decodeAddress($address)
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
@@ -360,7 +360,7 @@ class Mime_Helper
      * @param   string $address The email address
      * @return  boolean If the address is quoted printable encoded.
      */
-    public function isQuotedPrintable($address)
+    public static function isQuotedPrintable($address)
     {
         if (preg_match("/=\?.+\?Q\?.+\?= <.+>/i", $address)) {
             return true;
@@ -384,7 +384,7 @@ class Mime_Helper
         }
     }
 
-    public function encodeHeaders($headers)
+    public static function encodeHeaders($headers)
     {
         // encodes emails headers
         foreach ($headers as $name => $value) {
@@ -481,7 +481,7 @@ class Mime_Helper
      * @param   string $input Input to split apart
      * @return  array Contains header and body section
      */
-    public function splitBodyHeader($input)
+    public static function splitBodyHeader($input)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
             return array($match[1], $match[2]);
@@ -562,7 +562,7 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  boolean
      */
-    public function hasAttachments($message)
+    public static function hasAttachments($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
@@ -582,7 +582,7 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachments, if any
      */
-    public function getAttachments($message)
+    public static function getAttachments($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
@@ -598,7 +598,7 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachment CIDs, if any
      */
-    public function getAttachmentCIDs($message)
+    public static function getAttachmentCIDs($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
@@ -826,7 +826,7 @@ class Mime_Helper
 
     /**
      * FIXME: this function is unused
-     * 
+     *
      * Given a quoted-printable string, this
      * function will decode and return it.
      *
@@ -882,7 +882,7 @@ class Mime_Helper
      * @param   boolean $unfold If headers should be unfolded
      * @return  array An array containing the headers and body
      */
-    public function splitHeaderBody($message, $unfold = true)
+    public static function splitHeaderBody($message, $unfold = true)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
             return array(($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]);

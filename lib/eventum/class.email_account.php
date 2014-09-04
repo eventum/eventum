@@ -37,7 +37,7 @@ class Email_Account
      * @param   integer $ema_id The email account ID
      * @return  array The issue auto creation options
      */
-    public function getIssueAutoCreationOptions($ema_id)
+    public static function getIssueAutoCreationOptions($ema_id)
     {
         $stmt = "SELECT
                     ema_issue_auto_creation_options
@@ -91,7 +91,7 @@ class Email_Account
      * @param   integer $sup_id The support email ID
      * @return  integer The email account ID
      */
-    public function getAccountByEmail($sup_id)
+    public static function getAccountByEmail($sup_id)
     {
         $stmt = "SELECT
                     sup_ema_id
@@ -147,7 +147,7 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  integer The project ID
      */
-    public function getProjectID($ema_id)
+    public static function getProjectID($ema_id)
     {
         $details = self::getDetails($ema_id);
 
@@ -189,7 +189,7 @@ class Email_Account
      * @param   array $ids The list of projects
      * @return  boolean
      */
-    public function removeAccountByProjects($ids)
+    public static function removeAccountByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT

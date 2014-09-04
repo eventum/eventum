@@ -42,7 +42,7 @@ class Authorized_Replier
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    public function getAuthorizedRepliers($issue_id)
+    public static function getAuthorizedRepliers($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         // split into users and others (those with email address but no real user accounts)
@@ -279,7 +279,7 @@ class Authorized_Replier
      * @param   integer $usr_id The id of the user.
      * @return  boolean If the user is authorized to reply.
      */
-    public function isUserAuthorizedReplier($issue_id, $usr_id)
+    public static function isUserAuthorizedReplier($issue_id, $usr_id)
     {
         $stmt = "SELECT
                     count(iur_id)

@@ -75,7 +75,7 @@ class Setup
      * @param   array $options The system-wide preferences
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function save($options)
+    public static function save($options)
     {
         // this is needed to check if the file can be created or not
         if (!file_exists(APP_SETUP_FILE)) {

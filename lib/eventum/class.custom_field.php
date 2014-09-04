@@ -143,7 +143,7 @@ class Custom_Field
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function updateValues()
+    public static function updateValues()
     {
         $prj_id = Auth::getCurrentProject();
         $issue_id = Misc::escapeInteger($_POST["issue_id"]);
@@ -568,7 +568,7 @@ class Custom_Field
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @return  array The list of custom fields
      */
-    public function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
     {
         if ($usr_id == false) {
             $usr_id = Auth::getUserID();
@@ -707,7 +707,7 @@ class Custom_Field
      * @param   integer $iss_id The ID of the issue to return values for
      * @return  array An array containging fld_id => value
      */
-    public function getValuesByIssue($prj_id, $iss_id)
+    public static function getValuesByIssue($prj_id, $iss_id)
     {
         $values = array();
         $list = self::getListByIssue($prj_id, $iss_id);
@@ -974,7 +974,7 @@ class Custom_Field
      * @param   boolean $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
-    public function getDetails($fld_id, $force_refresh = false)
+    public static function getDetails($fld_id, $force_refresh = false)
     {
         static $returns;
 
@@ -1234,7 +1234,7 @@ class Custom_Field
      * @param   integer $prj_id The project ID
      * @return  array The list of custom fields
      */
-    public function getFieldsByProject($prj_id)
+    public static function getFieldsByProject($prj_id)
     {
         $stmt = "SELECT
                     pcf_fld_id
@@ -1340,7 +1340,7 @@ class Custom_Field
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    public function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -1364,7 +1364,7 @@ class Custom_Field
      * @param   array $ids The array of project IDs
      * @return  boolean
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -1448,7 +1448,7 @@ class Custom_Field
      * @param   boolean $raw If the raw value should be displayed
      * @return mixed an array or string containing the value
      */
-    public function getDisplayValue($iss_id, $fld_id, $raw = false)
+    public static function getDisplayValue($iss_id, $fld_id, $raw = false)
     {
         $sql = "SELECT
                     fld_id,
@@ -1733,7 +1733,7 @@ class Custom_Field
      * @param   string $type
      * @return  string
      */
-    public function getDBValueFieldNameByType($type)
+    public static function getDBValueFieldNameByType($type)
     {
         switch ($type) {
             case 'date':
