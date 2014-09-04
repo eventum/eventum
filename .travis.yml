@@ -1,15 +1,21 @@
 language: php
+
 php:
-  - "5.5"
-  - "5.4"
-  - "5.3"
+  - 5.6
+  - 5.5
+  - 5.4
+  - 5.3
+  - hhvm
+
 install:
   # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
   - sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
-  - composer install
+  - composer install --no-interaction --prefer-source
+
 notifications:
   irc:
     channels: "chat.freenode.net#eventum"
     skip_join: true
+
 script:
   - phpunit
