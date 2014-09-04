@@ -41,6 +41,8 @@ define('APP_CHARSET', 'utf-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
+define('APP_COOKIE', 'eventum');
+define('APP_DEFAULT_TIMEZONE', 'UTC');
 
 if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // composer paths
