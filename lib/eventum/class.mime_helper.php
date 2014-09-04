@@ -825,6 +825,8 @@ class Mime_Helper
     }
 
     /**
+     * FIXME: this function is unused
+     * 
      * Given a quoted-printable string, this
      * function will decode and return it.
      *

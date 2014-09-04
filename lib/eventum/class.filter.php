@@ -457,6 +457,8 @@ class Filter
     }
 
     /**
+     * FIXME: this method is unused
+     *
      * Takes the saved search details and information about filters and returns an array of
      * of the saved search information.
      *

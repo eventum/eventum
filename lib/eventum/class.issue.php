@@ -1182,7 +1182,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  string The issue summary
      */
-    public function getTitle($issue_id)
+    public static function getTitle($issue_id)
     {
         $stmt = "SELECT
                     iss_summary
@@ -3405,7 +3405,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    public function isClosed($issue_id)
+    public static function isClosed($issue_id)
     {
         $stmt = "SELECT
                     COUNT(*)

@@ -394,7 +394,7 @@ class Link_Filter
      * @param   array $matches Regular expression matches
      * @return  string The link to the appropriate issue
      */
-    private static function LinkFilter_issues($matches)
+    public static function LinkFilter_issues($matches)
     {
         // check if the issue is still open
         if (Issue::isClosed($matches['issue_id'])) {
