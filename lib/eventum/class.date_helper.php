@@ -387,7 +387,7 @@ class Date_Helper
      * @param   integer $timestamp The user based date
      * @return  string The date in the GMT timezone
      */
-    function convertDateGMTByTS($timestamp)
+    public static function convertDateGMTByTS($timestamp)
     {
         return gmdate('Y-m-d H:i:s', $timestamp);
     }

@@ -40,6 +40,7 @@ define('APP_SYSTEM_USER_ID', 1);
 define('APP_CHARSET', 'utf-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
+define('APP_LOCKS_PATH', sys_get_temp_dir());
 
 if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // composer paths

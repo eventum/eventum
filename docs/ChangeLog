@@ -45,6 +45,7 @@ Eventum Issue Tracking System
 - Added $type parameter to Workflow::formatIRCMessage() (Bryan)
 - Add option to "Separate Not Assigned to User" to weekly report (Raul Raat, GH#2)
 - Replace "Only Status Changes" with "No time spent" in weekly report (Raul Raat, GH#3)
+- Add lock support when updating issue details (Elan Ruusamäe, GH#4)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)

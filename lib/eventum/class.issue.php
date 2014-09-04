@@ -1498,7 +1498,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update($issue_id)
+    public static function update($issue_id)
     {
         global $errors;
         $errors = array();
