@@ -39,7 +39,7 @@
 <input type="hidden" name="id" value="{$issue.iss_id}">
 <div id="issue_overview" class="bordered" data-issue-id="{$issue_id}" data-ema-id="{$ema_id}">
     <div class="title">
-        {t}Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
+        <b>{t}Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
         <div id="issue_menu">
             {if $core.current_role > $core.roles.customer}
             [ <a class="link" title="{t}Edit the Reporter for this issue{/t}" href="edit_reporter.php?iss_id={$issue_id}">{t}Edit Reporter{/t}</a> ]
