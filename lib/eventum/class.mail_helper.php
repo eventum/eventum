@@ -903,7 +903,7 @@ class Mail_Helper
      * @param   string $type If this is a note or an email
      * @return  array An array of message IDs
      */
-    private function getReferences($issue_id, $msg_id, $type)
+    public function getReferences($issue_id, $msg_id, $type)
     {
         $references = array();
         self::_getReferences($msg_id, $type, $references);
