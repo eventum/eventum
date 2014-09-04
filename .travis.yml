@@ -8,9 +8,12 @@ php:
   - hhvm
 
 install:
-  # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
+  - php -i
+# workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
   - sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
   - composer install --no-interaction --prefer-source
+# disable strict mode, pear is not compatible
+  - echo 'error_reporting = E_ALL & ~E_STRICT' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 notifications:
   irc:
