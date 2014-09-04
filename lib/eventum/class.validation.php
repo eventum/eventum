@@ -47,7 +47,7 @@ class Validation
      * @param   string $str The string to check against
      * @return  boolean
      */
-    function isWhitespace($str)
+    public function isWhitespace($str)
     {
         $str = trim($str);
         if (strlen($str) == 0) {
@@ -57,7 +57,6 @@ class Validation
         }
     }
 
-
     /**
      * Method used to check whether an email address is a valid one.
      *
@@ -65,7 +64,7 @@ class Validation
      * @param   string $str The email address to check against
      * @return  boolean
      */
-    function isEmail($str)
+    public function isEmail($str)
     {
         $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -108,9 +107,9 @@ class Validation
         if (in_array(substr($str, strlen($str)-1), $extended_chars)) {
             return false;
         }
+
         return true;
     }
-
 
     /**
      * Method used to check whether a string has only valid (ASCII)
@@ -120,7 +119,7 @@ class Validation
      * @param   string $str The string to check against
      * @return  boolean
      */
-    function hasValidChars($str)
+    public function hasValidChars($str)
     {
         $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -131,6 +130,7 @@ class Validation
                 return false;
             }
         }
+
         return true;
     }
 }

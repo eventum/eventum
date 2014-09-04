@@ -55,7 +55,7 @@ abstract class Abstract_Auth_Backend
      * @param   string  $password The password.
      * @return  boolean true if update worked, false otherwise
      */
-    function updatePassword($usr_id, $password)
+    public function updatePassword($usr_id, $password)
     {
         return false;
     }
@@ -75,7 +75,6 @@ abstract class Abstract_Auth_Backend
             return md5($password);
         }
     }
-
 
     /**
      * Creates or updates local user entry for the specified ID.
@@ -172,7 +171,7 @@ abstract class Abstract_Auth_Backend
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
-    function isUserBackOffLocked($usr_id)
+    public function isUserBackOffLocked($usr_id)
     {
         return false;
     }

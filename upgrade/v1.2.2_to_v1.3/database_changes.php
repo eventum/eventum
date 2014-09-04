@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../init.php';
 
-
 $changes = array();
 $changes[] = "UPDATE eventum_user SET usr_role=4 WHERE usr_role=3";
 $changes[] = "UPDATE eventum_user SET usr_role=usr_role+2 WHERE usr_role>3";
@@ -142,11 +141,10 @@ foreach ($changes as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 }
-
 
 ?>
 done

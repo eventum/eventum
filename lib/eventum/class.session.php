@@ -49,7 +49,6 @@ class Session
         $_SESSION[$name] = $var;
     }
 
-
     /**
      * Returns the session variable specified by $name
      *
@@ -66,7 +65,6 @@ class Session
         }
     }
 
-
     /**
      * Returns true if the session variable $name is set, false otherwise.
      *
@@ -77,7 +75,6 @@ class Session
     {
         return isset($_SESSION[$name]);
     }
-
 
     /**
      * Initialize the session
@@ -103,7 +100,6 @@ class Session
         $_SESSION['usr_id'] = $usr_id;// XXX: Should we perform checks on this usr ID before accepting it?
     }
 
-
     /**
      * Verify that the current request to use the session has the same IP address as the request that started it.
      *
@@ -120,11 +116,10 @@ class Session
         }
     }
 
-
     /**
      * Destroys the current session
      */
-    function destroy()
+    public function destroy()
     {
         session_destroy();
     }

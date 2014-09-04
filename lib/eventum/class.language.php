@@ -110,7 +110,7 @@ class Language
      * @access  public
      * @return  array
      */
-    function getAvailableLanguages()
+    public function getAvailableLanguages()
     {
         $languages = array();
         foreach (self::$avail_langs as $code => $language) {
@@ -121,6 +121,7 @@ class Language
         }
 
         self::restore();
+
         return $languages;
     }
 
@@ -131,7 +132,7 @@ class Language
      * @access  public
      * @return  void
      */
-    function setPreference()
+    public function setPreference()
     {
         $usr_id = Auth::getUserID();
         $lang = null;
@@ -189,7 +190,6 @@ class Language
 
         return true;
     }
-
 
     public static function restore()
     {

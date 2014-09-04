@@ -38,15 +38,15 @@
 
 class Template_Helper
 {
-    var $smarty;
-    var $tpl_name = "";
+    public $smarty;
+    public $tpl_name = "";
 
     /**
      * Constructor of the class
      *
      * @access public
      */
-    function __construct()
+    public function __construct()
     {
         $this->smarty = new Smarty();
         // TODO: remove APP_LOCAL_PATH from the list in 2.4.1
@@ -60,7 +60,6 @@ class Template_Helper
         $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
     }
 
-
     /**
      * Sets the internal template filename for the current PHP script
      *
@@ -70,7 +69,6 @@ class Template_Helper
     {
         $this->tpl_name = $tpl_name;
     }
-
 
     /**
      * Assigns variables to specific placeholders on the target template
@@ -87,7 +85,6 @@ class Template_Helper
         }
     }
 
-
     /**
      * Assigns variables to specific placeholders on the target template
      *
@@ -101,7 +98,6 @@ class Template_Helper
         }
     }
 
-
     /**
      * Prints the actual parsed template.
      *
@@ -114,21 +110,20 @@ class Template_Helper
         $this->smarty->display($this->tpl_name);
     }
 
-
     /**
      * Returns the contents of the parsed template
      *
      * @access public
      * @return string The contents of the parsed template
      */
-    public function getTemplateContents($process=True)
+    public function getTemplateContents($process=true)
     {
         if ($process) {
             $this->processTemplate();
         }
+
         return $this->smarty->fetch($this->tpl_name);
     }
-
 
     /**
      * Processes the template and assigns common variables automatically.

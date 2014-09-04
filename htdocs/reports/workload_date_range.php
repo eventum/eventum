@@ -64,7 +64,6 @@ if (count(@$_REQUEST["end"]) > 0 &&
     $end_date = date("Y-m-d");
 }
 
-
 if (!empty($_REQUEST["interval"])) {
     $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + Date_Helper::DAY)), @$_REQUEST['category']);
     Session::set("workload_date_range_data", $data);

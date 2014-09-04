@@ -142,7 +142,7 @@ $tpl->assign('issue_lock', $issue_lock);
 
     // if currently selected release is in the past, manually add it to list
     $releases = Release::getAssocList($prj_id);
-    if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
+    if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])) {
         $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
     }
 

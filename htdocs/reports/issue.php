@@ -41,11 +41,9 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 
 $prj_id = Auth::getCurrentProject();
 
-
 if ($_GET['cat'] == 'user') {
     $res = Report::getIssuesByUser($prj_id);
     $tpl->assign("users", $res);
 }
-
 
 $tpl->displayTemplate();

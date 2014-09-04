@@ -43,7 +43,6 @@ if (User::isPartner($usr_id)) {
     Auth::redirect('list.php');
 }
 
-
 if (isset($_REQUEST['hide_closed'])) {
     Auth::setCookie(APP_HIDE_CLOSED_STATS_COOKIE, $_REQUEST['hide_closed'], Date_Helper::getCurrentUnixTimestampGMT() + Date_Helper::YEAR);
     $_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE] = $_REQUEST['hide_closed'];
@@ -80,7 +79,7 @@ if ($role_id == User::getRoleID('customer')) {
     $tpl->assign("random_tip", Misc::getRandomTip($tpl));
 }
 
-if  (@$_REQUEST['hide_closed'] == '') {
+if (@$_REQUEST['hide_closed'] == '') {
     $Stats_Search_Profile = Search_Profile::getProfile($usr_id, $prj_id, "stats");
 
     if (!empty($Stats_Search_Profile)) {

@@ -43,7 +43,7 @@ class SCM
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -53,12 +53,12 @@ class SCM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return true;
     }
-
 
     /**
      * Method used to remove a specific list of checkins
@@ -67,7 +67,7 @@ class SCM
      * @param   int[] $isc_id list to remove
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function remove($items)
+    public function remove($items)
     {
         $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
@@ -85,6 +85,7 @@ class SCM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -92,9 +93,9 @@ class SCM
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID())));
+
         return 1;
     }
-
 
     /**
      * Method used to parse an user provided URL and substitute a known set of
@@ -104,7 +105,7 @@ class SCM
      * @param   string $url The user provided URL
      * @return  string The parsed URL
      */
-    function parseURL($url, $info)
+    public function parseURL($url, $info)
     {
         $url = str_replace('{MODULE}', $info["isc_module"], $url);
         $url = str_replace('{FILE}', $info["isc_filename"], $url);
@@ -123,7 +124,6 @@ class SCM
         return $url;
     }
 
-
     /**
      * Method used to get the full list of checkins associated with an issue.
      *
@@ -131,7 +131,7 @@ class SCM
      * @param   integer $issue_id The issue ID
      * @return  array The list of checkins
      */
-    function getCheckinList($issue_id)
+    public function getCheckinList($issue_id)
     {
         $setup = Setup::load();
         $stmt = "SELECT
@@ -145,6 +145,7 @@ class SCM
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -163,9 +164,9 @@ class SCM
             $res[$i]["scm_log_url"] = self::parseURL($setup["scm_log_url"], $res[$i]);
             $res[$i]["isc_created_date"] = Date_Helper::getFormattedDate($res[$i]["isc_created_date"]);
         }
+
         return $res;
     }
-
 
     /**
      * Method used to associate a new checkin with an existing issue
@@ -178,7 +179,7 @@ class SCM
      * @param   string $commit_msg Message associated with the SCM commit.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function logCheckin($issue_id, $module, $file, $username, $commit_msg)
+    public function logCheckin($issue_id, $module, $file, $username, $commit_msg)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
@@ -204,6 +205,7 @@ class SCM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -212,6 +214,7 @@ class SCM
         // need to save a history entry for this
         History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
                         ev_gettext("SCM Checkins associated by SCM user '") . $username . '\'.');
+
         return 1;
     }
 }

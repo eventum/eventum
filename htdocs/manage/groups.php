@@ -34,7 +34,6 @@ $tpl->setTemplate("manage/groups.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
     Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
@@ -70,7 +69,6 @@ if (@$_GET['show_customers'] == 1) {
 } else {
     $show_customer = false;
 }
-
 
 $tpl->assign("user_options", $user_options);
 $tpl->assign("list", Group::getList());

@@ -48,9 +48,11 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         $user = User::getDetails($usr_id);
         if ($user['usr_password'] == self::hashPassword($password)) {
             self::resetFailedLogins($usr_id);
+
             return true;
         } else {
             self::incrementFailedLogins($usr_id);
+
             return false;
         }
     }
@@ -63,7 +65,7 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
      * @param   string  $password The password.
      * @return  boolean
      */
-    function updatePassword($usr_id, $password)
+    public function updatePassword($usr_id, $password)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -74,11 +76,13 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         # NOTE: this will say updated failed if password is identical to old one
         $updated = DB_Helper::getInstance()->affectedRows();
+
         return $updated > 0;
     }
 
@@ -106,8 +110,10 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
 
@@ -131,8 +137,10 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
 
@@ -143,7 +151,7 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
      * @param   string $usr_id The email address to check for
      * @return  boolean
      */
-    function isUserBackOffLocked($usr_id)
+    public function isUserBackOffLocked($usr_id)
     {
         if (!is_int(APP_FAILED_LOGIN_BACKOFF_COUNT)) {
             return false;
@@ -157,8 +165,10 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return true;
         }
+
         return $res == 1;
     }
 }

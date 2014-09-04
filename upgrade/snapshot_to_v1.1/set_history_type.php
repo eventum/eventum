@@ -269,7 +269,6 @@ $patterns[] = array(
     "set_user"  =>  true
 );
 
-
 // loop through all history without a status
 $sql = "SELECT
             his_id,
@@ -299,7 +298,7 @@ Skipped: $skipped";
 
 function getMatch($desc)
 {
-    GLOBAL $patterns;
+    global $patterns;
     $return = array();
     foreach ($patterns as $id => $data) {
         if (preg_match($data["pattern"], $desc, $matches)) {
@@ -308,9 +307,11 @@ function getMatch($desc)
                 // try to get user id from name
                 $return["user"] = getUser($matches[1]);
             }
+
             return $return;
         }
     }
+
     return false;
 }
 
@@ -322,6 +323,7 @@ function getUser($name)
                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
             WHERE
                 usr_full_name = '" . trim(Misc::escapeString($name)) . "'";
+
     return DB_Helper::getInstance()->getOne($sql);
 }
 
@@ -339,8 +341,8 @@ function update($his_id, $match)
                 his_id = $his_id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-		echo "<pre>";
-		print_r($res);
+        echo "<pre>";
+        print_r($res);
         exit(1);
     }
 }

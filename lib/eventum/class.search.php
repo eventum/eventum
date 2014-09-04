@@ -153,9 +153,9 @@ class Search
         if ($save_db) {
             Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
         }
+
         return $cookie;
     }
-
 
     /**
      * Method used to get the current sorting options used in the grid layout
@@ -211,6 +211,7 @@ class Search
             }
             $items["links"][$field] = $_SERVER["PHP_SELF"] . "?sort_by=" . $sortfield . "&sort_order=" . $sort_order;
         }
+
         return $items;
     }
 
@@ -400,6 +401,7 @@ class Search
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array(
                 "list" => "",
                 "info" => ""
@@ -491,6 +493,7 @@ class Search
 
         $total_pages = ceil($total_rows / $max);
         $last_page = $total_pages - 1;
+
         return array(
             "list" => $res,
             "info" => array(
@@ -676,7 +679,7 @@ class Search
                     $search_value = $search_value['Year'] . "-" . $search_value['Month'] . "-" . $search_value['Day'];
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id AND
                         cf" . $fld_id . "." . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
-                } else if ($field['fld_type'] == 'integer') {
+                } elseif ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
                     case 'ge':
@@ -715,6 +718,7 @@ class Search
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
         }
+
         return $stmt;
     }
 
@@ -741,6 +745,7 @@ class Search
 
         Session::set('fulltext_string', $options['keywords']);
         Session::set('fulltext_issues', $issues);
+
         return $issues;
     }
 
@@ -758,7 +763,6 @@ class Search
         }
     }
 
-
     /**
      * @static
      * @return Abstract_Fulltext_Search
@@ -774,15 +778,14 @@ class Search
 
             $instance = new $class();
         }
+
         return $instance;
     }
-
 
     public static function getMatchModes()
     {
         return self::getFullTextSearchInstance()->getMatchModes();
     }
-
 
     public static function doesBackendSupportExcerpts()
     {

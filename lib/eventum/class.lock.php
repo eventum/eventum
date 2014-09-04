@@ -42,7 +42,7 @@ class Lock
     {
         $pid = self::getProcessID($name);
         if (!empty($pid)) {
-    	    // Test asks us to check if the process is still running
+            // Test asks us to check if the process is still running
             if ($check) {
                 $exists = true;
                 if (function_exists('posix_kill')) {
@@ -57,6 +57,7 @@ class Lock
                     return false;
                 }
             }
+
             return false;
         }
 
@@ -66,9 +67,9 @@ class Lock
         fwrite($fp, getmypid());
         flock($fp, LOCK_UN);
         fclose($fp);
+
         return true;
     }
-
 
     /**
      * Removes the process file to allow other instances of this
@@ -84,9 +85,9 @@ class Lock
         if (file_exists($pid_file)) {
             return unlink($pid_file);
         }
+
         return false;
     }
-
 
     /**
      * Returns the full path to the file that keeps the process
@@ -100,7 +101,6 @@ class Lock
     {
         return APP_LOCKS_PATH . '/'. $name . '.pid';
     }
-
 
     /**
      * Returns the process ID of the script, if any.
@@ -123,6 +123,7 @@ class Lock
             return 0;
         } else {
             $pids[$name] = trim(file_get_contents($pid_file));
+
             return $pids[$name];
         }
     }

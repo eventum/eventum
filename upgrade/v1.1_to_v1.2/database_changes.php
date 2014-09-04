@@ -21,13 +21,11 @@ foreach ($changes as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 }
 echo "complete<br />\n\n";
-
-
 
 ?>
 now please run /misc/upgrade/v1.1_to_v1.2/set_support_email_usr_id.php

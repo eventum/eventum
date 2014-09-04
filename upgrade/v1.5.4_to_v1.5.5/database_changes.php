@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../init.php';
 
-
 $stmt = "DESCRIBE eventum_custom_filter";
 $res = DB_Helper::getInstance()->getCol($stmt);
 if (in_array('cst_use_fulltext', $res)) {
@@ -11,7 +10,7 @@ if (in_array('cst_use_fulltext', $res)) {
         $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+            echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
             exit(1);
         }
     }

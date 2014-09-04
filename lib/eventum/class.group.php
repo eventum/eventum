@@ -47,7 +47,7 @@ class Group
      * @access  public
      * @return integer 1 if successful, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
@@ -63,6 +63,7 @@ class Group
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $grp_id = DB_Helper::get_last_insert_id();
@@ -72,10 +73,10 @@ class Group
             foreach ($_POST["users"] as $usr_id) {
                 User::setGroupID($usr_id, $grp_id);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Updates a group
@@ -83,7 +84,7 @@ class Group
      * @access  public
      * @return integer 1 if successful, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -98,6 +99,7 @@ class Group
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             self::setProjects($_POST["id"], $_POST["projects"]);
@@ -112,17 +114,17 @@ class Group
             foreach ($_POST["users"] as $usr_id) {
                 User::setGroupID($usr_id, $_POST["id"]);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Removes groups
      *
      * @access  public
      */
-    function remove()
+    public function remove()
     {
         foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
             $users = self::getUsers($grp_id);
@@ -134,6 +136,7 @@ class Group
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             } else {
                 self::removeProjectsByGroup($grp_id);
@@ -141,11 +144,11 @@ class Group
                 foreach ($users as $usr_id) {
                     User::setGroupID($usr_id, false);
                 }
+
                 return 1;
             }
         }
     }
-
 
     /**
      * Sets projects for the group.
@@ -154,7 +157,7 @@ class Group
      * @param   integer $grp_id The id of the group.
      * @param   array $projects An array of projects to associate with the group.
      */
-    function setProjects($grp_id, $projects)
+    public function setProjects($grp_id, $projects)
     {
         $grp_id = Misc::escapeInteger($grp_id);
         $projects = Misc::escapeInteger($projects);
@@ -174,12 +177,13 @@ class Group
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
-
 
     /**
      * Removes all the projects for a group
@@ -187,7 +191,7 @@ class Group
      * @access  private
      * @param   integer $grp_id The ID of the group
      */
-    function removeProjectsByGroup($grp_id)
+    public function removeProjectsByGroup($grp_id)
     {
         // delete all current associations
         $stmt = "DELETE FROM
@@ -197,11 +201,12 @@ class Group
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Removes specified projects from all groups.
@@ -210,7 +215,7 @@ class Group
      * @param   array $projects An array of projects to remove from all groups.
      * @return  integer 1 if successful, -1 otherwise
      */
-    function disassociateProjects($projects)
+    public function disassociateProjects($projects)
     {
         // delete all current associations
         $stmt = "DELETE FROM
@@ -220,11 +225,12 @@ class Group
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Returns details about a specific group
@@ -233,7 +239,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of group information
      */
-    function getDetails($grp_id)
+    public function getDetails($grp_id)
     {
         static $returns;
 
@@ -254,6 +260,7 @@ class Group
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             if (count($res) > 0) {
@@ -265,10 +272,10 @@ class Group
                 $res = array();
             }
             $returns[$grp_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Returns the name of the group
@@ -277,7 +284,7 @@ class Group
      * @param   integer $grp_id The id of the group
      * @return  string The name of the group
      */
-    function getName($grp_id)
+    public function getName($grp_id)
     {
         $grp_id = Misc::escapeInteger($grp_id);
         if (empty($grp_id)) {
@@ -291,14 +298,13 @@ class Group
         }
     }
 
-
     /**
      * Returns a list of groups
      *
      * @access  public
      * @return  array An array of group information
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     grp_id,
@@ -312,6 +318,7 @@ class Group
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -319,10 +326,10 @@ class Group
                 $res[$i]["projects"] = self::getProjects($res[$i]['grp_id']);
                 $res[$i]["manager"] = User::getFullName($res[$i]["grp_manager_usr_id"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Returns an associative array of groups
@@ -331,7 +338,7 @@ class Group
      * @param   integer $prj_id The project ID
      * @return  array An associated array of groups
      */
-    function getAssocList($prj_id)
+    public function getAssocList($prj_id)
     {
         static $list;
 
@@ -355,13 +362,14 @@ class Group
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $list[$prj_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of group ID and name
@@ -370,7 +378,7 @@ class Group
      * @access  public
      * @return  array List of groups
      */
-    function getAssocListAllProjects()
+    public function getAssocListAllProjects()
     {
         $stmt = "SELECT
                     grp_id,
@@ -382,12 +390,12 @@ class Group
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Returns an array of users who belong to the current group.
@@ -396,7 +404,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of usr ids
      */
-    function getUsers($grp_id)
+    public function getUsers($grp_id)
     {
         $stmt = "SELECT
                     usr_id
@@ -407,11 +415,12 @@ class Group
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return $res;
     }
-
 
     /**
      * Returns an array of projects who belong to the current group.
@@ -420,7 +429,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of project ids
      */
-    function getProjects($grp_id)
+    public function getProjects($grp_id)
     {
         $stmt = "SELECT
                     pgr_prj_id,
@@ -434,11 +443,12 @@ class Group
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return $res;
     }
-
 
     /**
      * Returns a group ID based on group name
@@ -447,7 +457,7 @@ class Group
      * @param   string $name Name of the group
      * @return  integer The ID of the group, or -1 if no group by that name could be found.
      */
-    function getGroupByName($name)
+    public function getGroupByName($name)
     {
         $stmt = "SELECT
                     grp_id
@@ -460,6 +470,7 @@ class Group
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         if (empty($res)) {

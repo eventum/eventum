@@ -220,6 +220,7 @@ function checkPermissions($file, $desc, $is_directory = false)
             @unlink($file . '/dummy.txt');
         }
     }
+
     return '';
 }
 
@@ -331,6 +332,7 @@ function getErrorMessage($type, $message)
         } elseif (($type == 'drop_test') && (stristr($message, 'Access denied'))) {
             return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
         }
+
         return $message;
     }
 }
@@ -342,6 +344,7 @@ function getDatabaseList($conn)
     while ($row = mysql_fetch_array($db_list)) {
         $dbs[] = $row['Database'];
     }
+
     return $dbs;
 }
 
@@ -357,6 +360,7 @@ function getUserList($conn)
     while ($row = mysql_fetch_row($res)) {
         $users[] = $row[0];
     }
+
     return $users;
 }
 
@@ -367,10 +371,12 @@ function getTableList($conn)
     while ($row = mysql_fetch_row($res)) {
         $tables[] = $row[0];
     }
+
     return $tables;
 }
 
-function e($s) {
+function e($s)
+{
     return var_export($s, 1);
 }
 
@@ -470,6 +476,7 @@ $private_key = "' . md5(microtime()) . '";
             } else {
                 $type = 'create_table';
             }
+
             return getErrorMessage($type, mysql_error());
         }
     }
@@ -497,7 +504,7 @@ $private_key = "' . md5(microtime()) . '";
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
         "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
-        "'%{APP_DEFAULT_WEEKDAY}%'" => (int )$_POST['default_weekday'],
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
         "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ?  'https://' : 'http://'),
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );
@@ -530,6 +537,7 @@ $private_key = "' . md5(microtime()) . '";
     exec("$upgrade_script 2>&1", $upgrade_log, $rc);
     if ($rc != 0) {
         $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+
         return "Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.";
     }
 

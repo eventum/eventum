@@ -71,7 +71,6 @@ abstract class Contract
      */
     protected $options = array();
 
-
     /**
      * Constructs the contract object and loads contract data.
      *
@@ -79,7 +78,7 @@ abstract class Contract
      * @param string $contract_id
      * @see Contract::load()
      */
-    function __construct(CRM &$crm, $contract_id)
+    public function __construct(CRM &$crm, $contract_id)
     {
         $this->crm = &$crm;
         $this->connection = &$crm->getConnection();
@@ -96,7 +95,6 @@ abstract class Contract
      */
     abstract protected function load();
 
-
     /**
      * Returns a contact object for the specified contact ID. This should ONLY return
      * the contact if it is associated with this contract.
@@ -107,7 +105,6 @@ abstract class Contract
      */
     abstract public function getContact($contact_id);
 
-
     /**
      * Returns an array contact objects for this contract
      *
@@ -116,14 +113,12 @@ abstract class Contract
      */
     abstract public function getContacts($options = false);
 
-
     /**
      * Returns the options associated with this contact.
      *
      * @return  array
      */
     abstract public function getOptions();
-
 
     /**
      * Returns the value of the specified option, or false if the option is not set
@@ -132,7 +127,6 @@ abstract class Contract
      * @return  mixed The value of the option or false.
      */
     abstract public function getOption($option_id);
-
 
     /**
      * Returns if the contract has access to a given feature.
@@ -149,14 +143,12 @@ abstract class Contract
      */
     abstract public function isExpired();
 
-
     /**
      * Returns true if this contract is active, false otherwise.
      *
      * @return  Boolean
      */
     abstract public function isActive();
-
 
     /**
      * Returns the maximum first response time for this contract in minutes. If
@@ -167,7 +159,6 @@ abstract class Contract
      * @return  integer The response time in seconds
      */
     abstract public function getMaximumFirstResponseTime($issue_id = false);
-
 
     /**
      * Returns an array of details about this contract
@@ -184,7 +175,6 @@ abstract class Contract
      */
     abstract public function isOfType($type);
 
-
     /**
      * Returns the minimum response time for a contract in seconds.
      *
@@ -199,7 +189,6 @@ abstract class Contract
      */
     abstract public function getIncidents();
 
-
     /**
      * Returns the total of incidents already redeemed in the given
      * contract ID.
@@ -208,7 +197,6 @@ abstract class Contract
      * @return  integer The total of incidents already redeemed
      */
     abstract public function getIncidentUsage($incident_type);
-
 
     /**
      * Returns the total number of allowed incidents for the given support
@@ -219,7 +207,6 @@ abstract class Contract
      */
     abstract public function getTotalIncidents($incident_type);
 
-
     /**
      * Returns the number of incidents remaining for the given support
      * contract ID.
@@ -229,14 +216,12 @@ abstract class Contract
      */
     abstract public function getIncidentsRemaining($incident_type);
 
-
     /**
      * Checks if the contract has per incident options
      *
      * @return  boolean
      */
     abstract public function hasPerIncident();
-
 
     /**
      * Checks whether the contract has any incidents available to be redeemed.
@@ -245,7 +230,6 @@ abstract class Contract
      * @return  boolean
      */
     abstract public function hasIncidentsLeft($incident_type = false);
-
 
     /**
      * Redeems an incident of the specified type for the specified issue.
@@ -256,7 +240,6 @@ abstract class Contract
      */
     abstract public function redeemIncident($issue_id, $incident_type);
 
-
     /**
      * un redeems an incident of the specified type for the specified issue.
      *
@@ -265,7 +248,6 @@ abstract class Contract
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
     abstract public function unRedeemIncident($issue_id, $incident_type);
-
 
     /**
      * Checks whether the given issue ID was marked as a redeemed incident or
@@ -277,7 +259,6 @@ abstract class Contract
      */
     abstract public function isRedeemedIncident($issue_id, $incident_type);
 
-
     /**
      * Returns an array of the currently redeemed incident types for the issue.
      *
@@ -285,7 +266,6 @@ abstract class Contract
      * @return  array An array containing the redeemed incident types
      */
     abstract public function getRedeemedIncidentDetails($issue_id);
-
 
     /**
      * Updates the incident counts
@@ -296,7 +276,6 @@ abstract class Contract
      */
     abstract public function updateRedeemedIncidents($issue_id, $data);
 
-
     /**
      * Method used to build the overall customer/contract profile
      *
@@ -304,14 +283,12 @@ abstract class Contract
      */
     abstract public function getProfile();
 
-
     /**
      * Returns a message to be displayed to a customer on the top of the issue creation page.
      *
      * @return string
      */
     abstract public function getNewIssueMessage();
-
 
     /**
      * Method used to get the list of email addresses associated with the
@@ -323,7 +300,6 @@ abstract class Contract
      */
     abstract public function getContactEmailAssocList($options = false, $no_email_in_title = false);
 
-
     /**
      * Returns a descriptive title
      *
@@ -332,22 +308,21 @@ abstract class Contract
      */
     abstract public function getTitle();
 
-
     /**
      * Turns an array of contract object into a multi-dimensional array of contract details.
      *
      * @param   array $contracts An array of contract objects
      * @return  array An array of contract details
      */
-    static public function getAllDetails($contracts)
+    public static function getAllDetails($contracts)
     {
         $contracts_temp = array();
         foreach ($contracts as $contract_id => $contract) {
             $contracts_temp[$contract_id] = $contract->getDetails();
         }
+
         return $contracts_temp;
     }
-
 
     public function getCustomerID()
     {
@@ -392,16 +367,17 @@ abstract class Contract
     public function __toString()
     {
         $options = $this->getOptions(true);
+
         return "Contract\nID: " . $this->contract_id . "
             Start: " . $this->start_date . "
             End: " . $this->end_date . "\n";
     }
 }
 
-
 class ContractNotFoundException extends CRMException
 {
-    public function __construct($contract_id, Exception $previous=null) {
+    public function __construct($contract_id, Exception $previous=null)
+    {
         parent::__construct("Contract '" . $contract_id. "' not found", 0, $previous);
     }
 }

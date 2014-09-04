@@ -60,7 +60,7 @@ class Date_Helper
      * @param   integer $hour The hour number
      * @return  boolean
      */
-    function isAM($hour)
+    public function isAM($hour)
     {
         if (($hour >= 0) && ($hour <= 11)) {
             return true;
@@ -69,7 +69,6 @@ class Date_Helper
         }
     }
 
-
     /**
      * Returns whether the given hour is PM or not.
      *
@@ -77,7 +76,7 @@ class Date_Helper
      * @param   integer $hour The hour number
      * @return  boolean
      */
-    function isPM($hour)
+    public function isPM($hour)
     {
         if (($hour >= 12) && ($hour <= 23)) {
             return true;
@@ -146,11 +145,10 @@ class Date_Helper
      * @access  public
      * @return  integer The current UNIX timestamp in GMT
      */
-    function getCurrentUnixTimestampGMT()
+    public function getCurrentUnixTimestampGMT()
     {
         return gmmktime();
     }
-
 
     /**
      * Method used to get a pretty-like formatted time output for the
@@ -161,15 +159,15 @@ class Date_Helper
      * @param   integer $old_ts The old UNIX timestamp
      * @return  string The formatted difference in time
      */
-    function getFormattedDateDiff($now_ts, $old_ts)
+    public function getFormattedDateDiff($now_ts, $old_ts)
     {
         $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf("%d", round($value, 1)) . "d";
         $mod = (integer) (($now_ts - $old_ts) % self::DAY);
         $mod = (integer) ($mod / self::HOUR);
+
         return $ret . " " . $mod . "h";
     }
-
 
     /**
      * Method used to get the user's current time (timezone included) as
@@ -179,7 +177,7 @@ class Date_Helper
      * @param   bool|string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
      */
-    public static function getUnixTimestamp($timestamp = false, $timezone = FALSE)
+    public static function getUnixTimestamp($timestamp = false, $timezone = false)
     {
         if (!$timestamp) {
             $timestamp = self::getCurrentUnixTimestampGMT();
@@ -190,9 +188,9 @@ class Date_Helper
         $date = new Date($timestamp);
         // now convert to another timezone and return the timestamp
         $date->convertTZById($timezone);
+
         return $date->getDate(DATE_FORMAT_UNIXTIME);
     }
-
 
     /**
      * Method used to get the current date in the GMT timezone in an
@@ -202,7 +200,7 @@ class Date_Helper
      * @return  string The current GMT date
      * @param   string $timezone The needed timezone
      */
-    function getRFC822Date($timestamp, $timezone = FALSE)
+    public function getRFC822Date($timestamp, $timezone = false)
     {
         if (!$timezone) {
             $timezone = self::getPreferredTimezone();
@@ -210,9 +208,9 @@ class Date_Helper
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
+
         return $date->format('%a, %d %b %Y %H:%M:%S') . " GMT";
     }
-
 
     /**
      * Method used to get the current date in the GMT timezone.
@@ -224,7 +222,6 @@ class Date_Helper
         return gmdate('Y-m-d H:i:s');
     }
 
-
     /**
      * Method used to get the full list of available timezones to be
      * presented to the user.
@@ -232,13 +229,13 @@ class Date_Helper
      * @access  public
      * @return  array The list of timezones
      */
-    function getTimezoneList()
+    public function getTimezoneList()
     {
-    	$time_zones = Date_TimeZone::getAvailableIDs();
-    	asort($time_zones);
+        $time_zones = Date_TimeZone::getAvailableIDs();
+        asort($time_zones);
+
         return $time_zones;
     }
-
 
     /**
      * Method used to get the proper short name for a given date.
@@ -257,7 +254,6 @@ class Date_Helper
         }
     }
 
-
     /**
      * Method used to get the proper timezone short name for the current date
      * and time on the given user's timezone.
@@ -266,10 +262,11 @@ class Date_Helper
      * @param   object $date The Date object
      * @return  string The timezone short name
      */
-    function getTimezoneShortNameByUser($usr_id)
+    public function getTimezoneShortNameByUser($usr_id)
     {
         $date = new Date();
         $date->convertTZById(self::getPreferredTimezone($usr_id));
+
         return self::getTimezoneShortName($date);
     }
 
@@ -281,7 +278,7 @@ class Date_Helper
      * @param   string $timezone The timezone name
      * @return  string
      */
-    public static function getFormattedDate($ts, $timezone = FALSE)
+    public static function getFormattedDate($ts, $timezone = false)
     {
         if ($timezone === FALSE) {
             $timezone = self::getPreferredTimezone();
@@ -290,9 +287,9 @@ class Date_Helper
         $date = self::getDateGMT($ts);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
+
         return $date->format('%a, %d %b %Y, %H:%M:%S %Z');
     }
-
 
     /**
      * Method used to get the formatted date for a specific timestamp
@@ -303,7 +300,7 @@ class Date_Helper
      * @param   boolean $convert If the timestamp should be converted to the preferred timezone
      * @return  string
      */
-    function getSimpleDate($timestamp, $convert = true)
+    public function getSimpleDate($timestamp, $convert = true)
     {
         if (empty($timestamp)) {
             return '';
@@ -314,9 +311,9 @@ class Date_Helper
             $timezone = self::getPreferredTimezone();
             $date->convertTZById($timezone);
         }
+
         return $date->format('%d %b %Y');
     }
-
 
     /**
      * Method used to get the timezone preferred by the user.
@@ -324,7 +321,7 @@ class Date_Helper
      * @param   integer $usr_id The user ID
      * @return  string The timezone preferred by the user
      */
-    public static function getPreferredTimezone($usr_id = FALSE)
+    public static function getPreferredTimezone($usr_id = false)
     {
         if ($usr_id === FALSE) {
             $usr_id = Auth::getUserID();
@@ -339,7 +336,6 @@ class Date_Helper
             return $prefs["timezone"];
         }
     }
-
 
     /**
      * Method used to get the application default timezone.
@@ -357,11 +353,10 @@ class Date_Helper
      * @access  public
      * @return  integer 0 - Sunday, 1 - Monday
      */
-    function getDefaultWeekday()
+    public function getDefaultWeekday()
     {
         return APP_DEFAULT_WEEKDAY;
     }
-
 
     /**
      * Method used to convert the user date (that is in a specific timezone) to
@@ -371,14 +366,14 @@ class Date_Helper
      * @param   string $date The date in use timezone
      * @return  string The date in the GMT timezone
      */
-    function convertDateGMT($date)
+    public function convertDateGMT($date)
     {
         $dt = new Date($date);
         $dt->setTZbyID(self::getPreferredTimezone());
         $dt->toUTC();
+
         return $dt->format('%Y-%m-%d %H:%M:%S');
     }
-
 
     /**
      * Method used to convert a unix timestamp date to a GMT date.
@@ -392,7 +387,6 @@ class Date_Helper
         return gmdate('Y-m-d H:i:s', $timestamp);
     }
 
-
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
      *
@@ -401,7 +395,7 @@ class Date_Helper
      * @param   integer $weeks_future The number of weeks in the future to include.
      * @return  array An array of weeks.
      */
-    function getWeekOptions($weeks_past, $weeks_future)
+    public function getWeekOptions($weeks_past, $weeks_future)
     {
         $options = array();
 
@@ -426,20 +420,19 @@ class Date_Helper
         return $options;
     }
 
-
     /**
      * Returns the current week in the same format formatWeekOption users.
      *
      * @access  public
      * @return  string A string containg the current week.
      */
-    function getCurrentWeek()
+    public function getCurrentWeek()
     {
         $value_format = "Y-m-d";
         $start = date("U") - (self::DAY * (date("w") - 1));
+
         return date($value_format, $start) . "_" . date($value_format, ($start + (Date_Helper::DAY * 6)));
     }
-
 
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
@@ -454,9 +447,9 @@ class Date_Helper
         $end = ($start + (self::DAY * 6));
         $value = date($value_format, $start) . "_" . date($value_format, $end);
         $display = date($display_format, $start) . " - " . date($display_format, $end);
+
         return array($value,$display);
     }
-
 
     public static function getSecondsDiff($old_ts, $new_ts)
     {

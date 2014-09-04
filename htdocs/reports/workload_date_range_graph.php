@@ -77,7 +77,7 @@ if ($_REQUEST["graph"] == "issue") {
     $graph_title = "Emails by sent date";
     $labels = array_keys($data["emails"]["points"]);
     $y_label = "Emails";
-}elseif ($_REQUEST["graph"] == "note") {
+} elseif ($_REQUEST["graph"] == "note") {
     $plots = array_values($data["notes"]["points"]);
     $graph_title = "Notes by sent date";
     $labels = array_keys($data["notes"]["points"]);

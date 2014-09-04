@@ -47,7 +47,7 @@ class Support
      * @param   array $sup_ids The list of support emails
      * @return  integer 1 if the removal worked, -1 otherwise
      */
-    function expungeEmails($sup_ids)
+    public function expungeEmails($sup_ids)
     {
         $accounts = array();
 
@@ -62,6 +62,7 @@ class Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -93,10 +94,10 @@ class Support
                 // remove the email record from the table
                 self::removeEmail($res[$i]['sup_id']);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Removes the given support email from the database table.
@@ -105,7 +106,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  boolean
      */
-    function removeEmail($sup_id)
+    public function removeEmail($sup_id)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -114,6 +115,7 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $stmt = "DELETE FROM
@@ -123,13 +125,13 @@ class Support
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 return true;
             }
         }
     }
-
 
     /**
      * Method used to get the next and previous messages in order to build
@@ -139,7 +141,7 @@ class Support
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
-    function getListingSides($sup_id)
+    public function getListingSides($sup_id)
     {
         $options = self::saveSearchParams();
 
@@ -165,6 +167,7 @@ class Support
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // COMPAT: the next line requires PHP >= 4.0.5
@@ -176,6 +179,7 @@ class Support
             if (!empty($email_ids[$index-1])) {
                 $previous = $email_ids[$index-1];
             }
+
             return array(
                 "next"     => array(
                     'sup_id' => @$next,
@@ -189,7 +193,6 @@ class Support
         }
     }
 
-
     /**
      * Method used to get the next and previous messages in order to build
      * side links when viewing a particular email associated with an issue.
@@ -199,7 +202,7 @@ class Support
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
-    function getIssueSides($issue_id, $sup_id)
+    public function getIssueSides($issue_id, $sup_id)
     {
         $stmt = "SELECT
                     sup_id,
@@ -213,6 +216,7 @@ class Support
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // COMPAT: the next line requires PHP >= 4.0.5
@@ -224,6 +228,7 @@ class Support
             if (!empty($email_ids[$index-1])) {
                 $previous = $email_ids[$index-1];
             }
+
             return array(
                 "next"     => array(
                     'sup_id' => @$next,
@@ -237,14 +242,13 @@ class Support
         }
     }
 
-
     /**
      * Method used to save the email note into a backup directory.
      *
      * @access  public
      * @param   string $message The full body of the email
      */
-    function saveRoutedEmail($message)
+    public function saveRoutedEmail($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -255,7 +259,6 @@ class Support
         file_put_contents($file, $message);
         chmod($file, 0644);
     }
-
 
     /**
      * Method used to get the sender of a given set of emails.
@@ -274,6 +277,7 @@ class Support
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -284,18 +288,16 @@ class Support
         }
     }
 
-
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
      *
      * @access  public
      * @return  void
      */
-    function clearErrors()
+    public function clearErrors()
     {
         @imap_errors();
     }
-
 
     /**
      * Method used to restore the specified support emails from
@@ -304,7 +306,7 @@ class Support
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function restoreEmails()
+    public function restoreEmails()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
@@ -316,12 +318,12 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the list of support email entries that are
@@ -330,7 +332,7 @@ class Support
      * @access  public
      * @return  array The list of support emails
      */
-    function getRemovedList()
+    public function getRemovedList()
     {
         $stmt = "SELECT
                     sup_id,
@@ -347,6 +349,7 @@ class Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -354,10 +357,10 @@ class Support
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                 $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to remove all support email entries associated with
@@ -367,7 +370,7 @@ class Support
      * @param   array $ids The list of support email accounts
      * @return  boolean
      */
-    function removeEmailByAccounts($ids)
+    public function removeEmailByAccounts($ids)
     {
         if (count($ids) < 1) {
             return true;
@@ -380,12 +383,12 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to build the server URI to connect to.
@@ -395,7 +398,7 @@ class Support
      * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
      */
-    function getServerURI($info, $tls = FALSE)
+    public function getServerURI($info, $tls = false)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
         if (stristr($info['ema_type'], 'imap')) {
@@ -403,9 +406,9 @@ class Support
         } else {
             $folder = 'INBOX';
         }
+
         return '{' . $server_uri . '}' . $folder;
     }
-
 
     /**
      * Method used to connect to the provided email server.
@@ -414,7 +417,7 @@ class Support
      * @param   array $info The email server information
      * @return  resource The email server connection
      */
-    function connectEmailServer($info)
+    public function connectEmailServer($info)
     {
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
@@ -425,9 +428,9 @@ class Support
                 Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
             }
         }
+
         return $mbox;
     }
-
 
     /**
      * Method used to get the total number of emails in the specified
@@ -437,11 +440,10 @@ class Support
      * @param   resource $mbox The mailbox
      * @return  integer The number of emails
      */
-    function getTotalEmails($mbox)
+    public function getTotalEmails($mbox)
     {
         return @imap_num_msg($mbox);
     }
-
 
     /**
      * Bounce message to sender.
@@ -451,7 +453,7 @@ class Support
      * @param   array   array(ERROR_CODE, ERROR_STRING) of error to bounce
      * @return  void
      */
-    function bounceMessage($message, $error)
+    public function bounceMessage($message, $error)
     {
         // open text template
         $tpl = new Template_Helper();
@@ -476,7 +478,7 @@ class Support
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup['from'], $sender_email,
@@ -499,7 +501,7 @@ class Support
      * @param   integer $num The index of the message
      * @return  void
      */
-    function getEmailInfo($mbox, $info, $num)
+    public function getEmailInfo($mbox, $info, $num)
     {
         Auth::createFakeCookie(APP_SYSTEM_USER_ID);
 
@@ -569,6 +571,7 @@ class Support
                     $return = Routing::route_emails($message);
                     if ($return === true) {
                         self::deleteMessage($info, $mbox, $num);
+
                         return;
                     }
                     // TODO: handle errors?
@@ -598,6 +601,7 @@ class Support
                         }
                         self::deleteMessage($info, $mbox, $num);
                     }
+
                     return;
                 }
             }
@@ -624,6 +628,7 @@ class Support
                         }
                         self::deleteMessage($info, $mbox, $num);
                     }
+
                     return;
                 }
             }
@@ -810,7 +815,6 @@ class Support
         }
     }
 
-
     /**
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
@@ -826,7 +830,7 @@ class Support
      * @param   array   $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -981,6 +985,7 @@ class Support
                 }
             }
         }
+
         return array(
             'should_create_issue'   =>  $should_create_issue,
             'associate_email'   =>  $associate_email,
@@ -992,7 +997,6 @@ class Support
         );
     }
 
-
     /**
      * Method used to close the existing connection to the email
      * server.
@@ -1001,11 +1005,10 @@ class Support
      * @param   resource $mbox The mailbox
      * @return  void
      */
-    function closeEmailServer($mbox)
+    public function closeEmailServer($mbox)
     {
         @imap_close($mbox);
     }
-
 
     /**
      * Builds a list of all distinct message-ids available in the provided
@@ -1015,7 +1018,7 @@ class Support
      * @param   integer $ema_id The support email account ID
      * @return  array The list of message-ids
      */
-    function getMessageIDs($ema_id)
+    public function getMessageIDs($ema_id)
     {
         $stmt = "SELECT
                     DISTINCT sup_message_id
@@ -1026,12 +1029,12 @@ class Support
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Checks if a message already is downloaded.
@@ -1040,7 +1043,7 @@ class Support
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
-    function exists($message_id)
+    public function exists($message_id)
     {
         $sql = "SELECT
                     count(*)
@@ -1051,6 +1054,7 @@ class Support
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
         if ($res > 0) {
@@ -1059,7 +1063,6 @@ class Support
             return false;
         }
     }
-
 
     /**
      * Method used to add a new support email to the system.
@@ -1071,7 +1074,7 @@ class Support
      * @param   boolean $closing If this email comes from closing the issue
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insertEmail($row, &$structure, &$sup_id, $closing = false)
+    public function insertEmail($row, &$structure, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
@@ -1135,6 +1138,7 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_sup_id = DB_Helper::get_last_insert_id();
@@ -1155,14 +1159,15 @@ class Support
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             } else {
                 Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
+
                 return 1;
             }
         }
     }
-
 
     /**
      * Method used to get a specific parameter in the email listing
@@ -1172,7 +1177,7 @@ class Support
      * @param   string $name The name of the parameter
      * @return  mixed The value of the specified parameter
      */
-    function getParam($name)
+    public function getParam($name)
     {
         if (isset($_GET[$name])) {
             return $_GET[$name];
@@ -1185,7 +1190,6 @@ class Support
         }
     }
 
-
     /**
      * Method used to save the current search parameters in a cookie.
      *
@@ -1194,7 +1198,7 @@ class Support
      * @access  public
      * @return  array The search parameters
      */
-    function saveSearchParams()
+    public function saveSearchParams()
     {
         $sort_by = self::getParam('sort_by');
         $sort_order = self::getParam('sort_order');
@@ -1238,9 +1242,9 @@ class Support
             );
         }
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
+
         return $cookie;
     }
-
 
     /**
      * Method used to get the current sorting options used in the grid
@@ -1250,7 +1254,7 @@ class Support
      * @param   array $options The current search parameters
      * @return  array The sorting options
      */
-    function getSortingInfo($options)
+    public function getSortingInfo($options)
     {
         $fields = array(
             "sup_from",
@@ -1277,9 +1281,9 @@ class Support
                 $items["links"][$fields[$i]] = $_SERVER["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=asc";
             }
         }
+
         return $items;
     }
-
 
     /**
      * Method used to get the list of emails to be displayed in the
@@ -1291,7 +1295,7 @@ class Support
      * @param   integer $max The maximum number of rows per page
      * @return  array The list of issues to be displayed
      */
-    function getEmailListing($options, $current_row = 0, $max = 5)
+    public function getEmailListing($options, $current_row = 0, $max = 5)
     {
         $prj_id = Auth::getCurrentProject();
         $usr_id = Auth::getUserID();
@@ -1334,6 +1338,7 @@ class Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array(
                 "list" => "",
                 "info" => ""
@@ -1378,6 +1383,7 @@ class Support
 
         $total_pages = ceil($total_rows / $max);
         $last_page = $total_pages - 1;
+
         return array(
             "list" => $res,
             "info" => array(
@@ -1393,7 +1399,6 @@ class Support
         );
     }
 
-
     /**
      * Method used to get the list of emails to be displayed in the grid layout.
      *
@@ -1401,7 +1406,7 @@ class Support
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    function buildWhereClause($options)
+    public function buildWhereClause($options)
     {
         $stmt = "
                  WHERE
@@ -1443,9 +1448,9 @@ class Support
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND (iss_private = 0 OR iss_private IS NULL)";
         }
+
         return $stmt;
     }
-
 
     /**
      * Method used to extract and associate attachments in an email
@@ -1458,7 +1463,7 @@ class Support
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  void
      */
-    function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
+    public function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
@@ -1512,7 +1517,6 @@ class Support
         }
     }
 
-
     /**
      * Method used to silently associate a support email with an
      * existing issue.
@@ -1523,7 +1527,7 @@ class Support
      * @param   array $items The list of email IDs to associate
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function associateEmail($usr_id, $issue_id, $items)
+    public function associateEmail($usr_id, $issue_id, $items)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -1534,6 +1538,7 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             for ($i = 0; $i < count($items); $i++) {
@@ -1553,10 +1558,10 @@ class Support
                 History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
                        ev_gettext('Email (subject: \'%1$s\') associated by %2$s', $res[$i], User::getFullName($usr_id)));
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to associate a support email with an existing
@@ -1569,7 +1574,7 @@ class Support
      * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
+    public function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
     {
         $res = self::associateEmail($usr_id, $issue_id, $items);
         if ($res == 1) {
@@ -1615,12 +1620,12 @@ class Support
                     Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);
                 }
             }
+
             return 1;
         } else {
             return -1;
         }
     }
-
 
     /**
      * Method used to get the support email entry details.
@@ -1630,7 +1635,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details
      */
-    function getEmailDetails($ema_id, $sup_id)
+    public function getEmailDetails($ema_id, $sup_id)
     {
         // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = "SELECT
@@ -1645,6 +1650,7 @@ class Support
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $res['message'] = $res['seb_body'];
@@ -1665,7 +1671,6 @@ class Support
         }
     }
 
-
     /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
      *
@@ -1674,7 +1679,7 @@ class Support
      * @param   integer $sequence The sequential number of the email.
      * @return  array An array of data containing details about the email.
      */
-    function getEmailBySequence($issue_id, $sequence)
+    public function getEmailBySequence($issue_id, $sequence)
     {
         $stmt = "SELECT
                     sup_id,
@@ -1689,14 +1694,14 @@ class Support
         $res = DB_Helper::getInstance()->getRow($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
-        } else if (count($res) < 1) {
+        } elseif (count($res) < 1) {
             return array();
         } else {
             return self::getEmailDetails($res[1], $res[0]);
         }
     }
-
 
     /**
      * Method used to get the list of support emails associated with
@@ -1706,7 +1711,7 @@ class Support
      * @param   array $items List of issues
      * @return  array The list of support emails
      */
-    function getListDetails($items)
+    public function getListDetails($items)
     {
         $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
@@ -1723,16 +1728,17 @@ class Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                 $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the full email message for a given support
@@ -1742,7 +1748,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  string The full email message
      */
-    function getFullEmail($sup_id)
+    public function getFullEmail($sup_id)
     {
         $stmt = "SELECT
                     seb_full_email
@@ -1753,12 +1759,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the email message for a given support
@@ -1768,7 +1774,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  string The email message
      */
-    function getEmail($sup_id)
+    public function getEmail($sup_id)
     {
         $stmt = "SELECT
                     seb_body
@@ -1779,12 +1785,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get all of the support email entries associated
@@ -1794,7 +1800,7 @@ class Support
      * @param   integer $issue_id The issue ID
      * @return  array The list of support emails
      */
-    function getEmailsByIssue($issue_id)
+    public function getEmailsByIssue($issue_id)
     {
         $usr_id = Auth::getUserID();
         $stmt = "SELECT
@@ -1817,6 +1823,7 @@ class Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (count($res) == 0) {
@@ -1829,11 +1836,11 @@ class Support
                     $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
                     $res[$i]["sup_cc"] = Mime_Helper::fixEncoding($res[$i]["sup_cc"]);
                 }
+
                 return $res;
             }
         }
     }
-
 
     /**
      * Method used to update all of the selected support emails as
@@ -1842,7 +1849,7 @@ class Support
      * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function removeEmails()
+    public function removeEmails()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
@@ -1854,12 +1861,12 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to remove the association of all support emails
@@ -1868,7 +1875,7 @@ class Support
      * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function removeAssociation()
+    public function removeAssociation()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
@@ -1888,6 +1895,7 @@ class Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($issue_id);
@@ -1904,10 +1912,10 @@ class Support
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
                                 ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$_POST["item"][$i]], User::getFullName(Auth::getUserID())));
             }
+
             return 1;
         }
     }
-
 
     /**
      * Checks whether the given email address is allowed to send emails in the
@@ -1968,9 +1976,9 @@ class Support
                 $is_allowed = false;
             }
         }
+
         return $is_allowed;
     }
-
 
     /**
      * Method used to build the headers of a web-based message.
@@ -1986,10 +1994,10 @@ class Support
      * @param   array $attachments Array with attachment information
      * @return  string The full email
      */
-    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
+    public function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
     {
         // hack needed to get the full headers of this web-based email
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($body);
 
         $body = $mail->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
@@ -2027,9 +2035,9 @@ class Support
                 }
             }
         }
+
         return $mail->getFullHeaders($from, $to, $subject);
     }
-
 
     /**
      * Method used to send emails directly from the sender to the
@@ -2048,7 +2056,7 @@ class Support
      * @param   array $attachment An array with attachment information.
      * @return  void
      */
-    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
+    public function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
@@ -2056,7 +2064,7 @@ class Support
         $recipients[] = $to;
         // send the emails now, one at a time
         foreach ($recipients as $recipient) {
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             if (!empty($issue_id)) {
                 // add the warning message to the current message' body, if needed
                 $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, array());
@@ -2083,10 +2091,9 @@ class Support
                                      $attachment["type"][0]);
             }
             $mail->setTextBody($fixed_body);
-            $mail->send($from, $recipient, $subject, TRUE, $issue_id, $type, $sender_usr_id);
+            $mail->send($from, $recipient, $subject, true, $issue_id, $type, $sender_usr_id);
         }
     }
-
 
     /**
      * Method used to parse the Cc list in a string format and return
@@ -2096,17 +2103,17 @@ class Support
      * @param   string $cc The Cc list
      * @return  array The list of email addresses
      */
-    function getRecipientsCC($cc)
+    public function getRecipientsCC($cc)
     {
         $cc = trim($cc);
         if (empty($cc)) {
             return array();
         } else {
             $cc = str_replace(",", ";", $cc);
+
             return explode(";", $cc);
         }
     }
-
 
     /**
      * Method used to send an email from the user interface.
@@ -2114,7 +2121,7 @@ class Support
      * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function sendEmail($parent_sup_id = FALSE)
+    public function sendEmail($parent_sup_id = false)
     {
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {
@@ -2136,7 +2143,6 @@ class Support
             $type = '';
         }
 
-
         // remove extra 'Re: ' from subject
         $_POST['subject'] = Mail_Helper::removeExcessRe($_POST['subject'], true);
         $internal_only = false;
@@ -2156,6 +2162,7 @@ class Support
                 $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST["message"];
                 Note::insert(Auth::getUserID(), $_POST["issue_id"], false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
+
                 return 1;
             }
         }
@@ -2269,7 +2276,6 @@ class Support
         return 1;
     }
 
-
     /**
      * Method used to get the message-id associated with a given support
      * email entry.
@@ -2278,7 +2284,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  integer The email ID
      */
-    function getMessageIDByID($sup_id)
+    public function getMessageIDByID($sup_id)
     {
         $stmt = "SELECT
                     sup_message_id
@@ -2289,12 +2295,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the support ID associated with a given support
@@ -2304,7 +2310,7 @@ class Support
      * @param   string $message_id The message ID
      * @return  integer The email ID
      */
-    function getIDByMessageID($message_id)
+    public function getIDByMessageID($message_id)
     {
         $stmt = "SELECT
                     sup_id
@@ -2315,6 +2321,7 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
@@ -2325,7 +2332,6 @@ class Support
         }
     }
 
-
     /**
      * Method used to get the issue ID associated with a given support
      * email message-id.
@@ -2334,7 +2340,7 @@ class Support
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
-    function getIssueByMessageID($message_id)
+    public function getIssueByMessageID($message_id)
     {
         $stmt = "SELECT
                     sup_iss_id
@@ -2345,12 +2351,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the issue ID associated with a given support
@@ -2360,7 +2366,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  integer The issue ID
      */
-    function getIssueFromEmail($sup_id)
+    public function getIssueFromEmail($sup_id)
     {
         $stmt = "SELECT
                     sup_iss_id
@@ -2371,12 +2377,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Returns the message-id of the parent email.
@@ -2385,7 +2391,7 @@ class Support
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent email or false
      */
-    function getParentMessageIDbyMessageID($msg_id)
+    public function getParentMessageIDbyMessageID($msg_id)
     {
         $sql = "SELECT
                     parent.sup_message_id
@@ -2398,16 +2404,17 @@ class Support
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
                 return false;
             }
+
             return $res;
         }
 
     }
-
 
     /**
      * Returns the number of emails sent by a user in a time range.
@@ -2419,7 +2426,7 @@ class Support
      * @param   boolean $associated If this should return emails associated with issues or non associated emails.
      * @return  integer The number of emails sent by the user.
      */
-    function getSentEmailCountByUser($usr_id, $start, $end, $associated)
+    public function getSentEmailCountByUser($usr_id, $start, $end, $associated)
     {
         $usr_info = User::getNameEmail($usr_id);
         $stmt = "SELECT
@@ -2441,11 +2448,12 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
+
         return $res;
     }
-
 
     /**
      * Returns the projectID based on the email account
@@ -2454,7 +2462,7 @@ class Support
      * @param   integer $ema_id The id of the email account.
      * @return  integer The ID of the of the project.
      */
-    function getProjectByEmailAccount($ema_id)
+    public function getProjectByEmailAccount($ema_id)
     {
         static $returns;
 
@@ -2471,12 +2479,13 @@ class Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         $returns[$ema_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Moves an email from one account to another.
@@ -2487,7 +2496,7 @@ class Support
      * @param   integer $new_ema_id The ID of the account to move the message too.
      * @return  integer -1 if there was error moving the message, 1 otherwise.
      */
-    function moveEmail($sup_id, $current_ema_id, $new_ema_id)
+    public function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
         $usr_id = Auth::getUserID();
         $email = self::getEmailDetails($current_ema_id, $sup_id);
@@ -2532,6 +2541,7 @@ class Support
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -2550,9 +2560,9 @@ class Support
             'has_attachment' => $email['sup_has_attachment']
         );
         Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
+
         return 1;
     }
-
 
     /**
      * Deletes the specified message from the server
@@ -2562,7 +2572,7 @@ class Support
      * @param   object $mbox The mailbox object
      * @param   integer $num The number of the message to delete.
      */
-    function deleteMessage($info, $mbox, $num)
+    public function deleteMessage($info, $mbox, $num)
     {
         // need to delete the message from the server?
         if (!$info['ema_leave_copy']) {
@@ -2573,13 +2583,12 @@ class Support
         }
     }
 
-
     /**
      * Check if this email needs to be blocked and if so, block it.
      *
      *
      */
-    function blockEmailIfNeeded($email)
+    public function blockEmailIfNeeded($email)
     {
         if (empty($email['issue_id'])) {
             return false;
@@ -2631,13 +2640,14 @@ class Support
             }
             // log blocked email
             History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), ev_gettext('Email from \'%1$s\' blocked', $email['from']));
+
             return true;
         }
+
         return false;
     }
 
-
-    function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
+    public function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];
@@ -2645,7 +2655,6 @@ class Support
         if ((empty($email['cc'])) && (!empty($email['sup_cc']))) {
             $email['cc'] = $email['sup_cc'];
         }
-
 
         $project_details = Project::getDetails($prj_id);
         $addresses_not_too_add = explode(',', strtolower($project_details['prj_mail_aliases']));
@@ -2672,7 +2681,6 @@ class Support
         }
     }
 
-
     /**
      * Returns the sequential number of the specified email ID.
      *
@@ -2687,6 +2695,7 @@ class Support
         $res = DB_Helper::getInstance()->query("SET @sup_seq = 0");
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
         $issue_id = Support::getIssueFromEmail($sup_id);
@@ -2702,8 +2711,10 @@ class Support
         $res = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
+
         return @$res[$sup_id];
     }
 }

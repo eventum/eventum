@@ -47,7 +47,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
     }
 
-
     public function getIssueIDs($options)
     {
         // Build the Sphinx client
@@ -174,9 +173,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 }
             }
 
-
             $excerpts[$issue_id] = $excerpt;
         }
+
         return $excerpts;
     }
 
@@ -209,7 +208,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
             SPH_MATCH_EXTENDED2 =>  'Extended',
         );
     }
-
 
     private function getIndexes($all_indexes=false)
     {
@@ -255,7 +253,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 return false;
         }
     }
-
 
     public function supportsExcerpts()
     {

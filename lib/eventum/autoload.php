@@ -8,31 +8,35 @@
  *
  * @package Eventum
  */
-class Eventum_Autoload {
-
+class Eventum_Autoload
+{
     private static $excludes = array('.', '..', '.svn', 'CVS');
     private static $classes;
 
-    public static function autoload($className) {
+    public static function autoload($className)
+    {
         if (class_exists($className, false) || interface_exists($className, false)) {
             return;
         }
 
         // Zend framework
-        if (strpos($className, 'Zend') === 0){
+        if (strpos($className, 'Zend') === 0) {
             require_once str_replace('_', '/', $className) . '.php';
+
             return;
         }
 
         // Smarty
         if ($className === 'Smarty') {
             require_once APP_SMARTY_PATH . '/Smarty.class.php';
+
             return;
         }
 
         // SphinxClient
         if ($className === 'SphinxClient') {
             require_once 'sphinxapi.php';
+
             return;
         }
 
@@ -44,13 +48,15 @@ class Eventum_Autoload {
         $className = strtolower($className);
         if (array_key_exists($className, self::$classes)) {
             require_once self::$classes[$className];
+
             return;
         }
+
         return;
     }
 
-    private static function scan($path) {
-
+    private static function scan($path)
+    {
         $dh = opendir($path);
         if ($dh === false) {
             return;
@@ -93,7 +99,8 @@ class Eventum_Autoload {
 if (function_exists('spl_autoload_register')) {
     spl_autoload_register(array('Eventum_Autoload', 'autoload'));
 } else {
-    function __autoload($className) {
+    function __autoload($className)
+    {
         Eventum_Autoload::autoload($className);
     }
 }

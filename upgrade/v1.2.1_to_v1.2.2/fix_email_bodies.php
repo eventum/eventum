@@ -23,7 +23,7 @@ foreach ($res as $sup_id => $full_message) {
                 seb_sup_id=$sup_id";
     $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
     echo "fixed email #$sup_id<br />";

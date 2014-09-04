@@ -40,7 +40,6 @@ class Reminder
 {
     public static $debug = false;
 
-
     /**
      * Returns whether we are in "debug mode" or not. Returning true
      * here will enable all sorts of helpful messages in the reminder
@@ -49,11 +48,10 @@ class Reminder
      * @access  public
      * @return  boolean
      */
-    function isDebug()
+    public function isDebug()
     {
         return self::$debug;
     }
-
 
     /**
      * Method used to quickly change the ranking of a reminder entry
@@ -64,7 +62,7 @@ class Reminder
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($rem_id, $rank_type)
+    public function changeRank($rem_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking();
@@ -102,9 +100,9 @@ class Reminder
                  WHERE
                     rem_id=" . Misc::escapeInteger($rem_id);
         DB_Helper::getInstance()->query($stmt);
+
         return true;
     }
-
 
     /**
      * Returns an associative array with the list of reminder IDs and
@@ -113,7 +111,7 @@ class Reminder
      * @access  private
      * @return  array The list of reminders
      */
-    function _getRanking()
+    public function _getRanking()
     {
         $stmt = "SELECT
                     rem_id,
@@ -125,12 +123,12 @@ class Reminder
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used by the administration screen to list the available
@@ -140,15 +138,15 @@ class Reminder
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    function getIssueAssocListByProject($prj_id)
+    public function getIssueAssocListByProject($prj_id)
     {
         $issues = Issue::getAssocListByProject($prj_id);
         foreach ($issues as $iss_id => $iss_summary) {
             $issues[$iss_id] = $iss_id . ': ' . $iss_summary;
         }
+
         return $issues;
     }
-
 
     /**
      * Method used to get the title of a specific reminder.
@@ -157,7 +155,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  string The title of the reminder
      */
-    function getTitle($rem_id)
+    public function getTitle($rem_id)
     {
         $stmt = "SELECT
                     rem_title
@@ -168,12 +166,12 @@ class Reminder
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the project associated to a given reminder.
@@ -182,7 +180,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  integer The project ID
      */
-    function getProjectID($rem_id)
+    public function getProjectID($rem_id)
     {
         $stmt = "SELECT
                     rem_prj_id
@@ -193,12 +191,12 @@ class Reminder
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the details for a specific reminder.
@@ -207,7 +205,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The details for the specified reminder
      */
-    function getDetails($rem_id)
+    public function getDetails($rem_id)
     {
         $stmt = "SELECT
                     *
@@ -218,6 +216,7 @@ class Reminder
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $requirements = self::getRequirements($rem_id);
@@ -246,10 +245,10 @@ class Reminder
                 $res['check_severity'] = 'yes';
                 $res['rer_sev_id'] = $severities;
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get a list of all priority IDs associated with the given
@@ -259,7 +258,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated priority IDs
      */
-    function getAssociatedPriorities($rem_id)
+    public function getAssociatedPriorities($rem_id)
     {
         $stmt = "SELECT
                     rep_pri_id
@@ -270,14 +269,14 @@ class Reminder
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
-    function getAssociatedProducts($rem_id)
+    public function getAssociatedProducts($rem_id)
     {
         $stmt = "SELECT
                     rpr_pro_id
@@ -288,12 +287,12 @@ class Reminder
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get a list of all severity IDs associated with the given
@@ -303,7 +302,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated severity IDs
      */
-    function getAssociatedSeverities($rem_id)
+    public function getAssociatedSeverities($rem_id)
     {
         $stmt = "SELECT
                     rms_sev_id
@@ -314,12 +313,12 @@ class Reminder
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to associate a support level ID with a given
@@ -330,7 +329,7 @@ class Reminder
      * @param   integer $support_level_id The support level ID
      * @return  boolean
      */
-    function addSupportLevelAssociation($rem_id, $support_level_id)
+    public function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
@@ -344,12 +343,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate an issue with a given reminder.
@@ -359,7 +358,7 @@ class Reminder
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function addIssueAssociation($rem_id, $issue_id)
+    public function addIssueAssociation($rem_id, $issue_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
@@ -373,12 +372,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate a customer ID with a given reminder
@@ -389,7 +388,7 @@ class Reminder
      * @param   integer $customer_id The customer ID
      * @return  boolean
      */
-    function addCustomerAssociation($rem_id, $customer_id)
+    public function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
@@ -403,12 +402,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate a reminder with any issue.
@@ -417,7 +416,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  boolean
      */
-    function associateAllIssues($rem_id)
+    public function associateAllIssues($rem_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
@@ -431,12 +430,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate a priority with a given reminder.
@@ -446,7 +445,7 @@ class Reminder
      * @param   integer $priority_id The priority ID
      * @return  boolean
      */
-    function addPriorityAssociation($rem_id, $priority_id)
+    public function addPriorityAssociation($rem_id, $priority_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
@@ -460,14 +459,14 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
-    function addProductAssociation($rem_id, $pro_id)
+    public function addProductAssociation($rem_id, $pro_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
@@ -481,12 +480,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate a severity with a given reminder.
@@ -496,7 +495,7 @@ class Reminder
      * @param   integer $priority_id The severity ID
      * @return  boolean
      */
-    function addSeverityAssociation($rem_id, $severity_id)
+    public function addSeverityAssociation($rem_id, $severity_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
@@ -510,12 +509,12 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to remove all requirements and priority associations for a
@@ -524,7 +523,7 @@ class Reminder
      * @access  public
      * @param   integer $rem_id The reminder ID
      */
-    function removeAllAssociations($rem_id)
+    public function removeAllAssociations($rem_id)
     {
         $rem_id = Misc::escapeInteger($rem_id);
         if (!is_array($rem_id)) {
@@ -552,14 +551,13 @@ class Reminder
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to create a new reminder.
      *
      * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
@@ -579,6 +577,7 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_rem_id = DB_Helper::get_last_insert_id();
@@ -613,10 +612,10 @@ class Reminder
                     self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to update the details of a specific reminder.
@@ -624,7 +623,7 @@ class Reminder
      * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
@@ -639,6 +638,7 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             self::removeAllAssociations($_POST['id']);
@@ -673,10 +673,10 @@ class Reminder
                     self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove reminders by using the administrative
@@ -685,7 +685,7 @@ class Reminder
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -695,6 +695,7 @@ class Reminder
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeAllAssociations($_POST["items"]);
@@ -708,10 +709,10 @@ class Reminder
             if (count($actions) > 0) {
                 Reminder_Action::remove($actions);
             }
+
             return true;
         }
     }
-
 
     /**
      * Method used to get the list of requirements associated with a given
@@ -721,7 +722,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of requirements
      */
-    function getRequirements($rem_id)
+    public function getRequirements($rem_id)
     {
         $stmt = "SELECT
                     rer_customer_id,
@@ -735,6 +736,7 @@ class Reminder
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $type = '';
@@ -753,13 +755,13 @@ class Reminder
                     $values[] = $res[$i]['rer_iss_id'];
                 }
             }
+
             return array(
                 'type'   => $type,
                 'values' => $values
             );
         }
     }
-
 
     /**
      * Method used to get the list of reminders to be displayed in the
@@ -768,7 +770,7 @@ class Reminder
      * @access  public
      * @return  array The list of reminders
      */
-    function getAdminList()
+    public function getAdminList()
     {
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "reminder_level.*,
@@ -783,6 +785,7 @@ class Reminder
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -802,10 +805,10 @@ class Reminder
                 $requirements = self::getRequirements($res[$i]['rem_id']);
                 $res[$i]['type'] = $requirements['type'];
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the full list of reminders.
@@ -823,6 +826,7 @@ class Reminder
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -838,11 +842,11 @@ class Reminder
                     $res[$i]['actions'] = $actions;
                     $t[] = $res[$i];
                 }
+
                 return $t;
             }
         }
     }
-
 
     /**
      * Method used to get the list of issue IDs that match the given conditions.
@@ -852,7 +856,7 @@ class Reminder
      * @param   array $conditions The list of conditions
      * @return  array The list of issue IDs
      */
-    function getTriggeredIssues($reminder, $conditions)
+    public function getTriggeredIssues($reminder, $conditions)
     {
         // - build the SQL query to check if we have an issue that matches these conditions...
         $stmt = "SELECT
@@ -874,6 +878,7 @@ class Reminder
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             // - if query returns >= 1, then run the appropriate action
@@ -895,11 +900,11 @@ class Reminder
                         }
                     }
                 }
+
                 return array_keys($res);
             }
         }
     }
-
 
     /**
      * Method used to generate a where clause from the given list of conditions.
@@ -909,7 +914,7 @@ class Reminder
      * @param   array $conditions The list of conditions
      * @return  string The where clause
      */
-    function getWhereClause($reminder, $conditions)
+    public function getWhereClause($reminder, $conditions)
     {
         $stmt = '
                   WHERE
@@ -980,9 +985,9 @@ class Reminder
                                                   $conditions[$i]['rlc_value']);
             }
         }
+
         return $stmt;
     }
-
 
     /**
      * Method used to generate an SQL query to be used in debugging the reminder
@@ -993,7 +998,7 @@ class Reminder
      * @param   integer $rma_id The reminder action ID
      * @return  string The SQL query
      */
-    function getSQLQuery($rem_id, $rma_id)
+    public function getSQLQuery($rem_id, $rma_id)
     {
         $reminder = self::getDetails($rem_id);
         $conditions = Reminder_Condition::getList($rma_id);
@@ -1009,9 +1014,9 @@ class Reminder
         $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
+
         return $stmt;
     }
-
 
     /**
      * Method used to list the history of triggered reminder actions
@@ -1021,7 +1026,7 @@ class Reminder
      * @param   integer $iss_id The issue ID
      * @return  array The list of triggered reminder actions
      */
-    function getHistoryList($iss_id)
+    public function getHistoryList($iss_id)
     {
         $stmt = "SELECT
                     rmh_created_date,
@@ -1037,15 +1042,16 @@ class Reminder
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["rmh_created_date"] = Date_Helper::getFormattedDate($res[$i]["rmh_created_date"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of email addresses to use
@@ -1054,7 +1060,7 @@ class Reminder
      * @access  private
      * @return  array The list of alert email addresses
      */
-    function _getReminderAlertAddresses()
+    public function _getReminderAlertAddresses()
     {
         $emails = array();
         $setup = Setup::load();
@@ -1064,6 +1070,7 @@ class Reminder
             $emails = explode(',', $addresses);
         }
         $emails = array_map('trim', $emails);
+
         return $emails;
     }
 }

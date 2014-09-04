@@ -50,7 +50,7 @@ class Misc
      * @param   array $bar The second array
      * @return  array The different values
      */
-    function arrayDiff($foo, $bar)
+    public function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
             $bar = array();
@@ -75,6 +75,7 @@ class Misc
                 $diffs[] = $second[$i];
             }
         }
+
         return $diffs;
     }
 
@@ -109,12 +110,12 @@ class Misc
      * @access  public
      * @return  string The installation title
      */
-    function getToolCaption()
+    public function getToolCaption()
     {
         $setup = Setup::load();
+
         return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
     }
-
 
     /**
      * Method used to print a prompt asking the user for information.
@@ -124,7 +125,7 @@ class Misc
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
      */
-    function prompt($message, $default_value)
+    public function prompt($message, $default_value)
     {
         echo $message;
         if ($default_value !== FALSE) {
@@ -163,7 +164,7 @@ class Misc
      * @param   string $text The text to check the spelling against
      * @return  array Information about the mispelled words, if any
      */
-    function checkSpelling($text)
+    public function checkSpelling($text)
     {
         $temptext = tempnam("/tmp", "spelltext");
         if ($fd = fopen($temptext, "w")) {
@@ -231,14 +232,14 @@ class Misc
      * @param   string $str The string to be escaped
      * @return  string The escaped string
      */
-    function escapeWhitespace($str)
+    public function escapeWhitespace($str)
     {
         $str = str_replace("\n", '\n', $str);
         $str = str_replace("\r", '\r', $str);
         $str = str_replace("\t", '\t', $str);
+
         return $str;
     }
-
 
     /**
      * Method used to simulate array_map()'s functionality in a deeply nested
@@ -269,9 +270,9 @@ class Misc
                $value = call_user_func_array($in_func, $args);
            }
        }
+
        return $in_array;
     }
-
 
     /**
      * Method used to format a filesize in bytes to the appropriate string,
@@ -281,7 +282,7 @@ class Misc
      * @param   integer $bytes The filesize to format
      * @return  string The formatted filesize
      */
-    function formatFileSize($bytes)
+    public function formatFileSize($bytes)
     {
         $kb = 1024;
         $mb = 1024 * 1024;
@@ -289,9 +290,11 @@ class Misc
             return "$bytes bytes";
         } elseif (($bytes > $kb) && ($bytes <= $mb)) {
             $kbytes = $bytes / 1024;
+
             return sprintf("%.1f", round($kbytes, 1)) . " KiB";
         } else {
             $mbytes = ($bytes / 1024) / 1024;
+
             return sprintf("%.1f", round($mbytes, 1)) . " MiB";
         }
     }
@@ -306,7 +309,7 @@ class Misc
      * @param   string  $val The size to format
      * @return  integer size in bytes
      */
-    function return_bytes($val)
+    public function return_bytes($val)
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
@@ -322,7 +325,6 @@ class Misc
 
         return $val;
     }
-
 
 /**
  * The Util:: class provides generally useful methods of different kinds.
@@ -378,6 +380,7 @@ class Misc
             foreach ($value as $k => &$v) {
                 self::stripInput($v);
             }
+
             return;
         }
 
@@ -411,9 +414,9 @@ class Misc
         } else {
             $input = DB_Helper::escapeString($input, $add_quotes);
         }
+
         return $input;
     }
-
 
     /**
      * Accepts a value and cleans it to only contain numeric values
@@ -430,9 +433,9 @@ class Misc
         } else {
             settype($input, 'integer');
         }
+
         return $input;
     }
-
 
     /**
      * Method used to strip HTML from a string or array
@@ -449,9 +452,9 @@ class Misc
         } else {
             $input = filter_var($input, FILTER_SANITIZE_SPECIAL_CHARS);
         }
+
         return $input;
     }
-
 
     /**
      * Method used to prepare a set of fields and values for a boolean search
@@ -461,16 +464,16 @@ class Misc
      * @param   string $value The value for that field
      * @return  string The prepared boolean search string
      */
-    function prepareBooleanSearch($field, $value)
+    public function prepareBooleanSearch($field, $value)
     {
         $boolean = array();
         $pieces = explode(" ", $value);
         for ($i = 0; $i < count($pieces); $i++) {
             $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
         }
+
         return "(" . implode(" OR ", $boolean) . ")";
     }
-
 
     /**
      * Method used to get a random file from the 'daily tips' directory.
@@ -486,7 +489,7 @@ class Misc
         }
         $tip_dir = $tpl_dir . "/tips";
         $files = self::getFileList($tip_dir);
-        $i = rand(0, (integer)count($files));
+        $i = rand(0, (integer) count($files));
         // some weird bug in the rand() function where sometimes the
         // second parameter is non-inclusive makes us have to do this
         if (!isset($files[$i])) {
@@ -495,7 +498,6 @@ class Misc
             return $files[$i];
         }
     }
-
 
     /**
      * Method used to get the full list of files contained in a specific
@@ -509,15 +511,15 @@ class Misc
     {
         $files = array();
         $dir = @opendir($directory);
-        while ($item = @readdir($dir)){
+        while ($item = @readdir($dir)) {
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
                 continue;
             }
             $files[] = $item;
         }
+
         return $files;
     }
-
 
     /**
      * Method used to format the given number of minutes in a string showing
@@ -529,7 +531,7 @@ class Misc
      * @param   boolean $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */
-    function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
+    public function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
         if ((!empty($minutes)) && ($minutes < 6)) {
@@ -549,9 +551,9 @@ class Misc
             }
             $return = join(" ", $chunks);
         }
+
         return $return;
     }
-
 
     /**
      * Method used to parse the given string for references to URLs and create
@@ -561,7 +563,7 @@ class Misc
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    function activateLinks($text, $class = "link")
+    public function activateLinks($text, $class = "link")
     {
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
@@ -575,7 +577,6 @@ class Misc
         return $text;
     }
 
-
     /**
      * Method used to indent a given string.
      *
@@ -583,11 +584,10 @@ class Misc
      * @param   string $str The string to be indented
      * @return  string The indented string
      */
-    function indent($str)
+    public function indent($str)
     {
         return "> " . $str;
     }
-
 
     /**
      * Method used to format the reply of someone's email that is available in
@@ -597,14 +597,14 @@ class Misc
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
-    function formatReply($str)
+    public function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", "", $str));
         // COMPAT: the next line requires PHP >= 4.0.6
         $lines = array_map(array("Misc", "indent"), $lines);
+
         return implode("\n", $lines);
     }
-
 
     /**
      * Method used to format a RFC 822 compliant date for the given unix
@@ -614,12 +614,11 @@ class Misc
      * @param   integer $ts The unix timestamp
      * @return  string The formatted date string
      */
-    function formatReplyDate($ts)
+    public function formatReplyDate($ts)
     {
         // On Fri, 01 Apr 2005, 17:07:44 GMT
         return Date_Helper::getFormattedDate($ts);
     }
-
 
     /**
      * Method used to check whether the given directory is writable by the
@@ -629,7 +628,7 @@ class Misc
      * @param   string $file The full path to the directory
      * @return  boolean
      */
-    function isWritableDirectory($file)
+    public function isWritableDirectory($file)
     {
         clearstatcache();
         if (!file_exists($file)) {
@@ -664,9 +663,9 @@ class Misc
                 @unlink($file . '/dummy.txt');
             }
         }
+
         return true;
     }
-
 
     /**
      * Highlights quoted replies. Relies on a smarty plugin written by
@@ -676,12 +675,12 @@ class Misc
      * @param   string $text The text to highlight
      * @return  string The highlighted text
      */
-    function highlightQuotedReply($text)
+    public function highlightQuotedReply($text)
     {
         require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
+
         return smarty_modifier_highlight_quoted($text);
     }
-
 
     /**
      * Method used to display a nice error message when one (or more) of the
@@ -691,7 +690,7 @@ class Misc
      * @param   array $errors The list of errors
      * @return  void
      */
-    function displayRequirementErrors($errors)
+    public function displayRequirementErrors($errors)
     {
         echo '<html>
 <head>
@@ -739,7 +738,6 @@ class Misc
 </html>';
     }
 
-
     /**
      * Changes a boolean value to either "Yes" or "No".
      *
@@ -747,7 +745,7 @@ class Misc
      * @param   boolean $value The boolean value
      * @return  string Either 'Yes' or 'No'.
      */
-    function getBooleanDisplayValue($value)
+    public function getBooleanDisplayValue($value)
     {
         if ($value == true) {
             return ev_gettext('Yes');
@@ -756,19 +754,18 @@ class Misc
         }
     }
 
-
-    function removeNewLines($str, $no_space = false)
+    public function removeNewLines($str, $no_space = false)
     {
         if ($no_space) {
             $replacement = '';
         } else {
             $replacement = ' ';
         }
+
         return str_replace(array("\n", "\r"), $replacement, $str);
     }
 
-
-    function htmlentities($var)
+    public function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
@@ -789,25 +786,24 @@ class Misc
         Session::set('messages', $messages);
     }
 
-
     public static function getMessages()
     {
         $messages = Session::get('messages', array());
         Session::set('messages', array());
+
         return $messages;
     }
-
 
     public static function mapMessages($result, $map)
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
                 Misc::setMessage($info[0], $info[1]);
+
                 return;
             }
         }
     }
-
 
     public static function displayNotifiedUsers($notify_list)
     {
@@ -818,7 +814,6 @@ class Misc
             Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
         }
     }
-
 
     /**
      * Shortcut method to check if if an element is set in the array and if not
@@ -838,7 +833,6 @@ class Misc
         }
     }
 
-
     public static function arrayToQueryString($array, $parent_name = false)
     {
         $qs = '';
@@ -852,9 +846,9 @@ class Misc
                 $qs .= "&" . $key . "=" . urlencode($val);
             }
         }
+
         return $qs;
     }
-
 
     /**
      * Method used to get the full contents of the given file.
@@ -863,7 +857,7 @@ class Misc
      * @param   string $full_path The full path to the file
      * @return  string The full contents of the file
      */
-    function getFileContents($full_path)
+    public function getFileContents($full_path)
     {
         if (!@file_exists($full_path)) {
             return '';
@@ -874,9 +868,9 @@ class Misc
         }
         $contents = @fread($fp, filesize($full_path));
         @fclose($fp);
+
         return $contents;
     }
-
 
     /**
      * Method used to get the standard input.
@@ -884,7 +878,7 @@ class Misc
      * @access  public
      * @return  string The standard input value
      */
-    function getInput($is_one_liner = FALSE)
+    public function getInput($is_one_liner = false)
     {
         static $return;
 
@@ -905,9 +899,9 @@ class Misc
         }
         fclose($stdin);
         $return = $input;
+
         return $input;
     }
-
 
     public static function displayErrorMessage($msg)
     {
@@ -917,7 +911,6 @@ class Misc
         $tpl->displayTemplate();
         exit;
     }
-
 
     /**
      * Base 64 encodes all elements of an array.
@@ -934,6 +927,7 @@ class Misc
         } else {
             $data = base64_encode($data);
         }
+
         return $data;
     }
 }

@@ -58,6 +58,7 @@ class Project
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array(
                 'name'  => '',
                 'email' => ''
@@ -76,7 +77,6 @@ class Project
             }
         }
     }
-
 
     /**
      * Method used to get the initial status that should be set to a new issue
@@ -97,12 +97,12 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the options related to the anonymous posting
@@ -123,15 +123,16 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (!is_string($res)) {
                 $res = (string) $res;
             }
+
             return @unserialize($res);
         }
     }
-
 
     /**
      * Method used to update the anonymous posting related options.
@@ -152,12 +153,12 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the list of projects that allow anonymous
@@ -180,12 +181,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to check whether a project exists or not.
@@ -205,6 +206,7 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if ($res > 0) {
@@ -214,7 +216,6 @@ class Project
             }
         }
     }
-
 
     /**
      * Method used to get the project ID of the given project title.
@@ -234,12 +235,12 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the title of a given project ID.
@@ -265,13 +266,14 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$prj_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get if reporters should be segregated for a project ID
@@ -297,6 +299,7 @@ class Project
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return true;
         } else {
             if ($res == 1) {
@@ -305,10 +308,10 @@ class Project
                 $res = false;
             }
             $returns[$prj_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the details for a given project ID.
@@ -328,14 +331,15 @@ class Project
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $res["prj_assigned_users"] = self::getUserColList($res["prj_id"]);
             $res['assigned_statuses'] = array_keys(Status::getAssocStatusList($res['prj_id']));
+
             return $res;
         }
     }
-
 
     /**
      * Method used to remove a given set of projects from the system.
@@ -353,6 +357,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             self::removeUserByProjects($_POST["items"]);
@@ -367,10 +372,10 @@ class Project
                 Status::removeProjectAssociations($statuses, $prj_id);
             }
             Group::disassociateProjects($_POST["items"]);
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove all project/user associations for a given
@@ -393,12 +398,12 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update the details of the project information.
@@ -430,6 +435,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             self::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
@@ -448,10 +454,10 @@ class Project
             foreach ($_POST['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $_POST["id"]);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to associate an user to a project. If the user association already exists
@@ -478,6 +484,7 @@ class Project
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
@@ -495,15 +502,16 @@ class Project
                 $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return false;
                 } else {
                     return true;
                 }
             }
+
             return true;
         }
     }
-
 
     /**
      * Method used to add a new project to the system.
@@ -546,6 +554,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -568,7 +577,6 @@ class Project
 
         return 1;
     }
-
 
     /**
      * Method used to get the list of projects available in the
@@ -594,12 +602,12 @@ class Project
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of project ID and title
@@ -647,6 +655,7 @@ class Project
         }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if ($include_extra) {
@@ -655,10 +664,10 @@ class Project
                 }
             }
             $returns[$usr_id][$include_extra] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of users associated with a given project.
@@ -669,7 +678,7 @@ class Project
      * @param   integer $role The role ID of the user
      * @return  array The list of users
      */
-    public static function getUserAssocList($prj_id, $status = NULL, $role = NULL)
+    public static function getUserAssocList($prj_id, $status = null, $role = null)
     {
         $stmt = "SELECT
                     usr_id,
@@ -693,12 +702,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get a list of user IDs associated with a given
@@ -723,12 +732,12 @@ class Project
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of project ID and title
@@ -738,7 +747,7 @@ class Project
      * @param   boolean $include_no_customer_association Whether to include in the results projects with customer integration or not
      * @return  array List of projects
      */
-    public static function getAll($include_no_customer_association = TRUE)
+    public static function getAll($include_no_customer_association = true)
     {
         $stmt = "SELECT
                     prj_id,
@@ -754,12 +763,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get a list of emails that are associated with a given
@@ -777,9 +786,9 @@ class Project
         foreach ($list as $address => $name) {
             $emails[] = Mail_Helper::getEmailAddress($address);
         }
+
         return $emails;
     }
-
 
     /**
      * Method used to get a list of names and emails that are
@@ -790,7 +799,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    public static function getAddressBook($prj_id, $issue_id = FALSE)
+    public static function getAddressBook($prj_id, $issue_id = false)
     {
         static $returns;
 
@@ -808,10 +817,10 @@ class Project
                 $temp["$name <$email>"] = $name;
             }
             $returns[$key] = $temp;
+
             return $temp;
         }
     }
-
 
     /**
      * Method used to get an associative array of names and emails
@@ -822,7 +831,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    public static function getAddressBookAssocList($prj_id, $issue_id = FALSE)
+    public static function getAddressBookAssocList($prj_id, $issue_id = false)
     {
         if ($issue_id) {
             $customer_id = Issue::getCustomerID($issue_id);
@@ -851,12 +860,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of projects that allow remote
@@ -879,12 +888,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of projects assigned to a given user that
@@ -895,7 +904,7 @@ class Project
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = FALSE)
+    public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
     {
         static $returns;
 
@@ -922,16 +931,17 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // don't cache the results when the optional argument is used to avoid getting bogus results
             if (!$only_customer_projects) {
                 $returns[$usr_id] = $res;
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of users associated with a given project.
@@ -941,7 +951,7 @@ class Project
      * @param   string $status The desired user status
      * @return  array The list of users
      */
-    public static function getUserEmailAssocList($prj_id, $status = NULL, $role = NULL)
+    public static function getUserEmailAssocList($prj_id, $status = null, $role = null)
     {
         static $returns;
 
@@ -970,13 +980,14 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$prj_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of users associated with a given project.
@@ -1006,12 +1017,12 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
@@ -1031,6 +1042,7 @@ class Project
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1050,12 +1062,13 @@ class Project
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
-
 
     /**
      * Returns display settings for a specific project.
@@ -1076,6 +1089,7 @@ class Project
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         $fields = self::getDisplayFields();
@@ -1084,9 +1098,9 @@ class Project
                 $res[$field_name] = 0;
             }
         }
+
         return $res;
     }
-
 
     /**
      * Returns an array of fields which can be hidden.

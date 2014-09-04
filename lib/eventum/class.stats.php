@@ -45,16 +45,16 @@ class Stats
      * @param   array $data The data to check against
      * @return  boolean
      */
-    function hasData($data)
+    public function hasData($data)
     {
         foreach ($data as $piece) {
             if ($piece) {
                 return true;
             }
         }
+
         return false;
     }
-
 
     /**
      * Method used to check if the pie charts should be displayed in the main
@@ -63,7 +63,7 @@ class Stats
      * @access  public
      * @return  boolean
      */
-    function getPieChart()
+    public function getPieChart()
     {
         if (!file_exists(APP_JPGRAPH_PATH)) {
             return false;
@@ -71,7 +71,6 @@ class Stats
             return true;
         }
     }
-
 
     /**
      * Method used to get an associative array of the list of categories and the
@@ -81,7 +80,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    function getAssocCategory($hide_closed = false)
+    public function getAssocCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Category::getAssocList($prj_id);
@@ -106,9 +105,9 @@ class Stats
             }
         }
         arsort($stats);
+
         return $stats;
     }
-
 
     /**
      * Method used to get an associative array of the list of releases and the
@@ -118,7 +117,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    function getAssocRelease($hide_closed = true)
+    public function getAssocRelease($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Release::getAssocList($prj_id);
@@ -143,9 +142,9 @@ class Stats
             }
         }
         arsort($stats);
+
         return $stats;
     }
-
 
     /**
      * Method used to get an associative array of the list of statuses and the
@@ -155,7 +154,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getAssocStatus($hide_closed = true)
+    public function getAssocStatus($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Status::getAssocStatusList($prj_id);
@@ -180,9 +179,9 @@ class Stats
             }
         }
         arsort($stats);
+
         return $stats;
     }
-
 
     /**
      * Method used to get the list of statuses and the total number of issues
@@ -192,7 +191,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getStatus($hide_closed = false)
+    public function getStatus($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -217,12 +216,12 @@ class Stats
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of categories and the total number of issues
@@ -232,7 +231,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    function getCategory($hide_closed = false)
+    public function getCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -260,12 +259,12 @@ class Stats
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of releases and the total number of issues
@@ -275,7 +274,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    function getRelease($hide_closed = false)
+    public function getRelease($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -303,12 +302,12 @@ class Stats
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of the list of priorities and the
@@ -318,7 +317,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of priorities
      */
-    function getAssocPriority($hide_closed = false)
+    public function getAssocPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Priority::getAssocList($prj_id);
@@ -343,9 +342,9 @@ class Stats
             }
         }
         arsort($stats);
+
         return $stats;
     }
-
 
     /**
      * Method used to get the list of priorities and the total number of issues
@@ -355,7 +354,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getPriority($hide_closed = false)
+    public function getPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -383,12 +382,12 @@ class Stats
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of the list of users and the
@@ -398,7 +397,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    function getAssocUser($hide_closed = false)
+    public function getAssocUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
@@ -425,9 +424,9 @@ class Stats
             }
         }
         arsort($stats);
+
         return $stats;
     }
-
 
     /**
      * Method used to get the list of users and the total number of issues
@@ -437,7 +436,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    function getUser($hide_closed = false)
+    public function getUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -467,12 +466,12 @@ class Stats
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the total number of issues associated with each
@@ -481,7 +480,7 @@ class Stats
      * @access  public
      * @return  array List of statuses
      */
-    function getEmailStatus()
+    public function getEmailStatus()
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -499,6 +498,7 @@ class Stats
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
         if (empty($res['associated'])) {
@@ -519,8 +519,10 @@ class Stats
         $res3 = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res3)) {
             Error_Handler::logError(array($res3->getMessage(), $res3->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
+
         return array(
             "pending"    => $res['unassociated'],
             "associated" => $res['associated'],

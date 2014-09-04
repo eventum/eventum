@@ -95,7 +95,7 @@ if (@$_GET["err"] != '') {
 
 $select_prj = (isset($_POST['cat']) && $_POST['cat'] == 'select') || (isset($_GET['project']) && $_GET['project']);
 if ($select_prj) {
-    $prj_id = (int )(@$_POST['cat'] == 'select') ? (int )@$_POST['project'] : (int )@$_GET['project'];
+    $prj_id = (int) (@$_POST['cat'] == 'select') ? (int) @$_POST['project'] : (int) @$_GET['project'];
     $usr_id = Auth::getUserID();
     $projects = Project::getAssocList($usr_id);
     if (!in_array($prj_id, array_keys($projects))) {

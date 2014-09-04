@@ -36,7 +36,7 @@ class Monitor
      * @access  public
      * @return  integer Number of errors encountered.
      */
-    function checkMailQueue()
+    public function checkMailQueue()
     {
         $stmt = "SELECT
                     maq_id,
@@ -54,6 +54,7 @@ class Monitor
         if ($errors) {
             echo ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors), "\n";
         }
+
         return $errors;
     }
 
@@ -64,7 +65,7 @@ class Monitor
      * @access  public
      * @return  integer Number of mails not associated.
      */
-    function checkMailAssociation()
+    public function checkMailAssociation()
     {
         // TODO: optimize this
         // TODO: should we check it per project?
@@ -84,11 +85,13 @@ class Monitor
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
         if ($res > 0) {
             echo ev_gettext('ERROR: There is a total of %d emails not associated.', $res), "\n";
         }
+
         return $res;
     }
 
@@ -98,22 +101,24 @@ class Monitor
      * @access  public
      * @return  integer Number of errors encountered.
      */
-    function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
+    public function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
     {
         $total_space = disk_total_space($partition);
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
         if ($free_percentage < $low_limit) {
             echo ev_gettext('ERROR: Almost no free disk space left (percentage left: %.2f%%)', $free_percentage), "\n";
+
             return 1;
         }
         if ($free_percentage < $high_limit) {
             echo ev_gettext('ERROR: Free disk space left is getting very low (percentage left: %.2f%%)', $free_percentage), "\n";
+
             return 1;
         }
+
         return 0;
     }
-
 
     /**
      * Checks on the status of the required configuration and auxiliary files
@@ -123,7 +128,7 @@ class Monitor
      * @param   array $required_files An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
-    function checkRequiredFiles($required_files)
+    public function checkRequiredFiles($required_files)
     {
         $errors = 0;
         foreach ($required_files as $file_path => $options) {
@@ -155,6 +160,7 @@ class Monitor
                 $errors++;
             }
         }
+
         return $errors;
     }
 
@@ -165,7 +171,7 @@ class Monitor
      * @param   array $required_directories An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
-    function checkRequiredDirs($required_directories)
+    public function checkRequiredDirs($required_directories)
     {
         $errors = 0;
         foreach ($required_directories as $dir_path => $options) {
@@ -182,6 +188,7 @@ class Monitor
                 $errors++;
             }
         }
+
         return $errors;
     }
 
@@ -191,7 +198,7 @@ class Monitor
      * @access  public
      * @return  integer Number of errors encountered.
      */
-    function checkDatabase()
+    public function checkDatabase()
     {
         $required_tables = array(
             "custom_field",
@@ -274,9 +281,9 @@ class Monitor
                 $errors++;
             }
         }
+
         return $errors;
     }
-
 
     /**
      * Checks on the status of the IRC bot.
@@ -284,7 +291,7 @@ class Monitor
      * @access  public
      * @return  integer Number of errors encountered.
      */
-    function checkIRCBot()
+    public function checkIRCBot()
     {
         // check if any bot.php process is still running (lame, but oh well)
         ob_start();
@@ -294,11 +301,12 @@ class Monitor
         $lines = explode("\n", $contents);
         if (count($lines) <= 1) {
             echo ev_gettext('ERROR: Could not find IRC bot pid from process list.'), "\n";
+
             return 1;
         }
+
         return 0;
     }
-
 
     /**
      * Method used by the code that checks if the required tables
@@ -314,7 +322,6 @@ class Monitor
         return APP_TABLE_PREFIX . $table_name;
     }
 
-
     /**
      * Returns the owner and group name for the given file.
      *
@@ -326,12 +333,12 @@ class Monitor
     {
         $owner_info = posix_getpwuid(fileowner($file));
         $group_info = posix_getgrgid(filegroup($file));
+
         return array(
             $owner_info['name'],
             $group_info['name']
         );
     }
-
 
     /**
      * Returns the octal permission string for a given file.

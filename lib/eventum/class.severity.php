@@ -76,6 +76,7 @@ class Severity
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
         }
@@ -89,11 +90,12 @@ class Severity
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
+
         return true;
     }
-
 
     /**
      * Returns an associative array with the list of severity IDs and
@@ -116,12 +118,12 @@ class Severity
         $res = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the full details of a severity.
@@ -140,12 +142,12 @@ class Severity
         $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to remove all severities related to a set of
@@ -164,12 +166,12 @@ class Severity
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to remove user-selected priorities from the
@@ -191,12 +193,12 @@ class Severity
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update a single severity
@@ -219,12 +221,12 @@ class Severity
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to add a new severity to the application.
@@ -246,12 +248,12 @@ class Severity
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the full list of severities associated with
@@ -276,12 +278,12 @@ class Severity
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the title for a severity ID.
@@ -300,12 +302,12 @@ class Severity
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of severities as an associative array in the
@@ -334,9 +336,11 @@ class Severity
         $res = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $list[$prj_id] = $res;
+
             return $res;
         }
     }
@@ -361,6 +365,7 @@ class Severity
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return $res;

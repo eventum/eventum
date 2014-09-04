@@ -46,7 +46,7 @@ class Issue
      * @param   boolean $check_project If we should check that this issue is in the current project
      * @return  boolean
      */
-    function exists($issue_id, $check_project = true)
+    public function exists($issue_id, $check_project = true)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -61,12 +61,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return $res != 0;
     }
-
 
     /**
      * Method used to get the list of column heading titles for the
@@ -105,9 +105,9 @@ class Issue
         $headings[] = 'Est. Dev. TIme';
         $headings[] = 'Summary';
         $headings[] = 'Expected Resolution Date';
+
         return $headings;
     }
-
 
     /**
      * Method used to get the full list of date fields available to issues, to
@@ -118,7 +118,7 @@ class Issue
      * @param   boolean $display_customer_fields Whether to include any customer related fields or not
      * @return  array The list of available date fields
      */
-    function getDateFieldsAssocList($display_customer_fields = FALSE)
+    public function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = array(
             'iss_created_date'              => 'Created Date',
@@ -130,9 +130,9 @@ class Issue
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
         }
         asort($fields);
+
         return $fields;
     }
-
 
     /**
      * Method used to get the full list of issue IDs and their respective
@@ -142,7 +142,7 @@ class Issue
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    function getAssocListByProject($prj_id)
+    public function getAssocListByProject($prj_id)
     {
         $stmt = "SELECT
                     iss_id,
@@ -156,12 +156,12 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the status of a given issue.
@@ -170,7 +170,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer The status ID
      */
-    function getStatusID($issue_id)
+    public function getStatusID($issue_id)
     {
         static $returns;
 
@@ -189,13 +189,14 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Records the last customer action date for a given issue ID.
@@ -204,7 +205,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function recordLastCustomerAction($issue_id)
+    public function recordLastCustomerAction($issue_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -217,12 +218,12 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         return 1;
     }
-
 
     /**
      * Returns the customer ID associated with the given issue ID.
@@ -250,13 +251,14 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Returns the contract ID associated with the given issue ID.
@@ -283,13 +285,14 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Sets the contract ID for a specific issue.
@@ -299,7 +302,7 @@ class Issue
      * @param   integer The contract ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setContractID($issue_id, $contract_id)
+    public function setContractID($issue_id, $contract_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
 
@@ -314,14 +317,15 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         // log this
         History::add($issue_id, Auth::getUserID(), History::getTypeID("contract_changed"), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
+
         return 1;
     }
-
 
     /**
      * Returns the customer ID associated with the given issue ID.
@@ -330,7 +334,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer The customer ID associated with the issue
      */
-    function getContactID($issue_id)
+    public function getContactID($issue_id)
     {
         static $returns;
 
@@ -349,13 +353,14 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Method used to get the project associated to a given issue.
@@ -384,13 +389,14 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Method used to remotely assign a given issue to an user.
@@ -401,7 +407,7 @@ class Issue
      * @param   boolean $assignee The user ID of the assignee
      * @return  integer The status ID
      */
-    function remoteAssign($issue_id, $usr_id, $assignee)
+    public function remoteAssign($issue_id, $usr_id, $assignee)
     {
         Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), array($assignee), true);
         // clear up the assignments for this issue, and then assign it to the current user
@@ -415,9 +421,9 @@ class Issue
                 Notification::notifyNewAssignment(array($assignee), $issue_id);
             }
         }
+
         return $res;
     }
-
 
     /**
      * Method used to set the status of a given issue.
@@ -428,7 +434,7 @@ class Issue
      * @param   boolean $notify If a notification should be sent about this change.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setStatus($issue_id, $status_id, $notify = false)
+    public function setStatus($issue_id, $status_id, $notify = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status_id = Misc::escapeInteger($status_id);
@@ -458,6 +464,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -479,7 +486,6 @@ class Issue
         return 1;
     }
 
-
     /**
      * Method used to remotely set the status of a given issue.
      *
@@ -489,7 +495,7 @@ class Issue
      * @param   integer $new_status The new status ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setRemoteStatus($issue_id, $usr_id, $new_status)
+    public function setRemoteStatus($issue_id, $usr_id, $new_status)
     {
         $sta_id = Status::getStatusID($new_status);
 
@@ -498,9 +504,9 @@ class Issue
             // record history entry
             History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status remotely changed to '$new_status' by " . User::getFullName($usr_id));
         }
+
         return $res;
     }
-
 
     /**
      * Method used to set the release of an issue
@@ -510,7 +516,7 @@ class Issue
      * @param   integer $pre_id The ID of the release to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setRelease($issue_id, $pre_id)
+    public function setRelease($issue_id, $pre_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $pre_id = Misc::escapeInteger($pre_id);
@@ -525,13 +531,13 @@ class Issue
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
 
             return 1;
         }
     }
-
 
     /**
      * Returns the current release of an issue
@@ -540,7 +546,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  integer The release
      */
-    function getRelease($issue_id)
+    public function getRelease($issue_id)
     {
         $sql = "SELECT
                     iss_pre_id
@@ -551,12 +557,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
         return $res;
     }
-
 
     /**
      * Method used to set the priority of an issue
@@ -566,7 +572,7 @@ class Issue
      * @param   integer $pri_id The ID of the priority to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setPriority($issue_id, $pri_id)
+    public function setPriority($issue_id, $pri_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $pri_id = Misc::escapeInteger($pri_id);
@@ -581,13 +587,13 @@ class Issue
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
 
             return 1;
         }
     }
-
 
     /**
      * Returns the current issue priority
@@ -606,12 +612,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
         return $res;
     }
-
 
     /**
      * Method used to set the severity of an issue
@@ -635,13 +641,13 @@ class Issue
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             } else {
                 return 1;
             }
         }
     }
-
 
     /**
      * Returns the current issue severity
@@ -660,6 +666,7 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return $res;
@@ -674,7 +681,7 @@ class Issue
      * @param   string $expected_resolution_date The Expected Resolution Date to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setExpectedResolutionDate($issue_id, $expected_resolution_date)
+    public function setExpectedResolutionDate($issue_id, $expected_resolution_date)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $expected_resolution_date = Misc::escapeString($expected_resolution_date);
@@ -689,12 +696,14 @@ class Issue
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
 
             $usr_id = Auth::getUserID();
             Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
             History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
+
             return 1;
         }
     }
@@ -706,7 +715,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  string The Expected Resolution Date
      */
-    function getExpectedResolutionDate($issue_id)
+    public function getExpectedResolutionDate($issue_id)
     {
         $sql = "SELECT
                     iss_expected_resolution_date
@@ -717,6 +726,7 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
@@ -731,7 +741,7 @@ class Issue
      * @param   integer $prc_id The ID of the category to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setCategory($issue_id, $prc_id)
+    public function setCategory($issue_id, $prc_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $prc_id = Misc::escapeInteger($prc_id);
@@ -746,13 +756,13 @@ class Issue
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
 
             return 1;
         }
     }
-
 
     /**
      * Returns the current issue category
@@ -761,7 +771,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  integer The category
      */
-    function getCategory($issue_id)
+    public function getCategory($issue_id)
     {
         $sql = "SELECT
                     iss_prc_id
@@ -772,12 +782,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get all issues associated with a status that doesn't have
@@ -790,7 +800,7 @@ class Issue
      * @param   integer $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
      */
-    function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
+    public function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $status_id = Misc::escapeInteger($status_id);
@@ -829,15 +839,16 @@ class Issue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         if (count($res) > 0) {
             self::getAssignedUsersByIssues($res);
         }
+
         return $res;
     }
-
 
     /**
      * Method used to build the required parameters to simulate an email reply
@@ -848,7 +859,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The email parameters
      */
-    function getReplyDetails($issue_id)
+    public function getReplyDetails($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
 
@@ -867,15 +878,16 @@ class Issue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
 
         // TRANSLATORS: %1 = issue_id, %2 = issue summary
         $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', $issue_id, $res["sup_subject"]);
         $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
+
         return $res;
     }
-
 
     /**
      * Method used to record the last updated timestamp for a given
@@ -886,7 +898,7 @@ class Issue
      * @param   string $type The type of update that was made (optional)
      * @return  boolean
      */
-    function markAsUpdated($issue_id, $type = false)
+    public function markAsUpdated($issue_id, $type = false)
     {
         $public = array("staff response", "customer action", "file uploaded", "user response");
         $stmt = "UPDATE
@@ -907,6 +919,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
@@ -932,7 +945,6 @@ class Issue
         return true;
     }
 
-
     /**
      * Method used to check whether a given issue has duplicates
      * or not.
@@ -941,7 +953,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function hasDuplicates($issue_id)
+    public function hasDuplicates($issue_id)
     {
         $stmt = "SELECT
                     COUNT(iss_id)
@@ -952,12 +964,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return $res != 0;
     }
-
 
     /**
      * Method used to update the duplicated issues for a given
@@ -967,7 +979,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updateDuplicates($issue_id)
+    public function updateDuplicates($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
 
@@ -995,6 +1007,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1003,9 +1016,9 @@ class Issue
             History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
                 "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
         }
+
         return 1;
     }
-
 
     /**
      * Method used to get a list of the duplicate issues for a given
@@ -1015,7 +1028,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    function getDuplicateList($issue_id)
+    public function getDuplicateList($issue_id)
     {
         $res = self::getDuplicateDetailsList($issue_id);
         if (@count($res) == 0) {
@@ -1026,9 +1039,9 @@ class Issue
         for ($i = 0; $i < count($res); $i++) {
             $list[$res[$i]['issue_id']] = $res[$i]['title'];
         }
+
         return $list;
     }
-
 
     /**
      * Method used to get a list of the duplicate issues (and their details)
@@ -1038,7 +1051,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    function getDuplicateDetailsList($issue_id)
+    public function getDuplicateDetailsList($issue_id)
     {
         static $returns;
 
@@ -1060,13 +1073,14 @@ class Issue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Method used to clear the duplicate status of an issue.
@@ -1075,7 +1089,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function clearDuplicateStatus($issue_id)
+    public function clearDuplicateStatus($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "UPDATE
@@ -1090,14 +1104,15 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         // record the change
         History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), "Duplicate flag was reset by " . User::getFullName(Auth::getUserID()));
+
         return 1;
     }
-
 
     /**
      * Method used to mark an issue as a duplicate of an existing one.
@@ -1106,7 +1121,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function markAsDuplicate($issue_id)
+    public function markAsDuplicate($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (!self::exists($issue_id)) {
@@ -1125,6 +1140,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1137,11 +1153,11 @@ class Issue
         // record the change
         History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
                 "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
+
         return 1;
     }
 
-
-    function isDuplicate($issue_id)
+    public function isDuplicate($issue_id)
     {
         $sql = "SELECT
                     count(iss_id)
@@ -1153,12 +1169,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return !($res > 0);
     }
-
 
     /**
      * Method used to get an associative array of user ID => user
@@ -1168,7 +1184,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    function getAssignedUsersStatus($issue_id)
+    public function getAssignedUsersStatus($issue_id)
     {
         $stmt = "SELECT
                     usr_id,
@@ -1182,12 +1198,12 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the summary associated with a given issue ID.
@@ -1196,7 +1212,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  string The issue summary
      */
-    function getTitle($issue_id)
+    public function getTitle($issue_id)
     {
         $stmt = "SELECT
                     iss_summary
@@ -1207,12 +1223,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the issue ID associated with a specific summary.
@@ -1221,7 +1237,7 @@ class Issue
      * @param   string $summary The summary to look for
      * @return  integer The issue ID
      */
-    function getIssueID($summary)
+    public function getIssueID($summary)
     {
         $stmt = "SELECT
                     iss_id
@@ -1232,12 +1248,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
         return !empty($res) ? $res : 0;
     }
-
 
     /**
      * Method used to add a new anonymous based issue in the system.
@@ -1245,7 +1261,7 @@ class Issue
      * @access  public
      * @return  integer The new issue ID
      */
-    function addAnonymousReport()
+    public function addAnonymousReport()
     {
         $options = Project::getAnonymousPostOptions($_POST["project"]);
         $initial_status = Project::getInitialStatus($_POST["project"]);
@@ -1287,6 +1303,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return $res;
         }
 
@@ -1340,7 +1357,6 @@ class Issue
         return $new_issue_id;
     }
 
-
     /**
      * Method used to remove all issues associated with a specific list of
      * projects.
@@ -1349,7 +1365,7 @@ class Issue
      * @param   array $ids The list of projects to look for
      * @return  boolean
      */
-    function removeByProjects($ids)
+    public function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
@@ -1361,6 +1377,7 @@ class Issue
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
@@ -1387,7 +1404,6 @@ class Issue
 
         return true;
     }
-
 
     /**
      * Method used to close off an issue.
@@ -1426,6 +1442,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1487,9 +1504,9 @@ class Issue
             Notification::notify($issue_id, 'closed', $ids);
         }
         Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
+
         return 1;
     }
-
 
     /**
      * Method used to update the details of a specific issue.
@@ -1570,7 +1587,7 @@ class Issue
             foreach ($new_assignees as $assignee) {
                 if (!in_array($assignee, $old_assignees)) {
                     self::addUserAssociation($usr_id, $issue_id, $assignee);
-                    Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'issue_update'), TRUE);
+                    Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'issue_update'), true);
                     $assignment_notifications[] = $assignee;
                     $assignments_changed = true;
                 }
@@ -1627,6 +1644,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // change product
@@ -1711,7 +1729,7 @@ class Issue
             }
 
             // record group change as a seperate change
-            if ($current["iss_grp_id"] != (int)$_POST["group"]) {
+            if ($current["iss_grp_id"] != (int) $_POST["group"]) {
                 History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
                     "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($_POST["group"])) . ") by " . User::getFullName($usr_id));
             }
@@ -1743,9 +1761,9 @@ class Issue
             Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
             // Move issue to another project
             if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Developer"))) {
-                $new_prj_id = (int)@$_POST['new_prj'];
+                $new_prj_id = (int) @$_POST['new_prj'];
                 if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
-                    if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
+                    if (User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
                         $res = self::moveIssue($issue_id, $new_prj_id);
                         if ($res == -1) {
                             return $res;
@@ -1755,10 +1773,10 @@ class Issue
                     }
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Move the issue to a new project
@@ -1767,7 +1785,7 @@ class Issue
      * @param integer $new_prj_id
      * @return integer 1 on success, -1 otherwise
      */
-    function moveIssue($issue_id, $new_prj_id)
+    public function moveIssue($issue_id, $new_prj_id)
     {
         $stmt = "UPDATE
               " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1778,6 +1796,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1818,9 +1837,9 @@ class Issue
         self::getProjectID($issue_id, true);
 
         Notification::notifyNewIssue($new_prj_id, $issue_id);
+
         return 1;
     }
-
 
     /**
      * Method used to associate an existing issue with another one.
@@ -1830,7 +1849,7 @@ class Issue
      * @param   integer $issue_id The other issue ID
      * @return  void
      */
-    function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = TRUE)
+    public function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $associated_id = Misc::escapeInteger($associated_id);
@@ -1848,10 +1867,9 @@ class Issue
         History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to Issue #$associated_id by " . User::getFullName($usr_id));
         // link the associated issue back to this one
         if ($link_issues) {
-            self::addAssociation($associated_id, $issue_id, $usr_id, FALSE);
+            self::addAssociation($associated_id, $issue_id, $usr_id, false);
         }
     }
-
 
     /**
      * Method used to remove the issue associations related to a specific issue.
@@ -1860,7 +1878,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  void
      */
-    function deleteAssociations($issue_id, $usr_id = FALSE)
+    public function deleteAssociations($issue_id, $usr_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
@@ -1877,7 +1895,6 @@ class Issue
         }
     }
 
-
     /**
      * Method used to remove a issue association from an issue.
      *
@@ -1886,7 +1903,7 @@ class Issue
      * @param   integer $associated_id The associated issue ID to remove.
      * @return  void
      */
-    function deleteAssociation($issue_id, $associated_id)
+    public function deleteAssociation($issue_id, $associated_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $associated_id = Misc::escapeInteger($associated_id);
@@ -1908,7 +1925,6 @@ class Issue
                 "Issue association to Issue #$issue_id removed by " . User::getFullName(Auth::getUserID()));
     }
 
-
     /**
      * Method used to assign an issue with an user.
      *
@@ -1919,7 +1935,7 @@ class Issue
      * @param   boolean $add_history Whether to add a history entry about this or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = TRUE)
+    public function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $assignee_usr_id = Misc::escapeInteger($assignee_usr_id);
@@ -1937,6 +1953,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1944,9 +1961,9 @@ class Issue
             History::add($issue_id, $usr_id, History::getTypeID('user_associated'),
                 'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
         }
+
         return 1;
     }
-
 
     /**
      * Method used to delete all user assignments for a specific issue.
@@ -1956,7 +1973,7 @@ class Issue
      * @param   integer $usr_id The user ID of the person performing the change
      * @return  void
      */
-    function deleteUserAssociations($issue_id, $usr_id = FALSE)
+    public function deleteUserAssociations($issue_id, $usr_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
@@ -1969,15 +1986,16 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         if ($usr_id) {
             History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
         }
+
         return 1;
     }
-
 
     /**
      * Method used to delete a single user assignments for a specific issue.
@@ -1988,7 +2006,7 @@ class Issue
      * @param   boolean $add_history Whether to add a history entry about this or not
      * @return  void
      */
-    function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
+    public function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -2000,6 +2018,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -2007,9 +2026,9 @@ class Issue
             History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'),
                 User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
         }
+
         return 1;
     }
-
 
     /**
      * Creates an issue with the given email information.
@@ -2031,7 +2050,7 @@ class Issue
      * @param   string $contract_id
      * @return  void
      */
-    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
+    public function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
                              $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
     {
         $exclude_list = array();
@@ -2186,14 +2205,14 @@ class Issue
         return $issue_id;
     }
 
-
     /**
      * Return errors that happened when creating new issue from POST method.
      *
      * @return  array
      */
     private static $insert_errors = array();
-    static function getInsertErrors() {
+    public static function getInsertErrors()
+    {
         return self::$insert_errors;
     }
 
@@ -2380,7 +2399,7 @@ class Issue
             // now check for additional emails in contact_extra_emails
             if (@count($data['contact_extra_emails']) > 0) {
                 $notification_emails = $data['contact_extra_emails'];
-                foreach($notification_emails as $notification_email) {
+                foreach ($notification_emails as $notification_email) {
                     if (@!in_array($notification_email, $recipients)) {
                         try {
                             $notification_contact = $crm->getContactByEmail($notification_email);
@@ -2493,10 +2512,12 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         $issue_id = DB_Helper::get_last_insert_id();
+
         return $issue_id;
     }
 
@@ -2521,7 +2542,6 @@ class Issue
         }
     }
 
-
     /**
      * Processes a result set to format the "Last Action Date" column.
      *
@@ -2544,7 +2564,6 @@ class Issue
             $result[$i]['last_action_date_label'] = ucwords($label);
         }
     }
-
 
     /**
      * Retrieves the last status change date for the given issue.
@@ -2585,7 +2604,6 @@ class Issue
         }
     }
 
-
     /**
      * Method used to get the previous and next issues that are available
      * according to the current search parameters.
@@ -2595,7 +2613,7 @@ class Issue
      * @param   array $options The search parameters
      * @return  array The list of issues
      */
-    function getSides($issue_id, $options)
+    public function getSides($issue_id, $options)
     {
         $usr_id = Auth::getUserID();
         $role_id = Auth::getCurrentRole();
@@ -2712,6 +2730,7 @@ class Issue
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // COMPAT: the next line requires PHP >= 4.0.5
@@ -2722,13 +2741,13 @@ class Issue
             if (!empty($res[$index-1])) {
                 $previous = $res[$index-1];
             }
+
             return array(
                 "next"     => @$next,
                 "previous" => @$previous
             );
         }
     }
-
 
     /**
      * Method used to get the full list of user IDs assigned to a specific
@@ -2750,12 +2769,12 @@ class Issue
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return $res;
     }
-
 
     /**
      * Method used to see if a user is assigned to an issue.
@@ -2765,7 +2784,7 @@ class Issue
      * @param   integer $usr_id An integer containg the ID of the user.
      * @return  boolean true if the user(s) are assigned to the issue.
      */
-    function isAssignedToUser($issue_id, $usr_id)
+    public function isAssignedToUser($issue_id, $usr_id)
     {
         $assigned_users = self::getAssignedUserIDs($issue_id);
         if (in_array($usr_id, $assigned_users)) {
@@ -2775,7 +2794,6 @@ class Issue
         }
     }
 
-
     /**
      * Method used to get the full list of reporters associated with a given
      * list of issues.
@@ -2784,7 +2802,7 @@ class Issue
      * @param   array $result The result set
      * @return  void
      */
-    function getReportersByIssues(&$result)
+    public function getReportersByIssues(&$result)
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
@@ -2810,7 +2828,6 @@ class Issue
             }
         }
     }
-
 
     /**
      * Method used to get the full list of assigned users by a list
@@ -2859,7 +2876,6 @@ class Issue
         }
     }
 
-
     /**
      * Method used to add the issue description to a list of issues.
      *
@@ -2867,7 +2883,7 @@ class Issue
      * @param   array $result The result set
      * @return  void
      */
-    function getDescriptionByIssues(&$result)
+    public function getDescriptionByIssues(&$result)
     {
         if (count($result) == 0) {
             return;
@@ -2889,6 +2905,7 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return;
         }
 
@@ -2896,7 +2913,6 @@ class Issue
             @$result[$i]['iss_description'] = $res[$result[$i]['iss_id']];
         }
     }
-
 
     /**
      * Method used to get the full list of users (the full names) assigned to a
@@ -2919,12 +2935,12 @@ class Issue
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the full list of users (the email usernames) assigned to a
@@ -2934,7 +2950,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    function getAssignedUserEmailHandles($issue_id)
+    public function getAssignedUserEmailHandles($issue_id)
     {
         $stmt = "SELECT
                     usr_id,
@@ -2948,12 +2964,12 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return array_values($res);
     }
-
 
     /**
      * Method used to get the details for a specific issue.
@@ -3018,6 +3034,7 @@ class Issue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (empty($res)) {
@@ -3109,11 +3126,11 @@ class Issue
                 $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
                 $returns[$issue_id] = $res;
+
                 return $res;
             }
         }
     }
-
 
     /**
      * Method used to get some simple details about the given duplicated issue.
@@ -3122,7 +3139,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The duplicated issue details
      */
-    function getDuplicatedDetails($issue_id)
+    public function getDuplicatedDetails($issue_id)
     {
         $stmt = "SELECT
                     iss_summary title,
@@ -3137,12 +3154,12 @@ class Issue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return $res;
     }
-
 
     /**
      * Method used to bulk update a list of issues
@@ -3150,7 +3167,7 @@ class Issue
      * @access  public
      * @return  boolean
      */
-    function bulkUpdate()
+    public function bulkUpdate()
     {
         // check if user performing this chance has the proper role
         if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
@@ -3191,6 +3208,7 @@ class Issue
                 $current_assignees = DB_Helper::getInstance()->getAssoc($stmt);
                 if (PEAR::isError($current_assignees)) {
                     Error_Handler::logError(array($current_assignees->getMessage(), $current_assignees->getDebugInfo()), __FILE__, __LINE__);
+
                     return -1;
                 }
                 foreach ($current_assignees as $usr_id => $usr_name) {
@@ -3281,9 +3299,9 @@ class Issue
                 self::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], $_REQUEST['closed_message'], $_REQUEST['notification_list']);
             }
         }
+
         return true;
     }
-
 
     /**
      * Method used to set the initial impact analysis for a specific issue
@@ -3292,7 +3310,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setImpactAnalysis($issue_id)
+    public function setImpactAnalysis($issue_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -3307,15 +3325,16 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         // add the impact analysis to the history of the issue
         $summary = 'Initial Impact Analysis for issue set by ' . User::getFullName(Auth::getUserID());
         History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_added'), $summary);
+
         return 1;
     }
-
 
     /**
      * Method used to get the full list of issue IDs that area available in the
@@ -3325,7 +3344,7 @@ class Issue
      * @param   string $extra_condition An extra condition in the WHERE clause
      * @return  array The list of issue IDs
      */
-    function getColList($extra_condition = NULL)
+    public function getColList($extra_condition = null)
     {
         $stmt = "SELECT
                     iss_id
@@ -3342,12 +3361,12 @@ class Issue
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the full list of issue IDs and their respective
@@ -3357,7 +3376,7 @@ class Issue
      * @param   string $extra_condition An extra condition in the WHERE clause
      * @return  array The list of issues
      */
-    function getAssocList($extra_condition = NULL)
+    public function getAssocList($extra_condition = null)
     {
         $stmt = "SELECT
                     iss_id,
@@ -3375,12 +3394,12 @@ class Issue
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the list of issues associated to a specific issue.
@@ -3389,16 +3408,16 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    function getAssociatedIssues($issue_id)
+    public function getAssociatedIssues($issue_id)
     {
         $issues = self::getAssociatedIssuesDetails($issue_id);
         $associated = array();
         for ($i = 0; $i < count($issues); $i++) {
             $associated[] = $issues[$i]['associated_issue'];
         }
+
         return $associated;
     }
-
 
     /**
      * Method used to get the list of issues associated details to a
@@ -3408,7 +3427,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    function getAssociatedIssuesDetails($issue_id)
+    public function getAssociatedIssuesDetails($issue_id)
     {
         static $returns;
 
@@ -3432,13 +3451,14 @@ class Issue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         $returns[$issue_id] = $res;
+
         return $res;
     }
-
 
     /**
      * Method used to check whether an issue was already closed or not.
@@ -3447,7 +3467,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function isClosed($issue_id)
+    public function isClosed($issue_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -3461,12 +3481,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return $res != 0;
     }
-
 
     /**
      * Returns a simple list of issues that are currently set to some
@@ -3475,7 +3495,7 @@ class Issue
      * @access  public
      * @return  array List of quarantined issues
      */
-    function getQuarantinedIssueList()
+    public function getQuarantinedIssueList()
     {
         // XXX: would be nice to restrict the result list to only one project
         $stmt = "SELECT
@@ -3491,13 +3511,14 @@ class Issue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         self::getAssignedUsersByIssues($res);
+
         return $res;
     }
-
 
     /**
      * Returns the status of a quarantine.
@@ -3505,7 +3526,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer Indicates what the current state of quarantine is.
      */
-    function getQuarantineInfo($issue_id)
+    public function getQuarantineInfo($issue_id)
     {
         $stmt = "SELECT
                     iqu_status,
@@ -3519,6 +3540,7 @@ class Issue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -3526,9 +3548,9 @@ class Issue
             $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
             $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
         }
+
         return $res;
     }
-
 
     /**
      * Sets the quarantine status. Optionally an expiration date can be set
@@ -3539,7 +3561,7 @@ class Issue
      * @param   integer $status The quarantine status
      * @param   string  $expiration The expiration date of quarantine (default empty)
      */
-    function setQuarantine($issue_id, $status, $expiration = '')
+    public function setQuarantine($issue_id, $status, $expiration = '')
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status = Misc::escapeInteger($status);
@@ -3554,6 +3576,7 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         if ($res > 0) {
@@ -3570,6 +3593,7 @@ class Issue
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             } else {
                 // add history entry about this change taking place
@@ -3598,12 +3622,13 @@ class Issue
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
-
 
     /**
      * Sets the group of the issue.
@@ -3613,7 +3638,7 @@ class Issue
      * @param   integer $group_id The ID of the group
      * @return  integer 1 if successful, -1 or -2 otherwise
      */
-    function setGroup($issue_id, $group_id)
+    public function setGroup($issue_id, $group_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $group_id = Misc::escapeInteger($group_id);
@@ -3631,6 +3656,7 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         $current_user = Auth::getUserID();
@@ -3639,9 +3665,9 @@ class Issue
         }
         History::add($issue_id, $current_user, History::getTypeID('group_changed'),
                 "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName($current_user));
+
         return 1;
     }
-
 
     /**
      * Returns the group ID associated with the given issue ID.
@@ -3650,7 +3676,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer The associated group ID
      */
-    function getGroupID($issue_id)
+    public function getGroupID($issue_id)
     {
         $stmt = "SELECT
                     iss_grp_id
@@ -3661,6 +3687,7 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
@@ -3680,7 +3707,6 @@ class Issue
         return Access::canAccessIssue($issue_id, $usr_id);
     }
 
-
     /**
      * Returns true if the user can update the issue
      *
@@ -3693,7 +3719,6 @@ class Issue
         return Access::canUpdateIssue($issue_id, $usr_id);
     }
 
-
     /**
      * Returns true if the specified issue is private, false otherwise
      *
@@ -3701,7 +3726,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  boolean If the issue is private or not
      */
-    function isPrivate($issue_id)
+    public function isPrivate($issue_id)
     {
         static $returns;
 
@@ -3715,6 +3740,7 @@ class Issue
             $res = DB_Helper::getInstance()->getOne($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return true;
             } else {
                 if ($res == 1) {
@@ -3724,9 +3750,9 @@ class Issue
                 }
             }
         }
+
         return $returns[$issue_id];
     }
-
 
     /**
      * Clears closed information from an issues.
@@ -3734,7 +3760,7 @@ class Issue
      * @access  public
      * @param   integer $issue_id The ID of the issue
      */
-    function clearClosed($issue_id)
+    public function clearClosed($issue_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -3746,10 +3772,10 @@ class Issue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
     }
-
 
     /**
      * Returns the message ID that should be used as the parent ID for all messages
@@ -3757,7 +3783,7 @@ class Issue
      * @access  public
      * @param   integer $issue_id The ID of the issue
      */
-    function getRootMessageID($issue_id)
+    public function getRootMessageID($issue_id)
     {
         $sql = "SELECT
                     iss_root_message_id
@@ -3768,12 +3794,12 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         return $res;
     }
-
 
     /**
      * Returns the issue ID of the issue with the specified root message ID, or false
@@ -3781,7 +3807,7 @@ class Issue
      * @param   string $msg_id The Message ID
      * @return  integer The ID of the issue
      */
-    function getIssueByRootMessageID($msg_id)
+    public function getIssueByRootMessageID($msg_id)
     {
         static $returns;
 
@@ -3797,6 +3823,7 @@ class Issue
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
         if (empty($res)) {
@@ -3804,9 +3831,9 @@ class Issue
         } else {
             $returns[$msg_id] =  $res;
         }
+
         return $returns[$msg_id];
     }
-
 
     /**
      * Sets the assignees for the issue
@@ -3814,7 +3841,7 @@ class Issue
      * @param   integer $issue_id
      * @param   array   $assignees
      */
-    function setAssignees($issue_id, $assignees)
+    public function setAssignees($issue_id, $assignees)
     {
         if (!is_array($assignees)) {
             $assignees = array();

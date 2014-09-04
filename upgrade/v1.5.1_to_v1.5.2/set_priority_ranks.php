@@ -13,7 +13,7 @@ $sql = "SELECT
             pri_title";
 $res = DB_Helper::getInstance()->getAssoc($sql);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -32,7 +32,7 @@ foreach ($res as $id => $prj_id) {
                 pri_id = $id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
     $rank++;

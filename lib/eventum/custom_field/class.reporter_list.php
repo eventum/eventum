@@ -29,7 +29,6 @@
 //
 
 
-
 /**
  * Custom field backend to return list of users with a role of reporter or above.
  *
@@ -37,7 +36,7 @@
  */
 class Reporter_List_Custom_Field_Backend
 {
-    function getList($fld_id)
+    public function getList($fld_id)
     {
         return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("Viewer"));
     }

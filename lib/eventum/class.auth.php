@@ -42,11 +42,13 @@ class Auth
      * @access  public
      * @return  string  The private_key hash.
      */
-    public static function privateKey() {
+    public static function privateKey()
+    {
         static $private_key = null;
         if ($private_key === null) {
             require_once APP_CONFIG_PATH . "/private_key.php";
         }
+
         return $private_key;
     }
 
@@ -71,7 +73,6 @@ class Auth
         file_put_contents(APP_LOGIN_LOG, $msg, FILE_APPEND);
     }
 
-
     /**
      * Method used to check for the appropriate authentication for a specific
      * page. It will check for the cookie name provided and redirect the user
@@ -82,7 +83,7 @@ class Auth
      * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
      * @return  void
      */
-    public static function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
+    public static function checkAuthentication($cookie_name, $failed_url = null, $is_popup = false)
     {
         if ($cookie_name == NULL) {
             $cookie_name = APP_COOKIE;
@@ -112,6 +113,7 @@ class Auth
                         header('WWW-Authenticate: Basic realm="Eventum"');
                         header('HTTP/1.0 401 Unauthorized');
                         echo "Login Failed";
+
                         return;
                     }
                 } else {
@@ -169,14 +171,13 @@ class Auth
         self::setCurrentProject($prj_id, $prj_cookie["remember"]);
     }
 
-
     /**
      * Method for logging out the currently logged in user.
      *
      * @access  public
      * @returns void
      */
-    function logout()
+    public function logout()
     {
         self::removeCookie(APP_COOKIE);
         // if 'remember projects' is true don't remove project cookie
@@ -186,7 +187,6 @@ class Auth
         }
     }
 
-
     /**
      * Method to check whether an user is pending its confirmation
      * or not.
@@ -195,7 +195,7 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  boolean
      */
-    function isPendingUser($email)
+    public function isPendingUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'pending') {
@@ -205,7 +205,6 @@ class Auth
         }
     }
 
-
     /**
      * Method to check whether an user is active or not.
      *
@@ -213,7 +212,7 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  boolean
      */
-    function isActiveUser($email)
+    public function isActiveUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'active') {
@@ -223,7 +222,6 @@ class Auth
         }
     }
 
-
     /**
      * Method to check if the user has cookie support enabled in his browser or
      * not.
@@ -232,7 +230,7 @@ class Auth
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
-    function hasCookieSupport($cookie_name)
+    public function hasCookieSupport($cookie_name)
     {
         if (@!in_array($cookie_name, array_keys($_COOKIE))) {
             return false;
@@ -241,7 +239,6 @@ class Auth
         }
     }
 
-
     /**
      * Method to check if the user has a valid cookie.
      *
@@ -249,7 +246,7 @@ class Auth
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
-    function hasValidCookie($cookie_name)
+    public function hasValidCookie($cookie_name)
     {
         $cookie = @$_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
@@ -260,18 +257,16 @@ class Auth
         }
     }
 
-
     /**
      * Method to check if the current user is an anonymous user.
      *
      * @access  public
      * @return  boolean
      */
-    function isAnonUser()
+    public function isAnonUser()
     {
         return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
     }
-
 
     /**
      * Method used to get the unserialized contents of the specified cookie
@@ -289,9 +284,9 @@ class Auth
         if ($data === false) {
             return null;
         }
+
         return unserialize($data);
     }
-
 
     /**
      * Method used to check whether a cookie is valid or not.
@@ -314,7 +309,6 @@ class Auth
         }
     }
 
-
     /**
      * Method used to create the login cookie in the user's machine.
      *
@@ -324,7 +318,7 @@ class Auth
      * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      * @return  void
      */
-    function createLoginCookie($cookie_name, $email, $permanent = true)
+    public function createLoginCookie($cookie_name, $email, $permanent = true)
     {
 
         $time = time();
@@ -337,7 +331,6 @@ class Auth
         $cookie = base64_encode(serialize($cookie));
         self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
     }
-
 
     /**
      * Method used to redirect people to another URL.
@@ -373,7 +366,6 @@ class Auth
         exit;
     }
 
-
     /**
      * Method used to remove a cookie from the user's browser.
      *
@@ -381,11 +373,10 @@ class Auth
      * @param   string $cookie_name The name of the cookie that needs to be deleted
      * @return  void
      */
-    function removeCookie($cookie_name)
+    public function removeCookie($cookie_name)
     {
         self::setCookie($cookie_name, '', time()-36000);
     }
-
 
     /**
      * Checks whether an user exists or not in the database.
@@ -394,7 +385,7 @@ class Auth
      * @param   string $login The email address to check for
      * @return  boolean
      */
-    function userExists($login)
+    public function userExists($login)
     {
         if (empty($login)) {
             return false;
@@ -407,7 +398,6 @@ class Auth
             return true;
         }
     }
-
 
     /**
      * Checks whether the provided password match against the email
@@ -433,7 +423,7 @@ class Auth
      * @param   boolean $send_notification Whether to send the notification email or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
+    public function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
     {
         if ($password != $password_confirm) {
             return -2;
@@ -446,6 +436,7 @@ class Auth
         if ($send_notification) {
             Notification::notifyUserPassword($usr_id, $password);
         }
+
         return 1;
     }
 
@@ -456,7 +447,8 @@ class Auth
      * @param   string $usr_id The user id to check for
      * @return  boolean
      */
-    public static function isUserBackOffLocked($usr_id) {
+    public static function isUserBackOffLocked($usr_id)
+    {
         return self::getAuthBackend()->isUserBackOffLocked($usr_id);
     }
 
@@ -490,7 +482,6 @@ class Auth
         return $info['email'];
     }
 
-
     /**
      * Gets the current selected project from the project cookie.
      *
@@ -505,7 +496,7 @@ class Auth
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
+            return isset($cookie['prj_id']) ? (int) $cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
             if ($redirect) {
@@ -514,9 +505,9 @@ class Auth
                 return false;
             }
         }
+
         return $cookie["prj_id"];
     }
-
 
     /**
      * Gets the current project name from the user's project cookie.
@@ -530,7 +521,6 @@ class Auth
             return Project::getName($proj_id);
         }
     }
-
 
     /**
      * Gets the current role in the current project.
@@ -548,7 +538,6 @@ class Auth
         }
     }
 
-
     /**
      * Returns the current customer ID.
      *
@@ -565,12 +554,10 @@ class Auth
         }
     }
 
-
     public static function setCurrentCustomerID($customer_id)
     {
         Session::set("current_customer_id", $customer_id);
     }
-
 
     /**
      * @static
@@ -579,9 +566,9 @@ class Auth
     public static function getCurrentContact()
     {
         $crm = CRM::getInstance(self::getCurrentProject());
+
         return $crm->getContact(User::getCustomerContactID(self::getUserID()));
     }
-
 
     /**
      * Sets the current selected project for the user session.
@@ -591,7 +578,7 @@ class Auth
      * @param   integer $remember Whether to automatically remember the setting or not
      * @return  void
      */
-    function setCurrentProject($prj_id, $remember)
+    public function setCurrentProject($prj_id, $remember)
     {
         $cookie = array(
             "prj_id"   => $prj_id,
@@ -602,14 +589,13 @@ class Auth
         $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
     }
 
-
     /**
      * Creates a fake cookie so processes not run from a browser can access current user and project
      *
      * @param   integer $usr_id The ID of the user.
      * @param   bool|int $prj_id The ID of the project.
      */
-    function createFakeCookie($usr_id, $prj_id = false)
+    public function createFakeCookie($usr_id, $prj_id = false)
     {
         $user_details = User::getDetails($usr_id);
 
@@ -645,7 +631,6 @@ class Auth
         }
     }
 
-
     /**
      * @static
      * @return Abstract_Auth_Backend
@@ -670,6 +655,7 @@ class Auth
                 die("Unable to use auth backend: " . $class);
             }
         }
+
         return $instance;
     }
 
@@ -687,15 +673,14 @@ class Auth
             require_once APP_INC_PATH . "/auth/class.mysql_auth_backend.php";
             $instance = new Mysql_Auth_Backend();
         }
+
         return $instance;
     }
-
 
     public static function hashPassword($password)
     {
         return self::getAuthBackend()->hashPassword($password);
     }
-
 
     /**
      * Returns the user ID for the specified login. This can be the email address, an alias,

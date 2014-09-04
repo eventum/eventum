@@ -34,7 +34,6 @@ $tpl->setTemplate("manage/issue_auto_creation.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-
 @$ema_id = $_POST["ema_id"] ? $_POST["ema_id"] : $_GET["ema_id"];
 
 $role_id = Auth::getCurrentRole();

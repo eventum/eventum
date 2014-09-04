@@ -46,7 +46,7 @@ $irc_server_port = 6667;
 //          '#issues_2' =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT, 'other')
 //      )
 $irc_channels = array(
-	'Default Project' => '#issues',
+    'Default Project' => '#issues',
 );
 
 $nickname = 'EventumBOT';

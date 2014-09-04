@@ -32,53 +32,64 @@
 if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE == 'php')) {
     require_once APP_PHP_GETTEXT_PATH. '/gettext.inc';
 
-    function ev_gettext($string) {
+    function ev_gettext($string)
+    {
         if (func_num_args() > 1) {
             $arg = array();
-            for($i = 1 ; $i < func_num_args(); $i++) {
+            for ($i = 1 ; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }
             $string = _gettext($string);
+
             return vsprintf($string, $arg);
         } else {
             return _gettext($string);
         }
     }
-    function ev_ngettext($string, $plural, $number) {
+    function ev_ngettext($string, $plural, $number)
+    {
         return _ngettext($string, $plural, $number);
     }
 
 } else {
-    function ev_gettext($string) {
+    function ev_gettext($string)
+    {
         if (func_num_args() > 1) {
             $arg = array();
-            for($i = 1 ; $i < func_num_args(); $i++) {
+            for ($i = 1 ; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }
 
             $string = gettext($string);
+
             return vsprintf($string, $arg);
         } else {
             return gettext($string);
         }
     }
 
-    function ev_ngettext($string, $plural, $number) {
+    function ev_ngettext($string, $plural, $number)
+    {
         return ngettext($string, $plural, $number);
     }
-    function _bind_textdomain_codeset($domain, $codeset) {
+    function _bind_textdomain_codeset($domain, $codeset)
+    {
         return bind_textdomain_codeset($domain, $codeset);
     }
-    function _bindtextdomain($domain, $path) {
+    function _bindtextdomain($domain, $path)
+    {
         return bindtextdomain($domain, $path);
     }
-    function _textdomain($domain) {
+    function _textdomain($domain)
+    {
         return textdomain($domain);
     }
-    function _gettext($msgid) {
+    function _gettext($msgid)
+    {
         return gettext($msgid);
     }
-    function _setlocale($category, $locale) {
+    function _setlocale($category, $locale)
+    {
         return setlocale($category, $locale);
     }
 }

@@ -38,7 +38,7 @@ class Email_Account
      * @param   integer $ema_id The email account ID
      * @return  array The issue auto creation options
      */
-    function getIssueAutoCreationOptions($ema_id)
+    public function getIssueAutoCreationOptions($ema_id)
     {
         $stmt = "SELECT
                     ema_issue_auto_creation_options
@@ -49,15 +49,16 @@ class Email_Account
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (!is_string($res)) {
                 $res = (string) $res;
             }
+
             return @unserialize($res);
         }
     }
-
 
     /**
      * Method used to update the issue auto creation related options.
@@ -66,7 +67,7 @@ class Email_Account
      * @param   integer $ema_id The email account ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function updateIssueAutoCreation($ema_id, $auto_creation, $options)
+    public function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
@@ -78,12 +79,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the support email account associated with a given
@@ -93,7 +94,7 @@ class Email_Account
      * @param   integer $sup_id The support email ID
      * @return  integer The email account ID
      */
-    function getAccountByEmail($sup_id)
+    public function getAccountByEmail($sup_id)
     {
         $stmt = "SELECT
                     sup_ema_id
@@ -104,12 +105,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the account ID for a given email account.
@@ -120,7 +121,7 @@ class Email_Account
      * @param   string $mailbox The mailbox for the specific email account
      * @return  integer The support email account ID
      */
-    function getAccountID($username, $hostname, $mailbox)
+    public function getAccountID($username, $hostname, $mailbox)
     {
         $stmt = "SELECT
                     ema_id
@@ -133,6 +134,7 @@ class Email_Account
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         } else {
             if ($res == NULL) {
@@ -143,7 +145,6 @@ class Email_Account
         }
     }
 
-
     /**
      * Method used to get the project ID associated with a given email account.
      *
@@ -151,12 +152,12 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  integer The project ID
      */
-    function getProjectID($ema_id)
+    public function getProjectID($ema_id)
     {
         $details = self::getDetails($ema_id);
+
         return $details['ema_prj_id'];
     }
-
 
     /**
      * Method used to get the details of a given support email
@@ -166,7 +167,7 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  array The account details
      */
-    function getDetails($ema_id)
+    public function getDetails($ema_id)
     {
         $ema_id = Misc::escapeInteger($ema_id);
         $stmt = "SELECT
@@ -178,13 +179,14 @@ class Email_Account
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
+
             return $res;
         }
     }
-
 
     /**
      * Method used to remove all support email accounts associated
@@ -194,7 +196,7 @@ class Email_Account
      * @param   array $ids The list of projects
      * @return  boolean
      */
-    function removeAccountByProjects($ids)
+    public function removeAccountByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
@@ -206,6 +208,7 @@ class Email_Account
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             Support::removeEmailByAccounts($res);
@@ -216,6 +219,7 @@ class Email_Account
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 return true;
@@ -223,14 +227,13 @@ class Email_Account
         }
     }
 
-
     /**
      * Method used to remove the specified support email accounts.
      *
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -240,13 +243,14 @@ class Email_Account
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             Support::removeEmailByAccounts($_POST["items"]);
+
             return true;
         }
     }
-
 
     /**
      * Method used to add a new support email account.
@@ -254,7 +258,7 @@ class Email_Account
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (empty($_POST["get_only_new"])) {
             $_POST["get_only_new"] = 0;
@@ -296,12 +300,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to update a support email account details.
@@ -309,7 +313,7 @@ class Email_Account
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         if (empty($_POST["get_only_new"])) {
             $_POST["get_only_new"] = 0;
@@ -341,12 +345,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the list of available support email
@@ -355,7 +359,7 @@ class Email_Account
      * @access  public
      * @return  array The list of accounts
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     *
@@ -366,15 +370,16 @@ class Email_Account
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["prj_title"] = Project::getName($res[$i]["ema_prj_id"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of the support email
@@ -384,7 +389,7 @@ class Email_Account
      * @param   integer $projects An array of project IDs
      * @return  array The list of accounts
      */
-    function getAssocList($projects, $include_project_title = false)
+    public function getAssocList($projects, $include_project_title = false)
     {
         $projects = Misc::escapeInteger($projects);
         if (!is_array($projects)) {
@@ -409,12 +414,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the first support email account associated
@@ -424,7 +429,7 @@ class Email_Account
      * @param   integer $prj_id The ID of the project. If blank the currently project will be used.
      * @return  integer The email account ID
      */
-    function getEmailAccount($prj_id = false)
+    public function getEmailAccount($prj_id = false)
     {
         if ($prj_id == false) {
             $prj_id = Auth::getCurrentProject();
@@ -440,12 +445,12 @@ class Email_Account
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the email account associated with the given
@@ -455,7 +460,7 @@ class Email_Account
      * @param   integer $issue_id The issue ID
      * @return  integer The email account ID
      */
-    function getEmailAccountByIssueID($issue_id)
+    public function getEmailAccountByIssueID($issue_id)
     {
         $stmt = "SELECT
                     ema_id
@@ -468,6 +473,7 @@ class Email_Account
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;

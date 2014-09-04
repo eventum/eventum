@@ -50,7 +50,7 @@ class Display_Column
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
-    function getColumnsToDisplay($prj_id, $page)
+    public function getColumnsToDisplay($prj_id, $page)
     {
         static $returns;
 
@@ -99,9 +99,9 @@ class Display_Column
             }
         }
         $returns[$prj_id][$page] = $data;
+
         return $data;
     }
-
 
     /**
      * Returns the columns that have been selected to be displayed on the specified page. This list
@@ -112,7 +112,7 @@ class Display_Column
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
-    function getSelectedColumns($prj_id, $page)
+    public function getSelectedColumns($prj_id, $page)
     {
         static $returns;
 
@@ -135,6 +135,7 @@ class Display_Column
         $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             $returns[$prj_id][$page] = array();
@@ -143,10 +144,10 @@ class Display_Column
                 $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
                 $returns[$prj_id][$page][$field_name]['rank'] = $row['ctd_rank'];
             }
+
             return $returns[$prj_id][$page];
         }
     }
-
 
     /**
      * Returns the info of the column
@@ -156,12 +157,12 @@ class Display_Column
      * @param   string $column The name of the column
      * @return  string Info on the column
      */
-    function getColumnInfo($page, $column)
+    public function getColumnInfo($page, $column)
     {
         $columns = self::getAllColumns($page);
+
         return isset($columns[$column]) ? $columns[$column] : null;
     }
-
 
     /**
      * Returns all columns available for a page
@@ -240,9 +241,9 @@ class Display_Column
                 )
             )
         );
+
         return $columns[$page];
     }
-
 
     /**
      * Saves settings on which columns should be displayed.
@@ -250,7 +251,7 @@ class Display_Column
      * @access  public
      * @return  integer 1 if settings were saved successfully, -1 if there was an error.
      */
-    function save()
+    public function save()
     {
         $page = Misc::escapeString($_REQUEST['page']);
         $prj_id = Misc::escapeInteger($_REQUEST['prj_id']);
@@ -267,6 +268,7 @@ class Display_Column
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         $rank = 1;
@@ -282,13 +284,14 @@ class Display_Column
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
             $rank++;
         }
+
         return 1;
     }
-
 
     /**
      * Adds records in database for new project.
@@ -317,6 +320,7 @@ class Display_Column
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
             $rank++;

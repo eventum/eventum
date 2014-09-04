@@ -61,7 +61,7 @@ class Mime_Helper
      * @param   mixed   $input The full body of the message or decoded email.
      * @return  string charset extracted from Content-Type header of email.
      */
-    function getCharacterSet($input)
+    public function getCharacterSet($input)
     {
         if (!is_object($input)) {
             $structure = self::decode($input, false, false);
@@ -86,7 +86,6 @@ class Mime_Helper
         return false;
     }
 
-
     /**
      * Returns the appropriate message body for a given MIME-based decoded
      * structure.
@@ -96,7 +95,7 @@ class Mime_Helper
      * @return  string The message body
      * @see     self::decode()
      */
-    function getMessageBody(&$output)
+    public function getMessageBody(&$output)
     {
         $parts = array();
         self::parse_output($output, $parts);
@@ -120,13 +119,14 @@ class Mime_Helper
         if ($is_html) {
             $str = strip_tags($str);
         }
+
         return $str;
     }
 
     /**
      * @deprecated  use decodeQuotedPrintable
      */
-    function fixEncoding($input)
+    public function fixEncoding($input)
     {
         return self::decodeQuotedPrintable($input);
     }
@@ -150,9 +150,9 @@ class Mime_Helper
                 $address = $first_part . ' ' . $second_part;
             }
         }
+
         return $address;
     }
-
 
     /**
      * Method used to remove any unnecessary quoting from an email address.
@@ -178,9 +178,9 @@ class Mime_Helper
         if (isset($second_part) && !empty($second_part)) {
             $address .= ' ' . $second_part;
         }
+
         return $address;
     }
-
 
     /**
      * Method used to properly encode an email address.
@@ -196,12 +196,12 @@ class Mime_Helper
             preg_match("/(.*)<(.*)>/", $address, $matches);
            $address = "=?" . APP_CHARSET . "?Q?" .
                 str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
+
            return $address;
         } else {
             return self::quoteSender($address);
         }
     }
-
 
     /**
      * Decodes a quoted printable encoded address and returns the string.
@@ -212,7 +212,7 @@ class Mime_Helper
      * @param   string $address The address to decode
      * @return  string The decoded address
      */
-    function decodeAddress($address)
+    public function decodeAddress($address)
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
@@ -245,6 +245,7 @@ class Mime_Helper
                 "line-length" => $line_length,
             );
             $string = iconv_mime_encode("", $string, $params);
+
             return substr($string, 2);
         }
 
@@ -299,6 +300,7 @@ class Mime_Helper
 
         $string = str_replace('=', '=3D', $string);
         $string = str_replace($qpKeys, $qpReplaceValues, $string);
+
         return rtrim($string);
     }
 
@@ -320,6 +322,7 @@ class Mime_Helper
             if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
                 return $string;
             }
+
             return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
         }
 
@@ -348,9 +351,9 @@ class Mime_Helper
             }
             $string .= $m['after'];
         }
+
         return $string;
     }
-
 
     /**
      * Returns if a specified string contains a quoted printable address.
@@ -359,7 +362,7 @@ class Mime_Helper
      * @param   string $address The email address
      * @return  boolean If the address is quoted printable encoded.
      */
-    function isQuotedPrintable($address)
+    public function isQuotedPrintable($address)
     {
         if (preg_match("/=\?.+\?Q\?.+\?= <.+>/i", $address)) {
             return true;
@@ -367,7 +370,6 @@ class Mime_Helper
             return false;
         }
     }
-
 
     /**
      * Determine if a string contains 8-bit characters.
@@ -384,16 +386,15 @@ class Mime_Helper
         }
     }
 
-
-    function encodeHeaders($headers)
+    public function encodeHeaders($headers)
     {
         // encodes emails headers
         foreach ($headers as $name => $value) {
             $headers[$name] = self::encode($value);
         }
+
         return $headers;
     }
-
 
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
@@ -449,12 +450,12 @@ class Mime_Helper
            characters long. If longer, you must split the word. */
         if (($txt_len + $char_len + 7) > 75) {
             $pos = intval((68 - $char_len) / 2);
+
             return self::_encode(substr($text, 0, $pos), $charset) . ' ' . self::_encode(substr($text, $pos), $charset);
         } else {
             return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
         }
     }
-
 
     /**
      * Method used to encode a given string in the quoted-printable standard.
@@ -464,16 +465,16 @@ class Mime_Helper
      * @param   string $charset The charset of the string
      * @return  string The encoded string
      */
-    function encodeValue($hdr_value, $charset = 'iso-8859-1')
+    public function encodeValue($hdr_value, $charset = 'iso-8859-1')
     {
         preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
         foreach ($matches[1] as $value) {
             $replacement = preg_replace('/([\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
             $hdr_value = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $hdr_value);
         }
+
         return $hdr_value;
     }
-
 
     /**
      * Given a string containing a header and body
@@ -484,13 +485,12 @@ class Mime_Helper
      * @param   string $input Input to split apart
      * @return  array Contains header and body section
      */
-    function splitBodyHeader($input)
+    public function splitBodyHeader($input)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
             return array($match[1], $match[2]);
         }
     }
-
 
     /**
      * Parse headers given in $input and return
@@ -500,7 +500,7 @@ class Mime_Helper
      * @param   string $input Headers to parse
      * @return  array Contains parsed headers
      */
-    function getHeaderNames($input)
+    public function getHeaderNames($input)
     {
         if ($input === '') {
             return array();
@@ -515,9 +515,9 @@ class Mime_Helper
             $hdr_name = substr($value, 0, strpos($value, ':'));
             $return[strtolower($hdr_name)] = $hdr_name;
         }
+
         return $return;
     }
-
 
     /**
      * Method used to get an unique attachment name for a given
@@ -554,12 +554,12 @@ class Mime_Helper
             } else {
                 $filename = $first_part . "-" . $numeric_portion . substr($filename, strrpos($filename, '.'));
             }
+
             return self::getAttachmentName($list, $filename);
         } else {
             return $filename;
         }
     }
-
 
     /**
      * Method used to check whether a given email message has any attachments.
@@ -568,7 +568,7 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  boolean
      */
-    function hasAttachments($message)
+    public function hasAttachments($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
@@ -581,7 +581,6 @@ class Mime_Helper
         }
     }
 
-
     /**
      * Method used to parse and return the full list of attachments
      * associated with a message.
@@ -590,14 +589,14 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachments, if any
      */
-    function getAttachments($message)
+    public function getAttachments($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
         }
+
         return self::_getAttachmentDetails($message, true);
     }
-
 
     /**
      * Method used to parse and return the full list of attachment CIDs
@@ -607,14 +606,14 @@ class Mime_Helper
      * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachment CIDs, if any
      */
-    function getAttachmentCIDs($message)
+    public function getAttachmentCIDs($message)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);
         }
+
         return self::_getAttachmentDetails($message, true);
     }
-
 
     private static function _getAttachmentDetails(&$mime_part, $return_body = false, $return_filename = false, $return_cid = false)
     {
@@ -690,7 +689,6 @@ class Mime_Helper
         return $attachments;
     }
 
-
     /**
      * Method used to get the encoded content of a specific message
      * attachment.
@@ -701,7 +699,7 @@ class Mime_Helper
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
      */
-    function getAttachment($message, $filename, $cid = false)
+    public function getAttachment($message, $filename, $cid = false)
     {
         $parts = array();
         if (!is_object($message)) {
@@ -717,7 +715,6 @@ class Mime_Helper
             return array();
         }
     }
-
 
     /**
      * Method used to decode the content of a MIME encoded message.
@@ -760,7 +757,6 @@ class Mime_Helper
         return $email;
     }
 
-
     /**
      * Converts a string from a specified charset to the application charset
      *
@@ -774,6 +770,7 @@ class Mime_Helper
             return $string;
         } else {
             $res = iconv($source_charset, APP_CHARSET, $string);
+
             return $res === false ? $string : $res;
         }
     }
@@ -794,7 +791,7 @@ class Mime_Helper
             }
         } else {
             $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
-            switch($ctype){
+            switch ($ctype) {
                 case 'text/plain':
                     if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
                         @$parts['attachments'][] = $obj->body;
@@ -829,7 +826,7 @@ class Mime_Helper
                     } elseif (stristr($ctype, 'image')) {
                         // handle inline images
                         @$parts['attachments'][] = $obj->body;
-                    } elseif(strtolower(@$obj->disposition) == 'attachment') {
+                    } elseif (strtolower(@$obj->disposition) == 'attachment') {
                         @$parts['attachments'][] = $obj->body;
                     } else {
                         @$parts['text'][] = $obj->body;
@@ -837,7 +834,6 @@ class Mime_Helper
             }
         }
     }
-
 
     /**
      * Given a quoted-printable string, this
@@ -849,7 +845,7 @@ class Mime_Helper
      * @param  string Input body to decode
      * @return string Decoded body
      */
-    function _quotedPrintableDecode($input)
+    public function _quotedPrintableDecode($input)
     {
         // Remove soft line breaks
         $input = preg_replace("/=\r?\n/", '', $input);
@@ -860,7 +856,6 @@ class Mime_Helper
         return $input;
     }
 
-
     /**
      * Returns the internal list of content types that we do not support as
      * valid attachment types.
@@ -868,7 +863,7 @@ class Mime_Helper
      * @access private
      * @return array The list of content types
      */
-    function _getInvalidContentTypes()
+    public function _getInvalidContentTypes()
     {
         return array(
             'message/rfc822',
@@ -877,7 +872,6 @@ class Mime_Helper
         );
     }
 
-
     /**
      * Returns the internal list of attachment dispositions that we do not
      * support as valid attachment types.
@@ -885,14 +879,13 @@ class Mime_Helper
      * @access private
      * @return array The list of valid dispositions
      */
-    function _getValidDispositions()
+    public function _getValidDispositions()
     {
         return array(
             'attachment',
             'inline'
         );
     }
-
 
     /**
      * Splits the full email into headers and body
@@ -902,15 +895,14 @@ class Mime_Helper
      * @param   boolean $unfold If headers should be unfolded
      * @return  array An array containing the headers and body
      */
-    function splitHeaderBody($message, $unfold = true)
+    public function splitHeaderBody($message, $unfold = true)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
             return array(($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]);
         }
+
         return array();
     }
-
-
 
     /**
      * Initial implementation of flowed body handling per RFC 3676. This is probably
@@ -921,7 +913,7 @@ class Mime_Helper
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */
-    function decodeFlowedBodies($body, $delsp)
+    public function decodeFlowedBodies($body, $delsp)
     {
         if ($delsp == 'yes') {
             $delsp = true;
@@ -943,6 +935,7 @@ class Mime_Helper
                 $text .= $line . "\n";
             }
         }
+
         return $text;
     }
 }

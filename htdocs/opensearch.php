@@ -31,8 +31,8 @@ require_once dirname(__FILE__) . '/../init.php';
 
 // Render OpenSearch description document (OSDD), http://www.opensearch.org/
 if (!Auth::hasValidCookie(APP_COOKIE)) {
-	Header('HTTP/1.0 403 Forbidden');
-	exit(0);
+    Header('HTTP/1.0 403 Forbidden');
+    exit(0);
 }
 
 Header("Content-Type: text/xml; charset=" . APP_CHARSET);

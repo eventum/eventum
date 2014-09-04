@@ -47,7 +47,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  void
      */
-    function addProjectAssociation($ere_id, $prj_id)
+    public function addProjectAssociation($ere_id, $prj_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
@@ -61,14 +61,13 @@ class Email_Response
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to add a new canned email response to the system.
      *
      * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -85,6 +84,7 @@ class Email_Response
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_response_id = DB_Helper::get_last_insert_id();
@@ -92,10 +92,10 @@ class Email_Response
             foreach ($_POST['projects'] as $prj_id) {
                 self::addProjectAssociation($new_response_id, $prj_id);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove a canned email response from the system.
@@ -103,7 +103,7 @@ class Email_Response
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -113,13 +113,14 @@ class Email_Response
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeProjectAssociations($_POST['items']);
+
             return true;
         }
     }
-
 
     /**
      * Method used to remove the project associations for a given
@@ -130,7 +131,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function removeProjectAssociations($ere_id, $prj_id=FALSE)
+    public function removeProjectAssociations($ere_id, $prj_id=false)
     {
         $ere_id = Misc::escapeInteger($ere_id);
         if (!is_array($ere_id)) {
@@ -147,12 +148,12 @@ class Email_Response
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update a canned email response in the system.
@@ -160,7 +161,7 @@ class Email_Response
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -177,6 +178,7 @@ class Email_Response
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
@@ -184,10 +186,10 @@ class Email_Response
             foreach ($_POST['projects'] as $prj_id) {
                 self::addProjectAssociation($_POST['id'], $prj_id);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to get the details of a canned email response for a given
@@ -197,7 +199,7 @@ class Email_Response
      * @param   integer $ere_id The email response ID
      * @return  array The canned email response details
      */
-    function getDetails($ere_id)
+    public function getDetails($ere_id)
     {
         $ere_id = Misc::escapeInteger($ere_id);
         $stmt = "SELECT
@@ -209,14 +211,15 @@ class Email_Response
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get all of the project associations here as well
             $res['projects'] = array_keys(self::getAssociatedProjects($res['ere_id']));
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of associated projects for a given
@@ -226,7 +229,7 @@ class Email_Response
      * @param   integer $ere_id The email response ID
      * @return  array The list of projects
      */
-    function getAssociatedProjects($ere_id)
+    public function getAssociatedProjects($ere_id)
     {
         $ere_id = Misc::escapeInteger($ere_id);
         $stmt = "SELECT
@@ -241,12 +244,12 @@ class Email_Response
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of canned email responses available in the
@@ -255,7 +258,7 @@ class Email_Response
      * @access  public
      * @return  array The list of canned email responses
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     ere_id,
@@ -267,16 +270,17 @@ class Email_Response
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['ere_id'])));
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associate array of all canned email responses
@@ -286,7 +290,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses
      */
-    function getAssocList($prj_id)
+    public function getAssocList($prj_id)
     {
         $stmt = "SELECT
                     ere_id,
@@ -302,12 +306,12 @@ class Email_Response
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of all of the canned email
@@ -317,7 +321,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses' bodies.
      */
-    function getAssocListBodies($prj_id)
+    public function getAssocListBodies($prj_id)
     {
         $stmt = "SELECT
                     ere_id,
@@ -331,6 +335,7 @@ class Email_Response
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // fix the newlines in the response bodies so javascript doesn't die
@@ -338,6 +343,7 @@ class Email_Response
                 $res[$i]['ere_response_body'] = Misc::escapeWhitespace($res[$i]['ere_response_body']);
                 $res[$i]['ere_response_body'] = str_replace('"', '\"', $res[$i]['ere_response_body']);
             }
+
             return $res;
         }
     }

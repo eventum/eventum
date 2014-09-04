@@ -42,7 +42,7 @@ class Link_Filter
      * @param   integer $lfi_id The ID of the link filter to return info about.
      * @return  array An array of information.
      */
-    function getDetails($lfi_id)
+    public function getDetails($lfi_id)
     {
         $sql = "SELECT
                     lfi_id,
@@ -57,6 +57,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } elseif (count($res) > 0) {
             $sql = "SELECT
@@ -74,16 +75,16 @@ class Link_Filter
             }
             $res["projects"] = $projects;
         }
+
         return $res;
     }
-
 
     /**
      * Lists the link filters currently in the system.
      *
      * @return array An array of information.
      */
-    function getList()
+    public function getList()
     {
         $sql = "SELECT
                     lfi_id,
@@ -98,6 +99,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         for ($i = 0; $i < count($res); $i++) {
@@ -121,16 +123,16 @@ class Link_Filter
             $res[$i]["project_names"] = array_values($projects);
             $res[$i]["min_usr_role_name"] = User::getRole($res[$i]["lfi_usr_role"]);
         }
+
         return $res;
     }
-
 
     /**
      * Inserts a new link filter into the database.
      *
      * @return integer 1 if insert was successful, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         $sql = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -148,6 +150,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $lfi_id = DB_Helper::get_last_insert_id();
@@ -164,20 +167,21 @@ class Link_Filter
                 $res = DB_Helper::getInstance()->query($sql);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return -1;
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Removes link filters from the database
      *
      * @return integer 1 if delete was successful, -1 otherwise.
      */
-    function remove()
+    public function remove()
     {
         $sql = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -186,6 +190,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         $sql = "DELETE FROM
@@ -195,18 +200,19 @@ class Link_Filter
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Updates link filter information.
      *
      * @return integer 1 if insert was successful, -1 otherwise
      */
-    function update()
+    public function update()
     {
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -220,6 +226,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $sql = "DELETE FROM
@@ -229,6 +236,7 @@ class Link_Filter
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
             foreach (Misc::escapeInteger($_REQUEST["projects"]) as $prj_id) {
@@ -244,13 +252,14 @@ class Link_Filter
                 $res = DB_Helper::getInstance()->query($sql);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return -1;
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Processes text through all link filters.
@@ -261,14 +270,14 @@ class Link_Filter
      * @param   string $class The CSS class to use on the actual links
      * @return  string The processed text.
      */
-    function processText($prj_id, $text, $class = "link")
+    public function processText($prj_id, $text, $class = "link")
     {
 
         // process issue link seperatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
 
         $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
-        foreach ((array )$filters as $filter) {
+        foreach ((array) $filters as $filter) {
             list($pattern, $replacement) = $filter;
             // if replacement may be a callback, provided by workflow
             if (is_callable($replacement)) {
@@ -281,7 +290,6 @@ class Link_Filter
         return $text;
     }
 
-
     /**
      * Callback function to be used from template class.
      *
@@ -289,7 +297,7 @@ class Link_Filter
      * @param   string $text The text to process
      * @return  string the processed text.
      */
-    function activateLinks($text)
+    public function activateLinks($text)
     {
         return self::processText(Auth::getCurrentProject(), $text);
     }
@@ -302,7 +310,7 @@ class Link_Filter
      * @param   integer $issue_id The ID of the issue from where attachment list is taken
      * @return  string the processed text.
      */
-    function activateAttachmentLinks($text, $issue_id)
+    public function activateAttachmentLinks($text, $issue_id)
     {
         // build list of files to replace, so duplicate matches will always
         // take last matching filename.
@@ -323,9 +331,9 @@ class Link_Filter
             // we use attachment prefix, so we don't accidentally match already processed urls
             $text = preg_replace('/attachment:?\s*'.preg_quote($file, '/').'\b/', $link, $text);
         }
+
         return $text;
     }
-
 
     /**
      * Returns an array of patterns and replacements.
@@ -339,9 +347,9 @@ class Link_Filter
         $patterns = array(
             array('/issue:?\s\#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
         );
+
         return $patterns;
     }
-
 
     /**
      * Returns an array of patterns and replacements.
@@ -376,6 +384,7 @@ class Link_Filter
         $res = DB_Helper::getInstance()->getAll($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -402,6 +411,7 @@ class Link_Filter
         }
         $issue_title = Issue::getTitle($matches['issue_id']);
         $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
+
         return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
     }
 }

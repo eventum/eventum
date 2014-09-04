@@ -73,6 +73,7 @@ function getIssueDescription($issue_id)
 {
     if (Issue::canAccess($issue_id, $GLOBALS['usr_id'])) {
         $details = Issue::getDetails($issue_id);
+
         return Link_Filter::processText(Auth::getCurrentProject(), $details['iss_description']);
     }
 }
@@ -99,7 +100,6 @@ function getEmail($id)
     return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
 }
 
-
 /**
  * Selects a note from the table and returns the contents.
  *
@@ -118,7 +118,6 @@ function getNote($id)
 
     return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note["not_note"])));
 }
-
 
 /**
  * Selects a draft from the table and returns the contents.
@@ -139,7 +138,6 @@ function getDraft($id)
     return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info["emd_body"])));
 }
 
-
 /**
  * Selects a phone support entry from the table and returns the contents.
  *
@@ -158,7 +156,6 @@ function getPhoneSupport($id)
 
     return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res["phs_description"])));
 }
-
 
 /**
  * Selects a mail queue entry from the table and returns the contents.

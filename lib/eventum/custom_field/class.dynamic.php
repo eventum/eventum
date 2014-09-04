@@ -29,7 +29,6 @@
 //
 
 
-
 /**
  * Custom field backend to assist other backends in dynamically changing the
  * contents of one field or hiding/showing based on another field.
@@ -38,16 +37,16 @@
  */
 class Dynamic_Custom_Field_Backend
 {
-    function getList($fld_id, $issue_id = false)
+    public function getList($fld_id, $issue_id = false)
     {
         $list = array();
         $data = $this->getStructuredData();
         foreach ($data as $row) {
             $list += $row['options'];
         }
+
         return $list;
     }
-
 
     /**
      * Returns a multi dimension array of data to display. The values listed
@@ -78,7 +77,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return  array An array of data to display
      */
-   function getStructuredData()
+   public function getStructuredData()
    {
        return array();
    }
@@ -88,7 +87,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return   integer The ID of the controlling custom field
      */
-    function getControllingCustomFieldID()
+    public function getControllingCustomFieldID()
     {
         return 0;
     }
@@ -98,7 +97,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return   string The name of the controlling custom field
      */
-    function getControllingCustomFieldName()
+    public function getControllingCustomFieldName()
     {
         return '';
     }
@@ -108,7 +107,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return  boolean True if this field should be hidden before options are set
      */
-    function hideWhenNoOptions()
+    public function hideWhenNoOptions()
     {
         return false;
     }
@@ -121,7 +120,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return  string
      */
-    function getDomID()
+    public function getDomID()
     {
         return 'custom_field_' . $this->getControllingCustomFieldID();
     }
@@ -132,7 +131,7 @@ class Dynamic_Custom_Field_Backend
      *
      * @return string
      */
-    function lookupMethod()
+    public function lookupMethod()
     {
         return 'local';
     }
@@ -144,7 +143,7 @@ class Dynamic_Custom_Field_Backend
      * @param   $data   array
      * @return  array
      */
-    function getDynamicOptions($data)
+    public function getDynamicOptions($data)
     {
         return null;
     }

@@ -24,9 +24,9 @@ function updateActionDate($type, $issue_id, $max, $action_type)
         }
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-			echo "<pre>";
-			print_r($res);
-			exit(1);
+            echo "<pre>";
+            print_r($res);
+            exit(1);
         }
     }
 }
@@ -63,9 +63,9 @@ foreach ($fields as $date_field => $action_type) {
                 $date_field > IFNULL(iss_last_public_action_date, '0000-00-00 00:00:00')";
     $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
-		echo "<pre>";
-		print_r($res);
-		exit(1);
+        echo "<pre>";
+        print_r($res);
+        exit(1);
     }
 }
 
@@ -89,7 +89,6 @@ foreach ($issues as $issue_id) {
     $stmt = "SELECT MAX(iat_created_date) FROM " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment WHERE iat_iss_id=$issue_id";
     $max = DB_Helper::getInstance()->getOne($stmt);
     updateActionDate('public', $issue_id, $max, 'file uploaded');
-
 
     // internal only stuff - drafts, notes, phone calls
     $stmt = "SELECT MAX(emd_updated_date) FROM " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft WHERE emd_iss_id=$issue_id";

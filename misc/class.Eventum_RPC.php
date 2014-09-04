@@ -11,10 +11,12 @@
 
 require_once 'XML/RPC.php';
 
-class Eventum_RPC_Exception extends Exception {
+class Eventum_RPC_Exception extends Exception
+{
 };
 
-class Eventum_RPC {
+class Eventum_RPC
+{
     /**
      * A user name for accessing the RPC server
      * @var string
@@ -44,18 +46,21 @@ class Eventum_RPC {
      *
      * @see XML_RPC_Client::$username, XML_RPC_Client::$password
      */
-    public function setCredentials($u, $p) {
+    public function setCredentials($u, $p)
+    {
         $this->username = $u;
         $this->password = $p;
     }
 
-    public function setURL($url) {
+    public function setURL($url)
+    {
         $this->url = $url;
     }
 
     private $client;
     private $debug = 0;
-    private function getClient() {
+    private function getClient()
+    {
         if (isset($this->client)) {
             return $this->client;
         }
@@ -75,11 +80,13 @@ class Eventum_RPC {
         return $this->client;
     }
 
-    public function setDebug($debug) {
+    public function setDebug($debug)
+    {
         $this->debug = $debug;
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args)
+    {
         $params = array();
         $params[] = new XML_RPC_Value($this->username, 'string');
         $params[] = new XML_RPC_Value($this->password, 'string');
@@ -106,6 +113,7 @@ class Eventum_RPC {
         foreach ($details as $k => $v) {
             $details[$k] = base64_decode($v);
         }
+
         return $details;
     }
 };

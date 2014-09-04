@@ -45,7 +45,7 @@ class Reminder_Condition
      * @param   integer $rlc_id The reminder condition ID
      * @return  array The details for the specified reminder condition
      */
-    function getDetails($rlc_id)
+    public function getDetails($rlc_id)
     {
         $stmt = "SELECT
                     *
@@ -56,12 +56,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to create a new reminder condition.
@@ -69,7 +69,7 @@ class Reminder_Condition
      * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
@@ -91,12 +91,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to update the details of a specific reminder condition.
@@ -104,7 +104,7 @@ class Reminder_Condition
      * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
@@ -119,12 +119,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to remove reminder conditions by using the administrative
@@ -133,7 +133,7 @@ class Reminder_Condition
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -143,7 +143,6 @@ class Reminder_Condition
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to get the list of reminder conditions associated with a given
      * reminder action ID.
@@ -152,7 +151,7 @@ class Reminder_Condition
      * @param   integer $action_id The reminder action ID
      * @return  array The list of reminder conditions
      */
-    function getList($action_id)
+    public function getList($action_id)
     {
         $stmt = "SELECT
                     *
@@ -167,6 +166,7 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -177,7 +177,6 @@ class Reminder_Condition
         }
     }
 
-
     /**
      * Method used to get the list of reminder conditions to be displayed in the
      * administration section.
@@ -186,7 +185,7 @@ class Reminder_Condition
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of reminder conditions
      */
-    function getAdminList($rma_id)
+    public function getAdminList($rma_id)
     {
         $stmt = "SELECT
                     rlc_id,
@@ -207,12 +206,13 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
                     $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
-                }elseif (strtolower($res[$i]['rmf_title']) == 'status') {
+                } elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
                     $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
@@ -222,10 +222,10 @@ class Reminder_Condition
                     $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");
                 }
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the title of a specific reminder field.
@@ -234,7 +234,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  string The title of the reminder field
      */
-    function getFieldTitle($field_id)
+    public function getFieldTitle($field_id)
     {
         $stmt = "SELECT
                     rmf_title
@@ -245,12 +245,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the sql_field of a specific reminder field.
@@ -259,7 +259,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  string The sql_field of the reminder field
      */
-    function getSQLField($field_id)
+    public function getSQLField($field_id)
     {
         $stmt = "SELECT
                     rmf_sql_field
@@ -270,12 +270,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of reminder fields to be displayed in the
@@ -285,7 +285,7 @@ class Reminder_Condition
      * @param   boolean $comparable_only If true, only fields that can be compared to other fields will be returned
      * @return  array The list of reminder fields
      */
-    function getFieldAdminList($comparable_only = false)
+    public function getFieldAdminList($comparable_only = false)
     {
         $stmt = "SELECT
                     rmf_id,
@@ -300,12 +300,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of reminder operators to be displayed in the
@@ -314,7 +314,7 @@ class Reminder_Condition
      * @access  public
      * @return  array The list of reminder operators
      */
-    function getOperatorAdminList()
+    public function getOperatorAdminList()
     {
         $stmt = "SELECT
                     rmo_id,
@@ -326,12 +326,12 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to see if a specific reminder field can be compared to other fields.
@@ -340,7 +340,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  boolean If this field can be compared to other fields.
      */
-    function canFieldBeCompared($field_id)
+    public function canFieldBeCompared($field_id)
     {
         $stmt = "SELECT
                     rmf_allow_column_compare
@@ -351,6 +351,7 @@ class Reminder_Condition
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;

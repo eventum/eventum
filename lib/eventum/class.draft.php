@@ -37,7 +37,7 @@ class Draft
      * @access  public
      * @param   string $message The full body of the draft
      */
-    function saveRoutedMessage($message)
+    public function saveRoutedMessage($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -48,7 +48,6 @@ class Draft
         file_put_contents($file, $message);
         chmod($file, 0644);
     }
-
 
     /**
      * Method used to save the draft response in the database for
@@ -65,7 +64,7 @@ class Draft
      * @param   boolean $add_history_entry Whether to add a history entry automatically or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE, $unknown_user = FALSE, $add_history_entry = TRUE)
+    public function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = false, $unknown_user = false, $add_history_entry = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $parent_id = Misc::escapeInteger($parent_id);
@@ -105,6 +104,7 @@ class Draft
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_emd_id = DB_Helper::get_last_insert_id();
@@ -118,10 +118,10 @@ class Draft
             if ($add_history_entry) {
                 History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to update an existing draft response.
@@ -136,7 +136,7 @@ class Draft
      * @param   integer $parent_id The ID of the email that this draft is replying to, if any
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = FALSE)
+    public function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $emd_id = Misc::escapeInteger($emd_id);
@@ -157,15 +157,16 @@ class Draft
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($issue_id, "draft saved");
             History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
             self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove a draft response.
@@ -174,7 +175,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  boolean
      */
-    function remove($emd_id)
+    public function remove($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "UPDATE
@@ -186,12 +187,12 @@ class Draft
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to remove the recipients associated with the given
@@ -201,7 +202,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  boolean
      */
-    function removeRecipients($emd_id)
+    public function removeRecipients($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "DELETE FROM
@@ -211,12 +212,12 @@ class Draft
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to associate a recipient with a given email
@@ -251,12 +252,12 @@ class Draft
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to get the details on a given email draft response.
@@ -265,7 +266,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  array The email draft details
      */
-    function getDetails($emd_id)
+    public function getDetails($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
@@ -278,6 +279,7 @@ class Draft
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
@@ -287,10 +289,10 @@ class Draft
                 $res['from'] = User::getFromHeader($res['emd_usr_id']);
             }
             list($res['to'], $res['cc']) = self::getEmailRecipients($emd_id);
+
             return $res;
         }
     }
-
 
     /**
      * Returns a list of drafts associated with an issue.
@@ -300,7 +302,7 @@ class Draft
      * @param   boolean $show_all If all draft statuses should be shown
      * @return  array An array of drafts.
      */
-    function getList($issue_id, $show_all = false)
+    public function getList($issue_id, $show_all = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -322,6 +324,7 @@ class Draft
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -336,10 +339,10 @@ class Draft
                     $res[$i]['to'] = "Notification List";
                 }
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of email recipients for a
@@ -349,7 +352,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  array The list of email recipients
      */
-    function getEmailRecipients($emd_id)
+    public function getEmailRecipients($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
@@ -362,6 +365,7 @@ class Draft
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array('', '');
         } else {
             $to = '';
@@ -373,13 +377,13 @@ class Draft
                     $to = $email;
                 }
             }
+
             return array(
                 $to,
                 $ccs
             );
         }
     }
-
 
     /**
      * Returns the nth draft for the specific issue. Sequence starts at 1.
@@ -389,7 +393,7 @@ class Draft
      * @param   integer $sequence The sequential number of the draft.
      * @return  array An array of data containing details about the draft.
      */
-    function getDraftBySequence($issue_id, $sequence)
+    public function getDraftBySequence($issue_id, $sequence)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
@@ -406,6 +410,7 @@ class Draft
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -416,14 +421,13 @@ class Draft
         }
     }
 
-
     /**
      * Converts an email to a draft and sends it.
      *
      * @access  public
      * @param   integer $draft_id The id of the draft to send.
      */
-    function send($draft_id)
+    public function send($draft_id)
     {
         $draft_id = Misc::escapeInteger($draft_id);
         $draft = self::getDetails($draft_id);
@@ -438,9 +442,9 @@ class Draft
         if ($res == 1) {
            self::remove($draft_id);
         }
+
         return $res;
     }
-
 
     /**
      * Returns the number of drafts by a user in a time range.
@@ -451,7 +455,7 @@ class Draft
      * @param   integer $end The timestanp of the end date
      * @return  integer The number of note by the user.
      */
-    function getCountByUser($usr_id, $start, $end)
+    public function getCountByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     COUNT(emd_id)
@@ -463,8 +467,10 @@ class Draft
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
+
         return $res;
     }
 }

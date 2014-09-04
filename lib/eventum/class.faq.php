@@ -37,7 +37,7 @@ class FAQ
      * @param   array $support_level_ids The support level IDs
      * @return  array The list of FAQ entries
      */
-    function getListBySupportLevel($support_level_ids)
+    public function getListBySupportLevel($support_level_ids)
     {
         if (!is_array($support_level_ids)) {
             $support_level_ids = array($support_level_ids);
@@ -72,6 +72,7 @@ class FAQ
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -80,10 +81,10 @@ class FAQ
                 }
                 $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]["faq_updated_date"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to remove a FAQ entry from the system.
@@ -91,7 +92,7 @@ class FAQ
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -101,13 +102,14 @@ class FAQ
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeSupportLevelAssociations($_POST['items']);
+
             return true;
         }
     }
-
 
     /**
      * Method used to remove the support level associations for a given
@@ -117,7 +119,7 @@ class FAQ
      * @param   integer $faq_id The FAQ ID
      * @return  boolean
      */
-    function removeSupportLevelAssociations($faq_id)
+    public function removeSupportLevelAssociations($faq_id)
     {
         $faq_id = Misc::escapeInteger($faq_id);
         if (!is_array($faq_id)) {
@@ -131,12 +133,12 @@ class FAQ
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update a FAQ entry in the system.
@@ -144,7 +146,7 @@ class FAQ
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -167,6 +169,7 @@ class FAQ
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // remove all of the associations with support levels, then add them all again
@@ -176,10 +179,10 @@ class FAQ
                     self::addSupportLevelAssociation($_POST['id'], $support_level_id);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to add a FAQ entry to the system.
@@ -187,7 +190,7 @@ class FAQ
      * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -215,6 +218,7 @@ class FAQ
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_faq_id = DB_Helper::get_last_insert_id();
@@ -224,10 +228,10 @@ class FAQ
                     self::addSupportLevelAssociation($new_faq_id, $support_level_id);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to add a support level association to a FAQ entry.
@@ -237,7 +241,7 @@ class FAQ
      * @param   integer $support_level_id The support level ID
      * @return  void
      */
-    function addSupportLevelAssociation($faq_id, $support_level_id)
+    public function addSupportLevelAssociation($faq_id, $support_level_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
@@ -251,7 +255,6 @@ class FAQ
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to get the details of a FAQ entry for a given FAQ ID.
      *
@@ -259,7 +262,7 @@ class FAQ
      * @param   integer $faq_id The FAQ entry ID
      * @return  array The FAQ entry details
      */
-    function getDetails($faq_id)
+    public function getDetails($faq_id)
     {
         $stmt = "SELECT
                     *
@@ -270,6 +273,7 @@ class FAQ
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if ($res == NULL) {
@@ -281,10 +285,10 @@ class FAQ
             }
             $res['faq_updated_date'] = Date_Helper::getFormattedDate($res['faq_updated_date']);
             $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of FAQ entries available in the system.
@@ -292,7 +296,7 @@ class FAQ
      * @access  public
      * @return  array The list of news entries
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     faq_id,
@@ -306,16 +310,17 @@ class FAQ
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get the list of associated support levels
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of associated support levels for a given
@@ -326,7 +331,7 @@ class FAQ
      * @param   integer $faq_id The FAQ ID
      * @return  array The list of projects
      */
-    function getAssociatedSupportLevels($prj_id, $faq_id)
+    public function getAssociatedSupportLevels($prj_id, $faq_id)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
@@ -345,12 +350,12 @@ class FAQ
                     $t[$support_level_id] = $support_level;
                 }
             }
+
             return $t;
         } else {
             return array();
         }
     }
-
 
     /**
      * Method used to quickly change the ranking of a faq entry
@@ -361,7 +366,7 @@ class FAQ
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($faq_id, $rank_type)
+    public function changeRank($faq_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking();
@@ -399,9 +404,9 @@ class FAQ
                  WHERE
                     faq_id=" . $faq_id;
         DB_Helper::getInstance()->query($stmt);
+
         return true;
     }
-
 
     /**
      * Returns an associative array with the list of faq entry
@@ -410,7 +415,7 @@ class FAQ
      * @access  private
      * @return  array The list of faq entries
      */
-    function _getRanking()
+    public function _getRanking()
     {
         $stmt = "SELECT
                     faq_id,
@@ -422,6 +427,7 @@ class FAQ
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;

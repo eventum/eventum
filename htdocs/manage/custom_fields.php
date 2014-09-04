@@ -34,7 +34,6 @@ $tpl->setTemplate("manage/custom_fields.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
@@ -60,7 +59,7 @@ if (@$_POST["cat"] == "new") {
             true   =>  array(ev_gettext('Thank you, the custom field was removed successfully.'), Misc::MSG_INFO),
             false  =>  array(ev_gettext('An error occurred while trying to remove the custom field information.'), Misc::MSG_ERROR),
     ));
-}elseif (@$_REQUEST["cat"] == "change_rank") {
+} elseif (@$_REQUEST["cat"] == "change_rank") {
     Custom_Field::changeRank();
 }
 

@@ -56,7 +56,8 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     protected $customer_id_attribute;
     protected $contact_id_attribute;
 
-    public function __construct() {
+    public function __construct()
+    {
         $setup = self::loadSetup();
         $this->config = array (
             'binddn'    =>  $setup['binddn'],
@@ -124,6 +125,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         foreach ($errors as $error) {
             Auth::saveLoginAttempt($uid, 'failure', $error->getMessage());
         }
+
         return false;
     }
 
@@ -157,7 +159,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         return $details;
     }
 
-
     protected function getUserDNstring($uid)
     {
         return str_replace('%UID%', $uid, $this->user_dn_string);
@@ -189,16 +190,18 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             $data['role'] = $setup['default_role'];
 
             if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
-                foreach ($data['role'] as $prj_id => $role)  {
+                foreach ($data['role'] as $prj_id => $role) {
                     if ($role > 0) {
                         $data['role'][$prj_id] = User::getRoleID('Customer');
                     }
                 }
             }
             $return = User::insert($data);
+
             return $return;
         } else {
             $update = User::update($local_usr_id, $data, false);
+
             return $local_usr_id;
         }
     }
@@ -219,6 +222,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
         // try to create or update local user from ldap info
         $created = $this->updateLocalUserFromBackend($login);
+
         return $created;
     }
 
@@ -279,7 +283,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
     }
 
-
     public static function loadSetup($force = false)
     {
         static $setup;
@@ -300,6 +303,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 $setup = unserialize(base64_decode($ldap_setup_string));
             }
         }
+
         return $setup;
     }
 
@@ -309,11 +313,13 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
             if (!is_writable(APP_CONFIG_PATH)) {
                 clearstatcache();
+
                 return -1;
             }
         } else {
             if (!is_writable(APP_CONFIG_PATH . '/ldap.php')) {
                 clearstatcache();
+
                 return -2;
             }
         }
@@ -322,6 +328,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         if ($res === false) {
             return -2;
         }
+
         return 1;
     }
     /**
@@ -332,7 +339,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
      * @param   string  $password The password.
      * @return  boolean true if update worked, false otherwise
      */
-    function updatePassword($usr_id, $password)
+    public function updatePassword($usr_id, $password)
     {
         if (!$this->isLDAPuser($usr_id)) {
             return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);

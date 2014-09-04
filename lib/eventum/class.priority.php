@@ -46,7 +46,7 @@ class Priority
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($prj_id, $pri_id, $rank_type)
+    public function changeRank($prj_id, $pri_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking($prj_id);
@@ -86,9 +86,9 @@ class Priority
                     pri_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pri_id=" . Misc::escapeInteger($pri_id);
         DB_Helper::getInstance()->query($stmt);
+
         return true;
     }
-
 
     /**
      * Returns an associative array with the list of reminder IDs and
@@ -98,7 +98,7 @@ class Priority
      * @param   integer $prj_id The ID of the project
      * @return  array The list of reminders
      */
-    function _getRanking($prj_id)
+    public function _getRanking($prj_id)
     {
         $stmt = "SELECT
                     pri_id,
@@ -112,12 +112,12 @@ class Priority
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the full details of a priority.
@@ -126,7 +126,7 @@ class Priority
      * @param   integer $pri_id The priority ID
      * @return  array The information about the priority provided
      */
-    function getDetails($pri_id)
+    public function getDetails($pri_id)
     {
         $stmt = "SELECT
                     *
@@ -137,12 +137,12 @@ class Priority
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to remove all priorities related to a set of
@@ -152,7 +152,7 @@ class Priority
      * @param   array $ids The project IDs to be removed
      * @return  boolean Whether the removal worked or not
      */
-    function removeByProjects($ids)
+    public function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -162,12 +162,12 @@ class Priority
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to remove user-selected priorities from the
@@ -176,7 +176,7 @@ class Priority
      * @access  public
      * @return  boolean Whether the removal worked or not
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -186,12 +186,12 @@ class Priority
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update the values stored in the database.
@@ -201,7 +201,7 @@ class Priority
      * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -217,12 +217,12 @@ class Priority
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to add a new priority to the application.
@@ -230,7 +230,7 @@ class Priority
      * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -249,12 +249,12 @@ class Priority
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the full list of priorities associated with
@@ -264,7 +264,7 @@ class Priority
      * @param   integer $prj_id The project ID
      * @return  array The full list of priorities
      */
-    function getList($prj_id)
+    public function getList($prj_id)
     {
         $stmt = "SELECT
                     pri_id,
@@ -279,12 +279,12 @@ class Priority
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the title for a priority ID.
@@ -293,7 +293,7 @@ class Priority
      * @param   integer $pri_id The priority ID
      * @return  string The priority title
      */
-    function getTitle($pri_id)
+    public function getTitle($pri_id)
     {
         $stmt = "SELECT
                     pri_title
@@ -304,12 +304,12 @@ class Priority
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of priorities as an associative array in the
@@ -319,7 +319,7 @@ class Priority
      * @param   integer $prj_id The project ID
      * @return  array The list of priorities
      */
-    function getAssocList($prj_id)
+    public function getAssocList($prj_id)
     {
         static $list;
 
@@ -339,9 +339,11 @@ class Priority
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $list[$prj_id] = $res;
+
             return $res;
         }
     }
@@ -355,7 +357,7 @@ class Priority
      * @param   string $pri_title The priority title
      * @return  integer $pri_id The priority ID
      */
-    function getPriorityID($prj_id, $pri_title)
+    public function getPriorityID($prj_id, $pri_title)
     {
         $stmt = "SELECT
                     pri_id
@@ -368,6 +370,7 @@ class Priority
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return null;
         } else {
             return $res;

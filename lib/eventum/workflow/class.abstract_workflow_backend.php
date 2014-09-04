@@ -75,7 +75,8 @@ class Abstract_Workflow_Backend
      *
      * use this function to access workflow configuration variables
      */
-    protected function getConfig($option) {
+    protected function getConfig($option)
+    {
         if (!$this->configLoaded) {
             $this->loadConfig();
         }
@@ -88,7 +89,8 @@ class Abstract_Workflow_Backend
      * merges the workflow's default settings with any local settings
      * this function is automatically called through getConfig()
      */
-    private function loadConfig() {
+    private function loadConfig()
+    {
         $defaults = $this->getConfigDefaults();
         $name = $this->getWorkflowName();
         $setup = Setup::load();
@@ -109,7 +111,8 @@ class Abstract_Workflow_Backend
      * If you made changes to config, you may call this to persist the changes
      * back to disk
      */
-    protected function saveConfig() {
+    protected function saveConfig()
+    {
         if (!$this->configLoaded || !$this->config_setup_copy) {
             return;
         }
@@ -120,14 +123,16 @@ class Abstract_Workflow_Backend
     /**
      * You should override this in your workflow class
      */
-    protected function getConfigDefaults() {
+    protected function getConfigDefaults()
+    {
         return array();
     }
 
     /**
      * Returns name of active workflow class
      */
-    protected function getWorkflowName() {
+    protected function getWorkflowName()
+    {
         return strtolower(current(explode('_', get_class($this), 2)));
     }
 
@@ -140,10 +145,9 @@ class Abstract_Workflow_Backend
      * @param array $old_details The old details of the issues.
      * @param array $changes The changes that were applied to this issue (the $_POST)
      */
-    function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
-
 
     /**
      * Called before an issue is updated.
@@ -154,11 +158,10 @@ class Abstract_Workflow_Backend
      * @param   array   $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      */
-    function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
+    public function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
     {
         return true;
     }
-
 
     /**
      * THIS METHOD IS NOW DEPRECATED AND ISN'T CALLED FROM ANYWHERE.
@@ -169,10 +172,9 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who assigned the issue.
      */
-    function handleAssignment($prj_id, $issue_id, $usr_id)
+    public function handleAssignment($prj_id, $issue_id, $usr_id)
     {
     }
-
 
     /**
      * Called when a file is attached to an issue.
@@ -181,7 +183,7 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      */
-    function handleAttachment($prj_id, $issue_id, $usr_id)
+    public function handleAttachment($prj_id, $issue_id, $usr_id)
     {
     }
 
@@ -199,11 +201,10 @@ class Abstract_Workflow_Backend
      * @param   array $attachment attachment object
      * @return  boolean
      */
-    function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    public function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
     {
         return true;
     }
-
 
     /**
      * Called when the priority of an issue changes.
@@ -214,10 +215,9 @@ class Abstract_Workflow_Backend
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
-
 
     /**
      * Called when the severity of an issue changes.
@@ -228,10 +228,9 @@ class Abstract_Workflow_Backend
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
     }
-
 
     /**
      * Called when an email is blocked.
@@ -241,10 +240,9 @@ class Abstract_Workflow_Backend
      * @param   array $email_details Details of the issue
      * @param   string $type What type of blocked email this is.
      */
-    function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
+    public function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
     {
     }
-
 
     /**
      * Called when a note is routed.
@@ -255,10 +253,9 @@ class Abstract_Workflow_Backend
      * @param   boolean $closing If the issue is being closed
      * @param   integer $note_id The ID of the new note
      */
-    function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
+    public function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
     }
-
 
     /**
      * Called when the assignment on an issue changes.
@@ -270,10 +267,9 @@ class Abstract_Workflow_Backend
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.
      */
-    function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment)
+    public function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment)
     {
     }
-
 
     /**
      * Called when a new issue is created.
@@ -283,11 +279,9 @@ class Abstract_Workflow_Backend
      * @param   boolean $has_TAM If this issue has a technical account manager.
      * @param   boolean $has_RR If Round Robin was used to assign this issue.
      */
-    function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
+    public function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
     }
-
-
 
     /**
      * Called when an email is associated with an issue.
@@ -296,10 +290,9 @@ class Abstract_Workflow_Backend
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The issue ID
      */
-    function handleManualEmailAssociation($prj_id, $issue_id)
+    public function handleManualEmailAssociation($prj_id, $issue_id)
     {
     }
-
 
     /**
      * Called when a new message is received.
@@ -310,10 +303,9 @@ class Abstract_Workflow_Backend
      * @param   array $row The array of data that was inserted into the database.
      * @param   boolean $closing If we are closing the issue.
      */
-    function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
+    public function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
     {
     }
-
 
     /**
      * Method is called to return the list of statuses valid for a specific issue.
@@ -322,11 +314,10 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */
-    function getAllowedStatuses($prj_id, $issue_id)
+    public function getAllowedStatuses($prj_id, $issue_id)
     {
         return Status::getAssocStatusList($prj_id, false);
     }
-
 
     /**
      * Called when issue is closed.
@@ -340,10 +331,9 @@ class Abstract_Workflow_Backend
      * @param   integer $usr_id The ID of the user closing this issue
      * @return  void
      */
-    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
+    public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
     }
-
 
     /**
      * Called when custom fields are updated
@@ -353,10 +343,9 @@ class Abstract_Workflow_Backend
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
      */
-    function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
     {
     }
-
 
     /**
      * Called when an attempt is made to add a user or email address to the
@@ -369,11 +358,10 @@ class Abstract_Workflow_Backend
      * @param   array $types The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
      */
-    function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
+    public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         return true;
     }
-
 
     /**
      * Called when SCM checkin is associated.
@@ -386,10 +374,9 @@ class Abstract_Workflow_Backend
      * @param   string $commit_msg Message associated with the SCM commit.
      * @return  void
      */
-    function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
     {
     }
-
 
     /**
      * Determines if the address should be emailed.
@@ -400,11 +387,10 @@ class Abstract_Workflow_Backend
      * @param   string $type The type of notification to send.
      * @return  boolean
      */
-    function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    public function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
     {
         return true;
     }
-
 
     /**
      * Returns additional email addresses that should be notified for a specific event..
@@ -414,11 +400,10 @@ class Abstract_Workflow_Backend
      * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
      * @return   array   An array of email addresses to be notified.
      */
-    function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
+    public function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
     {
         return array();
     }
-
 
     /**
      * Indicates if the the specified email address can email the issue. Can be
@@ -430,11 +415,10 @@ class Abstract_Workflow_Backend
      * @return  boolean true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used.
      */
-    function canEmailIssue($prj_id, $issue_id, $email)
+    public function canEmailIssue($prj_id, $issue_id, $email)
     {
         return null;
     }
-
 
     /**
      * Called to check if an email address that does not have an eventum account can send notes to an issue.
@@ -444,11 +428,10 @@ class Abstract_Workflow_Backend
      * @param   string $email The email address to check
      * @return  boolean True if the note should be added, false otherwise
      */
-    function canSendNote($prj_id, $issue_id, $email, $structure)
+    public function canSendNote($prj_id, $issue_id, $email, $structure)
     {
         return null;
     }
-
 
     /**
      * Handles when an authorized replier is added
@@ -458,10 +441,9 @@ class Abstract_Workflow_Backend
      * @param   string  $email The email address added
      * @return  boolean
      */
-    function handleAuthorizedReplierAdded($prj_id, $issue_id, $email)
+    public function handleAuthorizedReplierAdded($prj_id, $issue_id, $email)
     {
     }
-
 
     /**
      * Called at the begining of the email download process. If it returns true, the
@@ -475,11 +457,10 @@ class Abstract_Workflow_Backend
      * @param   object $email An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
     {
         return null;
     }
-
 
     /**
      * Called before inserting a note. If it returns false the rest of the note code
@@ -495,18 +476,16 @@ class Abstract_Workflow_Backend
         return null;
     }
 
-
     /**
      * Indicates if the email addresses should automatically be added to the NL from notes and emails.
      *
      * @param   integer $prj_id The project ID.
      * @return  boolean
      */
-    function shouldAutoAddToNotificationList($prj_id)
+    public function shouldAutoAddToNotificationList($prj_id)
     {
         return true;
     }
-
 
     /**
      * Returns the issue ID to associate a new email with, null to use the default logic and "new" to create
@@ -522,11 +501,10 @@ class Abstract_Workflow_Backend
      * @param   array   $to An array of to addresses
      * @param   array   $cc An array of cc addresses
      */
-    function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         return null;
     }
-
 
     /**
      * Modifies the content of the message being added to the mail queue.
@@ -540,10 +518,9 @@ class Abstract_Workflow_Backend
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
-    function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    public function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
     {
     }
-
 
     /**
      * Called before the status changes. Parameters are passed by reference so the values can be changed.
@@ -554,11 +531,10 @@ class Abstract_Workflow_Backend
      * @param   boolean $notify
      * @return  boolean true to continue normal processing, anything else to cancel and return value.
      */
-    function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
+    public function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
     {
         return true;
     }
-
 
     /**
      * Called at the start of many pages. After the includes and maybe some other code this
@@ -568,11 +544,10 @@ class Abstract_Workflow_Backend
      * @param   string $page_name The name of the page
      * @return  null
      */
-    function prePage($prj_id, $page_name)
+    public function prePage($prj_id, $page_name)
     {
         return null;
     }
-
 
     /**
      * Called to determine which actions to subscribe a new user too.
@@ -584,11 +559,10 @@ class Abstract_Workflow_Backend
      * @param   string  $source The source of this call
      * @return  array   an array of actions
      */
-    function getNotificationActions($prj_id, $issue_id, $email, $source)
+    public function getNotificationActions($prj_id, $issue_id, $email, $source)
     {
         return null;
     }
-
 
     /**
      * Returns which "issue fields" should be displayed in a given location.
@@ -599,7 +573,7 @@ class Abstract_Workflow_Backend
      * @param   string  $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
      */
-    function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
         return array();
     }
@@ -610,20 +584,18 @@ class Abstract_Workflow_Backend
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
-    function getLinkFilters($prj_id)
+    public function getLinkFilters($prj_id)
     {
         return array();
     }
 
-
     /**
      * Returns if a user can update an issue. Return null to use default rules.
      */
-    function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    public function canUpdateIssue($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
-
 
     /**
      * Returns the ID of the group that is "active" right now.
@@ -632,7 +604,6 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
-
 
     public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
                                             $type = false)

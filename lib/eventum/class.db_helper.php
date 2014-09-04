@@ -48,7 +48,8 @@ class DB_Helper
      * @static
      * @return DB_common
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (!self::$instance) {
             self::$instance = new DB_Helper();
 
@@ -61,6 +62,7 @@ class DB_Helper
                 exit(2);
             }
         }
+
         return self::$instance->dbh;
     }
 
@@ -72,7 +74,8 @@ class DB_Helper
      *
      * @access public
      */
-    private function __construct() {
+    private function __construct()
+    {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,
             'hostspec' => APP_SQL_DBHOST,
@@ -95,7 +98,6 @@ class DB_Helper
         }
     }
 
-
     /**
      * Method used to get the last inserted ID. This is a simple
      * wrapper to the mysql_insert_id function, as a work around to
@@ -105,10 +107,10 @@ class DB_Helper
      * @access  public
      * @return  integer The last inserted ID
      */
-    static function get_last_insert_id() {
+    public static function get_last_insert_id()
+    {
         return mysql_insert_id(self::getInstance()->connection);
     }
-
 
     /**
      * Returns the escaped version of the given string.
@@ -118,14 +120,14 @@ class DB_Helper
      * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
      */
-    static function escapeString($str, $add_quotes = false)
+    public static function escapeString($str, $add_quotes = false)
     {
         if ($add_quotes) {
             return "'". mysql_real_escape_string($str, self::getInstance()->connection) . "'";
         }
+
         return mysql_real_escape_string($str, self::getInstance()->connection);
     }
-
 
     /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
@@ -137,7 +139,7 @@ class DB_Helper
      * @param   string $end_date_field The name of the field where the second date is.
      * @return  string The SQL used to compare the 2 dates.
      */
-    function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
+    public function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
     {
         if ($end_date_field == false) {
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
@@ -161,9 +163,9 @@ class DB_Helper
             WHEN DAYOFWEEK($end_date_field) = 1 THEN (86400 + time_to_sec($end_date_field))
             ELSE 0
         END)";
+
         return str_replace("\n", " ", $sql);
     }
-
 
     public static function fatalDBError($e)
     {

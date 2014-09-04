@@ -47,7 +47,7 @@ class Status
      * @param   array $sta_ids The list of status IDs
      * @return  array The label and date field
      */
-    function getProjectStatusCustomization($prj_id, $sta_ids)
+    public function getProjectStatusCustomization($prj_id, $sta_ids)
     {
         $sta_ids = array_unique($sta_ids);
         $stmt = "SELECT
@@ -62,12 +62,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Returns the details of a given project status customization entry.
@@ -76,7 +76,7 @@ class Status
      * @param   integer $psd_id The customization entry ID
      * @return  array The details
      */
-    function getCustomizationDetails($psd_id)
+    public function getCustomizationDetails($psd_id)
     {
         $stmt = "SELECT
                     *
@@ -87,12 +87,12 @@ class Status
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Removes a given set of customizations.
@@ -101,7 +101,7 @@ class Status
      * @param   array $items The customization entry IDs
      * @return  boolean
      */
-    function removeCustomization($items)
+    public function removeCustomization($items)
     {
         $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
@@ -111,12 +111,12 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to update the details of a customization entry in the system.
@@ -129,7 +129,7 @@ class Status
      * @param   string $label The label that should appear in the issue listing screen
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
+    public function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
@@ -143,12 +143,12 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to add a new customization entry to the system.
@@ -160,7 +160,7 @@ class Status
      * @param   string $label The label that should appear in the issue listing screen
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    function insertCustomization($prj_id, $sta_id, $date_field, $label)
+    public function insertCustomization($prj_id, $sta_id, $date_field, $label)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
@@ -178,12 +178,12 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get a list of all existing customizations.
@@ -191,7 +191,7 @@ class Status
      * @access  public
      * @return  array The list of available customizations
      */
-    function getCustomizationList()
+    public function getCustomizationList()
     {
         $stmt = "SELECT
                     psd_id,
@@ -213,16 +213,17 @@ class Status
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
-            $date_fields = Issue::getDateFieldsAssocList(TRUE);
+            $date_fields = Issue::getDateFieldsAssocList(true);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['date_field'] = $date_fields[$res[$i]['psd_date_field']];
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to check whether the given status has a closed context or
@@ -231,7 +232,7 @@ class Status
      * @access  public
      * @return  boolean
      */
-    function hasClosedContext($sta_id)
+    public function hasClosedContext($sta_id)
     {
         $stmt = "SELECT
                     sta_is_closed
@@ -242,6 +243,7 @@ class Status
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
@@ -252,14 +254,13 @@ class Status
         }
     }
 
-
     /**
      * Method used to add a new custom status to the system.
      *
      * @access  public
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
@@ -282,6 +283,7 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_status_id = DB_Helper::get_last_insert_id();
@@ -289,10 +291,10 @@ class Status
             foreach ($_POST['projects'] as $prj_id) {
                 self::addProjectAssociation($new_status_id, $prj_id);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to update the details of a given custom status.
@@ -300,7 +302,7 @@ class Status
      * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -318,6 +320,7 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $projects = self::getAssociatedProjects($_POST['id']);
@@ -347,10 +350,10 @@ class Status
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove a set of custom statuses.
@@ -358,7 +361,7 @@ class Status
      * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -368,6 +371,7 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeProjectAssociations($_POST['items']);
@@ -379,10 +383,10 @@ class Status
                      WHERE
                         iss_sta_id IN ($items)";
             DB_Helper::getInstance()->query($stmt);
+
             return true;
         }
     }
-
 
     /**
      * Method used to add a project association to a status.
@@ -392,7 +396,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  void
      */
-    function addProjectAssociation($sta_id, $prj_id)
+    public function addProjectAssociation($sta_id, $prj_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
@@ -406,7 +410,6 @@ class Status
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to remove the project associations for a given
      * custom status.
@@ -416,7 +419,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function removeProjectAssociations($sta_id, $prj_id=FALSE)
+    public function removeProjectAssociations($sta_id, $prj_id=false)
     {
         if (!is_array($sta_id)) {
             $sta_id = array($sta_id);
@@ -432,12 +435,12 @@ class Status
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to get the details of a given status ID.
@@ -446,7 +449,7 @@ class Status
      * @param   integer $sta_id The custom status ID
      * @return  array The status details
      */
-    function getDetails($sta_id)
+    public function getDetails($sta_id)
     {
         $stmt = "SELECT
                     *
@@ -457,14 +460,15 @@ class Status
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get all of the project associations here as well
             $res['projects'] = array_keys(self::getAssociatedProjects($res['sta_id']));
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of statuses ordered by title.
@@ -472,7 +476,7 @@ class Status
      * @access  public
      * @return  array The list of statuses
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     *
@@ -484,16 +488,17 @@ class Status
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of associated projects for a given
@@ -503,7 +508,7 @@ class Status
      * @param   integer $sta_id The custom status ID
      * @return  array The list of projects
      */
-    function getAssociatedProjects($sta_id)
+    public function getAssociatedProjects($sta_id)
     {
         $stmt = "SELECT
                     prj_id,
@@ -517,12 +522,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the status ID for a given status title.
@@ -548,13 +553,14 @@ class Status
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$sta_title] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the status title for a given status ID.
@@ -563,7 +569,7 @@ class Status
      * @param   integer $sta_id The status ID
      * @return  string The status title
      */
-    function getStatusTitle($sta_id)
+    public function getStatusTitle($sta_id)
     {
         $stmt = "SELECT
                     sta_title
@@ -574,12 +580,12 @@ class Status
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of available closed-context statuses as an
@@ -589,7 +595,7 @@ class Status
      * @param   array $prj_id List of project IDs
      * @return  array The list of closed-context statuses
      */
-    function getClosedAbbreviationAssocList($prj_id)
+    public function getClosedAbbreviationAssocList($prj_id)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -610,12 +616,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of available statuses as an associative array
@@ -626,7 +632,7 @@ class Status
      * @param   boolean $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
      */
-    function getAbbreviationAssocList($prj_id, $show_closed)
+    public function getAbbreviationAssocList($prj_id, $show_closed)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -650,12 +656,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of available statuses as an associative array
@@ -666,7 +672,7 @@ class Status
      * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */
-    function getAssocStatusList($prj_id, $show_closed = TRUE)
+    public function getAssocStatusList($prj_id, $show_closed = true)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -690,12 +696,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of available statuses as an associative array
@@ -704,7 +710,7 @@ class Status
      * @access  public
      * @return  array The list of statuses
      */
-    function getAssocList()
+    public function getAssocList()
     {
         $stmt = "SELECT
                     sta_id,
@@ -716,12 +722,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of available statuses as an associative array
@@ -732,7 +738,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  array The list of statuses
      */
-    function getClosedAssocList($prj_id)
+    public function getClosedAssocList($prj_id)
     {
         $stmt = "SELECT
                     sta_id,
@@ -749,12 +755,12 @@ class Status
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of statuses and their respective colors
@@ -762,7 +768,7 @@ class Status
      * @access  public
      * @return  array List of statuses
      */
-    function getStatusColors()
+    public function getStatusColors()
     {
         $stmt = "SELECT
                     sta_color,
@@ -774,6 +780,7 @@ class Status
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;

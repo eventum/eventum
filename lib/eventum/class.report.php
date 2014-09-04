@@ -41,7 +41,6 @@ require_once 'Date.php';
 class Report
 {
 
-
     /**
      * Method used to get all open issues and group them by user.
      *
@@ -54,7 +53,7 @@ class Report
      * @param $sort_order
      * @return  array The list of issues
      */
-    function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
+    public function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $ts = Date_Helper::getCurrentUnixTimestampGMT();
@@ -116,6 +115,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -138,6 +138,7 @@ class Report
                     'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
                 );
             }
+
             return $issues;
         }
     }
@@ -157,7 +158,6 @@ class Report
         $cutoff_days = Misc::escapeInteger($cutoff_days);
         $ts = Date_Helper::getCurrentUnixTimestampGMT();
         $ts_diff = $cutoff_days * Date_Helper::DAY;
-
 
         $stmt = "SELECT
                     assignee.usr_full_name as assignee_name,
@@ -198,6 +198,7 @@ class Report
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -224,10 +225,10 @@ class Report
                     'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
                 );
             }
+
             return $issues;
         }
     }
-
 
     /**
      * Method used to get the list of issues in a project, and group
@@ -237,7 +238,7 @@ class Report
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    function getIssuesByUser($prj_id)
+    public function getIssuesByUser($prj_id)
     {
         $stmt = "SELECT
                     usr_full_name,
@@ -266,6 +267,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -279,10 +281,10 @@ class Report
                     'status_color'     => $res[$i]['sta_color']
                 );
             }
+
             return $issues;
         }
     }
-
 
     /**
      * Returns the data used by the weekly report.
@@ -296,7 +298,7 @@ class Report
      * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
-    function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
+    public function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
     {
         $prj_id = Auth::getCurrentProject();
         $usr_id = Misc::escapeInteger($usr_id);
@@ -380,7 +382,6 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data used by the workload by time period report.
      *
@@ -389,7 +390,7 @@ class Report
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    function getWorkloadByTimePeriod($timezone, $graph = false)
+    public function getWorkloadByTimePeriod($timezone, $graph = false)
     {
         $stmt = "SELECT
                     count(*) as events,
@@ -412,6 +413,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         // get total number of developer and customer events
@@ -468,7 +470,6 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data on when support emails are sent/received.
      *
@@ -477,7 +478,7 @@ class Report
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    function getEmailWorkloadByTimePeriod($timezone, $graph = false)
+    public function getEmailWorkloadByTimePeriod($timezone, $graph = false)
     {
         // get total counts
         $stmt = "SELECT
@@ -490,6 +491,7 @@ class Report
         $total = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($total)) {
             Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -513,6 +515,7 @@ class Report
         $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($dev_stats)) {
             Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -562,7 +565,7 @@ class Report
                 }
             } else {
                 $data[$i]["developer"]["count"] = $dev_stats[$i];
-                if ($dev_count == 0){
+                if ($dev_count == 0) {
                     $data[$i]["developer"]["percentage"] = 0;
                 } else {
                     $data[$i]["developer"]["percentage"] = (($dev_stats[$i] / $dev_count) * 100);
@@ -588,7 +591,6 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
      *
@@ -603,7 +605,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
+    public function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -700,6 +702,7 @@ class Report
             $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -718,6 +721,7 @@ class Report
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
             }
+
             return $res;
         }
 
@@ -757,6 +761,7 @@ class Report
             }
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
             $data[$value] = $res;
@@ -777,6 +782,7 @@ class Report
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["All Others"] = $res;
@@ -794,7 +800,7 @@ class Report
      * @param   boolean $per_user Show time spent per user
      * @return  array An array of data.
      */
-    function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
+    public function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -858,12 +864,14 @@ class Report
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
-        	for ($i = 0; $i < count($res); $i++) {
+            for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
                 $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
             }
+
             return $res;
         }
     }
@@ -878,7 +886,7 @@ class Report
      * @param   integer $category The category to restrict this report to
      * @return  array An array containing workload data.
      */
-    function getWorkloadByDateRange($interval, $type, $start, $end, $category)
+    public function getWorkloadByDateRange($interval, $type, $start, $end, $category)
     {
         $data = array();
         $start = Misc::escapeString($start);
@@ -939,6 +947,7 @@ class Report
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["issues"]["points"] = $res;
@@ -961,7 +970,6 @@ class Report
                 "max"   =>  0
             );
         }
-
 
         // get email counts
         $stmt = "SELECT
@@ -993,6 +1001,7 @@ class Report
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["emails"]["points"] = $res;
@@ -1015,7 +1024,6 @@ class Report
                 "max"   =>  0
             );
         }
-
 
         return $data;
     }

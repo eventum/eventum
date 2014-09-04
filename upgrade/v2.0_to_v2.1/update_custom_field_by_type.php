@@ -10,7 +10,7 @@ $sql = "SELECT
             fld_type IN ('date', 'integer')";
 $res = DB_Helper::getInstance()->getCol($sql);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 if (count($res) > 0) {

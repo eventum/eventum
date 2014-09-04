@@ -77,7 +77,7 @@ abstract class Contact
      * @param string  $contact_id
      * @throws ContactNotFoundException
      */
-    function __construct(CRM &$crm, $contact_id)
+    public function __construct(CRM &$crm, $contact_id)
     {
         $this->crm = &$crm;
         $this->connection = &$crm->getConnection();
@@ -86,7 +86,6 @@ abstract class Contact
         // attempt to load the data
         $this->load();
     }
-
 
     /**
      * Returns an array of contracts the specified contact can access
@@ -97,7 +96,6 @@ abstract class Contact
      */
     abstract public function getContracts($options = false);
 
-
     /**
      * Returns an array of contracts ids the contact can access
      *
@@ -107,7 +105,6 @@ abstract class Contact
      */
     abstract public function getContractIDs($options = false);
 
-
     /**
      * Returns the customer ids that this contact can access
      *
@@ -115,14 +112,12 @@ abstract class Contact
      */
     abstract public function getCustomerIDs();
 
-
     /**
      * Returns the customer that this contact can access
      *
      * @return Customer[]
      */
     abstract public function getCustomers();
-
 
     /**
      * Returns true if associated with any active contracts, false otherwise. Optionally
@@ -134,14 +129,12 @@ abstract class Contact
      */
     abstract public function hasActiveContract($support_level_type = false);
 
-
     /**
      * Method used to get the details associated with a customer contact.
      *
      * @return  array The contact details
      */
     abstract public function getDetails();
-
 
     /**
      * Method used to notify the customer contact that an existing issue
@@ -161,7 +154,6 @@ abstract class Contact
      */
     abstract protected function load();
 
-
     /**
      * Returns true if the contact can access the specified contract, false otherwise
      *
@@ -169,7 +161,6 @@ abstract class Contact
      * @return  boolean
      */
     abstract public function canAccessContract($contract);
-
 
     public function getContactID()
     {
@@ -215,7 +206,6 @@ abstract class Contact
         return $this->active;
     }
 
-
     /**
      * Method used to notify the customer contact that a new issue was just
      * created and associated with his Eventum user.
@@ -229,7 +219,8 @@ abstract class Contact
 
 class ContactNotFoundException extends CRMException
 {
-    public function __construct($contact_id, $message = null, Exception $previous=null) {
+    public function __construct($contact_id, $message = null, Exception $previous=null)
+    {
         if ($message !== null) {
             $message = "Contact '" . $contact_id. "' not found";
         }

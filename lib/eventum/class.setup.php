@@ -65,6 +65,7 @@ class Setup
             // merge with defaults
             $setup = self::array_extend(self::getDefaults(), $setup);
         }
+
         return $setup;
     }
 
@@ -75,17 +76,19 @@ class Setup
      * @param   array $options The system-wide preferences
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function save($options)
+    public function save($options)
     {
         // this is needed to check if the file can be created or not
         if (!file_exists(APP_SETUP_FILE)) {
             if (!is_writable(APP_CONFIG_PATH)) {
                 clearstatcache();
+
                 return -1;
             }
         } else {
             if (!is_writable(APP_SETUP_FILE)) {
                 clearstatcache();
+
                 return -2;
             }
         }
@@ -95,6 +98,7 @@ class Setup
         if ($res === false) {
             return -2;
         }
+
         return 1;
     }
 
@@ -127,7 +131,8 @@ class Setup
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
-    private static function array_extend($a, $b) {
+    private static function array_extend($a, $b)
+    {
         foreach ($b as $k => $v) {
             if (is_array($v)) {
                 if (!isset($a[$k])) {
@@ -139,6 +144,7 @@ class Setup
                 $a[$k] = $v;
             }
         }
+
         return $a;
     }
 }

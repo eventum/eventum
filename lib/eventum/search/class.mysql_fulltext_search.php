@@ -75,6 +75,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array(-1);
 
         }
@@ -89,6 +90,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         $custom_res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($custom_res)) {
             Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
+
             return array(-1);
         }
 
@@ -99,15 +101,14 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         if (count($issues) < 1) {
             return array(-1);
         }
+
         return $issues;
     }
-
 
     public function getMatchModes()
     {
         return false;
     }
-
 
     public function getExcerpts()
     {

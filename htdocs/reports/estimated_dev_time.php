@@ -57,6 +57,7 @@ $sql = "SELECT
 $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($res)) {
     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
     return false;
 }
 $total = 0;

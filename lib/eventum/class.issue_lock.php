@@ -31,7 +31,8 @@
  *
  * @author  Elan Ruusamäe <glen@delfi.ee>
  */
-class Issue_Lock {
+class Issue_Lock
+{
     /**
      * Creates a lock file for the given name.
      * Returns FALSE if lock couldn't be created (lock already exists)
@@ -40,7 +41,8 @@ class Issue_Lock {
      * @param string $usr_id User Id who locked the issue
      * @return bool
      */
-    public static function acquire($issue_id, $usr_id) {
+    public static function acquire($issue_id, $usr_id)
+    {
         // default expiry: 5 minutes
         $expires = Date_Helper::convertDateGMTByTS(time() + 300);
 
@@ -73,11 +75,13 @@ class Issue_Lock {
      * @param   int $issue_id Issue id
      * @return  boolean
      */
-    public static function release($issue_id) {
+    public static function release($issue_id)
+    {
         $lockfile = self::getLockFilename($issue_id);
         if (file_exists($lockfile)) {
             return unlink($lockfile);
         }
+
         return false;
     }
 
@@ -86,7 +90,8 @@ class Issue_Lock {
      * @param int $issue_id Issue id
      * @return bool|array
      */
-    public static function getInfo($issue_id) {
+    public static function getInfo($issue_id)
+    {
         $lockfile = self::getLockFilename($issue_id);
         if (!file_exists($lockfile)) {
             return false;
@@ -95,6 +100,7 @@ class Issue_Lock {
         if ($info === false) {
             return false;
         }
+
         return unserialize($info);
     }
 
@@ -104,7 +110,8 @@ class Issue_Lock {
      * @param $issue_id
      * @return bool TRUE - if locked, otherwise - FALSE
      */
-    private function isLocked($issue_id) {
+    private function isLocked($issue_id)
+    {
         $lockfile = self::getLockFilename($issue_id);
 
         clearstatcache();
@@ -121,6 +128,7 @@ class Issue_Lock {
         $expires = Date_Helper::getUnixTimestamp($info['expires']);
         $now = time();
         $stale = $expires <= $now;
+
         return !$stale;
     }
 
@@ -130,7 +138,8 @@ class Issue_Lock {
      * @param   int $issue_id Issue id
      * @return  string The full path of the process file
      */
-    private static function getLockFilename($issue_id) {
+    private static function getLockFilename($issue_id)
+    {
         return APP_LOCKS_PATH . '/issue_' . $issue_id . '.lock';
     }
 }

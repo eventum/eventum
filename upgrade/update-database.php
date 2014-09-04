@@ -11,7 +11,8 @@ if (!defined('APP_SQL_DBNAME')) {
 define('EXIT_OK', 0);
 define('EXIT_ERROR', 1);
 
-function db_getAll($query) {
+function db_getAll($query)
+{
     $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
     $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
 
@@ -20,10 +21,12 @@ function db_getAll($query) {
         echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
+
     return $res;
 }
 
-function db_getOne($query) {
+function db_getOne($query)
+{
     $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
     $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
 
@@ -32,10 +35,12 @@ function db_getOne($query) {
         echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
+
     return $res;
 }
 
-function db_getCol($query) {
+function db_getCol($query)
+{
     $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
     $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
 
@@ -44,10 +49,12 @@ function db_getCol($query) {
         echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
+
     return $res;
 }
 
-function db_query($query) {
+function db_query($query)
+{
     $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
     $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
 
@@ -56,10 +63,12 @@ function db_query($query) {
         echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
+
     return $res;
 }
 
-function exec_sql_file($input_file) {
+function exec_sql_file($input_file)
+{
     if (!file_exists($input_file) && !is_readable($input_file)) {
         echo "ERROR: Can't read file: $input_file\n";
         exit(EXIT_ERROR);
@@ -80,7 +89,8 @@ function exec_sql_file($input_file) {
     }
 }
 
-function read_patches($update_path) {
+function read_patches($update_path)
+{
     $handle = opendir($update_path);
     if (!$handle) {
         echo "ERROR: Could not read: $update_path\n";
@@ -89,15 +99,17 @@ function read_patches($update_path) {
     while (false !== ($file = readdir($handle))) {
         $number =  substr($file, 0, strpos($file, '_'));
         if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-            $files[(int )$number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
+            $files[(int) $number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
         }
     }
     closedir($handle);
     ksort($files);
+
     return $files;
 }
 
-function patch_database() {
+function patch_database()
+{
     // sanity check. check that the version table exists.
     $last_patch = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
     if (!isset($last_patch)) {

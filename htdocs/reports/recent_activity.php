@@ -68,7 +68,6 @@ $tpl->assign(array(
     "activity_types"    =>  $_REQUEST['activity_types']
 ));
 
-
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
 
     if (count(@$_REQUEST["start"]) > 0 &&
@@ -260,10 +259,9 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
     ));
 }
 
-
 function createWhereClause($date_field, $user_field = false)
 {
-    GLOBAL $start_date, $end_date;
+    global $start_date, $end_date;
 
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
@@ -275,6 +273,7 @@ function createWhereClause($date_field, $user_field = false)
         $sql .= " AND $user_field = " . Misc::escapeString($_REQUEST['developer']);
     }
     $sql .= " ORDER BY $date_field " . Misc::escapeString($_REQUEST['sort_order']);
+
     return $sql;
 }
 
@@ -307,6 +306,7 @@ function processResult($results, $date_field, $issue_field)
 
         $data[] = $res;
     }
+
     return $data;
 }
 
