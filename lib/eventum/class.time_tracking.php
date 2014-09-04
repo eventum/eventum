@@ -139,7 +139,7 @@ class Time_Tracking
 
         // check that none of the categories are in use
         $usage = self::getCategoryStats($items);
-        foreach ($usage as $ttc_id => $count) {
+        foreach ($usage as $count) {
             if ($count > 0) {
                 return -2;
             }
@@ -592,7 +592,7 @@ class Time_Tracking
      * @param   integer The timestamp of the end of this report.
      * @return  array An array of data containing information about time trackinge
      */
-    public function getSummaryByUser($usr_id, $start, $end)
+    public static function getSummaryByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     ttc_title,
@@ -664,7 +664,7 @@ class Time_Tracking
      * @param   integer $end The timestamp of the end of this report.
      * @return  void
      */
-    public function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
+    public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {
 
         $issue_ids = array();

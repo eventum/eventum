@@ -695,7 +695,7 @@ class User
                 return null;
             }
 
-            foreach ($res as $usr_id => &$row) {
+            foreach ($res as &$row) {
                 // FIXME: maybe PEAR has some "fill NULL" mode?
                 if (!isset($row['usr_grp_id'])) {
                     $row['usr_grp_id'] = null;
@@ -1167,8 +1167,7 @@ class User
             }
             $projects[] = $prj_id;
         }
-        $prefs = serialize(Prefs::getDefaults($projects));
-        $group_id = !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL';
+
         $params = array(
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,

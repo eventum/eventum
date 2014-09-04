@@ -530,8 +530,6 @@ class Mail_Helper
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
-        static $support_levels;
-
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
         $to = MIME_Helper::encodeAddress($to);
@@ -800,7 +798,6 @@ class Mail_Helper
      */
     public function getReferenceMessageID($text_headers)
     {
-        $references = array();
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             return trim($matches[1]);
         }

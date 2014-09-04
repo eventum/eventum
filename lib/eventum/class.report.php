@@ -296,7 +296,6 @@ class Report
      */
     public function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
     {
-        $prj_id = Auth::getCurrentProject();
         $usr_id = Misc::escapeInteger($usr_id);
 
         // figure out timezone
@@ -794,7 +793,6 @@ class Report
      */
     public function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
-        $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
         $cfo_ids = Misc::escapeInteger($cfo_ids);
         // get field values

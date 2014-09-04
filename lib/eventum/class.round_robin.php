@@ -152,7 +152,6 @@ class Round_Robin
                     if ($current_index == (count($user_ids) - 1)) {
                         $current_index = 0;
                         $next_usr_id = $user_ids[++$current_index];
-                        $found = 0;
                         continue;
                     }
                     $next_usr_id = $user_ids[++$current_index];

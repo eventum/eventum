@@ -661,7 +661,7 @@ class Note
      * @param   integer $end The timestanp of the end date
      * @return  integer The number of notes by the user
      */
-    public function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     COUNT(not_id)

@@ -1515,7 +1515,7 @@ class Issue
             // go through the new assocations, if association already exists, skip it
             $associations_to_remove = $current['associated_issues'];
             if (count($associated_issues) > 0) {
-                foreach ($associated_issues as $index => $associated_id) {
+                foreach ($associated_issues as $associated_id) {
                     if (!in_array($associated_id, $current['associated_issues'])) {
                         self::addAssociation($issue_id, $associated_id, $usr_id);
                     } else {
@@ -2090,7 +2090,6 @@ class Issue
             return -1;
         }
 
-        $has_TAM = false;
         $has_RR = false;
         // log the creation of the issue
         History::add($issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
@@ -2147,9 +2146,6 @@ class Issue
                     $has_RR = true;
                 }
             }
-        }
-        if (count($users) > 0) {
-            $has_assignee = true;
         }
 
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
@@ -2217,7 +2213,6 @@ class Issue
             return -1;
         }
 
-        $has_TAM = false;
         $has_RR = false;
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
@@ -2740,7 +2735,7 @@ class Issue
      * @param   integer $usr_id An integer containg the ID of the user.
      * @return  boolean true if the user(s) are assigned to the issue.
      */
-    public function isAssignedToUser($issue_id, $usr_id)
+    public static function isAssignedToUser($issue_id, $usr_id)
     {
         $assigned_users = self::getAssignedUserIDs($issue_id);
         if (in_array($usr_id, $assigned_users)) {

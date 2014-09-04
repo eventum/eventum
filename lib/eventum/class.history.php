@@ -208,7 +208,7 @@ class History
      * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
      * @return  array An array of issues touched by the user.
      */
-    public function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
+    public static function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
     {
         $htt_list = self::getTypeID(
             array_merge(array(
@@ -268,7 +268,7 @@ class History
                 if (isset($_REQUEST['show_per_issue'])) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
-                foreach ($res as $index => $row) {
+                foreach ($res as $row) {
                     if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
                         $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
                     }
@@ -300,7 +300,7 @@ class History
      * @param   array $statuses An array of status abreviations to return counts for.
      * @return  array An array containing the number of issues for the user set tothe specified statuses.
      */
-    public function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
+    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
     {
         $stmt = "SELECT
                     sta_title,

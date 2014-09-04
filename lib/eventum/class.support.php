@@ -243,7 +243,7 @@ class Support
      *
      * @param   string $message The full body of the email
      */
-    public function saveRoutedEmail($message)
+    public static function saveRoutedEmail($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -648,7 +648,7 @@ class Support
         $should_create_array = self::createIssueFromEmail(
             $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::decodeQuotedPrintable( @$structure->headers['subject']), $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
-        $associate_email = $should_create_array['associate_email'];
+
         if (!empty($should_create_array['issue_id'])) {
             $t['issue_id'] = $should_create_array['issue_id'];
 
@@ -815,7 +815,7 @@ class Support
      * @param   array   $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    private function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -926,7 +926,6 @@ class Support
                 (CRM::hasCustomerIntegration($info['ema_prj_id'])) && !$customer_id) {
             try {
                 $crm = CRM::getInstance($info['ema_prj_id']);
-                $contact = $crm->getContactByEmail($sender_email);
                 $should_create_issue = true;
             } catch (CRMException $e) {
                 $should_create_issue = false;
@@ -954,7 +953,6 @@ class Support
         }
         // need to check crm for customer association
         if (!empty($from)) {
-            $details = Email_Account::getDetails($info['ema_id']);
             if (CRM::hasCustomerIntegration($info['ema_prj_id']) && !$customer_id) {
                 // check for any customer contact association
                 try {
@@ -1275,7 +1273,6 @@ class Support
     public function getEmailListing($options, $current_row = 0, $max = 5)
     {
         $prj_id = Auth::getCurrentProject();
-        $usr_id = Auth::getUserID();
         if ($max == "ALL") {
             $max = 9999999;
         }
@@ -1769,7 +1766,6 @@ class Support
      */
     public function getEmailsByIssue($issue_id)
     {
-        $usr_id = Auth::getUserID();
         $stmt = "SELECT
                     sup_id,
                     sup_ema_id,
@@ -1963,7 +1959,14 @@ class Support
         $mail = new Mail_Helper();
         $mail->setTextBody($body);
 
-        $body = $mail->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
+        // FIXME: $body unused, but does mime->get() have side effects?
+        $body = $mail->mime->get(
+            array(
+                'text_charset' => APP_CHARSET,
+                'head_charset' => APP_CHARSET,
+                'text_encoding' => APP_EMAIL_ENCODING,
+            )
+        );
 
         if (!empty($issue_id)) {
             $mail->setHeaders(array("Message-Id" => $message_id));
@@ -2214,7 +2217,9 @@ class Support
         }
         $structure = Mime_Helper::decode($full_email, true, false);
         $t['headers'] = $structure->headers;
-        $res = self::insertEmail($t, $structure, $sup_id);
+
+        self::insertEmail($t, $structure, $sup_id);
+
         if (!empty($_POST["issue_id"])) {
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $_POST["issue_id"], $t, $internal_only, false, $type, $sup_id);
@@ -2380,7 +2385,7 @@ class Support
      * @param   boolean $associated If this should return emails associated with issues or non associated emails.
      * @return  integer The number of emails sent by the user.
      */
-    public function getSentEmailCountByUser($usr_id, $start, $end, $associated)
+    public static function getSentEmailCountByUser($usr_id, $start, $end, $associated)
     {
         $usr_info = User::getNameEmail($usr_id);
         $stmt = "SELECT
@@ -2450,7 +2455,6 @@ class Support
      */
     public function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
-        $usr_id = Auth::getUserID();
         $email = self::getEmailDetails($current_ema_id, $sup_id);
         if (!empty($email['sup_iss_id'])) {
             return -1;
@@ -2468,6 +2472,7 @@ class Support
         }
 
         // handle auto creating issues (if needed)
+        // FIXME: paramter $to missing!
         $should_create_array = self::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];

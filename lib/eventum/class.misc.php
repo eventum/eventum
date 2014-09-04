@@ -165,7 +165,7 @@ class Misc
         if ($fd = fopen($temptext, "w")) {
             $textarray = explode("\n", $text);
             fwrite($fd, "!\n");
-            foreach ($textarray as $key => $value) {
+            foreach ($textarray as $value) {
                 // adding the carat to each line prevents the use of aspell commands within the text...
                 fwrite($fd,"^$value\n");
             }
@@ -369,7 +369,7 @@ class Misc
     public static function stripInput(&$value)
     {
         if (is_array($value)) {
-            foreach ($value as $k => &$v) {
+            foreach ($value as &$v) {
                 self::stripInput($v);
             }
 
@@ -519,7 +519,7 @@ class Misc
      * @param   boolean $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */
-    public function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
+    public static function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
         if ((!empty($minutes)) && ($minutes < 6)) {

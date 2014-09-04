@@ -527,7 +527,8 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
                  WHERE
                     rpr_rem_id IN (" . implode(',', $rem_id) . ")";
-        $res = DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
+
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
                  WHERE

@@ -48,7 +48,7 @@ class Attachment
             return false;
         }
 
-        list($type, $subtype) = $parts;
+        list($type) = $parts;
 
         // display inline images and text documents
         return in_array($type, array('image', 'text'));
@@ -391,7 +391,7 @@ class Attachment
      * @param   string $status The attachment status
      * @return  integer Numeric code used to check for any errors
      */
-    public function attach($usr_id, $status = 'public')
+    public static function attach($usr_id, $status = 'public')
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $files = array();

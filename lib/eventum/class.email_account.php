@@ -161,7 +161,7 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  array The account details
      */
-    public function getDetails($ema_id)
+    public static function getDetails($ema_id)
     {
         $ema_id = Misc::escapeInteger($ema_id);
         $stmt = "SELECT
@@ -416,7 +416,7 @@ class Email_Account
      * @param   integer $prj_id The ID of the project. If blank the currently project will be used.
      * @return  integer The email account ID
      */
-    public function getEmailAccount($prj_id = false)
+    public static function getEmailAccount($prj_id = false)
     {
         if ($prj_id == false) {
             $prj_id = Auth::getCurrentProject();

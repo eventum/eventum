@@ -276,7 +276,7 @@ class Group
      * @param   integer $grp_id The id of the group
      * @return  string The name of the group
      */
-    public function getName($grp_id)
+    public static function getName($grp_id)
     {
         $grp_id = Misc::escapeInteger($grp_id);
         if (empty($grp_id)) {

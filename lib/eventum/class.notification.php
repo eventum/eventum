@@ -1072,7 +1072,7 @@ class Notification
      * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
      * @return  void
      */
-    public function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
+    public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);

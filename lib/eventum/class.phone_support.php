@@ -443,7 +443,7 @@ class Phone_Support
      * @param   integer $end The timestamp of the end date
      * @return  integer The number of phone calls by the user.
      */
-    public function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     COUNT(phs_id)

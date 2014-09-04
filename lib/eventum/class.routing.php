@@ -44,7 +44,7 @@ class Routing
      * @param   string $full_message The full email message, including headers
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    public function route_emails($full_message)
+    public static function route_emails($full_message)
     {
         // need some validation here
         if (empty($full_message)) {
@@ -437,10 +437,10 @@ class Routing
      * Check for $adresses for matches
      *
      * @param   mixed   $addresses to check
-     * @param   string  Type of address match to find (email, note, draft)
+     * @param   string  $type Type of address match to find (email, note, draft)
      * @return  int|bool $issue_id in case of match otherwise false
      */
-    public function getMatchingIssueIDs($addresses, $type)
+    public static function getMatchingIssueIDs($addresses, $type)
     {
         $setup = Setup::load();
         $settings = $setup["${type}_routing"];

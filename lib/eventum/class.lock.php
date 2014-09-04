@@ -43,13 +43,12 @@ class Lock
         if (!empty($pid)) {
             // Test asks us to check if the process is still running
             if ($check) {
-                $exists = true;
                 if (function_exists('posix_kill')) {
                     $exists = posix_kill($pid, 0);
                 } else {
                     $retval = 0;
                     $out = array();
-                    $discard = exec('kill -s 0 ' . $pid, $out, $retval);
+                    exec('kill -s 0 ' . $pid, $out, $retval);
                     $exists = $retval == 0;
                 }
                 if ($exists) {

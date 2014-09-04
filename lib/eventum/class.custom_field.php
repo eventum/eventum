@@ -995,7 +995,7 @@ class Custom_Field
             return "";
         } else {
             $res["projects"] = @array_keys(self::getAssociatedProjects($fld_id));
-            $t = array();
+
             $options = self::getOptions($fld_id);
             foreach ($options as $cfo_id => $cfo_value) {
                 $res["field_options"]["existing:" . $cfo_id . ":" . $cfo_value] = $cfo_value;
@@ -1015,7 +1015,7 @@ class Custom_Field
      * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    public function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
+    public static function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
     {
         static $returns;
 

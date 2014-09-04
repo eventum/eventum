@@ -542,7 +542,6 @@ class Filter
      */
     public function remove()
     {
-        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         foreach ($_POST["item"] as $cst_id) {
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter

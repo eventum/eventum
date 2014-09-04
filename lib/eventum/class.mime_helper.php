@@ -692,7 +692,6 @@ class Mime_Helper
      */
     public function getAttachment($message, $filename, $cid = false)
     {
-        $parts = array();
         if (!is_object($message)) {
             $message = self::decode($message, true);
         }

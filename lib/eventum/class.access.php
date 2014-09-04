@@ -229,7 +229,7 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'history');
             if (is_bool($partner)) {
@@ -302,7 +302,7 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'change_status');
             if (is_bool($partner)) {
@@ -318,7 +318,7 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'convert_note');
             if (is_bool($partner)) {
