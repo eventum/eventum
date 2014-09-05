@@ -43,8 +43,9 @@ class Issue_Lock
      */
     public static function acquire($issue_id, $usr_id)
     {
-        // default expiry: 5 minutes
-        $expires = Date_Helper::convertDateGMTByTS(time() + 300);
+        $setup = Setup::load();
+        $lock_ttl = $setup['issue_lock'];
+        $expires = time() + $lock_ttl;
 
         if (self::isLocked($issue_id)) {
             $info = self::getInfo($issue_id);
@@ -125,7 +126,7 @@ class Issue_Lock
             return false;
         }
 
-        $expires = Date_Helper::getUnixTimestamp($info['expires']);
+        $expires = $info['expires'];
         $now = time();
         $stale = $expires <= $now;
 

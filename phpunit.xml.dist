@@ -20,7 +20,10 @@
 	</testsuites>
 
 	<php>
+		<!-- disable strict, PEAR classes not compatible
 		<ini name="error_reporting" value="E_ALL"/>
+		-->
+		<ini name="error_reporting" value="E_ALL &amp; ~E_STRICT"/>
 	</php>
 
 	<!-- for code coverage -->

@@ -45,7 +45,7 @@ class Setup
      * @param   boolean $force If the data should be forced to be loaded again.
      * @return  array The system-wide preferences
      */
-    public static function load($force = false)
+    public static function &load($force = false)
     {
         static $setup;
         if (empty($setup) || $force == true) {
@@ -122,6 +122,9 @@ class Setup
                 ),
             ),
             'handle_clock_in' => 'enabled',
+
+            // default expiry: 5 minutes
+            'issue_lock' => 300,
         );
 
         return $defaults;
