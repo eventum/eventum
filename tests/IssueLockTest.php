@@ -1,5 +1,4 @@
 <?php
-require_once 'TestSetup.php';
 
 class IssueLockTest extends PHPUnit_Framework_TestCase {
 

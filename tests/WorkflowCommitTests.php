@@ -1,7 +1,5 @@
 <?php
 
-require_once 'TestWorkflow.php';
-
 class CommitTestWorkflow extends TestWorkflow {
     function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg) {
     	error_log("handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)");
