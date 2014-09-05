@@ -37,9 +37,24 @@
  * @version 1.0
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
-
 class Language
 {
+    /**
+     * Init encodings: iconv, mbstring
+     */
+    private static function initEncoding()
+    {
+        if (PHP_VERSION_ID >= 50600) {
+            ini_set('input_encoding', APP_CHARSET);
+            ini_set('output_encoding', APP_CHARSET);
+            ini_set('default_charset', APP_CHARSET);
+        } else {
+            iconv_set_encoding('input_encoding', APP_CHARSET);
+            iconv_set_encoding('output_encoding', APP_CHARSET);
+            iconv_set_encoding('internal_encoding', APP_CHARSET);
+            ini_set('mbstring.internal_encoding', APP_CHARSET);
+        }
+    }
 
     /**
      * Method used to set application default locale.
@@ -51,9 +66,8 @@ class Language
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
 
-        ini_set('mbstring.internal_encoding', 'UTF8');
-
         self::set(APP_DEFAULT_LOCALE);
+        self::initEncoding();
     }
 
     /**
