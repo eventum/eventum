@@ -32,8 +32,8 @@
 // we init paths ourselves like init.php does, to be independant and not
 // needing actual config being present.
 define('APP_PATH', realpath(dirname(__FILE__).'/..'));
-define('APP_CONFIG_PATH', APP_PATH . '/config');
-define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+define('APP_CONFIG_PATH', dirname(__FILE__));
+define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
 define('APP_SYSTEM_USER_ID', 1);
@@ -54,6 +54,11 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
 }
 
 require_once APP_INC_PATH . '/gettext.php';
+
+// create dummy file
+if (!file_exists('APP_SETUP_FILE')) {
+    Setup::save(array());
+}
 
 // this setups ev_gettext wrappers
 Language::setup();

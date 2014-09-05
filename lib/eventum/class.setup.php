@@ -49,15 +49,15 @@ class Setup
     {
         static $setup;
         if (empty($setup) || $force == true) {
+            $setup = array();
             $eventum_setup_string = $eventum_setup = null;
+
             require APP_SETUP_FILE;
-            if ($eventum_setup_string == null and $eventum_setup == null) {
-                return null;
-            }
 
             if (isset($eventum_setup)) {
                 $setup = $eventum_setup;
-            } else {
+
+            } elseif (isset($eventum_setup_string)) {
                 // support reading legacy base64 encoded config
                 $setup = unserialize(base64_decode($eventum_setup_string));
             }
