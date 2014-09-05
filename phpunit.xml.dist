@@ -20,10 +20,13 @@
 	</testsuites>
 
 	<php>
-		<!-- disable strict, PEAR classes not compatible
+		<!--
 		<ini name="error_reporting" value="E_ALL"/>
+			disable strict, PEAR classes not compatible.
+			need to use integer, expressions do not work, this will give the value
+			php55 -r 'echo E_ALL & ~E_STRICT;'
 		-->
-		<ini name="error_reporting" value="E_ALL &amp; ~E_STRICT"/>
+		<ini name="error_reporting" value="30719"/>
 	</php>
 
 	<!-- for code coverage -->
