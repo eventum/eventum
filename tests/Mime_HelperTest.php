@@ -33,7 +33,7 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
     public function testEncodeQuotedPrintable()
     {
         $string = "61.jpg";
-        $exp = '=?utf-8?B?NjEuanBn?=';
+        $exp = '=?UTF-8?B?NjEuanBn?=';
         $res = Mime_Helper::encodeQuotedPrintable($string);
         $this->assertEquals($exp, $res, 'do not overflow');
 
