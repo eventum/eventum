@@ -428,8 +428,7 @@ class Customer_Stats_Report
         $this->time_tracking_categories[0] = "Total";
 
         // get categories
-        // FIXME: missing $prj_id parameter:
-        $categories = Time_Tracking::getAssocCategories();
+        $categories = Time_Tracking::getAssocCategories($this->prj_id);
         foreach ($categories as $ttc_id => $category) {
             $individual = $this->getIndividualTimeTracking($ttc_id);
             if (count($individual) > 0) {
