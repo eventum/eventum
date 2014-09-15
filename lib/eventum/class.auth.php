@@ -661,13 +661,15 @@ class Auth
 
             if (!$instance->isSetup()) {
                 Error_Handler::logError("Unable to use auth backend: " . $class);
-                $instance = self::getFallBackAuthBackend();
-                // TODO: Should we fail or switch to fallback?
                 $message = $instance->getConnectError();
                 if ($message) {
                     error_log("Unable to use auth backend '$class': $message");
                 }
-                die("Unable to use auth backend: " . $class);
+                if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
+                    die("Unable to use auth backend: " . $class);
+                } else {
+                    $instance = self::getFallBackAuthBackend();
+                }
             }
         }
         return $instance;
