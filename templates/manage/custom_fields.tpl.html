@@ -64,7 +64,7 @@
       var current_length = field.options.length;
       if (current_length == 1) {
           if (field.options[0].value == -1) {
-              removeFieldOption(true);
+              Eventum.removeOptionByValue('field_options[]', "-1");
           }
       }
       // check for an existing option with the same value
@@ -87,56 +87,40 @@
       var text = value.substring(value.indexOf(':')+1);
       return new Option(text, id);
   }
-  function updateFieldOption(f)
+  function updateFieldOption()
   {
-      if (isWhitespace(f.new_value.value)) {
+      var new_value = Eventum.getField('new_value').val();
+      if (Validation.isWhitespace(new_value)) {
           alert('{/literal}{t escape=js}Please enter the updated value.{/t}{literal}');
-          f.new_value.value = '';
-          f.new_value.focus();
           return false;
       }
-      var field = getFormElement(f, 'field_options[]');
-      for (var i = 0; i < field.options.length; i++) {
-          if (field.options[i].value == editing_option_id) {
-              var params = parseParameters(field.options[i].value);
-              field.options[i].value = 'existing:' + params.value + ':' + f.new_value.value;
-              field.options[i].text = f.new_value.value;
-              f.new_value.value = '';
-              f.update_button.disabled = true;
-          }
-      }
+      var option = Eventum.getField('field_options[]').children('option').filter("[value='" + editing_option_id + "']'");
+      var params = parseParameters(option.val());
+      option.val('existing:' + params.value + ':' + new_value);
+      option.text(new_value);
+      Eventum.getField('new_value').val('');
+      Eventum.getField('update_button').attr('disabled', true);
   }
-  function editFieldOption(f)
+  function editFieldOption()
   {
-      var options = getSelectedItems(getFormElement(f, 'field_options[]'));
+      var options = Eventum.getField('field_options[]').children(':selected');
       if (options.length == 0) {
           alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
           return false;
       }
       editing_option_id = options[0].value;
-      f.new_value.value = options[0].text;
-      f.new_value.focus();
-      f.update_button.disabled = false;
+      Eventum.getField('new_value').val(options[0].text).focus();
+      Eventum.getField('update_button').attr('disabled', false);
   }
-  function removeFieldOption(delete_first)
+  function removeFieldOption(e)
   {
-      if (delete_first != null) {
-          var remove = new Array('-1');
-      } else {
-          if (!Validation.hasOneSelected('field_options[]')) {
-              alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
-              return false;
-          }
-          var remove = new Array();
-          for (var i = 0; i < options.length; i++) {
-              remove[remove.length] = options[i].value;
-          }
+      if (!Validation.hasOneSelected('field_options[]')) {
+          alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
+          return false;
       }
-      for (var i = 0; i < remove.length; i++) {
-          Eventum.removeOptionByValue('field_options[]', remove[i]);
-      }
+      Eventum.getField('field_options[]').find('option:selected').remove();
       var field = Eventum.getField('field_options[]')[0];
-      if ((delete_first == null) && (field.options.length == 0)) {
+      if (field.options.length == 0) {
           field.options[0] = new Option('{/literal}{t escape=js}enter a new option above{/t}{literal}', '-1');
       }
   }
@@ -188,6 +172,7 @@
       $('input[name=add_button]').click(addFieldOption);
       $('input[name=edit_button]').click(editFieldOption);
       $('input[name=remove_button]').click(removeFieldOption);
+      $('input[name=update_button]').click(updateFieldOption);
   });
   {/literal}
   var selected_projects = new Array();
@@ -317,7 +302,7 @@
                     <tr>
                       <td valign="top">
                         <span>{t}Set available options{/t}</span><br />
-                        <input type="text" name="new_value" size="26" class="custom_option"><input name="add_button" type="button" value="{t}Add{/t}" class="custom_option">{if $smarty.get.cat|default:'' == 'edit'}<input name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="updateFieldOption(this.form);">{/if}<br />
+                        <input type="text" name="new_value" size="26" class="custom_option"><input name="add_button" type="button" value="{t}Add{/t}" class="custom_option">{if $smarty.get.cat|default:'' == 'edit'}<input name="update_button" type="button" value="{t}Update Value{/t}" disabled>{/if}<br />
                       </td>
                       <td rowspan="3">
                         &nbsp;&nbsp;&nbsp;&nbsp;<strong>{t}AND / OR{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
