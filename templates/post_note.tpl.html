@@ -143,7 +143,8 @@ $().ready(function() {
       </th>
       <td>
         <select name="new_status">
-          {html_options options=$statuses selected=$current_issue_status}
+          <option value=""></option>
+          {html_options options=$statuses}
         </select>
       </td>
     </tr>
