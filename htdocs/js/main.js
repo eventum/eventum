@@ -36,6 +36,8 @@ $(document).ready(function() {
 
     $('#change_clock_status').click(Eventum.changeClockStatus);
 
+    $( ".date_picker" ).datepicker({ dateFormat: "yy-mm-dd" });
+
     $('#search, #shortcut').focus(function(e) {
         var target = $(this);
         this.select();
