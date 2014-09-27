@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -43,6 +43,17 @@ define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_COOKIE', 'eventum');
 define('APP_DEFAULT_TIMEZONE', 'UTC');
+
+// add pear to the include path
+if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
+    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
+}
+
+// emulate gettext
+if (!extension_loaded('gettext')) {
+	define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
+	require_once APP_INC_PATH . '/gettext.php';
+}
 
 if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // composer paths
