@@ -1308,7 +1308,7 @@ class Support
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
                  LIMIT
-                    " . Misc::escapeInteger($start) . ", " . Misc::escapeInteger($max);
+                    " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1658,7 +1658,7 @@ class Support
                     sup_iss_id = " . Misc::escapeInteger($issue_id) . "
                 ORDER BY
                     sup_id
-                LIMIT " . (Misc::escapeInteger($sequence) - 1) . ", 1";
+                LIMIT 1 OFFSET " . (Misc::escapeInteger($sequence) - 1);
         $res = DB_Helper::getInstance()->getRow($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

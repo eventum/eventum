@@ -307,12 +307,9 @@ class Mail_Queue
                  WHERE
                     maq_status='$status'
                  ORDER BY
-                    maq_id ASC";
-
-        if ($limit !== false) {
-            $sql .= " LIMIT 0, $limit";
-        }
-
+                    maq_id ASC
+                 LIMIT
+                    $limit OFFSET 0";
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -72,7 +72,7 @@ class Notification
     public static function getSubscribedEmails($issue_id, $type = false)
     {
         $stmt = "SELECT
-                    IF(usr_id <> 0, usr_email, sub_email) AS email
+                    CASE usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription";

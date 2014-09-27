@@ -890,7 +890,7 @@ class Report
                 break;
             case "dow":
                 $format = '%W';
-                $order_by = "IF(DATE_FORMAT(%1\$s, '%%w') = 0, 7, DATE_FORMAT(%1\$s, '%%w'))";
+                $order_by = "CASE WHEN DATE_FORMAT(%1\$s, '%%w') = 0 THEN 7 ELSE DATE_FORMAT(%1\$s, '%%w') END";
                 break;
             case "week":
                 if ($type == "aggregate") {

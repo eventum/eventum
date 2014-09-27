@@ -51,7 +51,7 @@ class News
                  ORDER BY
                     nws_created_date DESC
                  LIMIT
-                    0, 3";
+                    3 OFFSET 0";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

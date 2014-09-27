@@ -230,8 +230,8 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_prc_id,
                     prc_title,
-                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
-                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
+                    SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
+                    SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category,
@@ -272,8 +272,8 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_pre_id,
                     pre_title,
-                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
-                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
+                    SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
+                    SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release,
@@ -350,8 +350,8 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_pri_id,
                     pri_title,
-                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
-                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
+                    SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
+                    SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority,
@@ -430,8 +430,8 @@ class Stats
         $stmt = "SELECT
                     DISTINCT isu_usr_id,
                     usr_full_name,
-                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
-                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
+                    SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
+                    SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
@@ -471,7 +471,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
-                    IF(sup_iss_id > 0, 'associated', 'unassociated') type,
+                    CASE WHEN sup_iss_id > 0 THEN 'associated' ELSE 'unassociated' END AS type,
                     COUNT(*) AS total_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,

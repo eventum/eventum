@@ -265,7 +265,7 @@ class Search
                     iss_last_internal_action_date,
                     iss_last_internal_action_type,
                     " . Issue::getLastActionFields() . ",
-                    IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type,
+                    CASE WHEN iss_last_internal_action_date > iss_last_public_action_date THEN 'internal' ELSE 'public' END AS action_type,
                     iss_private,
                     usr_full_name,
                     iss_percent_complete,
@@ -397,7 +397,7 @@ class Search
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
                  LIMIT
-                    " . Misc::escapeInteger($start) . ", " . Misc::escapeInteger($max);
+                    " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
