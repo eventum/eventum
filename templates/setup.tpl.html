@@ -350,8 +350,8 @@ function disableAuthFields(bool)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td width="80%">
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:$default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:$default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
         </tr>

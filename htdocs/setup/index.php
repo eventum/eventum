@@ -173,6 +173,7 @@ $tpl->assign('ssl_mode', $ssl_mode);
 
 $tpl->assign("zones", Date_Helper::getTimezoneList());
 $tpl->assign("default_timezone", getTimezone());
+$tpl->assign("default_weekday", getFirstWeekday());
 $tpl->display('setup.tpl.html');
 
 function checkPermissions($file, $desc, $is_directory = false)
@@ -345,6 +346,27 @@ function getTimezone()
 
 	// if php.ini is unconfigured, this function is noisy
 	return @date_default_timezone_get();
+}
+
+function getFirstWeekday()
+{
+	// this works on Linux
+	// http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
+	$weekday = system('locale first_weekday');
+	if ($weekday) {
+		// Returns Monday=2, but we need 1 for Monday
+		// see http://man7.org/linux/man-pages/man5/locale.5.html
+		return --$weekday;
+	}
+
+	// This would work in PHP 5.5
+	if (class_exists('IntlCalendar')) {
+		$cal = IntlCalendar::createInstance();
+		return $cal->getFirstDayOfWeek() == IntlCalendar::DOW_MONDAY ? 1 : 0;
+	}
+
+	// default to Monday as it's default for "World" in CLDR's supplemental data
+	return 1;
 }
 
 function getDatabaseList($conn)
