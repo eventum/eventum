@@ -144,10 +144,11 @@ class Date_Helper
      * Returns the current UNIX timestamp in the GMT timezone.
      *
      * @return  integer The current UNIX timestamp in GMT
+     * @deprecated just use time() function
      */
     public static function getCurrentUnixTimestampGMT()
     {
-        return gmmktime();
+        return time();
     }
 
     /**
@@ -175,20 +176,14 @@ class Date_Helper
      * @param   bool|int $timestamp The current UNIX timestamp
      * @param   bool|string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
+     * @deprecated this function is stupid, it just returns the input regardless of timezone
      */
     public static function getUnixTimestamp($timestamp = false, $timezone = false)
     {
         if (!$timestamp) {
-            $timestamp = self::getCurrentUnixTimestampGMT();
+            $timestamp = time();
         }
-        if (!$timezone) {
-            $timezone = self::getPreferredTimezone();
-        }
-        $date = new Date($timestamp);
-        // now convert to another timezone and return the timestamp
-        $date->convertTZById($timezone);
-
-        return $date->getDate(DATE_FORMAT_UNIXTIME);
+        return $timestamp;
     }
 
     /**

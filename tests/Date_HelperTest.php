@@ -121,9 +121,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testGetFormattedDate_data()
     {
         return array(
-            // FIXME: the values are off by 3h!
-            array('0', 'Thu, 01 Jan 1970, 03:00:00 UTC'),
-            array(1411840837, 'Sat, 27 Sep 2014, 21:00:37 UTC'),
+            array(0, 'Thu, 01 Jan 1970, 00:00:00 UTC'),
+            array(1411840837, 'Sat, 27 Sep 2014, 18:00:37 UTC'),
         );
     }
 
