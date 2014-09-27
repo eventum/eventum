@@ -37,7 +37,6 @@ ini_set('memory_limit', '64M');
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
-date_default_timezone_set('UTC');
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
@@ -57,8 +56,8 @@ header('Content-Type: text/html; charset=' . APP_CHARSET);
 $have_config = file_exists(APP_CONFIG_PATH . '/config.php') && filesize(APP_CONFIG_PATH . '/config.php');
 // get out if already configured
 if ($have_config) {
-    Header('Location: ../');
-    exit(0);
+//    Header('Location: ../');
+//    exit(0);
 }
 
 if (defined('APP_PEAR_PATH')) {
@@ -173,7 +172,7 @@ if (@$_SERVER['HTTPS'] == 'on') {
 $tpl->assign('ssl_mode', $ssl_mode);
 
 $tpl->assign("zones", Date_Helper::getTimezoneList());
-
+$tpl->assign("default_timezone", getTimezone());
 $tpl->display('setup.tpl.html');
 
 function checkPermissions($file, $desc, $is_directory = false)
@@ -335,6 +334,17 @@ function getErrorMessage($type, $message)
 
         return $message;
     }
+}
+
+function getTimezone()
+{
+	$ini = ini_get("date.timezone");
+	if ($ini) {
+		return $ini;
+	}
+
+	// if php.ini is unconfigured, this function is noisy
+	return @date_default_timezone_get();
 }
 
 function getDatabaseList($conn)
