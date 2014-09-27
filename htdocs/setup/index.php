@@ -56,8 +56,8 @@ header('Content-Type: text/html; charset=' . APP_CHARSET);
 $have_config = file_exists(APP_CONFIG_PATH . '/config.php') && filesize(APP_CONFIG_PATH . '/config.php');
 // get out if already configured
 if ($have_config) {
-//    Header('Location: ../');
-//    exit(0);
+    Header('Location: ../');
+    exit(0);
 }
 
 if (defined('APP_PEAR_PATH')) {
