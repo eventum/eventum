@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-require_once 'init.php';
+require_once dirname(__FILE__) . '/init.php';
 
 // on fresh install config is empty or missing
 if (!defined('APP_SQL_DBNAME')) {
