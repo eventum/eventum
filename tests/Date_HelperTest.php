@@ -175,7 +175,7 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
      * @covers Date_Helper::getWeekOptions
      * @todo   Implement testGetWeekOptions().
      */
-    public function testGetWeekOptions($input, $exp)
+    public function testGetWeekOptions()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -187,7 +187,7 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
      * @covers Date_Helper::getCurrentWeek
      * @todo   Implement testGetCurrentWeek().
      */
-    public function testGetCurrentWeek($input, $exp)
+    public function testGetCurrentWeek()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
