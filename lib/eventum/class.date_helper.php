@@ -53,6 +53,8 @@ class Date_Helper
     const MONTH = 2419200; // WEEK * 4
     const YEAR = 29030400; // MONTH * 12
 
+    const FORMATTEDDATE_FORMAT = '%a, %d %b %Y, %H:%M:%S %Z';
+
     /**
      * Returns whether the given hour is AM or not.
      *
@@ -118,6 +120,7 @@ class Date_Helper
      *
      * @return   Object Date in GMT timezone
      * @see      new Date()
+     * @deprecated UNUSED
      */
     private static function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
     {
@@ -272,15 +275,19 @@ class Date_Helper
      */
     public static function getFormattedDate($ts, $timezone = false)
     {
-        if ($timezone === FALSE) {
+        if ($timezone === false) {
             $timezone = self::getPreferredTimezone();
         }
 
-        $date = self::getDateGMT($ts);
-        // now convert to another timezone and return the date
-        $date->convertTZById($timezone);
+        if (is_int($ts)) {
+            $ts = "@$ts";
+        }
+        $dateTime = new DateTime($ts, new DateTimeZone('GMT'));
 
-        return $date->format('%a, %d %b %Y, %H:%M:%S %Z');
+        $dateTimeZone = new DateTimeZone($timezone);
+        $dateTime->setTimeZone($dateTimeZone);
+        date_default_timezone_set(timezone_name_get($dateTimeZone));
+        return strftime(self::FORMATTEDDATE_FORMAT, $dateTime->getTimestamp());
     }
 
     /**
