@@ -50,6 +50,9 @@
 					"shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71",
 					"type": "tar"
 				},
+				"provide":  {
+					"ext-gettext":"self.version"
+				},
 				"autoload": {
 					"classmap": [ "gettext.php", "streams.php" ]
 				}
