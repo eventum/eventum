@@ -119,7 +119,7 @@ class Date_Helper
      * @return   Object Date in GMT timezone
      * @see      new Date()
      */
-    public static function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
+    private static function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
     {
         $dt = new Date();
         $dt->toUTC();
@@ -195,7 +195,7 @@ class Date_Helper
      * @return  string The current GMT date
      * @param   string $timezone The needed timezone
      */
-    public function getRFC822Date($timestamp, $timezone = false)
+    public static function getRFC822Date($timestamp, $timezone = false)
     {
         if (!$timezone) {
             $timezone = self::getPreferredTimezone();
@@ -223,7 +223,7 @@ class Date_Helper
      *
      * @return  array The list of timezones
      */
-    public function getTimezoneList()
+    public static function getTimezoneList()
     {
         $time_zones = Date_TimeZone::getAvailableIDs();
         asort($time_zones);
@@ -238,7 +238,7 @@ class Date_Helper
      * @return  string The timezone short name
      * @note    PEAR Date 1.5.0 Includes this method itself.
      */
-    public static function getTimezoneShortName($date)
+    private static function getTimezoneShortName($date)
     {
         if ($date->inDaylightTime()) {
             return $date->tz->getDSTShortName();
@@ -254,7 +254,7 @@ class Date_Helper
      * @param   object $date The Date object
      * @return  string The timezone short name
      */
-    public function getTimezoneShortNameByUser($usr_id)
+    public static function getTimezoneShortNameByUser($usr_id)
     {
         $date = new Date();
         $date->convertTZById(self::getPreferredTimezone($usr_id));
