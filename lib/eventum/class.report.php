@@ -55,7 +55,7 @@ class Report
     public function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
         $prj_id = Misc::escapeInteger($prj_id);
-        $ts = Date_Helper::getCurrentUnixTimestampGMT();
+        $ts = time();
         $before_ts = strtotime($before_date);
         $after_ts = strtotime($after_date);
 
@@ -126,6 +126,14 @@ class Report
                 if (empty($res[$i]['iss_last_response_date'])) {
                     $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
                 }
+                $updated_date_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_updated_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
+                $last_response_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_last_response_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
                 $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
@@ -133,8 +141,8 @@ class Report
                     'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
                 );
             }
 
@@ -154,7 +162,7 @@ class Report
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
-        $ts = Date_Helper::getCurrentUnixTimestampGMT();
+        $ts = time();
         $ts_diff = $cutoff_days * Date_Helper::DAY;
 
         $stmt = "SELECT
@@ -213,14 +221,22 @@ class Report
                 } else {
                     $name = $res[$i]['assignee_name'];
                 }
+                $update_date_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_updated_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
+                $last_response_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_last_response_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
                 $issues[$name][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
                     'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
                 );
             }
 

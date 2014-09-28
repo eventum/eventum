@@ -44,7 +44,7 @@ if (User::isPartner($usr_id)) {
 }
 
 if (isset($_REQUEST['hide_closed'])) {
-    Auth::setCookie(APP_HIDE_CLOSED_STATS_COOKIE, $_REQUEST['hide_closed'], Date_Helper::getCurrentUnixTimestampGMT() + Date_Helper::YEAR);
+    Auth::setCookie(APP_HIDE_CLOSED_STATS_COOKIE, $_REQUEST['hide_closed'], time() + Date_Helper::YEAR);
     $_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE] = $_REQUEST['hide_closed'];
 }
 if (isset($_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE])) {

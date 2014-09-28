@@ -85,9 +85,9 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testGetUnixTimestamp_data()
     {
         return array(
-            // FIXME: this function is stupid, it should return the input or result of time()
             // unix timestamps are timezoneless
             array(1411842757, false, 1411842757),
+            array('2014-09-27 17:03:23', false, 1411837403),
         );
     }
 

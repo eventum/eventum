@@ -3005,10 +3005,10 @@ class Issue
                         $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                         if (empty($res['iss_first_response_date'])) {
                             $first_response_deadline = $created_date_ts + $max_first_response_time;
-                            if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
+                            if (time() <= $first_response_deadline) {
+                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, time());
                             } else {
-                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(time(), $first_response_deadline);
                             }
                         }
                     } catch (CRMException $e) {
@@ -3485,7 +3485,7 @@ class Issue
 
         if (!empty($res["iqu_expiration"])) {
             $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
-            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
+            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, time());
         }
 
         return $res;

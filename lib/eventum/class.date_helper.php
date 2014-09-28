@@ -46,18 +46,18 @@ class Date_Helper
     const YEAR = 29030400; // MONTH * 12
 
     /**
-	 * Creates a new DateTime Object initialized to the current date/time in 
+	 * Creates a new DateTime Object initialized to the current date/time in
 	 * the GMT timezone by default.
-	 * A date optionally passed in may be in the ISO 8601, UNIXTIME format, or 
-	 * another Date object. If no date is passed, the current date/time is 
+	 * A date optionally passed in may be in the ISO 8601, UNIXTIME format, or
+	 * another Date object. If no date is passed, the current date/time is
 	 * used.
 	 *
 	 * @param int|string $ts
 	 * @param bool|string $timezone
 	 * @return DateTime
      */
-	public static function getDateTime($ts = 'now', $timezone = false)
-	{
+    public static function getDateTime($ts = 'now', $timezone = false)
+    {
         if ($ts instanceof DateTime) {
             $dateTime = clone $ts;
         } else {
@@ -70,12 +70,13 @@ class Date_Helper
             $dateTime = new DateTime($ts, new DateTimeZone('GMT'));
         }
 
-		if (!$timezone) {
-			$timezone = self::getPreferredTimezone();
-		}
-		$dateTime->setTimeZone(new DateTimeZone($timezone));
-		return $dateTime;
-	}
+        if (!$timezone) {
+            $timezone = self::getPreferredTimezone();
+        }
+        $dateTime->setTimeZone(new DateTimeZone($timezone));
+
+        return $dateTime;
+    }
 
     /**
      * Returns whether the given hour is AM or not.
@@ -142,17 +143,15 @@ class Date_Helper
      * Method used to get the user's current time (timezone included) as
      * a UNIX timestamp.
      *
-     * @param   bool|int $timestamp The current UNIX timestamp
+     * @param   integer|string $timestamp The current UNIX timestamp
      * @param   bool|string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
-     * @deprecated this function is stupid, it just returns the input regardless of timezone
+     * @deprecated do not use when input is timestamp, the same input will be returned and calling this function is pointless then
      */
-    public static function getUnixTimestamp($timestamp = false, $timezone = false)
+    public static function getUnixTimestamp($timestamp, $timezone = false)
     {
-        if (!$timestamp) {
-            $timestamp = time();
-        }
-        return $timestamp;
+        $date = self::getDateTime($timestamp, $timezone);
+        return $date->getTimestamp();
     }
 
     /**
@@ -167,6 +166,7 @@ class Date_Helper
     public static function getRFC822Date($ts, $timezone = false)
     {
         $date = self::getDateTime($ts, 'GMT');
+
         return $date->format('D, d M Y H:i:s') . ' GMT';
     }
 
@@ -205,6 +205,7 @@ class Date_Helper
     {
         $timezone = self::getPreferredTimezone($usr_id);
         $date = self::getDateTime(null, $timezone);
+
         return $date->format('T');
     }
 
@@ -219,6 +220,7 @@ class Date_Helper
     public static function getFormattedDate($ts, $timezone = false)
     {
         $date = self::getDateTime($ts, $timezone);
+
         return $date->format('D, d M Y, H:i:s T');
     }
 
@@ -246,6 +248,7 @@ class Date_Helper
         }
 
         $date = self::getDateTime($ts, $timezone);
+
         return $date->format('d M Y');
     }
 
@@ -267,6 +270,7 @@ class Date_Helper
         if (!empty($prefs['timezone'])) {
             return $prefs['timezone'];
         }
+
         return self::getDefaultTimezone();
     }
 
@@ -301,6 +305,7 @@ class Date_Helper
     {
         $date = self::getDateTime($ts);
         $date->setTimezone(new DateTimeZone('GMT'));
+
         return $date->format('Y-m-d H:i:s');
     }
 

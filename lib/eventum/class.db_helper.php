@@ -129,7 +129,8 @@ class DB_Helper
     public static function get_last_insert_id()
     {
         $stmt = "SELECT last_insert_id()";
-        $res = (integer)DB_Helper::getInstance()->getOne($stmt);
+        $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+
         return $res;
     }
 
