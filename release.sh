@@ -55,6 +55,24 @@ if [ "$rc" = "dev" ]; then
 		}" init.php
 fi
 
+# setup composer deps
+if composer --version; then
+	# composer hack, see .travis.yml
+	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
+	composer install --prefer-dist --no-dev
+	# remove bundled deps
+	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
+	rm composer.lock
+	# cleanup vendors
+	rm -r vendor/php-gettext/php-gettext/{tests,examples}
+	rm -f vendor/php-gettext/php-gettext/[A-Z]*
+	rm -r vendor/smarty-gettext/smarty-gettext/tests
+	rm -r vendor/bin
+	rm -r vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
+	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
+	rm vendor/composer/*.json
+fi
+
 # update to include checksums of js/css files
 ./dyncontent-chksum.pl
 
