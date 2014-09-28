@@ -3,6 +3,16 @@
 class Date_HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @test Dependency to database tests
+     */
+    public function hasDatabase() {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped('Test requires database');
+        }
+        $this->assertTrue(true, "has database");
+    }
+
+    /**
      * @covers       Date_Helper::isAM
      * @dataProvider testIsAM_data
      */
@@ -93,8 +103,7 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testGetRFC822Date_data()
     {
         return array(
-            // FIXME: this value is off, correct value is Sat, 27 Sep 2014 18:32:37 GMT
-            array(1411842757, false, 'Sat, 27 Sep 2014 21:32:37 GMT'),
+            array(1411842757, false, 'Sat, 27 Sep 2014 18:32:37 GMT'),
         );
     }
 
@@ -103,9 +112,13 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTimezoneShortNameByUser()
     {
-        $this->markTestSkipped('Requires database');
+        $this->hasDatabase();
+
         $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
         $this->assertEquals('UTC', $res);
+
+        $res = Date_Helper::getTimezoneShortNameByUser(APP_ADMIN_USER_ID);
+        $this->assertRegExp('/EET|EEST/', $res);
     }
 
     /**
@@ -139,8 +152,10 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testGetSimpleDate_data()
     {
         return array(
-            array(1391205600, false, '01 Feb 2014'),
-            array(1391291999, false, '01 Feb 2014'),
+            array(1391212800, false, '01 Feb 2014'),
+            array(1391299199, false, '01 Feb 2014'),
+            array(1391212800, true, '01 Feb 2014'),
+            array(1391299199, true, '01 Feb 2014'),
         );
     }
 
@@ -149,7 +164,16 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPreferredTimezone()
     {
-        $this->markTestSkipped('Requires database');
+        $this->hasDatabase();
+
+        $res = Date_Helper::getPreferredTimezone();
+        $this->assertEquals('UTC', $res);
+
+        $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
+        $this->assertEquals('UTC', $res);
+
+        $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);
+        $this->assertEquals('Europe/Tallinn', $res);
     }
 
     /**
@@ -165,32 +189,9 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testConvertDateGMT_data()
     {
         return array(
-            // FIXME: this is probably wrong
             array('2014-09-27 00:00:00', '2014-09-27 00:00:00'),
-        );
-    }
-
-    /**
-     * @covers Date_Helper::getWeekOptions
-     * @todo   Implement testGetWeekOptions().
-     */
-    public function testGetWeekOptions()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Date_Helper::getCurrentWeek
-     * @todo   Implement testGetCurrentWeek().
-     */
-    public function testGetCurrentWeek()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+            array('Sun Sep 28 09:46:50 EEST 2014', '2014-09-28 06:46:50'),
+            array('Sun Sep 28 06:47:25 GMT 2014', '2014-09-28 06:47:25'),
         );
     }
 

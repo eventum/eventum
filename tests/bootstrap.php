@@ -25,15 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 
-/*
- * Setup autoload for tests.
- */
-
-// we init paths ourselves like init.php does, to be independant and not
+// we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
-define('APP_PATH', realpath(dirname(__FILE__).'/..'));
+define('APP_PATH', realpath(dirname(__FILE__) . '/..'));
 define('APP_CONFIG_PATH', dirname(__FILE__));
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
+define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
 define('APP_SYSTEM_USER_ID', 1);
@@ -43,6 +40,9 @@ define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_COOKIE', 'eventum');
 define('APP_DEFAULT_TIMEZONE', 'UTC');
+//define('APP_DEFAULT_TIMEZONE', 'Europe/Tallinn');
+define('APP_DEFAULT_WEEKDAY', 1);
+define('APP_DEFAULT_REFRESH_RATE', 0);
 
 // add pear to the include path
 if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
@@ -51,8 +51,8 @@ if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
 
 // emulate gettext
 if (!extension_loaded('gettext')) {
-	define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
-	require_once APP_INC_PATH . '/gettext.php';
+    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
+    require_once APP_INC_PATH . '/gettext.php';
 }
 
 if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
@@ -67,8 +67,24 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
 require_once APP_INC_PATH . '/gettext.php';
 
 // create dummy file
-if (!file_exists('APP_SETUP_FILE')) {
+if (!file_exists(APP_SETUP_FILE)) {
     Setup::save(array());
+}
+
+if (!getenv('TRAVIS')) {
+    // init these from setup file
+    $setup = &Setup::load(true);
+
+    define('APP_DEFAULT_DB', $setup['db']['database']);
+    define('APP_TABLE_PREFIX', $setup['db']['table_prefix']);
+    define('APP_SQL_DBTYPE', $setup['db']['dbtype']);
+    define('APP_SQL_DBHOST', $setup['db']['host']);
+    define('APP_SQL_DBNAME', $setup['db']['database']);
+    define('APP_SQL_DBUSER', $setup['db']['user']);
+    define('APP_SQL_DBPASS', $setup['db']['password']);
+
+    // used for tests
+    define('APP_ADMIN_USER_ID', $setup['admin_user']);
 }
 
 // this setups ev_gettext wrappers
