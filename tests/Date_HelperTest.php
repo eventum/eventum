@@ -68,6 +68,7 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
             array(0, 10, '0d 0h'),
             array(0, 3600, '0d -1h'),
             array(7200, 3600, '0d 1h'),
+            array(new DateTime('tomorrow 04:00'), new DateTime('today 00:00'), '1d 4h'),
         );
     }
 

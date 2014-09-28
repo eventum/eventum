@@ -80,7 +80,6 @@
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
-		"pear/Date": "*",
 		"pear/File_Util": "*",
 		"pear/Mail": "*",
 		"pear/Mail_Mime": "*",

@@ -27,11 +27,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-// this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
-$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = 'UTC';
-
-require_once 'Date.php';
-
 /**
  * Class to handle date convertion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
@@ -57,27 +52,28 @@ class Date_Helper
 	 * another Date object. If no date is passed, the current date/time is 
 	 * used.
 	 *
-	 * @param bool|int|string $ts
+	 * @param int|string $ts
 	 * @param bool|string $timezone
 	 * @return DateTime
      */
-	public static function getDateTime($ts = false, $timezone = false)
+	public static function getDateTime($ts = 'now', $timezone = false)
 	{
-        if ($ts === false) {
-            $ts = time();
+        if ($ts instanceof DateTime) {
+            $dateTime = clone $ts;
+        } else {
+            if ($ts === false || $ts === null) {
+                $ts = 'now';
+            } elseif (is_int($ts)) {
+                $ts = "@$ts";
+            }
+
+            $dateTime = new DateTime($ts, new DateTimeZone('GMT'));
         }
 
 		if (!$timezone) {
 			$timezone = self::getPreferredTimezone();
 		}
-
-		if (is_int($ts)) {
-			$ts = "@$ts";
-		}
-
-		$dateTime = new DateTime($ts, new DateTimeZone('GMT'));
-		$dateTimeZone = new DateTimeZone($timezone);
-		$dateTime->setTimeZone($dateTimeZone);
+		$dateTime->setTimeZone(new DateTimeZone($timezone));
 		return $dateTime;
 	}
 
@@ -124,14 +120,16 @@ class Date_Helper
 
     /**
      * Method used to get a pretty-like formatted time output for the
-     * difference in time between two unix timestamps.
+     * difference in time between two dates.
      *
-     * @param   integer $now_ts The current UNIX timestamp
-     * @param   integer $old_ts The old UNIX timestamp
-     * @return  string The formatted difference in time
+     * @param integer|string|DateTime $now The current timestamp
+     * @param integer|string|DateTime $date The old timestamp
+     * @return string The formatted difference in time
      */
-    public static function getFormattedDateDiff($now_ts, $old_ts)
+    public static function getFormattedDateDiff($now, $date)
     {
+        $now_ts = self::getDateTime($now)->getTimestamp();
+        $old_ts = self::getDateTime($date)->getTimestamp();
         $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf("%d", round($value, 1)) . "d";
         $mod = (integer) (($now_ts - $old_ts) % self::DAY);

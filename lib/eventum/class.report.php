@@ -300,24 +300,10 @@ class Report
 
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
-        $tz = @$user_prefs["timezone"];
+        $tz = $user_prefs["timezone"];
 
-        $start_dt = new Date();
-        $end_dt = new Date();
-        // set timezone to that of user.
-        $start_dt->setTZById($tz);
-        $end_dt->setTZById($tz);
-
-        // set the dates in the users time zone
-        $start_dt->setDate($start . " 00:00:00");
-        $end_dt->setDate($end . " 23:59:59");
-
-        // convert time to GMT
-        $start_dt->toUTC();
-        $end_dt->toUTC();
-
-        $start_ts = $start_dt->getDate();
-        $end_ts = $end_dt->getDate();
+        $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->getTimestamp();
+        $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->getTimestamp();
 
         $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
 
@@ -423,17 +409,19 @@ class Report
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-
+            $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
+            $gmt_time = $dt->format('H:i');
             // convert to the users time zone
-            $dt = new Date(mktime($i,0,0));
-            $gmt_time = $dt->format('%H:%M');
-            $dt->convertTZbyID($timezone);
+            $dt->setTimeZone(new DateTimeZone($timezone));
+            $hour = $dt->format('H');
+            $user_time = $dt->format('H:i');
+
             if ($graph) {
-                $data["developer"][$dt->format('%H')] = "";
-                $data["customer"][$dt->format('%H')] = "";
+                $data["developer"][$hour] = "";
+                $data["customer"][$hour] = "";
             } else {
                 $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+                $data[$i]["display_time_user"] = $user_time;
             }
 
             // loop through results, assigning appropriate results to data array
@@ -442,7 +430,7 @@ class Report
                     $sort_values[$row["performer"]][$i] = $row["events"];
 
                     if ($graph) {
-                        $data[$row["performer"]][$dt->format('%H')] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                        $data[$row["performer"]][$hour] = (($row["events"] / $event_count[$row["performer"]]) * 100);
                     } else {
                         $data[$i][$row["performer"]]["count"] = $row["events"];
                         $data[$i][$row["performer"]]["percentage"] = (($row["events"] / $event_count[$row["performer"]]) * 100);
@@ -528,17 +516,19 @@ class Report
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-
             // convert to the users time zone
-            $dt = new Date(mktime($i,0,0));
-            $gmt_time = $dt->format('%H:%M');
-            $dt->convertTZbyID($timezone);
+            $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
+            $gmt_time = $dt->format('H:i');
+            $dt->setTimeZone(new DateTimeZone($timezone));
+            $hour = $dt->format('H');
+            $user_time = $dt->format('H:i');
+
             if ($graph) {
-                $data["developer"][$dt->format('%H')] = "";
-                $data["customer"][$dt->format('%H')] = "";
+                $data["developer"][$hour] = "";
+                $data["customer"][$hour] = "";
             } else {
                 $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+                $data[$i]["display_time_user"] = $user_time;
             }
 
             // use later to find highest value
@@ -547,14 +537,14 @@ class Report
 
             if ($graph) {
                 if ($dev_count == 0) {
-                    $data["developer"][$dt->format('%H')] = 0;
+                    $data["developer"][$hour] = 0;
                 } else {
-                    $data["developer"][$dt->format('%H')] = (($dev_stats[$i] / $dev_count) * 100);
+                    $data["developer"][$hour] = (($dev_stats[$i] / $dev_count) * 100);
                 }
                 if ($cust_count == 0) {
-                    $data["customer"][$dt->format('%H')] = 0;
+                    $data["customer"][$hour] = 0;
                 } else {
-                    $data["customer"][$dt->format('%H')] = (($cust_stats[$i] / $cust_count) * 100);
+                    $data["customer"][$hour] = (($cust_stats[$i] / $cust_count) * 100);
                 }
             } else {
                 $data[$i]["developer"]["count"] = $dev_stats[$i];
