@@ -85,26 +85,6 @@ if (!defined('APP_INC_PATH')) {
     define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 }
 
-if (!defined('APP_PEAR_PATH')) {
-    define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-}
-
-if (!defined('APP_SPHINXAPI_PATH')) {
-    define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
-}
-
-if (!defined('APP_PHP_GETTEXT_PATH')) {
-    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
-}
-
-if (!defined('APP_SMARTY_PATH')) {
-    define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
-}
-
-if (!defined('APP_JPGRAPH_PATH')) {
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
-}
-
 if (!defined('APP_LOCKS_PATH')) {
     define('APP_LOCKS_PATH', APP_PATH . '/locks');
 }
@@ -216,20 +196,7 @@ if (!defined('APP_MAINTENANCE')) {
     define('APP_MAINTENANCE', false);
 }
 
-// add pear to the include path
-if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
-    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
-set_include_path(APP_LOCAL_PATH . "/include/" . PATH_SEPARATOR . get_include_path());
-
-// add sphinxapi to the include path
-if (defined('APP_SPHINXAPI_PATH') && APP_SPHINXAPI_PATH) {
-    set_include_path(APP_SPHINXAPI_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-require_once APP_INC_PATH . '/autoload.php';
+require_once APP_PATH . '/vendor/autoload-dist.php';
 
 // fix magic_quote_gpc'ed values
 if (get_magic_quotes_gpc()) {
@@ -247,11 +214,11 @@ require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
 
 // set charset
-Header('Content-Type: text/html; charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=' . APP_CHARSET);
 
 // display maintenance message if requested.
-if (APP_MAINTENANCE){
-    $is_manage = (strpos($_SERVER['PHP_SELF'],'/manage/') !== false);
+if (APP_MAINTENANCE) {
+    $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
     if (APP_MAINTENANCE && !$is_manage) {
         $tpl = new Template_Helper();
         $tpl->setTemplate("maintenance.tpl.html");

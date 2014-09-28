@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,16 +24,11 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 /**
  * Class used to abstract the backend template system used by the site. This
  * is especially useful to be able to change template backends in the future
  * without having to rewrite all PHP based scripts.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Template_Helper
@@ -57,6 +52,11 @@ class Template_Helper
         $this->smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
         $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
         $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
+
+        // this avoids loading it twice with composer
+        if (function_exists('smarty_block_t')) {
+            $this->smarty->registerPlugin('block', 't', 'smarty_block_t');
+        }
     }
 
     /**

@@ -2,8 +2,6 @@
 /**
  * Autoload class for Eventum.
  *
- * @author Tarmo Lehtpuu <tarmo.lehtpuu@delfi.ee>
- * @author Tanel Suurhans <tanel.suurhans@delfi.ee>
  * @author Elan Ruusamäe <glen@delfi.ee>
  *
  * @package Eventum
@@ -15,31 +13,17 @@ class Eventum_Autoload
 
     public static function autoload($className)
     {
-        if (class_exists($className, false) || interface_exists($className, false)) {
+        $classMap = array(
+            'Smarty' => APP_SMARTY_PATH . '/Smarty.class.php',
+            'SphinxClient' => APP_SPHINXAPI_PATH . '/sphinxapi.php',
+        );
+
+        if (isset($classMap[$className])) {
+            require_once $classMap[$className];
             return;
         }
 
-        // Zend framework
-        if (strpos($className, 'Zend') === 0) {
-            require_once str_replace('_', '/', $className) . '.php';
-
-            return;
-        }
-
-        // Smarty
-        if ($className === 'Smarty') {
-            require_once APP_SMARTY_PATH . '/Smarty.class.php';
-
-            return;
-        }
-
-        // SphinxClient
-        if ($className === 'SphinxClient') {
-            require_once 'sphinxapi.php';
-
-            return;
-        }
-
+        // Eventum own classes
         if (!is_array(self::$classes)) {
             self::$classes = array();
             self::scan(dirname(__FILE__));
