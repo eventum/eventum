@@ -52,12 +52,17 @@ class Error_Handler
     {
         $msg =& self::_createErrorReport($error_msg, $script, $line);
 
-        file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
+        if (is_resource(APP_ERROR_LOG)) {
+            fwrite(APP_ERROR_LOG, date('[D M d H:i:s Y] '));
+            fwrite(APP_ERROR_LOG, $msg);
+        } else {
+            file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
+        }
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
         if ($notify_error === false || $dbh === null || PEAR::isError($dbh)) {
-            return;
+            return false;
         }
 
         $setup = Setup::load();
@@ -155,6 +160,11 @@ class Error_Handler
 
         $msg = '';
         foreach ($backtrace as $e) {
+            if (!isset($e['file'])) {
+                // this is empty when run in phpunit
+                $e['file'] = '(inline)';
+                $e['line'] = '0';
+            }
             // backtrace frame contains: [file] [line] [function] [class] [type] [args]
             $f = $e['file'];
             $f = str_replace(APP_INC_PATH, 'APP_INC_PATH', $f);
