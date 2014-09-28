@@ -473,20 +473,19 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        $tpl_dir = $tpl->smarty->template_dir;
-        if (is_array($tpl_dir)) {
-            $tpl_dir = $tpl_dir[1];
-        }
-        $tip_dir = $tpl_dir . "/tips";
-        $files = self::getFileList($tip_dir);
-        $i = rand(0, (integer) count($files));
-        // some weird bug in the rand() function where sometimes the
-        // second parameter is non-inclusive makes us have to do this
-        if (!isset($files[$i])) {
-            return self::getRandomTip($tpl);
-        } else {
+        foreach ((array)$tpl->smarty->template_dir as $tpl_dir) {
+            $tip_dir = $tpl_dir . '/tips';
+            $files = self::getFileList($tip_dir);
+            $count = count($files);
+            if (!$count) {
+                continue;
+            }
+            $i = rand(0, $count);
+
             return $files[$i];
+
         }
+        return null;
     }
 
     /**
