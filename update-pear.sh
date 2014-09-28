@@ -71,10 +71,9 @@ install_pear() {
 }
 
 clean_pear() {
+	local t=$1
+	test -n "$t"
 	rm -rf $t/usr/bin $t/usr/share/doc $t/usr/share/pear/tests $t/usr/share/pear/.??*
-
-	# individual package cleanup
-	cd $t/usr/share/pear
 
 	# Mail_Mime
 	rm -rf data/Mail_Mime
@@ -88,6 +87,9 @@ clean_pear() {
 
 	# XML_RPC
 	rm -f XML/RPC/Dump.php
+
+	# Structures_Graph
+	rm -rf data/Structures_Graph
 
 	# PEAR
 	rm -rf data/PEAR
@@ -120,9 +122,13 @@ clean_pear() {
 	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
 	# remove DOS EOL
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
-	cd -
 }
 
 [ -f pear.download ] || download_pear
 [ -f pear.install ] || install_pear
-[ -f pear.clean ] || clean_pear
+[ -f pear.clean ] || { cd $t/usr/share/pear; clean_pear $t; }
+
+for t in $(pwd)/vendor/pear-pear.php.net/*; do
+	cd $t
+	clean_pear $t
+done
