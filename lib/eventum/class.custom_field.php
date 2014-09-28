@@ -609,7 +609,7 @@ class Custom_Field
         if ($form_type != false) {
             if (is_array($form_type)) {
                 $stmt .= " AND
-                    fld_id IN(" . join($form_type) . ")";
+                    fld_id IN(" . join(",", $form_type) . ")";
             } else {
                 $stmt .= " AND
                     fld_" .  Misc::escapeString($form_type) . "=1";
@@ -1747,7 +1747,10 @@ class Custom_Field
 
     public function getDBValueFieldSQL()
     {
-        return "(CASE WHEN fld_type = 'date' THEN icf_value_date ELSE WHEN fld_type = 'integer' THEN icf_value_integer ELSE icf_value END)";
+        return "(CASE
+        WHEN fld_type = 'date' THEN icf_value_date
+        WHEN fld_type = 'integer' THEN icf_value_integer
+        ELSE icf_value END)";
     }
 
     /**
