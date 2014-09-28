@@ -128,7 +128,13 @@ clean_pear() {
 [ -f pear.install ] || install_pear
 [ -f pear.clean ] || { cd $t/usr/share/pear; clean_pear $t; }
 
-for t in $(pwd)/vendor/pear-pear.php.net/*; do
+r=$(pwd)
+for t in $r/vendor/pear-pear.php.net/*; do
 	cd $t
 	clean_pear $t
 done
+
+cd $r/vendor/pear-pear.php.net
+rm -rf Archive_Tar
+rm -rf Console_Getopt
+rm -rf Structures_Graph
