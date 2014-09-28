@@ -41,8 +41,6 @@ define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 define('APP_TPL_PATH', APP_PATH . '/templates');
@@ -67,8 +65,8 @@ if (defined('APP_PEAR_PATH')) {
         get_include_path()
     );
 }
+require_once APP_PATH . '/vendor/autoload-dist.php';
 require_once 'File/Util.php';
-require_once 'class.date_helper.php';
 
 list($warnings, $errors) = checkRequirements();
 if ((count($warnings) > 0) || (count($errors) > 0)) {
@@ -133,13 +131,16 @@ function ev_gettext($str)
     return $str;
 }
 
-require_once APP_SMARTY_PATH . '/Smarty.class.php';
-
 $tpl = new Smarty();
 $tpl->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
 $tpl->template_dir = APP_TPL_PATH;
 $tpl->compile_dir = APP_TPL_COMPILE_PATH;
 $tpl->config_dir = '';
+
+// this avoids loading it twice with composer
+if (function_exists('smarty_block_t')) {
+	$tpl->registerPlugin('block', 't', 'smarty_block_t');
+}
 
 if (@$_POST['cat'] == 'install') {
     $res = install();
