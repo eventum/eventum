@@ -71,6 +71,11 @@ if composer --version; then
 	rm -r vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
 	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
 	rm vendor/composer/*.json
+
+	# this will do clean pear in vendor dir
+	touch pear.download pear.install pear.clean
+	./update-pear.sh
+	rm pear.download pear.install pear.clean
 fi
 
 # update to include checksums of js/css files
