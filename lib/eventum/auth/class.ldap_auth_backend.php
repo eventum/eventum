@@ -186,7 +186,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'password'  =>  '',
             'full_name' =>  $remote['full_name'],
             'email'     =>  $remote['email'],
-            'grp_id'    =>  '',
             'external_id'   =>  $remote['uid'],
             'customer_id'   =>  $remote['customer_id'],
             'contact_id'   =>  $remote['contact_id'],
