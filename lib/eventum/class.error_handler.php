@@ -187,6 +187,9 @@ class Error_Handler
                     } elseif (is_object($x)) {
                         $z[] = 'Object '. get_class($x);
 
+                    } elseif (is_array($x)) {
+                        $z[] = 'Array('. count($x) .')';
+
                     } elseif (is_bool($x)) {
                         $z[] = '(bool ) '.$x ? 'true' : 'false';
 
