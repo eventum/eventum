@@ -146,12 +146,19 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return null;
         }
 
+        $email = $entry->get_value('mail', 'single');
+        $aliases = $entry->get_value('mail', 'all');
+        if(($key = array_search($email, $aliases)) !== false) {
+            unset($aliases[$key]);
+        }
+
         $details = array(
             'uid'   =>  $entry->get_value('uid'),
             'full_name'  =>  $entry->get_value('cn'),
-            'email'  =>  $entry->get_value('mail', 'single'),
+            'email'  =>  $email,
             'customer_id'   =>  $entry->get_value($this->customer_id_attribute),
             'contact_id'  =>  $entry->get_value($this->contact_id_attribute),
+            'aliases'   =>  $aliases,
         );
 
         return $details;
@@ -196,10 +203,19 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 }
             }
             $return = User::insert($data);
+            $this->updateAliases($return, $remote['aliases']);
             return $return;
         } else {
             $update = User::update($local_usr_id, $data, false);
+            $this->updateAliases($local_usr_id, $remote['aliases']);
             return $local_usr_id;
+        }
+    }
+
+    private function updateAliases($local_usr_id, $aliases)
+    {
+        foreach ($aliases as $alias) {
+            User::addAlias($local_usr_id, $alias);
         }
     }
 
