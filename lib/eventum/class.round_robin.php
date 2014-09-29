@@ -33,15 +33,16 @@ class Round_Robin
     /**
      * Returns the blackout dates according to the user's timezone.
      *
-     * @param   object $user The Date object associated with the user's timezone
+     * @param   DateTime $date The DateTime object associated with the user's timezone
      * @param   integer $start The blackout start hour
      * @param   integer $end The blackout end hour
      * @return  array The blackout dates
      */
-    public function getBlackoutDates(&$user, $start, $end)
+    public function getBlackoutDates($date, $start, $end)
     {
         $start = substr($start, 0, 2);
         $end = substr($end, 0, 2);
+        $hour = $date->format('H');
 
         // if start is AM and end is PM, then use only today
         // if start is AM and end is AM (and end is smaller than start), then use today and tomorrow
@@ -52,12 +53,12 @@ class Round_Robin
         // if start is PM and end is PM (and end is bigger than start), then use only today
         // if start is PM and end is AM, then use today and tomorrow
         //   - if date is between zero and the end, then use yesterday and today
-        if ((Date_Helper::isAM($start)) && (Date_Helper::isPM($end))) {
+        if (Date_Helper::isAM($start) && Date_Helper::isPM($end)) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end < $start)) {
-            if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
+        if (Date_Helper::isAM($start) && Date_Helper::isAM($end) && $end < $start) {
+            if ($hour >= 0 && $hour <= $end) {
                 $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
@@ -65,12 +66,12 @@ class Round_Robin
                 $second = Date_Helper::DAY;
             }
         }
-        if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end > $start)) {
+        if (Date_Helper::isAM($start) && Date_Helper::isAM($end) && $end > $start) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end < $start)) {
-            if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
+        if (Date_Helper::isPM($start) && Date_Helper::isPM($end) && $end < $start) {
+            if (($hour >= 0) && ($hour <= $end)) {
                 $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
@@ -78,12 +79,12 @@ class Round_Robin
                 $second = Date_Helper::DAY;
             }
         }
-        if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end > $start)) {
+        if (Date_Helper::isPM($start) && Date_Helper::isPM($end) && $end > $start) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isPM($start)) && (Date_Helper::isAM($end))) {
-            if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
+        if (Date_Helper::isPM($start) && Date_Helper::isAM($end)) {
+            if ($hour >= 0 && $hour <= $end) {
                 $first = -Date_Helper::DAY;
                 $second = 0;
             } else {
@@ -93,8 +94,8 @@ class Round_Robin
         }
 
         return array(
-            date('Y-m-d', $user->getDate(DATE_FORMAT_UNIXTIME) + $first),
-            date('Y-m-d', $user->getDate(DATE_FORMAT_UNIXTIME) + $second)
+            date('Y-m-d', $date->getTimestamp() + $first),
+            date('Y-m-d', $date->getTimestamp() + $second)
         );
     }
 
@@ -128,14 +129,13 @@ class Round_Robin
             $ignored_users = 0;
             // check the blackout hours
             do {
-                $user = new Date(Date_Helper::getCurrentUnixTimestampGMT());
-                $user->convertTZById($users[$next_usr_id]['timezone']);
+                $timezone = $users[$next_usr_id]['timezone'];
+                $user = Date_Helper::getDateTime(false, $timezone);
                 list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
-                $first = new Date($today . ' ' . $blackout_start);
-                $first->setTZById($users[$next_usr_id]['timezone']);
-                $second = new Date($tomorrow . ' ' . $blackout_end);
-                $second->setTZById($users[$next_usr_id]['timezone']);
-                if ((Date::compare($first, $user) == -1) && (Date::compare($user, $second) == -1)) {
+                $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
+                $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
+
+                if ($first < $user && $user < $second) {
                     $ignored_users++;
                     $current_index = array_search($next_usr_id, $user_ids);
                     // if we reached the end of the list of users and none of them

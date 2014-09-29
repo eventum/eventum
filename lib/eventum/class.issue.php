@@ -665,7 +665,7 @@ class Issue
      * @param   string $expected_resolution_date The Expected Resolution Date to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setExpectedResolutionDate($issue_id, $expected_resolution_date)
+    public static function setExpectedResolutionDate($issue_id, $expected_resolution_date)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $expected_resolution_date = Misc::escapeString($expected_resolution_date);
@@ -690,6 +690,8 @@ class Issue
 
             return 1;
         }
+
+        return -1;
     }
 
     /**
@@ -2510,9 +2512,9 @@ class Issue
                 $label = $result[$i]["iss_last_public_action_type"];
                 $last_date = $result[$i]["iss_last_public_action_date"];
             }
-            $date = new Date($last_date);
-            $current = new Date(Date_Helper::getCurrentDateGMT());
-            $result[$i]['last_action_date_diff'] = Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME));
+
+            $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
+            $result[$i]['last_action_date_diff'] = $dateDiff;
             $result[$i]['last_action_date_label'] = ucwords($label);
         }
     }
@@ -2543,15 +2545,16 @@ class Issue
                     $result[$i]['status_change_date'] = '';
                     continue;
                 }
-                $current = new Date(Date_Helper::getCurrentDateGMT());
-                $desc = "$label: %s ago";
+                // TRANSLATORS: %s = label, %s = date diff
+                $desc = ev_gettext("%s: %s ago");
                 $target_date = $result[$i][$date_field_name];
                 if (empty($target_date)) {
                     $result[$i]['status_change_date'] = '';
                     continue;
                 }
-                $date = new Date($target_date);
-                $result[$i]['status_change_date'] = sprintf($desc, Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+
+                $dateDiff = Date_Helper::getFormattedDateDiff(time(), $target_date);
+                $result[$i]['status_change_date'] = sprintf($desc, $label, $dateDiff);
             }
         }
     }
@@ -3002,10 +3005,10 @@ class Issue
                         $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                         if (empty($res['iss_first_response_date'])) {
                             $first_response_deadline = $created_date_ts + $max_first_response_time;
-                            if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
+                            if (time() <= $first_response_deadline) {
+                                $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, time());
                             } else {
-                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                                $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(time(), $first_response_deadline);
                             }
                         }
                     } catch (CRMException $e) {
@@ -3482,7 +3485,7 @@ class Issue
 
         if (!empty($res["iqu_expiration"])) {
             $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
-            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
+            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, time());
         }
 
         return $res;

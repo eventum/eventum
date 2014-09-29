@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -27,19 +27,11 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 
-// this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
-$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = 'UTC';
-
-require_once 'Date.php';
-
 /**
  * Class to handle date convertion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
  * user to specify a timezone that is supposed to be used across the
  * pages.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Date_Helper
@@ -52,6 +44,39 @@ class Date_Helper
     // MONTH and YEAR are rather approximate (4 weeks in month), do not use them
     const MONTH = 2419200; // WEEK * 4
     const YEAR = 29030400; // MONTH * 12
+
+    /**
+	 * Creates a new DateTime Object initialized to the current date/time in
+	 * the GMT timezone by default.
+	 * A date optionally passed in may be in the ISO 8601, UNIXTIME format, or
+	 * another Date object. If no date is passed, the current date/time is
+	 * used.
+	 *
+	 * @param int|DateTime|string $ts
+	 * @param string $timezone
+	 * @return DateTime
+     */
+    public static function getDateTime($ts = 'now', $timezone = '')
+    {
+        if ($ts instanceof DateTime) {
+            $dateTime = clone $ts;
+        } else {
+            if ($ts === false || $ts === null) {
+                $ts = 'now';
+            } elseif (is_int($ts)) {
+                $ts = "@$ts";
+            }
+
+            $dateTime = new DateTime($ts, new DateTimeZone('GMT'));
+        }
+
+        if (!$timezone) {
+            $timezone = self::getPreferredTimezone();
+        }
+        $dateTime->setTimeZone(new DateTimeZone($timezone));
+
+        return $dateTime;
+    }
 
     /**
      * Returns whether the given hour is AM or not.
@@ -84,79 +109,28 @@ class Date_Helper
     }
 
     /**
-     * Creates a new Date Object initialized to the current date/time in the
-     * GMT timezone by default.  A date optionally
-     * passed in may be in the ISO 8601, TIMESTAMP or UNIXTIME format,
-     * or another Date object.  If no date is passed, the current date/time
-     * is used.
-     *
-     * Format parameter should be one of the specified DATE_FORMAT_* constants:
-     *
-     *  <code>DATE_FORMAT_ISO</code>
-     *                              - 'YYYY-MM-DD HH:MI:SS'
-     *  <code>DATE_FORMAT_ISO_BASIC</code>
-     *                              - 'YYYYMMSSTHHMMSS(Z|(+/-)HHMM)?'
-     *  <code>DATE_FORMAT_ISO_EXTENDED</code>
-     *                              - 'YYYY-MM-SSTHH:MM:SS(Z|(+/-)HH:MM)?'
-     *  <code>DATE_FORMAT_ISO_EXTENDED_MICROTIME</code>
-     *                              - 'YYYY-MM-SSTHH:MM:SS(.S*)?(Z|(+/-)HH:MM)?'
-     *  <code>DATE_FORMAT_TIMESTAMP</code>
-     *                              - 'YYYYMMDDHHMMSS'
-     *  <code>DATE_FORMAT_UNIXTIME'</code>
-     *                              - long integer of the no of seconds since
-     *                                 the Unix Epoch
-     *                                 (1st January 1970 00.00.00 GMT)
-     *
-     * @param mixed $date                optional ISO 8601 date/time to initialize;
-     *                                    or, a Unix time stamp
-     * @param int    $format                 optional format constant
-     *                                        (DATE_FORMAT_*) of the input date.
-     *                                        This parameter is not needed,
-     *                                        except to force the setting of the
-     *                                        date from a Unix time-stamp
-     *                                        (DATE_FORMAT_UNIXTIME).
-     *
-     * @return   Object Date in GMT timezone
-     * @see      new Date()
-     */
-    private static function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
-    {
-        $dt = new Date();
-        $dt->toUTC();
-
-        if (is_a($date, 'Date')) {
-            $dt->copy($date);
-        } else {
-            if ($date !== null) {
-                $dt->setDate($date, $format);
-            } else {
-                $dt->setDate(gmdate("Y-m-d H:i:s"));
-            }
-        }
-
-        return $dt;
-    }
-
-    /**
      * Returns the current UNIX timestamp in the GMT timezone.
      *
      * @return  integer The current UNIX timestamp in GMT
+     * @deprecated just use time() function
      */
     public static function getCurrentUnixTimestampGMT()
     {
-        return gmmktime();
+        return time();
     }
 
     /**
      * Method used to get a pretty-like formatted time output for the
-     * difference in time between two unix timestamps.
+     * difference in time between two dates.
      *
-     * @param   integer $now_ts The current UNIX timestamp
-     * @param   integer $old_ts The old UNIX timestamp
-     * @return  string The formatted difference in time
+     * @param integer|string|DateTime $now The current timestamp
+     * @param integer|string|DateTime $date The old timestamp
+     * @return string The formatted difference in time
      */
-    public static function getFormattedDateDiff($now_ts, $old_ts)
+    public static function getFormattedDateDiff($now, $date)
     {
+        $now_ts = self::getDateTime($now)->getTimestamp();
+        $old_ts = self::getDateTime($date)->getTimestamp();
         $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf("%d", round($value, 1)) . "d";
         $mod = (integer) (($now_ts - $old_ts) % self::DAY);
@@ -169,42 +143,31 @@ class Date_Helper
      * Method used to get the user's current time (timezone included) as
      * a UNIX timestamp.
      *
-     * @param   bool|int $timestamp The current UNIX timestamp
-     * @param   bool|string $timezone The needed timezone
+     * @param   integer|string $timestamp The current UNIX timestamp
+     * @param   string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
+     * @deprecated do not use when input is timestamp, the same input will be returned and calling this function is pointless then
      */
-    public static function getUnixTimestamp($timestamp = false, $timezone = false)
+    public static function getUnixTimestamp($timestamp, $timezone = '')
     {
-        if (!$timestamp) {
-            $timestamp = self::getCurrentUnixTimestampGMT();
-        }
-        if (!$timezone) {
-            $timezone = self::getPreferredTimezone();
-        }
-        $date = new Date($timestamp);
-        // now convert to another timezone and return the timestamp
-        $date->convertTZById($timezone);
-
-        return $date->getDate(DATE_FORMAT_UNIXTIME);
+        $date = self::getDateTime($timestamp, $timezone);
+        return $date->getTimestamp();
     }
 
     /**
      * Method used to get the current date in the GMT timezone in an
      * RFC822 compliant format.
      *
-     * @return  string The current GMT date
+     * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
+     *
+     * @return  string $ts The current GMT date
      * @param   string $timezone The needed timezone
      */
-    public static function getRFC822Date($timestamp, $timezone = false)
+    public static function getRFC822Date($ts, $timezone = '')
     {
-        if (!$timezone) {
-            $timezone = self::getPreferredTimezone();
-        }
-        $date = new Date($timestamp);
-        // now convert to another timezone and return the date
-        $date->convertTZById($timezone);
+        $date = self::getDateTime($ts, 'GMT');
 
-        return $date->format('%a, %d %b %Y %H:%M:%S') . " GMT";
+        return $date->format('D, d M Y H:i:s') . ' GMT';
     }
 
     /**
@@ -225,41 +188,40 @@ class Date_Helper
      */
     public static function getTimezoneList()
     {
-        $time_zones = Date_TimeZone::getAvailableIDs();
+        $time_zones = timezone_identifiers_list();
         asort($time_zones);
 
         return $time_zones;
     }
 
     /**
-     * Method used to get the proper short name for a given date.
-     *
-     * @param   Date $date The Date object
-     * @return  string The timezone short name
-     * @note    PEAR Date 1.5.0 Includes this method itself.
-     */
-    private static function getTimezoneShortName($date)
-    {
-        if ($date->inDaylightTime()) {
-            return $date->tz->getDSTShortName();
-        } else {
-            return $date->tz->getShortName();
-        }
-    }
-
-    /**
      * Method used to get the proper timezone short name for the current date
-     * and time on the given user's timezone.
+     * and time on the given user's timezone. This respects the DST setting.
      *
-     * @param   object $date The Date object
+     * @param   integer $usr_id The user ID
      * @return  string The timezone short name
      */
     public static function getTimezoneShortNameByUser($usr_id)
     {
-        $date = new Date();
-        $date->convertTZById(self::getPreferredTimezone($usr_id));
+        $timezone = self::getPreferredTimezone($usr_id);
+        $date = self::getDateTime(null, $timezone);
 
-        return self::getTimezoneShortName($date);
+        return $date->format('T');
+    }
+
+    /**
+     * Method used to get the formatted date for a specific timestamp
+     * and a specific timezone, provided by the user preference.
+     *
+     * @param   string $ts The date timestamp to be formatted
+     * @param   string $timezone The timezone name
+     * @return  string
+     */
+    public static function getFormattedDate($ts, $timezone = '')
+    {
+        $date = self::getDateTime($ts, $timezone);
+
+        return $date->format('D, d M Y, H:i:s T');
     }
 
     /**
@@ -267,65 +229,49 @@ class Date_Helper
      * and a specific timezone, provided by the user' preference.
      *
      * @param   string $ts The date timestamp to be formatted
-     * @param   string $timezone The timezone name
-     * @return  string
-     */
-    public static function getFormattedDate($ts, $timezone = false)
-    {
-        if ($timezone === FALSE) {
-            $timezone = self::getPreferredTimezone();
-        }
-
-        $date = self::getDateGMT($ts);
-        // now convert to another timezone and return the date
-        $date->convertTZById($timezone);
-
-        return $date->format('%a, %d %b %Y, %H:%M:%S %Z');
-    }
-
-    /**
-     * Method used to get the formatted date for a specific timestamp
-     * and a specific timezone, provided by the user' preference.
-     *
-     * @param   string $timestamp The date timestamp to be formatted
      * @param   boolean $convert If the timestamp should be converted to the preferred timezone
      * @return  string
      */
-    public static function getSimpleDate($timestamp, $convert = true)
+    public static function getSimpleDate($ts, $convert = true)
     {
-        if (empty($timestamp)) {
+        if (!$ts) {
+            // FIXME: why
             return '';
         }
-        $date = new Date($timestamp);
+
+        // FIXME: the current logic below ends up the same result
         // now convert to another timezone and return the date
         if ($convert) {
             $timezone = self::getPreferredTimezone();
-            $date->convertTZById($timezone);
+        } else {
+            $timezone = false;
         }
 
-        return $date->format('%d %b %Y');
+        $date = self::getDateTime($ts, $timezone);
+
+        return $date->format('d M Y');
     }
 
     /**
      * Method used to get the timezone preferred by the user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   integer|null $usr_id The user ID
      * @return  string The timezone preferred by the user
      */
-    public static function getPreferredTimezone($usr_id = false)
+    public static function getPreferredTimezone($usr_id = null)
     {
-        if ($usr_id === FALSE) {
+        if (!$usr_id) {
             $usr_id = Auth::getUserID();
         }
         if (empty($usr_id)) {
             return self::getDefaultTimezone();
         }
         $prefs = Prefs::get($usr_id);
-        if (empty($prefs["timezone"])) {
-            return self::getDefaultTimezone();
-        } else {
-            return $prefs["timezone"];
+        if (!empty($prefs['timezone'])) {
+            return $prefs['timezone'];
         }
+
+        return self::getDefaultTimezone();
     }
 
     /**
@@ -352,16 +298,15 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * @param   string $date The date in use timezone
+     * @param   string $ts The date in use timezone
      * @return  string The date in the GMT timezone
      */
-    public static function convertDateGMT($date)
+    public static function convertDateGMT($ts)
     {
-        $dt = new Date($date);
-        $dt->setTZbyID(self::getPreferredTimezone());
-        $dt->toUTC();
+        $date = self::getDateTime($ts);
+        $date->setTimezone(new DateTimeZone('GMT'));
 
-        return $dt->format('%Y-%m-%d %H:%M:%S');
+        return $date->format('Y-m-d H:i:s');
     }
 
     /**
@@ -410,7 +355,7 @@ class Date_Helper
     /**
      * Returns the current week in the same format formatWeekOption users.
      *
-     * @return  string A string containg the current week.
+     * @return  string A string containing the current week.
      */
     public function getCurrentWeek()
     {
@@ -437,6 +382,12 @@ class Date_Helper
         return array($value,$display);
     }
 
+    /**
+     * @param int $old_ts
+     * @param int $new_ts
+     * @return int
+     * @deprecated Just use the math operator yourself
+     */
     public static function getSecondsDiff($old_ts, $new_ts)
     {
         return $new_ts - $old_ts;

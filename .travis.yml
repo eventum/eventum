@@ -7,6 +7,10 @@ php:
   - 5.3
   - hhvm
 
+matrix:
+    allow_failures:
+        - php: hhvm
+
 install:
   - php -i
 # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
