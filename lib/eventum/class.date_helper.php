@@ -52,11 +52,11 @@ class Date_Helper
 	 * another Date object. If no date is passed, the current date/time is
 	 * used.
 	 *
-	 * @param int|string $ts
-	 * @param bool|string $timezone
+	 * @param int|DateTime|string $ts
+	 * @param string $timezone
 	 * @return DateTime
      */
-    public static function getDateTime($ts = 'now', $timezone = false)
+    public static function getDateTime($ts = 'now', $timezone = '')
     {
         if ($ts instanceof DateTime) {
             $dateTime = clone $ts;
@@ -144,11 +144,11 @@ class Date_Helper
      * a UNIX timestamp.
      *
      * @param   integer|string $timestamp The current UNIX timestamp
-     * @param   bool|string $timezone The needed timezone
+     * @param   string $timezone The needed timezone
      * @return  integer The UNIX timestamp representing the user's current time
      * @deprecated do not use when input is timestamp, the same input will be returned and calling this function is pointless then
      */
-    public static function getUnixTimestamp($timestamp, $timezone = false)
+    public static function getUnixTimestamp($timestamp, $timezone = '')
     {
         $date = self::getDateTime($timestamp, $timezone);
         return $date->getTimestamp();
@@ -160,10 +160,10 @@ class Date_Helper
      *
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
-     * @return  string The current GMT date
+     * @return  string $ts The current GMT date
      * @param   string $timezone The needed timezone
      */
-    public static function getRFC822Date($ts, $timezone = false)
+    public static function getRFC822Date($ts, $timezone = '')
     {
         $date = self::getDateTime($ts, 'GMT');
 
@@ -198,7 +198,7 @@ class Date_Helper
      * Method used to get the proper timezone short name for the current date
      * and time on the given user's timezone. This respects the DST setting.
      *
-     * @param   object $date The Date object
+     * @param   integer $usr_id The user ID
      * @return  string The timezone short name
      */
     public static function getTimezoneShortNameByUser($usr_id)
@@ -217,7 +217,7 @@ class Date_Helper
      * @param   string $timezone The timezone name
      * @return  string
      */
-    public static function getFormattedDate($ts, $timezone = false)
+    public static function getFormattedDate($ts, $timezone = '')
     {
         $date = self::getDateTime($ts, $timezone);
 
@@ -255,10 +255,10 @@ class Date_Helper
     /**
      * Method used to get the timezone preferred by the user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   integer|null $usr_id The user ID
      * @return  string The timezone preferred by the user
      */
-    public static function getPreferredTimezone($usr_id = false)
+    public static function getPreferredTimezone($usr_id = null)
     {
         if (!$usr_id) {
             $usr_id = Auth::getUserID();
@@ -298,7 +298,7 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * @param   string $date The date in use timezone
+     * @param   string $ts The date in use timezone
      * @return  string The date in the GMT timezone
      */
     public static function convertDateGMT($ts)
