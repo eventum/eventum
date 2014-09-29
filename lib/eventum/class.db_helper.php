@@ -51,6 +51,7 @@ class DB_Helper
     public static function getInstance()
     {
         if (!self::$instance) {
+            // assign value immediately this avoids deep recursion
             self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
@@ -142,7 +143,15 @@ class DB_Helper
      */
     public static function escapeString($str, $add_quotes = false)
     {
-        $res = self::getInstance()->escapeSimple($str);
+        $dbh = self::getInstance();
+
+        if (PEAR::isError($dbh)) {
+            // can't really do anything with this
+            // should really throw away PEAR::DB and use exceptions
+            $res = false;
+        } else {
+            $res = $dbh->escapeSimple($str);
+        }
 
         if ($add_quotes) {
             $res = "'". $res . "'";
