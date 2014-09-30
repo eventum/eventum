@@ -68,7 +68,21 @@ require_once APP_INC_PATH . '/gettext.php';
 
 // create dummy file
 if (!file_exists(APP_SETUP_FILE)) {
-    Setup::save(array());
+    // try grab params from existing config. hide constant redefined warnings
+    @include APP_PATH . '/config/config.php';
+    Setup::save(array(
+        'db' => array(
+            'table_prefix' => APP_TABLE_PREFIX,
+            'dbtype' => APP_SQL_DBTYPE,
+            'host' => APP_SQL_DBHOST,
+            'database' => APP_SQL_DBNAME,
+            'user' => APP_SQL_DBUSER,
+            'password' => APP_SQL_DBPASS,
+        ),
+
+        // used for tests
+        'admin_user' => 2,
+    ));
 }
 
 if (!getenv('TRAVIS')) {
