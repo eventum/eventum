@@ -86,9 +86,9 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
-        'br' => 'Breton',
-        'ca' => 'Catalan',
-        'cs' => 'Czech',
+        'br_FR' => 'Breton',
+        'ca_ES' => 'Catalan',
+        'cs_CZ' => 'Czech',
         'da_DK' => 'Danish',
         'de_DE' => 'German',
         'en_AU' => 'English (Australia)',
@@ -98,42 +98,47 @@ class Language
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
         'fi_FI' => 'Finnish',
-        'fo' => 'Faroese',
+        'fo_FO' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
-        'ht' => 'Haitian',
-        'hu' => 'Hungarion',
-        'id' => 'Indonesian',
+        'ht_HT' => 'Haitian',
+        'hu_HU' => 'Hungarion',
+        'id_ID' => 'Indonesian',
         'it_IT' => 'Italian',
-        'ja' => 'Japanese',
-        'ko' => 'Korean',
+        'ja_JP' => 'Japanese',
+        'ko_KR' => 'Korean',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
         'nl_NL' => 'Dutch',
-        'oc' => 'Occitan (post 1500)',
+        'oc_FR' => 'Occitan (post 1500)',
         'pl_PL' => 'Polish',
-        'pt' => 'Portuguese',
+        'pt_PT' => 'Portuguese',
         'pt_BR' => 'Brazilian Portuguese',
         'ru_RU' => 'Russian',
-        'si' => 'Sinhalese',
+        'si_LK' => 'Sinhalese',
         'sv_SE' => 'Swedish',
-        'ta' => 'Tamil',
-        'th' => 'Thai',
-        'tr' => 'Turkish',
-        'uk' => 'Ukrainian',
-        'ur' => 'Urdu',
-        'vi' => 'Vietnamese',
+        'ta_IN' => 'Tamil',
+        'th_TH' => 'Thai',
+        'tr_TR' => 'Turkish',
+        'uk_UA' => 'Ukrainian',
+        'ur_IN' => 'Urdu',
+        'vi_VN' => 'Vietnamese',
         'zh_CN' => 'Chinese (Simplified)',
     );
 
     /**
      * Method used to get available languages.
-     * Uses $avail_langs array and verifies that the language can be used.
+     * If $validate is true the languages are verified first.
      *
-     * @return  array
+     * @param bool $validate
+     * @return array
      */
-    public function getAvailableLanguages()
+    public static function getAvailableLanguages($validate = true)
     {
+        if (!$validate) {
+            return self::$avail_langs;
+        }
+
         $languages = array();
         foreach (self::$avail_langs as $code => $language) {
             $res = self::set($code);
