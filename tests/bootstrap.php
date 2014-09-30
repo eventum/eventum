@@ -40,29 +40,10 @@ define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());
 define('APP_COOKIE', 'eventum');
 define('APP_DEFAULT_TIMEZONE', 'UTC');
-//define('APP_DEFAULT_TIMEZONE', 'Europe/Tallinn');
 define('APP_DEFAULT_WEEKDAY', 1);
 define('APP_DEFAULT_REFRESH_RATE', 0);
 
-// add pear to the include path
-if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
-    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-// emulate gettext
-if (!extension_loaded('gettext')) {
-    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
-    require_once APP_INC_PATH . '/gettext.php';
-}
-
-if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
-    // composer paths
-    require_once $autoload;
-    define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/distribution/libs');
-    define('APP_SPHINXAPI_PATH', APP_PATH . '/vendor/sphinx/php-sphinxapi');
-} else {
-    require_once APP_PATH . '/vendor/autoload-dist.php';
-}
+require_once APP_PATH . '/vendor/autoload-dist.php';
 
 require_once APP_INC_PATH . '/gettext.php';
 
