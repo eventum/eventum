@@ -61,7 +61,7 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/distribution/libs');
     define('APP_SPHINXAPI_PATH', APP_PATH . '/vendor/sphinx/php-sphinxapi');
 } else {
-    require_once APP_INC_PATH . '/autoload.php';
+    require_once APP_PATH . '/vendor/autoload-dist.php';
 }
 
 require_once APP_INC_PATH . '/gettext.php';
