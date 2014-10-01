@@ -328,7 +328,7 @@ class Command_Line
      */
     function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+//        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         // check if the provided file number is valid
         $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
@@ -364,7 +364,7 @@ class Command_Line
             self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
-        $details['iaf_file'] = base64_decode($details['iaf_file']);
+        Misc::base64_decode($details);
 
         // check if the file already exists
         if (@file_exists($details['iaf_filename'])) {
