@@ -410,8 +410,8 @@ class Date_Helper
     private static function formatLocalized($date, $fmt)
     {
         // use gmstrftime for GMT timezone, this matches expectations
-        $isGMT = in_array($date->getTimezone()->getName(), array('UTC', 'GMT'));
-        if ($isGMT) {
+        $offset = $date->getTimezone()->getOffset($date);
+        if ($offset == 0) {
             return gmstrftime($fmt, $date->getTimestamp());
         } else {
             return strftime($fmt, $date->getTimestamp());
