@@ -473,7 +473,7 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        foreach ((array)$tpl->smarty->template_dir as $tpl_dir) {
+        foreach ((array) $tpl->smarty->template_dir as $tpl_dir) {
             $tip_dir = $tpl_dir . '/tips';
             $files = self::getFileList($tip_dir);
             $count = count($files);
@@ -485,6 +485,7 @@ class Misc
             return $files[$i];
 
         }
+
         return null;
     }
 

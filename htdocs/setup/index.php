@@ -139,7 +139,7 @@ $tpl->config_dir = '';
 
 // this avoids loading it twice with composer
 if (function_exists('smarty_block_t')) {
-	$tpl->registerPlugin('block', 't', 'smarty_block_t');
+    $tpl->registerPlugin('block', 't', 'smarty_block_t');
 }
 
 if (@$_POST['cat'] == 'install') {

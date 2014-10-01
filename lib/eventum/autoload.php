@@ -20,6 +20,7 @@ class Eventum_Autoload
 
         if (isset($classMap[$className])) {
             require_once $classMap[$className];
+
             return;
         }
 
