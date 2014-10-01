@@ -364,7 +364,7 @@ class Command_Line
             self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
-        CLI_Misc::base64_decode($details);
+        $details = CLI_Misc::base64_decode($details);
 
         // check if the file already exists
         if (@file_exists($details['iaf_filename'])) {
