@@ -24,11 +24,9 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 /**
- * Class to handle date convertion issues, which enable the
+ * Class to handle date conversion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
  * user to specify a timezone that is supposed to be used across the
  * pages.
@@ -46,15 +44,15 @@ class Date_Helper
     const YEAR = 29030400; // MONTH * 12
 
     /**
-	 * Creates a new DateTime Object initialized to the current date/time in
-	 * the GMT timezone by default.
-	 * A date optionally passed in may be in the ISO 8601, UNIXTIME format, or
-	 * another Date object. If no date is passed, the current date/time is
-	 * used.
-	 *
-	 * @param int|DateTime|string $ts
-	 * @param string $timezone
-	 * @return DateTime
+     * Creates a new DateTime Object initialized to the current date/time in
+     * the GMT timezone by default.
+     * A date optionally passed in may be in the ISO 8601, UNIXTIME format, or
+     * another DateTime object. If no date is passed, the current date/time is
+     * used.
+     *
+     * @param int|DateTime|string $ts
+     * @param string $timezone
+     * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = '')
     {
@@ -123,6 +121,8 @@ class Date_Helper
      * Method used to get a pretty-like formatted time output for the
      * difference in time between two dates.
      *
+     * NOTE: "h" and "d" (hours and days) are not localized
+     *
      * @param integer|string|DateTime $now The current timestamp
      * @param integer|string|DateTime $date The old timestamp
      * @return string The formatted difference in time
@@ -151,6 +151,7 @@ class Date_Helper
     public static function getUnixTimestamp($timestamp, $timezone = '')
     {
         $date = self::getDateTime($timestamp, $timezone);
+
         return $date->getTimestamp();
     }
 
@@ -213,6 +214,8 @@ class Date_Helper
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user preference.
      *
+     * This method is locale sensitive, returns localized timestamp
+     *
      * @param   string $ts The date timestamp to be formatted
      * @param   string $timezone The timezone name
      * @return  string
@@ -221,12 +224,14 @@ class Date_Helper
     {
         $date = self::getDateTime($ts, $timezone);
 
-        return $date->format('D, d M Y, H:i:s T');
+        return self::formatLocalized($date, "%a, %d %b %Y, %H:%M:%S %Z");
     }
 
     /**
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
+     *
+     * This method is locale sensitive, returns localized timestamp
      *
      * @param   string $ts The date timestamp to be formatted
      * @param   boolean $convert If the timestamp should be converted to the preferred timezone
@@ -249,7 +254,7 @@ class Date_Helper
 
         $date = self::getDateTime($ts, $timezone);
 
-        return $date->format('d M Y');
+        return self::formatLocalized($date, '%d %b %Y');
     }
 
     /**
@@ -298,6 +303,8 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
+     * This method is locale sensitive, returns localized timestamp
+     *
      * @param   string $ts The date in use timezone
      * @return  string The date in the GMT timezone
      */
@@ -306,7 +313,7 @@ class Date_Helper
         $date = self::getDateTime($ts);
         $date->setTimezone(new DateTimeZone('GMT'));
 
-        return $date->format('Y-m-d H:i:s');
+        return self::formatLocalized($date, '%Y-%m-%d %H:%M:%S');
     }
 
     /**
@@ -379,7 +386,7 @@ class Date_Helper
         $value = date($value_format, $start) . "_" . date($value_format, $end);
         $display = date($display_format, $start) . " - " . date($display_format, $end);
 
-        return array($value,$display);
+        return array($value, $display);
     }
 
     /**
@@ -391,5 +398,23 @@ class Date_Helper
     public static function getSecondsDiff($old_ts, $new_ts)
     {
         return $new_ts - $old_ts;
+    }
+
+    /**
+     * Format $date under current locale. Uses strftime format.
+     *
+     * @param DateTime $date
+     * @param string $fmt strftime date format
+     * @return string
+     */
+    private static function formatLocalized($date, $fmt)
+    {
+        // use gmstrftime for GMT timezone, this matches expectations
+        $isGMT = in_array($date->getTimezone()->getName(), array('UTC', 'GMT'));
+        if ($isGMT) {
+            return gmstrftime($fmt, $date->getTimestamp());
+        } else {
+            return strftime($fmt, $date->getTimestamp());
+        }
     }
 }
