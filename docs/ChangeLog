@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2014-??-??, Version 2.4.0
+2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
 - Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
 - Added "Product" filter to adv search page (Bryan)
