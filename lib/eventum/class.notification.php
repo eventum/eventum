@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -31,9 +31,6 @@
 /**
  * Class to handle all of the business logic related to sending email
  * notifications on actions regarding the issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Notification
 {
@@ -182,7 +179,7 @@ class Notification
         }
         $from = Mail_Helper::getFormattedName($info['sender_name'], $from_email);
 
-        return MIME_Helper::encodeAddress(trim($from));
+        return Mime_Helper::encodeAddress(trim($from));
     }
 
     /**

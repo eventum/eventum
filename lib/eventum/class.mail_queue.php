@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -79,7 +79,7 @@ class Mail_Queue
         }
         // if the Date: header is missing, add it.
         if (empty($headers['Date'])) {
-            $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
+            $headers['Date'] = Mime_Helper::encode(date('D, j M Y H:i:s O'));
         }
         if (!empty($headers['To'])) {
             $headers['To'] = Mail_Helper::fixAddressQuoting($headers['To']);
