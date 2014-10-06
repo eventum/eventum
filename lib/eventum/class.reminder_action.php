@@ -560,7 +560,7 @@ class Reminder_Action
      * @param   array $action The action details
      * @return  boolean
      */
-    public function perform($issue_id, $reminder, $action)
+    public static function perform($issue_id, $reminder, $action)
     {
         $type = '';
         // - see which action type we're talking about here...
@@ -792,7 +792,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of issue IDs
      */
-    public function getRepeatActions($issues, $rma_id)
+    public static function getRepeatActions($issues, $rma_id)
     {
         if (count($issues) == 0) {
             return $issues;

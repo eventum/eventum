@@ -46,7 +46,7 @@ class CLI_Misc
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
      */
-    public function prompt($message, $default_value)
+    public static function prompt($message, $default_value)
     {
         echo $message;
         if ($default_value !== FALSE) {

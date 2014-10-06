@@ -3433,7 +3433,7 @@ class Issue
      *
      * @return  array List of quarantined issues
      */
-    public function getQuarantinedIssueList()
+    public static function getQuarantinedIssueList()
     {
         // XXX: would be nice to restrict the result list to only one project
         $stmt = "SELECT

@@ -152,7 +152,7 @@ class Mail_Queue
      * @param   integer $limit The limit of emails that we should send at one time
      * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
-    public function send($status, $limit = false, $merge = false)
+    public static function send($status, $limit = false, $merge = false)
     {
         if ($merge !== false) {
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {

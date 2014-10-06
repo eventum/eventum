@@ -288,7 +288,7 @@ class Support
      *
      * @return  void
      */
-    public function clearErrors()
+    public static function clearErrors()
     {
         @imap_errors();
     }
@@ -388,7 +388,7 @@ class Support
      * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
      */
-    public function getServerURI($info, $tls = false)
+    public static function getServerURI($info, $tls = false)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
         if (stristr($info['ema_type'], 'imap')) {
@@ -428,7 +428,7 @@ class Support
      * @param   resource $mbox The mailbox
      * @return  integer The number of emails
      */
-    public function getTotalEmails($mbox)
+    public static function getTotalEmails($mbox)
     {
         return @imap_num_msg($mbox);
     }
@@ -487,7 +487,7 @@ class Support
      * @param   integer $num The index of the message
      * @return  void
      */
-    public function getEmailInfo($mbox, $info, $num)
+    public static function getEmailInfo($mbox, $info, $num)
     {
         Auth::createFakeCookie(APP_SYSTEM_USER_ID);
 

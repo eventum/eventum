@@ -835,7 +835,7 @@ class Reminder
      * @param   array $conditions The list of conditions
      * @return  array The list of issue IDs
      */
-    public function getTriggeredIssues($reminder, $conditions)
+    public static function getTriggeredIssues($reminder, $conditions)
     {
         // - build the SQL query to check if we have an issue that matches these conditions...
         $stmt = "SELECT

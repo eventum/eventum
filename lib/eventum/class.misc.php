@@ -859,7 +859,7 @@ class Misc
      *
      * @return  string The standard input value
      */
-    public function getInput($is_one_liner = false)
+    public static function getInput($is_one_liner = false)
     {
         static $return;
 

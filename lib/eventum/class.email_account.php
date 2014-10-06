@@ -117,7 +117,7 @@ class Email_Account
      * @param   string $mailbox The mailbox for the specific email account
      * @return  integer The support email account ID
      */
-    public function getAccountID($username, $hostname, $mailbox)
+    public static function getAccountID($username, $hostname, $mailbox)
     {
         $stmt = "SELECT
                     ema_id

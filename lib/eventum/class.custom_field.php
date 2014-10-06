@@ -511,7 +511,7 @@ class Custom_Field
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
      */
-    public function getOptionKey($fld_id, $value)
+    public static function getOptionKey($fld_id, $value)
     {
         static $returns;
 
@@ -1418,7 +1418,7 @@ class Custom_Field
      * @param   string $title The title of the field
      * @return  integer The fld_id
      */
-    public function getIDByTitle($title)
+    public static function getIDByTitle($title)
     {
         $sql = "SELECT
                     fld_id
@@ -1759,7 +1759,7 @@ class Custom_Field
      *
      * @param   integer $fld_id
      */
-    public function updateValuesForNewType($fld_id)
+    public static function updateValuesForNewType($fld_id)
     {
         $details = self::getDetails($fld_id, true);
         $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);
