@@ -826,9 +826,10 @@ class Report
             $sql .= "
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
+                        iss_prj_id=" . Auth::getCurrentProject() . " AND
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "' AND
-                       	ttr_iss_id = iss_id AND
-                  		";
+                        ttr_iss_id = iss_id AND
+                        ";
             if ($per_user) {
                  $sql .= " usr_id = ttr_usr_id AND ";
             }
