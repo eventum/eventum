@@ -593,6 +593,19 @@ class Misc
     }
 
     /**
+     * Format "On ... Wrote:" reply preamble. Helper for translations.
+     *
+     * @param string $date
+     * @param string $sender
+     * @return string
+     */
+    public static function formatReplyPreamble($date, $sender) {
+        // TRANSLATORS: %1: date, %2: sender
+        $line = ev_gettext('On %1$s, %2$s wrote:', $date, $sender);
+        return "\n\n\n$line\n>\n";
+    }
+
+    /**
      * Method used to format a RFC 822 compliant date for the given unix
      * timestamp.
      *

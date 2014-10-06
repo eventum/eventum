@@ -86,7 +86,7 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     if (!@empty($_GET["id"])) {
         $note = Note::getDetails($_GET["id"]);
         $date = Misc::formatReplyDate($note["timestamp"]);
-        $header = "\n\n\nOn $date, " . $note["not_from"] . " wrote:\n>\n";
+        $header = Misc::formatReplyPreamble($date, $note["not_from"]);
         $note["not_body"] = $header . Misc::formatReply($note["not_note"]);
         $tpl->bulkAssign(array(
             "note"           => $note,
