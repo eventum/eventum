@@ -378,7 +378,9 @@ function takeIssue($p)
 
     $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
     if ($res == -1) {
-       return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set status for issue #$issue_id");
+        global $XML_RPC_erruser;
+
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set status for issue #$issue_id");
     }
 
     return new XML_RPC_Response(XML_RPC_Encode('OK'));
