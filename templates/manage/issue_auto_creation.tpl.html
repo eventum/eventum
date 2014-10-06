@@ -50,7 +50,7 @@
         <tr class="title">
             <th colspan="2">
                 {t}Auto-Creation of Issues{/t}
-                <div class="right">({t}Associated Project:{/t} {$prj_title})</div>
+                <div class="right">({t}Associated Project{/t}: {$prj_title})</div>
             </th>
         </tr>
         <tr>
@@ -82,7 +82,7 @@
         {if $cats|@count > 0}
         <tr>
             <th width="130">
-                {t}Default Category:{/t} *
+                {t}Default Category{/t}: *
             </th>
             <td>
                 <select name="options[category]" tabindex="2">
@@ -96,7 +96,7 @@
         {if $priorities|@count > 0}
         <tr>
             <th width="130">
-                {t}Default Priority:{/t} *
+                {t}Default Priority{/t}: *
             </th>
             <td>
                 <select name="options[priority]" tabindex="3">
@@ -111,7 +111,7 @@
         {/if}
         <tr>
             <th width="150">
-                {t}Assignment:{/t}
+                {t}Assignment{/t}:
             </th>
             <td>
                 <select name="options[users][]" multiple size="3" tabindex="4">

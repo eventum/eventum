@@ -249,7 +249,7 @@ function disableAuthFields(bool)
         </tr>
         <tr>
           <td width="180" align="right">
-            <b>{t}MySQL Password:{/t}</b>
+            <b>{t}MySQL Password{/t}:</b>
           </td>
           <td>
             <input type="password" name="db_password" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password|default:''}" autocomplete="off">
@@ -271,7 +271,7 @@ function disableAuthFields(bool)
                         <table width="100%" border="0" cellspacing="0" cellpadding="1" bgcolor="#C0C0C0">
                           <tr>
                             <td colspan="2">
-                              <b>{t}Enter the details below:{/t}</b>
+                              <b>{t}Enter the details below{/t}:</b>
                             </td>
                           </tr>
                           <tr>
@@ -322,7 +322,7 @@ function disableAuthFields(bool)
         {if $default_timezone == 'UTC'}
         <tr>
           <td colspan="2">
-            <b>{t}Note:{/t}</b><br>
+            <b>{t}Note{/t}:</b><br>
 
               {t}You may help Eventum installer to figure out timezone if you configure PHP timezone parameters first:{/t}
 
@@ -347,7 +347,7 @@ function disableAuthFields(bool)
         </tr>
         <tr>
           <td width="100" align="right">
-            <b>{t}Week starts on:{/t}</b>
+            <b>{t}Week starts on{/t}:</b>
           </td>
           <td width="80%">
             <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:$default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
@@ -371,7 +371,7 @@ function disableAuthFields(bool)
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <b>{t}Note:{/t}</b> {t}The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
+            <b>{t}Note{/t}:</b> {t}The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
             &nbsp;
             <hr size="1" noshade color="#000000">
           </td>

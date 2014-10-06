@@ -64,7 +64,7 @@ function viewNote(id)
         {/if}
         <tr>
           <th width="120">
-            {t}Posted Date:{/t}
+            {t}Posted Date{/t}:
           </th>
           <td>
             {$note.not_created_date}
@@ -72,7 +72,7 @@ function viewNote(id)
         </tr>
         <tr>
           <th width="120">
-            {t}From:{/t}
+            {t}From{/t}:
           </th>
           <td>
             {$note.not_from|escape:"html"}
@@ -95,7 +95,7 @@ function viewNote(id)
         {/if}
         <tr>
           <th width="120">
-            {t}Title:{/t}
+            {t}Title{/t}:
           </th>
           <td>
             {$note.not_title|default:"<Empty Title>"|escape:"html"}
@@ -104,7 +104,7 @@ function viewNote(id)
         {if $note.attachments|default:'' != ''}
         <tr>
           <th width="120">
-            {t}Attachments:{/t}
+            {t}Attachments{/t}:
           </th>
           <td bgcolor="{$dark_color}">
             {section name="i" loop=$note.attachments}
@@ -116,7 +116,7 @@ function viewNote(id)
         {/if}
         <tr>
           <td colspan="2">
-              {t}Message:{/t}
+              {t}Message{/t}:
               <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="Eventum.displayFixedWidth($('#email_message'))">{t}display in fixed width font{/t}</a>)</span>
               <div class="right">
                   {if $note.has_blocked_message}

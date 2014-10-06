@@ -70,12 +70,12 @@
         <tr class="title">
             <th colspan="2">
                 {t}Anonymous Reporting of New Issues{/t}
-                <div class="right">({t}Current Project:{/t} {$project.prj_title})</div>
+                <div class="right">({t}Current Project{/t}: {$project.prj_title})</div>
             </th>
         </tr>
         <tr>
             <th width="130" nowrap>
-                {t}Anonymous Reporting:{/t} *
+                {t}Anonymous Reporting{/t}: *
             </th>
             <td width="80%">
                 <label>
@@ -101,7 +101,7 @@
         </tr>
         <tr>
             <th width="130">
-                {t}Reporter:{/t} *
+                {t}Reporter{/t}: *
             </th>
             <td>
                 <select name="options[reporter]" tabindex="1">
@@ -113,7 +113,7 @@
         </tr>
         <tr>
             <th width="130">
-                {t}Default Category:{/t} *
+                {t}Default Category{/t}: *
             </th>
             <td>
                 <select name="options[category]" tabindex="2">
@@ -125,7 +125,7 @@
         </tr>
         <tr>
             <th width="130">
-                {t}Default Priority:{/t} *
+                {t}Default Priority{/t}: *
             </th>
             <td>
                 <select name="options[priority]" tabindex="3">
@@ -139,7 +139,7 @@
         </tr>
         <tr>
             <th width="150">
-                {t}Assignment:{/t}{if $allow_unassigned_issues != 'yes'} *{/if}
+                {t}Assignment{/t}:{if $allow_unassigned_issues != 'yes'} *{/if}
             </th>
             <td>
                 <select name="options[users][]" multiple size="3" tabindex="4">

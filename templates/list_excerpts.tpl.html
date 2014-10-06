@@ -14,7 +14,7 @@ used by block in list.tpl.html
     <li>{t escape=no 1=$list[i].excerpts.issue.description}Description: %1{/t}</li>
   {/if}
   {if $list[i].excerpts.email|@count > 0}
-    <li>{t}Emails:{/t}
+    <li>{t}Emails{/t}:
       <ul class="emails">
       {foreach from=$list[i].excerpts.email item=highlight key=email_num}
         <li value="{$email_num}">#{$email_num}: {$highlight}</li>
@@ -23,7 +23,7 @@ used by block in list.tpl.html
     </li>
   {/if}
   {if $list[i].excerpts.phone|@count > 0 and $core.current_role != $core.roles.customer}
-    <li>{t}Phone Calls:{/t}
+    <li>{t}Phone Calls{/t}:
       <ul class="phone">
       {foreach from=$list[i].excerpts.phone item=highlight}
         <li>{$highlight}</li>
@@ -32,7 +32,7 @@ used by block in list.tpl.html
     </li>
   {/if}
   {if $list[i].excerpts.note|@count > 0 and $core.current_role != $core.roles.customer}
-    <li>{t}Notes:{/t}
+    <li>{t}Notes{/t}:
       <ul class="notes">
       {foreach from=$list[i].excerpts.note item=highlight key=note_num}
         <li value="{$note_num}">#{$note_num}: {$highlight}</li>

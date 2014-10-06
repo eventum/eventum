@@ -72,19 +72,19 @@
     <table class="bordered" id="email_filters" {get_display_style element_name="email_filters"}>
     <tr>
         <td>
-            <span>{t}Subject/Body:{/t}</span><br />
+            <span>{t}Subject/Body{/t}:</span><br />
             <input type="text" name="keywords" size="20" value="{$options.keywords|escape:"html"}">
         </td>
         <td>
-            <span>{t}Sender:{/t}</span><br />
+            <span>{t}Sender{/t}:</span><br />
             <input type="text" name="sender" size="20" value="{$options.sender|escape:"html"}">
         </td>
         <td>
-            <span>{t}To:{/t}</span><br />
+            <span>{t}To{/t}:</span><br />
             <input type="text" name="to" size="20" value="{$options.to|escape:"html"}">
         </td>
         <td>
-            <span>{t}Email Account:{/t}</span><br />
+            <span>{t}Email Account{/t}:</span><br />
             <select name="ema_id">
                 <option value="">{t}any{/t}</option>
                 {html_options options=$accounts selected=$options.ema_id}
@@ -102,7 +102,7 @@
                     <td nowrap width="50%">
                         <label>
                         <input {if $options.filter.arrival_date|default:'' == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" id="arrival_date">
-                            {t}Filter by Arrival Date:{/t}
+                            {t}Filter by Arrival Date{/t}:
                         </label><br />
                         <select name="arrival_date[filter_type]">
                             <option {if $options.filter.arrival_date|default:'no' != 'no' && $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
@@ -112,7 +112,7 @@
                         {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                     </td>
                     <td nowrap id="arrival_end_date" width="50%" valign="bottom">
-                        <span>{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
+                        <span>{t}Arrival Date{/t}: <i>({t}End date{/t})</i></span><br />
                         {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                     </td>
                 </tr>

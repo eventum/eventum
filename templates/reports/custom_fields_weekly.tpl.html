@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <th width="120">
-                {t}Report Type:{/t}
+                {t}Report Type{/t}:
             </th>
             <td width="200" NOWRAP>
                 <label><input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
@@ -58,7 +58,7 @@
         </tr>
         <tr id="end_row">
             <th width="120">
-                {t}End:{/t}
+                {t}End{/t}:
             </th>
             <td width="200">
                 {html_select_date time=$end_date|default:'' prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <th width="120" valign="top">
-                {t}Options:{/t}
+                {t}Options{/t}:
             </th>
             <td width="200" NOWRAP>
                 <label><input type="checkbox" name="time_in_min" value="1" {if $smarty.post.time_in_min|default:'' == 1}checked{/if}>

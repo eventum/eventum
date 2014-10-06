@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <th width="150">
-                {t}Duplicated Issue:{/t} *
+                {t}Duplicated Issue{/t}: *
             </th>
             <td>
                 {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id|intval error_message="You must enter the ID of an issue that does not have a duplicate status." exclude_duplicates=1}
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <th width="150">
-                {t}Comments:{/t}<br />
+                {t}Comments{/t}:<br />
             </th>
             <td>
                 <textarea name="comments" rows="8" style="width: 97%"></textarea>

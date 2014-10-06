@@ -1,7 +1,7 @@
 <div id="current_filters" {get_display_style element_name='current_filters'}>
   <span class="bordered">
   {strip}
-    {t}Current filters:{/t}&nbsp;
+    {t}Current filters{/t}:&nbsp;
     {foreach from=$active_filters name=active_filters key=filter_name item=filter}
       <strong>{$filter_name}</strong>: <a href="{$filter.remove_link}" title="Remove this filter">{$filter.value|escape:"html"}</a>{if !$smarty.foreach.active_filters.last}; {/if}
     {foreachelse}
