@@ -51,7 +51,7 @@
       }
 
       var has_project_selected = false;
-      for (i = 0; i < projects.length; i++) {
+      for (var i = 0; i < projects.length; i++) {
         var role_field = Eventum.getField('role[' + projects[i] + ']');
         if ((role_field[0].selectedIndex > 0) ||
             (role_field[0].type == 'hidden' &&

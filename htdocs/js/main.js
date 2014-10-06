@@ -316,7 +316,7 @@ Eventum.replaceSpecialCharacters = function(s)
     var newString = '';
     var thisChar;
     var charCode;
-    for (i = 0; i < s.length; i++) {
+    for (var i = 0; i < s.length; i++) {
         thisChar = s.charAt(i);
         charCode = s.charCodeAt(i);
         if ((charCode == 8220) || (charCode == 8221)) {

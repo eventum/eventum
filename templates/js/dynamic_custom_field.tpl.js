@@ -37,7 +37,7 @@ function custom_field_get_details_by_controller(controller_id)
 
 function custom_field_get_details_by_target(target_id)
 {
-    for (i = 0; i < dynamic_options.length; i++) {
+    for (var i = 0; i < dynamic_options.length; i++) {
         if (dynamic_options[i].target_field_id == target_id) {
             return dynamic_options[i];
         }
@@ -50,11 +50,11 @@ function custom_field_init_dynamic_options(fld_id)
     for (var i = 0; i < dynamic_options.length; i++) {
         if (dynamic_options[i].target_field_id == fld_id) {
             // set alert on target field prompting them to choose controlling field first
-            target_field = $('#custom_field_' + dynamic_options[i].target_field_id);
+            var target_field = $('#custom_field_' + dynamic_options[i].target_field_id);
             target_field.bind("focus.choose_controller", dynamic_options[i].target_field_id, prompt_choose_controller_first);
 
             // set event handler for controlling field
-            controlling_field = $('#' + dynamic_options[i].controlling_field_id);
+            var controlling_field = $('#' + dynamic_options[i].controlling_field_id);
             controlling_field.bind('change.change_options', dynamic_options[i].controlling_field_id, function(e) {
                 custom_field_set_new_options($(e.target), false);
             });
@@ -65,9 +65,9 @@ function custom_field_init_dynamic_options(fld_id)
 }
 
 function prompt_choose_controller_first(e) {
-    target_field = e.target;
-    target_id = e.data;
-    details = custom_field_get_details_by_target(target_id);
+    var target_field = e.target;
+    var target_id = e.data;
+    var details = custom_field_get_details_by_target(target_id);
 
     alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
 
@@ -78,7 +78,8 @@ function prompt_choose_controller_first(e) {
 
 function custom_field_set_new_options(controller, keep_target_value, target_fld_id) {
     // get current value of controller field
-    value = controller.val();
+    var value = controller.val();
+    var details;
 
     // find the object
     if (target_fld_id != undefined) {
@@ -90,10 +91,12 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
     for (var i = 0; i < details.length; i++) {
         // get the target/targets
         var targets = new Array();
+        var target;
         targets[0] = target = $('#custom_field_' + details[i].target_field_id);
 
         for (var targ_num = 0; targ_num < targets.length; targ_num++) {
-            wrapped_target = targets[targ_num];
+            var wrapped_target = targets[targ_num];
+            var current_value;
             target = wrapped_target.get(0);
             // see if this value has a set of options for the child field
             if (keep_target_value) {
@@ -156,6 +159,7 @@ function getSuccessCallback(target)
         var wrapped_target = $(target);
         var target_id_chunks = wrapped_target.attr('id').split('_');
         var details = custom_field_get_details_by_target(target_id_chunks[2]);
+        var show;
         if (options != null) {
             target.options.length = 0;
             $.each(options, function(key, val) {
