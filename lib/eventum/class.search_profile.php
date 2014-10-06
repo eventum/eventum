@@ -39,7 +39,7 @@ class Search_Profile
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  boolean
      */
-    public function remove($usr_id, $prj_id, $type)
+    public static function remove($usr_id, $prj_id, $type)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile

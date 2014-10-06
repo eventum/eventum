@@ -74,7 +74,7 @@ class Status
      * @param   integer $psd_id The customization entry ID
      * @return  array The details
      */
-    public function getCustomizationDetails($psd_id)
+    public static function getCustomizationDetails($psd_id)
     {
         $stmt = "SELECT
                     *
@@ -98,7 +98,7 @@ class Status
      * @param   array $items The customization entry IDs
      * @return  boolean
      */
-    public function removeCustomization($items)
+    public static function removeCustomization($items)
     {
         $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
@@ -125,7 +125,7 @@ class Status
      * @param   string $label The label that should appear in the issue listing screen
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    public function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
+    public static function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
@@ -155,7 +155,7 @@ class Status
      * @param   string $label The label that should appear in the issue listing screen
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    public function insertCustomization($prj_id, $sta_id, $date_field, $label)
+    public static function insertCustomization($prj_id, $sta_id, $date_field, $label)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
@@ -185,7 +185,7 @@ class Status
      *
      * @return  array The list of available customizations
      */
-    public function getCustomizationList()
+    public static function getCustomizationList()
     {
         $stmt = "SELECT
                     psd_id,
@@ -252,7 +252,7 @@ class Status
      *
      * @return  integer 1 if the insert worked properly, any other value otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
@@ -293,7 +293,7 @@ class Status
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -351,7 +351,7 @@ class Status
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -462,7 +462,7 @@ class Status
      *
      * @return  array The list of statuses
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     *
@@ -577,7 +577,7 @@ class Status
      * @param   array $prj_id List of project IDs
      * @return  array The list of closed-context statuses
      */
-    public function getClosedAbbreviationAssocList($prj_id)
+    public static function getClosedAbbreviationAssocList($prj_id)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -613,7 +613,7 @@ class Status
      * @param   boolean $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
      */
-    public function getAbbreviationAssocList($prj_id, $show_closed)
+    public static function getAbbreviationAssocList($prj_id, $show_closed)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -689,7 +689,7 @@ class Status
      *
      * @return  array The list of statuses
      */
-    public function getAssocList()
+    public static function getAssocList()
     {
         $stmt = "SELECT
                     sta_id,
@@ -716,7 +716,7 @@ class Status
      * @param   integer $prj_id The project ID
      * @return  array The list of statuses
      */
-    public function getClosedAssocList($prj_id)
+    public static function getClosedAssocList($prj_id)
     {
         $stmt = "SELECT
                     sta_id,

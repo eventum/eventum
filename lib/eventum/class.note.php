@@ -47,7 +47,7 @@ class Note
      * @param   integer $not_id The currently selected note ID
      * @return  array The next and previous note ID
      */
-    public function getSideLinks($issue_id, $not_id)
+    public static function getSideLinks($issue_id, $not_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $not_id = Misc::escapeInteger($not_id);
@@ -180,7 +180,7 @@ class Note
      * @param   integer $note_id The note ID
      * @return  string The blocked email message body
      */
-    public function getBlockedMessage($note_id)
+    public static function getBlockedMessage($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -205,7 +205,7 @@ class Note
      * @param   integer $note_id The note ID
      * @return  integer The issue ID
      */
-    public function getIssueID($note_id)
+    public static function getIssueID($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -231,7 +231,7 @@ class Note
      * @param   integer $sequence The sequential number of the note.
      * @return  array An array of data containing details about the note.
      */
-    public function getNoteBySequence($issue_id, $sequence)
+    public static function getNoteBySequence($issue_id, $sequence)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
@@ -447,7 +447,7 @@ class Note
      * @param   boolean $log If this event should be logged or not. Default true
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
      */
-    public function remove($note_id, $log = true)
+    public static function remove($note_id, $log = true)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -503,7 +503,7 @@ class Note
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
-    public function getListing($issue_id)
+    public static function getListing($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -560,7 +560,7 @@ class Note
      * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
      * @return int
      */
-    public function convertNote($note_id, $target, $authorize_sender = false)
+    public static function convertNote($note_id, $target, $authorize_sender = false)
     {
         $note_id = Misc::escapeInteger($note_id);
         $issue_id = self::getIssueID($note_id);

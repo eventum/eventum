@@ -46,7 +46,7 @@ class Group
      *
      * @return integer 1 if successful, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
@@ -82,7 +82,7 @@ class Group
      *
      * @return integer 1 if successful, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -121,7 +121,7 @@ class Group
      * Removes groups
      *
      */
-    public function remove()
+    public static function remove()
     {
         foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
             $users = self::getUsers($grp_id);
@@ -295,7 +295,7 @@ class Group
      *
      * @return  array An array of group information
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     grp_id,
@@ -367,7 +367,7 @@ class Group
      *
      * @return  array List of groups
      */
-    public function getAssocListAllProjects()
+    public static function getAssocListAllProjects()
     {
         $stmt = "SELECT
                     grp_id,

@@ -133,7 +133,7 @@ class Draft
      * @param   integer $parent_id The ID of the email that this draft is replying to, if any
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = false)
+    public static function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $emd_id = Misc::escapeInteger($emd_id);
@@ -171,7 +171,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  boolean
      */
-    public function remove($emd_id)
+    public static function remove($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "UPDATE
@@ -260,7 +260,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  array The email draft details
      */
-    public function getDetails($emd_id)
+    public static function getDetails($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
@@ -295,7 +295,7 @@ class Draft
      * @param   boolean $show_all If all draft statuses should be shown
      * @return  array An array of drafts.
      */
-    public function getList($issue_id, $show_all = false)
+    public static function getList($issue_id, $show_all = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -344,7 +344,7 @@ class Draft
      * @param   integer $emd_id The email draft ID
      * @return  array The list of email recipients
      */
-    public function getEmailRecipients($emd_id)
+    public static function getEmailRecipients($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
@@ -384,7 +384,7 @@ class Draft
      * @param   integer $sequence The sequential number of the draft.
      * @return  array An array of data containing details about the draft.
      */
-    public function getDraftBySequence($issue_id, $sequence)
+    public static function getDraftBySequence($issue_id, $sequence)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
@@ -417,7 +417,7 @@ class Draft
      *
      * @param   integer $draft_id The id of the draft to send.
      */
-    public function send($draft_id)
+    public static function send($draft_id)
     {
         $draft_id = Misc::escapeInteger($draft_id);
         $draft = self::getDetails($draft_id);

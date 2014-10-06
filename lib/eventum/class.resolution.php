@@ -93,7 +93,7 @@ class Resolution
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues before removing the resolution
@@ -130,7 +130,7 @@ class Resolution
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -158,7 +158,7 @@ class Resolution
      * @param   integer $res_id The resolution ID
      * @return  array The details of the resolution
      */
-    public function getDetails($res_id)
+    public static function getDetails($res_id)
     {
         $stmt = "SELECT
                     *
@@ -181,7 +181,7 @@ class Resolution
      *
      * @return  array The list of resolutions
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     res_id,
@@ -208,7 +208,7 @@ class Resolution
      *
      * @return  array The list of resolutions
      */
-    public function getAssocList()
+    public static function getAssocList()
     {
         $stmt = "SELECT
                     res_id,
@@ -234,7 +234,7 @@ class Resolution
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;

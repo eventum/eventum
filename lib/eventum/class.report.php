@@ -52,7 +52,7 @@ class Report
      * @param $sort_order
      * @return  array The list of issues
      */
-    public function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
+    public static function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $ts = time();
@@ -251,7 +251,7 @@ class Report
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    public function getIssuesByUser($prj_id)
+    public static function getIssuesByUser($prj_id)
     {
         $stmt = "SELECT
                     usr_full_name,
@@ -310,7 +310,7 @@ class Report
      * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
-    public function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
+    public static function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
     {
         $usr_id = Misc::escapeInteger($usr_id);
 
@@ -386,7 +386,7 @@ class Report
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    public function getWorkloadByTimePeriod($timezone, $graph = false)
+    public static function getWorkloadByTimePeriod($timezone, $graph = false)
     {
         $stmt = "SELECT
                     count(*) as events,
@@ -475,7 +475,7 @@ class Report
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    public function getEmailWorkloadByTimePeriod($timezone, $graph = false)
+    public static function getEmailWorkloadByTimePeriod($timezone, $graph = false)
     {
         // get total counts
         $stmt = "SELECT
@@ -603,7 +603,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    public function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
+    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -797,7 +797,7 @@ class Report
      * @param   boolean $per_user Show time spent per user
      * @return  array An array of data.
      */
-    public function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
+    public static function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
         $fld_id = Misc::escapeInteger($fld_id);
         $cfo_ids = Misc::escapeInteger($cfo_ids);
@@ -882,7 +882,7 @@ class Report
      * @param   integer $category The category to restrict this report to
      * @return  array An array containing workload data.
      */
-    public function getWorkloadByDateRange($interval, $type, $start, $end, $category)
+    public static function getWorkloadByDateRange($interval, $type, $start, $end, $category)
     {
         $data = array();
         $start = Misc::escapeString($start);

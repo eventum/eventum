@@ -43,7 +43,7 @@ class Category
      * @param   integer $prc_id The category ID
      * @return  array The information about the category provided
      */
-    public function getDetails($prc_id)
+    public static function getDetails($prc_id)
     {
         $stmt = "SELECT
                     *
@@ -91,7 +91,7 @@ class Category
      *
      * @return  boolean Whether the removal worked or not
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -115,7 +115,7 @@ class Category
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -142,7 +142,7 @@ class Category
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;

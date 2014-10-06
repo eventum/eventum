@@ -60,7 +60,7 @@ class Reminder
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    public function changeRank($rem_id, $rank_type)
+    public static function changeRank($rem_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking();
@@ -134,7 +134,7 @@ class Reminder
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    public function getIssueAssocListByProject($prj_id)
+    public static function getIssueAssocListByProject($prj_id)
     {
         $issues = Issue::getAssocListByProject($prj_id);
         foreach ($issues as $iss_id => $iss_summary) {
@@ -150,7 +150,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  string The title of the reminder
      */
-    public function getTitle($rem_id)
+    public static function getTitle($rem_id)
     {
         $stmt = "SELECT
                     rem_title
@@ -174,7 +174,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  integer The project ID
      */
-    public function getProjectID($rem_id)
+    public static function getProjectID($rem_id)
     {
         $stmt = "SELECT
                     rem_prj_id
@@ -198,7 +198,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The details for the specified reminder
      */
-    public function getDetails($rem_id)
+    public static function getDetails($rem_id)
     {
         $stmt = "SELECT
                     *
@@ -541,7 +541,7 @@ class Reminder
      *
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
@@ -606,7 +606,7 @@ class Reminder
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
@@ -667,7 +667,7 @@ class Reminder
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -750,7 +750,7 @@ class Reminder
      *
      * @return  array The list of reminders
      */
-    public function getAdminList()
+    public static function getAdminList()
     {
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "reminder_level.*,
@@ -975,7 +975,7 @@ class Reminder
      * @param   integer $rma_id The reminder action ID
      * @return  string The SQL query
      */
-    public function getSQLQuery($rem_id, $rma_id)
+    public static function getSQLQuery($rem_id, $rma_id)
     {
         $reminder = self::getDetails($rem_id);
         $conditions = Reminder_Condition::getList($rma_id);
@@ -1002,7 +1002,7 @@ class Reminder
      * @param   integer $iss_id The issue ID
      * @return  array The list of triggered reminder actions
      */
-    public function getHistoryList($iss_id)
+    public static function getHistoryList($iss_id)
     {
         $stmt = "SELECT
                     rmh_created_date,

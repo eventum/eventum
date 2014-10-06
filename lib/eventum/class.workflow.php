@@ -35,7 +35,7 @@ class Workflow
      *
      * @return  array An array of workflow backends
      */
-    public function getBackendList()
+    public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/workflow'));
@@ -274,7 +274,7 @@ class Workflow
      * @param   array $email_details Details of the issue
      * @param   string $type What type of blocked email this is.
      */
-    public function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
+    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -294,7 +294,7 @@ class Workflow
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.
      */
-    public function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
+    public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -349,7 +349,7 @@ class Workflow
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      */
-    public function handleManualEmailAssociation($prj_id, $issue_id)
+    public static function handleManualEmailAssociation($prj_id, $issue_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -387,7 +387,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */
-    public function getAllowedStatuses($prj_id, $issue_id = null)
+    public static function getAllowedStatuses($prj_id, $issue_id = null)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -466,9 +466,8 @@ class Workflow
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
-     * @return  void
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public static function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -703,7 +702,7 @@ class Workflow
      * @param   string $page_name The name of the page
      * @return  null
      */
-    public function prePage($prj_id, $page_name)
+    public static function prePage($prj_id, $page_name)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;

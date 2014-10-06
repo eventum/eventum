@@ -102,7 +102,7 @@ class Attachment
      * @param   integer $iaf_id The attachment file ID
      * @return  -1 or -2 if the removal was not successful, 1 otherwise
      */
-    public function removeIndividualFile($iaf_id)
+    public static function removeIndividualFile($iaf_id)
     {
         $usr_id = Auth::getUserID();
         $iaf_id = Misc::escapeInteger($iaf_id);
@@ -156,7 +156,7 @@ class Attachment
      * @param   integer $file_id The attachment ID
      * @return  array The details of the attachment
      */
-    public function getDetails($file_id)
+    public static function getDetails($file_id)
     {
         $file_id = Misc::escapeInteger($file_id);
         $stmt = "SELECT
@@ -221,7 +221,7 @@ class Attachment
      * @param   boolean $add_history whether to add history entry.
      * @return  integer Numeric code used to check for any errors
      */
-    public function remove($iat_id, $add_history = true)
+    public static function remove($iat_id, $add_history = true)
     {
         $iat_id = Misc::escapeInteger($iat_id);
         $usr_id = Auth::getUserID();
@@ -546,7 +546,7 @@ class Attachment
      *
      * @return  string A string containing the formatted max file size.
      */
-    public function getMaxAttachmentSize()
+    public static function getMaxAttachmentSize()
     {
         $size = Misc::return_bytes(ini_get('upload_max_filesize'));
 

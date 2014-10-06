@@ -659,7 +659,7 @@ class Customer_Stats_Report
      *
      * @return  array An array of graph types
      */
-    public function getGraphTypes()
+    public static function getGraphTypes()
     {
         return array(
             1   =>  array(
@@ -705,7 +705,7 @@ class Customer_Stats_Report
      *
      * @return  array An array of sections.
      */
-    public function getDisplaySections()
+    public static function getDisplaySections()
     {
         return array(
             "customer_counts"   =>  ev_gettext("Customer Counts"),

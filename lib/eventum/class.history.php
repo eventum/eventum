@@ -104,7 +104,7 @@ class History
      * @param   string $order_by The order to sort the history
      * @return  array The list of changes
      */
-    public function getListing($iss_id, $order_by = 'DESC')
+    public static function getListing($iss_id, $order_by = 'DESC')
     {
         $stmt = "SELECT
                     *

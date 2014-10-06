@@ -41,7 +41,7 @@ class Link_Filter
      * @param   integer $lfi_id The ID of the link filter to return info about.
      * @return  array An array of information.
      */
-    public function getDetails($lfi_id)
+    public static function getDetails($lfi_id)
     {
         $sql = "SELECT
                     lfi_id,
@@ -83,7 +83,7 @@ class Link_Filter
      *
      * @return array An array of information.
      */
-    public function getList()
+    public static function getList()
     {
         $sql = "SELECT
                     lfi_id,
@@ -131,7 +131,7 @@ class Link_Filter
      *
      * @return integer 1 if insert was successful, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $sql = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -180,7 +180,7 @@ class Link_Filter
      *
      * @return integer 1 if delete was successful, -1 otherwise.
      */
-    public function remove()
+    public static function remove()
     {
         $sql = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -211,7 +211,7 @@ class Link_Filter
      *
      * @return integer 1 if insert was successful, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
@@ -294,7 +294,7 @@ class Link_Filter
      * @param   string $text The text to process
      * @return  string the processed text.
      */
-    public function activateLinks($text)
+    public static function activateLinks($text)
     {
         return self::processText(Auth::getCurrentProject(), $text);
     }

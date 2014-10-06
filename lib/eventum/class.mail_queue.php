@@ -470,7 +470,7 @@ class Mail_Queue
      * @param   integer $issue_is The issue ID
      * @return  array An array of emails from the queue
      */
-    public function getListByIssueID($issue_id)
+    public static function getListByIssueID($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -509,7 +509,7 @@ class Mail_Queue
      * @param   integer $maq_id The id of the mail queue entry.
      * @return  array An array of information
      */
-    public function getEntry($maq_id)
+    public static function getEntry($maq_id)
     {
         $stmt = "SELECT
                     maq_iss_id,
@@ -533,7 +533,7 @@ class Mail_Queue
         }
     }
 
-    public function getMessageRecipients($types, $type_id)
+    public static function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {
             $types = array($types);

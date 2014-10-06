@@ -334,7 +334,7 @@ class Date_Helper
      * @param   integer $weeks_future The number of weeks in the future to include.
      * @return  array An array of weeks.
      */
-    public function getWeekOptions($weeks_past, $weeks_future)
+    public static function getWeekOptions($weeks_past, $weeks_future)
     {
         $options = array();
 
@@ -364,7 +364,7 @@ class Date_Helper
      *
      * @return  string A string containing the current week.
      */
-    public function getCurrentWeek()
+    public static function getCurrentWeek()
     {
         $value_format = "Y-m-d";
         $start = date("U") - (self::DAY * (date("w") - 1));

@@ -44,7 +44,7 @@ class Filter
      * @param   integer $cst_id The custom filter ID
      * @return  boolean
      */
-    public function isGlobal($cst_id)
+    public static function isGlobal($cst_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -75,7 +75,7 @@ class Filter
      * @param   integer $usr_id The user ID
      * @return  boolean
      */
-    public function isOwner($cst_id, $usr_id)
+    public static function isOwner($cst_id, $usr_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -104,7 +104,7 @@ class Filter
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function save()
+    public static function save()
     {
         $cst_id = self::getFilterID($_POST["title"]);
         // loop through all available date fields and prepare the values for the sql query
@@ -331,7 +331,7 @@ class Filter
      *
      * @return  array The full list of custom filters
      */
-    public function getAssocList()
+    public static function getAssocList()
     {
         $stmt = "SELECT
                     cst_id,
@@ -364,7 +364,7 @@ class Filter
      * @param   boolean $build_url If a URL for this filter should be constructed.
      * @return  array The full list of custom filters
      */
-    public function getListing($build_url = false)
+    public static function getListing($build_url = false)
     {
         $stmt = "SELECT
                     *
@@ -509,7 +509,7 @@ class Filter
      * @param   boolean $check_perm Whether to check for the permissions or not
      * @return  array The custom filter details
      */
-    public function getDetails($cst_id, $check_perm = true)
+    public static function getDetails($cst_id, $check_perm = true)
     {
         $stmt = "SELECT
                     *
@@ -542,7 +542,7 @@ class Filter
      *
      * @return  integer 1 if the removals worked properly, any other value otherwise
      */
-    public function remove()
+    public static function remove()
     {
         foreach ($_POST["item"] as $cst_id) {
             $stmt = "DELETE FROM
@@ -603,7 +603,7 @@ class Filter
      * @param   array $options The options array
      * @return array
      */
-    public function getActiveFilters($options)
+    public static function getActiveFilters($options)
     {
         $prj_id = Auth::getCurrentProject();
         $filter_info = self::getFiltersInfo();

@@ -159,7 +159,7 @@ class Misc
      * @param   string $text The text to check the spelling against
      * @return  array Information about the mispelled words, if any
      */
-    public function checkSpelling($text)
+    public static function checkSpelling($text)
     {
         $temptext = tempnam("/tmp", "spelltext");
         if ($fd = fopen($temptext, "w")) {
@@ -614,7 +614,7 @@ class Misc
      * @param   string $file The full path to the directory
      * @return  boolean
      */
-    public function isWritableDirectory($file)
+    public static function isWritableDirectory($file)
     {
         clearstatcache();
         if (!file_exists($file)) {
@@ -660,7 +660,7 @@ class Misc
      * @param   string $text The text to highlight
      * @return  string The highlighted text
      */
-    public function highlightQuotedReply($text)
+    public static function highlightQuotedReply($text)
     {
         require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
 
@@ -674,7 +674,7 @@ class Misc
      * @param   array $errors The list of errors
      * @return  void
      */
-    public function displayRequirementErrors($errors)
+    public static function displayRequirementErrors($errors)
     {
         echo '<html>
 <head>

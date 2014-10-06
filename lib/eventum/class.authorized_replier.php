@@ -98,7 +98,7 @@ class Authorized_Replier
      *
      * @param   integer $iur_id The id of the authorized replier
      */
-    public function removeRepliers($iur_ids)
+    public static function removeRepliers($iur_ids)
     {
         $iur_ids = Misc::escapeInteger($iur_ids);
 
@@ -195,7 +195,7 @@ class Authorized_Replier
      * @param   integer $usr_id The id of the user.
      * @param   boolean $add_history If this should be logged.
      */
-    public function addUser($issue_id, $usr_id, $add_history = true)
+    public static function addUser($issue_id, $usr_id, $add_history = true)
     {
         // don't add customers to this list. They should already be able to send
         if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
@@ -366,7 +366,7 @@ class Authorized_Replier
      * @param   boolean $replier The user ID of the authorized replier
      * @return  integer The status ID
      */
-    public function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
+    public static function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
     {
         $res = self::manualInsert($issue_id, $replier, false);
         if ($res != -1) {

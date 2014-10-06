@@ -49,7 +49,7 @@ class Display_Column
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
-    public function getColumnsToDisplay($prj_id, $page)
+    public static function getColumnsToDisplay($prj_id, $page)
     {
         static $returns;
 
@@ -110,7 +110,7 @@ class Display_Column
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
-    public function getSelectedColumns($prj_id, $page)
+    public static function getSelectedColumns($prj_id, $page)
     {
         static $returns;
 
@@ -246,7 +246,7 @@ class Display_Column
      *
      * @return  integer 1 if settings were saved successfully, -1 if there was an error.
      */
-    public function save()
+    public static function save()
     {
         $page = Misc::escapeString($_REQUEST['page']);
         $prj_id = Misc::escapeInteger($_REQUEST['prj_id']);

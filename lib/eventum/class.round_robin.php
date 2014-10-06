@@ -295,7 +295,7 @@ class Round_Robin
      *
      * @return  integer 1 if the creation worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
@@ -362,7 +362,7 @@ class Round_Robin
      *
      * @return  array The list of round robin entries
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     prr_id,
@@ -425,7 +425,7 @@ class Round_Robin
      * @param   integer $prr_id The round robin entry ID
      * @return  array The round robin entry details
      */
-    public function getDetails($prr_id)
+    public static function getDetails($prr_id)
     {
         $stmt = "SELECT
                     *
@@ -451,7 +451,7 @@ class Round_Robin
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
@@ -511,7 +511,7 @@ class Round_Robin
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
