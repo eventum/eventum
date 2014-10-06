@@ -123,8 +123,7 @@ if (@$_GET['cat'] == 'view_draft') {
 } else {
     if (!@empty($_GET["id"])) {
         $email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
-        $date = Misc::formatReplyDate($email["timestamp"]);
-        $header = Misc::formatReplyPreamble($date, $email["sup_from"]);
+        $header = Misc::formatReplyPreamble($email["timestamp"], $email["sup_from"]);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $tpl->bulkAssign(array(
             "email"           => $email,
@@ -137,8 +136,7 @@ if (@$_GET['cat'] == 'view_draft') {
 if (@$_GET["cat"] == 'reply') {
     $details = Issue::getReplyDetails($_GET['issue_id']);
     if ($details != '') {
-        $date = Misc::formatReplyDate($details['created_date_ts']);
-        $header = Misc::formatReplyPreamble($date, $details['reporter']);
+        $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
         $tpl->bulkAssign(array(

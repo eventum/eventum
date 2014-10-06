@@ -583,7 +583,7 @@ class Misc
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
-    public function formatReply($str)
+    public static function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", "", $str));
         // COMPAT: the next line requires PHP >= 4.0.6
@@ -600,22 +600,11 @@ class Misc
      * @return string
      */
     public static function formatReplyPreamble($date, $sender) {
+        $date = Date_Helper::getFormattedDate($date);
+
         // TRANSLATORS: %1: date, %2: sender
         $line = ev_gettext('On %1$s, %2$s wrote:', $date, $sender);
         return "\n\n\n$line\n>\n";
-    }
-
-    /**
-     * Method used to format a RFC 822 compliant date for the given unix
-     * timestamp.
-     *
-     * @param   integer $ts The unix timestamp
-     * @return  string The formatted date string
-     */
-    public function formatReplyDate($ts)
-    {
-        // On Fri, 01 Apr 2005, 17:07:44 GMT
-        return Date_Helper::getFormattedDate($ts);
     }
 
     /**
