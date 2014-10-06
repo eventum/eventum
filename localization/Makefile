@@ -1,7 +1,7 @@
 # Makefile for Eventum po files.
-# (c) 2007-2011 Elan Ruusamäe <glen@delfi.ee>
+# (c) 2007-2014 Elan Ruusamäe <glen@delfi.ee>
 
-localedir   := /usr/share/locale
+localedir   := .
 DOMAIN      := eventum
 MOFILES     := $(patsubst %.po,%.mo,$(wildcard *.po))
 tsmarty2c   := $(abspath ..)/vendor/bin/tsmarty2c.php
