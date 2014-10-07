@@ -44,7 +44,7 @@ class Routing
      * @param   string $full_message The full email message, including headers
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    function route_emails($full_message)
+    public static function route_emails($full_message)
     {
         // need some validation here
         if (empty($full_message)) {
@@ -229,14 +229,13 @@ class Routing
         return true;
     }
 
-
     /**
      * Routes a note to the correct issue
      *
      * @param   string $full_message The full note
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    function route_notes($full_message)
+    public static function route_notes($full_message)
     {
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
@@ -357,14 +356,13 @@ class Routing
         return true;
     }
 
-
     /**
      * Routes a draft to the correct issue.
      *
      * @param   string $full_message The complete draft.
      * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
-    function route_drafts($full_message)
+    public static function route_drafts($full_message)
     {
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);
@@ -431,6 +429,7 @@ class Routing
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
         History::add($issue_id, Auth::getUserID(), History::getTypeID('draft_routed'), ev_gettext("Draft routed from") . " " . $structure->headers['from']);
+
         return true;
     }
 
@@ -438,10 +437,10 @@ class Routing
      * Check for $adresses for matches
      *
      * @param   mixed   $addresses to check
-     * @param   string  Type of address match to find (email, note, draft)
+     * @param   string  $type Type of address match to find (email, note, draft)
      * @return  int|bool $issue_id in case of match otherwise false
      */
-    function getMatchingIssueIDs($addresses, $type)
+    public static function getMatchingIssueIDs($addresses, $type)
     {
         $setup = Setup::load();
         $settings = $setup["${type}_routing"];
@@ -482,7 +481,7 @@ class Routing
         // everything safely escaped and checked, try matching address
         foreach ($addresses as $address) {
             if (preg_match("/$prefix(\d*)@$mail_domain/i", $address, $matches)) {
-                return (int )$matches[1];
+                return (int) $matches[1];
             }
         }
 

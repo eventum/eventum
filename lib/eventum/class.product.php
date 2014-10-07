@@ -50,12 +50,13 @@ class Product
                     pro_rank";
         $res = DB_Helper::getInstance()->getAll($sql, $data, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return array();
         }
+
         return $res;
     }
-
 
     public static function getAssocList($removed=null)
     {
@@ -64,9 +65,9 @@ class Product
         foreach ($list as $product) {
             $return[$product['pro_id']] = $product['pro_title'];
         }
+
         return $return;
     }
-
 
     public static function insert($title, $version_howto, $rank, $removed)
     {
@@ -84,11 +85,12 @@ class Product
         $res = DB_Helper::getInstance()->query($sql, $data);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return -1;
         }
+
         return 1;
     }
-
 
     public static function update($id, $title, $version_howto, $rank, $removed)
     {
@@ -108,11 +110,12 @@ class Product
         $res = DB_Helper::getInstance()->query($sql, $data);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return -1;
         }
+
         return 1;
     }
-
 
     public static function remove($ids)
     {
@@ -122,12 +125,13 @@ class Product
                     pro_id IN(" . join(', ', Misc::escapeInteger($ids)) . ")";
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
-        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return -1;
         }
+
         return 1;
     }
-
 
     public static function getDetails($pro_id)
     {
@@ -144,18 +148,19 @@ class Product
         $res = DB_Helper::getInstance()->getRow($sql, array($pro_id), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return array();
         }
+
         return $res;
     }
-
 
     public static function getTitle($pro_id)
     {
         $product = self::getDetails($pro_id);
+
         return $product['pro_title'];
     }
-
 
     public static function addIssueProductVersion($issue_id, $pro_id, $version)
     {
@@ -168,12 +173,13 @@ class Product
         $data = array($issue_id, $pro_id, $version);
         $res = DB_Helper::getInstance()->query($sql, $data);
         if (PEAR::isError($res)) {
-        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return false;
         }
+
         return true;
     }
-
 
     public static function getProductsByIssue($issue_id)
     {
@@ -190,12 +196,13 @@ class Product
                     ipv_iss_id = ?";
         $res = DB_Helper::getInstance()->getAll($sql, array($issue_id), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
-        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return array();
         }
+
         return $res;
     }
-
 
     public static function updateProductsByIssue($issue_id, $products, $versions)
     {
@@ -220,11 +227,9 @@ class Product
             }
         }
 
-
         return $changes;
 
     }
-
 
     public static function updateProductAndVersion($ipv_id, $pro_id, $version)
     {
@@ -247,8 +252,10 @@ class Product
         $res = DB_Helper::getInstance()->query($sql, $data);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return false;
         }
+
         return true;
     }
 }

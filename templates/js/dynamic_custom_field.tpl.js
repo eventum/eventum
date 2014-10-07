@@ -179,9 +179,9 @@ function getSuccessCallback(target)
 function custom_field_change_visibility(target, show)
 {
     if (show == false) {
-        target.parentNode.parentNode.style.display = 'none';
+        $(target.parentNode.parentNode).hide();
     } else {
-        target.parentNode.parentNode.style.display = getDisplayStyle();
+        $(target.parentNode.parentNode).show();
     }
 }
 {/literal}

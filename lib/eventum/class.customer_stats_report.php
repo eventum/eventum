@@ -43,63 +43,62 @@ class Customer_Stats_Report
      * The ID of the project this report is for.
      * @var integer
      */
-    var $prj_id;
+    public $prj_id;
 
     /**
      * Support Levels to show
      * @var array
      */
-    var $levels;
+    public $levels;
 
     /**
      * Customers to display stats for
      * @var array
      */
-    var $customers;
+    public $customers;
 
     /**
      * Start date of the report
      * @var string
      */
-    var $start_date;
+    public $start_date;
 
     /**
      * End date of the report
      * @var string
      */
-    var $end_date;
+    public $end_date;
 
     /**
      * The current customer restriction
      * @var array
      */
-    var $current_customers;
+    public $current_customers;
 
     /**
      * If expired contracts should be excluded.
      * @var boolean
      */
-    var $exclude_expired_contracts;
+    public $exclude_expired_contracts;
 
     /**
      * An array listing the union of time tracking categories that have data.
      * @var array
      */
-    var $time_tracking_categories = array();
+    public $time_tracking_categories = array();
 
     /**
      * Class Constructor. Accepts the support level, customer,
      * start date and end date to be used in this report. If a customer is
      * specified the support level is ignored. If the date is left off or invalid all dates are included.
      *
-     * @access  public
      * @param   integer $prj_id The id of the project this report is for.
      * @param   array $levels The support levels that should be shown in this report.
      * @param   array $customers The customers this report should be for.
      * @param   string $start_date The start date of this report.
      * @param   string $end_date The end date of this report.
      */
-    function Customer_Stats_Report($prj_id, $levels, $customers, $start_date, $end_date)
+    public function Customer_Stats_Report($prj_id, $levels, $customers, $start_date, $end_date)
     {
         $this->prj_id = $prj_id;
         $this->levels = $levels;
@@ -108,14 +107,12 @@ class Customer_Stats_Report
         $this->end_date = $end_date;
     }
 
-
     /**
      * Returns all data for this report.
      *
-     * @access  public
      * @return  array
      */
-    function getData()
+    public function getData()
     {
         $data = array();
         $crm = CRM::getInstance($this->prj_id);
@@ -155,7 +152,6 @@ class Customer_Stats_Report
         return $data;
     }
 
-
     /**
      * Returns data row for specified name and customers.
      *
@@ -163,9 +159,10 @@ class Customer_Stats_Report
      * @param   string  $customers  Customers to include in this row.
      * @return  array   An array of data.
      */
-    function getDataRow($name, $customers)
+    public function getDataRow($name, $customers)
     {
         $this->current_customers = $customers;
+
         return array(
             "title" =>  $name,
             "customer_counts"   =>  $this->getCustomerCounts($name),
@@ -176,15 +173,13 @@ class Customer_Stats_Report
         );
     }
 
-
     /**
      * Returns the "all" row, that is the row that always appears at the top of the report
      * and covers all support levels and customers regardless of what is selected.
      *
-     * @access  private
      * @return  array The array of data for this row.
      */
-    function getAllRow()
+    private function getAllRow()
     {
         $crm = CRM::getInstance($this->prj_id);
         $row = array(
@@ -223,15 +218,13 @@ class Customer_Stats_Report
         return $row;
     }
 
-
     /**
      * Returns various customer statistics.
      *
-     * @access  private
      * @param   string $name The name of this data row.
      * @return  array Array of statistics
      */
-    function getCustomerCounts($name)
+    private function getCustomerCounts($name)
     {
         $customer_count = count($this->current_customers);
 
@@ -270,18 +263,16 @@ class Customer_Stats_Report
         );
     }
 
-
     /**
      * Returns the counts relating to number of issues.
      *  - total: total number of issues for the support level.
      *  - avg: Average number of issues opened by customers for support level.
      *  - median: Median number of issues opened by customers for support level.
      *
-     * @access  private
      * @param   string $name The name of this data row.
      * @return  array Array of counts.
      */
-    function getIssueCounts($name)
+    private function getIssueCounts($name)
     {
         $issue_counts = $this->getIssueCountsByCustomer($name);
         if ((is_array($issue_counts)) && (count($issue_counts) > 0)) {
@@ -307,10 +298,9 @@ class Customer_Stats_Report
     /**
      * Returns an array of issue counts for customers.
      *
-     * @access  private
      * @param   string $name The name of this data row.
      */
-    function getIssueCountsByCustomer($name)
+    private function getIssueCountsByCustomer($name)
     {
         static $issue_counts;
 
@@ -330,20 +320,20 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
         $issue_counts[$name] = $res;
+
         return $res;
     }
-
 
     /**
      * Returns the counts relating to # of customer and developer emails.
      *
-     * @access  public
      * @return  array Array of counts.
      */
-    function getEmailCounts()
+    public function getEmailCounts()
     {
         $counts = array(
             "customer"  =>  array(),
@@ -368,6 +358,7 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -403,6 +394,7 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         if (count($res) > 0) {
@@ -421,14 +413,12 @@ class Customer_Stats_Report
         return $counts;
     }
 
-
     /**
      * Returns information from time tracking module, split by category
      *
-     * @access  private
      * @return  array Array of counts.
      */
-    function getTimeTracking()
+    private function getTimeTracking()
     {
         $time = array();
 
@@ -438,7 +428,7 @@ class Customer_Stats_Report
         $this->time_tracking_categories[0] = "Total";
 
         // get categories
-        $categories = Time_Tracking::getAssocCategories();
+        $categories = Time_Tracking::getAssocCategories($this->prj_id);
         foreach ($categories as $ttc_id => $category) {
             $individual = $this->getIndividualTimeTracking($ttc_id);
             if (count($individual) > 0) {
@@ -452,15 +442,13 @@ class Customer_Stats_Report
         return $time;
     }
 
-
     /**
      * Returns time tracking information for a certain category, or all categories if no category is passed.
      *
-     * @access  public
-     * @param   $ttc_id The id of the time tracking category. Default false
+     * @param   int $ttc_id The id of the time tracking category. Default false
      * @return  array Array of time tracking information
      */
-    function getIndividualTimeTracking($ttc_id = false)
+    public function getIndividualTimeTracking($ttc_id = false)
     {
         $stmt = "SELECT
                     ttr_time_spent
@@ -476,6 +464,7 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         if (count($res) > 0) {
@@ -484,6 +473,7 @@ class Customer_Stats_Report
             $total = $stats->sum();
             $avg = $stats->mean();
             $median = $stats->median();
+
             return array(
                 "total" =>  $total,
                 "total_formatted"   =>  Misc::getFormattedTime($total, true),
@@ -497,14 +487,12 @@ class Customer_Stats_Report
         }
     }
 
-
     /**
      * Returns information about time to close and time to first response.
      *
-     * @access  private
      * @return  array Array of counts.
      */
-    function getTimeStats()
+    private function getTimeStats()
     {
         // time to close
         $stmt = "SELECT
@@ -517,6 +505,7 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         if (count($res) > 0) {
@@ -557,6 +546,7 @@ class Customer_Stats_Report
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         if (count($res) > 0) {
@@ -592,29 +582,25 @@ class Customer_Stats_Report
         );
     }
 
-
     /**
      * Returns if this report is customer based
      *
      * @return  boolean
      */
-    function isCustomerBased()
+    public function isCustomerBased()
     {
         return ((is_array($this->customers)) && (count($this->customers) > 0) && (!in_array("", $this->customers)));
     }
 
-
     /**
      * Sets if expired contracts should be exclude
      *
-     * @access  public
      * @param   boolean $split If expired contracts should be excluded
      */
-    function excludeExpired($exclude)
+    public function excludeExpired($exclude)
     {
         $this->exclude_expired_contracts = $exclude;
     }
-
 
     /**
      * Returns where clause based on what the current support level/customer is set to, and date range currently set.
@@ -624,7 +610,7 @@ class Customer_Stats_Report
      * @param   mixed $date_field The name of the date field
      * @return  string A string with the SQL limiting the resultset
      */
-    function getWhereClause($customer_field, $date_field)
+    public function getWhereClause($customer_field, $date_field)
     {
         $where = '';
         if (!empty($customer_field)) {
@@ -635,7 +621,6 @@ class Customer_Stats_Report
                 $where .= "1 = 2";
             }
         }
-
 
         if ((!empty($this->start_date)) && (!empty($this->end_date))) {
             if (!empty($customer_field)) {
@@ -651,17 +636,16 @@ class Customer_Stats_Report
                 $where .= "($date_field BETWEEN '" . $this->start_date . "' AND '" . $this->end_date . "')";
             }
         }
+
         return $where;
     }
-
 
     /**
      * Returns the text for the row label. Will be "Support Level" if viewing support levels and "Customer" if viewing a specific customer.
      *
-     * @access  public
      * @return  string The text for the row label.
      */
-    function getRowLabel()
+    public function getRowLabel()
     {
         if ($this->isCustomerBased()) {
             return ev_gettext("Customer");
@@ -670,14 +654,12 @@ class Customer_Stats_Report
         }
     }
 
-
     /**
      * Returns an array of graph types
      *
-     * @access  public
      * @return  array An array of graph types
      */
-    function getGraphTypes()
+    public function getGraphTypes()
     {
         return array(
             1   =>  array(
@@ -718,14 +700,12 @@ class Customer_Stats_Report
         );
     }
 
-
     /**
      * Returns the list of sections that can be displayed.
      *
-     * @access  public
      * @return  array An array of sections.
      */
-    function getDisplaySections()
+    public function getDisplaySections()
     {
         return array(
             "customer_counts"   =>  ev_gettext("Customer Counts"),
@@ -739,10 +719,9 @@ class Customer_Stats_Report
     /**
      * Returns the list of time tracking categories that have data.
      *
-     * @access  public
      * @return  array An array of time tracking categories
      */
-    function getTimeTrackingCategories()
+    public function getTimeTrackingCategories()
     {
         return $this->time_tracking_categories;
     }

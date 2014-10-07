@@ -68,14 +68,14 @@ if (@$_GET["cat"] == "edit") {
     $tpl->assign(array(
         "info"        => $details,
         'project_id'  => $details['psd_prj_id'],
-        'status_list' => Status::getAssocStatusList($details['psd_prj_id'], TRUE)
+        'status_list' => Status::getAssocStatusList($details['psd_prj_id'], true)
     ));
 }
 
 $display_customer_fields = false;
 @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
 if (!empty($prj_id)) {
-    $tpl->assign("status_list", Status::getAssocStatusList($prj_id, TRUE));
+    $tpl->assign("status_list", Status::getAssocStatusList($prj_id, true));
     $tpl->assign('project_id', $prj_id);
     $display_customer_fields = CRM::hasCustomerIntegration($prj_id);
 }

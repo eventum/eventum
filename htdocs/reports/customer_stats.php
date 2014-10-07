@@ -108,7 +108,6 @@ foreach ($_POST["display_sections"] as $section) {
 }
 $tpl->assign("display", $display);
 
-
 if (@$_POST["cat"] == "Generate") {
 
     if ($start_date == "0000-00-00") {
@@ -162,17 +161,19 @@ function formatValue($value, $all_value, $round_places = false, $alternate_value
 
     if ($all_value < $compare_value) {
         $color = "red";
-    } else if ($all_value > $compare_value)  {
+    } elseif ($all_value > $compare_value) {
         $color = "blue";
     } else {
         if (is_int($round_places)) {
             $value = round($value, $round_places);
         }
+
         return $value;
     }
     if (is_int($round_places)) {
         $value = round($value, $round_places);
     }
+
     return "<span style=\"color: $color\">$value</span>";
 }
 

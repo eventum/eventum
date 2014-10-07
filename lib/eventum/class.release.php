@@ -41,11 +41,10 @@ class Release
     /**
      * Method used to check whether a release is assignable or not.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  boolean
      */
-    function isAssignable($pre_id)
+    public static function isAssignable($pre_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -57,6 +56,7 @@ class Release
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if ($res == 0) {
@@ -67,15 +67,13 @@ class Release
         }
     }
 
-
     /**
      * Method used to get the details of a specific release.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  array The details of the release
      */
-    function getDetails($pre_id)
+    public static function getDetails($pre_id)
     {
         $stmt = "SELECT
                     *,
@@ -88,21 +86,20 @@ class Release
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the title of a specific release.
      *
-     * @access  public
      * @param   integer $pre_id The release ID
      * @return  string The title of the release
      */
-    function getTitle($pre_id)
+    public static function getTitle($pre_id)
     {
         $stmt = "SELECT
                     pre_title
@@ -113,22 +110,21 @@ class Release
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to remove all releases associated with a specific
      * set of projects.
      *
-     * @access  public
      * @param   array $ids The list of projects
      * @return  boolean
      */
-    function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -138,21 +134,20 @@ class Release
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to remove releases by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues that are using this release
@@ -165,6 +160,7 @@ class Release
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $stmt = "DELETE FROM
@@ -174,6 +170,7 @@ class Release
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 return true;
@@ -181,15 +178,13 @@ class Release
         }
     }
 
-
     /**
      * Method used to update the release by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -207,21 +202,20 @@ class Release
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
 
-
     /**
      * Method used to add a new release by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -243,22 +237,21 @@ class Release
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
 
-
     /**
      * Method used to get the list of releases associated with a
      * specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of releases
      */
-    function getList($prj_id)
+    public function getList($prj_id)
     {
         $stmt = "SELECT
                     pre_id,
@@ -274,23 +267,22 @@ class Release
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get a list as an associative array of the
      * releases.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   boolean $show_all_dates If true all releases, not just those with future dates will be returned
      * @return  array The list of releases
      */
-    function getAssocList($prj_id, $show_all_dates = false)
+    public static function getAssocList($prj_id, $show_all_dates = false)
     {
         $stmt = "SELECT
                     pre_id,
@@ -312,6 +304,7 @@ class Release
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;

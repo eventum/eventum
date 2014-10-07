@@ -81,8 +81,9 @@ function showAllDrafts(thisBox)
     </div>
     {if $core.current_role > $core.roles.reporter}
     <div class="buttons">
-      <input type="button" value="{t}Create Draft{/t}" onClick="createDraft({$smarty.get.id|intval});"></td>
-      <div class="right">
+      <div class="left buttons_div">&nbsp;</div>
+      <input type="button" value="{t}Create Draft{/t}" onClick="createDraft({$smarty.get.id|intval});">
+      <div class="right buttons_div">
         <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.cookies.show_all_drafts|default:0 == 1}checked{/if} onClick="showAllDrafts(this)"><label for="show_all_drafts">{t}Show All Drafts{/t}</label>
       </div>
     </div>

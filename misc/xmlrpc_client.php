@@ -37,7 +37,7 @@ $client->setDebug(true);
 $id = 64;
 
 try {
-    $result = $client->getIssueDetails((int )$id);
+    $result = $client->getIssueDetails((int) $id);
 } catch (Eventum_RPC_Exception $e) {
     echo $e->getMessage(), "\n";
     echo $e->getTraceAsString(), "\n";

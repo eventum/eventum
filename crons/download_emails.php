@@ -44,7 +44,8 @@ define('SAPI_CLI', 'cli' == php_sapi_name());
  * - for CLI output is displayed to STDOUT,
  * - for Web newlines are converted to HTML linebreaks.
  */
-function msg() {
+function msg()
+{
     $args = func_get_args();
     // let messages be newline terminated
     $args[] = "";
@@ -65,7 +66,8 @@ function msg() {
  * - for CLI output is displayed to STDERR,
  * - for Web newlines are converted to HTML linebreaks.
  */
-function fatal() {
+function fatal()
+{
     $args = func_get_args();
     // let messages be newline terminated
     $args[] = "";
@@ -89,7 +91,8 @@ function fatal() {
  *
  * @return  array   $config
  */
-function getParams() {
+function getParams()
+{
     // some defaults,
     $config = array(
         'fix-lock' => false,
@@ -122,6 +125,7 @@ function getParams() {
             }
         }
     }
+
     return $config;
 }
 
@@ -213,7 +217,8 @@ if (!Lock::acquire('download_emails_' . $account_id)) {
 }
 
 // clear the lock in all cases of termination
-function cleanup_lock() {
+function cleanup_lock()
+{
     global $account_id;
     Lock::release('download_emails_' . $account_id);
 }

@@ -43,19 +43,20 @@ if (!$res) {
 }
 
 if (copy(APP_PATH . "/setup.conf.php", APP_CONFIG_PATH . "/setup.php") == false) {
-	echo "Unable to copy '" . APP_PATH . "/setup.conf.php' to '" .APP_CONFIG_PATH . "/setup.php'";
-	exit(1);
+    echo "Unable to copy '" . APP_PATH . "/setup.conf.php' to '" .APP_CONFIG_PATH . "/setup.php'";
+    exit(1);
 }
 if (copy(APP_PATH . "/include/private_key.php", APP_CONFIG_PATH . "/private_key.php") == false) {
-	echo "Unable to copy '" . APP_PATH . "/include/private_key.php' to '" .APP_CONFIG_PATH . "/private_key.php'";
-	exit(1);
+    echo "Unable to copy '" . APP_PATH . "/include/private_key.php' to '" .APP_CONFIG_PATH . "/private_key.php'";
+    exit(1);
 }
 
 function get_old_value($name)
 {
-    GLOBAL $old_config;
+    global $old_config;
 
     preg_match("/@?define\(\"" . $name . "\", (.*)\);/", $old_config, $matches);
+
     return trim($matches[1], '"');
 }
 

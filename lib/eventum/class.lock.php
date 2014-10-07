@@ -33,7 +33,6 @@ class Lock
     /**
      * Creates a lock file for the given name.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @param   bool $check If we should check if the process exists in addition to check for a lock file
      * @return  boolean
@@ -42,21 +41,21 @@ class Lock
     {
         $pid = self::getProcessID($name);
         if (!empty($pid)) {
-    	    // Test asks us to check if the process is still running
+            // Test asks us to check if the process is still running
             if ($check) {
-                $exists = true;
                 if (function_exists('posix_kill')) {
                     $exists = posix_kill($pid, 0);
                 } else {
                     $retval = 0;
                     $out = array();
-                    $discard = exec('kill -s 0 ' . $pid, $out, $retval);
+                    exec('kill -s 0 ' . $pid, $out, $retval);
                     $exists = $retval == 0;
                 }
                 if ($exists) {
                     return false;
                 }
             }
+
             return false;
         }
 
@@ -66,15 +65,14 @@ class Lock
         fwrite($fp, getmypid());
         flock($fp, LOCK_UN);
         fclose($fp);
+
         return true;
     }
-
 
     /**
      * Removes the process file to allow other instances of this
      * script to run.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @return  boolean
      */
@@ -84,15 +82,14 @@ class Lock
         if (file_exists($pid_file)) {
             return unlink($pid_file);
         }
+
         return false;
     }
-
 
     /**
      * Returns the full path to the file that keeps the process
      * ID of the running script.
      *
-     * @access  private
      * @param   string $name The name of this lock file
      * @return  string The full path of the process file
      */
@@ -101,11 +98,9 @@ class Lock
         return APP_LOCKS_PATH . '/'. $name . '.pid';
     }
 
-
     /**
      * Returns the process ID of the script, if any.
      *
-     * @access  public
      * @param   string $name The name of this lock file
      * @return  integer The process ID of the script
      */
@@ -123,6 +118,7 @@ class Lock
             return 0;
         } else {
             $pids[$name] = trim(file_get_contents($pid_file));
+
             return $pids[$name];
         }
     }

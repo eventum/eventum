@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../init.php';
 $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
 $res = DB_Helper::getInstance()->getOne($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 $new_usr_id = $res;
@@ -12,7 +12,7 @@ $new_usr_id = $res;
 $stmt = "UPDATE eventum_user SET usr_id = $new_usr_id WHERE usr_id = 1";
 $res = DB_Helper::getInstance()->query($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -36,7 +36,7 @@ $fixes = array(
 foreach ($fixes as $stmt) {
     $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 }
@@ -63,6 +63,6 @@ $stmt = "INSERT INTO
          )";
 $res = DB_Helper::getInstance()->query($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }

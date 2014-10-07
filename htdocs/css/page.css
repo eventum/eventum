@@ -202,6 +202,7 @@ body.issue_view div#issue_overview div.buttons1 {
     padding: .3em;
     clear: both;
     border-top: #FFFFFF 1px solid;
+    text-align: center;
 }
 
 body#issue_view div#issue_overview div.buttons2 {
@@ -248,7 +249,22 @@ body#issue_view div#custom_fields div.content th {
     width: 200px;
 }
 
+body#issue_view #drafts .buttons_div {
+    width: 200px;
+    text-align: right;
+}
+
 /* End View Issue Page */
+
+/* Begin Issue Update Page */
+body#issue_update #page_locked {
+    background: #FFFF00;
+    padding: 6px;
+    border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+/* End Issue Update Page */
 
 /* Begin List issue page */
 body#list_issues div#quick_filter {

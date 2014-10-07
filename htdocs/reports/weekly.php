@@ -46,7 +46,7 @@ if (count(@$_POST["start"]) > 0 &&
         (@$_POST["start"]["Month"] != 0) &&
         (@$_POST["start"]["Day"] != 0)) {
     $start_date = join("-", $_POST["start"]);
-} else if (!empty($_GET['start_date'])) {
+} elseif (!empty($_GET['start_date'])) {
     $start_date = $_GET['start_date'];
 }
 
@@ -55,7 +55,7 @@ if (count(@$_POST["end"]) > 0 &&
         (@$_POST["end"]["Month"] != 0) &&
         (@$_POST["end"]["Day"] != 0)) {
     $end_date = join("-", $_POST["end"]);
-} else if (!empty($_GET['end_date'])) {
+} elseif (!empty($_GET['end_date'])) {
     $end_date = $_GET['end_date'];
 }
 
@@ -77,7 +77,7 @@ if (!empty($_REQUEST["developer"])) {
     }
 
     // print out emails
-    $data = Report::getWeeklyReport($_REQUEST["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses']);
+    $data = Report::getWeeklyReport($_REQUEST["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses'], @$_REQUEST['separate_not_assigned_to_user']);
     // order issues by time spent on them
     if (isset($_REQUEST['show_per_issue'])) {
         $sort_function = create_function('$a,$b', 'if ($a["it_spent"] == $b["it_spent"]) {return 0;} return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;');

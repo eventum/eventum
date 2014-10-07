@@ -43,12 +43,11 @@ class Note
      * Returns the next and previous notes associated with the given issue ID
      * and the currently selected note.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $not_id The currently selected note ID
      * @return  array The next and previous note ID
      */
-    function getSideLinks($issue_id, $not_id)
+    public function getSideLinks($issue_id, $not_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $not_id = Misc::escapeInteger($not_id);
@@ -64,6 +63,7 @@ class Note
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // COMPAT: the next line requires PHP >= 4.0.5
@@ -74,6 +74,7 @@ class Note
             if (!empty($res[$index-1])) {
                 $previous = $res[$index-1];
             }
+
             return array(
                 "next"     => @$next,
                 "previous" => @$previous
@@ -81,15 +82,13 @@ class Note
         }
     }
 
-
     /**
      * Retrieves the details about a given note.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  array The note details
      */
-    function getDetails($note_id)
+    public static function getDetails($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -105,6 +104,7 @@ class Note
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             if (count($res) > 0) {
@@ -123,6 +123,7 @@ class Note
                 if ($res['not_has_attachment']) {
                     $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
                 }
+
                 return $res;
             } else {
                 return '';
@@ -130,14 +131,13 @@ class Note
         }
     }
 
-
     /**
      * Returns the sequensial note identification number for the given issue.
      * This is only for display purposes, but has become relied upon by users
      * as a valid reference number.  It is simply a sequence, starting with the
      * first note created as #1, and each increasing by 1 there after.
      */
-    function getNoteSequenceNumber($issue_id, $note_id)
+    public static function getNoteSequenceNumber($issue_id, $note_id)
     {
         static $issue_note_numbers;
 
@@ -157,6 +157,7 @@ class Note
         $res = DB_Helper::getInstance()->getAll($stmt,  DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
@@ -173,15 +174,13 @@ class Note
         return '#';
     }
 
-
     /**
      * Returns the blocked email message body associated with the given note ID.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  string The blocked email message body
      */
-    function getBlockedMessage($note_id)
+    public function getBlockedMessage($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -193,21 +192,20 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Returns the issue ID associated with the given note ID.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  integer The issue ID
      */
-    function getIssueID($note_id)
+    public function getIssueID($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -219,22 +217,21 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Returns the nth note for the specific issue. Sequence starts at 1.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the note.
      * @return  array An array of data containing details about the note.
      */
-    function getNoteBySequence($issue_id, $sequence)
+    public function getNoteBySequence($issue_id, $sequence)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
@@ -247,24 +244,23 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC
-                LIMIT " . ($sequence - 1) . ", 1";
+                LIMIT 1 OFFSET " . ($sequence - 1);
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return self::getDetails($res);
         }
     }
 
-
     /**
      * Method used to get the unknown_user from the note table for the specified note id.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      */
-    function getUnknownUser($note_id)
+    public function getUnknownUser($note_id)
     {
         $note_id = Misc::escapeInteger($note_id);
         $sql = "SELECT
@@ -276,20 +272,19 @@ class Note
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to save the routed note into a backup directory.
      *
-     * @access  public
      * @param   string $message The full body of the note
      */
-    function saveRoutedNote($message)
+    public static function saveRoutedNote($message)
     {
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
@@ -301,7 +296,6 @@ class Note
         chmod($file, 0644);
     }
 
-
     /**
      * Method used to add a note using the user interface form
      * available in the application.
@@ -312,10 +306,9 @@ class Note
      * @param   boolean $log If adding this note should be logged. Default true.
      * @param   boolean $closing If The issue is being closed. Default false
      * @param   boolean $send_notification Whether to send a notification about this note or not
-     * @access  public
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
-    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
+    public static function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
@@ -398,6 +391,7 @@ class Note
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_note_id = DB_Helper::get_last_insert_id();
@@ -422,16 +416,14 @@ class Note
         }
     }
 
-
     /**
      * Method used to remove all notes associated with a specific set
      * of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
@@ -441,22 +433,21 @@ class Note
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to remove a specific note from the application.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @param   boolean $log If this event should be logged or not. Default true
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
      */
-    function remove($note_id, $log = true)
+    public function remove($note_id, $log = true)
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
@@ -481,6 +472,7 @@ class Note
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // also remove any internal-only files associated with this note
@@ -499,20 +491,19 @@ class Note
                 // need to save a history entry for this
                 History::add($details['not_iss_id'], Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to get the full listing of notes associated with
      * a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
-    function getListing($issue_id)
+    public function getListing($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -536,6 +527,7 @@ class Note
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // only show the internal notes for users with the appropriate permission level
@@ -555,21 +547,20 @@ class Note
                 $res[$i]["not_created_date"] = Date_Helper::getFormattedDate($res[$i]["not_created_date"]);
                 $t[] = $res[$i];
             }
+
             return $t;
         }
     }
 
-
     /**
      * Converts a note to a draft or an email
      *
-     * @access  public
      * @param   $note_id The id of the note
      * @param   $target What the note should be converted too
      * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
      * @return int
      */
-    function convertNote($note_id, $target, $authorize_sender = false)
+    public function convertNote($note_id, $target, $authorize_sender = false)
     {
         $note_id = Misc::escapeInteger($note_id);
         $issue_id = self::getIssueID($note_id);
@@ -641,6 +632,7 @@ class Note
                     Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
                 }
             }
+
             return $res;
         } else {
             // save message as a draft
@@ -656,21 +648,20 @@ class Note
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
                         "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
             }
+
             return $res;
         }
     }
 
-
     /**
      * Returns the number of notes by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date
      * @return  integer The number of notes by the user
      */
-    function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     COUNT(not_id)
@@ -686,21 +677,20 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to mark a note as having attachments associated with it.
      *
-     * @access  public
      * @param   integer $note_id The note ID
      * @return  boolean
      */
-    function setAttachmentFlag($note_id)
+    public static function setAttachmentFlag($note_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
@@ -711,21 +701,20 @@ class Note
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Returns the total number of notes associated to the given issue ID.
      *
-     * @access  public
      * @param   string $issue_id The issue ID
      * @return  integer The number of notes
      */
-    function getTotalNotesByIssue($issue_id)
+    public function getTotalNotesByIssue($issue_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -737,22 +726,21 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the issue ID associated with a given note
      * message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
-    function getIssueByMessageID($message_id)
+    public static function getIssueByMessageID($message_id)
     {
         $stmt = "SELECT
                     not_iss_id
@@ -763,21 +751,20 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Returns the message-id of the parent note.
      *
-     * @access  public
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent note or false
      */
-    function getParentMessageIDbyMessageID($msg_id)
+    public function getParentMessageIDbyMessageID($msg_id)
     {
         $sql = "SELECT
                     parent.not_message_id
@@ -790,26 +777,26 @@ class Note
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
                 return false;
             }
+
             return $res;
         }
 
     }
 
-
     /**
      * Method used to get the note ID associated with a given note
      * message-id.
      *
-     * @access  public
      * @param   string $message_id The message ID
      * @return  integer The note ID
      */
-    function getIDByMessageID($message_id)
+    public static function getIDByMessageID($message_id)
     {
         $stmt = "SELECT
                     not_id
@@ -820,6 +807,7 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
@@ -830,16 +818,14 @@ class Note
         }
     }
 
-
     /**
      * Method used to get the message-ID associated with a given note
      * id.
      *
-     * @access  public
      * @param   integer $id The ID
      * @return  string The Message-ID
      */
-    function getMessageIDbyID($id)
+    public static function getMessageIDbyID($id)
     {
         $stmt = "SELECT
                     not_message_id
@@ -850,6 +836,7 @@ class Note
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if (empty($res)) {
@@ -860,15 +847,13 @@ class Note
         }
     }
 
-
     /**
      * Checks if a message already is downloaded..
      *
-     * @access  public
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
-    function exists($message_id)
+    public static function exists($message_id)
     {
         $sql = "SELECT
                     count(*)
@@ -879,6 +864,7 @@ class Note
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
         if ($res > 0) {

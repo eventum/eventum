@@ -318,13 +318,29 @@ function disableAuthFields(bool)
             <hr size="1" noshade color="#000000">
           </td>
         </tr>
+
+        {if $default_timezone == 'UTC'}
+        <tr>
+          <td colspan="2">
+            <b>{t}Note:{/t}</b><br>
+
+              {t}You may help Eventum installer to figure out timezone if you configure PHP timezone parameters first:{/t}
+
+              <pre>$ php -r 'echo "date.timezone = ", @date_default_timezone_get(), "\n";' | sudo tee -a /etc/php.ini
+              </pre>
+
+              {t}if <tt>php.ini</tt> path is different, get proper filename from <tt>php --ini</tt> command output.{/t}
+          </td>
+        </tr>
+        {/if}
+
         <tr>
           <td width="100" align="right" valign="top">
             <b>{t}Timezone{/t}:</b>
           </td>
           <td width="80%">
             <select name="default_timezone">
-              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone|default:''}
+              {html_options values=$zones output=$zones selected=$smarty.post.default_timezone|default:$default_timezone}
             </select><br/>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="default_timezone"}
           </td>
@@ -334,8 +350,8 @@ function disableAuthFields(bool)
             <b>{t}Week starts on:{/t}</b>
           </td>
           <td width="80%">
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
-            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:'' == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:$default_weekday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="default_weekday" {if $smarty.post.default_weekday|default:$default_weekday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
           </td>
         </tr>
         </tr>

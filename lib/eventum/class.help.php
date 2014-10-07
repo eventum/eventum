@@ -39,8 +39,9 @@
 
 class Help
 {
-    static private $topics;
-    private static function getTopics() {
+    private static $topics;
+    private static function getTopics()
+    {
         if (self::$topics !== null) {
             return self::$topics;
         }
@@ -148,6 +149,7 @@ class Help
                 "parent" => "main"
             ),
         );
+
         return self::$topics;
     }
 
@@ -157,11 +159,10 @@ class Help
      * if a requested topic exists, and to show a default one
      * otherwise.
      *
-     * @access  public
      * @param   string $topic The topic title to check for
      * @return  boolean Whether the topic exists or not
      */
-    function topicExists($topic)
+    public function topicExists($topic)
     {
         $topics = self::getTopics();
 
@@ -172,16 +173,14 @@ class Help
         }
     }
 
-
     /**
      * Method used to get the parent help documentation topic
      * associated with a specific topic title.
      *
-     * @access  public
      * @param   string $topic The topic title
      * @return  array The information related to the parent help topic
      */
-    function getParent($topic)
+    public function getParent($topic)
     {
         $topics = self::getTopics();
 
@@ -196,16 +195,14 @@ class Help
         }
     }
 
-
     /**
      * Method used to get all the help topics related to a specific
      * 'parent' one.
      *
-     * @access  public
      * @param   string $topic The 'parent' help topic
      * @return  array The list of help topics
      */
-    function getChildLinks($topic)
+    public function getChildLinks($topic)
     {
         $topics = self::getTopics();
 
@@ -225,16 +222,14 @@ class Help
         }
     }
 
-
     /**
      * Method used to get all of the navigation links related to a
      * specific help topic.
      *
-     * @access  public
      * @param   string $topic The topic title
      * @return  array The list of navigation links
      */
-    function getNavigationLinks($topic)
+    public function getNavigationLinks($topic)
     {
         $topics = self::getTopics();
 
@@ -251,6 +246,7 @@ class Help
             $topic = $parent["topic"];
         }
         $links = array_reverse($links);
+
         return $links;
     }
 }

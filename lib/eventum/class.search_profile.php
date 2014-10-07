@@ -34,13 +34,12 @@ class Search_Profile
      * Method used to remove the search profile record for this user,
      * for the specified project and profile type.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  boolean
      */
-    function remove($usr_id, $prj_id, $type)
+    public function remove($usr_id, $prj_id, $type)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
@@ -51,24 +50,23 @@ class Search_Profile
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to retrieve a search profile record for this user,
      * for the specified project and profile type.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  array The user's search profile
      */
-    function getProfile($usr_id, $prj_id, $type)
+    public static function getProfile($usr_id, $prj_id, $type)
     {
         static $returns;
 
@@ -87,29 +85,29 @@ class Search_Profile
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
                 return array();
             } else {
                 $returns[$usr_id][$prj_id][$type] = unserialize($res);
+
                 return unserialize($res);
             }
         }
     }
 
-
     /**
      * Method used to check whether a search profile already exists
      * or not.
      *
-     * @access  private
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  boolean
      */
-    function _exists($usr_id, $prj_id, $type)
+    private function _exists($usr_id, $prj_id, $type)
     {
         $stmt = "SELECT
                     COUNT(*) AS total
@@ -122,6 +120,7 @@ class Search_Profile
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if ($res > 0) {
@@ -132,19 +131,17 @@ class Search_Profile
         }
     }
 
-
     /**
      * Method used to save a search profile record for this user, for
      * the specified project, and profile type.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    function save($usr_id, $prj_id, $type, $profile)
+    public static function save($usr_id, $prj_id, $type, $profile)
     {
         if (!self::_exists($usr_id, $prj_id, $type)) {
             return self::_insert($usr_id, $prj_id, $type, $profile);
@@ -153,19 +150,17 @@ class Search_Profile
         }
     }
 
-
     /**
      * Method used to create a new search profile record for this
      * user, for the specified project, and profile type.
      *
-     * @access  private
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    function _insert($usr_id, $prj_id, $type, $profile)
+    private function _insert($usr_id, $prj_id, $type, $profile)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
@@ -183,25 +178,24 @@ class Search_Profile
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to update an existing search profile record for
      * this user, for the specified project, and profile type.
      *
-     * @access  private
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    function _update($usr_id, $prj_id, $type, $profile)
+    private function _update($usr_id, $prj_id, $type, $profile)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
@@ -214,6 +208,7 @@ class Search_Profile
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;

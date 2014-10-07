@@ -42,12 +42,11 @@ abstract class CRM
         if (!isset(self::$instances[$prj_id])) {
             self::$instances[$prj_id] = self::getBackendByProject($prj_id);
         }
+
         return self::$instances[$prj_id];
     }
 
-
     abstract public function authenticateCustomer();
-
 
     /**
      * Returns the customer object for the specified ID
@@ -57,7 +56,6 @@ abstract class CRM
      */
     abstract public function getCustomer($customer_id);
 
-
     /**
      * Returns a contract object
      *
@@ -66,7 +64,6 @@ abstract class CRM
      */
     abstract public function getContract($contract_id);
 
-
     /**
      * Returns a contact object for the specified contact ID
      *
@@ -74,7 +71,6 @@ abstract class CRM
      * @return  Contact A contact object
      */
     abstract public function getContactByEmail($email);
-
 
     /**
      * Returns a contact object for the specified email address
@@ -91,7 +87,6 @@ abstract class CRM
      */
     abstract public function getName();
 
-
     /**
      * Performs a customer lookup and returns the matches, if
      * appropriate.
@@ -103,7 +98,6 @@ abstract class CRM
      */
     abstract public function lookup($field, $value, $options);
 
-
     /**
      * Setups the backend for use. Generally will be used to establish a connection to a database
      * or preload data.
@@ -112,7 +106,6 @@ abstract class CRM
      */
     abstract protected function setup($prj_id);
 
-
     /**
      * Returns an array of incident types supported.
      *
@@ -120,14 +113,12 @@ abstract class CRM
      */
     abstract public function getIncidentTypes();
 
-
     /**
      * Returns an associative array of support level IDs => names
      *
      * @return array
      */
     abstract public function getSupportLevelAssocList();
-
 
     /**
      * Returns information on the specified support level
@@ -138,14 +129,12 @@ abstract class CRM
      */
     abstract public function getSupportLevel($level_id);
 
-
     /**
      * Returns support levels grouped together
      *
      * @return array
      */
     abstract public function getGroupedSupportLevels();
-
 
     /**
      * Retrieves the customer titles and support levels associated with the given list of issues. Should set
@@ -156,14 +145,12 @@ abstract class CRM
      */
     abstract public function processListIssuesResult(&$result);
 
-
     /**
      * Retrieves the customer titles for the specified IDS
      *
      * @param   array $ids The list of customer IDs
      */
     abstract public function getCustomerTitles($ids);
-
 
     /**
      * Retrieves the response countdown deadline associated with the
@@ -173,7 +160,6 @@ abstract class CRM
      * @see     Search::getListing()
      */
     abstract public function getResponseCountdownByIssues(&$result);
-
 
     /**
      * Method used to get an associative array of all companies
@@ -188,7 +174,6 @@ abstract class CRM
     abstract public function getCustomerAssocList($search_string = false, $include_expired = false, $limit = false,
                                                     $customer_ids = false);
 
-
     /**
      * Method used to get an associative array of all contracts
      * available, in a format of contract ID => contract details.
@@ -198,7 +183,6 @@ abstract class CRM
      */
     abstract public function getContractAssocList($search_string = false);
 
-
     /**
      * Method used to get an associative array of all contacts
      * available, in a format of contact ID => contact details.
@@ -207,7 +191,6 @@ abstract class CRM
      * @return  array The associative array of contacts
      */
     abstract public function getContactAssocList($search_string = false);
-
 
     /**
      * Returns the list of customer IDs that are associated with the given
@@ -219,7 +202,6 @@ abstract class CRM
      */
     abstract public function getCustomerIDsByString($keyword, $options = array());
 
-
     /**
      * Method used to get the associated customer and customer contact from
      * a given set of support emails. This is especially useful to automatically
@@ -230,7 +212,6 @@ abstract class CRM
      * @return  array The customer and customer contact ID
      */
     abstract public function getCustomerInfoFromEmails($sup_ids);
-
 
     /**
      * Method used to send an email notification to the sender of an
@@ -244,7 +225,6 @@ abstract class CRM
      */
     abstract public function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
 
-
     /**
      * Method used to send an email notification to the sender of a
      * set of email messages that were manually converted into an
@@ -255,8 +235,7 @@ abstract class CRM
      * @param   integer|boolean $contract_id The contract ID
      * @return  array The list of recipient emails
      */
-    abstract public function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $contract_id = FALSE);
-
+    abstract public function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $contract_id = false);
 
     /**
      * Returns a list of customer IDS belonging to the specified support level
@@ -266,7 +245,6 @@ abstract class CRM
      * @return  array
      */
     abstract public function getCustomerIDsBySupportLevel($levels, $support_options = false);
-
 
     /**
      * Returns an array of all active contacts for the specified customer ids
@@ -283,7 +261,7 @@ abstract class CRM
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array The list of contract IDs
      */
-    abstract public function getContractIDsBySupportLevel($level_id, $support_options = FALSE);
+    abstract public function getContractIDsBySupportLevel($level_id, $support_options = false);
 
     /**
      * Checks whether the given project ID is setup to use customer integration
@@ -302,14 +280,13 @@ abstract class CRM
         }
     }
 
-
     /**
      * Returns the list of available customer backends by listing the class
      * files in the backend directory.
      *
      * @return  array Associative array of filename => name
      */
-    static function getBackendList()
+    public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . "crm/");
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
@@ -317,19 +294,18 @@ abstract class CRM
         for ($i = 0; $i < count($files); $i++) {
             $list['class.' . $files[$i] . '.php'] = $files[$i];
         }
+
         return $list;
     }
-
 
     /**
      * Returns the customer backend class file associated with the given
      * project ID.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  string The customer backend class filename
      */
-    static function getBackendNameByProject($prj_id)
+    public static function getBackendNameByProject($prj_id)
     {
         static $backends;
 
@@ -347,19 +323,19 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $backends = $res;
+
             return @$backends[$prj_id];
         }
     }
-
 
     /**
      * Includes the appropriate customer backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @access  private
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -369,9 +345,9 @@ abstract class CRM
         if (empty($backend_class)) {
             return false;
         }
+
         return self::getBackend($backend_class, $prj_id);
     }
-
 
     /**
      * Returns the backend for the specified class name
@@ -386,19 +362,18 @@ abstract class CRM
         $file_name_chunks = explode(".", $backend_class);
         $class_name = $file_name_chunks[1];
 
-
         if (file_exists(APP_LOCAL_PATH . "/crm/$class_name/$backend_class")) {
-            require_once(APP_LOCAL_PATH . "/crm/" . $class_name . "/$backend_class");
+            require_once APP_LOCAL_PATH . "/crm/" . $class_name . "/$backend_class";
         } else {
             require_once APP_INC_PATH . "/crm/backends/" . $class_name . "/$backend_class";
         }
 
-        $backend = new $class_name;
+        $backend = new $class_name();
         $backend->setup($prj_id);
         $backend->prj_id = $prj_id;
+
         return $backend;
     }
-
 
     /**
      * Method used to get the list of technical account managers
@@ -422,6 +397,7 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -431,10 +407,10 @@ abstract class CRM
                     $res[$i]['customer_title'] = $customer->getName();
                 } catch (CRMException $e) {}
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to add a new association of Eventum user =>
@@ -461,12 +437,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to get the details of a given account manager.
@@ -485,12 +461,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to update the details of an account manager.
@@ -511,12 +487,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Method used to remove a technical account manager from the
@@ -534,12 +510,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to get the list of technical account managers for
@@ -549,7 +525,7 @@ abstract class CRM
      * @param   integer $customer_id The customer ID
      * @return  array The list of account managers
      */
-    public function getAccountManagers($prj_id, $customer_id)
+    public static function getAccountManagers($prj_id, $customer_id)
     {
         $stmt = "SELECT
                     cam_usr_id,
@@ -565,6 +541,7 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -575,11 +552,9 @@ abstract class CRM
         }
     }
 
-
     /**
      * Returns any notes for for the specified customer.
      *
-     * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array An array containg the note details.
      */
@@ -597,12 +572,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Returns any note details for for the specified id.
@@ -623,12 +598,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Returns an array of notes for all customers.
@@ -649,6 +624,7 @@ abstract class CRM
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -657,10 +633,10 @@ abstract class CRM
                     $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
                 } catch (Exception $e) {}
             }
+
             return $res;
         }
     }
-
 
     /**
      * Updates a note.
@@ -685,12 +661,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Adds a quick note for the specified customer.
@@ -720,12 +696,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     /**
      * Removes the selected notes from the database.
@@ -742,12 +718,12 @@ abstract class CRM
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
-
 
     public function getConnection()
     {
@@ -766,17 +742,14 @@ abstract class CRM
      */
     abstract public function getExpirationOffset();
 
-
     abstract public function getTemplatePath();
 
     abstract public function getHtdocsPath();
-
 
     public function __toString()
     {
         return "CRM Instance\nProject ID: " . $this->prj_id . "\nClass Name: " . get_class($this);
     }
-
 
     /**
      * Helper function to return customer name.
@@ -789,13 +762,13 @@ abstract class CRM
         try {
             $crm = self::getInstance($prj_id);
             $customer = $crm->getCustomer($customer_id);
+
             return $customer->getName();
         } catch (CRMException $e) {
             return null;
         }
     }
 }
-
 
 class CRMException extends Exception
 {

@@ -50,7 +50,7 @@ $auth = array($user_email, $user_password);
 // log command
 Command_Line::log($client, $auth, join(' ', $argv));
 
-$issue_id = (integer )$argv[1];
+$issue_id = (integer) $argv[1];
 if ($issue_id > 0) {
     if (count($argv) == 2) {
         Command_Line::printIssueDetails($client, $auth, $issue_id);
@@ -146,7 +146,7 @@ if ($issue_id > 0) {
                 if (empty($argv[3])) {
                     Command_Line::quit("Missing parameter for the note number");
                 }
-                if (@$argv[4] != 'draft' && @$argv[4] != 'email' ) {
+                if (@$argv[4] != 'draft' && @$argv[4] != 'email') {
                     Command_Line::quit("4th parameter must be 'draft' or 'email'");
                 }
                 if (@$argv[5] == 'authorize') {
@@ -242,7 +242,7 @@ if ($issue_id > 0) {
         }
     } elseif ($argv[1] == 'clock') {
         Command_Line::timeClock($client, $auth, @$argv[2]);
-    }  else {
+    } else {
         Command_Line::quit("Unknown parameter '" . $argv[1] . "'");
     }
 }

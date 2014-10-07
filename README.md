@@ -1,6 +1,7 @@
-
 Eventum Issue Tracking System
 =============================
+
+[![Build Status](https://travis-ci.org/eventum/eventum.png?branch=master)](http://travis-ci.org/eventum/eventum)
 
 Eventum is a user friendly and very flexible issue tracking system, that can
 be used by a support department to track incoming technical support requests,
@@ -13,12 +14,15 @@ More information can be found at the following URL:
 We have also provided mailing lists related to Eventum, both for users and
 potential developers at http://lists.mysql.com/:
 
-  eventum-users@lists.mysql.com
-  eventum-devel@lists.mysql.com
+ - [eventum-users@lists.mysql.com][1] - A general mailing list for users of the Eventum issue tracking tool
+ - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
 
 We welcome you to send patches, bug fixes and other contributions to Eventum.
 Please see the CONTRIB file for more details into how to do so.
 
-Bryan Alsdorf
-Elan Ruusamäe
+Bryan Alsdorf  
+Elan Ruusamäe  
 The Eventum Team
+
+  [1]: http://lists.mysql.com/eventum-users
+  [2]: http://lists.mysql.com/eventum-devel

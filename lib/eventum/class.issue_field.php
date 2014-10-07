@@ -51,7 +51,6 @@ class Issue_Field
         );
     }
 
-
     /**
      * Returns an array of titles, options and current values for the specified
      * display location and issue.
@@ -76,9 +75,9 @@ class Issue_Field
                 $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options);
             }
         }
+
         return $data;
     }
-
 
     /**
      * Returns a list of fields that should be displayed in the specified location.
@@ -93,9 +92,9 @@ class Issue_Field
     {
         $prj_id = Issue::getProjectID($issue_id);
         $workflow = Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
+
         return $workflow;
     }
-
 
     /**
      * Returns the current value for the specified field / issue. This method just calls
@@ -115,9 +114,9 @@ class Issue_Field
             case 'severity':
                 return Issue::getSeverity($issue_id);
         }
+
         return false;
     }
-
 
     /**
      * Sets the value for the specified field / issue. This method just calls the
@@ -139,7 +138,6 @@ class Issue_Field
         }
     }
 
-
     /**
      * Returns the options associated with a specific field
      *
@@ -160,15 +158,16 @@ class Issue_Field
                     }
                     asort($users);
                 }
+
                 return $users;
             case 'priority':
                 return Priority::getAssocList($prj_id);
             case 'severity':
                 return Severity::getAssocList($prj_id);
         }
+
         return array();
     }
-
 
     /**
      * Updates the issue fields for the specified location

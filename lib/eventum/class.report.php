@@ -41,11 +41,9 @@ require_once 'Date.php';
 class Report
 {
 
-
     /**
      * Method used to get all open issues and group them by user.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param $users
      * @param $status
@@ -54,10 +52,10 @@ class Report
      * @param $sort_order
      * @return  array The list of issues
      */
-    function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
+    public function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
         $prj_id = Misc::escapeInteger($prj_id);
-        $ts = Date_Helper::getCurrentUnixTimestampGMT();
+        $ts = time();
         $before_ts = strtotime($before_date);
         $after_ts = strtotime($after_date);
 
@@ -116,6 +114,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -127,6 +126,14 @@ class Report
                 if (empty($res[$i]['iss_last_response_date'])) {
                     $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
                 }
+                $updated_date_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_updated_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
+                $last_response_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_last_response_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
                 $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
@@ -134,10 +141,11 @@ class Report
                     'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
                 );
             }
+
             return $issues;
         }
     }
@@ -145,7 +153,6 @@ class Report
     /**
      * Method used to get all open issues and group them by assignee or reporter.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $cutoff_days The number of days to use as a cutoff period
      * @param bool $group_by_reporter
@@ -155,9 +162,8 @@ class Report
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
-        $ts = Date_Helper::getCurrentUnixTimestampGMT();
+        $ts = time();
         $ts_diff = $cutoff_days * Date_Helper::DAY;
-
 
         $stmt = "SELECT
                     assignee.usr_full_name as assignee_name,
@@ -198,6 +204,7 @@ class Report
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -214,30 +221,37 @@ class Report
                 } else {
                     $name = $res[$i]['assignee_name'];
                 }
+                $update_date_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_updated_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
+                $last_response_ts = Date_Helper::getUnixTimestamp(
+                    $res[$i]['iss_last_response_date'],
+                    Date_Helper::getDefaultTimezone()
+                );
                 $issues[$name][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
                     'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
                 );
             }
+
             return $issues;
         }
     }
-
 
     /**
      * Method used to get the list of issues in a project, and group
      * them by the assignee.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of issues
      */
-    function getIssuesByUser($prj_id)
+    public function getIssuesByUser($prj_id)
     {
         $stmt = "SELECT
                     usr_full_name,
@@ -266,6 +280,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             Time_Tracking::getTimeSpentByIssues($res);
@@ -279,47 +294,32 @@ class Report
                     'status_color'     => $res[$i]['sta_color']
                 );
             }
+
             return $issues;
         }
     }
 
-
     /**
      * Returns the data used by the weekly report.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   string The start date of this report.
      * @param   string The end date of this report.
      * @param   boolean If closed issues should be separated from other issues.
      * @param   boolean If issue status changes should be ignored in report.
+     * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
-    function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false)
+    public function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
     {
-        $prj_id = Auth::getCurrentProject();
         $usr_id = Misc::escapeInteger($usr_id);
 
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
-        $tz = @$user_prefs["timezone"];
+        $tz = $user_prefs["timezone"];
 
-        $start_dt = new Date();
-        $end_dt = new Date();
-        // set timezone to that of user.
-        $start_dt->setTZById($tz);
-        $end_dt->setTZById($tz);
-
-        // set the dates in the users time zone
-        $start_dt->setDate($start . " 00:00:00");
-        $end_dt->setDate($end . " 23:59:59");
-
-        // convert time to GMT
-        $start_dt->toUTC();
-        $end_dt->toUTC();
-
-        $start_ts = $start_dt->getDate();
-        $end_ts = $end_dt->getDate();
+        $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->getTimestamp();
+        $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->getTimestamp();
 
         $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
 
@@ -366,7 +366,7 @@ class Report
             "end"       => str_replace('-', '.', $end),
             "user"      => User::getDetails($usr_id),
             "group_name"=> Group::getName(User::getGroupID($usr_id)),
-            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude),
+            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
             "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
             "new_assigned_count"    =>  $newly_assigned,
             "time_tracking" => $time_tracking,
@@ -379,16 +379,14 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data used by the workload by time period report.
      *
-     * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    function getWorkloadByTimePeriod($timezone, $graph = false)
+    public function getWorkloadByTimePeriod($timezone, $graph = false)
     {
         $stmt = "SELECT
                     count(*) as events,
@@ -411,6 +409,7 @@ class Report
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         // get total number of developer and customer events
@@ -426,17 +425,19 @@ class Report
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-
+            $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
+            $gmt_time = $dt->format('H:i');
             // convert to the users time zone
-            $dt = new Date(mktime($i,0,0));
-            $gmt_time = $dt->format('%H:%M');
-            $dt->convertTZbyID($timezone);
+            $dt->setTimeZone(new DateTimeZone($timezone));
+            $hour = $dt->format('H');
+            $user_time = $dt->format('H:i');
+
             if ($graph) {
-                $data["developer"][$dt->format('%H')] = "";
-                $data["customer"][$dt->format('%H')] = "";
+                $data["developer"][$hour] = "";
+                $data["customer"][$hour] = "";
             } else {
                 $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+                $data[$i]["display_time_user"] = $user_time;
             }
 
             // loop through results, assigning appropriate results to data array
@@ -445,7 +446,7 @@ class Report
                     $sort_values[$row["performer"]][$i] = $row["events"];
 
                     if ($graph) {
-                        $data[$row["performer"]][$dt->format('%H')] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                        $data[$row["performer"]][$hour] = (($row["events"] / $event_count[$row["performer"]]) * 100);
                     } else {
                         $data[$i][$row["performer"]]["count"] = $row["events"];
                         $data[$i][$row["performer"]]["percentage"] = (($row["events"] / $event_count[$row["performer"]]) * 100);
@@ -467,16 +468,14 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data on when support emails are sent/received.
      *
-     * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
-    function getEmailWorkloadByTimePeriod($timezone, $graph = false)
+    public function getEmailWorkloadByTimePeriod($timezone, $graph = false)
     {
         // get total counts
         $stmt = "SELECT
@@ -489,6 +488,7 @@ class Report
         $total = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($total)) {
             Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -512,6 +512,7 @@ class Report
         $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($dev_stats)) {
             Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -531,17 +532,19 @@ class Report
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-
             // convert to the users time zone
-            $dt = new Date(mktime($i,0,0));
-            $gmt_time = $dt->format('%H:%M');
-            $dt->convertTZbyID($timezone);
+            $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
+            $gmt_time = $dt->format('H:i');
+            $dt->setTimeZone(new DateTimeZone($timezone));
+            $hour = $dt->format('H');
+            $user_time = $dt->format('H:i');
+
             if ($graph) {
-                $data["developer"][$dt->format('%H')] = "";
-                $data["customer"][$dt->format('%H')] = "";
+                $data["developer"][$hour] = "";
+                $data["customer"][$hour] = "";
             } else {
                 $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+                $data[$i]["display_time_user"] = $user_time;
             }
 
             // use later to find highest value
@@ -550,18 +553,18 @@ class Report
 
             if ($graph) {
                 if ($dev_count == 0) {
-                    $data["developer"][$dt->format('%H')] = 0;
+                    $data["developer"][$hour] = 0;
                 } else {
-                    $data["developer"][$dt->format('%H')] = (($dev_stats[$i] / $dev_count) * 100);
+                    $data["developer"][$hour] = (($dev_stats[$i] / $dev_count) * 100);
                 }
                 if ($cust_count == 0) {
-                    $data["customer"][$dt->format('%H')] = 0;
+                    $data["customer"][$hour] = 0;
                 } else {
-                    $data["customer"][$dt->format('%H')] = (($cust_stats[$i] / $cust_count) * 100);
+                    $data["customer"][$hour] = (($cust_stats[$i] / $cust_count) * 100);
                 }
             } else {
                 $data[$i]["developer"]["count"] = $dev_stats[$i];
-                if ($dev_count == 0){
+                if ($dev_count == 0) {
                     $data[$i]["developer"]["percentage"] = 0;
                 } else {
                     $data[$i]["developer"]["percentage"] = (($dev_stats[$i] / $dev_count) * 100);
@@ -587,11 +590,9 @@ class Report
         return $data;
     }
 
-
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
      *
-     * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $group_by How the data should be grouped.
@@ -602,7 +603,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
+    public function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -699,6 +700,7 @@ class Report
             $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -717,6 +719,7 @@ class Report
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
             }
+
             return $res;
         }
 
@@ -756,6 +759,7 @@ class Report
             }
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
             $data[$value] = $res;
@@ -776,6 +780,7 @@ class Report
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["All Others"] = $res;
@@ -785,7 +790,6 @@ class Report
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
-     * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $start_date
@@ -793,9 +797,8 @@ class Report
      * @param   boolean $per_user Show time spent per user
      * @return  array An array of data.
      */
-    function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
+    public function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
-        $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
         $cfo_ids = Misc::escapeInteger($cfo_ids);
         // get field values
@@ -857,19 +860,20 @@ class Report
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
-        	for ($i = 0; $i < count($res); $i++) {
+            for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
                 $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
             }
+
             return $res;
         }
     }
     /**
      * Returns workload information for the specified date range and interval.
      *
-     * @access  public
      * @param   string $interval The interval to use in this report.
      * @param   string $type If this report is aggregate or individual
      * @param   string $start The start date of this report.
@@ -877,7 +881,7 @@ class Report
      * @param   integer $category The category to restrict this report to
      * @return  array An array containing workload data.
      */
-    function getWorkloadByDateRange($interval, $type, $start, $end, $category)
+    public function getWorkloadByDateRange($interval, $type, $start, $end, $category)
     {
         $data = array();
         $start = Misc::escapeString($start);
@@ -892,7 +896,7 @@ class Report
                 break;
             case "dow":
                 $format = '%W';
-                $order_by = "IF(DATE_FORMAT(%1\$s, '%%w') = 0, 7, DATE_FORMAT(%1\$s, '%%w'))";
+                $order_by = "CASE WHEN DATE_FORMAT(%1\$s, '%%w') = 0 THEN 7 ELSE DATE_FORMAT(%1\$s, '%%w') END";
                 break;
             case "week":
                 if ($type == "aggregate") {
@@ -938,6 +942,7 @@ class Report
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["issues"]["points"] = $res;
@@ -960,7 +965,6 @@ class Report
                 "max"   =>  0
             );
         }
-
 
         // get email counts
         $stmt = "SELECT
@@ -992,6 +996,7 @@ class Report
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
         $data["emails"]["points"] = $res;
@@ -1014,7 +1019,6 @@ class Report
                 "max"   =>  0
             );
         }
-
 
         return $data;
     }

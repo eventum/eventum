@@ -42,11 +42,10 @@ class Resolution
     /**
      * Method used to get the title of a specific resolution.
      *
-     * @access  public
      * @param   integer $res_id The resolution ID
      * @return  string The title of the resolution
      */
-    function getTitle($res_id)
+    public static function getTitle($res_id)
     {
         $stmt = "SELECT
                     res_title
@@ -57,12 +56,12 @@ class Resolution
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
-
 
     /**
      * Method used to get the id of a specific resolution.
@@ -81,21 +80,20 @@ class Resolution
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
 
-
     /**
      * Method used to remove resolutions by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues before removing the resolution
@@ -108,6 +106,7 @@ class Resolution
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $stmt = "DELETE FROM
@@ -117,6 +116,7 @@ class Resolution
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 return true;
@@ -124,15 +124,13 @@ class Resolution
         }
     }
 
-
     /**
      * Method used to update the resolution by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -147,21 +145,20 @@ class Resolution
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         return 1;
     }
 
-
     /**
      * Method used to get the details of a specific resolution.
      *
-     * @access  public
      * @param   integer $res_id The resolution ID
      * @return  array The details of the resolution
      */
-    function getDetails($res_id)
+    public function getDetails($res_id)
     {
         $stmt = "SELECT
                     *
@@ -172,20 +169,19 @@ class Resolution
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the full list of resolutions.
      *
-     * @access  public
      * @return  array The list of resolutions
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     res_id,
@@ -199,21 +195,20 @@ class Resolution
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
 
-
     /**
      * Method used to get a list as an associative array of the
      * resolutions.
      *
-     * @access  public
      * @return  array The list of resolutions
      */
-    function getAssocList()
+    public function getAssocList()
     {
         $stmt = "SELECT
                     res_id,
@@ -226,21 +221,20 @@ class Resolution
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
 
-
     /**
      * Method used to add a new resolution by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -259,6 +253,7 @@ class Resolution
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 

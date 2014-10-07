@@ -29,7 +29,6 @@
 //
 
 
-
 /**
  * Class designed to handle all business logic related to attachments being
  * uploaded to issues in the application.
@@ -41,8 +40,6 @@ class Attachment
     /**
      * Returns true if specified mime type should be displayed
      * directly in the browser window.
-     *
-     * @access  private
      */
     private static function displayInline($mimetype)
     {
@@ -51,7 +48,7 @@ class Attachment
             return false;
         }
 
-        list($type, $subtype) = $parts;
+        list($type) = $parts;
 
         // display inline images and text documents
         return in_array($type, array('image', 'text'));
@@ -99,15 +96,13 @@ class Attachment
         exit;
     }
 
-
     /**
      * Method used to remove a specific file out of an existing attachment.
      *
-     * @access  public
      * @param   integer $iaf_id The attachment file ID
      * @return  -1 or -2 if the removal was not successful, 1 otherwise
      */
-    function removeIndividualFile($iaf_id)
+    public function removeIndividualFile($iaf_id)
     {
         $usr_id = Auth::getUserID();
         $iaf_id = Misc::escapeInteger($iaf_id);
@@ -126,6 +121,7 @@ class Attachment
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             if (empty($res)) {
@@ -148,20 +144,19 @@ class Attachment
                 } else {
                     self::remove($attachment_id);
                 }
+
                 return 1;
             }
         }
     }
 
-
     /**
      * Method used to return the details for a given attachment.
      *
-     * @access  public
      * @param   integer $file_id The attachment ID
      * @return  array The details of the attachment
      */
-    function getDetails($file_id)
+    public function getDetails($file_id)
     {
         $file_id = Misc::escapeInteger($file_id);
         $stmt = "SELECT
@@ -175,6 +170,7 @@ class Attachment
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // don't allow customers to reach internal only files
@@ -187,16 +183,14 @@ class Attachment
         }
     }
 
-
     /**
      * Removes all attachments (and associated files) related to a set
      * of specific issues.
      *
-     * @access  public
      * @param   array $ids The issue IDs that need to be removed
      * @return  boolean Whether the removal worked or not
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $ids = Misc::escapeInteger($ids);
         $items = @implode(", ", $ids);
@@ -209,25 +203,25 @@ class Attachment
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
         foreach ($res as $id) {
             self::remove($id);
         }
+
         return true;
     }
-
 
     /**
      * Method used to remove attachments from the database.
      *
      * @param   integer $iat_id attachment_id.
      * @param   boolean $add_history whether to add history entry.
-     * @access  public
      * @return  integer Numeric code used to check for any errors
      */
-    function remove($iat_id, $add_history = true)
+    public function remove($iat_id, $add_history = true)
     {
         $iat_id = Misc::escapeInteger($iat_id);
         $usr_id = Auth::getUserID();
@@ -244,6 +238,7 @@ class Attachment
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -261,6 +256,7 @@ class Attachment
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         foreach ($files as $file) {
@@ -271,6 +267,7 @@ class Attachment
             // need to save a history entry for this
             History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
         }
+
         return 1;
     }
 
@@ -278,11 +275,10 @@ class Attachment
      * Method used to remove a specific file from an attachment, since every
      * attachment can have several files associated with it.
      *
-     * @access  public
      * @param   integer $iaf_id The attachment file ID
      * @return  void
      */
-    function removeFile($iaf_id)
+    public function removeFile($iaf_id)
     {
         $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "DELETE FROM
@@ -292,19 +288,18 @@ class Attachment
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
     }
 
-
     /**
      * Method used to get the full listing of files for a specific attachment.
      *
-     * @access  public
      * @param   integer $attachment_id The attachment ID
      * @return  array The full list of files
      */
-    function getFileList($attachment_id)
+    public static function getFileList($attachment_id)
     {
         $attachment_id = Misc::escapeInteger($attachment_id);
         $stmt = "SELECT
@@ -318,25 +313,25 @@ class Attachment
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         foreach ($res as &$row) {
             $row["iaf_filesize"] = Misc::formatFileSize($row["iaf_filesize"]);
         }
+
         return $res;
     }
-
 
     /**
      * Method used to return the full list of attachments related to a specific
      * issue in the database.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of attachments
      */
-    function getList($issue_id)
+    public static function getList($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Auth::getUserID();
@@ -365,6 +360,7 @@ class Attachment
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
@@ -378,9 +374,9 @@ class Attachment
                 $row["usr_full_name"] = $row["iat_unknown_user"];
             }
         }
+
         return $res;
     }
-
 
     /**
      * Method used to associate an attachment to an issue, and all of its
@@ -391,12 +387,11 @@ class Attachment
      * -2 - The uploaded file is already attached to the current issue.
      *  1 - The uploaded file was associated with the issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $status The attachment status
      * @return  integer Numeric code used to check for any errors
      */
-    function attach($usr_id, $status = 'public')
+    public static function attach($usr_id, $status = 'public')
     {
         $usr_id = Misc::escapeInteger($usr_id);
         $files = array();
@@ -430,6 +425,7 @@ class Attachment
             if ($res !== true) {
                 // we must rollback whole attachment (all files)
                 self::remove($attachment_id, false);
+
                 return -1;
             }
         }
@@ -447,19 +443,18 @@ class Attachment
 
         // send notifications for the issue being updated
         Notification::notify($_POST["issue_id"], 'files', $attachment_id, $internal_only);
+
         return 1;
     }
-
 
     /**
      * Method used to add files to a specific attachment in the database.
      *
-     * @access  public
      * @param   integer $attachment_id The attachment ID
      * @param   string $filename The filename to be added
      * @return  boolean
      */
-    function addFile($attachment_id, $filename, $filetype, &$blob)
+    public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
         $attachment_id = Misc::escapeInteger($attachment_id);
         $filesize = strlen($blob);
@@ -481,17 +476,16 @@ class Attachment
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to add an attachment to the database.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   string $description The description for this new attachment
@@ -500,7 +494,7 @@ class Attachment
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  integer The new attachment ID
      */
-    function add($issue_id, $usr_id, $description, $internal_only = FALSE, $unknown_user = FALSE, $associated_note_id = FALSE)
+    public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = false, $associated_note_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -540,6 +534,7 @@ class Attachment
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return DB_Helper::get_last_insert_id();
@@ -549,12 +544,12 @@ class Attachment
     /**
      * Returns the current maximum file upload size.
      *
-     * @access  public
      * @return  string A string containing the formatted max file size.
      */
-    function getMaxAttachmentSize()
+    public function getMaxAttachmentSize()
     {
         $size = Misc::return_bytes(ini_get('upload_max_filesize'));
+
         return Misc::formatFileSize($size);
     }
 }

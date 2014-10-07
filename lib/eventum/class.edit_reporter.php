@@ -39,12 +39,11 @@ class Edit_Reporter
     /**
      * Modifies an Issue's Reporter.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $fullname The id of the user.
      * @param   boolean $add_history If this should be logged.
      */
-    function update($issue_id, $email, $add_history = true)
+    public function update($issue_id, $email, $add_history = true)
     {
 
         $email = strtolower(Mail_Helper::getEmailAddress($email));
@@ -65,6 +64,7 @@ class Edit_Reporter
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -75,9 +75,10 @@ class Edit_Reporter
         }
 
         // Add new user to notification list
-        if ($usr_id > 0){
+        if ($usr_id > 0) {
             Notification::subscribeEmail($usr_id, $issue_id, $email, Notification::getDefaultActions());
         }
+
         return 1;
     }
 }

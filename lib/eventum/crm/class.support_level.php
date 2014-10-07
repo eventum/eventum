@@ -36,7 +36,6 @@ abstract class Support_Level
         $this->load();
     }
 
-
     abstract protected function load();
 
     public function getName()
@@ -59,13 +58,12 @@ abstract class Support_Level
         return $this->maximum_response_time;
     }
 
-
 }
-
 
 class SupportLevelNotFoundException extends CRMException
 {
-    public function __construct($level_id, Exception $previous=null) {
+    public function __construct($level_id, Exception $previous=null)
+    {
         parent::__construct("Support Level '" . $level_id. "' not found", 0, $previous);
     }
 }

@@ -43,47 +43,41 @@ require_once 'Mail/RFC822.php';
 class Mail_Helper
 {
     // variable to keep the Mail_mime object
-    var $mime;
+    public $mime;
     // variable to keep the headers to be used in the email
-    var $headers = '';
+    public $headers = '';
     // text version of this message
-    var $text_body = '';
-
+    public $text_body = '';
 
     /**
      * Class constructor. It includes and initializes the required
      * PEAR::Mail related objects
      *
-     * @access  public
      */
-    function Mail_Helper()
+    public function Mail_Helper()
     {
         require_once 'Mail.php';
         require_once 'Mail/mime.php';
         $this->mime = new Mail_mime("\r\n");
     }
 
-
     /**
      * Correctly formats the subject line of outgoing emails/notes
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $subject The subject to be formatted
      * @return  string The formatted subject
      */
-    function formatSubject($issue_id, $subject)
+    public static function formatSubject($issue_id, $subject)
     {
         return "[#$issue_id] " . trim(preg_replace("/\[#$issue_id\] {0,1}/", '', $subject));
     }
-
 
     /**
      * Believe it or not, this is a method that will remove excess occurrences
      * of 'Re:' that commonly are found in email subject lines.
      * If the second parameter is true, issue #'s will also be stripped.
      *
-     * @access  public
      * @param   string $subject The subject line
      * @param   boolean $remove_issue_id If the issue ID should be removed
      * @return  string The subject line with the extra occurrences removed from it
@@ -100,38 +94,36 @@ class Mail_Helper
             // TRANSLATORS: %1 = email subject
             $re_format = '$1'.ev_gettext('Re: %1$s', '$5');
             $subject = preg_replace($re_pattern, $re_format, $subject);
+
             return self::removeExcessRe($subject);
         } else {
             return $subject;
         }
     }
 
-
     /**
      * Returns the canned explanation about why an email message was blocked
      * and saved into an internal note.
      *
-     * @access  public
      * @return  string The canned explanation
      */
-    function getCannedBlockedMsgExplanation()
+    public static function getCannedBlockedMsgExplanation()
     {
         $msg = ev_gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
         $msg .= ev_gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
         $msg .= str_repeat('-', 70) . "\n\n";
+
         return $msg;
     }
-
 
     /**
      * Checks whether the given headers are from a vacation
      * auto-responder message or not.
      *
-     * @access  public
      * @param   array $headers The list of headers
      * @return  boolean
      */
-    function isVacationAutoResponder($headers)
+    public static function isVacationAutoResponder($headers)
     {
         // loop through the headers and make sure they are all lowercase.
         foreach ($headers as $key => $value) {
@@ -145,16 +137,14 @@ class Mail_Helper
         }
     }
 
-
     /**
      * Method used to parse a string and return all email addresses contained
      * within it.
      *
-     * @access  public
      * @param   string $str The string containing email addresses
      * @return  array The list of email addresses
      */
-    function getEmailAddresses($str)
+    public static function getEmailAddresses($str)
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
@@ -165,19 +155,18 @@ class Mail_Helper
                 $addresses[] = $structure->mailbox . '@' . $structure->host;
             }
         }
+
         return $addresses;
     }
-
 
     /**
      * Method used to build a properly quoted email address, in the form of
      * "Sender Name" <sender@example.com>.
      *
-     * @access  public
      * @param   string $address The email address value
      * @return  array The address information
      */
-    function fixAddressQuoting($address)
+    public static function fixAddressQuoting($address)
     {
         // split multiple addresses if needed
         $addresses = self::splitAddresses($address);
@@ -213,17 +202,15 @@ class Mail_Helper
         return join(',', $return);
     }
 
-
     /**
      * Method used to break down the email address information and
      * return it for easy manipulation.
      *
-     * @access  public
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
      */
-    function getAddressInfo($address, $multiple = false)
+    public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
@@ -240,6 +227,7 @@ class Mail_Helper
                     'host'        => $t[$i]->host
                 );
             }
+
             return $returns;
         } else {
             return array(
@@ -250,7 +238,6 @@ class Mail_Helper
             );
         }
     }
-
 
     /**
      * Method used to get the email address portion of a given
@@ -266,19 +253,18 @@ class Mail_Helper
         if (PEAR::isError($info)) {
             return $info;
         }
+
         return $info['email'];
     }
-
 
     /**
      * Method used to get the name portion of a given recipient information.
      *
-     * @access  public
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  mixed The name or an array of names if multiple is true
      */
-    function getName($address, $multiple = false)
+    public static function getName($address, $multiple = false)
     {
         $info = self::getAddressInfo($address, true);
         if (PEAR::isError($info)) {
@@ -302,92 +288,81 @@ class Mail_Helper
         }
     }
 
-
     /**
      * Method used to get the formatted name of the passed address
      * information.
      *
-     * @access  public
      * @param   string $name The name of the recipient
      * @param   string $email The email of the recipient
      * @return  string
      */
-    function getFormattedName($name, $email)
+    public static function getFormattedName($name, $email)
     {
         return $name . " <" . $email . ">";
     }
-
 
     /**
      * Method used to get the application specific settings regarding
      * which SMTP server to use, such as login and server information.
      *
-     * @access  public
      * @return  array
      */
-    function getSMTPSettings()
+    public static function getSMTPSettings()
     {
         $settings = Setup::load();
         settype($settings['smtp']['auth'], 'boolean');
         if (file_exists('/etc/mailname') ) {
             $settings['smtp']['localhost'] = trim( file_get_contents('/etc/mailname') );
         }
+
         return $settings["smtp"];
     }
-
 
     /**
      * Method used to set the text version of the body of the MIME
      * multipart message that you wish to send.
      *
-     * @access  public
      * @param   string $text The text-based message
      * @return  void
      */
-    function setTextBody($text)
+    public function setTextBody($text)
     {
         $this->text_body = $text;
         $this->mime->setTXTBody($text);
     }
 
-
     /**
      * Method used to set the HTML version of the body of the MIME
      * multipart message that you wish to send.
      *
-     * @access  public
      * @param   string $html The HTML-based message
      * @return  void
      */
-    function setHTMLBody($html)
+    public function setHTMLBody($html)
     {
         $this->mime->setHTMLBody($html);
     }
 
-
     /**
      * Method used to add an embedded image to a MIME message.
      *
-     * @access  public
      * @param   string $filename The full path to the image
      * @return  void
      */
-    function addHTMLImage($filename)
+    public function addHTMLImage($filename)
     {
         $this->mime->addHTMLImage($filename);
     }
-
 
     /**
      * Method used to set extra headers that you may wish to use when
      * sending the email.
      *
-     * @access  public
      * @param   mixed $header The header(s) to set
      * @param   mixed $value The value of the header to be set
      * @return  void
      */
-    function setHeaders($header, $value = FALSE)
+    public function setHeaders($header, $value = false)
     {
         if (is_array($header)) {
             foreach ($header as $key => $value) {
@@ -398,47 +373,40 @@ class Mail_Helper
         }
     }
 
-
     /**
      * Method used to add an email address in the Cc list.
      *
-     * @access  public
      * @param   string $email The email address to be added
      * @return  void
      */
-    function addCc($email)
+    public function addCc($email)
     {
         $this->mime->addCc($email);
     }
 
-
     /**
      * Method used to add an attachment to the message.
      *
-     * @access  public
      * @param   string $name The attachment name
      * @param   string $data The attachment data
      * @param   string $content_type The content type of the attachment
      * @return  void
      */
-    function addAttachment($name, $data, $content_type)
+    public function addAttachment($name, $data, $content_type)
     {
         $this->mime->addAttachment($data, $content_type, $name, false);
     }
 
-
     /**
      * Method used to add a message/rfc822 attachment to the message.
      *
-     * @access  public
      * @param   string $message_body The attachment data
      * @return  void
      */
-    function addMessageRfc822($message_body)
+    public function addMessageRfc822($message_body)
     {
         $this->mime->addMessageRfc822($message_body, '8bit');
     }
-
 
     /**
      * Removes the warning message contained in a message, so that certain users
@@ -451,9 +419,9 @@ class Mail_Helper
     {
         $str = str_replace(self::getWarningMessage('allowed'), '', $str);
         $str = str_replace(self::getWarningMessage('blocked'), '', $str);
+
         return $str;
     }
-
 
     /**
      * Returns the warning message that needs to be added to the top of routed
@@ -470,22 +438,21 @@ class Mail_Helper
         } else {
             $str = ev_gettext("WARNING: If replying, add yourself to Authorized Repliers list first.");
         }
+
         return $str;
     }
-
 
     /**
      * Method used to add a customized warning message to the body
      * of outgoing emails.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
-     * @param   headers $headers The headers of the message
+     * @param   array $headers The headers of the message
      * @return  string The body of the message with the warning message, if appropriate
      */
-    function addWarningMessage($issue_id, $to, $body, $headers)
+    public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
         $setup = Setup::load();
         if ((@$setup['email_routing']['status'] == 'enabled') &&
@@ -519,18 +486,16 @@ class Mail_Helper
         }
     }
 
-
     /**
      * Strips out email headers that should not be sent over to the recipient
      * of the routed email. The 'Received:' header was sometimes being used to
      * validate the sender of the message, and because of that some emails were
      * not being delivered correctly.
      *
-     * @access  public
      * @param   array $headers An array of headers for this email
      * @return  array The headers of the email, without the stripped ones
      */
-    function stripHeaders($headers)
+    public static function stripHeaders($headers)
     {
         $ignore_headers = array(
             'to',
@@ -547,14 +512,13 @@ class Mail_Helper
                 unset($headers[$name]);
             }
         }
+
         return $headers;
     }
-
 
     /**
      * Method used to send the SMTP based email message.
      *
-     * @access  public
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
      * @param   string $subject The subject of the message
@@ -564,10 +528,8 @@ class Mail_Helper
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return  string The full body of the message that was sent
      */
-    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
-        static $support_levels;
-
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
         $to = MIME_Helper::encodeAddress($to);
@@ -593,21 +555,20 @@ class Mail_Helper
                 $header .= "$name: $value\r\n";
             }
             $header .= "\r\n";
+
             return $header . $body;
         }
     }
 
-
     /**
      * Returns the full headers for the email properly encoded.
      *
-     * @access  public
      * @param   string $from The sender of the email
      * @param   string $to The recipient of the email
      * @param   string $subject The subject of this email
      * @return  string The full header version of the email
      */
-    function getFullHeaders($from, $to, $subject)
+    public function getFullHeaders($from, $to, $subject)
     {
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
@@ -628,17 +589,16 @@ class Mail_Helper
             $header .= "$name: $value\r\n";
         }
         $header .= "\r\n";
+
         return $header . $body;
     }
-
 
     /**
      * Method used to save a copy of the given email to a configurable address.
      *
-     * @access  public
      * @param   array $email The email to save.
      */
-    function saveOutgoingEmailCopy(&$email)
+    public static function saveOutgoingEmailCopy(&$email)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::load();
@@ -656,7 +616,7 @@ class Mail_Helper
 
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
-        $structure = Mime_Helper::decode($full_email, FALSE, FALSE);
+        $structure = Mime_Helper::decode($full_email, false, false);
         $_headers =& $structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
@@ -703,7 +663,6 @@ class Mail_Helper
         $subjects[] = $subject;
     }
 
-
     /**
      * Since Mail::prepareHeaders() is not supposed to be called statically, this method
      * instantiates an instance of the mail class and calls prepareHeaders on it.
@@ -718,25 +677,24 @@ class Mail_Helper
      *               elements: Any From: address found in the headers,
      *               and the plain text version of the headers.
      */
-    function prepareHeaders($headers)
+    public static function prepareHeaders($headers)
     {
         $params = self::getSMTPSettings();
         $mail =& Mail::factory('smtp', $params);
+
         return $mail->prepareHeaders($headers);
     }
-
 
     /**
      * Generates the specialized headers for an email.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
      * @param   string $headers The existing headers of this message.
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  array An array of specialized headers
      */
-    function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
+    public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
     {
 
         $new_headers = array();
@@ -798,7 +756,7 @@ class Mail_Helper
                 if (empty($values)) {
                     continue;
                 }
-                $cf_value = join(', ', (array)$values);
+                $cf_value = join(', ', (array) $values);
 
                 // value could be empty after multivalued field join
                 if (empty($cf_value)) {
@@ -817,36 +775,32 @@ class Mail_Helper
         return $new_headers;
     }
 
-
     /**
      * Method used to get the appropriate Message-ID header for a
      * given issue.
      *
-     * @access  public
      * @return  string The Message-ID header
      */
-    function generateMessageID()
+    public static function generateMessageID()
     {
         list($usec, $sec) = explode(" ", microtime());
-        $time = ((float)$usec + (float)$sec);
+        $time = ((float) $usec + (float) $sec);
         $first = base_convert($time, 10, 36);
         mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
         $rand = mt_rand();
         $second = base_convert($rand, 10, 36);
+
         return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
     }
-
 
     /**
      * Returns the referenced message-id for a given reply.
      *
-     * @access  public
      * @param   string $text_headers The full headers of the reply
      * @return  string The message-id of the original email
      */
-    function getReferenceMessageID($text_headers)
+    public static function getReferenceMessageID($text_headers)
     {
-        $references = array();
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             return trim($matches[1]);
         }
@@ -856,18 +810,17 @@ class Mail_Helper
             // return the first message-id in the list of references
             return $references[0];
         }
+
         return '';
     }
-
 
     /**
      * Returns the message IDs of all emails this message references.
      *
-     * @access  public
      * @param   string $text_headers The full headers of the message
      * @return  array An array of message-ids
      */
-    function getAllReferences($text_headers)
+    public static function getAllReferences($text_headers)
     {
         $references = array();
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
@@ -883,15 +836,15 @@ class Mail_Helper
                 unset($references[$key]);
             }
         }
+
         return $references;
     }
-
 
     /**
      * Checks to make sure In-Reply-To and References headers are correct.
      *
      */
-    function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
+    public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
     {
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
 
@@ -940,40 +893,37 @@ class Mail_Helper
             $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(join(' ', $references)), $text_headers, 1);
         }
         $headers['references'] = self::fold(join(' ', $references));
+
         return array($text_headers . "\r\n\r\n" . $body, $headers);
     }
-
 
     /**
      * Returns a complete list of references for an email/note, including
      * the issue root message ID
      *
-     * @access  private
      * @param   integer $issue_id The ID of the issue
      * @param   string $msg_id The ID of the message
      * @param   string $type If this is a note or an email
      * @return  array An array of message IDs
      */
-    function getReferences($issue_id, $msg_id, $type)
+    public static function getReferences($issue_id, $msg_id, $type)
     {
         $references = array();
         self::_getReferences($msg_id, $type, $references);
         $references[] = Issue::getRootMessageID($issue_id);
         $references = array_reverse(array_unique($references));
+
         return $references;
     }
-
-
 
     /**
      * Method to get the list of messages an email/note references
      *
-     * @access  private
      * @param   string $msg_id The ID of the parent message
      * @param   string $type If this is a note or an email
      * @param   array $references The array the references will be stored in.
      */
-    function _getReferences($msg_id, $type, &$references)
+    private function _getReferences($msg_id, $type, &$references)
     {
         $references[] = $msg_id;
         if ($type == 'note') {
@@ -987,11 +937,10 @@ class Mail_Helper
         }
     }
 
-
-
-    function getBaseThreadingHeaders($issue_id)
+    public static function getBaseThreadingHeaders($issue_id)
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
+
         return array(
             "Message-ID"    =>  self::generateMessageID(),
             "In-Reply-To"   =>  $root_msg_id,
@@ -1002,35 +951,32 @@ class Mail_Helper
     /**
      * Unfolds message headers
      *
-     * @access  public
      * @param   string $input The headers to unfold
      * @return  string The unfolded headers
      */
-    function unfold($input)
+    public static function unfold($input)
     {
         $input = preg_replace("/\r?\n/", "\r\n", $input);
         $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
+
         return $input;
     }
 
     /**
      * Folds message headers
      *
-     * @access  public
      * @param   string $input The headers to fold
      * @return  string The folded headers
      */
-    function fold($input)
+    public static function fold($input)
     {
         return wordwrap($input, 70, "\r\n ");
     }
-
 
     /**
      * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
      * generate them in some cases) a "fake" message-id will be calculated.
      *
-     * @access  public
      * @param   string $headers The message headers
      * @param   string $body The message body
      */
@@ -1052,11 +998,11 @@ class Mail_Helper
         // no match, calculate hash to make fake message ID
         $first = base_convert(md5($headers), 10, 36);
         $second = base_convert(md5($body), 10, 36);
+
         return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
-
-    function splitAddresses($addresses)
+    public function splitAddresses($addresses)
     {
         $mail = new Mail_RFC822($addresses);
 
@@ -1068,6 +1014,7 @@ class Mail_Helper
                 $return[] = $address['address'];
             }
         }
+
         return $return;
     }
 }

@@ -25,8 +25,6 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 
-require_once 'TestSetup.php';
-
 /**
  * Test class for Mail_Helper.
  */

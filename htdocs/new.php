@@ -40,11 +40,10 @@ if (!Access::canCreateIssue($usr_id)) {
     Auth::redirect("main.php");
 }
 
-
 $tpl->assign("new_issue_id", '');
 
 // If the project has changed since the new issue form was requested, then change it back
-$issue_prj_id = !empty($_REQUEST['prj_id']) ? (int )$_REQUEST['prj_id'] : 0;
+$issue_prj_id = !empty($_REQUEST['prj_id']) ? (int) $_REQUEST['prj_id'] : 0;
 if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
     // Switch the project back
     $assigned_projects = Project::getAssocList($usr_id);
@@ -69,7 +68,6 @@ if (CRM::hasCustomerIntegration($prj_id)) {
         }
     }
 }
-
 
 if (@$_POST["cat"] == "report") {
     $res = Issue::createFromPost();

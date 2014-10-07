@@ -47,13 +47,14 @@ class Partner
             $class_name = $par_code . "_Partner_Backend";
 
             if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
-                require_once(APP_LOCAL_PATH . "/partner/$file_name");
+                require_once APP_LOCAL_PATH . "/partner/$file_name";
             } else {
                 require_once APP_INC_PATH . "/partner/$file_name";
             }
 
-            $setup_backends[$par_code] = new $class_name;
+            $setup_backends[$par_code] = new $class_name();
         }
+
         return $setup_backends[$par_code];
     }
 
@@ -69,6 +70,7 @@ class Partner
         foreach ($partners as $par_code) {
             $backends[] = self::getBackend($par_code);
         }
+
         return $backends;
     }
 
@@ -91,7 +93,6 @@ class Partner
         return 1;
     }
 
-
     public static function addPartnerToIssue($iss_id, $par_code)
     {
         $current_partners = self::getPartnerCodesByIssue($iss_id);
@@ -106,6 +107,7 @@ class Partner
             $res = DB_Helper::getInstance()->query($sql, $params);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
                 return false;
             }
             $backend = self::getBackend($par_code);
@@ -114,9 +116,9 @@ class Partner
             History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"),
                 "Partner '" . $backend->getName() . "' added to issue by " . User::getFullName(Auth::getUserID()));
         }
+
         return true;
     }
-
 
     public static function removePartnerFromIssue($iss_id, $par_code)
     {
@@ -129,6 +131,7 @@ class Partner
         $res = DB_Helper::getInstance()->query($sql, $params);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return false;
         }
         $backend = self::getBackend($par_code);
@@ -137,10 +140,8 @@ class Partner
         History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_removed"),
             "Partner '" . $backend->getName() . "' removed from issue by " . User::getFullName(Auth::getUserID()));
 
-
         return true;
     }
-
 
     public static function getPartnersByProject($prj_id)
     {
@@ -153,6 +154,7 @@ class Partner
         $res = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id));
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return array();
         }
 
@@ -162,6 +164,7 @@ class Partner
                 'name'  =>  self::getName($partner),
             );
         }
+
         return $return;
     }
 
@@ -180,11 +183,12 @@ class Partner
         $partners = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id, $iss_id));
         if (PEAR::isError($partners)) {
             Error_Handler::logError(array($partners->getMessage(), $partners->getDebugInfo()));
+
             return array();
         }
+
         return $partners;
     }
-
 
     public static function getPartnersByIssue($iss_id)
     {
@@ -197,9 +201,9 @@ class Partner
                 'message'   =>  self::getIssueMessage($par_code, $iss_id),
             );
         }
+
         return $return;
     }
-
 
     public static function isPartnerEnabledForIssue($par_code, $iss_id)
     {
@@ -238,6 +242,7 @@ class Partner
         foreach (self::getList() as $partner) {
             $returns[$partner['code']] = $partner['name'];
         }
+
         return $returns;
     }
 
@@ -261,6 +266,7 @@ class Partner
         $res = DB_Helper::getInstance()->query($sql, array($par_code));
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return -1;
         }
 
@@ -274,10 +280,12 @@ class Partner
                 $res = DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
                     return -1;
                 }
             }
         }
+
         return 1;
     }
 
@@ -295,11 +303,12 @@ class Partner
         $res = DB_Helper::getInstance()->getAssoc($sql, false, array($par_code));
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return array();
         }
+
         return $res;
     }
-
 
     /**
      * Returns a list of backends available
@@ -320,20 +329,21 @@ class Partner
                 $list[$files[$i]] = $matches[1];
             }
         }
+
         return $list;
     }
-
 
     public static function getName($par_code)
     {
         $backend = self::getBackend($par_code);
+
         return $backend->getName();
     }
-
 
     public static function getIssueMessage($par_code, $iss_id)
     {
         $backend = self::getBackend($par_code);
+
         return $backend->getIssueMessage($iss_id);
     }
 
@@ -369,8 +379,10 @@ class Partner
         $usr_details = User::getDetails($usr_id);
         if (!empty($usr_details['usr_par_code'])) {
             $backend = self::getBackend($usr_details['usr_par_code']);
+
             return $backend->canUserAccessFeature($usr_id, $feature);
         }
+
         return null;
     }
 
@@ -386,8 +398,10 @@ class Partner
         $usr_details = User::getDetails($usr_id);
         if (!empty($usr_details['usr_par_code'])) {
             $backend = self::getBackend($usr_details['usr_par_code']);
+
             return $backend->canUserAccessIssueSection($usr_id, $section);
         }
+
         return null;
     }
 
@@ -403,8 +417,10 @@ class Partner
         $usr_details = User::getDetails($usr_id);
         if (!empty($usr_details['usr_par_code'])) {
             $backend = self::getBackend($usr_details['usr_par_code']);
+
             return $backend->canUpdateIssue($issue_id, $usr_id);
         }
+
         return null;
     }
 }

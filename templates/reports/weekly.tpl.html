@@ -4,20 +4,19 @@
 {block "report_content"}
 <script type="text/javascript">
 {literal}
-function changeType(type) {
-    if (type == 'range') {
-        document.getElementById('week_row').style.display = 'none';
-        document.getElementById('start_row').style.display = getDisplayStyle();
-        document.getElementById('end_row').style.display = getDisplayStyle();
+function changeType() {
+    if ($('input[name=report_type]:checked').val() == 'range') {
+        $('#week_row').hide();
+        $('#start_row, #end_row').show();
     } else {
-        document.getElementById('week_row').style.display = getDisplayStyle();
-        document.getElementById('start_row').style.display = 'none';
-        document.getElementById('end_row').style.display = 'none';
+        $('#week_row').show();
+        $('#start_row, #end_row').hide();
     }
 }
 $().ready(function() {
 {/literal}
-    changeType('{$report_type}');
+    changeType();
+    $('input[name=report_type]').click(changeType);
 });
 </script>
 <form method="post" action="{$smarty.server.PHP_SELF}" name="weekly_report">
@@ -33,9 +32,9 @@ $().ready(function() {
             {t}Report Type:{/t}
           </td>
           <td width="200" NOWRAP>
-            <label><input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
+            <label><input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if}>
                 {t}Weekly{/t}</label>&nbsp;
-            <label><input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+            <label><input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if}>
                 {t}Date Range{/t}</label>&nbsp;
           </td>
         </tr>
@@ -83,8 +82,11 @@ $().ready(function() {
             <label><input type="checkbox" name="separate_closed" value="1" {if $smarty.request.separate_closed == 1}checked{/if}>
             {t}Separate Closed Issues{/t}</label>&nbsp;
             <br />
-            <label><input type="checkbox" name="separate_status_changed" value="1" {if $smarty.request.separate_status_changed == 1}checked{/if}>
-            {t}Separate Only Status Changes{/t}</label>&nbsp;
+            <label><input type="checkbox" name="separate_not_assigned_to_user" value="1" {if $smarty.request.separate_not_assigned_to_user == 1}checked{/if}>
+            {t}Separate Not Assigned to User{/t}</label>&nbsp;
+            <br />
+            <label><input type="checkbox" name="separate_no_time" value="1" {if $smarty.request.separate_no_time == 1}checked{/if}>
+            {t}Separate No time spent{/t}</label>&nbsp;
             <br />
             <label><input type="checkbox" name="ignore_statuses" value="1" {if $smarty.request.ignore_statuses == 1}checked{/if}>
             {t}Ignore Issue Status Changes{/t}</label>&nbsp;

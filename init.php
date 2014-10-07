@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -51,8 +51,17 @@ if (!defined('APP_CONFIG_PATH')) {
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
 
+/**
+ * Path for local overrides:
+ * APP_LOCAL_PATH/crm
+ * APP_LOCAL_PATH/custom_field
+ * APP_LOCAL_PATH/include
+ * APP_LOCAL_PATH/partner
+ * APP_LOCAL_PATH/templates
+ * APP_LOCAL_PATH/workflow
+ */
 if (!defined('APP_LOCAL_PATH')) {
-    define('APP_LOCAL_PATH', APP_PATH . '/local');
+    define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 }
 
 if (!defined('APP_COOKIE')) {
@@ -74,26 +83,6 @@ if (!defined('APP_TPL_COMPILE_PATH')) {
 
 if (!defined('APP_INC_PATH')) {
     define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-}
-
-if (!defined('APP_PEAR_PATH')) {
-    define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-}
-
-if (!defined('APP_SPHINXAPI_PATH')) {
-    define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
-}
-
-if (!defined('APP_PHP_GETTEXT_PATH')) {
-    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
-}
-
-if (!defined('APP_SMARTY_PATH')) {
-    define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
-}
-
-if (!defined('APP_JPGRAPH_PATH')) {
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
 }
 
 if (!defined('APP_LOCKS_PATH')) {
@@ -211,20 +200,7 @@ if (!defined('APP_MAINTENANCE')) {
     define('APP_MAINTENANCE', false);
 }
 
-// add pear to the include path
-if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
-    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
-set_include_path(APP_LOCAL_PATH . "/include/" . PATH_SEPARATOR . get_include_path());
-
-// add sphinxapi to the include path
-if (defined('APP_SPHINXAPI_PATH') && APP_SPHINXAPI_PATH) {
-    set_include_path(APP_SPHINXAPI_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-require_once APP_INC_PATH . '/autoload.php';
+require_once APP_PATH . '/vendor/autoload-dist.php';
 
 // fix magic_quote_gpc'ed values
 if (get_magic_quotes_gpc()) {
@@ -233,21 +209,20 @@ if (get_magic_quotes_gpc()) {
     $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 }
 
+Misc::stripInput($_POST);
+
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
-
-
-set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
 
 require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
 
 // set charset
-Header('Content-Type: text/html; charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=' . APP_CHARSET);
 
 // display maintenance message if requested.
-if (APP_MAINTENANCE){
-    $is_manage = (strpos($_SERVER['PHP_SELF'],'/manage/') !== false);
+if (APP_MAINTENANCE) {
+    $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
     if (APP_MAINTENANCE && !$is_manage) {
         $tpl = new Template_Helper();
         $tpl->setTemplate("maintenance.tpl.html");

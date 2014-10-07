@@ -58,6 +58,7 @@ class User
                 self::$localized_roles[$id] = ev_gettext($role);
             }
         }
+
         return self::$localized_roles;
     }
 
@@ -73,7 +74,6 @@ class User
      * Method used to get the user ID associated with the given customer
      * contact ID.
      *
-     * @access  public
      * @param   integer $customer_contact_id The customer contact ID
      * @return  integer The user ID
      */
@@ -88,18 +88,17 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the account email address associated with the given
      * customer contact ID.
      *
-     * @access  public
      * @param   integer $customer_contact_id The customer contact ID
      * @return  string The user's email address
      */
@@ -114,18 +113,17 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the SMS email address associated with the given
      * user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user's SMS email address
      */
@@ -140,18 +138,17 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to update the SMS email address associated with the given
      * user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $sms_email The user's SMS email address
      * @return  boolean Whether the update was successfull or not
@@ -167,12 +164,12 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method used to get the customer contact ID associated with
@@ -192,18 +189,17 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the customer ID associated with
      * the given user ID.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer The customer ID
      */
@@ -224,18 +220,18 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $returns[$usr_id] = $res;
+
             return $res;
         }
     }
 
-
     /**
      * Method used to update the user account and set the user as a confirmed one.
      *
-     * @access  public
      * @param   string $email The email address
      * @return  boolean
      */
@@ -250,18 +246,17 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to check whether the hash passed in the confirmation URL is
      * a valid one when comparing against the provided email address.
      *
-     * @access  public
      * @param   string $email The email address associated with the user account
      * @param   string $hash The md5 hash string to be checked against
      * @return  integer -1 if there was an error in the query, -2 for users that don't exist,
@@ -278,6 +273,7 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             if ($res == NULL) {
@@ -293,12 +289,10 @@ class User
         }
     }
 
-
     /**
      * Method used to create a new user account with pending status and send a
      * confirmation email to the prospective user.
      *
-     * @access  public
      * @param   string $role The user role
      * @param   array $projects The list of projects that this user will be associated with
      * @return  integer 1 if the creation worked, -1 otherwise
@@ -327,6 +321,7 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_usr_id = DB_Helper::get_last_insert_id();
@@ -350,20 +345,19 @@ class User
             $text_message = $tpl->getTemplateContents();
 
             $setup = Setup::load();
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             // need to make this message MIME based
             $mail->setTextBody($text_message);
             $mail->send($setup["smtp"]["from"], $_POST["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
+
             return 1;
         }
     }
-
 
     /**
      * Method used to send a confirmation email to the user that is associated
      * to the email address.
      *
-     * @access  public
      * @param   string $usr_id The user ID
      * @return  void
      */
@@ -383,7 +377,7 @@ class User
         $text_message = $tpl->getTemplateContents();
 
         $setup = Setup::load();
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         // need to make this message MIME based
         $mail->setTextBody($text_message);
         $mail->send($setup["smtp"]["from"], $info["usr_email"], APP_SHORT_NAME . ": New Password - Confirmation Required");
@@ -393,7 +387,6 @@ class User
      * Method used to confirm the request of a new password and send an email
      * to the user with the new random password.
      *
-     * @access  public
      * @param   string $email The email address
      * @return  void
      */
@@ -404,7 +397,6 @@ class User
         $password = substr(md5(microtime() . uniqid("")), 0, 12);
         Auth::updatePassword($usr_id, $password, $password, true);
     }
-
 
     public static function getUserIDByExternalID($external_id)
     {
@@ -417,11 +409,12 @@ class User
         $res = DB_Helper::getInstance()->getOne($sql, array($external_id));
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return null;
         }
+
         return $res;
     }
-
 
     /**
      * Method used to lookup the user ID of a given email address.
@@ -437,10 +430,12 @@ class User
         if (!is_string($email)) {
             if (PEAR::isError($email)) {
                 Error_Handler::logError(array($email->getMessage(), $email->getDebugInfo()), __FILE__, __LINE__);
+
                 return null;
             }
 
             Error_Handler::logError('$email parameter is not a string: '.gettype($email), __FILE__, __LINE__);
+
             return null;
         }
 
@@ -457,6 +452,7 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if ((empty($res)) && ($check_aliases)) {
@@ -464,16 +460,15 @@ class User
             } else {
                 $returns[$email] = $res;
             }
+
             return $returns[$email];
         }
     }
-
 
     /**
      * Method used to check whether an user is set to status active
      * or not.
      *
-     * @access  public
      * @param   string $status The status of the user
      * @return  boolean
      */
@@ -486,12 +481,10 @@ class User
         }
     }
 
-
     /**
      * Method used to check whether an user is set to status pending
      * or not.
      *
-     * @access  public
      * @param   string $status The status of the user
      * @return  boolean
      */
@@ -504,19 +497,17 @@ class User
         }
     }
 
-
     /**
      * Method used to get the list of all active users available in the system
      * as an associative array of user IDs => user full names.
      *
-     * @access  public
      * @param   integer $prj_id The id of the project to show users from
      * @param   integer $role The role ID of the user
      * @param   boolean $exclude_grouped If users with a group should be excluded
      * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    public static function getActiveAssocList($prj_id = false, $role = NULL, $exclude_grouped = false, $grp_id = false)
+    public static function getActiveAssocList($prj_id = false, $role = null, $exclude_grouped = false, $grp_id = false)
     {
         $grp_id = Misc::escapeInteger($grp_id);
         $stmt = "SELECT
@@ -554,6 +545,7 @@ class User
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
@@ -563,7 +555,6 @@ class User
     /**
      * Method used to get an associative array of the available roles.
      *
-     * @access  public
      * @return  array The list of roles
      */
     public static function getAssocRoleIDs()
@@ -573,15 +564,14 @@ class User
             $value = str_replace(" ", "_", strtolower($value));
             $assoc_roles[$value] = (integer) $key;
         }
+
         return $assoc_roles;
     }
-
 
     /**
      * Method used to get the full list of roles available in the
      * system.
      *
-     * @access  public
      * @param   array $exclude_role The list of roles to ignore
      * @return  array The list of roles
      */
@@ -603,11 +593,9 @@ class User
         return $roles;
     }
 
-
     /**
      * Method used to get the role title for a specific role ID.
      *
-     * @access  public
      * @param   integer $role_id The role ID
      * @return  string The role title
      */
@@ -617,7 +605,6 @@ class User
         // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
         return isset($roles[$role_id]) ? $roles[$role_id] : null;
     }
-
 
     /**
      * Method used to get the role ID for a specific role title.
@@ -634,11 +621,9 @@ class User
         }
     }
 
-
     /**
      * Method used to get the role for a specific user and project.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   integer $prj_id The project ID
      * @return  integer The role ID
@@ -667,10 +652,10 @@ class User
             return "";
         } else {
             $returns[$usr_id][$prj_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the account details of a specific user.
@@ -681,6 +666,7 @@ class User
     public static function getDetails($usr_id)
     {
         $res = self::getDetailsAssoc(array($usr_id));
+
         return reset($res);
     }
 
@@ -705,10 +691,11 @@ class User
             $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return null;
             }
 
-            foreach ($res as $usr_id => &$row) {
+            foreach ($res as &$row) {
                 // FIXME: maybe PEAR has some "fill NULL" mode?
                 if (!isset($row['usr_grp_id'])) {
                     $row['usr_grp_id'] = null;
@@ -725,11 +712,9 @@ class User
         return $returns[$key];
     }
 
-
     /**
      * Method used to get the full name of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
@@ -769,18 +754,18 @@ class User
         }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$key] = $res;
+
             return $res;
         }
     }
 
-
     /**
      * Method used to get the email address of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID or user ids
      * @return  string The user' full name
      */
@@ -827,15 +812,14 @@ class User
             }
         } else {
             $returns[$key] = $res;
+
             return $res;
         }
     }
 
-
     /**
      * Method used to get the group id of the specified user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
@@ -867,13 +851,14 @@ class User
         }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$key] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Returns the status of the user associated with the given email address.
@@ -900,19 +885,19 @@ class User
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $returns[$email] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to change the status of users, making them inactive
      * or active.
      *
-     * @access  public
      * @return  boolean
      */
     public static function changeStatus()
@@ -939,6 +924,7 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
@@ -948,12 +934,11 @@ class User
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $send_notification Whether to send the notification email or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function updatePassword($usr_id, $send_notification = FALSE)
+    public static function updatePassword($usr_id, $send_notification = false)
     {
         if ($_POST['new_password'] != $_POST['confirm_password']) {
             return -2;
@@ -967,20 +952,20 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             if ($send_notification) {
                 Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
             }
+
             return 1;
         }
     }
 
-
     /**
      * Method used to update the account full name for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -996,18 +981,18 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         Notification::notifyUserAccount($usr_id);
+
         return 1;
     }
-
 
     /**
      * Method used to update the account email for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -1022,9 +1007,11 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Notification::notifyUserAccount($usr_id);
+
             return 1;
         }
     }
@@ -1043,14 +1030,13 @@ class User
         if (isset($_POST['par_code'])) {
             $data['par_code'] = $_POST['par_code'];
         }
+
         return self::update($usr_id, $data);
     }
-
 
     /**
      * Method used to update the account details for a specific user.
      *
-     * @access  public
      * @param $usr_id
      * @param $data
      * @param bool $notify
@@ -1091,6 +1077,7 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -1103,6 +1090,7 @@ class User
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
 
@@ -1124,6 +1112,7 @@ class User
                 $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return -1;
                 }
             }
@@ -1136,6 +1125,7 @@ class User
                 Notification::notifyUserAccount($usr_id);
             }
         }
+
         return 1;
     }
 
@@ -1162,11 +1152,9 @@ class User
         }
     }
 
-
     /**
      * Method used to add a new user to the system.
      *
-     * @access  public
      * @param   array $user The array of user information
      * @return  integer 1 if the update worked, -1 otherwise
      */
@@ -1179,8 +1167,7 @@ class User
             }
             $projects[] = $prj_id;
         }
-        $prefs = serialize(Prefs::getDefaults($projects));
-        $group_id = !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL';
+
         $params = array(
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
@@ -1218,6 +1205,7 @@ class User
         $res = DB_Helper::getInstance()->query($stmt, $params);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_usr_id = DB_Helper::get_last_insert_id();
@@ -1235,15 +1223,14 @@ class User
 
             // send email to user
             Notification::notifyNewUser($new_usr_id, $user["password"]);
+
             return $new_usr_id;
         }
     }
 
-
     /**
      * Method used to get the list of users available in the system.
      *
-     * @access  public
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
@@ -1261,6 +1248,7 @@ class User
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $data = array();
@@ -1284,16 +1272,15 @@ class User
                 }
                 $data[] = $row;
             }
+
             return $data;
         }
     }
-
 
     /**
      * Method used to get an associative array of the user's email address and
      * user ID.
      *
-     * @access  public
      * @return  array The list of users
      */
     public static function getAssocEmailList()
@@ -1312,19 +1299,19 @@ class User
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $emails = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get an associative array of the user ID and
      * full name of the users available in the system.
      *
-     * @access  public
      * @return  array The list of users
      */
     public static function getAssocList()
@@ -1339,12 +1326,12 @@ class User
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the full name and email for the specified
@@ -1372,13 +1359,14 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $returns[$usr_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the appropriate 'From' header for a
@@ -1390,15 +1378,14 @@ class User
     public static function getFromHeader($usr_id)
     {
         $info = self::getNameEmail($usr_id);
+
         return $info["usr_full_name"] . " <" . $info["usr_email"] . ">";
     }
-
 
     /**
      * Returns the list of all users who are currently marked as
      * clocked-in.
      *
-     * @access  public
      * @return  array The list of clocked-in users
      */
     public static function getClockedInList()
@@ -1414,17 +1401,16 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
     /**
      * Marks a user as clocked in.
      *
-     * @access  public
      * @param   int $usr_id The id of the user to clock out.
      */
     public static function clockIn($usr_id)
@@ -1439,16 +1425,16 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Marks a user as clocked out.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      */
     public static function clockOut($usr_id)
@@ -1463,16 +1449,16 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Returns true if a user is clocked in.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      * @return  boolean True if the user is logged in, false otherwise
      */
@@ -1493,6 +1479,7 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
         if ($res == 1) {
@@ -1502,15 +1489,13 @@ class User
         }
     }
 
-
     /**
      * Sets the group ID
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   integer $grp_id The id of the group.
      */
-    function setGroupID($usr_id, $grp_id)
+    public static function setGroupID($usr_id, $grp_id)
     {
         if ($grp_id == false) {
             $grp_id = 'null';
@@ -1528,11 +1513,12 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     public static function getLang($usr_id, $force_refresh = false)
     {
@@ -1550,6 +1536,7 @@ class User
             if (PEAR::isError($res)) {
                 /** @var $res PEAR_Error */
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return APP_DEFAULT_LOCALE;
             } else {
                 if (empty($res)) {
@@ -1558,9 +1545,9 @@ class User
                 $returns[$usr_id] = $res;
             }
         }
+
         return $returns[$usr_id];
     }
-
 
     public static function setLang($usr_id, $language)
     {
@@ -1574,11 +1561,12 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
-
 
     public static function getAliases($usr_id)
     {
@@ -1592,8 +1580,10 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
+
         return $res;
     }
 
@@ -1619,11 +1609,12 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
-
 
     public static function removeAlias($usr_id, $email)
     {
@@ -1636,11 +1627,12 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
-
 
     public static function getUserIDByAlias($email)
     {
@@ -1654,11 +1646,12 @@ class User
         if (PEAR::isError($res)) {
             /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         }
+
         return $res;
     }
-
 
     public static function isPartner($usr_id)
     {
@@ -1670,13 +1663,14 @@ class User
                     usr_id = ?";
         $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return !empty($res);
     }
-
 
     public static function getPartnerID($usr_id)
     {
@@ -1688,20 +1682,24 @@ class User
                     usr_id = ?";
         $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
         if (PEAR::isError($res)) {
-	        /** @var $res PEAR_Error */
+            /** @var $res PEAR_Error */
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return $res;
     }
 
     public static function getExternalID($usr_id)
     {
         $details = User::getDetails($usr_id);
+
         return $details['usr_external_id'];
     }
 
-    public static function unlock($usr_id) {
+    public static function unlock($usr_id)
+    {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
@@ -1711,8 +1709,10 @@ class User
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
 }

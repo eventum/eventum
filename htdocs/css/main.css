@@ -1,7 +1,7 @@
 body {
     background: white;
     font-family: Verdana, Arial, Helvetica;
-    font-size: 70%;
+    font-size: .8em;
     padding: 0;
     margin: 0;
 }
@@ -121,6 +121,14 @@ div#header #search_menu input, div#header #go_issue_menu input {
     font-size: .9em;
 }
 
+div#header #shortcut.inactive {
+    color: lightgray;
+}
+
+div#header #search.inactive {
+    color: lightgray;
+}
+
 ul#main_menu {
     float: right;
     font-size: .9em;
@@ -161,6 +169,10 @@ div#content {
 
 .right {
     float: right;
+}
+
+.left {
+    float: left;
 }
 
 .custom_field_checkbox {
@@ -270,6 +282,7 @@ table.bordered td {
     background: #255282;
     color: #FFFFFF;
     padding: .3em;
+    text-align: center;
 }
 
 .bordered.internal .buttons, .bordered.internal .buttons td, .bordered .buttons.internal td {

@@ -43,7 +43,7 @@ class Command_Line
      * @param   resource $rpc_conn The connection resource
      * @return  integer The selected resolution id
      */
-    function promptResolutionSelection(&$rpc_conn)
+    public function promptResolutionSelection(&$rpc_conn)
     {
         $msg = new XML_RPC_Message("getResolutionAssocList");
         $result = $rpc_conn->send($msg);
@@ -71,9 +71,9 @@ class Command_Line
                 $resolution_id = $t[0];
             }
         }
+
         return $resolution_id;
     }
-
 
     /**
      * Prompts the user for a status option, and returns the title of the
@@ -85,7 +85,7 @@ class Command_Line
      * @param   integer $prj_id The project ID
      * @return  string The selected status title
      */
-    function promptStatusSelection(&$rpc_conn, $auth, $prj_id)
+    public function promptStatusSelection(&$rpc_conn, $auth, $prj_id)
     {
         $msg = new XML_RPC_Message("getClosedAbbreviationAssocList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($prj_id, 'int')));
@@ -118,9 +118,9 @@ class Command_Line
             $t = array_values($list);
             $status_title = $t[0];
         }
+
         return $status_title;
     }
-
 
     /**
      * Marks an issue as closed.
@@ -130,7 +130,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function closeIssue(&$rpc_conn, $auth, $issue_id)
+    public function closeIssue(&$rpc_conn, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -179,7 +179,6 @@ class Command_Line
         }
     }
 
-
     /**
      * Looks up customer information given a set of search parameters.
      *
@@ -189,9 +188,9 @@ class Command_Line
      * @param   string $field The field in which to search
      * @param   string $value The value to search against
      */
-    function lookupCustomer(&$rpc_conn, $auth, $field, $value)
+    public function lookupCustomer(&$rpc_conn, $auth, $field, $value)
     {
-        $project_id = self::promptProjectSelection($rpc_conn, $auth, TRUE);
+        $project_id = self::promptProjectSelection($rpc_conn, $auth, true);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -236,7 +235,6 @@ class Command_Line
         }
     }
 
-
     /**
      * Method used to parse the eventum command line configuration file
      * and return the appropriate configuration settings.
@@ -244,7 +242,7 @@ class Command_Line
      * @access  public
      * @return  array The configuration settings
      */
-    function getEnvironmentSettings()
+    public function getEnvironmentSettings()
     {
         $rcfile = getenv('HOME') . "/.eventumrc";
 
@@ -281,9 +279,9 @@ class Command_Line
         } else {
             die("Configuration file '$rcfile' could not be found\n");
         }
+
         return array($email, $password, $host, $port, $relative_url);
     }
-
 
     /**
      * Prints out a list of attachments associated with the given issue ID.
@@ -293,7 +291,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function printFileList(&$rpc_conn, $auth, $issue_id)
+    public function printFileList(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -316,7 +314,6 @@ class Command_Line
         }
     }
 
-
     /**
      * Downloads a given attachment file number.
      *
@@ -326,7 +323,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   integer $file_number The attachment file number
      */
-    function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
+    public function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
     {
 //        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -385,7 +382,6 @@ class Command_Line
         echo "OK - File '" . $details['iaf_filename'] . "' successfully downloaded to the local directory\n";
     }
 
-
     /**
      * Checks whether the given user email address is assigned to the given
      * issue ID.
@@ -395,7 +391,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function checkIssueAssignment(&$rpc_conn, $auth, $issue_id)
+    public function checkIssueAssignment(&$rpc_conn, $auth, $issue_id)
     {
         // check if the confirmation message was already displayed
         if (!$GLOBALS['_displayed_confirmation']) {
@@ -418,7 +414,6 @@ class Command_Line
         }
     }
 
-
     /**
      * Checks whether the given user email address is allowed to work with the
      * given issue ID.
@@ -429,7 +424,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   array The issue details, if the user is allowed to work on it
      */
-    function checkIssuePermissions(&$rpc_conn, $auth, $issue_id)
+    public function checkIssuePermissions(&$rpc_conn, $auth, $issue_id)
     {
         $projects = self::getUserAssignedProjects($rpc_conn, $auth);
 
@@ -455,9 +450,9 @@ class Command_Line
         if (!$found) {
             self::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
         }
+
         return $details;
     }
-
 
     /**
      * Method used to assign an issue to the current user.
@@ -468,7 +463,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $developer The email address of the assignee
      */
-    function assignIssue(&$rpc_conn, $auth, $issue_id, $developer)
+    public function assignIssue(&$rpc_conn, $auth, $issue_id, $developer)
     {
         // check if the given email address is indeed an email
         if (!strstr($developer, '@')) {
@@ -491,7 +486,6 @@ class Command_Line
         echo "OK - Issue #$issue_id successfully assigned to '$developer'\n";
     }
 
-
     /**
      * Method used to assign an issue to the current user and set status to 'assigned'.
      * If issue is already assigned to someone else, this will fail.
@@ -501,7 +495,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function takeIssue(&$rpc_conn, $auth, $issue_id)
+    public function takeIssue(&$rpc_conn, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -519,7 +513,6 @@ class Command_Line
         echo "OK - Issue #$issue_id successfully taken.\n";
     }
 
-
     /**
      * Method used to add an authorized replier
      *
@@ -529,7 +522,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $new_replier The email address of the assignee
      */
-    function addAuthorizedReplier(&$rpc_conn, $auth, $issue_id, $new_replier)
+    public function addAuthorizedReplier(&$rpc_conn, $auth, $issue_id, $new_replier)
     {
         // check if the given email address is indeed an email
         if (!strstr($new_replier, '@')) {
@@ -552,7 +545,6 @@ class Command_Line
         echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
     }
 
-
     /**
      * Method used to change the status of an issue.
      *
@@ -562,7 +554,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $new_status The new status title
      */
-    function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
+    public function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -578,7 +570,7 @@ class Command_Line
             new XML_RPC_Value($auth[0], 'string'),
             new XML_RPC_Value($auth[1], 'string'),
             new XML_RPC_Value($details['iss_prj_id'], 'int'),
-            new XML_RPC_Value(FALSE, 'boolean'),
+            new XML_RPC_Value(false, 'boolean'),
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -611,7 +603,6 @@ class Command_Line
         echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";
     }
 
-
     /**
      * Method used to add a time tracking entry to an existing issue.
      *
@@ -621,7 +612,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $time_spent The time spent in minutes
      */
-    function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
+    public function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -668,7 +659,6 @@ class Command_Line
         echo "OK - Added time tracking entry to issue #$issue_id\n";
     }
 
-
     /**
      * Method used to print the current details for a given issue.
      *
@@ -677,7 +667,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function printIssueDetails(&$rpc_conn, $auth, $issue_id)
+    public function printIssueDetails(&$rpc_conn, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -710,7 +700,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo $msg;
     }
 
-
     /**
      * Method used to print the list of open issues.
      *
@@ -720,7 +709,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $show_all_issues Whether to show all open issues or just the ones assigned to the current user
      * @param   string $status The status that should be used to restrict the results
      */
-    function printOpenIssues(&$rpc_conn, $auth, $show_all_issues, $status)
+    public function printOpenIssues(&$rpc_conn, $auth, $show_all_issues, $status)
     {
         $project_id = self::promptProjectSelection($rpc_conn, $auth);
         // check the status option
@@ -730,7 +719,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 new XML_RPC_Value($auth[0], 'string'),
                 new XML_RPC_Value($auth[1], 'string'),
                 new XML_RPC_Value($project_id, 'int'),
-                new XML_RPC_Value(TRUE, 'boolean'),
+                new XML_RPC_Value(true, 'boolean'),
             ));
             $result = $rpc_conn->send($msg);
             if ($result->faultCode()) {
@@ -777,7 +766,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to get the list of projects assigned to a given email address.
      *
@@ -787,7 +775,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    function getUserAssignedProjects(&$rpc_conn, $auth, $only_customer_projects = FALSE)
+    public function getUserAssignedProjects(&$rpc_conn, $auth, $only_customer_projects = false)
     {
         $msg = new XML_RPC_Message("getUserAssignedProjects", array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -798,9 +786,9 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         if ($result->faultCode()) {
             self::quit($result->faultString());
         }
+
         return XML_RPC_decode($result->value());
     }
-
 
     /**
      * Method used to prompt the current user to select a project.
@@ -811,7 +799,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  integer The project ID
      */
-    function promptProjectSelection(&$rpc_conn, $auth, $only_customer_projects = FALSE)
+    public function promptProjectSelection(&$rpc_conn, $auth, $only_customer_projects = false)
     {
         // list the projects that this user is assigned to
         $projects = self::getUserAssignedProjects($rpc_conn, $auth, $only_customer_projects);
@@ -838,9 +826,9 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         } else {
             $project_id = $projects[0]['id'];
         }
+
         return $project_id;
     }
-
 
     /**
      * Method used to print the available statuses associated with the
@@ -850,14 +838,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   resource $rpc_conn The connection resource
      * @param   array $auth Array of authentication information (email, password)
      */
-    function printStatusList(&$rpc_conn, $auth)
+    public function printStatusList(&$rpc_conn, $auth)
     {
         $project_id = self::promptProjectSelection($rpc_conn, $auth);
         $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
             new XML_RPC_Value($auth[0], 'string'),
             new XML_RPC_Value($auth[1], 'string'),
             new XML_RPC_Value($project_id, 'int'),
-            new XML_RPC_Value(TRUE, 'boolean'),
+            new XML_RPC_Value(true, 'boolean'),
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -870,7 +858,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to print the list of developers.
      *
@@ -878,7 +865,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   resource $rpc_conn The connection resource
      * @param   string $email The email address of the current user
      */
-    function printDeveloperList(&$rpc_conn, $auth)
+    public function printDeveloperList(&$rpc_conn, $auth)
     {
         $project_id = self::promptProjectSelection($rpc_conn, $auth);
         $msg = new XML_RPC_Message("getDeveloperList", array(
@@ -897,7 +884,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to list emails for a given issue.
      *
@@ -906,7 +892,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function listEmails(&$rpc_conn, $auth, $issue_id)
+    public function listEmails(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -954,7 +940,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::printTable($format, $emails);
     }
 
-
     /**
      * Method to show the contents of an email.
      *
@@ -965,7 +950,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $email_id The sequential id of the email to view
      * @param   boolean $display_full If the full email should be displayed.
      */
-    function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
+    public function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -993,7 +978,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to list notes for a given issue.
      *
@@ -1002,7 +986,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function listNotes(&$rpc_conn, $auth, $issue_id)
+    public function listNotes(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1049,7 +1033,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::printTable($format, $notes);
     }
 
-
     /**
      * Method to show the contents of a note.
      *
@@ -1059,7 +1042,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      */
-    function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
+    public function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1071,7 +1054,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo $note["not_note"];
     }
 
-
     /**
      * Returns the contents of a note via XML-RPC.
      *
@@ -1082,7 +1064,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $note_id The sequential id of the note to view
      * @return  array An array containg note details.
      */
-    function getNote(&$rpc_conn, $auth, $issue_id, $note_id)
+    public function getNote(&$rpc_conn, $auth, $issue_id, $note_id)
     {
         $msg = new XML_RPC_Message("getNote", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($note_id, "int")));
@@ -1097,9 +1079,9 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 $note[$key] = base64_decode($val);
             }
         }
+
         return $note;
     }
-
 
     /**
      * Converts a note into a draft or an email.
@@ -1112,7 +1094,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $target What this note should be converted too, a draft or an email.
      * @param   boolean $authorize_sender If the sender should be added to the authorized repliers list.
      */
-    function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target, $authorize_sender)
+    public function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -1141,7 +1123,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Fetches the weekly report for the current developer for the specified week.
      *
@@ -1153,7 +1134,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $end_date The end_date of the report. (optional)
      * @param   boolean If closed issues should be separated from other issues.
      */
-    function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
+    public function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
         $msg = new XML_RPC_Message("getWeeklyReport", array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -1172,7 +1153,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Clocks a user in/out of the system.
      *
@@ -1181,7 +1161,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $action If the user is clocking in or out.
      */
-    function timeClock(&$rpc_conn, $auth, $action)
+    public function timeClock(&$rpc_conn, $auth, $action)
     {
         $msg = new XML_RPC_Message("timeClock", array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -1196,7 +1176,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Lists drafts associated with an issue.
      *
@@ -1205,7 +1184,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function listDrafts(&$rpc_conn, $auth, $issue_id)
+    public function listDrafts(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1253,7 +1232,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::printTable($format, $drafts);
     }
 
-
     /**
      * Method to show the contents of a draft.
      *
@@ -1263,7 +1241,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the draft to view
      */
-    function printDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function printDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1279,7 +1257,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo $draft["emd_body"];
     }
 
-
     /**
      * Returns the contents of a draft via XML-RPC.
      *
@@ -1290,7 +1267,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $draft_id The sequential id of the draft to view
      * @return  array An array containg draft details.
      */
-    function getDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function getDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
     {
         $msg = new XML_RPC_Message("getDraft", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
@@ -1305,9 +1282,9 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 $draft[$key] = base64_decode($val);
             }
         }
+
         return $draft;
     }
-
 
     /**
      * Converts a draft to an email and sends it.
@@ -1319,7 +1296,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $draft_id The sequential id of the draft to send
      * @return  array An array containg draft details.
      */
-    function sendDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function sendDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
     {
         $msg = new XML_RPC_Message("sendDraft", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
@@ -1330,7 +1307,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo XML_RPC_decode($result->value());
     }
 
-
     /**
      * Marks an issue as redeemed incident
      *
@@ -1339,7 +1315,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function redeemIssue(&$rpc_conn, $auth, $issue_id)
+    public function redeemIssue(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -1363,7 +1339,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
     }
 
-
     /**
      * Un-marks an issue as redeemed incident
      *
@@ -1372,7 +1347,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    function unredeemIssue(&$rpc_conn, $auth, $issue_id)
+    public function unredeemIssue(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -1396,7 +1371,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         echo "OK - Issue #$issue_id successfully marked as unredeemed incident.\n";
     }
 
-
     /**
      * Returns the list of incident types available.
      *
@@ -1406,7 +1380,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   boolean $redeemed_only If this should only show items that have been redeemed.
      */
-    function promptIncidentTypes(&$rpc_conn, $auth, $issue_id, $redeemed_only = false)
+    public function promptIncidentTypes(&$rpc_conn, $auth, $issue_id, $redeemed_only = false)
     {
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -1446,10 +1420,10 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                     self::quit("Input '$type_id' is not a valid incident type");
                 }
             }
+
             return $requested_types;
         }
     }
-
 
     /**
      * Method to print data in a formatted table, according to the $format array.
@@ -1457,7 +1431,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $format An array containing how to format the data
      * @param   array $data An array of data to be printed
      */
-    function printTable($format, $data)
+    public function printTable($format, $data)
     {
         // loop through the fields, printing out the header row
         $firstRow = '';
@@ -1477,7 +1451,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to print a confirmation prompt with the current details
      * of the given issue. The $command parameter can be used to determine what type of
@@ -1489,7 +1462,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   string $args The arguments passed to this script
      */
-    function promptConfirmation(&$rpc_conn, $auth, $issue_id, $args)
+    public function promptConfirmation(&$rpc_conn, $auth, $issue_id, $args)
     {
         // this is needed to prevent multiple confirmations from being shown to the user
         $GLOBALS['_displayed_confirmation'] = true;
@@ -1529,7 +1502,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to check the authentication of the current user.
      *
@@ -1538,7 +1510,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $email The email address of the current user
      * @param   string $password The password of the current user
      */
-    function checkAuthentication(&$rpc_conn, $email, $password)
+    public function checkAuthentication(&$rpc_conn, $email, $password)
     {
         $msg = new XML_RPC_Message("isValidLogin", array(new XML_RPC_Value($email), new XML_RPC_Value($password)));
         $result = $rpc_conn->send($msg);
@@ -1554,7 +1526,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Logs the current command
      *
@@ -1563,7 +1534,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $command The command used to run this script.
      */
-    function log(&$rpc_conn, $auth, $command)
+    public function log(&$rpc_conn, $auth, $command)
     {
         $command = base64_encode($command);
         $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
@@ -1573,7 +1544,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
     }
 
-
     /**
      * Method used to check whether the current execution needs to have a
      * confirmation message shown before performing the requested action or not.
@@ -1581,17 +1551,17 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @access  public
      * @return  boolean
      */
-    function isSafeExecution()
+    public function isSafeExecution()
     {
         global $argv, $argc;
         if ($argv[count($argv) - 1] == '--safe') {
             array_pop($argv);
+
             return true;
         } else {
             return false;
         }
     }
-
 
     /**
      * Method used to print a usage statement for the command line interface.
@@ -1599,7 +1569,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @access  public
      * @param   string $script The current script name
      */
-    function usage($script)
+    public function usage($script)
     {
         $usage = array();
         $usage[] = array(
@@ -1739,14 +1709,13 @@ $explanation
         exit;
     }
 
-
     /**
      * Method used to print a message to standard output and halt processing.
      *
      * @access  public
      * @param   string $msg The message that needs to be printed
      */
-    function quit($msg)
+    public function quit($msg)
     {
         die("Error - $msg. Run script with --help for usage information.\n");
     }

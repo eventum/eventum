@@ -39,7 +39,6 @@ if ($role_id < User::getRoleID('manager')) {
     $tpl->displayTemplate();exit;
 }
 
-
 if (@$_POST["cat"] == "update") {
     $res = Partner::update($_POST['code'], @$_POST['projects']);
     $tpl->assign("result", $res);

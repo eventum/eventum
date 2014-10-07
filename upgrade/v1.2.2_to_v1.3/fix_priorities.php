@@ -13,7 +13,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority";
 $res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -31,7 +31,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
 $res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 $projects = $res;
@@ -51,8 +51,8 @@ foreach ($projects as $project_id => $project_name) {
                     pri_prj_id = $project_id";
         $res = DB_Helper::getInstance()->query($stmt);
         if (DB::isError($res)) {
-			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-			exit(1);
+            echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+            exit(1);
         }
         echo DB_Helper::getInstance()->affectedRows() . " priorities updated<br />";
     } else {
@@ -65,8 +65,8 @@ foreach ($projects as $project_id => $project_name) {
                         pri_prj_id = $project_id";
             $res = DB_Helper::getInstance()->query($stmt);
             if (DB::isError($res)) {
-				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-				exit(1);
+                echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+                exit(1);
             }
             $new_pri_id = DB_Helper::get_last_insert_id();
             $stmt = "UPDATE
@@ -78,8 +78,8 @@ foreach ($projects as $project_id => $project_name) {
                         iss_prj_id = $project_id";
             $res = DB_Helper::getInstance()->query($stmt);
             if (DB::isError($res)) {
-				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-				exit(1);
+                echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+                exit(1);
             }
             echo DB_Helper::getInstance()->affectedRows() . " issues updated to correct priority for project.<br />";
         }

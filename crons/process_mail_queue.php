@@ -43,7 +43,8 @@ define('SAPI_CLI', 'cli' == php_sapi_name());
  *
  * @return  array   $config
  */
-function getParams() {
+function getParams()
+{
     // defaults
     $config = array(
         'fix-lock' => false,
@@ -64,6 +65,7 @@ function getParams() {
             }
         }
     }
+
     return $config;
 }
 

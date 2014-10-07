@@ -58,7 +58,6 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
     Workflow::handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, Issue::getAssignedUserIDs($issue_id), false);
 }
 
-
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));
 
 $tpl->displayTemplate();

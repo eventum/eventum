@@ -70,7 +70,7 @@ $tpl->assign(array(
     "severities"    => Severity::getList($prj_id),
     "status"        => Status::getAssocStatusList($prj_id),
     "users"         => $assign_options,
-    "releases"      => Release::getAssocList($prj_id, TRUE),
+    "releases"      => Release::getAssocList($prj_id, true),
     "custom"        => Filter::getListing($prj_id),
     "custom_fields" =>  Custom_Field::getListByProject($prj_id, ''),
     "reporters"     => Project::getReporters($prj_id),
@@ -90,6 +90,5 @@ if (!empty($_GET["custom_id"])) {
     $options["cst_rows"] = APP_DEFAULT_PAGER_SIZE;
 }
 $tpl->assign("options", $options);
-
 
 $tpl->displayTemplate();

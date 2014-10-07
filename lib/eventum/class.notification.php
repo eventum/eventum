@@ -41,12 +41,11 @@ class Notification
      * Method used to check whether a given email address is subsbribed to
      * email notifications for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $email The email address
      * @return  boolean
      */
-    function isSubscribedToEmails($issue_id, $email)
+    public static function isSubscribedToEmails($issue_id, $email)
     {
         $email = strtolower(Mail_Helper::getEmailAddress($email));
         if ($email == '@') {
@@ -62,20 +61,18 @@ class Notification
         }
     }
 
-
     /**
      * Method used to get the list of email addresses currently
      * subscribed to a notification type for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @return  array The list of email addresses
      */
-    function getSubscribedEmails($issue_id, $type = false)
+    public static function getSubscribedEmails($issue_id, $type = false)
     {
         $stmt = "SELECT
-                    IF(usr_id <> 0, usr_email, sub_email) AS email
+                    CASE usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription";
@@ -100,24 +97,23 @@ class Notification
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to build a properly encoded email address that will be
      * used by the email/note routing system.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
      * @return  string The properly encoded email address
      */
-    function getFixedFromHeader($issue_id, $sender, $type)
+    public static function getFixedFromHeader($issue_id, $sender, $type)
     {
         $setup = Setup::load();
         if ($type == 'issue') {
@@ -189,16 +185,14 @@ class Notification
         return MIME_Helper::encodeAddress(trim($from));
     }
 
-
     /**
      * Method used to check whether the current sender of the email is the
      * mailer daemon responsible for dealing with bounces.
      *
-     * @access  public
      * @param   string $email The email address to check against
      * @return  boolean
      */
-    function isBounceMessage($email)
+    public static function isBounceMessage($email)
     {
         if (strtolower(substr($email, 0, 14)) == 'mailer-daemon@') {
             return true;
@@ -207,17 +201,15 @@ class Notification
         }
     }
 
-
     /**
      * Method used to check whether the given sender email address is
      * the same as the issue routing email address.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $sender The address of the sender
      * @return  boolean
      */
-    function isIssueRoutingSender($issue_id, $sender)
+    public static function isIssueRoutingSender($issue_id, $sender)
     {
         $check = self::getFixedFromHeader($issue_id, $sender, 'issue');
         $check_email = strtolower(Mail_Helper::getEmailAddress($check));
@@ -229,11 +221,9 @@ class Notification
         }
     }
 
-
     /**
      * Method used to forward the new email to the list of subscribers.
      *
-     * @access  public
      * @param   integer $user_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
      * @param   array $message An array containing the email
@@ -243,7 +233,7 @@ class Notification
      * @param   integer $sup_id the ID of this email
      * @return  void
      */
-    function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = FALSE, $assignee_only = FALSE, $type = '', $sup_id = false)
+    public static function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -355,16 +345,14 @@ class Notification
         }
     }
 
-
     /**
      * Method used to get the details of a given note and issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The note ID
      * @return  array The details of the note / issue
      */
-    function getNote($issue_id, $note_id)
+    public function getNote($issue_id, $note_id)
     {
         $stmt = "SELECT
                     not_usr_id,
@@ -387,6 +375,7 @@ class Notification
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
 
@@ -403,21 +392,20 @@ class Notification
 
             $data = Issue::getDetails($issue_id);
             $data["note"] = $res;
+
             return $data;
         }
     }
-
 
     /**
      * Method used to get the details of a given issue and its
      * associated emails.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The list of associated emails
      * @return  array The issue / emails details
      */
-    function getEmails($issue_id, $sup_ids)
+    public function getEmails($issue_id, $sup_ids)
     {
         $items = @implode(", ", Misc::escapeInteger($sup_ids));
         $stmt = "SELECT
@@ -433,6 +421,7 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (count($res) == 0) {
@@ -440,21 +429,20 @@ class Notification
             } else {
                 $data = Issue::getDetails($issue_id);
                 $data["emails"] = $res;
+
                 return $data;
             }
         }
     }
 
-
     /**
      * Method used to get the details of a given issue and attachment.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $attachment_id The attachment ID
      * @return  array The issue / attachment details
      */
-    function getAttachment($issue_id, $attachment_id)
+    public function getAttachment($issue_id, $attachment_id)
     {
         $stmt = "SELECT
                     iat_id,
@@ -472,26 +460,26 @@ class Notification
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $res["files"] = Attachment::getFileList($res["iat_id"]);
             $data = Issue::getDetails($issue_id);
             $data["attachment"] = $res;
+
             return $data;
         }
     }
-
 
     /**
      * Method used to get the list of users / emails that are
      * subscribed for notifications of changes for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @return  array The list of users / emails
      */
-    function getUsersByIssue($issue_id, $type)
+    public function getUsersByIssue($issue_id, $type)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if ($type == 'notes') {
@@ -519,6 +507,7 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
@@ -526,17 +515,15 @@ class Notification
 
     }
 
-
     /**
      * Method used to send a diff-style notification email to the issue
      * subscribers about updates to its attributes.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $old The old issue details
      * @param   array $new The new issue details
      */
-    function notifyIssueUpdated($issue_id, $old, $new)
+    public static function notifyIssueUpdated($issue_id, $old, $new)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $diffs = array();
@@ -633,20 +620,18 @@ class Notification
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
+        self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
     }
-
 
     /**
      * Method used to send a diff-style notification email to the issue
      * subscribers about status changes
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $old_status The old issue status
      * @param   array $new_status The new issue status
      */
-    function notifyStatusChange($issue_id, $old_status, $new_status)
+    public static function notifyStatusChange($issue_id, $old_status, $new_status)
     {
         $diffs = array();
         if ($old_status != $new_status) {
@@ -683,21 +668,19 @@ class Notification
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
+        self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', false);
     }
-
 
     /**
      * Method used to send email notifications for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The notification type
      * @param   array $ids The list of entries that were changed
      * @param   integer $internal_only Whether the notification should only be sent to internal users or not
      * @return  void
      */
-    function notify($issue_id, $type, $ids = FALSE, $internal_only = FALSE, $extra_recipients = FALSE)
+    public static function notify($issue_id, $type, $ids = false, $internal_only = false, $extra_recipients = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         if ($extra_recipients) {
@@ -817,11 +800,10 @@ class Notification
     /**
      * Method used to get list of addresses that were email sent to.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array   list of addresse
      */
-    function getLastNotifiedAddresses($issue_id = null)
+    public function getLastNotifiedAddresses($issue_id = null)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -836,14 +818,13 @@ class Notification
             // return address list for specific issue_id only.
             $ret = $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id];
         }
+
         return array_unique($ret);
     }
-
 
     /**
      * Method used to format and send the email notifications.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $emails The list of emails
      * @param   string $type The notification type
@@ -853,7 +834,7 @@ class Notification
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
      * @return  void
      */
-    function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
+    public function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -903,7 +884,6 @@ class Notification
                 continue;
             }
 
-
             // change the current locale
             if (!empty($recipient_usr_id)) {
                 Language::set(User::getLang($recipient_usr_id));
@@ -912,7 +892,7 @@ class Notification
             }
 
             // send email (use PEAR's classes)
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             $mail->setTextBody($tpl->getTemplateContents());
             if ($headers != false) {
                 $mail->setHeaders($headers);
@@ -958,7 +938,7 @@ class Notification
             } else {
                 $from = self::getFixedFromHeader($issue_id, '', 'issue');
             }
-            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $notify_type, $sender_usr_id, $type_id);
+            $mail->send($from, $emails[$i], $full_subject, true, $issue_id, $notify_type, $sender_usr_id, $type_id);
 
             $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $emails[$i];
         }
@@ -967,18 +947,16 @@ class Notification
         Language::restore();
     }
 
-
     /**
      * Method used to send an email notification to users that want
      * to be alerted when new issues are created in the system.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array   $exclude_list The list of users NOT to notify.
      * @return  void
      */
-    function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
+    public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $issue_id = Misc::escapeInteger($issue_id);
@@ -1082,12 +1060,10 @@ class Notification
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
 
-
     /**
      * Method used to send an email notification to the sender of an
      * email message that was automatically converted into an issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   string $sender The sender of the email message (and the recipient of this notification)
@@ -1096,7 +1072,7 @@ class Notification
      * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
      * @return  void
      */
-    function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
+    public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
@@ -1159,7 +1135,7 @@ class Notification
             $text_message = $tpl->getTemplateContents();
 
             // send email (use PEAR's classes)
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $setup = $mail->getSMTPSettings();
@@ -1171,23 +1147,22 @@ class Notification
         }
     }
 
-
     /**
      * Method used to send an email notification to the sender of a
      * set of email messages that were manually converted into an
      * issue.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The email IDs
      * @param bool|int $customer_id The customer ID
      * @return  array The list of recipient emails
      */
-    function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
+    public static function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = false)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
+
             return $crm->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
         } else {
             // build the list of recipients
@@ -1238,7 +1213,7 @@ class Notification
                 $text_message = $tpl->getTemplateContents();
 
                 // send email (use PEAR's classes)
-                $mail = new Mail_Helper;
+                $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $from = self::getFixedFromHeader($issue_id, $setup["from"], 'issue');
@@ -1246,20 +1221,19 @@ class Notification
                 $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
+
             return $recipient_emails;
         }
     }
-
 
     /**
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
      */
-    function notifyIRCBlockedMessage($issue_id, $from)
+    public function notifyIRCBlockedMessage($issue_id, $from)
     {
         $notice = "Issue #$issue_id updated (";
         // also add information about the assignee, if any
@@ -1270,7 +1244,6 @@ class Notification
         $notice .= "BLOCKED email from '$from')";
         self::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
     }
-
 
     /**
      * Method used to save the IRC notification message in the queue table.
@@ -1284,7 +1257,7 @@ class Notification
      * @return  bool
      */
     public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false,
-                                     $type=False)
+                                     $type=false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
@@ -1328,22 +1301,21 @@ class Notification
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to send an email notification when the account
      * details of an user is changed.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  void
      */
-    function notifyUserAccount($usr_id)
+    public static function notifyUserAccount($usr_id)
     {
         $info = User::getDetails($usr_id);
         $info["projects"] = Project::getAssocList($usr_id, true, true);
@@ -1361,7 +1333,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account information updated"));
@@ -1369,17 +1341,15 @@ class Notification
         Language::restore();
     }
 
-
     /**
      * Method used to send an email notification when the account
      * password of an user is changed.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
      * @return  void
      */
-    function notifyUserPassword($usr_id, $password)
+    public static function notifyUserPassword($usr_id, $password)
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
@@ -1398,7 +1368,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account password changed"));
@@ -1406,17 +1376,15 @@ class Notification
         Language::restore();
     }
 
-
     /**
      * Method used to send an email notification when a new user
      * account is created.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
      * @return  void
      */
-    function notifyNewUser($usr_id, $password)
+    public static function notifyNewUser($usr_id, $password)
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
@@ -1435,7 +1403,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("New User information"));
@@ -1443,16 +1411,14 @@ class Notification
         Language::restore();
     }
 
-
     /**
      * Send an email to all issue assignees
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue
      * @param   string $type The type of notification to send
      * @param   array $data Any extra data to pass to the template
      */
-    function notifyAssignees($issue_id, $type, $data, $title = '')
+    public function notifyAssignees($issue_id, $type, $data, $title = '')
     {
         $prj_id = Issue::getProjectID($issue_id);
         $assignees = Issue::getAssignedUserIDs($issue_id);
@@ -1479,27 +1445,25 @@ class Notification
                 $text_message = $tpl->getTemplateContents();
 
                 // send email (use PEAR's classes)
-                $mail = new Mail_Helper;
+                $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
+                $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], true, $issue_id, $type);
             }
             Language::restore();
         }
 
     }
 
-
     /**
      * Method used to send an email notification when an issue is
      * assigned to an user.
      *
-     * @access  public
      * @param   array $users The list of users
      * @param   integer $issue_id The issue ID
      * @return  void
      */
-    function notifyNewAssignment($users, $issue_id)
+    public static function notifyNewAssignment($users, $issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
@@ -1532,23 +1496,21 @@ class Notification
             Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]))));
 
             // send email (use PEAR's classes)
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
+            $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], true, $issue_id, 'assignment');
         }
         Language::restore();
     }
 
-
     /**
      * Method used to send the account details of an user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @return  void
      */
-    function notifyAccountDetails($usr_id)
+    public function notifyAccountDetails($usr_id)
     {
         $info = User::getDetails($usr_id);
         $info["projects"] = Project::getAssocList($usr_id, true, true);
@@ -1564,24 +1526,22 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_Helper;
+        $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("Your User Account Details"));
         Language::restore();
     }
 
-
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $type The type of subscription
      * @param   integer $min_role Only show subscribers with this role or above
      * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
-    function getSubscribers($issue_id, $type = false, $min_role = false)
+    public function getSubscribers($issue_id, $type = false, $min_role = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
@@ -1624,6 +1584,7 @@ class Notification
         $users = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($users)) {
             Error_Handler::logError(array($users->getMessage(), $users->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -1663,6 +1624,7 @@ class Notification
             $emails = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($emails)) {
                 Error_Handler::logError(array($emails->getMessage(), $emails->getDebugInfo()), __FILE__, __LINE__);
+
                 return array();
             }
             for ($i = 0; $i < count($emails); $i++) {
@@ -1680,19 +1642,18 @@ class Notification
         $subscribers['all'] = @join(', ', array_merge($subscribers['staff'], $subscribers['customers']));
         $subscribers['staff'] = @implode(', ', $subscribers['staff']);
         $subscribers['customers'] = @implode(', ', $subscribers['customers']);
+
         return $subscribers;
     }
-
 
     /**
      * Method used to get the details of a given email notification
      * subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subcription ID
      * @return  array The details of the subscription
      */
-    function getDetails($sub_id)
+    public function getDetails($sub_id)
     {
         $stmt = "SELECT
                     *
@@ -1703,26 +1664,26 @@ class Notification
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if ($res["sub_usr_id"] != 0) {
                 $user_info = User::getNameEmail($res["sub_usr_id"]);
                 $res["sub_email"] = $user_info["usr_email"];
             }
+
             return array_merge($res, self::getSubscribedActions($sub_id));
         }
     }
-
 
     /**
      * Method used to get the subscribed actions for a given
      * subscription ID.
      *
-     * @access  public
      * @param   integer $sub_id The subcription ID
      * @return  array The subscribed actions
      */
-    function getSubscribedActions($sub_id)
+    public function getSubscribedActions($sub_id)
     {
         $stmt = "SELECT
                     sbt_type,
@@ -1734,21 +1695,20 @@ class Notification
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of subscribers
      */
-    function getSubscriberListing($issue_id)
+    public function getSubscriberListing($issue_id)
     {
         $stmt = "SELECT
                     sub_id,
@@ -1762,6 +1722,7 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -1772,6 +1733,7 @@ class Notification
                 $actions = self::getSubscribedActions($res[$i]["sub_id"]);
                 $res[$i]["actions"] = @implode(", ", array_keys($actions));
             }
+
             return $res;
         }
     }
@@ -1779,12 +1741,11 @@ class Notification
     /**
      * Returns if the specified user is notified in this issue.
      *
-     * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $usr_id The user to check.
      * @return  boolean If the specified user is notified in the issue.
      */
-    function isUserNotified($issue_id, $usr_id)
+    public function isUserNotified($issue_id, $usr_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -1797,6 +1758,7 @@ class Notification
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return null;
         }
 
@@ -1807,11 +1769,10 @@ class Notification
      * Method used to remove all subscriptions associated with a given
      * set of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
@@ -1823,23 +1784,23 @@ class Notification
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::remove($res);
+
             return true;
         }
     }
-
 
     /**
      * Method used to remove all rows associated with a set of
      * subscription IDs
      *
-     * @access  public
      * @param   array $items The list of subscription IDs
      * @return  boolean
      */
-    function remove($items)
+    public function remove($items)
     {
         $items = Misc::escapeInteger($items);
         $stmt = "SELECT
@@ -1868,9 +1829,9 @@ class Notification
                             ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
         }
         Issue::markAsUpdated($issue_id);
+
         return true;
     }
-
 
     public static function removeByEmail($issue_id, $email)
     {
@@ -1891,7 +1852,8 @@ class Notification
         }
         $sub_id = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($sub_id)) {
-        	Error_Handler::logError(array($sub_id->getMessage(), $sub_id->getDebugInfo()));
+            Error_Handler::logError(array($sub_id->getMessage(), $sub_id->getDebugInfo()));
+
             return false;
         }
 
@@ -1901,7 +1863,8 @@ class Notification
                     sub_id=$sub_id";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
-        	Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return false;
         }
         $stmt = "DELETE FROM
@@ -1911,6 +1874,7 @@ class Notification
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
+
             return false;
         }
 
@@ -1919,19 +1883,18 @@ class Notification
                         ev_gettext('Notification list entry (%1$s) removed by %2$s', $email, User::getFullName(Auth::getUserID())));
 
         Issue::markAsUpdated($issue_id);
+
         return true;
     }
-
 
     /**
      * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @return  string The email address
      */
-    function getSubscriber($sub_id)
+    public function getSubscriber($sub_id)
     {
         $stmt = "SELECT
                     sub_usr_id,
@@ -1943,6 +1906,7 @@ class Notification
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             if (empty($res['sub_usr_id'])) {
@@ -1952,7 +1916,6 @@ class Notification
             }
         }
     }
-
 
     /**
      * Returns the subscription ID for the specified email and issue ID
@@ -1982,20 +1945,19 @@ class Notification
         $res = DB_Helper::getInstance()->getOne($stmt, $params);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return null;
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the full list of possible notification actions.
      *
-     * @access  public
      * @return  array All of the possible notification actions
      */
-    function getAllActions()
+    public static function getAllActions()
     {
         return array(
             'updated',
@@ -2005,18 +1967,16 @@ class Notification
         );
     }
 
-
     /**
      * Method used to get the full list of default notification
      * actions.
      *
-     * @access  public
      * @param   integer $issue_id The ID of the issue the user is being subscribed too
      * @param   string  $email The email address of the user to be subscribed
      * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
-    function getDefaultActions($issue_id = false, $email = false, $source = false)
+    public static function getDefaultActions($issue_id = false, $email = false, $source = false)
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
@@ -2039,14 +1999,13 @@ class Notification
         if (@$setup['emails'] == 1) {
             $actions[] = 'emails';
         }
+
         return $actions;
     }
-
 
     /**
      * Method used to subscribe an user to a set of actions in an issue.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
      * @param   integer $subscriber_usr_id The user ID of the subscriber
@@ -2054,7 +2013,7 @@ class Notification
      * @param   boolean $add_history Whether to add a history entry about this change or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = TRUE)
+    public static function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
@@ -2100,6 +2059,7 @@ class Notification
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $sub_id = DB_Helper::get_last_insert_id();
@@ -2113,23 +2073,22 @@ class Notification
                 History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                                 ev_gettext('Notification list entry (%1$s) added by %2$s', User::getFromHeader($subscriber_usr_id), User::getFullName($usr_id)));
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to add a new subscriber manually, by using the
      * email notification interface.
      *
-     * @access  public
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   string $form_email The email address to subscribe
      * @param   array $actions The actions to subcribe to
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
+    public static function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
     {
         $form_email = Mail_Helper::getEmailAddress($form_email);
         if (!is_string($form_email)) {
@@ -2187,6 +2146,7 @@ class Notification
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $sub_id = DB_Helper::get_last_insert_id();
@@ -2198,21 +2158,20 @@ class Notification
             // need to save a history entry for this
             History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                             ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id)));
+
             return 1;
         }
     }
-
 
     /**
      * Method used to add the subscription type to the given
      * subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @param   string $type The subscription type
      * @return  void
      */
-    function addType($sub_id, $type)
+    public function addType($sub_id, $type)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
@@ -2226,15 +2185,13 @@ class Notification
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to update the details of a given subscription.
      *
-     * @access  public
      * @param   integer $sub_id The subscription ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update($sub_id)
+    public function update($sub_id)
     {
         $sub_id = Misc::escapeInteger($sub_id);
 
@@ -2278,6 +2235,7 @@ class Notification
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $stmt = "DELETE FROM
@@ -2294,6 +2252,7 @@ class Notification
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'),
                             ev_gettext('Notification list entry (\'%1$s\') updated by %2$s', self::getSubscriber($sub_id), User::getFullName(Auth::getUserID())));
+
             return 1;
         }
     }

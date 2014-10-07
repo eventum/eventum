@@ -49,7 +49,7 @@ if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::
 Workflow::prePage($prj_id, 'post_note');
 
 if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
-    $res = (int)$_GET['post_result'];
+    $res = (int) $_GET['post_result'];
     $tpl->assign("post_result", $res);
 
 } elseif (@$_POST["cat"] == "post_note") {

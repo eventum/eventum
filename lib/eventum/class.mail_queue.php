@@ -34,7 +34,6 @@ class Mail_Queue
     /**
      * Adds an email to the outgoing mail queue.
      *
-     * @access  public
      * @param   string $recipient The recipient of this email
      * @param   array $headers The list of headers that should be sent with this email
      * @param   string $body The body of the message
@@ -45,7 +44,7 @@ class Mail_Queue
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return  true, or a PEAR_Error object
      */
-    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    public static function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
         Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
@@ -91,6 +90,7 @@ class Mail_Queue
         $res = Mail_Helper::prepareHeaders($headers);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return $res;
         }
 
@@ -136,24 +136,23 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return $res;
         } else {
             return true;
         }
     }
 
-
     /**
      * Sends the queued up messages to their destinations. This can either try
      * to send emails that couldn't be sent before (status = 'error'), or just
      * emails just recently queued (status = 'pending').
      *
-     * @access  public
      * @param   string $status The status of the messages that need to be sent
      * @param   integer $limit The limit of emails that we should send at one time
      * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
-    function send($status, $limit = false, $merge = false)
+    public function send($status, $limit = false, $merge = false)
     {
         if ($merge !== false) {
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
@@ -176,6 +175,7 @@ class Mail_Queue
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return $res;
                 }
 
@@ -222,11 +222,9 @@ class Mail_Queue
         }
     }
 
-
     /**
      * Connects to the SMTP server and sends the queued message.
      *
-     * @access  private
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
@@ -270,18 +268,17 @@ class Mail_Queue
             $msg = $res->getMessage();
             $cant_notify = ($status == 'error' || strstr($msg , 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
             Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
+
             return $res;
         }
 
         return true;
     }
 
-
     /**
      * Parses the full email message and returns an array of the headers
      * contained in it.
      *
-     * @access  private
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
      * @return  array The list of headers
@@ -289,15 +286,14 @@ class Mail_Queue
     private function _getHeaders($text_headers, &$body)
     {
         $message = $text_headers . "\n\n" . $body;
-        $structure = Mime_Helper::decode($message, FALSE, FALSE);
+        $structure = Mime_Helper::decode($message, false, false);
+
         return $structure->headers;
     }
-
 
     /**
      * Retrieves the list of queued email messages ids, given a status.
      *
-     * @access  private
      * @param   string $status The status of the messages
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
@@ -311,15 +307,13 @@ class Mail_Queue
                  WHERE
                     maq_status='$status'
                  ORDER BY
-                    maq_id ASC";
-
-        if ($limit !== false) {
-            $sql .= " LIMIT 0, $limit";
-        }
-
+                    maq_id ASC
+                 LIMIT
+                    $limit OFFSET 0";
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -329,7 +323,6 @@ class Mail_Queue
     /**
      * Retrieves the list of queued email messages ids, given a status, merged together by type
      *
-     * @access  private
      * @param   string $status The status of the messages
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
@@ -356,6 +349,7 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -369,7 +363,6 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_id.
      *
-     * @access  private
      * @param   integer $maq_id ID of queue entry
      * @return  array The queued email message
      */
@@ -391,6 +384,7 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -400,7 +394,6 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_ids.
      *
-     * @access  private
      * @param   array $maq_ids IDs of queue entries
      * @return  array The queued email message
      */
@@ -422,6 +415,7 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -432,7 +426,6 @@ class Mail_Queue
      * Saves a log entry about the attempt, successful or otherwise, to send the
      * queued email message. Also updates maq_status of $maq_id to $status.
      *
-     * @access  private
      * @param   integer $maq_id The queued email message ID
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
@@ -456,6 +449,7 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
 
@@ -466,17 +460,17 @@ class Mail_Queue
                  WHERE
                     maq_id=$maq_id";
         DB_Helper::getInstance()->query($stmt);
+
         return true;
     }
 
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @access  public
      * @param   integer $issue_is The issue ID
      * @return  array An array of emails from the queue
      */
-    function getListByIssueID($issue_id)
+    public function getListByIssueID($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -494,6 +488,7 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
         if (count($res) > 0) {
@@ -503,9 +498,9 @@ class Mail_Queue
                 $res[$i]['maq_subject'] = Mime_Helper::fixEncoding($res[$i]['maq_subject']);
             }
         }
+
         return $res;
     }
-
 
     /**
      * Returns the mail queue entry based on ID.
@@ -514,7 +509,7 @@ class Mail_Queue
      * @param   integer $maq_id The id of the mail queue entry.
      * @return  array An array of information
      */
-    function getEntry($maq_id)
+    public function getEntry($maq_id)
     {
         $stmt = "SELECT
                     maq_iss_id,
@@ -531,14 +526,14 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return $res;
         }
     }
 
-
-    function getMessageRecipients($types, $type_id)
+    public function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {
             $types = array($types);
@@ -554,11 +549,13 @@ class Mail_Queue
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
             }
+
             return $res;
         }
     }

@@ -70,7 +70,6 @@ if ($res == 1) {
     Misc::setMessage(ev_gettext('Sorry, there was an error updating your information'), Misc::MSG_ERROR);
 }
 
-
 $prefs = Prefs::get($usr_id);
 $prefs['sms_email'] = User::getSMS($usr_id);
 

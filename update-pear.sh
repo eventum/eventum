@@ -4,7 +4,7 @@
 # | Eventum - Issue Tracking System                                      |
 # +----------------------------------------------------------------------+
 # | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-# | Copyright (c) 2011 - 2013 Eventum Team.                              |
+# | Copyright (c) 2011 - 2014 Eventum Team.                              |
 # +----------------------------------------------------------------------+
 # |                                                                      |
 # | This program is free software; you can redistribute it and/or modify |
@@ -48,16 +48,16 @@ Net_LDAP2-stable
 "
 
 t=pear-root
-if  [ ! -f pear.download ]; then
+
+download_pear() {
 	for p in $pear_pkgs; do
 		pear download $p
 	done
 	touch pear.download
-fi
+}
 
-install -d $t
-
-if [ ! -f pear.install ]; then
+install_pear() {
+	install -d $t
 	> $t/VERSIONS
 	for p in $pear_pkgs; do
 		p=${p%-*}
@@ -68,13 +68,12 @@ if [ ! -f pear.install ]; then
 		echo "- $p $v" >> $t/VERSIONS
 	done
 	touch pear.install
-fi
+}
 
-if [ ! -f pear.clean ]; then
+clean_pear() {
+	local t=$1
+	test -n "$t"
 	rm -rf $t/usr/bin $t/usr/share/doc $t/usr/share/pear/tests $t/usr/share/pear/.??*
-
-	# individual package cleanup
-	cd $t/usr/share/pear
 
 	# Mail_Mime
 	rm -rf data/Mail_Mime
@@ -88,6 +87,9 @@ if [ ! -f pear.clean ]; then
 
 	# XML_RPC
 	rm -f XML/RPC/Dump.php
+
+	# Structures_Graph
+	rm -rf data/Structures_Graph
 
 	# PEAR
 	rm -rf data/PEAR
@@ -120,5 +122,19 @@ if [ ! -f pear.clean ]; then
 	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
 	# remove DOS EOL
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
-	cd -
-fi
+}
+
+[ -f pear.download ] || download_pear
+[ -f pear.install ] || install_pear
+[ -f pear.clean ] || { cd $t/usr/share/pear; clean_pear $t; }
+
+r=$(pwd)
+for t in $r/vendor/pear-pear.php.net/*; do
+	cd $t
+	clean_pear $t
+done
+
+cd $r/vendor/pear-pear.php.net
+rm -rf Archive_Tar
+rm -rf Console_Getopt
+rm -rf Structures_Graph

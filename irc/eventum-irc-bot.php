@@ -92,7 +92,7 @@ foreach ($irc_channels as $proj => $chan) {
 
 class Eventum_Bot
 {
-    function _isAuthenticated(&$irc, &$data)
+    public function _isAuthenticated(&$irc, &$data)
     {
         global $auth;
 
@@ -100,12 +100,12 @@ class Eventum_Bot
             return true;
         } else {
             $this->sendResponse($irc, $data->nick, 'Error: You need to be authenticated to run this command.');
+
             return false;
         }
     }
 
-
-    function _getEmailByNickname($nickname)
+    public function _getEmailByNickname($nickname)
     {
         global $auth;
 
@@ -116,8 +116,7 @@ class Eventum_Bot
         }
     }
 
-
-    function _getNicknameByUser($usr_id)
+    public function _getNicknameByUser($usr_id)
     {
         global $auth;
 
@@ -131,8 +130,7 @@ class Eventum_Bot
         }
     }
 
-
-    function clockUser(&$irc, &$data)
+    public function clockUser(&$irc, &$data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -142,6 +140,7 @@ class Eventum_Bot
         $pieces = explode(' ', $data->message);
         if ((count($pieces) == 2) && ($pieces[1] != 'in') && ($pieces[1] != 'out')) {
             $this->sendResponse($irc, $data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".');
+
             return;
         }
         if (@$pieces[1] == 'in') {
@@ -155,6 +154,7 @@ class Eventum_Bot
                 $msg = "clocked out";
             }
             $this->sendResponse($irc, $data->nick, "You are currently $msg.");
+
             return;
         }
         if ($res == 1) {
@@ -164,8 +164,7 @@ class Eventum_Bot
         }
     }
 
-
-    function listClockedInUsers(&$irc, &$data)
+    public function listClockedInUsers(&$irc, &$data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -182,8 +181,7 @@ class Eventum_Bot
         }
     }
 
-
-    function listQuarantinedIssues(&$irc, &$data)
+    public function listQuarantinedIssues(&$irc, &$data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -202,8 +200,7 @@ class Eventum_Bot
         }
     }
 
-
-    function listAvailableCommands(&$irc, &$data)
+    public function listAvailableCommands(&$irc, &$data)
     {
         $commands = array(
             'auth'             => 'Format is "auth user@example.com password"',
@@ -217,8 +214,7 @@ class Eventum_Bot
         }
     }
 
-
-    function _updateAuthenticatedUser(&$irc, &$data)
+    public function _updateAuthenticatedUser(&$irc, &$data)
     {
         global $auth;
 
@@ -230,8 +226,7 @@ class Eventum_Bot
         }
     }
 
-
-    function _removeAuthenticatedUser(&$irc, &$data)
+    public function _removeAuthenticatedUser(&$irc, &$data)
     {
         global $auth;
 
@@ -240,8 +235,7 @@ class Eventum_Bot
         }
     }
 
-
-    function listAuthenticatedUsers(&$irc, &$data)
+    public function listAuthenticatedUsers(&$irc, &$data)
     {
         global $auth;
 
@@ -250,14 +244,14 @@ class Eventum_Bot
         }
     }
 
-
-    function authenticate(&$irc, &$data)
+    public function authenticate(&$irc, &$data)
     {
         global $auth;
 
         $pieces = explode(' ', $data->message);
         if (count($pieces) != 3) {
             $this->sendResponse($irc, $data->nick, 'Error: wrong parameter count for "AUTH" command. Format is "!auth user@example.com password".');
+
             return;
         }
         $email = $pieces[1];
@@ -265,24 +259,27 @@ class Eventum_Bot
         // check if the email exists
         if (!Auth::userExists($email)) {
             $this->sendResponse($irc, $data->nick, 'Error: could not find a user account for the given email address "$email".');
+
             return;
         }
         // check if the given password is correct
         if (!Auth::isCorrectPassword($email, $password)) {
             $this->sendResponse($irc, $data->nick, 'Error: The email address / password combination could not be found in the system.');
+
             return;
         }
         // check if the user account is activated
         if (!Auth::isActiveUser($email)) {
             $this->sendResponse($irc, $data->nick, 'Error: Your user status is currently set as inactive. Please contact your local system administrator for further information.');
+
             return;
         } else {
             $auth[$data->nick] = $email;
             $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
+
             return;
         }
     }
-
 
     /**
      * Helper method to get the list of channels that should be used in the
@@ -292,15 +289,15 @@ class Eventum_Bot
      * @param   integer $prj_id The project ID
      * @return  array The list of channels
      */
-    function _getChannels($prj_id)
+    public function _getChannels($prj_id)
     {
         global $channels;
-        if (isset($channels[$prj_id]))  {
+        if (isset($channels[$prj_id])) {
             return $channels[$prj_id];
         }
+
         return array();
     }
-
 
     /**
      * Helper method to the projects a channel displays messages for.
@@ -309,7 +306,7 @@ class Eventum_Bot
      * @param   string $channel The name of the channel
      * @return  array The projects displayed in the channel
      */
-    function _getProjectsForChannel($channel)
+    public function _getProjectsForChannel($channel)
     {
         global $channels;
         $projects = array();
@@ -320,9 +317,9 @@ class Eventum_Bot
                 }
             }
         }
+
         return $projects;
     }
-
 
     /**
      * Method used as a callback to send notification events to the proper
@@ -332,7 +329,7 @@ class Eventum_Bot
      * @param   resource $irc The IRC connection handle
      * @return  void
      */
-    function notifyEvents(&$irc)
+    public function notifyEvents(&$irc)
     {
         // check the message table
         $stmt = "SELECT
@@ -389,7 +386,6 @@ class Eventum_Bot
         }
     }
 
-
     private function _markEventSent($ino_id)
     {
         // mark message as sent
@@ -402,7 +398,6 @@ class Eventum_Bot
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to send a message to the given target.
      *
@@ -412,7 +407,7 @@ class Eventum_Bot
      * @param   string $response The message to send
      * @return  void
      */
-    function sendResponse(&$irc, $target, $response)
+    public function sendResponse(&$irc, $target, $response)
     {
         // XXX: need way to handle messages with length bigger than 255 chars
         if (!is_array($response)) {
@@ -429,8 +424,7 @@ class Eventum_Bot
         }
     }
 
-
-    function _joinChannels(&$irc)
+    public function _joinChannels(&$irc)
     {
         global $channels;
         foreach ($channels as $prj_id => $options) {
@@ -446,9 +440,9 @@ $bot = new Eventum_Bot();
 $irc = new Net_SmartIRC();
 $irc->setLogdestination(SMARTIRC_FILE);
 $irc->setLogfile(APP_IRC_LOG);
-$irc->setUseSockets(TRUE);
-$irc->setAutoReconnect(TRUE);
-$irc->setAutoRetry(TRUE);
+$irc->setUseSockets(true);
+$irc->setAutoReconnect(true);
+$irc->setAutoRetry(true);
 $irc->setReceiveTimeout(600);
 $irc->setTransmitTimeout(600);
 

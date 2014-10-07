@@ -76,5 +76,4 @@ $tpl->assign(array(
     'data'  =>  $data,
 ));
 
-
 $tpl->displayTemplate();

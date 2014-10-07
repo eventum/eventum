@@ -34,11 +34,10 @@ class News
      * Method used to get the list of news entries available in the
      * system for a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of news entries
      */
-    function getListByProject($prj_id, $show_full_message = FALSE)
+    public function getListByProject($prj_id, $show_full_message = false)
     {
         $stmt = "SELECT
                     *
@@ -52,10 +51,11 @@ class News
                  ORDER BY
                     nws_created_date DESC
                  LIMIT
-                    0, 3";
+                    3 OFFSET 0";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -74,20 +74,19 @@ class News
                 }
                 $res[$i]['nws_message'] = nl2br(htmlspecialchars($res[$i]['nws_message']));
             }
+
             return $res;
         }
     }
 
-
     /**
      * Method used to add a project association to a news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @param   integer $prj_id The project ID
      * @return  void
      */
-    function addProjectAssociation($nws_id, $prj_id)
+    public function addProjectAssociation($nws_id, $prj_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
@@ -101,14 +100,12 @@ class News
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to add a news entry to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -134,6 +131,7 @@ class News
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_news_id = DB_Helper::get_last_insert_id();
@@ -141,18 +139,17 @@ class News
             foreach ($_POST['projects'] as $prj_id) {
                 self::addProjectAssociation($new_news_id, $prj_id);
             }
+
             return 1;
         }
     }
 
-
     /**
      * Method used to remove a news entry from the system.
      *
-     * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -162,24 +159,24 @@ class News
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeProjectAssociations($_POST['items']);
+
             return true;
         }
     }
-
 
     /**
      * Method used to remove the project associations for a given
      * news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function removeProjectAssociations($nws_id, $prj_id=FALSE)
+    public function removeProjectAssociations($nws_id, $prj_id=false)
     {
         if (!is_array($nws_id)) {
             $nws_id = array($nws_id);
@@ -195,20 +192,19 @@ class News
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to update a news entry in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -227,6 +223,7 @@ class News
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
@@ -234,19 +231,18 @@ class News
             foreach ($_POST['projects'] as $prj_id) {
                 self::addProjectAssociation($_POST['id'], $prj_id);
             }
+
             return 1;
         }
     }
 
-
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @access  public
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
-    function getDetails($nws_id)
+    public function getDetails($nws_id)
     {
         $stmt = "SELECT
                     *
@@ -257,24 +253,24 @@ class News
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get all of the project associations here as well
             $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
             $res['nws_message'] = nl2br(htmlspecialchars($res['nws_message']));
+
             return $res;
         }
     }
 
-
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @access  public
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
-    function getAdminDetails($nws_id)
+    public function getAdminDetails($nws_id)
     {
         $stmt = "SELECT
                     *
@@ -285,22 +281,22 @@ class News
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get all of the project associations here as well
             $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
+
             return $res;
         }
     }
 
-
     /**
      * Method used to get the list of news entries available in the system.
      *
-     * @access  public
      * @return  array The list of news entries
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     nws_id,
@@ -313,26 +309,26 @@ class News
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of associated projects for a given
      * news entry.
      *
-     * @access  public
      * @param   integer $nws_id The news ID
      * @return  array The list of projects
      */
-    function getAssociatedProjects($nws_id)
+    public function getAssociatedProjects($nws_id)
     {
         $stmt = "SELECT
                     prj_id,
@@ -346,6 +342,7 @@ class News
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;

@@ -88,7 +88,7 @@ class Access
                 $return = true;
             } elseif ($details['iss_usr_id'] == $usr_id) {
                 $return = true;
-            } elseif (self::isAssignedToUser($issue_id, $usr_id)) {
+            } elseif (Issue::isAssignedToUser($issue_id, $usr_id)) {
                 $return = true;
             } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
                         ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
@@ -106,6 +106,7 @@ class Access
         }
 
         $access[$issue_id . "-" . $usr_id] = $return;
+
         return $return;
     }
 
@@ -124,6 +125,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -142,6 +144,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -160,6 +163,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -178,6 +182,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -196,6 +201,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -214,6 +220,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -222,13 +229,14 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'history');
             if (is_bool($partner)) {
                 return $partner;
             }
         }
+
         return true;
     }
 
@@ -247,6 +255,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -265,6 +274,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -283,6 +293,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
 
@@ -291,13 +302,14 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'change_status');
             if (is_bool($partner)) {
                 return $partner;
             }
         }
+
         return self::canUpdateIssue($issue_id, $usr_id);
     }
 
@@ -306,16 +318,16 @@ class Access
         if (!self::canAccessIssue($issue_id, $usr_id)) {
             return false;
         }
-        $prj_id = Auth::getCurrentProject();
+
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessIssueSection($usr_id, 'convert_note');
             if (is_bool($partner)) {
                 return $partner;
             }
         }
+
         return self::canUpdateIssue($issue_id, $usr_id);
     }
-
 
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
@@ -358,6 +370,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Customer")) {
             return true;
         }
+
         return false;
     }
 
@@ -373,9 +386,9 @@ class Access
                 return $partner;
             }
         }
+
         return true;
     }
-
 
     public static function canAccessAssociateEmails($usr_id)
     {
@@ -389,9 +402,9 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
-
 
     public static function canAccessReports($usr_id)
     {
@@ -405,9 +418,9 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
     }
-
 
     public static function getFeatureAccessArray($usr_id)
     {
@@ -431,6 +444,7 @@ class Access
         if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
             return true;
         }
+
         return false;
 
     }

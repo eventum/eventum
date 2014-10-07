@@ -93,9 +93,9 @@ if (isset($_REQUEST['view'])) {
 }
 
 if (!empty($_REQUEST['nosave'])) {
-	$options = Search::saveSearchParams(false);
+    $options = Search::saveSearchParams(false);
 } else {
-	$options = Search::saveSearchParams();
+    $options = Search::saveSearchParams();
 }
 
 $options += $options_override;

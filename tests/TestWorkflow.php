@@ -1,7 +1,5 @@
 <?php
 
-require_once 'TestSetup.php';
-
 class TestWorkflow extends Abstract_Workflow_Backend {
 }
 

@@ -57,7 +57,6 @@ function check_file($title, $path, $comment, $desired_permission)
         $needs_attention = true;
     }
 
-
     if ($needs_attention) {
         $color = "red";
     } else {

@@ -41,7 +41,6 @@ abstract class Customer
      */
     protected $country;
 
-
     /**
      * The account manager
      *
@@ -57,7 +56,7 @@ abstract class Customer
      * @throws CustomerNotFoundException
      * @see Customer::load();
      */
-    function __construct(CRM &$crm, $customer_id)
+    public function __construct(CRM &$crm, $customer_id)
     {
         $this->crm =& $crm;
         $this->connection =& $crm->getConnection();
@@ -67,14 +66,12 @@ abstract class Customer
         $this->load();
     }
 
-
     /**
      * Loads customer information into the object.
      *
      * @throws CustomerNotFoundException
      */
     abstract protected function load();
-
 
     /**
      * Returns an array of contracts for this customer.
@@ -83,7 +80,6 @@ abstract class Customer
      * @return  Contract[] An array of Contract objects
      */
     abstract public function getContracts($options = array());
-
 
     /**
      * Returns an array of contact objects for this customer.
@@ -112,7 +108,6 @@ abstract class Customer
      * @return string
      */
     abstract public function getNewIssueMessage();
-
 
 //
 //    /**
@@ -151,13 +146,12 @@ abstract class Customer
             "Name: " . $this->name . "\n";
     }
 
-
     /**
      * Returns any notes for for the specified customer.
      *
      * @return  array An array containing the note details.
      */
-    function getNoteDetails()
+    public function getNoteDetails()
     {
         $stmt = "SELECT
                     cno_id,
@@ -171,12 +165,12 @@ abstract class Customer
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of technical account managers for
@@ -201,6 +195,7 @@ abstract class Customer
             $this->customer_id));
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -212,10 +207,10 @@ abstract class Customer
     }
 }
 
-
 class CustomerNotFoundException extends CRMException
 {
-    public function __construct($customer_id, Exception $previous=null) {
+    public function __construct($customer_id, Exception $previous=null)
+    {
         parent::__construct("Customer '" . $customer_id . "' not found", 0, $previous);
     }
 }

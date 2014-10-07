@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -37,9 +37,33 @@
  * @version 1.0
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
-
 class Language
 {
+    /**
+     * Return true if our APP_CHARSET is UTF8
+     * @return bool
+     */
+    public static function isUTF8()
+    {
+        return strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8';
+    }
+
+    /**
+     * Init encodings: iconv, mbstring
+     */
+    private static function initEncoding()
+    {
+        if (PHP_VERSION_ID >= 50600) {
+            ini_set('input_encoding', APP_CHARSET);
+            ini_set('output_encoding', APP_CHARSET);
+            ini_set('default_charset', APP_CHARSET);
+        } else {
+            iconv_set_encoding('input_encoding', APP_CHARSET);
+            iconv_set_encoding('output_encoding', APP_CHARSET);
+            iconv_set_encoding('internal_encoding', APP_CHARSET);
+            ini_set('mbstring.internal_encoding', APP_CHARSET);
+        }
+    }
 
     /**
      * Method used to set application default locale.
@@ -51,9 +75,8 @@ class Language
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
 
-        ini_set('mbstring.internal_encoding', 'UTF8');
-
         self::set(APP_DEFAULT_LOCALE);
+        self::initEncoding();
     }
 
     /**
@@ -63,9 +86,9 @@ class Language
      * Preferences page.
      */
     private static $avail_langs = array(
-        'br' => 'Breton',
-        'ca' => 'Catalan',
-        'cs' => 'Czech',
+        'br_FR' => 'Breton',
+        'ca_ES' => 'Catalan',
+        'cs_CZ' => 'Czech',
         'da_DK' => 'Danish',
         'de_DE' => 'German',
         'en_AU' => 'English (Australia)',
@@ -75,43 +98,47 @@ class Language
         'es_ES' => 'Spanish',
         'et_EE' => 'Estonian',
         'fi_FI' => 'Finnish',
-        'fo' => 'Faroese',
+        'fo_FO' => 'Faroese',
         'fr_FR' => 'French',
         'he_IL' => 'Hebrew',
-        'ht' => 'Haitian',
-        'hu' => 'Hungarion',
-        'id' => 'Indonesian',
+        'ht_HT' => 'Haitian',
+        'hu_HU' => 'Hungarion',
+        'id_ID' => 'Indonesian',
         'it_IT' => 'Italian',
-        'ja' => 'Japanese',
-        'ko' => 'Korean',
+        'ja_JP' => 'Japanese',
+        'ko_KR' => 'Korean',
         'lt_LT' => 'Lithuanian',
         'lv_LV' => 'Latvian',
         'nl_NL' => 'Dutch',
-        'oc' => 'Occitan (post 1500)',
+        'oc_FR' => 'Occitan (post 1500)',
         'pl_PL' => 'Polish',
-        'pt' => 'Portuguese',
+        'pt_PT' => 'Portuguese',
         'pt_BR' => 'Brazilian Portuguese',
         'ru_RU' => 'Russian',
-        'si' => 'Sinhalese',
+        'si_LK' => 'Sinhalese',
         'sv_SE' => 'Swedish',
-        'ta' => 'Tamil',
-        'th' => 'Thai',
-        'tr' => 'Turkish',
-        'uk' => 'Ukrainian',
-        'ur' => 'Urdu',
-        'vi' => 'Vietnamese',
+        'ta_IN' => 'Tamil',
+        'th_TH' => 'Thai',
+        'tr_TR' => 'Turkish',
+        'uk_UA' => 'Ukrainian',
+        'ur_IN' => 'Urdu',
+        'vi_VN' => 'Vietnamese',
         'zh_CN' => 'Chinese (Simplified)',
     );
 
     /**
      * Method used to get available languages.
-     * Uses $avail_langs array and verifies that the language can be used.
+     * If $validate is true the languages are verified first.
      *
-     * @access  public
-     * @return  array
+     * @param bool $validate
+     * @return array
      */
-    function getAvailableLanguages()
+    public static function getAvailableLanguages($validate = true)
     {
+        if (!$validate) {
+            return self::$avail_langs;
+        }
+
         $languages = array();
         foreach (self::$avail_langs as $code => $language) {
             $res = self::set($code);
@@ -121,6 +148,7 @@ class Language
         }
 
         self::restore();
+
         return $languages;
     }
 
@@ -128,10 +156,9 @@ class Language
      * Method used to set the appropriate preference of the language
      * for the application based on user preference.
      *
-     * @access  public
      * @return  void
      */
-    function setPreference()
+    public static function setPreference()
     {
         $usr_id = Auth::getUserID();
         $lang = null;
@@ -157,7 +184,6 @@ class Language
      * Sets active language for for the application.
      * Returns false if locale is invalid or cannot be used.
      *
-     * @access  public
      * @return  boolean
      */
     public static function set($locale)
@@ -189,7 +215,6 @@ class Language
 
         return true;
     }
-
 
     public static function restore()
     {

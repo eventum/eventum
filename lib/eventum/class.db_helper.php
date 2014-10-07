@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -48,8 +48,10 @@ class DB_Helper
      * @static
      * @return DB_common
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (!self::$instance) {
+            // assign value immediately this avoids deep recursion
             self::$instance = new DB_Helper();
 
             if (PEAR::isError($e = self::$instance->dbh)) {
@@ -61,18 +63,19 @@ class DB_Helper
                 exit(2);
             }
         }
+
         return self::$instance->dbh;
     }
 
     /** @var DB_common */
     private $dbh;
+
     /**
      * Connects to the database and creates a data dictionary array to be used
      * on database related schema dynamic lookups.
-     *
-     * @access public
      */
-    private function __construct() {
+    private function __construct()
+    {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,
             'hostspec' => APP_SQL_DBHOST,
@@ -80,21 +83,41 @@ class DB_Helper
             'username' => APP_SQL_DBUSER,
             'password' => APP_SQL_DBPASS
         );
-        // if we are using some non-standard mysql port, pass that value in the dsn
-        if ((defined('APP_SQL_DBPORT')) && (APP_SQL_DBPORT != 3306)) {
-            $dsn['port'] = APP_SQL_DBPORT;
+
+        // DBTYPE specific dsn settings
+        switch (APP_SQL_DBTYPE) {
+            case 'mysql':
+            case 'mysqli':
+                // if we are using some non-standard mysql port, pass that value in the dsn
+                if (defined('APP_SQL_DBPORT') && (APP_SQL_DBPORT != 3306)) {
+                    $dsn['port'] = APP_SQL_DBPORT;
+                }
+                break;
+            default:
+                if (defined('APP_SQL_DBPORT')) {
+                    $dsn['port'] = APP_SQL_DBPORT;
+                }
+                break;
         }
 
         $this->dbh = DB::connect($dsn);
         if (PEAR::isError($this->dbh)) {
             return;
         }
-        $this->dbh->query("SET SQL_MODE = ''");
-        if (strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8') {
-            $this->dbh->query("SET NAMES utf8");
+
+        // DBTYPE specific session setup commands
+        switch (APP_SQL_DBTYPE) {
+            case 'mysql':
+            case 'mysqli':
+                $this->dbh->query("SET SQL_MODE = ''");
+                if (Language::isUTF8()) {
+                    $this->dbh->query("SET NAMES utf8");
+                }
+                break;
+            default:
+                break;
         }
     }
-
 
     /**
      * Method used to get the last inserted ID. This is a simple
@@ -102,42 +125,52 @@ class DB_Helper
      * the somewhat annoying implementation of PEAR::DB to create
      * separate tables to host the ID sequences.
      *
-     * @access  public
      * @return  integer The last inserted ID
      */
-    static function get_last_insert_id() {
-        return mysql_insert_id(self::getInstance()->connection);
-    }
+    public static function get_last_insert_id()
+    {
+        $stmt = "SELECT last_insert_id()";
+        $res = (integer) DB_Helper::getInstance()->getOne($stmt);
 
+        return $res;
+    }
 
     /**
      * Returns the escaped version of the given string.
      *
-     * @access  public
      * @param   string $str The string that needs to be escaped
      * @param   bool $add_quotes Whether to add quotes around result as well
      * @return  string The escaped string
      */
-    static function escapeString($str, $add_quotes = false)
+    public static function escapeString($str, $add_quotes = false)
     {
-        if ($add_quotes) {
-            return "'". mysql_real_escape_string($str, self::getInstance()->connection) . "'";
-        }
-        return mysql_real_escape_string($str, self::getInstance()->connection);
-    }
+        $dbh = self::getInstance();
 
+        if (PEAR::isError($dbh)) {
+            // can't really do anything with this
+            // should really throw away PEAR::DB and use exceptions
+            $res = false;
+        } else {
+            $res = $dbh->escapeSimple($str);
+        }
+
+        if ($add_quotes) {
+            $res = "'". $res . "'";
+        }
+
+        return $res;
+    }
 
     /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.
      *
-     * @access  public
      * @param   string $start_date_field The name of the field the first date is.
      * @param   string $end_date_field The name of the field where the second date is.
      * @return  string The SQL used to compare the 2 dates.
      */
-    function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
+    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
     {
         if ($end_date_field == false) {
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
@@ -161,9 +194,9 @@ class DB_Helper
             WHEN DAYOFWEEK($end_date_field) = 1 THEN (86400 + time_to_sec($end_date_field))
             ELSE 0
         END)";
+
         return str_replace("\n", " ", $sql);
     }
-
 
     public static function fatalDBError($e)
     {

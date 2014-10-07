@@ -45,19 +45,19 @@ class Setup
      * @param   boolean $force If the data should be forced to be loaded again.
      * @return  array The system-wide preferences
      */
-    public static function load($force = false)
+    public static function &load($force = false)
     {
         static $setup;
         if (empty($setup) || $force == true) {
+            $setup = array();
             $eventum_setup_string = $eventum_setup = null;
+
             require APP_SETUP_FILE;
-            if ($eventum_setup_string == null and $eventum_setup == null) {
-                return null;
-            }
 
             if (isset($eventum_setup)) {
                 $setup = $eventum_setup;
-            } else {
+
+            } elseif (isset($eventum_setup_string)) {
                 // support reading legacy base64 encoded config
                 $setup = unserialize(base64_decode($eventum_setup_string));
             }
@@ -65,27 +65,29 @@ class Setup
             // merge with defaults
             $setup = self::array_extend(self::getDefaults(), $setup);
         }
+
         return $setup;
     }
 
     /**
      * Method used to save the setup options for the application.
      *
-     * @access  public
      * @param   array $options The system-wide preferences
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function save($options)
+    public static function save($options)
     {
         // this is needed to check if the file can be created or not
         if (!file_exists(APP_SETUP_FILE)) {
             if (!is_writable(APP_CONFIG_PATH)) {
                 clearstatcache();
+
                 return -1;
             }
         } else {
             if (!is_writable(APP_SETUP_FILE)) {
                 clearstatcache();
+
                 return -2;
             }
         }
@@ -95,6 +97,7 @@ class Setup
         if ($res === false) {
             return -2;
         }
+
         return 1;
     }
 
@@ -119,6 +122,9 @@ class Setup
                 ),
             ),
             'handle_clock_in' => 'enabled',
+
+            // default expiry: 5 minutes
+            'issue_lock' => 300,
         );
 
         return $defaults;
@@ -127,7 +133,8 @@ class Setup
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
-    private static function array_extend($a, $b) {
+    private static function array_extend($a, $b)
+    {
         foreach ($b as $k => $v) {
             if (is_array($v)) {
                 if (!isset($a[$k])) {
@@ -139,6 +146,7 @@ class Setup
                 $a[$k] = $v;
             }
         }
+
         return $a;
     }
 }

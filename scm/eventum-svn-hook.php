@@ -142,11 +142,13 @@ if (count($matches[1]) > 0) {
   * @param  boolean $headers = false
   * @return mixed
   */
-function wget($url, $headers = false) {
+function wget($url, $headers = false)
+{
     // see if we can fopen
     $flag = ini_get('allow_url_fopen');
     if (!$flag) {
         fwrite(STDERR, "ERROR: allow_url_fopen is disabled\n");
+
         return false;
     }
 
@@ -154,6 +156,7 @@ function wget($url, $headers = false) {
     $scheme = parse_url($url, PHP_URL_SCHEME);
     if (!in_array($scheme, stream_get_wrappers())) {
         fwrite(STDERR, "ERROR: $scheme:// scheme not supported. Load openssl php extension?\n");
+
         return false;
     }
 
@@ -161,6 +164,7 @@ function wget($url, $headers = false) {
     $fp = fopen($url, 'r');
     if (!$fp) {
         fwrite(STDERR, "ERROR: $php_errormsg\n");
+
         return false;
     }
 

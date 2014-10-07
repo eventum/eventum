@@ -46,7 +46,7 @@ if (@$_POST["cat"] == "new") {
             1   =>  array(ev_gettext('Thank you, the note was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new note.'), Misc::MSG_ERROR),
     ));
-} else if (@$_POST["cat"] == "update") {
+} elseif (@$_POST["cat"] == "update") {
     $res = CRM::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"]);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the note was updated successfully.'), Misc::MSG_INFO),

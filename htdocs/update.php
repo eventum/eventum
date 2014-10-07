@@ -76,10 +76,39 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
     Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
+}
+
+if (Issue_Lock::acquire($issue_id, $usr_id)) {
+    $issue_lock = false;
 } else {
+    $issue_lock = Issue_Lock::getInfo($issue_id);
+    $issue_lock['locker'] = User::getDetails($issue_lock['usr_id']);
+    $issue_lock['expires_formatted_time'] = Date_Helper::getFormattedDate($issue_lock['expires']);
+}
+$tpl->assign('issue_lock', $issue_lock);
+
     $new_prj_id = Issue::getProjectID($issue_id);
-    if (@$_POST["cat"] == "update") {
-        $res = Issue::update($_POST["issue_id"]);
+    $cancel_update = isset($_POST['cancel']);
+
+    if ($cancel_update) {
+        // be sure not to unlock somebody else's lock
+        if (!$issue_lock) {
+            Issue_Lock::release($issue_id);
+            Misc::setMessage(ev_gettext("Cancelled Issue #%1s update.", $issue_id), Misc::MSG_INFO);
+        }
+
+        Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
+        exit;
+
+    } elseif (@$_POST["cat"] == "update") {
+        if ($issue_lock) {
+            Misc::setMessage(ev_gettext("Sorry, you can't update issue if it's locked by another user"), Misc::MSG_ERROR);
+            $tpl->displayTemplate();
+            exit;
+        }
+
+        $res = Issue::update($issue_id);
+        Issue_Lock::release($issue_id);
 
         if ($res == -1) {
             Misc::setMessage(ev_gettext("Sorry, an error happened while trying to update this issue."), Misc::MSG_ERROR);
@@ -113,7 +142,7 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
 
     // if currently selected release is in the past, manually add it to list
     $releases = Release::getAssocList($prj_id);
-    if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
+    if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])) {
         $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
     }
 
@@ -126,7 +155,6 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
     if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
-
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
         "categories"   => Category::getAssocList($prj_id),
@@ -143,6 +171,5 @@ if (($role_id == User::getRoleID('customer')) && ((empty($details)) || (User::ge
         "products"     => Product::getList(false),
     ));
 
-}
 $tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();

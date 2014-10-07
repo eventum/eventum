@@ -41,10 +41,9 @@ class Phone_Support
     /**
      * Method used to add a new category to the application.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function insertCategory()
+    public function insertCategory()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -61,22 +60,21 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
 
-
     /**
      * Method used to update the values stored in the database.
      * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function updateCategory()
+    public function updateCategory()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -91,21 +89,20 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
 
-
     /**
      * Method used to remove user-selected categories from the
      * database.
      *
-     * @access  public
      * @return  boolean Whether the removal worked or not
      */
-    function removeCategory()
+    public function removeCategory()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -115,21 +112,20 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to get the full details of a category.
      *
-     * @access  public
      * @param   integer $phc_id The category ID
      * @return  array The information about the category provided
      */
-    function getCategoryDetails($phc_id)
+    public function getCategoryDetails($phc_id)
     {
         $stmt = "SELECT
                     *
@@ -140,22 +136,21 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the full list of categories associated with
      * a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The full list of categories
      */
-    function getCategoryList($prj_id)
+    public function getCategoryList($prj_id)
     {
         $stmt = "SELECT
                     phc_id,
@@ -169,22 +164,21 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The associative array of categories
      */
-    function getCategoryAssocList($prj_id)
+    public function getCategoryAssocList($prj_id)
     {
         $stmt = "SELECT
                     phc_id,
@@ -198,21 +192,20 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the details of a given phone support entry.
      *
-     * @access  public
      * @param   integer $phs_id The phone support entry ID
      * @return  array The phone support entry details
      */
-    function getDetails($phs_id)
+    public static function getDetails($phs_id)
     {
         $stmt = "SELECT
                     *
@@ -223,22 +216,21 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the full listing of phone support entries
      * associated with a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
-    function getListing($issue_id)
+    public function getListing($issue_id)
     {
         $stmt = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
@@ -261,6 +253,7 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -268,19 +261,18 @@ class Phone_Support
                 $res[$i]["phs_description"] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]["phs_description"]);
                 $res[$i]["phs_created_date"] = Date_Helper::getFormattedDate($res[$i]["phs_created_date"]);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to add a phone support entry using the user
      * interface form available in the application.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         $usr_id = Auth::getUserID();
         // format the date from the form
@@ -322,6 +314,7 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // enter the time tracking entry about this phone support entry
@@ -357,23 +350,23 @@ class Phone_Support
                 $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return -1;
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove a specific phone support entry from the
      * application.
      *
-     * @access  public
      * @param   integer $phone_id The phone support entry ID
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
      */
-    function remove($phone_id)
+    public function remove($phone_id)
     {
         $phone_id = Misc::escapeInteger($phone_id);
 
@@ -397,6 +390,7 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($details["phs_iss_id"]);
@@ -417,16 +411,14 @@ class Phone_Support
         }
     }
 
-
     /**
      * Method used to remove all phone support entries associated with
      * a given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -436,23 +428,22 @@ class Phone_Support
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Returns the number of calls by a user in a time range.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestamp of the end date
      * @return  integer The number of phone calls by the user.
      */
-    function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     COUNT(phs_id)
@@ -467,8 +458,10 @@ class Phone_Support
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
+
         return $res;
     }
 }

@@ -47,7 +47,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
     }
 
-
     public function getIssueIDs($options)
     {
         // Build the Sphinx client
@@ -164,7 +163,8 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $note = Note::getDetails($match['match_id']);
                     $documents = array($note['not_title'] . "\n" . $note['not_note']);
                     $res = $this->sphinx->BuildExcerpts($documents, 'note_stemmed', $this->keywords, $excerpt_options);
-                    $excerpt['note'][Note::getNoteSequenceNumber($issue_id, $match['match_id'])] = self::cleanUpExcerpt($res[0]);
+                    $note_seq = Note::getNoteSequenceNumber($issue_id, $match['match_id']);
+                    $excerpt['note'][$note_seq] = self::cleanUpExcerpt($res[0]);
                 }
             }
 
@@ -174,9 +174,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 }
             }
 
-
             $excerpts[$issue_id] = $excerpt;
         }
+
         return $excerpts;
     }
 
@@ -209,7 +209,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
             SPH_MATCH_EXTENDED2 =>  'Extended',
         );
     }
-
 
     private function getIndexes($all_indexes=false)
     {
@@ -255,7 +254,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 return false;
         }
     }
-
 
     public function supportsExcerpts()
     {

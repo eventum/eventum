@@ -55,6 +55,29 @@ if [ "$rc" = "dev" ]; then
 		}" init.php
 fi
 
+# setup composer deps
+if composer --version; then
+	# composer hack, see .travis.yml
+	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
+	composer install --prefer-dist --no-dev
+	# remove bundled deps
+	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
+	rm composer.lock
+	# cleanup vendors
+	rm -r vendor/php-gettext/php-gettext/{tests,examples}
+	rm -f vendor/php-gettext/php-gettext/[A-Z]*
+	rm -r vendor/smarty-gettext/smarty-gettext/tests
+	rm -r vendor/bin
+	rm -r vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
+	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
+	rm vendor/composer/*.json
+
+	# this will do clean pear in vendor dir
+	touch pear.download pear.install pear.clean
+	./update-pear.sh
+	rm pear.download pear.install pear.clean
+fi
+
 # update to include checksums of js/css files
 ./dyncontent-chksum.pl
 
@@ -65,7 +88,7 @@ touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh update-pear.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl phpcs.xml build.xml pear.xml
-rm -f .editorconfig .gitignore .bzrignore composer.json .travis.yml phpunit.xml.dist
+rm -f .editorconfig .gitignore .bzrignore composer.json .travis.yml phpunit.xml.dist .php_cs
 rm -rf tests
 
 # sanity check

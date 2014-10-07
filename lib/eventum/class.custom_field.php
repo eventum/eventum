@@ -41,12 +41,11 @@ class Custom_Field
     /**
      * Method used to remove a group of custom field options.
      *
-     * @access  public
      * @param   array $fld_id The list of custom field IDs
      * @param   array $fld_id The list of custom field option IDs
      * @return  boolean
      */
-    function removeOptions($fld_id, $cfo_id)
+    public function removeOptions($fld_id, $cfo_id)
     {
         $fld_id = Misc::escapeInteger($fld_id);
         $cfo_id = Misc::escapeInteger($cfo_id);
@@ -63,6 +62,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             // also remove any custom field option that is currently assigned to an issue
@@ -73,20 +73,19 @@ class Custom_Field
                         icf_fld_id IN (" . implode(", ", $fld_id) . ") AND
                         icf_value IN (" . implode(", ", $cfo_id) . ")";
             DB_Helper::getInstance()->query($stmt);
+
             return true;
         }
     }
 
-
     /**
      * Method used to add possible options into a given custom field.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function addOptions($fld_id, $options)
+    public function addOptions($fld_id, $options)
     {
         $fld_id = Misc::escapeInteger($fld_id);
         if (!is_array($options)) {
@@ -105,22 +104,22 @@ class Custom_Field
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
-
 
     /**
      * Method used to update an existing custom field option value.
      *
-     * @access  public
      * @param   integer $cfo_id The custom field option ID
      * @param   string $cfo_value The custom field option value
      * @return  boolean
      */
-    function updateOption($cfo_id, $cfo_value)
+    public function updateOption($cfo_id, $cfo_value)
     {
         $cfo_id = Misc::escapeInteger($cfo_id);
         $stmt = "UPDATE
@@ -132,26 +131,24 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to update the values stored in the database.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function updateValues()
+    public static function updateValues()
     {
         $prj_id = Auth::getCurrentProject();
         $issue_id = Misc::escapeInteger($_POST["issue_id"]);
 
         $old_values = self::getValuesByIssue($prj_id, $issue_id);
-
 
         if ((isset($_POST['custom_fields'])) && (count($_POST['custom_fields']) > 0)) {
             // get the types for all of the custom fields being submitted
@@ -215,6 +212,7 @@ class Custom_Field
                     $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
                     if (PEAR::isError($res)) {
                         Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                         return -1;
                     }
                     $icf_id = $res['icf_id'];
@@ -246,6 +244,7 @@ class Custom_Field
                         $res = DB_Helper::getInstance()->query($stmt);
                         if (PEAR::isError($res)) {
                             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                             return -1;
                         }
                     } else {
@@ -259,6 +258,7 @@ class Custom_Field
                         $res = DB_Helper::getInstance()->query($stmt);
                         if (PEAR::isError($res)) {
                             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                             return -1;
                         }
                     }
@@ -313,21 +313,20 @@ class Custom_Field
                 History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
             }
         }
+
         return 1;
     }
-
 
     /**
      * Method used to associate a custom field value to a given
      * issue ID.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @param   integer $fld_id The custom field ID
      * @param   string  $value The custom field value
      * @return  boolean Whether the association worked or not
      */
-    function associateIssue($iss_id, $fld_id, $value)
+    public static function associateIssue($iss_id, $fld_id, $value)
     {
         // check if this is a date field
         $fld_details = self::getDetails($fld_id);
@@ -356,24 +355,24 @@ class Custom_Field
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             }
         }
+
         return true;
     }
-
 
     /**
      * Method used to get the list of custom fields associated with
      * a given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
      * @return  array The list of custom fields
      */
-    function getListByProject($prj_id, $form_type, $fld_type = false)
+    public function getListByProject($prj_id, $form_type, $fld_type = false)
     {
         $stmt = "SELECT
                     fld_id,
@@ -405,6 +404,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (count($res) == 0) {
@@ -432,7 +432,6 @@ class Custom_Field
                         $row['validation_js'] = '';
                     }
 
-
                     $row["field_options"] = self::getOptions($row["fld_id"], false, false, $form_type);
 
                     // get the default value (if one exists)
@@ -443,21 +442,20 @@ class Custom_Field
                         $row['default_value'] = '';
                     }
                 }
+
                 return $res;
             }
         }
     }
 
-
     /**
      * Method used to get the custom field option value.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
      */
-    function getOptionValue($fld_id, $value)
+    public function getOptionValue($fld_id, $value)
     {
         static $returns;
 
@@ -476,6 +474,7 @@ class Custom_Field
             } else {
                 $values = $backend->getList($fld_id, false);
                 $returns[$fld_id . $value] = @$values[$value];
+
                 return @$values[$value];
             }
         } else {
@@ -489,29 +488,30 @@ class Custom_Field
             $res = DB_Helper::getInstance()->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return "";
             } else {
                 if ($res == NULL) {
                     $returns[$fld_id . $value] = '';
+
                     return "";
                 } else {
                     $returns[$fld_id . $value] = $res;
+
                     return $res;
                 }
             }
         }
     }
 
-
     /**
      * Method used to get the custom field key based on the value.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
      */
-    function getOptionKey($fld_id, $value)
+    public function getOptionKey($fld_id, $value)
     {
         static $returns;
 
@@ -528,6 +528,7 @@ class Custom_Field
             $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
             $returns[$fld_id . $value] = $key;
+
             return $key;
         } else {
             $stmt = "SELECT
@@ -540,33 +541,34 @@ class Custom_Field
             $res = DB_Helper::getInstance()->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return "";
             } else {
                 if ($res == NULL) {
                     $returns[$fld_id . $value] = '';
+
                     return "";
                 } else {
                     $returns[$fld_id . $value] = $res;
+
                     return $res;
                 }
             }
         }
     }
 
-
     /**
      * Method used to get the list of custom fields and custom field
      * values associated with a given issue ID. If usr_id is false method
      * defaults to current user.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @return  array The list of custom fields
      */
-    function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
     {
         if ($usr_id == false) {
             $usr_id = Auth::getUserID();
@@ -607,7 +609,7 @@ class Custom_Field
         if ($form_type != false) {
             if (is_array($form_type)) {
                 $stmt .= " AND
-                    fld_id IN(" . join($form_type) . ")";
+                    fld_id IN(" . join(",", $form_type) . ")";
             } else {
                 $stmt .= " AND
                     fld_" .  Misc::escapeString($form_type) . "=1";
@@ -619,6 +621,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (count($res) == 0) {
@@ -691,21 +694,20 @@ class Custom_Field
                         $fields[$key]['validation_js'] = '';
                     }
                 }
+
                 return $fields;
             }
         }
     }
 
-
     /**
      * Returns an array of fields and values for a specific issue
      *
-     * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   integer $iss_id The ID of the issue to return values for
      * @return  array An array containging fld_id => value
      */
-    function getValuesByIssue($prj_id, $iss_id)
+    public static function getValuesByIssue($prj_id, $iss_id)
     {
         $values = array();
         $list = self::getListByIssue($prj_id, $iss_id);
@@ -723,17 +725,16 @@ class Custom_Field
                 $values[$field['fld_id']] = $field['value'];
             }
         }
+
         return $values;
     }
-
 
     /**
      * Method used to remove a given list of custom fields.
      *
-     * @access  public
      * @return  boolean
      */
-    function remove()
+    public function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -743,6 +744,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $stmt = "DELETE FROM
@@ -752,6 +754,7 @@ class Custom_Field
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 $stmt = "DELETE FROM
@@ -761,6 +764,7 @@ class Custom_Field
                 $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return false;
                 } else {
                     $stmt = "DELETE FROM
@@ -770,6 +774,7 @@ class Custom_Field
                     $res = DB_Helper::getInstance()->query($stmt);
                     if (PEAR::isError($res)) {
                         Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                         return false;
                     } else {
                         return true;
@@ -779,14 +784,12 @@ class Custom_Field
         }
     }
 
-
     /**
      * Method used to add a new custom field to the system.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insert()
+    public function insert()
     {
         if (empty($_POST["report_form"])) {
             $_POST["report_form"] = 0;
@@ -849,10 +852,12 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_id = DB_Helper::get_last_insert_id();
-            if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')) {
+            if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')
+                 || ($_POST["field_type"] == 'checkbox')) {
                 foreach ($_POST["field_options"] as $option_value) {
                     $params = self::parseParameters($option_value);
                     self::addOptions($new_id, $params["value"]);
@@ -862,20 +867,19 @@ class Custom_Field
             foreach ($_POST["projects"] as $prj_id) {
                 self::associateProject($prj_id, $new_id);
             }
+
             return 1;
         }
     }
 
-
     /**
      * Method used to associate a custom field to a project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $fld_id The custom field ID
      * @return  boolean
      */
-    function associateProject($prj_id, $fld_id)
+    public function associateProject($prj_id, $fld_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
@@ -889,21 +893,20 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to get the list of custom fields available in the
      * system.
      *
-     * @access  public
      * @return  array The list of custom fields
      */
-    function getList()
+    public function getList()
     {
         $stmt = "SELECT
                     *
@@ -914,6 +917,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             foreach ($res as &$row) {
@@ -928,20 +932,19 @@ class Custom_Field
                 }
                 $row['min_role_name'] = User::getRole($row['fld_min_role']);
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of associated projects with a given
      * custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The project ID
      * @return  array The list of associated projects
      */
-    function getAssociatedProjects($fld_id)
+    public function getAssociatedProjects($fld_id)
     {
         $stmt = "SELECT
                     prj_id,
@@ -957,22 +960,21 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the details of a specific custom field.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   boolean $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
-    function getDetails($fld_id, $force_refresh = false)
+    public static function getDetails($fld_id, $force_refresh = false)
     {
         static $returns;
 
@@ -989,31 +991,31 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $res["projects"] = @array_keys(self::getAssociatedProjects($fld_id));
-            $t = array();
+
             $options = self::getOptions($fld_id);
             foreach ($options as $cfo_id => $cfo_value) {
                 $res["field_options"]["existing:" . $cfo_id . ":" . $cfo_value] = $cfo_value;
             }
             $returns[$fld_id] = $res;
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of custom field options associated
      * with a given custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   array $ids An array of ids to return values for.
      * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
+    public static function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
     {
         static $returns;
 
@@ -1052,15 +1054,16 @@ class Custom_Field
             $res = DB_Helper::getInstance()->getAssoc($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return "";
             } else {
                 asort($res);
                 $returns[$return_key] = $res;
+
                 return $res;
             }
         }
     }
-
 
     /**
      * Method used to parse the special format used in the combo boxes
@@ -1068,11 +1071,10 @@ class Custom_Field
      * used as a way to flag the system for whether the custom field
      * option is a new one or one that should be updated.
      *
-     * @access  private
      * @param   string $value The custom field option format string
      * @return  array Parameters used by the update/insert methods
      */
-    function parseParameters($value)
+    private function parseParameters($value)
     {
         if (substr($value, 0, 4) == 'new:') {
             return array(
@@ -1081,6 +1083,7 @@ class Custom_Field
             );
         } else {
             $value = substr($value, strlen("existing:"));
+
             return array(
                 "type"  => "existing",
                 "id"    => substr($value, 0, strpos($value, ":")),
@@ -1089,14 +1092,12 @@ class Custom_Field
         }
     }
 
-
     /**
      * Method used to update the details for a specific custom field.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         if (empty($_POST["report_form"])) {
             $_POST["report_form"] = 0;
@@ -1147,6 +1148,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // if the current custom field is a combo box, get all of the current options
@@ -1213,26 +1215,26 @@ class Custom_Field
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             } else {
                 foreach ($_POST["projects"] as $prj_id) {
                     self::associateProject($prj_id, $_POST["id"]);
                 }
             }
+
             return 1;
         }
     }
-
 
     /**
      * Method used to get the list of custom fields associated with a
      * given project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of custom fields
      */
-    function getFieldsByProject($prj_id)
+    public static function getFieldsByProject($prj_id)
     {
         $stmt = "SELECT
                     pcf_fld_id
@@ -1243,24 +1245,23 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $issue_id The issue ID (not required)
      * @param   integer $prj_id The project ID (not required)
      * @return  boolean
      */
-    function removeIssueAssociation($fld_id, $issue_id = FALSE, $prj_id = false)
+    public function removeIssueAssociation($fld_id, $issue_id = false, $prj_id = false)
     {
         if (is_array($fld_id)) {
             $fld_id = implode(", ",  Misc::escapeInteger($fld_id));
@@ -1278,6 +1279,7 @@ class Custom_Field
             $res = DB_Helper::getInstance()->getCol($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return false;
             } else {
                 $issues = $res;
@@ -1293,22 +1295,21 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to remove the custom field options associated with
      * a given list of custom field IDs.
      *
-     * @access  public
      * @param   array $ids The list of custom field IDs
      * @return  boolean
      */
-    function removeOptionsByFields($ids)
+    public function removeOptionsByFields($ids)
     {
         if (!is_array($ids)) {
             $ids = array($ids);
@@ -1323,23 +1324,23 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             self::removeOptions($ids, $res);
+
             return true;
         }
     }
-
 
     /**
      * Method used to remove all custom field entries associated with
      * a given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -1349,22 +1350,21 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to remove all custom fields associated with
      * a given set of projects.
      *
-     * @access  public
      * @param   array $ids The array of project IDs
      * @return  boolean
      */
-    function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -1374,12 +1374,12 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
@@ -1405,21 +1405,20 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
         return $res;
     }
 
-
     /**
      * Returns the fld_id of the field with the specified title
      *
-     * @access  public
      * @param   string $title The title of the field
      * @return  integer The fld_id
      */
-    function getIDByTitle($title)
+    public function getIDByTitle($title)
     {
         $sql = "SELECT
                     fld_id
@@ -1430,6 +1429,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         } else {
             if (empty($res)) {
@@ -1440,17 +1440,15 @@ class Custom_Field
         }
     }
 
-
     /**
      * Returns the value for the specified field
      *
-     * @access  public
      * @param   integer $iss_id The ID of the issue
      * @param   integer $fld_id The ID of the field
      * @param   boolean $raw If the raw value should be displayed
-     * @param   mixed an array or string containing the value
+     * @return mixed an array or string containing the value
      */
-    function getDisplayValue($iss_id, $fld_id, $raw = false)
+    public static function getDisplayValue($iss_id, $fld_id, $raw = false)
     {
         $sql = "SELECT
                     fld_id,
@@ -1466,6 +1464,7 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             $values = array();
@@ -1488,29 +1487,26 @@ class Custom_Field
         }
     }
 
-
     /**
      * Returns the current maximum rank of any custom fields.
      *
-     * @access  public
      * @return  integer The highest rank
      */
-    function getMaxRank()
+    public function getMaxRank()
     {
         $sql = "SELECT
                     max(fld_rank)
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field";
+
         return DB_Helper::getInstance()->getOne($sql);
     }
-
 
     /**
      * Changes the rank of a custom field
      *
-     * @access  public
      */
-    function changeRank()
+    public function changeRank()
     {
         $fld_id = $_REQUEST['id'];
         $direction = $_REQUEST['direction'];
@@ -1546,19 +1542,18 @@ class Custom_Field
         foreach ($fields as $field) {
             self::setRank($field['fld_id'], $rank++);
         }
+
         return 1;
     }
-
 
     /**
      * Sets the rank of a custom field
      *
-     * @access  public
      * @param   integer $fld_id The ID of the field
      * @param   integer $rank The new rank for this field
      * @return  integer 1 if successful, -1 otherwise
      */
-    function setRank($fld_id, $rank)
+    public function setRank($fld_id, $rank)
     {
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
@@ -1569,20 +1564,20 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Returns the list of available custom field backends by listing the class
      * files in the backend directory.
      *
-     * @access  public
      * @return  array Associative array of filename => name
      */
-    function getBackendList()
+    public function getBackendList()
     {
         $list = array();
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
@@ -1594,33 +1589,31 @@ class Custom_Field
                 $list[$file] = self::getBackendName($file);
             }
         }
+
         return $list;
     }
-
 
     /**
      * Returns the 'pretty' name of the backend
      *
-     * @access  public
      * @param   string $backend The full backend file name
      * @return  string The pretty name of the backend.
      */
-    function getBackendName($backend)
+    public function getBackendName($backend)
     {
         preg_match('/^class\.(.*)\.php$/', $backend, $matches);
+
         return ucwords(str_replace('_', ' ', $matches[1]));
     }
-
 
     /**
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
      *
-     * @access  public
      * @param   integer $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
-    function &getBackend($fld_id)
+    public function &getBackend($fld_id)
     {
         static $returns;
 
@@ -1638,14 +1631,16 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } elseif (!empty($res)) {
             if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
-                require_once(APP_LOCAL_PATH . "/custom_field/$res");
+                require_once APP_LOCAL_PATH . "/custom_field/$res";
             } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
                 require_once APP_INC_PATH . "/custom_field/$res";
             } else {
                 $returns[$fld_id] = false;
+
                 return $returns[$fld_id];
             }
 
@@ -1654,26 +1649,26 @@ class Custom_Field
 
             if (!class_exists($class_name)) {
                 $returns[$fld_id] = false;
+
                 return $returns[$fld_id];
             }
 
-            $returns[$fld_id] = new $class_name;
+            $returns[$fld_id] = new $class_name();
         } else {
             $returns[$fld_id] = false;
         }
+
         return $returns[$fld_id];
     }
-
 
     /**
      * Searches a specified custom field for a string and returns any issues that match
      *
-     * @access  public
      * @param   integer $fld_id The ID of the custom field
      * @param   string  $search The string to search for
      * @return  array An array of issue IDs
      */
-    function getIssuesByString($fld_id, $search)
+    public function getIssuesByString($fld_id, $search)
     {
         $sql = "SELECT
                     icf_iss_id
@@ -1689,22 +1684,22 @@ class Custom_Field
         $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
+
         return $res;
     }
-
 
     /**
      * Formats the return value
      *
-     * @access  public
      * @param   mixed   $value The value to format
      * @param   integer $fld_id The ID of the field
      * @param   integer $issue_id The ID of the issue
      * @return  mixed   the formatted value.
      */
-    function formatValue($value, $fld_id, $issue_id)
+    public function formatValue($value, $fld_id, $issue_id)
     {
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
@@ -1714,15 +1709,13 @@ class Custom_Field
         }
     }
 
-
     /**
      * This method inserts a blank value for all custom fields that do not already have a record.
      * It currently is not called by the main code, but is included to be called from workflow classes.
      *
-     * @access  public
      * @param   integer $issue_id The Issue ID
      */
-    function populateAllFields($issue_id)
+    public function populateAllFields($issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
@@ -1734,14 +1727,13 @@ class Custom_Field
         }
     }
 
-
     /**
      * Returns the name of the db field this custom field uses based on the type.
      *
      * @param   string $type
      * @return  string
      */
-    function getDBValueFieldNameByType($type)
+    public static function getDBValueFieldNameByType($type)
     {
         switch ($type) {
             case 'date':
@@ -1753,12 +1745,13 @@ class Custom_Field
         }
     }
 
-
-    function getDBValueFieldSQL()
+    public function getDBValueFieldSQL()
     {
-        return "(IF(fld_type = 'date', icf_value_date, IF(fld_type = 'integer', icf_value_integer, icf_value)))";
+        return "(CASE
+        WHEN fld_type = 'date' THEN icf_value_date
+        WHEN fld_type = 'integer' THEN icf_value_integer
+        ELSE icf_value END)";
     }
-
 
     /**
      * Analyzes the contents of the issue_custom_field and updates
@@ -1766,11 +1759,10 @@ class Custom_Field
      *
      * @param   integer $fld_id
      */
-    function updateValuesForNewType($fld_id)
+    public function updateValuesForNewType($fld_id)
     {
         $details = self::getDetails($fld_id, true);
         $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);
-
 
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
@@ -1796,8 +1788,10 @@ class Custom_Field
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
 }

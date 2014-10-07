@@ -41,7 +41,6 @@ class Prefs
     /**
      * Method used to get the system-wide default preferences.
      *
-     * @access  public
      * @param   array $projects An array of projects this user will have access too.
      * @return  string array of the default preferences
      */
@@ -67,9 +66,9 @@ class Prefs
                 $prefs['receive_copy_of_own_action'][$prj_id] = APP_DEFAULT_COPY_OF_OWN_ACTION;
             }
         }
+
         return $prefs;
     }
-
 
     /**
      * Method used to get the preferences set by a specific user.
@@ -103,6 +102,7 @@ class Prefs
         $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         } elseif (is_null($res)) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
@@ -112,7 +112,6 @@ class Prefs
             $returns[$usr_id]['receive_new_issue_email'] = array();
             $returns[$usr_id]['receive_copy_of_own_action'] = array();
 
-
             // check for the refresh rate variables, and use the default values if appropriate
             if (empty($returns[$usr_id]['list_refresh_rate'])) {
                 $returns[$usr_id]['list_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
@@ -120,7 +119,6 @@ class Prefs
             if (empty($returns[$usr_id]['email_refresh_rate'])) {
                 $returns[$usr_id]['email_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
             }
-
 
             // get per project preferences
             $sql = "SELECT
@@ -135,6 +133,7 @@ class Prefs
             $res = DB_Helper::getInstance()->getAssoc($sql, true, array(), DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return $returns[$usr_id];
             }
 
@@ -148,11 +147,9 @@ class Prefs
         }
     }
 
-
     /**
      * Method used to set the preferences for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   array   $preferences An array of preferences
      * @return  integer 1 if the update worked, -1 otherwise
@@ -179,6 +176,7 @@ class Prefs
         $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -195,9 +193,11 @@ class Prefs
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
 }

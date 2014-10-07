@@ -37,9 +37,16 @@ Eventum Issue Tracking System
 - [CWE-276][CVE-2014-1631] disable setup when already configured (Elan Ruusamäe)
 - [CWE-94][CVE-2014-1632] fix improper escaping of creating config file (Elan Ruusamäe)
 - Added "checkbox" type to custom fields (Bryan)
+- Fixed bug with emails not being sent when not associated with an issue (Bryan)
+- Clean POST of unwanted characters, handle 4-byte unicode (Elan Ruusamäe)
+- Hide products row on view issue page if no products are defined (Bryan)
 - Added description as Email #0 (Bryan)
 - Allow Workflow::getIssueIDforNewEmail to return customer and severity info (Bryan)
 - Added $type parameter to Workflow::formatIRCMessage() (Bryan)
+- Add option to "Separate Not Assigned to User" to weekly report (Raul Raat, GH#2)
+- Replace "Only Status Changes" with "No time spent" in weekly report (Raul Raat, GH#3)
+- Add lock support when updating issue details (Elan Ruusamäe, GH#4)
+- Get rid of PEAR Date, use native DateTime in PHP (Elan Ruusamäe, LP#684907)
 
 2013-11-28, Version 2.3.4
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)

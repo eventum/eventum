@@ -40,7 +40,7 @@ if (!empty($_GET["id"])) {
     $t['nws_created_date'] = Date_Helper::getFormattedDate($t["nws_created_date"]);
     $tpl->assign("news", array($t));
 } else {
-    $tpl->assign("news", News::getListByProject($prj_id, TRUE));
+    $tpl->assign("news", News::getListByProject($prj_id, true));
 }
 
 $tpl->displayTemplate();

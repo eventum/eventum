@@ -46,7 +46,7 @@ class CLI_Misc
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
      */
-    function prompt($message, $default_value)
+    public function prompt($message, $default_value)
     {
         echo $message;
         if ($default_value !== FALSE) {
@@ -67,18 +67,16 @@ class CLI_Misc
         }
     }
 
-
     /**
      * Method used to get the standard input.
      *
      * @access  public
      * @return  string The standard input value
      */
-    function getInput()
+    public function getInput()
     {
         return fgets(STDIN);
     }
-
 
     public static function base64_decode($data)
     {
@@ -89,6 +87,7 @@ class CLI_Misc
         } else {
             $data = base64_decode($data);
         }
+
         return $data;
     }
 }

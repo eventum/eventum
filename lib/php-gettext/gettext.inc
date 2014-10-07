@@ -83,7 +83,7 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
                        ."(\.([-A-Za-z0-9_]))?"    // charset
                        ."(@([-A-Za-z0-9_]+))?/",  // @ modifier
                        $locale, $matches)) {
-          list(,$lang,,$country,,$charset,,$modifier) = $matches;
+          @list(,$lang,,$country,,$charset,,$modifier) = $matches;
           if ($modifier) {
             $locale_names = array("${lang}_$country.$charset@$modifier",
                                   "${lang}_$country@$modifier",

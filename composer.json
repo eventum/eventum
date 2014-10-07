@@ -50,6 +50,9 @@
 					"shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71",
 					"type": "tar"
 				},
+				"provide":  {
+					"ext-gettext":"self.version"
+				},
 				"autoload": {
 					"classmap": [ "gettext.php", "streams.php" ]
 				}
@@ -61,8 +64,8 @@
 		"component-baseurl": "/components"
 	},
 	"minimum-stability": "stable",
+	"prefer-stable": true,
 	"require": {
-		"components/jquery": "1.8.*",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
@@ -73,10 +76,9 @@
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
-		"glen/smarty-gettext": "dev-master",
+		"smarty-gettext/smarty-gettext": "~1.0",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
-		"pear/Date": "*",
 		"pear/File_Util": "*",
 		"pear/Mail": "*",
 		"pear/Mail_Mime": "*",

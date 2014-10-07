@@ -43,11 +43,10 @@ class Impact_Analysis
     /**
      * Method used to insert a new requirement for an existing issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    function insert($issue_id)
+    public function insert($issue_id)
     {
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
@@ -66,25 +65,25 @@ class Impact_Analysis
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), ev_gettext('New requirement submitted by %1$s', User::getFullName($usr_id)));
+
             return 1;
         }
     }
-
 
     /**
      * Method used to get the full list of requirements and impact analysis for
      * a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of requirements
      */
-    function getListing($issue_id)
+    public function getListing($issue_id)
     {
         $stmt = "SELECT
                     isr_id,
@@ -108,6 +107,7 @@ class Impact_Analysis
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (count($res) == 0) {
@@ -118,21 +118,20 @@ class Impact_Analysis
                     $res[$i]["isr_impact_analysis"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
                     $res[$i]["formatted_dev_time"] = Misc::getFormattedTime($res[$i]["isr_dev_time"]);
                 }
+
                 return $res;
             }
         }
     }
 
-
     /**
      * Method used to update an existing requirement with the appropriate
      * impact analysis.
      *
-     * @access  public
      * @param   integer $isr_id The requirement ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    function update($isr_id)
+    public function update($isr_id)
     {
         $stmt = "SELECT
                     isr_iss_id
@@ -157,23 +156,23 @@ class Impact_Analysis
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), ev_gettext('Impact analysis submitted by %1$s', User::getFullName($usr_id)));
+
             return 1;
         }
     }
 
-
     /**
      * Method used to remove an existing set of requirements.
      *
-     * @access  public
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    function remove()
+    public function remove()
     {
         $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
@@ -191,25 +190,25 @@ class Impact_Analysis
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), ev_gettext('Impact analysis removed by %1$s', User::getFullName(Auth::getUserID())));
+
             return 1;
         }
     }
-
 
     /**
      * Method used to remove all of the requirements associated with a set of
      * issue IDs.
      *
-     * @access  public
      * @param   array $ids The list of issue IDs
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -219,6 +218,7 @@ class Impact_Analysis
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;

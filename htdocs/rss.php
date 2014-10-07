@@ -34,7 +34,8 @@ if (empty($setup['tool_caption'])) {
     $setup['tool_caption'] = APP_NAME;
 }
 
-function sendAuthenticateHeader() {
+function sendAuthenticateHeader()
+{
     global $setup;
 
     // FIXME: escape tool_caption properly
@@ -42,7 +43,8 @@ function sendAuthenticateHeader() {
     header('HTTP/1.0 401 Unauthorized');
 }
 
-function returnError($msg) {
+function returnError($msg)
+{
     header("Content-Type: text/xml");
     echo '<?xml version="1.0"?>' . "\n";
 ?>
@@ -65,7 +67,8 @@ function returnError($msg) {
  * Extract HTTP Authorization data from HTTP headers
  * @return array($username, $password)
  */
-function getAuthData() {
+function getAuthData()
+{
     // Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
     // not set on that particular platform. Instead what you get is a base64 encoded
     // value of the username:password under HTTP_AUTHORIZATION
@@ -89,7 +92,8 @@ function getAuthData() {
  * TODO: translations
  * TODO: ip based control
  */
-function authorizeRequest() {
+function authorizeRequest()
+{
     $authData = getAuthData();
     if ($authData === null) {
         sendAuthenticateHeader();
@@ -154,7 +158,7 @@ function authorizeRequest() {
 
 $authUser = authorizeRequest();
 
-$filter = Filter::getDetails($_GET["custom_id"], FALSE);
+$filter = Filter::getDetails($_GET["custom_id"], false);
 
 Auth::createFakeCookie(User::getUserIDByEmail($authUser), $filter['cst_prj_id']);
 
@@ -170,7 +174,7 @@ $options = array(
     'custom_field'  => $filter['cst_custom_field'],
     'search_type'   => $filter['cst_search_type']
 );
-$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
+$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
 $issues = $issues['list'];
 $project_title = Project::getName($filter['cst_prj_id']);
 Issue::getDescriptionByIssues($issues);
@@ -191,7 +195,7 @@ echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
     - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
     <link><?php echo APP_BASE_URL; ?></link>
     <description>List of issues</description>
-<?php foreach($issues as $issue) { ?>
+<?php foreach ($issues as $issue) { ?>
     <item>
       <title><?php echo '#' . $issue['iss_id'] . " - " . htmlspecialchars($issue['iss_summary']); ?></title>
       <link><?php echo APP_BASE_URL . "view.php?id=" . $issue['iss_id']; ?></link>

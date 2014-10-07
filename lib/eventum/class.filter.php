@@ -41,11 +41,10 @@ class Filter
      * Method used to check whether the given custom filter is a
      * global one or not.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @return  boolean
      */
-    function isGlobal($cst_id)
+    public function isGlobal($cst_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -57,6 +56,7 @@ class Filter
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if ($res == 1) {
@@ -67,17 +67,15 @@ class Filter
         }
     }
 
-
     /**
      * Method used to check whether the given user is the owner of the custom
      * filter ID.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @param   integer $usr_id The user ID
      * @return  boolean
      */
-    function isOwner($cst_id, $usr_id)
+    public function isOwner($cst_id, $usr_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -89,6 +87,7 @@ class Filter
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             if ($res == 1) {
@@ -99,15 +98,13 @@ class Filter
         }
     }
 
-
     /**
      * Method used to save the changes made to an existing custom
      * filter, or to create a new custom filter.
      *
-     * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    function save()
+    public function save()
     {
         $cst_id = self::getFilterID($_POST["title"]);
         // loop through all available date fields and prepare the values for the sql query
@@ -293,22 +290,21 @@ class Filter
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             return 1;
         }
     }
 
-
     /**
      * Method used to get the filter ID associated with a specific
      * filter title.
      *
-     * @access  public
      * @param   string $cst_title The custom filter title
      * @return  integer The custom filter ID
      */
-    function getFilterID($cst_title)
+    public function getFilterID($cst_title)
     {
         $stmt = "SELECT
                     cst_id
@@ -321,22 +317,21 @@ class Filter
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get an associative array of the full list of
      * custom filters (filter id => filter title) associated with the
      * current user and the current 'active' project.
      *
-     * @access  public
      * @return  array The full list of custom filters
      */
-    function getAssocList()
+    public function getAssocList()
     {
         $stmt = "SELECT
                     cst_id,
@@ -354,23 +349,22 @@ class Filter
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get an array of the full list of the custom
      * filters associated with the current user and the current
      * 'active' project.
      *
-     * @access  public
      * @param   boolean $build_url If a URL for this filter should be constructed.
      * @return  array The full list of custom filters
      */
-    function getListing($build_url = false)
+    public function getListing($build_url = false)
     {
         $stmt = "SELECT
                     *
@@ -387,6 +381,7 @@ class Filter
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if ((count($res) > 0) && ($build_url == true)) {
@@ -406,9 +401,9 @@ class Filter
         foreach ($res as $key => $val) {
             $return[str_replace('cst_', '', $key)] = $val;
         }
+
         return $return;
     }
-
 
     public static function buildUrl($filter_info, $options, $exclude_filter=false, $use_params=false)
     {
@@ -461,17 +456,17 @@ class Filter
         return $url;
     }
 
-
     /**
+     * FIXME: this method is unused
+     *
      * Takes the saved search details and information about filters and returns an array of
      * of the saved search information.
      *
-     * @access  private
      * @param   array $details An array of information about the saved search, usually the direct row from the database.
      * @param   array $info An array of information about filters
      * @return  array An array of information about the saved search.
      */
-    function buildOptions($details, $info)
+    private function buildOptions($details, $info)
     {
         $options = array();
         foreach ($info as $field => $filter) {
@@ -502,20 +497,19 @@ class Filter
             }
         }
         $options['custom_field'] = $details['cst_custom_field'];
+
         return $options;
     }
-
 
     /**
      * Method used to get an associative array of the full details of
      * a specific custom filter.
      *
-     * @access  public
      * @param   integer $cst_id The custom filter ID
      * @param   boolean $check_perm Whether to check for the permissions or not
      * @return  array The custom filter details
      */
-    function getDetails($cst_id, $check_perm = TRUE)
+    public function getDetails($cst_id, $check_perm = true)
     {
         $stmt = "SELECT
                     *
@@ -532,25 +526,24 @@ class Filter
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             if (is_string($res['cst_custom_field'])) {
                 $res['cst_custom_field'] = unserialize($res['cst_custom_field']);
             }
+
             return $res;
         }
     }
 
-
     /**
      * Method used to remove specific custom filters.
      *
-     * @access  public
      * @return  integer 1 if the removals worked properly, any other value otherwise
      */
-    function remove()
+    public function remove()
     {
-        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         foreach ($_POST["item"] as $cst_id) {
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
@@ -572,22 +565,22 @@ class Filter
             $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                 return -1;
             }
         }
+
         return 1;
     }
-
 
     /**
      * Method used to remove all custom filters associated with some
      * specific projects.
      *
-     * @access  public
      * @param   array $ids List of projects to remove from
      * @return  boolean Whether the removal worked properly or not
      */
-    function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -597,6 +590,7 @@ class Filter
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
@@ -609,7 +603,7 @@ class Filter
      * @param   array $options The options array
      * @return array
      */
-    function getActiveFilters($options)
+    public function getActiveFilters($options)
     {
         $prj_id = Auth::getCurrentProject();
         $filter_info = self::getFiltersInfo();
@@ -744,17 +738,16 @@ class Filter
                 );
             }
         }
+
         return $return;
     }
-
 
     /**
      * Returns an array of information about all the different filter fields.
      *
-     * @access  public
      * @return  Array an array of information.
      */
-    function getFiltersInfo()
+    public function getFiltersInfo()
     {
         // format is "name_of_db_field" => array(
         //      "title" => human readable title,

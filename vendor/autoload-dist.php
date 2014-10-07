@@ -3,8 +3,8 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright 2014, Elan Ruusamäe <glen@delfi.ee>                        |
+// | Copyright (c) 2014 Eventum Team.                                     |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -25,32 +25,49 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 
-/*
- * Setup autoload for tests.
- */
-
-// we init paths ourselves like init.php does, to be independant and not
-// needing actual config being present.
-define('APP_PATH', realpath(dirname(__FILE__).'/..'));
-define('APP_CONFIG_PATH', APP_PATH . '/config');
-define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
-define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-define('APP_SYSTEM_USER_ID', 1);
-define('APP_CHARSET', 'utf-8');
-define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_HOSTNAME', 'eventum.example.org');
-
-if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
-    // composer paths
-    require_once $autoload;
-    define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/distribution/libs');
-    define('APP_SPHINXAPI_PATH', APP_PATH . '/vendor/sphinx/php-sphinxapi');
-} else {
-    require_once APP_INC_PATH . '/autoload.php';
+// add APP_LOCAL_PATH to include_path
+if (defined('APP_LOCAL_PATH')) {
+    set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
+    set_include_path(APP_LOCAL_PATH . '/include/' . PATH_SEPARATOR . get_include_path());
 }
 
-require_once APP_INC_PATH . '/gettext.php';
+// if composer autoloader in place, use it and skip the rest
+if (file_exists($autoload = dirname(__FILE__) . '/autoload.php')) {
+    require $autoload;
 
-// this setups ev_gettext wrappers
-Language::setup();
+    // APP_SMARTY_PATH needed for template_helper
+    define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/distribution/libs');
+    // needed for init.php and gettext.inc
+    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
+
+    // no substitution, use bundled copy
+    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
+    return;
+}
+
+if (!defined('APP_PEAR_PATH')) {
+    define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
+}
+
+if (!defined('APP_SPHINXAPI_PATH')) {
+    define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
+}
+
+if (!defined('APP_PHP_GETTEXT_PATH')) {
+    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
+}
+
+if (!defined('APP_SMARTY_PATH')) {
+    define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
+}
+
+if (!defined('APP_JPGRAPH_PATH')) {
+    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
+}
+
+// add PEAR to the include path, required by PEAR classes
+if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
+    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
+}
+
+require_once APP_INC_PATH . '/autoload.php';

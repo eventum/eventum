@@ -37,13 +37,10 @@ ini_set('memory_limit', '64M');
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
-date_default_timezone_set('UTC');
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 define('APP_TPL_PATH', APP_PATH . '/templates');
@@ -68,8 +65,8 @@ if (defined('APP_PEAR_PATH')) {
         get_include_path()
     );
 }
+require_once APP_PATH . '/vendor/autoload-dist.php';
 require_once 'File/Util.php';
-require_once 'class.date_helper.php';
 
 list($warnings, $errors) = checkRequirements();
 if ((count($warnings) > 0) || (count($errors) > 0)) {
@@ -134,13 +131,16 @@ function ev_gettext($str)
     return $str;
 }
 
-require_once APP_SMARTY_PATH . '/Smarty.class.php';
-
 $tpl = new Smarty();
 $tpl->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
 $tpl->template_dir = APP_TPL_PATH;
 $tpl->compile_dir = APP_TPL_COMPILE_PATH;
 $tpl->config_dir = '';
+
+// this avoids loading it twice with composer
+if (function_exists('smarty_block_t')) {
+    $tpl->registerPlugin('block', 't', 'smarty_block_t');
+}
 
 if (@$_POST['cat'] == 'install') {
     $res = install();
@@ -173,7 +173,8 @@ if (@$_SERVER['HTTPS'] == 'on') {
 $tpl->assign('ssl_mode', $ssl_mode);
 
 $tpl->assign("zones", Date_Helper::getTimezoneList());
-
+$tpl->assign("default_timezone", getTimezone());
+$tpl->assign("default_weekday", getFirstWeekday());
 $tpl->display('setup.tpl.html');
 
 function checkPermissions($file, $desc, $is_directory = false)
@@ -220,6 +221,7 @@ function checkPermissions($file, $desc, $is_directory = false)
             @unlink($file . '/dummy.txt');
         }
     }
+
     return '';
 }
 
@@ -331,8 +333,42 @@ function getErrorMessage($type, $message)
         } elseif (($type == 'drop_test') && (stristr($message, 'Access denied'))) {
             return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
         }
+
         return $message;
     }
+}
+
+function getTimezone()
+{
+    $ini = ini_get("date.timezone");
+    if ($ini) {
+        return $ini;
+    }
+
+    // if php.ini is unconfigured, this function is noisy
+    return @date_default_timezone_get();
+}
+
+function getFirstWeekday()
+{
+    // this works on Linux
+    // http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
+    $weekday = system('locale first_weekday');
+    if ($weekday) {
+        // Returns Monday=2, but we need 1 for Monday
+        // see http://man7.org/linux/man-pages/man5/locale.5.html
+        return --$weekday;
+    }
+
+    // This would work in PHP 5.5
+    if (class_exists('IntlCalendar')) {
+        $cal = IntlCalendar::createInstance();
+
+        return $cal->getFirstDayOfWeek() == IntlCalendar::DOW_MONDAY ? 1 : 0;
+    }
+
+    // default to Monday as it's default for "World" in CLDR's supplemental data
+    return 1;
 }
 
 function getDatabaseList($conn)
@@ -342,6 +378,7 @@ function getDatabaseList($conn)
     while ($row = mysql_fetch_array($db_list)) {
         $dbs[] = $row['Database'];
     }
+
     return $dbs;
 }
 
@@ -357,6 +394,7 @@ function getUserList($conn)
     while ($row = mysql_fetch_row($res)) {
         $users[] = $row[0];
     }
+
     return $users;
 }
 
@@ -367,10 +405,12 @@ function getTableList($conn)
     while ($row = mysql_fetch_row($res)) {
         $tables[] = $row[0];
     }
+
     return $tables;
 }
 
-function e($s) {
+function e($s)
+{
     return var_export($s, 1);
 }
 
@@ -470,6 +510,7 @@ $private_key = "' . md5(microtime()) . '";
             } else {
                 $type = 'create_table';
             }
+
             return getErrorMessage($type, mysql_error());
         }
     }
@@ -497,7 +538,7 @@ $private_key = "' . md5(microtime()) . '";
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
         "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
-        "'%{APP_DEFAULT_WEEKDAY}%'" => (int )$_POST['default_weekday'],
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
         "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ?  'https://' : 'http://'),
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );
@@ -530,6 +571,7 @@ $private_key = "' . md5(microtime()) . '";
     exec("$upgrade_script 2>&1", $upgrade_log, $rc);
     if ($rc != 0) {
         $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+
         return "Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.";
     }
 

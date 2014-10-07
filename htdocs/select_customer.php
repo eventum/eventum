@@ -63,7 +63,6 @@ if (isset($_REQUEST['customer_id'])) {
     }
 }
 
-
 $tpl->assign('customers', $customers);
 
 $tpl->displayTemplate();

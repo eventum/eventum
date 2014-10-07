@@ -43,24 +43,28 @@ class Error_Handler
      * Logs the error condition to a specific file and if asked and possible
      * queue error in mail queue for reporting.
      *
-     * @access public
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      * @param  boolean $notify_error Whether error should be notified by email.
      */
-    static public function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
+    public static function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
     {
         $msg =& self::_createErrorReport($error_msg, $script, $line);
 
-        file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
+        if (is_resource(APP_ERROR_LOG)) {
+            fwrite(APP_ERROR_LOG, date('[D M d H:i:s Y] '));
+            fwrite(APP_ERROR_LOG, $msg);
+        } else {
+            file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
+        }
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
         if ($notify_error === false || $dbh === null || PEAR::isError($dbh)) {
-            return;
+            return false;
         }
-        
+
         $setup = Setup::load();
         if (isset($setup['email_error']['status']) && $setup['email_error']['status'] == 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);
@@ -74,12 +78,11 @@ class Error_Handler
     /**
      * Notifies site administrators of the error condition
      *
-     * @access private
      * @param  string $notify_msg The formatted error message
      * @param  string $notify_from Sender of the email
      * @param  string $notify_list Email addresses to whom send the error report.
      */
-    static private function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
+    private static function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
     {
         $backtrace = debug_backtrace();
         array_splice($backtrace, 0, 2);
@@ -134,7 +137,7 @@ class Error_Handler
         $subject = APP_SITE_NAME . ' - Error found! - ' . $date;
 
         foreach ($notify_list as $notify_email) {
-            $mail = new Mail_Helper;
+            $mail = new Mail_Helper();
             $mail->setTextBody($msg);
             $mail->send($notify_from, $notify_email, $subject, 0, false, 'error');
         }
@@ -143,11 +146,10 @@ class Error_Handler
     /**
      * Formats backtrace
      *
-     * @access public
      * @param  array    $backtrace The backtrace to format
      * @return string   A nicely formatted backtrace.
      */
-    static private function format_backtrace($backtrace = null)
+    private static function format_backtrace($backtrace = null)
     {
         if ($backtrace == null) {
             $backtrace = debug_backtrace();
@@ -158,6 +160,11 @@ class Error_Handler
 
         $msg = '';
         foreach ($backtrace as $e) {
+            if (!isset($e['file'])) {
+                // this is empty when run in phpunit
+                $e['file'] = '(inline)';
+                $e['line'] = '0';
+            }
             // backtrace frame contains: [file] [line] [function] [class] [type] [args]
             $f = $e['file'];
             $f = str_replace(APP_INC_PATH, 'APP_INC_PATH', $f);
@@ -180,6 +187,9 @@ class Error_Handler
                     } elseif (is_object($x)) {
                         $z[] = 'Object '. get_class($x);
 
+                    } elseif (is_array($x)) {
+                        $z[] = 'Array('. count($x) .')';
+
                     } elseif (is_bool($x)) {
                         $z[] = '(bool ) '.$x ? 'true' : 'false';
 
@@ -191,18 +201,18 @@ class Error_Handler
             }
             $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
         }
+
         return $msg;
     }
 
     /**
      * Creates error report.
      *
-     * @access private
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
-    static private function &_createErrorReport(&$error_msg, $script, $line)
+    private static function &_createErrorReport(&$error_msg, $script, $line)
     {
         $msg = "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
 

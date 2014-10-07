@@ -37,7 +37,6 @@ abstract class Abstract_Auth_Backend
      * Checks whether the provided password match against the email
      * address provided.
      *
-     * @access  public
      * @param   string $login The login to check for
      * @param   string $password The password of the user to check for
      * @return  boolean
@@ -50,12 +49,11 @@ abstract class Abstract_Auth_Backend
     /**
      * Method used to update the account password for a specific user.
      *
-     * @access  public
      * @param   integer $usr_id The user ID
      * @param   string  $password The password.
      * @return  boolean true if update worked, false otherwise
      */
-    function updatePassword($usr_id, $password)
+    public function updatePassword($usr_id, $password)
     {
         return false;
     }
@@ -75,7 +73,6 @@ abstract class Abstract_Auth_Backend
             return md5($password);
         }
     }
-
 
     /**
      * Creates or updates local user entry for the specified ID.
@@ -144,7 +141,6 @@ abstract class Abstract_Auth_Backend
     /**
      * Increment the failed logins attempts for this user
      *
-     * @access  public
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
@@ -156,7 +152,6 @@ abstract class Abstract_Auth_Backend
     /**
      * Reset the failed logins attempts for this user
      *
-     * @access  public
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
@@ -168,11 +163,10 @@ abstract class Abstract_Auth_Backend
     /**
      * Returns the true if the account is currently locked becouse of Back-Off locking
      *
-     * @access  public
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
-    function isUserBackOffLocked($usr_id)
+    public function isUserBackOffLocked($usr_id)
     {
         return false;
     }

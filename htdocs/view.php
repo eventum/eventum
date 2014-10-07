@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -118,10 +118,14 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'data'  =>  $details['sta_title'],
                     'data_bgcolor'  =>  $details['status_color'],
             );
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Severity'),
-                    'data'  =>  $details['sev_title'],
-            );
+
+            $severities = Severity::getList($prj_id);
+            if (count($severities) > 0) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Severity'),
+                        'data'  =>  $details['sev_title'],
+                );
+            }
 
             if ((!isset($issue_fields_display['priority'])) ||
                 ($issue_fields_display['priority'] != false)) {
@@ -160,10 +164,13 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'title' =>  ev_gettext('Reporter'),
                     'tpl_block' =>  'reporter',
             );
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Product'),
-                    'tpl_block' =>  'product',
-            );
+            $products = Product::getAssocList(false);
+            if (count($products) > 0) {
+                $column[0][] = array(
+                        'title' =>  ev_gettext('Product'),
+                        'tpl_block' =>  'product',
+                );
+            }
             $column[0][] = array(
                     'title' =>  ev_gettext('Assignment'),
                     'data' =>  $details['assignments'],

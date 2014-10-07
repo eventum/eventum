@@ -41,12 +41,11 @@ class History
     /**
      * Method used to format the changes done to an issue.
      *
-     * @access  public
      * @param   string $old_value The old value for a specific issue parameter
      * @param   string $new_value The new value for a specific issue parameter
      * @return  string The formatted string
      */
-    function formatChanges($old_value, $new_value)
+    public static function formatChanges($old_value, $new_value)
     {
         if (empty($old_value)) {
             return 'no value set -> ' . $new_value;
@@ -56,7 +55,6 @@ class History
             return $old_value . ' -> ' . $new_value;
         }
     }
-
 
     /**
      * Method used to log the changes made against a specific issue.
@@ -94,20 +92,19 @@ class History
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
     }
 
-
     /**
      * Method used to get the list of changes made against a specific issue.
      *
-     * @access  public
      * @param   integer $iss_id The issue ID
      * @param   string $order_by The order to sort the history
      * @return  array The list of changes
      */
-    function getListing($iss_id, $order_by = 'DESC')
+    public function getListing($iss_id, $order_by = 'DESC')
     {
         $stmt = "SELECT
                     *
@@ -124,26 +121,27 @@ class History
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         foreach ($res as &$row) {
             $row["his_created_date"] = Date_Helper::getFormattedDate($row["his_created_date"]);
-            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"])));
+            $t = Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"]));
+            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), $t);
         }
+
         return $res;
     }
-
 
     /**
      * Method used to remove all history entries associated with a
      * given set of issues.
      *
-     * @access  public
      * @param   array $ids The array of issue IDs
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
@@ -153,12 +151,12 @@ class History
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * Returns the id for the history type based on name.
@@ -169,7 +167,6 @@ class History
     public static function getTypeID($name)
     {
         static $returns;
-
 
         $serialized = serialize($name);
         if (!empty($returns[$serialized])) {
@@ -189,31 +186,31 @@ class History
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "unknown";
         } else {
             if (count($name) == 1) {
                 $res = current($res);
             }
             $returns[$serialized] = $res;
+
             return $res;
         }
     }
 
-
     /**
      * Returns a list of issues touched by the specified user in the specified time frame.
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
-     * @param   date $separate_closed If closed issues should be included in a separate array
+     * @param   boolean $separate_closed If closed issues should be included in a separate array
      * @param   array $htt_exclude Addtional History Types to ignore
+     * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
      * @return  array An array of issues touched by the user.
      */
-    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array())
+    public static function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
     {
-
         $htt_list = self::getTypeID(
             array_merge(array(
                 'notification_removed',
@@ -259,9 +256,12 @@ class History
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         } else {
             $data = array(
+                "no_time"   =>  array(),
+                "not_mine"  =>  array(),
                 "closed"    =>  array(),
                 "other"     =>  array()
             );
@@ -269,17 +269,16 @@ class History
                 if (isset($_REQUEST['show_per_issue'])) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
-                if (isset($_REQUEST['separate_status_changed'])) {
-                    self::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
-                }
-                foreach ($res as $index => $row) {
+                foreach ($res as $row) {
                     if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
                         $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
-                    } elseif ((isset($_REQUEST['separate_status_changed'])) && $row['only_stat_changed']) {
-                        $data['status_changed'][] = $row;
+                    } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
+                        $data['not_mine'][] = $row;
+                    } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
+                        $data['no_time'][] = $row;
                     } else {
                         $data['other'][] = $row;
                     }
@@ -289,21 +288,20 @@ class History
                 @usort($data['other'], $sort_function);
             }
         }
+
         return $data;
     }
-
 
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
      * @param   array $statuses An array of status abreviations to return counts for.
      * @return  array An array containing the number of issues for the user set tothe specified statuses.
      */
-    function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
+    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
     {
         $stmt = "SELECT
                     sta_title,
@@ -333,24 +331,23 @@ class History
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
     /**
      * Returns the history for a specified user in a specified time frame for an optional type
      *
-     * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
      * @param   array $htt_id The htt_id or id's to to return history for.
      * @return  array An array of history items
      */
-    function getHistoryByUser($usr_id, $start, $end, $htt_id = false)
+    public function getHistoryByUser($usr_id, $start, $end, $htt_id = false)
     {
         $stmt = "SELECT
                     his_id,
@@ -370,11 +367,12 @@ class History
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
+
         return $res;
     }
-
 
     /**
      * Returns the last person to close the issue
@@ -382,7 +380,7 @@ class History
      * @param   integer $issue_id The ID of the issue
      * @return  integer usr_id
      */
-    function getIssueCloser($issue_id)
+    public static function getIssueCloser($issue_id)
     {
         $sql = "SELECT
                     his_usr_id
@@ -397,49 +395,10 @@ class History
         $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
+
         return $res;
-    }
-
-    /**
-     * Fills a result set with a flag indicating if this issue only had it's status
-     * changed in the given time period.
-     *
-     * @param   array $res User issues
-     * @param   integer $usr_id The ID of the user this report is for.
-     * @param   integer $start The timestamp of the beginning of the report.
-     * @param   integer $end The timestamp of the end of this report.
-     * @return  boolean True if only status changed else false
-     */
-    public static function fillStatusChangedOnlyIssues(&$res, $usr_id, $start, $end) {
-
-        $issue_ids = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $issue_ids[] = Misc::escapeInteger($res[$i]["iss_id"]);
-        }
-        $ids = implode(", ", $issue_ids);
-
-        $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
-                 WHERE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('status_changed') . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('issue_updated') . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id IN (" . $ids . ") AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
-                GROUP BY his_iss_id";
-
-        $result = DB_Helper::getInstance()->getAssoc($sql);
-        if (PEAR::isError($result)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
-            foreach($res as $key => $item) {
-                @$res[$key]['only_stat_changed'] = (array_key_exists($item['iss_id'], $result) ? false : true);
-            }
-        }
     }
 }

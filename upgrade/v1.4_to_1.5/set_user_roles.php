@@ -10,7 +10,7 @@ $sql = "SELECT
             usr_role != ''";
 $res = DB_Helper::getInstance()->getAssoc($sql);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -23,7 +23,7 @@ foreach ($res as $usr_id => $role) {
                 pru_usr_id = $usr_id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 
@@ -53,8 +53,8 @@ foreach ($res as $usr_id => $role) {
                 usr_id=$usr_id";
     $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
-		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-		exit(1);
+        echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+        exit(1);
     }
 }
 

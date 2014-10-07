@@ -44,7 +44,7 @@ if (!Auth::userExists($_POST["email"])) {
 }
 
 // check if user is locked
-if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($_POST['email']))){
+if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($_POST['email']))) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'account back-off locked');
     Auth::redirect("index.php?err=13");
 }

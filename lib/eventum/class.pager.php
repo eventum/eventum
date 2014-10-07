@@ -41,11 +41,10 @@ class Pager
      * Returns the total number of rows for a specific query. It is used to
      * calculate the total number of pages of data.
      *
-     * @access  public
      * @param   string $stmt The SQL statement
      * @return  int The total number of rows
      */
-    function getTotalRows($stmt)
+    public static function getTotalRows($stmt)
     {
         $stmt = str_replace("\n", "", $stmt);
         $stmt = str_replace("\r", "", $stmt);
@@ -63,6 +62,7 @@ class Pager
         $rows = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($rows)) {
             Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         } elseif (empty($rows)) {
             return 0;
@@ -76,14 +76,12 @@ class Pager
         }
     }
 
-
     /**
      * Returns the query string to be used on the paginated links
      *
-     * @access  private
      * @return  string The query string
      */
-    function _buildQueryString()
+    private function _buildQueryString()
     {
         $query_str = "";
         // gotta check manually here
@@ -93,14 +91,13 @@ class Pager
                 $query_str .= "&" . $key . "=" . urlencode($value);
             }
         }
+
         return $query_str;
     }
-
 
     /**
      * Returns an array with the paginated links, one in each item.
      *
-     * @access  public
      * @param   int $row Current page number (starts from zero)
      * @param   int $total_rows Total number of rows, as returned by Pager::getTotalRows()
      * @param   int $per_page Maximum number of rows per page
@@ -110,7 +107,7 @@ class Pager
      * @return  array The list of paginated links
      * @see     getTotalRows()
      */
-    function getLinks($row, $total_rows, $per_page, $show_links = "all", $show_blank = "off", $link_str = -1)
+    public function getLinks($row, $total_rows, $per_page, $show_links = "all", $show_blank = "off", $link_str = -1)
     {
         // check for emptyness
         if ((empty($total_rows)) || (empty($per_page))) {
@@ -160,29 +157,27 @@ class Pager
                 }
             }
         }
+
         return $array;
     }
-
 
     /**
      * Returns a portion of an array of links, as returned by the Pager::getLinks()
      * function. This is especially useful for preventing a huge list of links
      * on the paginated list.
      *
-     * @access  public
      * @param   array $array The full list of paginated links
      * @param   int $current The current page number
      * @param   int $target_size The maximum number of paginated links
      * @return  array The list of paginated links
      * @see     getLinks()
      */
-    function getPortion($array, $current, $target_size = 20)
+    public function getPortion($array, $current, $target_size = 20)
     {
         $size = count($array);
         if (($size <= 2) || ($size < $target_size)) {
             $temp = $array;
         } else {
-            $temp = array();
             if (($current + $target_size) > $size) {
                 $temp = array_slice($array, $size - $target_size);
             } else {

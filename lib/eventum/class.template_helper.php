@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,32 +24,27 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 /**
  * Class used to abstract the backend template system used by the site. This
  * is especially useful to be able to change template backends in the future
  * without having to rewrite all PHP based scripts.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Template_Helper
 {
-    var $smarty;
-    var $tpl_name = "";
+    public $smarty;
+    public $tpl_name = "";
 
     /**
      * Constructor of the class
      *
-     * @access public
      */
-    function __construct()
+    public function __construct()
     {
         $this->smarty = new Smarty();
-        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH, APP_TPL_PATH));
+        // TODO: remove APP_LOCAL_PATH from the list in 2.4.1
+        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH));
         $this->smarty->setCompileDir(APP_TPL_COMPILE_PATH);
         $this->smarty->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
         $this->smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
@@ -57,8 +52,12 @@ class Template_Helper
         $this->smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
         $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
         $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
-    }
 
+        // this avoids loading it twice with composer
+        if (function_exists('smarty_block_t')) {
+            $this->smarty->registerPlugin('block', 't', 'smarty_block_t');
+        }
+    }
 
     /**
      * Sets the internal template filename for the current PHP script
@@ -69,7 +68,6 @@ class Template_Helper
     {
         $this->tpl_name = $tpl_name;
     }
-
 
     /**
      * Assigns variables to specific placeholders on the target template
@@ -86,11 +84,9 @@ class Template_Helper
         }
     }
 
-
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @access public
      * @param  array $array Array with the PLACEHOLDER=>VALUE pairs to be assigned
      */
     public function bulkAssign($array)
@@ -100,11 +96,9 @@ class Template_Helper
         }
     }
 
-
     /**
      * Prints the actual parsed template.
      *
-     * @access public
      */
     public function displayTemplate()
     {
@@ -113,26 +107,22 @@ class Template_Helper
         $this->smarty->display($this->tpl_name);
     }
 
-
     /**
      * Returns the contents of the parsed template
      *
-     * @access public
      * @return string The contents of the parsed template
      */
-    public function getTemplateContents($process=True)
+    public function getTemplateContents($process=true)
     {
         if ($process) {
             $this->processTemplate();
         }
+
         return $this->smarty->fetch($this->tpl_name);
     }
 
-
     /**
      * Processes the template and assigns common variables automatically.
-     *
-     * @access    private
      */
     private function processTemplate()
     {
@@ -196,7 +186,7 @@ class Template_Helper
                 'current_full_name' =>  $info['usr_full_name'],
                 'current_email'     =>  $info['usr_email'],
                 'current_user_id'   =>  $usr_id,
-                'current_user_timestamp'    =>  Date_Helper::getUnixTimestamp(),
+                'current_user_timestamp'    =>  time(),
                 'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
                 'is_anon_user'  =>  Auth::isAnonUser(),
                 'is_current_user_partner'   =>  !empty($info['usr_par_code']),

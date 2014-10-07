@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -44,12 +45,11 @@ class Misc
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
-     * @access  public
      * @param   array $foo The first array
      * @param   array $bar The second array
      * @return  array The different values
      */
-    function arrayDiff($foo, $bar)
+    public static function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
             $bar = array();
@@ -74,6 +74,7 @@ class Misc
                 $diffs[] = $second[$i];
             }
         }
+
         return $diffs;
     }
 
@@ -105,25 +106,23 @@ class Misc
     /**
      * Method used to get the title given to the current installation of Eventum.
      *
-     * @access  public
      * @return  string The installation title
      */
-    function getToolCaption()
+    public static function getToolCaption()
     {
         $setup = Setup::load();
+
         return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
     }
-
 
     /**
      * Method used to print a prompt asking the user for information.
      *
-     * @access  public
      * @param   string $message The message to print
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
      */
-    function prompt($message, $default_value)
+    public function prompt($message, $default_value)
     {
         echo $message;
         if ($default_value !== FALSE) {
@@ -147,7 +146,6 @@ class Misc
     /**
      * Method used to get a line from the standard input.
      *
-     * @access  public
      * @return  string The standard input value
      */
     private static function getInputLine()
@@ -158,17 +156,16 @@ class Misc
     /**
      * Method used to check the spelling of a given text.
      *
-     * @access  public
      * @param   string $text The text to check the spelling against
      * @return  array Information about the mispelled words, if any
      */
-    function checkSpelling($text)
+    public function checkSpelling($text)
     {
         $temptext = tempnam("/tmp", "spelltext");
         if ($fd = fopen($temptext, "w")) {
             $textarray = explode("\n", $text);
             fwrite($fd, "!\n");
-            foreach ($textarray as $key => $value) {
+            foreach ($textarray as $value) {
                 // adding the carat to each line prevents the use of aspell commands within the text...
                 fwrite($fd,"^$value\n");
             }
@@ -226,18 +223,17 @@ class Misc
      * \r and \t) by their string equivalents. It is usually used in
      * JavaScript code.
      *
-     * @access  public
      * @param   string $str The string to be escaped
      * @return  string The escaped string
      */
-    function escapeWhitespace($str)
+    public static function escapeWhitespace($str)
     {
         $str = str_replace("\n", '\n', $str);
         $str = str_replace("\r", '\r', $str);
         $str = str_replace("\t", '\t', $str);
+
         return $str;
     }
-
 
     /**
      * Method used to simulate array_map()'s functionality in a deeply nested
@@ -268,19 +264,18 @@ class Misc
                $value = call_user_func_array($in_func, $args);
            }
        }
+
        return $in_array;
     }
-
 
     /**
      * Method used to format a filesize in bytes to the appropriate string,
      * showing 'Kb' and 'Mb'.
      *
-     * @access  public
      * @param   integer $bytes The filesize to format
      * @return  string The formatted filesize
      */
-    function formatFileSize($bytes)
+    public static function formatFileSize($bytes)
     {
         $kb = 1024;
         $mb = 1024 * 1024;
@@ -288,9 +283,11 @@ class Misc
             return "$bytes bytes";
         } elseif (($bytes > $kb) && ($bytes <= $mb)) {
             $kbytes = $bytes / 1024;
+
             return sprintf("%.1f", round($kbytes, 1)) . " KiB";
         } else {
             $mbytes = ($bytes / 1024) / 1024;
+
             return sprintf("%.1f", round($mbytes, 1)) . " MiB";
         }
     }
@@ -301,11 +298,10 @@ class Misc
      * The available options are K (for Kilobytes), M (for Megabytes) and G
      * (for Gigabytes; available since PHP 5.1.0).
      *
-     * @access  public
      * @param   string  $val The size to format
      * @return  integer size in bytes
      */
-    function return_bytes($val)
+    public static function return_bytes($val)
     {
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
@@ -321,7 +317,6 @@ class Misc
 
         return $val;
     }
-
 
 /**
  * The Util:: class provides generally useful methods of different kinds.
@@ -340,7 +335,7 @@ class Misc
  * @since   Horde 3.0
  * @package Horde_Util
  */
-    function dispelMagicQuotes(&$var)
+    public static function dispelMagicQuotes(&$var)
     {
         static $magic_quotes;
 
@@ -359,11 +354,45 @@ class Misc
         return $var;
     }
 
+    /**
+     * Clean input from control characters (low bits in ASCII table).
+     *
+     * In case of UTF-8 encoding, strip also Unicode characters over 3 bytes
+     * as MySQL 'utf8' encoding does not support it and truncates input in place of such Unicode character.
+     *
+     * As a better solution, since of MySQL 5.5.3, there exists
+     * {@link http://dev.mysql.com/doc/refman/5.5/en/charset-unicode-utf8mb4.html utf8mb4} encoding
+     *
+     * @param string|array $value input to modify in place
+     * @author Elan Ruusamäe <glen@delfi.ee>
+     */
+    public static function stripInput(&$value)
+    {
+        if (is_array($value)) {
+            foreach ($value as &$v) {
+                self::stripInput($v);
+            }
+
+            return;
+        }
+
+        // strip control chars, backspace and delete (including \r)
+        $value = preg_replace('/[\x00-\x08\x0b-\x1f\x7f]/', '', $value);
+
+        static $is_utf8;
+        if (!isset($is_utf8)) {
+            $is_utf8 = strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8';
+        }
+
+        if ($is_utf8) {
+            // strip unicode chars over 3 bytes
+            $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $value);
+        }
+    }
 
     /**
      * Method used to escape a string before using it in a query.
      *
-     * @access  public
      * @param   string|array $input The original string
      * @return  string The escaped (or not) string
      */
@@ -376,9 +405,9 @@ class Misc
         } else {
             $input = DB_Helper::escapeString($input, $add_quotes);
         }
+
         return $input;
     }
-
 
     /**
      * Accepts a value and cleans it to only contain numeric values
@@ -395,9 +424,9 @@ class Misc
         } else {
             settype($input, 'integer');
         }
+
         return $input;
     }
-
 
     /**
      * Method used to strip HTML from a string or array
@@ -414,28 +443,27 @@ class Misc
         } else {
             $input = filter_var($input, FILTER_SANITIZE_SPECIAL_CHARS);
         }
+
         return $input;
     }
-
 
     /**
      * Method used to prepare a set of fields and values for a boolean search
      *
-     * @access  public
      * @param   string $field The field name
      * @param   string $value The value for that field
      * @return  string The prepared boolean search string
      */
-    function prepareBooleanSearch($field, $value)
+    public static function prepareBooleanSearch($field, $value)
     {
         $boolean = array();
         $pieces = explode(" ", $value);
         for ($i = 0; $i < count($pieces); $i++) {
             $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
         }
+
         return "(" . implode(" OR ", $boolean) . ")";
     }
-
 
     /**
      * Method used to get a random file from the 'daily tips' directory.
@@ -445,28 +473,26 @@ class Misc
      */
     public static function getRandomTip($tpl)
     {
-        $tpl_dir = $tpl->smarty->template_dir;
-        if (is_array($tpl_dir)) {
-            $tpl_dir = $tpl_dir[1];
-        }
-        $tip_dir = $tpl_dir . "/tips";
-        $files = self::getFileList($tip_dir);
-        $i = rand(0, (integer)count($files));
-        // some weird bug in the rand() function where sometimes the
-        // second parameter is non-inclusive makes us have to do this
-        if (!isset($files[$i])) {
-            return self::getRandomTip($tpl);
-        } else {
-            return $files[$i];
-        }
-    }
+        foreach ((array) $tpl->smarty->template_dir as $tpl_dir) {
+            $tip_dir = $tpl_dir . '/tips';
+            $files = self::getFileList($tip_dir);
+            $count = count($files);
+            if (!$count) {
+                continue;
+            }
+            $i = rand(0, $count);
 
+            return $files[$i];
+
+        }
+
+        return null;
+    }
 
     /**
      * Method used to get the full list of files contained in a specific
      * directory.
      *
-     * @access  public
      * @param   string $directory The path to list the files from
      * @return  array The list of files
      */
@@ -474,27 +500,26 @@ class Misc
     {
         $files = array();
         $dir = @opendir($directory);
-        while ($item = @readdir($dir)){
+        while ($item = @readdir($dir)) {
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
                 continue;
             }
             $files[] = $item;
         }
+
         return $files;
     }
-
 
     /**
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *
-     * @access  public
      * @param   integer $minutes The number of minutes to format
      * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
      * @param   boolean $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */
-    function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
+    public static function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
         if ((!empty($minutes)) && ($minutes < 6)) {
@@ -514,9 +539,9 @@ class Misc
             }
             $return = join(" ", $chunks);
         }
+
         return $return;
     }
-
 
     /**
      * Method used to parse the given string for references to URLs and create
@@ -526,7 +551,7 @@ class Misc
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    function activateLinks($text, $class = "link")
+    public static function activateLinks($text, $class = "link")
     {
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
@@ -540,61 +565,54 @@ class Misc
         return $text;
     }
 
-
     /**
      * Method used to indent a given string.
      *
-     * @access  public
      * @param   string $str The string to be indented
      * @return  string The indented string
      */
-    function indent($str)
+    public function indent($str)
     {
         return "> " . $str;
     }
-
 
     /**
      * Method used to format the reply of someone's email that is available in
      * the system.
      *
-     * @access  public
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
-    function formatReply($str)
+    public function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", "", $str));
         // COMPAT: the next line requires PHP >= 4.0.6
         $lines = array_map(array("Misc", "indent"), $lines);
+
         return implode("\n", $lines);
     }
-
 
     /**
      * Method used to format a RFC 822 compliant date for the given unix
      * timestamp.
      *
-     * @access  public
      * @param   integer $ts The unix timestamp
      * @return  string The formatted date string
      */
-    function formatReplyDate($ts)
+    public function formatReplyDate($ts)
     {
         // On Fri, 01 Apr 2005, 17:07:44 GMT
         return Date_Helper::getFormattedDate($ts);
     }
 
-
     /**
      * Method used to check whether the given directory is writable by the
      * web server user or not.
      *
-     * @access  public
      * @param   string $file The full path to the directory
      * @return  boolean
      */
-    function isWritableDirectory($file)
+    public function isWritableDirectory($file)
     {
         clearstatcache();
         if (!file_exists($file)) {
@@ -629,34 +647,32 @@ class Misc
                 @unlink($file . '/dummy.txt');
             }
         }
+
         return true;
     }
-
 
     /**
      * Highlights quoted replies. Relies on a smarty plugin written by
      * Joscha Feth, joscha@feth.com, www.feth.com
      *
-     * @access  public
      * @param   string $text The text to highlight
      * @return  string The highlighted text
      */
-    function highlightQuotedReply($text)
+    public function highlightQuotedReply($text)
     {
         require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
+
         return smarty_modifier_highlight_quoted($text);
     }
-
 
     /**
      * Method used to display a nice error message when one (or more) of the
      * system requirements for Eventum is not found.
      *
-     * @access  public
      * @param   array $errors The list of errors
      * @return  void
      */
-    function displayRequirementErrors($errors)
+    public function displayRequirementErrors($errors)
     {
         echo '<html>
 <head>
@@ -704,15 +720,13 @@ class Misc
 </html>';
     }
 
-
     /**
      * Changes a boolean value to either "Yes" or "No".
      *
-     * @access  public
      * @param   boolean $value The boolean value
      * @return  string Either 'Yes' or 'No'.
      */
-    function getBooleanDisplayValue($value)
+    public static function getBooleanDisplayValue($value)
     {
         if ($value == true) {
             return ev_gettext('Yes');
@@ -721,19 +735,18 @@ class Misc
         }
     }
 
-
-    function removeNewLines($str, $no_space = false)
+    public static function removeNewLines($str, $no_space = false)
     {
         if ($no_space) {
             $replacement = '';
         } else {
             $replacement = ' ';
         }
+
         return str_replace(array("\n", "\r"), $replacement, $str);
     }
 
-
-    function htmlentities($var)
+    public static function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
@@ -754,25 +767,24 @@ class Misc
         Session::set('messages', $messages);
     }
 
-
     public static function getMessages()
     {
         $messages = Session::get('messages', array());
         Session::set('messages', array());
+
         return $messages;
     }
-
 
     public static function mapMessages($result, $map)
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
                 Misc::setMessage($info[0], $info[1]);
+
                 return;
             }
         }
     }
-
 
     public static function displayNotifiedUsers($notify_list)
     {
@@ -783,7 +795,6 @@ class Misc
             Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
         }
     }
-
 
     /**
      * Shortcut method to check if if an element is set in the array and if not
@@ -803,7 +814,6 @@ class Misc
         }
     }
 
-
     public static function arrayToQueryString($array, $parent_name = false)
     {
         $qs = '';
@@ -817,18 +827,17 @@ class Misc
                 $qs .= "&" . $key . "=" . urlencode($val);
             }
         }
+
         return $qs;
     }
-
 
     /**
      * Method used to get the full contents of the given file.
      *
-     * @access  public
      * @param   string $full_path The full path to the file
      * @return  string The full contents of the file
      */
-    function getFileContents($full_path)
+    public function getFileContents($full_path)
     {
         if (!@file_exists($full_path)) {
             return '';
@@ -839,17 +848,16 @@ class Misc
         }
         $contents = @fread($fp, filesize($full_path));
         @fclose($fp);
+
         return $contents;
     }
-
 
     /**
      * Method used to get the standard input.
      *
-     * @access  public
      * @return  string The standard input value
      */
-    function getInput($is_one_liner = FALSE)
+    public function getInput($is_one_liner = false)
     {
         static $return;
 
@@ -870,9 +878,9 @@ class Misc
         }
         fclose($stdin);
         $return = $input;
+
         return $input;
     }
-
 
     public static function displayErrorMessage($msg)
     {
@@ -882,7 +890,6 @@ class Misc
         $tpl->displayTemplate();
         exit;
     }
-
 
     /**
      * Base 64 encodes all elements of an array.
@@ -899,6 +906,7 @@ class Misc
         } else {
             $data = base64_encode($data);
         }
+
         return $data;
     }
 }

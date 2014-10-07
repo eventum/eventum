@@ -47,12 +47,11 @@ class Time_Tracking
     /**
      * Method used to get the ID of a given category.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $ttc_title The time tracking category title
      * @return  integer The time tracking category ID
      */
-    function getCategoryID($prj_id, $ttc_title = '')
+    public static function getCategoryID($prj_id, $ttc_title = '')
     {
         // LEGACY: handle swapped params, i.e one parameter call where
         // $ttc_title was only arg. This is not needed by Eventum Core, but
@@ -72,20 +71,20 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
+
         return $res;
     }
-
 
     /**
      * Method used to get the details of a time tracking category.
      *
-     * @access  public
      * @param   integer $ttc_id The time tracking category ID
      * @return  array The details of the category
      */
-    function getDetails($ttc_id)
+    public function getDetails($ttc_id)
     {
         $stmt = "SELECT
                     *
@@ -96,8 +95,10 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
+
         return $res;
     }
 
@@ -120,6 +121,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return null;
         }
 
@@ -129,16 +131,15 @@ class Time_Tracking
     /**
      * Method used to remove a specific set of time tracking categories
      *
-     * @access  public
      * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
-    function remove()
+    public function remove()
     {
         $items = $_POST["items"];
 
         // check that none of the categories are in use
         $usage = self::getCategoryStats($items);
-        foreach ($usage as $ttc_id => $count) {
+        foreach ($usage as $count) {
             if ($count > 0) {
                 return -2;
             }
@@ -152,20 +153,19 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         return 1;
     }
 
-
     /**
      * Method used to update a specific time tracking category
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function update()
+    public function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -180,11 +180,12 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
+
         return 1;
     }
-
 
     /**
      * Method used to add a new time tracking category
@@ -213,6 +214,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
@@ -231,6 +233,7 @@ class Time_Tracking
         foreach (self::$default_categories as $title) {
             $res = min($res, self::insert($prj_id, $title));
         }
+
         return $res;
     }
 
@@ -238,11 +241,10 @@ class Time_Tracking
      * Method used to get the full list of time tracking categories associated
      * with a specific project.
      *
-     * @access  public
      * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
-    function getList($prj_id)
+    public function getList($prj_id)
     {
         $ttc_list = join(', ', Misc::escapeString(self::$default_categories, true));
         $stmt = "SELECT
@@ -258,6 +260,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
@@ -272,15 +275,13 @@ class Time_Tracking
         return $res;
     }
 
-
     /**
      * Method used to get the full list of time tracking categories as an
      * associative array in the style of (id => title)
      *
-     * @access  public
      * @return  array The list of categories
      */
-    function getAssocCategories($prj_id)
+    public static function getAssocCategories($prj_id)
     {
         $stmt = "SELECT
                     ttc_id,
@@ -294,21 +295,20 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return "";
         }
 
         return $res;
     }
 
-
     /**
      * Method used to get the time spent on a given list of issues.
      *
-     * @access  public
      * @param   array $result The result set
      * @return  void
      */
-    function getTimeSpentByIssues(&$result)
+    public static function getTimeSpentByIssues(&$result)
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
@@ -330,6 +330,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return;
         }
 
@@ -338,15 +339,13 @@ class Time_Tracking
         }
     }
 
-
     /**
      * Method used to get the total time spent for a specific issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  integer The total time spent
      */
-    function getTimeSpentByIssue($issue_id)
+    public function getTimeSpentByIssue($issue_id)
     {
         $stmt = "SELECT
                     SUM(ttr_time_spent)
@@ -357,22 +356,21 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
         return $res;
     }
 
-
     /**
      * Method used to get the full listing of time entries in the system for a
      * specific issue
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  array The full list of time entries
      */
-    function getListing($issue_id)
+    public function getListing($issue_id)
     {
         $stmt = "SELECT
                     ttr_id,
@@ -395,6 +393,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
@@ -419,6 +418,7 @@ class Time_Tracking
         foreach ($total_time_by_user as &$item) {
             $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
         }
+
         return array(
             "total_time_spent"   => Misc::getFormattedTime($total_time_spent),
             "total_time_by_user" => $total_time_by_user,
@@ -426,16 +426,14 @@ class Time_Tracking
         );
     }
 
-
     /**
      * Method used to remove all time entries associated with the specified list
      * of issues.
      *
-     * @access  public
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    function removeByIssues($ids)
+    public static function removeByIssues($ids)
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
@@ -445,21 +443,21 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         }
+
         return true;
     }
-
 
     /**
      * Method used to remove a specific time entry from the system.
      *
-     * @access  public
      * @param   integer $time_id The time entry ID
      * @param   integer $usr_id The user ID of the person trying to remove this entry
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function removeEntry($time_id, $usr_id)
+    public static function removeEntry($time_id, $usr_id)
     {
         $time_id = Misc::escapeInteger($time_id);
         $stmt = "SELECT
@@ -482,23 +480,23 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             Issue::markAsUpdated($details['issue_id']);
             // need to save a history entry for this
             History::add($details['issue_id'], $usr_id, History::getTypeID('time_removed'), ev_gettext('Time tracking entry removed by %1$s', User::getFullName($usr_id)));
+
             return 1;
         }
     }
 
-
     /**
      * Method used to add a new time entry in the system.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function insertEntry()
+    public static function insertEntry()
     {
         if (!empty($_POST["date"])) {
             // format the date from the form
@@ -532,20 +530,20 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         Issue::markAsUpdated($_POST["issue_id"], 'time added');
         // need to save a history entry for this
         History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
+
         return 1;
     }
-
 
     /**
      * Method used to remotely record a time tracking entry.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   integer $cat_id The time tracking category ID
@@ -553,7 +551,7 @@ class Time_Tracking
      * @param   integer $time_spent The time spent in minutes
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
+    public function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
@@ -575,26 +573,26 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         }
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id)));
+
         return 1;
     }
-
 
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
      *
-     * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer The timestamp of the beginning of the report.
      * @param   integer The timestamp of the end of this report.
      * @return  array An array of data containing information about time trackinge
      */
-    function getSummaryByUser($usr_id, $start, $end)
+    public static function getSummaryByUser($usr_id, $start, $end)
     {
         $stmt = "SELECT
                     ttc_title,
@@ -615,6 +613,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         }
 
@@ -623,6 +622,7 @@ class Time_Tracking
                 $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
             }
         }
+
         return $res;
     }
 
@@ -630,14 +630,13 @@ class Time_Tracking
      * Method used to get the time spent for a specific issue
      * at a specific time.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer The timestamp of the beginning of the report.
      * @param   integer The timestamp of the end of this report.
      * @return  integer The time spent
      */
-    function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
+    public function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
     {
         $stmt = "SELECT
                     SUM(ttr_time_spent)
@@ -650,6 +649,7 @@ class Time_Tracking
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
@@ -658,14 +658,13 @@ class Time_Tracking
     /**
      * Method used to add time spent on issue to a list of user issues.
      *
-     * @access  private
      * @param   array $res User issues
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer $start The timestamp of the beginning of the report.
      * @param   integer $end The timestamp of the end of this report.
      * @return  void
      */
-    function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
+    public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {
 
         $issue_ids = array();
@@ -687,10 +686,11 @@ class Time_Tracking
 
         if (PEAR::isError($result)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return 0;
         }
 
-        foreach($res as $key => $item) {
+        foreach ($res as $key => $item) {
             @$res[$key]['it_spent'] = $result[$item['iss_id']];
             @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
         }

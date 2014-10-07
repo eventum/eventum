@@ -5,7 +5,6 @@
  */
 require_once dirname(__FILE__) . '/../init.php';
 
-
 $stmt = "SELECT
             prj_id,
             prj_title
@@ -13,7 +12,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
 $res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 $projects = $res;
@@ -31,7 +30,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response";
 $res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
-	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 $responses = $res;
@@ -52,8 +51,8 @@ foreach ($responses as $ere_id => $ere_title) {
                     )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (DB::isError($res)) {
-			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-			exit(1);
+            echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+            exit(1);
         }
     }
 }

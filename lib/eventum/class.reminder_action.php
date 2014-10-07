@@ -42,13 +42,12 @@ class Reminder_Action
      * Method used to quickly change the ranking of a reminder action
      * from the administration screen.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @param   integer $rma_id The reminder action ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($rem_id, $rma_id, $rank_type)
+    public function changeRank($rem_id, $rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking($rem_id);
@@ -86,19 +85,18 @@ class Reminder_Action
                  WHERE
                     rma_id=" . Misc::escapeInteger($rma_id);
         DB_Helper::getInstance()->query($stmt);
+
         return true;
     }
-
 
     /**
      * Returns an associative array with the list of reminder action
      * IDs and their respective ranking.
      *
-     * @access  private
      * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    function _getRanking($rem_id)
+    private function _getRanking($rem_id)
     {
         $stmt = "SELECT
                     rma_id,
@@ -112,21 +110,20 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the title of a specific reminder action.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  string The title of the reminder action
      */
-    function getTitle($rma_id)
+    public function getTitle($rma_id)
     {
         $stmt = "SELECT
                     rma_title
@@ -137,21 +134,20 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the details for a specific reminder action.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  array The details for the specified reminder action
      */
-    function getDetails($rma_id)
+    public function getDetails($rma_id)
     {
         $stmt = "SELECT
                     *
@@ -162,24 +158,24 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             // get the user list, if appropriate
             if (self::isUserList($res['rma_rmt_id'])) {
                 $res['user_list'] = self::getUserList($res['rma_id']);
             }
+
             return $res;
         }
     }
 
-
     /**
      * Method used to create a new reminder action.
      *
-     * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    function insert()
+    public function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
@@ -205,6 +201,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             $new_rma_id = DB_Helper::get_last_insert_id();
@@ -212,20 +209,19 @@ class Reminder_Action
             if (self::isUserList($_POST['type'])) {
                 self::associateUserList($new_rma_id, $_POST['user_list']);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Returns the list of users associated with a given reminder
      * action ID
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of associated users
      */
-    function getUserList($rma_id)
+    public function getUserList($rma_id)
     {
         $stmt = "SELECT
                     ral_usr_id,
@@ -237,6 +233,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             $t = array();
@@ -247,21 +244,20 @@ class Reminder_Action
                     $t[$res[$i]['ral_usr_id']] = User::getFullName($res[$i]['ral_usr_id']);
                 }
             }
+
             return $t;
         }
     }
-
 
     /**
      * Method used to associate a list of users with a given reminder
      * action ID
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @param   array $user_list The list of users
      * @return  void
      */
-    function associateUserList($rma_id, $user_list)
+    public function associateUserList($rma_id, $user_list)
     {
         for ($i = 0; $i < count($user_list); $i++) {
             $usr_id = 0;
@@ -286,14 +282,12 @@ class Reminder_Action
         }
     }
 
-
     /**
      * Method used to update the details of a specific reminder action.
      *
-     * @access  public
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    function update()
+    public function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
@@ -310,6 +304,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return -1;
         } else {
             // remove any user list associated with this reminder action
@@ -318,20 +313,19 @@ class Reminder_Action
             if (self::isUserList($_POST['type'])) {
                 self::associateUserList($_POST['id'], $_POST['user_list']);
             }
+
             return 1;
         }
     }
-
 
     /**
      * Checks whether the given reminder action type is one where a
      * list of users is used or not.
      *
-     * @access  public
      * @param   integer $rmt_id The reminder action type ID
      * @return  boolean
      */
-    function isUserList($rmt_id)
+    public function isUserList($rmt_id)
     {
         $stmt = "SELECT
                     rmt_type
@@ -342,6 +336,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             $user_list_types = array(
@@ -356,15 +351,13 @@ class Reminder_Action
         }
     }
 
-
     /**
      * Removes the full user list for a given reminder action ID.
      *
-     * @access  public
      * @param   integer $rma_id The reminder action ID
      * @return  void
      */
-    function clearActionUserList($rma_id)
+    public function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
             $rma_id = array($rma_id);
@@ -377,15 +370,13 @@ class Reminder_Action
         DB_Helper::getInstance()->query($stmt);
     }
 
-
     /**
      * Method used to remove reminder actions by using the administrative
      * interface of the system.
      *
-     * @access  public
      * @return  boolean
      */
-    function remove($action_ids)
+    public static function remove($action_ids)
     {
         $items = @implode(", ", Misc::escapeInteger($action_ids));
         $stmt = "DELETE FROM
@@ -406,14 +397,12 @@ class Reminder_Action
         self::clearActionUserList($action_ids);
     }
 
-
     /**
      * Method used to get an associative array of action types.
      *
-     * @access  public
      * @return  array The list of action types
      */
-    function getActionTypeList()
+    public function getActionTypeList()
     {
         $stmt = "SELECT
                     rmt_id,
@@ -425,22 +414,21 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to get the list of reminder actions to be displayed in the
      * administration section.
      *
-     * @access  public
      * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    function getAdminList($rem_id)
+    public function getAdminList($rem_id)
     {
         $stmt = "SELECT
                     rma_rem_id,
@@ -461,6 +449,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
@@ -472,20 +461,19 @@ class Reminder_Action
                     }
                 }
             }
+
             return $res;
         }
     }
-
 
     /**
      * Method used to get the list of reminder actions associated with a given
      * reminder ID.
      *
-     * @access  public
      * @param   integer $reminder_id The reminder ID
      * @return  array The list of reminder actions
      */
-    function getList($reminder_id)
+    public static function getList($reminder_id)
     {
         $stmt = "SELECT
                     *
@@ -498,6 +486,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return array();
         } else {
             if (empty($res)) {
@@ -508,15 +497,13 @@ class Reminder_Action
         }
     }
 
-
     /**
      * Method used to get the title of a reminder action type.
      *
-     * @access  public
      * @param   integer $rmt_id The reminder action type
      * @return  string The action type title
      */
-    function getActionType($rmt_id)
+    public function getActionType($rmt_id)
     {
         $stmt = "SELECT
                     rmt_type
@@ -527,23 +514,22 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return '';
         } else {
             return $res;
         }
     }
 
-
     /**
      * Method used to save a history entry about the execution of the current
      * reminder.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
      */
-    function saveHistory($issue_id, $rma_id)
+    public function saveHistory($issue_id, $rma_id)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history
@@ -559,23 +545,22 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Method used to perform a specific action to an issue.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   array $reminder The reminder details
      * @param   array $action The action details
      * @return  boolean
      */
-    function perform($issue_id, $reminder, $action)
+    public function perform($issue_id, $reminder, $action)
     {
         $type = '';
         // - see which action type we're talking about here...
@@ -722,6 +707,7 @@ class Reminder_Action
                 if (@$setup['email_reminder']['status'] == 'enabled') {
                     self::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
+
                 return false;
             }
         }
@@ -752,7 +738,7 @@ class Reminder_Action
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
-                $mail = new Mail_Helper;
+                $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
@@ -762,20 +748,18 @@ class Reminder_Action
         return true;
     }
 
-
     /**
      * Method used to send an alert to a set of email addresses when
      * a reminder action was triggered, but no action was really
      * taken because no recipients could be found.
      *
-     * @access  private
      * @param   integer $issue_id The issue ID
      * @param   string $type Which reminder are we trying to send, email or sms
      * @param   array $reminder The reminder details
      * @param   array $action The action details
      * @return  void
      */
-    function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
+    private function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {
@@ -792,7 +776,7 @@ class Reminder_Action
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
-                $mail = new Mail_Helper;
+                $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);
@@ -800,17 +784,15 @@ class Reminder_Action
         }
     }
 
-
     /**
      * Returns the given list of issues with only the issues that
      * were last triggered for the given reminder action ID.
      *
-     * @access  public
      * @param   array $issues The list of issue IDs
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of issue IDs
      */
-    function getRepeatActions($issues, $rma_id)
+    public function getRepeatActions($issues, $rma_id)
     {
         if (count($issues) == 0) {
             return $issues;
@@ -826,6 +808,7 @@ class Reminder_Action
         $triggered_actions = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($triggered_actions)) {
             Error_Handler::logError(array($triggered_actions->getMessage(), $triggered_actions->getDebugInfo()), __FILE__, __LINE__);
+
             return $issues;
         } else {
             $repeat_issues = array();
@@ -836,21 +819,20 @@ class Reminder_Action
                     $repeat_issues[] = $issue_id;
                 }
             }
+
             return $repeat_issues;
         }
     }
-
 
     /**
      * Records the last triggered reminder action for a given
      * issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
      */
-    function recordLastTriggered($issue_id, $rma_id)
+    public function recordLastTriggered($issue_id, $rma_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $rma_id = Misc::escapeInteger($rma_id);
@@ -882,21 +864,20 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;
         }
     }
 
-
     /**
      * Clears the last triggered reminder for a given issue ID.
      *
-     * @access  public
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    function clearLastTriggered($issue_id)
+    public static function clearLastTriggered($issue_id)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
@@ -905,6 +886,7 @@ class Reminder_Action
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
             return false;
         } else {
             return true;

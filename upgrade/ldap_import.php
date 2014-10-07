@@ -8,27 +8,32 @@
  */
 require_once 'init.php';
 
-class UserEntry {
-    public function __construct($usr) {
+class UserEntry
+{
+    public function __construct($usr)
+    {
         $this->id = $usr['usr_id'];
         $this->email = $usr['usr_email'];
         $this->external_id = $usr['usr_external_id'];
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->id;
     }
 }
 
-class LDAP_Wrapper extends LDAP_Auth_Backend {
-
-    public function getByEmail($usr) {
+class LDAP_Wrapper extends LDAP_Auth_Backend
+{
+    public function getByEmail($usr)
+    {
         $filter = Net_LDAP2_Filter::create('mail', 'equals', $usr->email);
         $requested_attributes = array('cn', 'uid', 'mail');
         $search = $this->conn->search($this->config['basedn'], $filter, array('attributes' => $requested_attributes));
 
         if (PEAR::isError($search)) {
             error_log($entry->getCode(). ": ". $entry->getMessage());
+
             return null;
         }
 
@@ -51,6 +56,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend {
             'email'     =>  $usr->email,
             'external_id'   =>  $usr->uid,
         );
+
         return User::update($usr->id, $data, false);
     }
 }
