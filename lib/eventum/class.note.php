@@ -151,7 +151,8 @@ class Note
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                 WHERE
-                    not_iss_id = " . Misc::escapeInteger($issue_id) . "
+                    not_iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    not_removed = 0
                 ORDER BY
                     not_created_date ASC";
         $res = DB_Helper::getInstance()->getAll($stmt,  DB_FETCHMODE_ASSOC);
