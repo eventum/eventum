@@ -325,7 +325,7 @@ class Command_Line
      */
     public static function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
     {
-//        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         // check if the provided file number is valid
         $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
