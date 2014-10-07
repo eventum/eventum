@@ -162,7 +162,7 @@ class Help
      * @param   string $topic The topic title to check for
      * @return  boolean Whether the topic exists or not
      */
-    public function topicExists($topic)
+    public static function topicExists($topic)
     {
         $topics = self::getTopics();
 
@@ -202,7 +202,7 @@ class Help
      * @param   string $topic The 'parent' help topic
      * @return  array The list of help topics
      */
-    public function getChildLinks($topic)
+    public static function getChildLinks($topic)
     {
         $topics = self::getTopics();
 
@@ -229,7 +229,7 @@ class Help
      * @param   string $topic The topic title
      * @return  array The list of navigation links
      */
-    public function getNavigationLinks($topic)
+    public static function getNavigationLinks($topic)
     {
         $topics = self::getTopics();
 

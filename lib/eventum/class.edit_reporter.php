@@ -43,7 +43,7 @@ class Edit_Reporter
      * @param   string $fullname The id of the user.
      * @param   boolean $add_history If this should be logged.
      */
-    public function update($issue_id, $email, $add_history = true)
+    public static function update($issue_id, $email, $add_history = true)
     {
 
         $email = strtolower(Mail_Helper::getEmailAddress($email));

@@ -35,9 +35,6 @@ require_once 'Mail/RFC822.php';
  * outside recipients. This class utilizes the PEAR::Mail
  * infrastructure to deliver email in a compatible way across
  * different platforms.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Mail_Helper
@@ -531,9 +528,9 @@ class Mail_Helper
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
         // encode the addresses
-        $from = MIME_Helper::encodeAddress($from);
-        $to = MIME_Helper::encodeAddress($to);
-        $subject = MIME_Helper::encode($subject);
+        $from = Mime_Helper::encodeAddress($from);
+        $to = Mime_Helper::encodeAddress($to);
+        $subject = Mime_Helper::encode($subject);
 
         $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
         $headers = array(
@@ -571,9 +568,9 @@ class Mail_Helper
     public function getFullHeaders($from, $to, $subject)
     {
         // encode the addresses
-        $from = MIME_Helper::encodeAddress($from);
-        $to = MIME_Helper::encodeAddress($to);
-        $subject = MIME_Helper::encode($subject);
+        $from = Mime_Helper::encodeAddress($from);
+        $to = Mime_Helper::encodeAddress($to);
+        $subject = Mime_Helper::encode($subject);
 
         $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
         $this->setHeaders(array(

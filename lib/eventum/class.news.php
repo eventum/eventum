@@ -37,7 +37,7 @@ class News
      * @param   integer $prj_id The project ID
      * @return  array The list of news entries
      */
-    public function getListByProject($prj_id, $show_full_message = false)
+    public static function getListByProject($prj_id, $show_full_message = false)
     {
         $stmt = "SELECT
                     *
@@ -105,7 +105,7 @@ class News
      *
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -149,7 +149,7 @@ class News
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -204,7 +204,7 @@ class News
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -242,7 +242,7 @@ class News
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
-    public function getDetails($nws_id)
+    public static function getDetails($nws_id)
     {
         $stmt = "SELECT
                     *
@@ -270,7 +270,7 @@ class News
      * @param   integer $nws_id The news entry ID
      * @return  array The news entry details
      */
-    public function getAdminDetails($nws_id)
+    public static function getAdminDetails($nws_id)
     {
         $stmt = "SELECT
                     *
@@ -296,7 +296,7 @@ class News
      *
      * @return  array The list of news entries
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     nws_id,

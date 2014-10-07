@@ -690,7 +690,7 @@ class Mime_Helper
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
      */
-    public function getAttachment($message, $filename, $cid = false)
+    public static function getAttachment($message, $filename, $cid = false)
     {
         if (!is_object($message)) {
             $message = self::decode($message, true);

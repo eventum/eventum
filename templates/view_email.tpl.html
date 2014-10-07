@@ -62,9 +62,9 @@ function viewEmail(ema_id, id)
 }
 function moveMessage()
 {
-    f = document.forms[0];
+    var f = document.forms[0];
 
-    new_ema_id = f.new_ema_id.value;
+    var new_ema_id = f.new_ema_id.value;
 
     if (new_ema_id == ema_id) {
         alert('{/literal}{t escape=js}This message already belongs to that account{/t}{literal}');

@@ -144,8 +144,8 @@ var option_to_fld_id = new Array();
 var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
 function setOptions(fld_id, auto_select)
 {
-    fld_id_index = '';
-    for (i = 0; i < option_to_fld_id.length; i++) {
+    var fld_id_index = '';
+    for (var i = 0; i < option_to_fld_id.length; i++) {
         if (option_to_fld_id[i] == fld_id) {
             fld_id_index = i;
         }
@@ -154,7 +154,7 @@ function setOptions(fld_id, auto_select)
     options_field.length = 0;
     if (options[fld_id_index]) {
         options_field.length = options[fld_id_index].length;
-        for (i = 0; i < options[fld_id_index].length; i++) {
+        for (var i = 0; i < options[fld_id_index].length; i++) {
             options_field.options[i] = options[fld_id_index][i];
             options_field.options[i].selected = auto_select;
         }
@@ -166,7 +166,7 @@ setOptions('{$custom_field}', false);
 {if $custom_options|@count > 0}
     {foreach from=$custom_options key=option_index item=option}
       {literal}
-      for (i = 0; i < options_field.options.length; i++) {
+      for (var i = 0; i < options_field.options.length; i++) {
         if (options_field.options[i].value == '{/literal}{$option}{literal}') {
           options_field.options[i].selected = true;
         }

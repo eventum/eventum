@@ -36,7 +36,7 @@ class FAQ
      * @param   array $support_level_ids The support level IDs
      * @return  array The list of FAQ entries
      */
-    public function getListBySupportLevel($support_level_ids)
+    public static function getListBySupportLevel($support_level_ids)
     {
         if (!is_array($support_level_ids)) {
             $support_level_ids = array($support_level_ids);
@@ -90,7 +90,7 @@ class FAQ
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -142,7 +142,7 @@ class FAQ
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -185,7 +185,7 @@ class FAQ
      *
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -255,7 +255,7 @@ class FAQ
      * @param   integer $faq_id The FAQ entry ID
      * @return  array The FAQ entry details
      */
-    public function getDetails($faq_id)
+    public static function getDetails($faq_id)
     {
         $stmt = "SELECT
                     *
@@ -288,7 +288,7 @@ class FAQ
      *
      * @return  array The list of news entries
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     faq_id,
@@ -356,7 +356,7 @@ class FAQ
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    public function changeRank($faq_id, $rank_type)
+    public static function changeRank($faq_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking();

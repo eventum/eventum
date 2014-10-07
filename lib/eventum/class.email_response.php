@@ -65,7 +65,7 @@ class Email_Response
      *
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -100,7 +100,7 @@ class Email_Response
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -156,7 +156,7 @@ class Email_Response
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
@@ -193,7 +193,7 @@ class Email_Response
      * @param   integer $ere_id The email response ID
      * @return  array The canned email response details
      */
-    public function getDetails($ere_id)
+    public static function getDetails($ere_id)
     {
         $ere_id = Misc::escapeInteger($ere_id);
         $stmt = "SELECT
@@ -250,7 +250,7 @@ class Email_Response
      *
      * @return  array The list of canned email responses
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     ere_id,
@@ -281,7 +281,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses
      */
-    public function getAssocList($prj_id)
+    public static function getAssocList($prj_id)
     {
         $stmt = "SELECT
                     ere_id,
@@ -311,7 +311,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses' bodies.
      */
-    public function getAssocListBodies($prj_id)
+    public static function getAssocListBodies($prj_id)
     {
         $stmt = "SELECT
                     ere_id,

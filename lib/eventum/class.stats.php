@@ -44,7 +44,7 @@ class Stats
      * @param   array $data The data to check against
      * @return  boolean
      */
-    public function hasData($data)
+    public static function hasData($data)
     {
         foreach ($data as $piece) {
             if ($piece) {
@@ -61,7 +61,7 @@ class Stats
      *
      * @return  boolean
      */
-    public function getPieChart()
+    public static function getPieChart()
     {
         if (!file_exists(APP_JPGRAPH_PATH)) {
             return false;
@@ -77,7 +77,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    public function getAssocCategory($hide_closed = false)
+    public static function getAssocCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Category::getAssocList($prj_id);
@@ -113,7 +113,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    public function getAssocRelease($hide_closed = true)
+    public static function getAssocRelease($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Release::getAssocList($prj_id);
@@ -149,7 +149,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    public function getAssocStatus($hide_closed = true)
+    public static function getAssocStatus($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Status::getAssocStatusList($prj_id);
@@ -185,7 +185,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    public function getStatus($hide_closed = false)
+    public static function getStatus($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -224,7 +224,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    public function getCategory($hide_closed = false)
+    public static function getCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -266,7 +266,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    public function getRelease($hide_closed = false)
+    public static function getRelease($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -308,7 +308,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of priorities
      */
-    public function getAssocPriority($hide_closed = false)
+    public static function getAssocPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Priority::getAssocList($prj_id);
@@ -344,7 +344,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    public function getPriority($hide_closed = false)
+    public static function getPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -386,7 +386,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    public function getAssocUser($hide_closed = false)
+    public static function getAssocUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
@@ -424,7 +424,7 @@ class Stats
      * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    public function getUser($hide_closed = false)
+    public static function getUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -467,7 +467,7 @@ class Stats
      *
      * @return  array List of statuses
      */
-    public function getEmailStatus()
+    public static function getEmailStatus()
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT

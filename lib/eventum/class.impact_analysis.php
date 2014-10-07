@@ -46,7 +46,7 @@ class Impact_Analysis
      * @param   integer $issue_id The issue ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    public function insert($issue_id)
+    public static function insert($issue_id)
     {
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
@@ -83,7 +83,7 @@ class Impact_Analysis
      * @param   integer $issue_id The issue ID
      * @return  array The full list of requirements
      */
-    public function getListing($issue_id)
+    public static function getListing($issue_id)
     {
         $stmt = "SELECT
                     isr_id,
@@ -131,7 +131,7 @@ class Impact_Analysis
      * @param   integer $isr_id The requirement ID
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    public function update($isr_id)
+    public static function update($isr_id)
     {
         $stmt = "SELECT
                     isr_iss_id
@@ -172,7 +172,7 @@ class Impact_Analysis
      *
      * @return  integer -1 if an error occurred or 1 otherwise
      */
-    public function remove()
+    public static function remove()
     {
         $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT

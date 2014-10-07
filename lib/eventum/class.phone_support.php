@@ -43,7 +43,7 @@ class Phone_Support
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function insertCategory()
+    public static function insertCategory()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -74,7 +74,7 @@ class Phone_Support
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function updateCategory()
+    public static function updateCategory()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -102,7 +102,7 @@ class Phone_Support
      *
      * @return  boolean Whether the removal worked or not
      */
-    public function removeCategory()
+    public static function removeCategory()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -125,7 +125,7 @@ class Phone_Support
      * @param   integer $phc_id The category ID
      * @return  array The information about the category provided
      */
-    public function getCategoryDetails($phc_id)
+    public static function getCategoryDetails($phc_id)
     {
         $stmt = "SELECT
                     *
@@ -150,7 +150,7 @@ class Phone_Support
      * @param   integer $prj_id The project ID
      * @return  array The full list of categories
      */
-    public function getCategoryList($prj_id)
+    public static function getCategoryList($prj_id)
     {
         $stmt = "SELECT
                     phc_id,
@@ -178,7 +178,7 @@ class Phone_Support
      * @param   integer $prj_id The project ID
      * @return  array The associative array of categories
      */
-    public function getCategoryAssocList($prj_id)
+    public static function getCategoryAssocList($prj_id)
     {
         $stmt = "SELECT
                     phc_id,
@@ -230,7 +230,7 @@ class Phone_Support
      * @param   integer $issue_id The issue ID
      * @return  array The list of notes
      */
-    public function getListing($issue_id)
+    public static function getListing($issue_id)
     {
         $stmt = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
@@ -272,7 +272,7 @@ class Phone_Support
      *
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $usr_id = Auth::getUserID();
         // format the date from the form
@@ -366,7 +366,7 @@ class Phone_Support
      * @param   integer $phone_id The phone support entry ID
      * @return  integer 1 if the removal worked, -1 or -2 otherwise
      */
-    public function remove($phone_id)
+    public static function remove($phone_id)
     {
         $phone_id = Misc::escapeInteger($phone_id);
 

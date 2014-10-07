@@ -44,7 +44,7 @@ class Reminder_Condition
      * @param   integer $rlc_id The reminder condition ID
      * @return  array The details for the specified reminder condition
      */
-    public function getDetails($rlc_id)
+    public static function getDetails($rlc_id)
     {
         $stmt = "SELECT
                     *
@@ -67,7 +67,7 @@ class Reminder_Condition
      *
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
@@ -101,7 +101,7 @@ class Reminder_Condition
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
@@ -129,7 +129,7 @@ class Reminder_Condition
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -227,7 +227,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  string The title of the reminder field
      */
-    public function getFieldTitle($field_id)
+    public static function getFieldTitle($field_id)
     {
         $stmt = "SELECT
                     rmf_title
@@ -276,7 +276,7 @@ class Reminder_Condition
      * @param   boolean $comparable_only If true, only fields that can be compared to other fields will be returned
      * @return  array The list of reminder fields
      */
-    public function getFieldAdminList($comparable_only = false)
+    public static function getFieldAdminList($comparable_only = false)
     {
         $stmt = "SELECT
                     rmf_id,
@@ -304,7 +304,7 @@ class Reminder_Condition
      *
      * @return  array The list of reminder operators
      */
-    public function getOperatorAdminList()
+    public static function getOperatorAdminList()
     {
         $stmt = "SELECT
                     rmo_id,
@@ -329,7 +329,7 @@ class Reminder_Condition
      * @param   integer $field_id The reminder field ID
      * @return  boolean If this field can be compared to other fields.
      */
-    public function canFieldBeCompared($field_id)
+    public static function canFieldBeCompared($field_id)
     {
         $stmt = "SELECT
                     rmf_allow_column_compare

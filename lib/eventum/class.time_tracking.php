@@ -84,7 +84,7 @@ class Time_Tracking
      * @param   integer $ttc_id The time tracking category ID
      * @return  array The details of the category
      */
-    public function getDetails($ttc_id)
+    public static function getDetails($ttc_id)
     {
         $stmt = "SELECT
                     *
@@ -133,7 +133,7 @@ class Time_Tracking
      *
      * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
-    public function remove()
+    public static function remove()
     {
         $items = $_POST["items"];
 
@@ -165,7 +165,7 @@ class Time_Tracking
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -244,7 +244,7 @@ class Time_Tracking
      * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
-    public function getList($prj_id)
+    public static function getList($prj_id)
     {
         $ttc_list = join(', ', Misc::escapeString(self::$default_categories, true));
         $stmt = "SELECT
@@ -370,7 +370,7 @@ class Time_Tracking
      * @param   integer $issue_id The issue ID
      * @return  array The full list of time entries
      */
-    public function getListing($issue_id)
+    public static function getListing($issue_id)
     {
         $stmt = "SELECT
                     ttr_id,
@@ -551,7 +551,7 @@ class Time_Tracking
      * @param   integer $time_spent The time spent in minutes
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
+    public static function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking

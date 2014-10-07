@@ -45,7 +45,7 @@ class Priority
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    public function changeRank($prj_id, $pri_id, $rank_type)
+    public static function changeRank($prj_id, $pri_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking($prj_id);
@@ -123,7 +123,7 @@ class Priority
      * @param   integer $pri_id The priority ID
      * @return  array The information about the priority provided
      */
-    public function getDetails($pri_id)
+    public static function getDetails($pri_id)
     {
         $stmt = "SELECT
                     *
@@ -171,7 +171,7 @@ class Priority
      *
      * @return  boolean Whether the removal worked or not
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -195,7 +195,7 @@ class Priority
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -223,7 +223,7 @@ class Priority
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -256,7 +256,7 @@ class Priority
      * @param   integer $prj_id The project ID
      * @return  array The full list of priorities
      */
-    public function getList($prj_id)
+    public static function getList($prj_id)
     {
         $stmt = "SELECT
                     pri_id,

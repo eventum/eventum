@@ -46,7 +46,7 @@ class Support
      * @param   array $sup_ids The list of support emails
      * @return  integer 1 if the removal worked, -1 otherwise
      */
-    public function expungeEmails($sup_ids)
+    public static function expungeEmails($sup_ids)
     {
         $accounts = array();
 
@@ -104,7 +104,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  boolean
      */
-    public function removeEmail($sup_id)
+    public static function removeEmail($sup_id)
     {
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -138,7 +138,7 @@ class Support
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
-    public function getListingSides($sup_id)
+    public static function getListingSides($sup_id)
     {
         $options = self::saveSearchParams();
 
@@ -198,7 +198,7 @@ class Support
      * @param   integer $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
-    public function getIssueSides($issue_id, $sup_id)
+    public static function getIssueSides($issue_id, $sup_id)
     {
         $stmt = "SELECT
                     sup_id,
@@ -288,7 +288,7 @@ class Support
      *
      * @return  void
      */
-    public function clearErrors()
+    public static function clearErrors()
     {
         @imap_errors();
     }
@@ -299,7 +299,7 @@ class Support
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function restoreEmails()
+    public static function restoreEmails()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
@@ -324,7 +324,7 @@ class Support
      *
      * @return  array The list of support emails
      */
-    public function getRemovedList()
+    public static function getRemovedList()
     {
         $stmt = "SELECT
                     sup_id,
@@ -388,7 +388,7 @@ class Support
      * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
      */
-    public function getServerURI($info, $tls = false)
+    public static function getServerURI($info, $tls = false)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
         if (stristr($info['ema_type'], 'imap')) {
@@ -406,7 +406,7 @@ class Support
      * @param   array $info The email server information
      * @return  resource The email server connection
      */
-    public function connectEmailServer($info)
+    public static function connectEmailServer($info)
     {
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
@@ -428,7 +428,7 @@ class Support
      * @param   resource $mbox The mailbox
      * @return  integer The number of emails
      */
-    public function getTotalEmails($mbox)
+    public static function getTotalEmails($mbox)
     {
         return @imap_num_msg($mbox);
     }
@@ -487,7 +487,7 @@ class Support
      * @param   integer $num The index of the message
      * @return  void
      */
-    public function getEmailInfo($mbox, $info, $num)
+    public static function getEmailInfo($mbox, $info, $num)
     {
         Auth::createFakeCookie(APP_SYSTEM_USER_ID);
 
@@ -1155,7 +1155,7 @@ class Support
      * @param   string $name The name of the parameter
      * @return  mixed The value of the specified parameter
      */
-    public function getParam($name)
+    public static function getParam($name)
     {
         if (isset($_GET[$name])) {
             return $_GET[$name];
@@ -1175,7 +1175,7 @@ class Support
      *
      * @return  array The search parameters
      */
-    public function saveSearchParams()
+    public static function saveSearchParams()
     {
         $sort_by = self::getParam('sort_by');
         $sort_order = self::getParam('sort_order');
@@ -1230,7 +1230,7 @@ class Support
      * @param   array $options The current search parameters
      * @return  array The sorting options
      */
-    public function getSortingInfo($options)
+    public static function getSortingInfo($options)
     {
         $fields = array(
             "sup_from",
@@ -1270,7 +1270,7 @@ class Support
      * @param   integer $max The maximum number of rows per page
      * @return  array The list of issues to be displayed
      */
-    public function getEmailListing($options, $current_row = 0, $max = 5)
+    public static function getEmailListing($options, $current_row = 0, $max = 5)
     {
         $prj_id = Auth::getCurrentProject();
         if ($max == "ALL") {
@@ -1498,7 +1498,7 @@ class Support
      * @param   array $items The list of email IDs to associate
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public function associateEmail($usr_id, $issue_id, $items)
+    public static function associateEmail($usr_id, $issue_id, $items)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -1647,7 +1647,7 @@ class Support
      * @param   integer $sequence The sequential number of the email.
      * @return  array An array of data containing details about the email.
      */
-    public function getEmailBySequence($issue_id, $sequence)
+    public static function getEmailBySequence($issue_id, $sequence)
     {
         $stmt = "SELECT
                     sup_id,
@@ -1678,7 +1678,7 @@ class Support
      * @param   array $items List of issues
      * @return  array The list of support emails
      */
-    public function getListDetails($items)
+    public static function getListDetails($items)
     {
         $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
@@ -1714,7 +1714,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  string The full email message
      */
-    public function getFullEmail($sup_id)
+    public static function getFullEmail($sup_id)
     {
         $stmt = "SELECT
                     seb_full_email
@@ -1764,7 +1764,7 @@ class Support
      * @param   integer $issue_id The issue ID
      * @return  array The list of support emails
      */
-    public function getEmailsByIssue($issue_id)
+    public static function getEmailsByIssue($issue_id)
     {
         $stmt = "SELECT
                     sup_id,
@@ -1811,7 +1811,7 @@ class Support
      *
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public function removeEmails()
+    public static function removeEmails()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
@@ -1836,7 +1836,7 @@ class Support
      *
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public function removeAssociation()
+    public static function removeAssociation()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
@@ -2339,7 +2339,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  integer The issue ID
      */
-    public function getIssueFromEmail($sup_id)
+    public static function getIssueFromEmail($sup_id)
     {
         $stmt = "SELECT
                     sup_iss_id
@@ -2465,7 +2465,7 @@ class Support
      * @param   integer $new_ema_id The ID of the account to move the message too.
      * @return  integer -1 if there was error moving the message, 1 otherwise.
      */
-    public function moveEmail($sup_id, $current_ema_id, $new_ema_id)
+    public static function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
         $email = self::getEmailDetails($current_ema_id, $sup_id);
         if (!empty($email['sup_iss_id'])) {

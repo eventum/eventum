@@ -65,7 +65,7 @@ class SCM
      * @param   int[] $isc_id list to remove
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function remove($items)
+    public static function remove($items)
     {
         $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
@@ -127,7 +127,7 @@ class SCM
      * @param   integer $issue_id The issue ID
      * @return  array The list of checkins
      */
-    public function getCheckinList($issue_id)
+    public static function getCheckinList($issue_id)
     {
         $setup = Setup::load();
         $stmt = "SELECT
@@ -174,7 +174,7 @@ class SCM
      * @param   string $commit_msg Message associated with the SCM commit.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function logCheckin($issue_id, $module, $file, $username, $commit_msg)
+    public static function logCheckin($issue_id, $module, $file, $username, $commit_msg)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin

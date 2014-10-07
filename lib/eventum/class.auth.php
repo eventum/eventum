@@ -174,7 +174,7 @@ class Auth
      *
      * @returns void
      */
-    public function logout()
+    public static function logout()
     {
         self::removeCookie(APP_COOKIE);
         // if 'remember projects' is true don't remove project cookie
@@ -191,7 +191,7 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  boolean
      */
-    public function isPendingUser($email)
+    public static function isPendingUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'pending') {
@@ -207,7 +207,7 @@ class Auth
      * @param   string $email The email address to be checked
      * @return  boolean
      */
-    public function isActiveUser($email)
+    public static function isActiveUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'active') {
@@ -224,7 +224,7 @@ class Auth
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
-    public function hasCookieSupport($cookie_name)
+    public static function hasCookieSupport($cookie_name)
     {
         if (@!in_array($cookie_name, array_keys($_COOKIE))) {
             return false;
@@ -239,7 +239,7 @@ class Auth
      * @param   string $cookie_name The name of the cookie to check for
      * @return  boolean
      */
-    public function hasValidCookie($cookie_name)
+    public static function hasValidCookie($cookie_name)
     {
         $cookie = @$_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
@@ -309,7 +309,7 @@ class Auth
      * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      * @return  void
      */
-    public function createLoginCookie($cookie_name, $email, $permanent = true)
+    public static function createLoginCookie($cookie_name, $email, $permanent = true)
     {
         $time = time();
         $cookie = array(
@@ -362,7 +362,7 @@ class Auth
      * @param   string $cookie_name The name of the cookie that needs to be deleted
      * @return  void
      */
-    public function removeCookie($cookie_name)
+    public static function removeCookie($cookie_name)
     {
         self::setCookie($cookie_name, '', time()-36000);
     }
@@ -563,7 +563,7 @@ class Auth
      * @param   integer $remember Whether to automatically remember the setting or not
      * @return  void
      */
-    public function setCurrentProject($prj_id, $remember)
+    public static function setCurrentProject($prj_id, $remember)
     {
         $cookie = array(
             "prj_id"   => $prj_id,

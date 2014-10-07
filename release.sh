@@ -111,6 +111,18 @@ rm -rf $app-$version
 md5sum -b $app-$version$rc.tar.gz > $app-$version$rc.tar.gz.md5
 chmod a+r $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 
+if [ -x /usr/bin/gpg ] && [ "$(gpg --list-keys | wc -l)" -gt 0 ]; then
+	gpg --armor --sign --detach-sig $app-$version$rc.tar.gz
+else
+	cat <<-EOF
+
+	To create a digital signature, use the following command:
+	% gpg --armor --sign --detach-sig $app-$version$rc.tar.gz
+
+	This command will create $app-$version$rc.tar.gz.asc
+	EOF
+fi
+
 if [ -x dropin ]; then
 	./dropin $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 fi

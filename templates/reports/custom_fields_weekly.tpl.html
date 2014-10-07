@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <th width="120">
-                {t}Report Type:{/t}
+                {t}Report Type{/t}:
             </th>
             <td width="200" NOWRAP>
                 <label><input type="radio" name="report_type" value="weekly" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
@@ -58,7 +58,7 @@
         </tr>
         <tr id="end_row">
             <th width="120">
-                {t}End:{/t}
+                {t}End{/t}:
             </th>
             <td width="200">
                 {html_select_date time=$end_date|default:'' prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <th width="120" valign="top">
-                {t}Options:{/t}
+                {t}Options{/t}:
             </th>
             <td width="200" NOWRAP>
                 <label><input type="checkbox" name="time_in_min" value="1" {if $smarty.post.time_in_min|default:'' == 1}checked{/if}>
@@ -123,8 +123,8 @@
             var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
             function setOptions(fld_id, auto_select)
             {
-                fld_id_index = '';
-                for (i = 0; i < option_to_fld_id.length; i++) {
+                var fld_id_index = '';
+                for (var i = 0; i < option_to_fld_id.length; i++) {
                     if (option_to_fld_id[i] == fld_id) {
                         fld_id_index = i;
                     }
@@ -133,7 +133,7 @@
                 options_field.length = 0;
                 if (options[fld_id_index]) {
                     options_field.length = options[fld_id_index].length;
-                    for (i = 0; i < options[fld_id_index].length; i++) {
+                    for (var i = 0; i < options[fld_id_index].length; i++) {
                         options_field.options[i] = options[fld_id_index][i];
                         options_field.options[i].selected = auto_select;
                     }
@@ -157,7 +157,7 @@
                 {if $custom_options|@count > 0}
                 {foreach from=$custom_options key=option_index item=option}
                 {literal}
-                for (i = 0; i < options_field.options.length; i++) {
+                for (var i = 0; i < options_field.options.length; i++) {
                     if (options_field.options[i].value == {/literal}{$option|json_encode}{literal}) {
                     options_field.options[i].selected = true;
                 }

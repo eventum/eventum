@@ -35,7 +35,7 @@ class Monitor
      *
      * @return  integer Number of errors encountered.
      */
-    public function checkMailQueue()
+    public static function checkMailQueue()
     {
         $stmt = "SELECT
                     maq_id,
@@ -63,7 +63,7 @@ class Monitor
      * @see class.support.php getEmailListing()
      * @return  integer Number of mails not associated.
      */
-    public function checkMailAssociation()
+    public static function checkMailAssociation()
     {
         // TODO: optimize this
         // TODO: should we check it per project?
@@ -98,7 +98,7 @@ class Monitor
      *
      * @return  integer Number of errors encountered.
      */
-    public function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
+    public static function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
     {
         $total_space = disk_total_space($partition);
         $free_space = disk_free_space($partition);
@@ -124,7 +124,7 @@ class Monitor
      * @param   array $required_files An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
-    public function checkRequiredFiles($required_files)
+    public static function checkRequiredFiles($required_files)
     {
         $errors = 0;
         foreach ($required_files as $file_path => $options) {
@@ -166,7 +166,7 @@ class Monitor
      * @param   array $required_directories An array of files that should be checked on.
      * @return  integer Number of errors encountered.
      */
-    public function checkRequiredDirs($required_directories)
+    public static function checkRequiredDirs($required_directories)
     {
         $errors = 0;
         foreach ($required_directories as $dir_path => $options) {
@@ -192,7 +192,7 @@ class Monitor
      *
      * @return  integer Number of errors encountered.
      */
-    public function checkDatabase()
+    public static function checkDatabase()
     {
         $required_tables = array(
             "custom_field",
@@ -284,7 +284,7 @@ class Monitor
      *
      * @return  integer Number of errors encountered.
      */
-    public function checkIRCBot()
+    public static function checkIRCBot()
     {
         // check if any bot.php process is still running (lame, but oh well)
         ob_start();

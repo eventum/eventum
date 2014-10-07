@@ -159,7 +159,7 @@ class Misc
      * @param   string $text The text to check the spelling against
      * @return  array Information about the mispelled words, if any
      */
-    public function checkSpelling($text)
+    public static function checkSpelling($text)
     {
         $temptext = tempnam("/tmp", "spelltext");
         if ($fd = fopen($temptext, "w")) {
@@ -583,7 +583,7 @@ class Misc
      * @param   string $str The string to be formatted
      * @return  string the formatted string
      */
-    public function formatReply($str)
+    public static function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", "", $str));
         // COMPAT: the next line requires PHP >= 4.0.6
@@ -593,16 +593,20 @@ class Misc
     }
 
     /**
-     * Method used to format a RFC 822 compliant date for the given unix
-     * timestamp.
+     * Format "On ... Wrote:" reply preamble. Helper for translations.
      *
-     * @param   integer $ts The unix timestamp
-     * @return  string The formatted date string
+     * @param string $date
+     * @param string $sender
+     * @return string
      */
-    public function formatReplyDate($ts)
+    public static function formatReplyPreamble($date, $sender)
     {
-        // On Fri, 01 Apr 2005, 17:07:44 GMT
-        return Date_Helper::getFormattedDate($ts);
+        $date = Date_Helper::getFormattedDate($date);
+
+        // TRANSLATORS: %1: date, %2: sender
+        $line = ev_gettext('On %1$s, %2$s wrote:', $date, $sender);
+
+        return "\n\n\n$line\n>\n";
     }
 
     /**
@@ -612,7 +616,7 @@ class Misc
      * @param   string $file The full path to the directory
      * @return  boolean
      */
-    public function isWritableDirectory($file)
+    public static function isWritableDirectory($file)
     {
         clearstatcache();
         if (!file_exists($file)) {
@@ -658,7 +662,7 @@ class Misc
      * @param   string $text The text to highlight
      * @return  string The highlighted text
      */
-    public function highlightQuotedReply($text)
+    public static function highlightQuotedReply($text)
     {
         require_once APP_INC_PATH . '/smarty/modifier.highlight_quoted.php';
 
@@ -672,7 +676,7 @@ class Misc
      * @param   array $errors The list of errors
      * @return  void
      */
-    public function displayRequirementErrors($errors)
+    public static function displayRequirementErrors($errors)
     {
         echo '<html>
 <head>
@@ -857,7 +861,7 @@ class Misc
      *
      * @return  string The standard input value
      */
-    public function getInput($is_one_liner = false)
+    public static function getInput($is_one_liner = false)
     {
         static $return;
 

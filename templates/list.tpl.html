@@ -59,9 +59,9 @@
           <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}
             class="{$field_name}">
             {if $field_name == 'iss_summary'}
-              <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}Summary{/t}</a>
+              <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}xxxSummary{/t}</a>
               {if $sorting.images.iss_summary|default:'' != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
-              <span id="export_csv" class="right">{t}Export Data:{/t} <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$core.rel_url}images/excel.jpg" value="{t}Export to Excel{/t}"></span>
+              <span id="export_csv" class="right">{t}Export Data{/t}: <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$core.rel_url}images/excel.jpg" value="{t}Export to Excel{/t}"></span>
             {elseif $sorting.links[$field_name]|default:'' != ''}
               <a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}">{$column.title}</a>
               {if $sorting.images[$field_name]|default:'' != ""}<a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}"><img border="0" src="{$sorting.images[$field_name]}"></a>{/if}
@@ -177,7 +177,7 @@
                   </nobr>
                 </td>
                 <td nowrap>
-                  <span>{t}Rows per Page:{/t}</span>
+                  <span>{t}Rows per Page{/t}:</span>
                   <select name="page_size" id="page_size">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>

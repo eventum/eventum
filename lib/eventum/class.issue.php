@@ -166,7 +166,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer The status ID
      */
-    public function getStatusID($issue_id)
+    public static function getStatusID($issue_id)
     {
         static $returns;
 
@@ -397,7 +397,7 @@ class Issue
      * @param   boolean $assignee The user ID of the assignee
      * @return  integer The status ID
      */
-    public function remoteAssign($issue_id, $usr_id, $assignee)
+    public static function remoteAssign($issue_id, $usr_id, $assignee)
     {
         Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), array($assignee), true);
         // clear up the assignments for this issue, and then assign it to the current user
@@ -423,7 +423,7 @@ class Issue
      * @param   boolean $notify If a notification should be sent about this change.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setStatus($issue_id, $status_id, $notify = false)
+    public static function setStatus($issue_id, $status_id, $notify = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status_id = Misc::escapeInteger($status_id);
@@ -483,7 +483,7 @@ class Issue
      * @param   integer $new_status The new status ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setRemoteStatus($issue_id, $usr_id, $new_status)
+    public static function setRemoteStatus($issue_id, $usr_id, $new_status)
     {
         $sta_id = Status::getStatusID($new_status);
 
@@ -782,7 +782,7 @@ class Issue
      * @param   integer $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
      */
-    public function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
+    public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $status_id = Misc::escapeInteger($status_id);
@@ -840,7 +840,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The email parameters
      */
-    public function getReplyDetails($issue_id)
+    public static function getReplyDetails($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
 
@@ -932,7 +932,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    public function hasDuplicates($issue_id)
+    public static function hasDuplicates($issue_id)
     {
         $stmt = "SELECT
                     COUNT(iss_id)
@@ -1064,7 +1064,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function clearDuplicateStatus($issue_id)
+    public static function clearDuplicateStatus($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "UPDATE
@@ -1095,7 +1095,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function markAsDuplicate($issue_id)
+    public static function markAsDuplicate($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (!self::exists($issue_id)) {
@@ -1131,7 +1131,7 @@ class Issue
         return 1;
     }
 
-    public function isDuplicate($issue_id)
+    public static function isDuplicate($issue_id)
     {
         $sql = "SELECT
                     count(iss_id)
@@ -1231,7 +1231,7 @@ class Issue
      *
      * @return  integer The new issue ID
      */
-    public function addAnonymousReport()
+    public static function addAnonymousReport()
     {
         $options = Project::getAnonymousPostOptions($_POST["project"]);
         $initial_status = Project::getInitialStatus($_POST["project"]);
@@ -1898,7 +1898,7 @@ class Issue
      * @param   boolean $add_history Whether to add a history entry about this or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
+    public static function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $assignee_usr_id = Misc::escapeInteger($assignee_usr_id);
@@ -1935,7 +1935,7 @@ class Issue
      * @param   integer $usr_id The user ID of the person performing the change
      * @return  void
      */
-    public function deleteUserAssociations($issue_id, $usr_id = false)
+    public static function deleteUserAssociations($issue_id, $usr_id = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
@@ -1965,9 +1965,8 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user to remove.
      * @param   boolean $add_history Whether to add a history entry about this or not
-     * @return  void
      */
-    public function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
+    public static function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -2567,7 +2566,7 @@ class Issue
      * @param   array $options The search parameters
      * @return  array The list of issues
      */
-    public function getSides($issue_id, $options)
+    public static function getSides($issue_id, $options)
     {
         $usr_id = Auth::getUserID();
         $role_id = Auth::getCurrentRole();
@@ -2833,7 +2832,7 @@ class Issue
      * @param   array $result The result set
      * @return  void
      */
-    public function getDescriptionByIssues(&$result)
+    public static function getDescriptionByIssues(&$result)
     {
         if (count($result) == 0) {
             return;
@@ -3113,7 +3112,7 @@ class Issue
      *
      * @return  boolean
      */
-    public function bulkUpdate()
+    public static function bulkUpdate()
     {
         // check if user performing this chance has the proper role
         if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
@@ -3255,7 +3254,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setImpactAnalysis($issue_id)
+    public static function setImpactAnalysis($issue_id)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -3288,7 +3287,7 @@ class Issue
      * @param   string $extra_condition An extra condition in the WHERE clause
      * @return  array The list of issue IDs
      */
-    public function getColList($extra_condition = null)
+    public static function getColList($extra_condition = null)
     {
         $stmt = "SELECT
                     iss_id
@@ -3434,7 +3433,7 @@ class Issue
      *
      * @return  array List of quarantined issues
      */
-    public function getQuarantinedIssueList()
+    public static function getQuarantinedIssueList()
     {
         // XXX: would be nice to restrict the result list to only one project
         $stmt = "SELECT
@@ -3499,7 +3498,7 @@ class Issue
      * @param   integer $status The quarantine status
      * @param   string  $expiration The expiration date of quarantine (default empty)
      */
-    public function setQuarantine($issue_id, $status, $expiration = '')
+    public static function setQuarantine($issue_id, $status, $expiration = '')
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status = Misc::escapeInteger($status);

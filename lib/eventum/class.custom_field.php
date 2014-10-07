@@ -372,7 +372,7 @@ class Custom_Field
      * @param   string $fld_type The type of field (optional)
      * @return  array The list of custom fields
      */
-    public function getListByProject($prj_id, $form_type, $fld_type = false)
+    public static function getListByProject($prj_id, $form_type, $fld_type = false)
     {
         $stmt = "SELECT
                     fld_id,
@@ -511,7 +511,7 @@ class Custom_Field
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
      */
-    public function getOptionKey($fld_id, $value)
+    public static function getOptionKey($fld_id, $value)
     {
         static $returns;
 
@@ -734,7 +734,7 @@ class Custom_Field
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -789,7 +789,7 @@ class Custom_Field
      *
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (empty($_POST["report_form"])) {
             $_POST["report_form"] = 0;
@@ -906,7 +906,7 @@ class Custom_Field
      *
      * @return  array The list of custom fields
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     *
@@ -1097,7 +1097,7 @@ class Custom_Field
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (empty($_POST["report_form"])) {
             $_POST["report_form"] = 0;
@@ -1418,7 +1418,7 @@ class Custom_Field
      * @param   string $title The title of the field
      * @return  integer The fld_id
      */
-    public function getIDByTitle($title)
+    public static function getIDByTitle($title)
     {
         $sql = "SELECT
                     fld_id
@@ -1506,7 +1506,7 @@ class Custom_Field
      * Changes the rank of a custom field
      *
      */
-    public function changeRank()
+    public static function changeRank()
     {
         $fld_id = $_REQUEST['id'];
         $direction = $_REQUEST['direction'];
@@ -1577,7 +1577,7 @@ class Custom_Field
      *
      * @return  array Associative array of filename => name
      */
-    public function getBackendList()
+    public static function getBackendList()
     {
         $list = array();
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
@@ -1613,7 +1613,7 @@ class Custom_Field
      * @param   integer $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
-    public function &getBackend($fld_id)
+    public static function &getBackend($fld_id)
     {
         static $returns;
 
@@ -1759,7 +1759,7 @@ class Custom_Field
      *
      * @param   integer $fld_id
      */
-    public function updateValuesForNewType($fld_id)
+    public static function updateValuesForNewType($fld_id)
     {
         $details = self::getDetails($fld_id, true);
         $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);

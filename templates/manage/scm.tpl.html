@@ -70,7 +70,7 @@ $().ready(function() {
 
     <tr>
       <th width="120">
-        {t escape=no}SCM <br />Integration:{/t} {include file="help_link.tpl.html" topic="scm_integration"}
+        {t escape=no}SCM <br />Integration{/t}: {include file="help_link.tpl.html" topic="scm_integration"}
       </th>
       <td>
         <table>
@@ -87,7 +87,7 @@ $().ready(function() {
           </tr>
           <tr>
             <td width="100" align="right">
-              {t}Checkout Page:{/t}&nbsp;
+              {t}Checkout Page{/t}:&nbsp;
             </td>
             <td width="80%">
               <input type="text" name="checkout_url" size="50" value="{$setup.checkout_url|escape:"html"|default:''}">
@@ -96,7 +96,7 @@ $().ready(function() {
           </tr>
           <tr>
             <td width="100" align="right">
-              {t}Diff Page:{/t}&nbsp;
+              {t}Diff Page{/t}:&nbsp;
             </td>
             <td width="80%">
               <input type="text" name="diff_url" size="50" value="{$setup.diff_url|escape:"html"|default:''}">
@@ -105,7 +105,7 @@ $().ready(function() {
           </tr>
           <tr>
             <td width="100" align="right">
-              {t}Log Page:{/t}&nbsp;
+              {t}Log Page{/t}:&nbsp;
             </td>
             <td width="80%">
               <input type="text" name="scm_log_url" size="50" value="{$setup.scm_log_url|escape:"html"|default:''}">

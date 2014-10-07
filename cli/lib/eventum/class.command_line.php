@@ -130,7 +130,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function closeIssue(&$rpc_conn, $auth, $issue_id)
+    public static function closeIssue(&$rpc_conn, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -242,7 +242,7 @@ class Command_Line
      * @access  public
      * @return  array The configuration settings
      */
-    public function getEnvironmentSettings()
+    public static function getEnvironmentSettings()
     {
         $rcfile = getenv('HOME') . "/.eventumrc";
 
@@ -291,7 +291,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function printFileList(&$rpc_conn, $auth, $issue_id)
+    public static function printFileList(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -323,7 +323,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   integer $file_number The attachment file number
      */
-    public function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
+    public static function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
     {
 //        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -463,7 +463,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $developer The email address of the assignee
      */
-    public function assignIssue(&$rpc_conn, $auth, $issue_id, $developer)
+    public static function assignIssue(&$rpc_conn, $auth, $issue_id, $developer)
     {
         // check if the given email address is indeed an email
         if (!strstr($developer, '@')) {
@@ -522,7 +522,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $new_replier The email address of the assignee
      */
-    public function addAuthorizedReplier(&$rpc_conn, $auth, $issue_id, $new_replier)
+    public static function addAuthorizedReplier(&$rpc_conn, $auth, $issue_id, $new_replier)
     {
         // check if the given email address is indeed an email
         if (!strstr($new_replier, '@')) {
@@ -554,7 +554,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $new_status The new status title
      */
-    public function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
+    public static function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -612,7 +612,7 @@ class Command_Line
      * @param   integer $issue_id The issue ID
      * @param   string $time_spent The time spent in minutes
      */
-    public function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
+    public static function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
         self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
@@ -667,7 +667,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function printIssueDetails(&$rpc_conn, $auth, $issue_id)
+    public static function printIssueDetails(&$rpc_conn, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -892,7 +892,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function listEmails(&$rpc_conn, $auth, $issue_id)
+    public static function listEmails(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -950,7 +950,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $email_id The sequential id of the email to view
      * @param   boolean $display_full If the full email should be displayed.
      */
-    public function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
+    public static function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -986,7 +986,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function listNotes(&$rpc_conn, $auth, $issue_id)
+    public static function listNotes(&$rpc_conn, $auth, $issue_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1042,7 +1042,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      */
-    public function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
+    public static function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
     {
         self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
@@ -1462,7 +1462,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   string $args The arguments passed to this script
      */
-    public function promptConfirmation(&$rpc_conn, $auth, $issue_id, $args)
+    public static function promptConfirmation(&$rpc_conn, $auth, $issue_id, $args)
     {
         // this is needed to prevent multiple confirmations from being shown to the user
         $GLOBALS['_displayed_confirmation'] = true;
@@ -1510,7 +1510,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $email The email address of the current user
      * @param   string $password The password of the current user
      */
-    public function checkAuthentication(&$rpc_conn, $email, $password)
+    public static function checkAuthentication(&$rpc_conn, $email, $password)
     {
         $msg = new XML_RPC_Message("isValidLogin", array(new XML_RPC_Value($email), new XML_RPC_Value($password)));
         $result = $rpc_conn->send($msg);
@@ -1534,7 +1534,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $command The command used to run this script.
      */
-    public function log(&$rpc_conn, $auth, $command)
+    public static function log(&$rpc_conn, $auth, $command)
     {
         $command = base64_encode($command);
         $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
@@ -1551,7 +1551,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @access  public
      * @return  boolean
      */
-    public function isSafeExecution()
+    public static function isSafeExecution()
     {
         global $argv, $argc;
         if ($argv[count($argv) - 1] == '--safe') {
@@ -1569,7 +1569,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @access  public
      * @param   string $script The current script name
      */
-    public function usage($script)
+    public static function usage($script)
     {
         $usage = array();
         $usage[] = array(
@@ -1715,7 +1715,7 @@ $explanation
      * @access  public
      * @param   string $msg The message that needs to be printed
      */
-    public function quit($msg)
+    public static function quit($msg)
     {
         die("Error - $msg. Run script with --help for usage information.\n");
     }

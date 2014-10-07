@@ -403,7 +403,7 @@ issue_view.delete_attachment = function(e)
 
 issue_view.delete_file = function(e)
 {
-    iaf_id = $(e.target).attr('data-iaf-id');
+    var iaf_id = $(e.target).attr('data-iaf-id');
     if (!confirm('This action will permanently delete the selected file.')) {
         return false;
     } else {

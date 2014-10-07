@@ -47,13 +47,13 @@
             <th colspan="2">
               {t}Manage Releases{/t}
                 <div class="right">
-                    ({t}Current Project:{/t} {$project.prj_title})
+                    ({t}Current Project{/t}: {$project.prj_title})
                 </div>
             </th>
           </tr>
           <tr>
             <th width="120">
-              {t}Title:{/t}
+              {t}Title{/t}:
             </th>
             <td>
               <input type="text" name="title" size="40" value="{$info.pre_title|default:''}">
@@ -62,7 +62,7 @@
           </tr>
           <tr>
             <th width="120">
-              {t}Tentative Date:{/t}
+              {t}Tentative Date{/t}:
             </th>
             <td>
               {html_select_date field_array="scheduled_date" prefix="" time=$info.pre_scheduled_date|default:'' start_year="-10" end_year="+10" all_extra='class="default"'}
@@ -70,7 +70,7 @@
           </tr>
           <tr>
             <th width="120">
-              {t}Status:{/t}
+              {t}Status{/t}:
             </th>
             <td>
               <select name="status">
@@ -98,7 +98,7 @@
         <table class="bordered">
           <tr class="title">
             <th colspan="4">
-              {t}Existing Releases:{/t}
+              {t}Existing Releases{/t}:
             </th>
           </tr>
             <tr>

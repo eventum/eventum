@@ -35,7 +35,7 @@ class Workflow
      *
      * @return  array An array of workflow backends
      */
-    public function getBackendList()
+    public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/workflow'));
@@ -145,7 +145,7 @@ class Workflow
      * @param   array $old_details The old details of the issues.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    public function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
         Partner::handleIssueChange($issue_id, $usr_id, $old_details, $changes);
         if (!self::hasWorkflowIntegration($prj_id)) {
@@ -165,7 +165,7 @@ class Workflow
      * @param   array   $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      */
-    public function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
+    public static function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -199,7 +199,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      */
-    public function handleAttachment($prj_id, $issue_id, $usr_id)
+    public static function handleAttachment($prj_id, $issue_id, $usr_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -218,7 +218,7 @@ class Workflow
      * @param   array $attachment attachment object
      * @return  boolean
      */
-    public function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
+    public static function shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -237,7 +237,7 @@ class Workflow
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    public function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -256,7 +256,7 @@ class Workflow
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
-    public function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
+    public static function handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -274,7 +274,7 @@ class Workflow
      * @param   array $email_details Details of the issue
      * @param   string $type What type of blocked email this is.
      */
-    public function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
+    public static function handleBlockedEmail($prj_id, $issue_id, $email_details, $type)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -294,7 +294,7 @@ class Workflow
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.
      */
-    public function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
+    public static function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -312,7 +312,7 @@ class Workflow
      * @param   boolean $has_TAM If this issue has a technical account manager.
      * @param   boolean $has_RR If Round Robin was used to assign this issue.
      */
-    public function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
+    public static function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -331,7 +331,7 @@ class Workflow
      * @param   array $row The array of data that was inserted into the database.
      * @param   boolean $closing If we are closing the issue.
      */
-    public function handleNewEmail($prj_id, $issue_id, $message, $row, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, $message, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
@@ -349,7 +349,7 @@ class Workflow
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      */
-    public function handleManualEmailAssociation($prj_id, $issue_id)
+    public static function handleManualEmailAssociation($prj_id, $issue_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -368,7 +368,7 @@ class Workflow
      * @param   boolean $closing If the issue is being closed
      * @param   integer $note_id The ID of the new note
      */
-    public function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false, $note_id = false)
+    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false, $note_id = false)
     {
         Partner::handleNewNote($issue_id, $note_id);
 
@@ -387,7 +387,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */
-    public function getAllowedStatuses($prj_id, $issue_id = null)
+    public static function getAllowedStatuses($prj_id, $issue_id = null)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -409,7 +409,7 @@ class Workflow
      * @param   integer $usr_id The ID of the user closing this issue
      * @return  void
      */
-    public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
+    public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -447,7 +447,7 @@ class Workflow
      * @param   array $types The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
      */
-    public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
+    public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -466,9 +466,8 @@ class Workflow
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
-     * @return  void
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public static function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -485,7 +484,7 @@ class Workflow
      * @param   string $address The email address to check
      * @return  boolean
      */
-    public function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    public static function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -524,7 +523,7 @@ class Workflow
      * @return  boolean true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used.
      */
-    public function canEmailIssue($prj_id, $issue_id, $email)
+    public static function canEmailIssue($prj_id, $issue_id, $email)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -542,7 +541,7 @@ class Workflow
      * @param   string $email The email address to check
      * @return  boolean True if the note should be added, false otherwise
      */
-    public function canSendNote($prj_id, $issue_id, $email, $structure)
+    public static function canSendNote($prj_id, $issue_id, $email, $structure)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
@@ -560,7 +559,7 @@ class Workflow
      * @param   string  $email The email address added
      * @return  boolean
      */
-    public function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
+    public static function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -583,7 +582,7 @@ class Workflow
      * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email, &$structure)
+    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email, &$structure)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -602,7 +601,7 @@ class Workflow
      * @param   array   $data
      * @return  mixed   Null by default, false if the note should not be inserted
      */
-    public function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
+    public static function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -644,7 +643,7 @@ class Workflow
      * @param   array   $cc An array of cc addresses
      * @return  string|array
      */
-    public function getIssueIDForNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public static function getIssueIDForNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -666,7 +665,7 @@ class Workflow
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
-    public function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    public static function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -685,7 +684,7 @@ class Workflow
      * @param   boolean $notify
      * @return  boolean true to continue normal processing, anything else to cancel and return value.
      */
-    public function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
+    public static function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -703,7 +702,7 @@ class Workflow
      * @param   string $page_name The name of the page
      * @return  null
      */
-    public function prePage($prj_id, $page_name)
+    public static function prePage($prj_id, $page_name)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return true;
@@ -723,7 +722,7 @@ class Workflow
      * @param   string  $source The source of this call
      * @return  array   an array of actions
      */
-    public function getNotificationActions($prj_id, $issue_id, $email, $source)
+    public static function getNotificationActions($prj_id, $issue_id, $email, $source)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -742,7 +741,7 @@ class Workflow
      * @param   string  $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
      */
-    public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return array();
@@ -758,7 +757,7 @@ class Workflow
      * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
-    public function getLinkFilters($prj_id)
+    public static function getLinkFilters($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return array();
@@ -784,7 +783,7 @@ class Workflow
     /**
      * Returns the ID of the group that is "active" right now.
      */
-    public function getActiveGroup($prj_id)
+    public static function getActiveGroup($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;

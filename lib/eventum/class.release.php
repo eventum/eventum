@@ -147,7 +147,7 @@ class Release
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues that are using this release
@@ -184,7 +184,7 @@ class Release
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -215,7 +215,7 @@ class Release
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
@@ -251,7 +251,7 @@ class Release
      * @param   integer $prj_id The project ID
      * @return  array The list of releases
      */
-    public function getList($prj_id)
+    public static function getList($prj_id)
     {
         $stmt = "SELECT
                     pre_id,

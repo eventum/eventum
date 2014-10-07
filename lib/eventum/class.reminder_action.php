@@ -47,7 +47,7 @@ class Reminder_Action
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    public function changeRank($rem_id, $rma_id, $rank_type)
+    public static function changeRank($rem_id, $rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
         $ranking = self::_getRanking($rem_id);
@@ -123,7 +123,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  string The title of the reminder action
      */
-    public function getTitle($rma_id)
+    public static function getTitle($rma_id)
     {
         $stmt = "SELECT
                     rma_title
@@ -147,7 +147,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  array The details for the specified reminder action
      */
-    public function getDetails($rma_id)
+    public static function getDetails($rma_id)
     {
         $stmt = "SELECT
                     *
@@ -175,7 +175,7 @@ class Reminder_Action
      *
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
@@ -287,7 +287,7 @@ class Reminder_Action
      *
      * @return  integer 1 if the update worked, -1 or -2 otherwise
      */
-    public function update()
+    public static function update()
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
@@ -402,7 +402,7 @@ class Reminder_Action
      *
      * @return  array The list of action types
      */
-    public function getActionTypeList()
+    public static function getActionTypeList()
     {
         $stmt = "SELECT
                     rmt_id,
@@ -428,7 +428,7 @@ class Reminder_Action
      * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    public function getAdminList($rem_id)
+    public static function getAdminList($rem_id)
     {
         $stmt = "SELECT
                     rma_rem_id,
@@ -560,7 +560,7 @@ class Reminder_Action
      * @param   array $action The action details
      * @return  boolean
      */
-    public function perform($issue_id, $reminder, $action)
+    public static function perform($issue_id, $reminder, $action)
     {
         $type = '';
         // - see which action type we're talking about here...
@@ -792,7 +792,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of issue IDs
      */
-    public function getRepeatActions($issues, $rma_id)
+    public static function getRepeatActions($issues, $rma_id)
     {
         if (count($issues) == 0) {
             return $issues;

@@ -65,7 +65,7 @@ class Email_Account
      * @param   integer $ema_id The email account ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function updateIssueAutoCreation($ema_id, $auto_creation, $options)
+    public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
@@ -117,7 +117,7 @@ class Email_Account
      * @param   string $mailbox The mailbox for the specific email account
      * @return  integer The support email account ID
      */
-    public function getAccountID($username, $hostname, $mailbox)
+    public static function getAccountID($username, $hostname, $mailbox)
     {
         $stmt = "SELECT
                     ema_id
@@ -225,7 +225,7 @@ class Email_Account
      *
      * @return  boolean
      */
-    public function remove()
+    public static function remove()
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
@@ -249,7 +249,7 @@ class Email_Account
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function insert()
+    public static function insert()
     {
         if (empty($_POST["get_only_new"])) {
             $_POST["get_only_new"] = 0;
@@ -303,7 +303,7 @@ class Email_Account
      *
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update()
+    public static function update()
     {
         if (empty($_POST["get_only_new"])) {
             $_POST["get_only_new"] = 0;
@@ -348,7 +348,7 @@ class Email_Account
      *
      * @return  array The list of accounts
      */
-    public function getList()
+    public static function getList()
     {
         $stmt = "SELECT
                     *
@@ -377,7 +377,7 @@ class Email_Account
      * @param   integer $projects An array of project IDs
      * @return  array The list of accounts
      */
-    public function getAssocList($projects, $include_project_title = false)
+    public static function getAssocList($projects, $include_project_title = false)
     {
         $projects = Misc::escapeInteger($projects);
         if (!is_array($projects)) {

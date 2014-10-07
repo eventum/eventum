@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -79,7 +79,7 @@ class Mail_Queue
         }
         // if the Date: header is missing, add it.
         if (empty($headers['Date'])) {
-            $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
+            $headers['Date'] = Mime_Helper::encode(date('D, j M Y H:i:s O'));
         }
         if (!empty($headers['To'])) {
             $headers['To'] = Mail_Helper::fixAddressQuoting($headers['To']);
@@ -152,7 +152,7 @@ class Mail_Queue
      * @param   integer $limit The limit of emails that we should send at one time
      * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
-    public function send($status, $limit = false, $merge = false)
+    public static function send($status, $limit = false, $merge = false)
     {
         if ($merge !== false) {
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
@@ -470,7 +470,7 @@ class Mail_Queue
      * @param   integer $issue_is The issue ID
      * @return  array An array of emails from the queue
      */
-    public function getListByIssueID($issue_id)
+    public static function getListByIssueID($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
@@ -509,7 +509,7 @@ class Mail_Queue
      * @param   integer $maq_id The id of the mail queue entry.
      * @return  array An array of information
      */
-    public function getEntry($maq_id)
+    public static function getEntry($maq_id)
     {
         $stmt = "SELECT
                     maq_iss_id,
@@ -533,7 +533,7 @@ class Mail_Queue
         }
     }
 
-    public function getMessageRecipients($types, $type_id)
+    public static function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {
             $types = array($types);

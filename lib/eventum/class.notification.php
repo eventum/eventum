@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -31,9 +31,6 @@
 /**
  * Class to handle all of the business logic related to sending email
  * notifications on actions regarding the issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Notification
 {
@@ -182,7 +179,7 @@ class Notification
         }
         $from = Mail_Helper::getFormattedName($info['sender_name'], $from_email);
 
-        return MIME_Helper::encodeAddress(trim($from));
+        return Mime_Helper::encodeAddress(trim($from));
     }
 
     /**
@@ -803,7 +800,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @return  array   list of addresse
      */
-    public function getLastNotifiedAddresses($issue_id = null)
+    public static function getLastNotifiedAddresses($issue_id = null)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -1541,7 +1538,7 @@ class Notification
      * @param   integer $min_role Only show subscribers with this role or above
      * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
-    public function getSubscribers($issue_id, $type = false, $min_role = false)
+    public static function getSubscribers($issue_id, $type = false, $min_role = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
@@ -1653,7 +1650,7 @@ class Notification
      * @param   integer $sub_id The subcription ID
      * @return  array The details of the subscription
      */
-    public function getDetails($sub_id)
+    public static function getDetails($sub_id)
     {
         $stmt = "SELECT
                     *
@@ -1708,7 +1705,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @return  array The list of subscribers
      */
-    public function getSubscriberListing($issue_id)
+    public static function getSubscriberListing($issue_id)
     {
         $stmt = "SELECT
                     sub_id,
@@ -1745,7 +1742,7 @@ class Notification
      * @param   integer $usr_id The user to check.
      * @return  boolean If the specified user is notified in the issue.
      */
-    public function isUserNotified($issue_id, $usr_id)
+    public static function isUserNotified($issue_id, $usr_id)
     {
         $stmt = "SELECT
                     COUNT(*)
@@ -1800,7 +1797,7 @@ class Notification
      * @param   array $items The list of subscription IDs
      * @return  boolean
      */
-    public function remove($items)
+    public static function remove($items)
     {
         $items = Misc::escapeInteger($items);
         $stmt = "SELECT
@@ -2191,7 +2188,7 @@ class Notification
      * @param   integer $sub_id The subscription ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function update($sub_id)
+    public static function update($sub_id)
     {
         $sub_id = Misc::escapeInteger($sub_id);
 
