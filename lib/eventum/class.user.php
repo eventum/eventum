@@ -1175,7 +1175,7 @@ class User
             Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
-            $user['grp_id'],
+            $group_id,
             $user['external_id'],
             isset($user['par_code']) ? $user['par_code'] : null,
         );

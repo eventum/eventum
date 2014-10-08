@@ -233,14 +233,22 @@ class Product
 
     public static function updateProductAndVersion($ipv_id, $pro_id, $version)
     {
-        $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
-                SET
-                    ipv_pro_id = ?,
-                    ipv_version = ?
-                WHERE
-                    ipv_id = ?";
-        $data = array($pro_id, $version, $ipv_id);
+        if ($pro_id == -1) {
+            $sql = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                    WHERE
+                        ipv_id = ?";
+            $data = array($ipv_id);
+        } else {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                    SET
+                        ipv_pro_id = ?,
+                        ipv_version = ?
+                    WHERE
+                        ipv_id = ?";
+            $data = array($pro_id, $version, $ipv_id);
+        }
         $res = DB_Helper::getInstance()->query($sql, $data);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
@@ -249,6 +257,5 @@ class Product
         }
 
         return true;
-
     }
 }

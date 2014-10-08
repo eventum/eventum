@@ -470,9 +470,7 @@ function getFile($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The requested file could not be found");
     }
 
-    $res['iaf_file'] = base64_encode($res['iaf_file']);
-
-    return new XML_RPC_Response(XML_RPC_Encode($res));
+    return new XML_RPC_Response(XML_RPC_Encode(Misc::base64_encode($res)));
 }
 
 $lookupCustomer_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));

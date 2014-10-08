@@ -58,7 +58,8 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
-            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " .
+                User::getFullName($usr_id) . " when sending a note");
         }
     }
 

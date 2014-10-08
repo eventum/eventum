@@ -725,7 +725,10 @@ class Mail_Helper
                 } catch (CustomerNotFoundException $e) { }
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
-                    $new_headers['X-Eventum-Level'] = $contract->getSupportLevel()->getName();
+                    $support_level = $contract->getSupportLevel();
+                    if (is_object($support_level)) {
+                        $new_headers['X-Eventum-Level'] = $support_level->getName();
+                    }
                 } catch (ContractNotFoundException $e) {}
             }
 

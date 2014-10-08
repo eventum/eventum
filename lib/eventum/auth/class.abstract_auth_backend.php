@@ -170,4 +170,12 @@ abstract class Abstract_Auth_Backend
     {
         return false;
     }
+
+    /**
+     * TODO: refactor this and make __construct to throw on error
+     */
+    public function getConnectError()
+    {
+        return '';
+    }
 }
