@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 2014-??-??, Version ???
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
+- Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
