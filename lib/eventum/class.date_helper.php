@@ -74,7 +74,9 @@ class Date_Helper
         try {
             $dateTime->setTimeZone(new DateTimeZone($timezone));
         } catch (Exception $e) {
-            # invalid timezone, ignore and use utc
+            // Yes, the exception name is just "Exception":
+            // "Exception : DateTimeZone::__construct(): Unknown or bad timezone (Eastern Standard Time)"
+            // invalid timezone, ignore and use utc
         }
 
         return $dateTime;
