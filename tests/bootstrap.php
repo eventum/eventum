@@ -47,6 +47,9 @@ require_once APP_PATH . '/vendor/autoload-dist.php';
 
 require_once APP_INC_PATH . '/gettext.php';
 
+// set default timezone
+date_default_timezone_set(APP_DEFAULT_TIMEZONE);
+
 // create dummy file
 if (!file_exists(APP_SETUP_FILE)) {
     // try grab params from existing config. hide constant redefined warnings

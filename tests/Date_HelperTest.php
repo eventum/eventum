@@ -228,8 +228,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     public function testInvalidTimezone_data()
     {
         return array(
-            array("Sat Oct 11 11:51:12 EEST 2014", "EEST", "Sat, 11 Oct 2014, 11:51:12 EEST"),
-            array("Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 11:51:12 EEST"),
+            array("Sat Oct 11 11:51:12 EEST 2014", "EEST", "Sat, 11 Oct 2014, 08:51:12 UTC"),
+            array("Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 08:51:12 UTC"),
         );
     }
 }
