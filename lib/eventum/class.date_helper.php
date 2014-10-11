@@ -71,7 +71,11 @@ class Date_Helper
         if (!$timezone) {
             $timezone = self::getPreferredTimezone();
         }
-        $dateTime->setTimeZone(new DateTimeZone($timezone));
+        try {
+            $dateTime->setTimeZone(new DateTimeZone($timezone));
+        } catch (Exception $e) {
+            # invalid timezone, ignore and use utc
+        }
 
         return $dateTime;
     }
