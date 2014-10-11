@@ -216,4 +216,20 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
             array(3600, 7200, 3600),
         );
     }
+
+    /**
+     * @dataProvider testInvalidTimezone_data
+     */
+    public function testInvalidTimezone($ts, $tz, $exp) {
+        $date = Date_Helper::getFormattedDate($ts, $tz);
+        $this->assertEquals($exp, $date);
+    }
+
+    public function testInvalidTimezone_data()
+    {
+        return array(
+            array("Sat Oct 11 11:51:12 EEST 2014", "EEST", "Sat, 11 Oct 2014, 11:51:12 EEST"),
+            array("Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 11:51:12 EEST"),
+        );
+    }
 }
