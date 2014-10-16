@@ -364,8 +364,7 @@ CREATE TABLE `%TABLE_PREFIX%project_release` (
   pre_scheduled_date date NOT NULL default '0000-00-00',
   pre_status enum('available','unavailable') NOT NULL default 'available',
   PRIMARY KEY  (pre_id),
-  UNIQUE KEY pre_title (pre_prj_id, pre_title),
-  KEY pre_prj_id (pre_prj_id)
+  UNIQUE KEY pre_title (pre_prj_id, pre_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 INSERT INTO `%TABLE_PREFIX%project_release` (pre_id, pre_prj_id, pre_title, pre_scheduled_date, pre_status) VALUES (1, 1, 'Example Release', (CURDATE() + INTERVAL 1 MONTH), 'available');
 
