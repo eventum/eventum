@@ -422,10 +422,17 @@ class Date_Helper
         }
 
         // as can't tell strftime timezone, set default timezone temporarily
-        $tz = date_default_timezone_get();
-        date_default_timezone_set($date->getTimezone()->getName());
+        // set tz only if it differs
+        $current_tz = date_default_timezone_get();
+        $tz = $date->getTimezone()->getName();
+        if ($current_tz != $tz) {
+            date_default_timezone_set($tz);
+            unset($tz);
+        }
         $res = strftime($fmt, $date->getTimestamp());
-        date_default_timezone_set($tz);
+        if (!isset($tz)) {
+            date_default_timezone_set($current_tz);
+        }
         return $res;
     }
 }
