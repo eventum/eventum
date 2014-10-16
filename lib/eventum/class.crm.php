@@ -769,7 +769,3 @@ abstract class CRM
         }
     }
 }
-
-class CRMException extends Exception
-{
-}
