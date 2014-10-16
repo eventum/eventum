@@ -235,4 +235,15 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
             array('2014-10-14 11:32:57', "America/New_York", 'Tue, 14 Oct 2014, 07:32:57 EDT'),
         );
     }
+
+    public function testGetTimezoneList() {
+        $pear_timezones = require __DIR__ . '/data/timezones.php';
+        $timezones = Date_Helper::getTimezoneList();
+
+        $diff = array_diff($pear_timezones, $timezones);
+        printf("%d PEAR timezones\n", count($pear_timezones));
+        printf("%d PHP timezones\n", count($timezones));
+        printf("%d Differences\n", count($diff));
+//        print_r($diff);
+    }
 }
