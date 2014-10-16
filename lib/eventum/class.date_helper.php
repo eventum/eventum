@@ -419,8 +419,13 @@ class Date_Helper
         $offset = $date->getTimezone()->getOffset($date);
         if ($offset == 0) {
             return gmstrftime($fmt, $date->getTimestamp());
-        } else {
-            return strftime($fmt, $date->getTimestamp());
         }
+
+        // as can't tell strftime timezone, set default timezone temporarily
+        $tz = date_default_timezone_get();
+        date_default_timezone_set($date->getTimezone()->getName());
+        $res = strftime($fmt, $date->getTimestamp());
+        date_default_timezone_set($tz);
+        return $res;
     }
 }
