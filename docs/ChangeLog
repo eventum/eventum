@@ -5,7 +5,8 @@ Eventum Issue Tracking System
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
 - Catch exception from invalid timezones and default to UTC (Bryan Alsdorf, GH#8)
-- remove duplicate key (Elan Ruusamäe, LP#788699)
+- Remove duplicate key (Elan Ruusamäe, LP#788699)
+- Fix weekly report excluding last day (Elan Ruusamäe, LP#898607)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)

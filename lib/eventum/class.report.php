@@ -827,7 +827,7 @@ class Report
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
                         iss_prj_id=" . Auth::getCurrentProject() . " AND
-                        ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "' AND
+                        ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . " 00:00:00' AND '" . Misc::escapeString($end_date) . " 23:59:59' AND
                         ttr_iss_id = iss_id AND
                         ";
             if ($per_user) {
