@@ -1,0 +1,52 @@
+Received: from MY.MAIL.HOST (192.168.254.14) by
+ MY.INTERNAL.MAIL.HOST (192.168.254.3) with Microsoft SMTP Server id
+ 14.1.218.12; Mon, 12 Dec 2011 09:32:30 +0100
+Received: from localhost (localhost [127.0.0.1])	by MY.MAIL.HOST
+ (Postfix) with ESMTP id EB9512C82B	for <me@mycompany.com>; Mon, 12 Dec
+ 2011 09:32:16 +0100 (CET)
+Received: from MY.MAIL.HOST ([127.0.0.1])	by localhost
+ (MY.INTERNAL.MAIL.HOST [127.0.0.1]) (amavisd-new, port 10024)	with ESMTP
+ id YH2sngIiu6kc for <me@mycompany.com>;	Mon, 12 Dec 2011 09:32:16 +0100
+ (CET)
+Received: from MY.EXTERNAL.MAIL.HOST (ns1.mycompany.com [xxx.xxx.xxx.xxx])	by
+ MY.MAIL.HOST (Postfix) with ESMTP id C0A852C82A	for
+ <me@mycompany.com>; Mon, 12 Dec 2011 09:32:16 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])	by MY.EXTERNAL.MAIL.HOST
+ (Postfix) with ESMTP id 1FD2079A41	for <me@mycompany.com>; Mon, 12 Dec
+ 2011 09:32:30 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mycompany.com
+X-Spam-Flag: NO
+X-Spam-Score: -1.577
+X-Spam-Level:
+X-Spam-Status: No, score=-1.577 tagged_above=-10 required=5 tests=[AWL=-0.004,
+	BAYES_00=-2.599, FUZZY_AMBIEN=1.026] autolearn=no
+Received: from MY.EXTERNAL.MAIL.HOST ([127.0.0.1])	by localhost
+ (MY.INTERNAL.MAIL.HOST [127.0.0.1]) (amavisd-new, port 10024)	with ESMTP id
+ WmhrOef6W3RH for <me@mycompany.com>;	Mon, 12 Dec 2011 09:32:27 +0100
+ (CET)
+Received: from ms1.mxcleaner.nl (ms1.mxcleaner.nl [87.253.146.198])	by
+ MY.EXTERNAL.MAIL.HOST (Postfix) with ESMTP id EA03079CEB	for
+ <me@mycompany.com>; Mon, 12 Dec 2011 09:32:23 +0100 (CET)
+Received: from SENDER.MAIL.HOST ([yyy.yyy.yyy.yyy])	by ms1.mxcleaner.nl
+ (8.14.1/8.14.1) with ESMTP id pBC8VZsW015708	for <me@mycompany.com>;
+ Mon, 12 Dec 2011 09:31:39 +0100
+From: <sender@othercompany.com>
+To: <me@mycompany.com>
+Date: Mon, 12 Dec 2011 09:31:35 +0100
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="9B095B5ADSN=_01CCAA85A1CF707D000053B7hermes.ghouten.l"
+X-DSNContext: 7ce717b1 - 1391 - 00000002 - C00402D1
+Message-ID: <iJran9MF60000524b@SENDER.MAIL.HOST>
+Subject: Delivery Status Notification (Failure)
+X-Greylist: IP, sender and recipient auto-whitelisted, not delayed by milter-greylist-2.1.12 (ms1.mxcleaner.nl [87.253.146.198]); Mon, 12 Dec 2011 09:31:39 +0100 (CET)
+X-PROSOLIT-MXDEFENDER-Information: Please contact PROSOLIT for more information http://www.prosolit.nl
+X-PROSOLIT-MXDEFENDER-MailScanner-ID: pBC8VZsW015708
+X-PROSOLIT-MXDEFENDER: Found to be clean
+X-PROSOLIT-MXDEFENDER-SpamCheck: geen spam, SpamAssassin (not cached,
+	score=-1.355, vereist 5.6, BAYES_00 -5.00, RDNS_NONE 1.00,
+	RP_8BIT 1.64, TO_NO_BRKTS_DIRECT 1.00)
+X-PROSOLIT-MXDEFENDER-From:
+Return-Path: <>
+X-MS-Exchange-Organization-AuthSource: MY.INTERNAL.MAIL.HOST
+X-MS-Exchange-Organization-AuthAs: Anonymous

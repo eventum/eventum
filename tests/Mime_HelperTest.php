@@ -127,4 +127,11 @@ class Mime_HelperTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($exp, $res);
         }
     }
+
+    public function testBug901653() {
+        $message = file_get_contents(__DIR__.'/data/LP901653.txt');
+        $this->assertNotEmpty($message);
+        $structure = Mime_Helper::decode($message, true, true);
+        $this->assertNotNull($structure);
+    }
 }
