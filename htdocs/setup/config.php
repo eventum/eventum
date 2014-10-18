@@ -31,16 +31,8 @@
 // Contains constants defined for this specific eventum installation.
 // This file will not be overwritten when upgrading Eventum
 
-// definitions of SQL variables
-define('APP_SQL_DBTYPE', 'mysql');
-define('APP_SQL_DBHOST', '%{APP_SQL_DBHOST}%');
-define('APP_SQL_DBPORT', 3306);
-define('APP_SQL_DBNAME', '%{APP_SQL_DBNAME}%');
-define('APP_SQL_DBUSER', '%{APP_SQL_DBUSER}%');
-define('APP_SQL_DBPASS', '%{APP_SQL_DBPASS}%');
-
-define('APP_DEFAULT_DB', APP_SQL_DBNAME);
-define('APP_TABLE_PREFIX', '%{APP_TABLE_PREFIX}%');
+// NOTE: if you are looking for database connection info in this file,
+// then since 2.4.0 database configuration lies in setup.php
 
 define('APP_NAME', 'Eventum');
 define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails

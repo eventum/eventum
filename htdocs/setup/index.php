@@ -530,11 +530,6 @@ $private_key = "' . md5(microtime()) . '";
     $enable_fulltext = $matches[1] > '4.0.23';
 
     $replace = array(
-        "'%{APP_SQL_DBHOST}%'" => e($_POST['db_hostname']),
-        "'%{APP_SQL_DBNAME}%'" => e($_POST['db_name']),
-        "'%{APP_SQL_DBUSER}%'" => e($_POST['db_username']),
-        "'%{APP_SQL_DBPASS}%'" => e($_POST['db_password']),
-        "'%{APP_TABLE_PREFIX}%'" => e($_POST['db_table_prefix']),
         "'%{APP_HOSTNAME}%'" => e($_POST['hostname']),
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
@@ -559,13 +554,30 @@ $private_key = "' . md5(microtime()) . '";
 
     // write setup file
     require_once APP_INC_PATH . '/class.setup.php';
-    $_REQUEST['setup']['update'] = 1;
-    $_REQUEST['setup']['closed'] = 1;
-    $_REQUEST['setup']['emails'] = 1;
-    $_REQUEST['setup']['files'] = 1;
-    $_REQUEST['setup']['allow_unassigned_issues'] = 'yes';
-    $_REQUEST['setup']['support_email'] = 'enabled';
-    Setup::save($_REQUEST['setup']);
+    $setup = $_REQUEST['setup'];
+    $setup['update'] = 1;
+    $setup['closed'] = 1;
+    $setup['emails'] = 1;
+    $setup['files'] = 1;
+    $setup['allow_unassigned_issues'] = 'yes';
+    $setup['support_email'] = 'enabled';
+
+    $setup['database'] = array(
+        // database driver
+        'driver'  => 'mysql',
+
+        // connection info
+        'hostname' => $_POST['db_hostname'],
+        'database' => $_POST['db_name'],
+        'username' => $_POST['db_username'],
+        'password' => $_POST['db_password'],
+        'port'     => 3306,
+
+        // table prefix
+        'table_prefix' => $_POST['db_table_prefix'],
+    );
+
+    Setup::save($setup);
 
     // after config has been written down, we can finish database setup by calling upgrade script
     $upgrade_script = APP_PATH . '/upgrade/update-database.php';
