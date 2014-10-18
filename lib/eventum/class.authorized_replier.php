@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,13 +25,11 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Authorized_Replier
 {
@@ -58,45 +56,45 @@ class Authorized_Replier
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier,
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', 'other', 'user') replier_type
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%issue_user_replier}},
+                    {{%user}}
                  WHERE
-                    iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
+                    iur_iss_id=? AND
                     iur_usr_id=usr_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array(
                 array(),
                 $repliers
             );
-        } else {
-            // split into users and others (those with email address but no real user accounts)
-            $names = array();
-            if (count($res) > 0) {
-                foreach ($res as $row) {
-                    if ($row["iur_usr_id"] == APP_SYSTEM_USER_ID) {
-                        $repliers["other"][] = $row;
-                    } else {
-                        $repliers["users"][] = $row;
-                    }
-                    $names[] = $row['replier'];
-                }
-            }
-            $repliers["all"]  = array_merge($repliers["users"], $repliers["other"]);
-
-            return array(
-                $names,
-                $repliers
-            );
         }
+
+        // split into users and others (those with email address but no real user accounts)
+        $names = array();
+        if (count($res) > 0) {
+            foreach ($res as $row) {
+                if ($row["iur_usr_id"] == APP_SYSTEM_USER_ID) {
+                    $repliers["other"][] = $row;
+                } else {
+                    $repliers["users"][] = $row;
+                }
+                $names[] = $row['replier'];
+            }
+        }
+        $repliers["all"]  = array_merge($repliers["users"], $repliers["other"]);
+
+        return array(
+            $names,
+            $repliers
+        );
     }
 
     /**
      * Removes the specified authorized replier
      *
      * @param   integer $iur_id The id of the authorized replier
+     * @return int
      */
     public static function removeRepliers($iur_ids)
     {
@@ -106,31 +104,32 @@ class Authorized_Replier
         $stmt = "SELECT
                     iur_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                  WHERE
                     iur_id IN(" . join(",", $iur_ids) . ")";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($issue_id)) {
-            Error_Handler::logError(array($issue_id->getMessage(), $issue_id->getDebugInfo()), __FILE__, __LINE__);
+        try {
+            $issue_id = DB_Helper::getInstance()->getOne($stmt);
+        } catch (DbException $e) {
+            // FIXME: why continuing on error?
         }
 
         foreach ($iur_ids as $id) {
             $replier = self::getReplier($id);
             $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                        {{%issue_user_replier}}
                      WHERE
                         iur_id IN(" . join(",", $iur_ids) . ")";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                DB_Helper::getInstance()->query($stmt);
+            } catch (DbException $e) {
                 return -1;
-            } else {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'),
-                                "Authorized replier $replier removed by " . User::getFullName(Auth::getUserID()));
-
-                return 1;
             }
+
+            // FIXME: $issue_id can be undefined
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'),
+                            "Authorized replier $replier removed by " . User::getFullName(Auth::getUserID()));
+
+            return 1;
         }
     }
 
@@ -161,27 +160,24 @@ class Authorized_Replier
             }
 
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                        {{%issue_user_replier}}
                      (
                         iur_iss_id,
                         iur_usr_id,
                         iur_email
                      ) VALUES (
-                        " . Misc::escapeInteger($issue_id) . ",
-                        " . APP_SYSTEM_USER_ID . ",
-                        '" . Misc::escapeString($email) . "'
+                        ?, ?, ?
                      )";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
+            } catch (DbException $e) {
                 return -1;
-            } else {
-                if ($add_history) {
-                    // add the change to the history of the issue
-                    $summary = $email . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
-                    History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_other_added'), $summary);
-                }
+            }
+
+            if ($add_history) {
+                // add the change to the history of the issue
+                $summary = $email . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_other_added'), $summary);
             }
 
             return 1;
@@ -203,25 +199,23 @@ class Authorized_Replier
         }
 
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                  (
                     iur_iss_id,
                     iur_usr_id
                  ) VALUES (
-                    " . Misc::escapeInteger($issue_id) . ",
-                    " . Misc::escapeInteger($usr_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            if ($add_history) {
-                // add the change to the history of the issue
-                $summary = User::getFullName($usr_id) . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_added'), $summary);
-            }
+        }
+
+        if ($add_history) {
+            // add the change to the history of the issue
+            $summary = User::getFullName($usr_id) . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_added'), $summary);
         }
 
         return 1;
@@ -254,23 +248,22 @@ class Authorized_Replier
         $stmt = "SELECT
                     COUNT(*) AS total
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                  WHERE
-                    iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
-                    iur_email='" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iur_iss_id=? AND
+                    iur_email=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res > 0) {
-                return true;
-            } else {
-                return false;
-            }
         }
-    }
+
+        if ($res > 0) {
+            return true;
+        } else {
+            return false;
+        }
+}
 
     /**
      * Returns if the specified usr_id is authorized to reply.
@@ -284,21 +277,20 @@ class Authorized_Replier
         $stmt = "SELECT
                     count(iur_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                  WHERE
-                    iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
-                    iur_usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iur_iss_id = ? AND
+                    iur_usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $usr_id));
+        } catch (DbException $e) {
             return "";
+        }
+
+        if ($res > 0) {
+            return true;
         } else {
-            if ($res > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -313,15 +305,15 @@ class Authorized_Replier
         $stmt = "SELECT
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%issue_user_replier}},
+                    {{%user}}
                  WHERE
                     iur_usr_id = usr_id AND
-                    iur_id = " . Misc::escapeInteger($iur_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    iur_id = ?";
 
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($iur_id));
+        } catch (DbException $e) {
             return "";
         }
 
@@ -340,18 +332,18 @@ class Authorized_Replier
         $stmt = "SELECT
                     iur_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                     LEFT JOIN
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                        {{%user}}
                     ON
                         iur_usr_id = usr_id
                  WHERE
-                    iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
-                    (iur_email = '" . Misc::escapeString($email) . "' OR usr_email = '" . Misc::escapeString($email) . "')";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    iur_iss_id = ? AND
+                    (iur_email = ? OR usr_email = ?)";
 
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email, $email));
+        } catch (DbException $e) {
             return 0;
         }
 
