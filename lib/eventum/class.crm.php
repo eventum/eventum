@@ -317,19 +317,18 @@ abstract class CRM
                     prj_id,
                     prj_customer_backend
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  ORDER BY
                     prj_id";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return '';
-        } else {
-            $backends = $res;
-
-            return @$backends[$prj_id];
         }
+
+        $backends = $res;
+
+        return @$backends[$prj_id];
     }
 
     /**
@@ -390,26 +389,25 @@ abstract class CRM
                     cam_type,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%customer_account_manager}},
+                    {{%user}}
                  WHERE
                     cam_usr_id=usr_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $crm = CRM::getInstance($res[$i]['cam_prj_id']);
-                try {
-                    $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
-                    $res[$i]['customer_title'] = $customer->getName();
-                } catch (CRMException $e) {}
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $crm = CRM::getInstance($res[$i]['cam_prj_id']);
+            try {
+                $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
+                $res[$i]['customer_title'] = $customer->getName();
+            } catch (CRMException $e) {}
+        }
+
+        return $res;
     }
 
     /**
@@ -422,26 +420,24 @@ abstract class CRM
     public static function insertAccountManager()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
+                    {{%customer_account_manager}}
                  (
                     cam_prj_id,
                     cam_customer_id,
                     cam_usr_id,
                     cam_type
                  ) VALUES (
-                    " . $_POST['project'] . ",
-                    " . $_POST['customer'] . ",
-                    " . $_POST['manager'] . ",
-                    '" . $_POST['type'] . "'
+                    ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'])
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -455,17 +451,16 @@ abstract class CRM
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
+                    {{%customer_account_manager}}
                  WHERE
-                    cam_id=" . Misc::escapeInteger($cam_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cam_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -476,22 +471,23 @@ abstract class CRM
     public static function updateAccountManager()
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
+                    {{%customer_account_manager}}
                  SET
-                    cam_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
-                    cam_customer_id=" . Misc::escapeInteger($_POST['customer']) . ",
-                    cam_usr_id=" . Misc::escapeInteger($_POST['manager']) . ",
-                    cam_type='" . Misc::escapeString($_POST['type']) . "'
+                    cam_prj_id=?,
+                    cam_customer_id=?,
+                    cam_usr_id=?,
+                    cam_type=?
                  WHERE
-                    cam_id=" . Misc::escapeInteger($_POST['id']);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cam_id=?";
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'], $_POST['id'])
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -504,17 +500,16 @@ abstract class CRM
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
+                    {{%customer_account_manager}}
                  WHERE
                     cam_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -532,23 +527,22 @@ abstract class CRM
                     usr_email,
                     cam_type
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%customer_account_manager}},
+                    {{%user}}
                  WHERE
                     cam_usr_id=usr_id AND
-                    cam_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    cam_customer_id=" . Misc::escapeInteger($customer_id);
-        $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    cam_prj_id=? AND
+                    cam_customer_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $customer_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
+            return array();
+        }
 
+        if (empty($res)) {
             return array();
         } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                return $res;
-            }
+            return $res;
         }
     }
 
@@ -566,17 +560,16 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                 WHERE
-                    cno_customer_id = '" . Misc::escapeString($customer_id) . "'";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cno_customer_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -592,17 +585,16 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                 WHERE
-                    cno_id = " . Misc::escapeInteger($cno_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cno_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -618,24 +610,23 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                 ORDER BY
                     cno_customer_id ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                try {
-                    $crm = CRM::getInstance($res[$i]['cno_prj_id']);
-                    $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
-                } catch (Exception $e) {}
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            try {
+                $crm = CRM::getInstance($res[$i]['cno_prj_id']);
+                $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
+            } catch (Exception $e) {}
+        }
+
+        return $res;
     }
 
     /**
@@ -650,22 +641,23 @@ abstract class CRM
     public static function updateNote($cno_id, $prj_id, $customer_id, $note)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                  SET
-                    cno_note='" . Misc::escapeString($note) . "',
-                    cno_prj_id=" . Misc::escapeInteger($prj_id) . ",
-                    cno_customer_id='" . Misc::escapeString($customer_id) . "',
-                    cno_updated_date='" . Date_Helper::getCurrentDateGMT() . "'
+                    cno_note=?,
+                    cno_prj_id=?,
+                    cno_customer_id=?,
+                    cno_updated_date=?
                  WHERE
-                    cno_id=" . Misc::escapeInteger($cno_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cno_id=?";
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt, array($note, $prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), $cno_id)
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -679,7 +671,7 @@ abstract class CRM
     public static function insertNote($prj_id, $customer_id, $note)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                  (
                     cno_prj_id,
                     cno_customer_id,
@@ -687,20 +679,18 @@ abstract class CRM
                     cno_updated_date,
                     cno_note
                  ) VALUES (
-                    " . Misc::escapeInteger($prj_id) . ",
-                    " . Misc::escapeInteger($customer_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($note) . "'
+                    ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt,
+                array($prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $note)
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -712,17 +702,16 @@ abstract class CRM
     public static function removeNotes($ids)
     {
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                  WHERE
                     cno_id IN (" . join(", ", Misc::escapeInteger($ids)) . ")";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     public function getConnection()
