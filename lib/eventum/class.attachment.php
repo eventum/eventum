@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
 
 
 /**
  * Class designed to handle all business logic related to attachments being
  * uploaded to issues in the application.
- *
- * @author  João Prado Maia <jpm@mysql.com>
  */
 class Attachment
 {
@@ -109,8 +107,8 @@ class Attachment
         $stmt = "SELECT
                     iat_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
+                    {{%issue_attachment}},
+                    {{%issue_attachment_file}}
                  WHERE
                     iaf_id=$iaf_id AND
                     iat_id=iaf_iat_id";
@@ -118,36 +116,37 @@ class Attachment
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            if (empty($res)) {
-                return -2;
-            } else {
-                // check if the file is the only one in the attachment
-                $stmt = "SELECT
-                            iat_id
-                         FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
-                         WHERE
-                            iaf_id=$iaf_id AND
-                            iaf_iat_id=iat_id";
-                $attachment_id = DB_Helper::getInstance()->getOne($stmt);
-
-                $res = self::getFileList($attachment_id);
-                if (count($res) > 1) {
-                    self::removeFile($iaf_id);
-                } else {
-                    self::remove($attachment_id);
-                }
-
-                return 1;
-            }
         }
+
+
+        if (empty($res)) {
+            return -2;
+        }
+
+
+        // check if the file is the only one in the attachment
+        $stmt = "SELECT
+                    iat_id
+                 FROM
+                    {{%issue_attachment}},
+                    {{%issue_attachment_file}}
+                 WHERE
+                    iaf_id=$iaf_id AND
+                    iaf_iat_id=iat_id";
+        $attachment_id = DB_Helper::getInstance()->getOne($stmt);
+
+        $res = self::getFileList($attachment_id);
+        if (count($res) > 1) {
+            self::removeFile($iaf_id);
+        } else {
+            self::remove($attachment_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -162,24 +161,23 @@ class Attachment
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
+                    {{%issue_attachment}},
+                    {{%issue_attachment_file}}
                  WHERE
                     iat_id=iaf_iat_id AND
-                    iaf_id=$file_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iaf_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($file_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
+        }
+
+        // don't allow customers to reach internal only files
+        if (($res['iat_status'] == 'internal')
+                && (User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id'])) <= User::getRoleID('Customer'))) {
+            return '';
         } else {
-            // don't allow customers to reach internal only files
-            if (($res['iat_status'] == 'internal')
-                    && (User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id'])) <= User::getRoleID('Customer'))) {
-                return '';
-            } else {
-                return $res;
-            }
+            return $res;
         }
     }
 
@@ -197,13 +195,12 @@ class Attachment
         $stmt = "SELECT
                     iat_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                    {{%issue_attachment}}
                  WHERE
                     iat_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -228,17 +225,16 @@ class Attachment
         $stmt = "SELECT
                     iat_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                    {{%issue_attachment}}
                  WHERE
                     iat_id=$iat_id";
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -249,19 +245,20 @@ class Attachment
         $issue_id = $res;
         $files = self::getFileList($iat_id);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                    {{%issue_attachment}}
                  WHERE
-                    iat_id=$iat_id AND
-                    iat_iss_id=$issue_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iat_id=? AND
+                    iat_iss_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($iat_id, $issue_id));
+        } catch (DbException $e) {
             return -1;
         }
+
         foreach ($files as $file) {
             self::removeFile($file['iaf_id']);
         }
+
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
@@ -276,21 +273,22 @@ class Attachment
      * attachment can have several files associated with it.
      *
      * @param   integer $iaf_id The attachment file ID
-     * @return  void
+     * @return int
      */
     public function removeFile($iaf_id)
     {
         $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
+                    {{%issue_attachment_file}}
                  WHERE
-                    iaf_id=" . $iaf_id;
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iaf_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($iaf_id));
+        } catch (DbException $e) {
             return -1;
         }
+
+        return 0;
     }
 
     /**
@@ -307,13 +305,12 @@ class Attachment
                     iaf_filename,
                     iaf_filesize
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
+                    {{%issue_attachment_file}}
                  WHERE
-                    iaf_iat_id=$attachment_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iaf_iat_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -346,8 +343,8 @@ class Attachment
                     iat_unknown_user,
                     iat_status
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%issue_attachment}},
+                    {{%user}}
                  WHERE
                     iat_iss_id=$issue_id AND
                     iat_usr_id=usr_id";
@@ -357,10 +354,9 @@ class Attachment
         $stmt .= "
                  ORDER BY
                     iat_created_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -459,7 +455,7 @@ class Attachment
         $attachment_id = Misc::escapeInteger($attachment_id);
         $filesize = strlen($blob);
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
+                    {{%issue_attachment_file}}
                  (
                     iaf_iat_id,
                     iaf_filename,
@@ -467,20 +463,21 @@ class Attachment
                     iaf_filetype,
                     iaf_file
                  ) VALUES (
-                    $attachment_id,
-                    '" . Misc::escapeString($filename) . "',
-                    '" . $filesize . "',
-                    '" . Misc::escapeString($filetype) . "',
-                    '" . Misc::escapeString($blob) . "'
+                    ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array(
+                $attachment_id,
+                $filename,
+                $filesize,
+                $filetype,
+                $blob,
+            ));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -505,7 +502,7 @@ class Attachment
         }
 
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                    {{%issue_attachment}}
                  (
                     iat_iss_id,
                     iat_usr_id,
@@ -531,14 +528,14 @@ class Attachment
             $stmt .= ", " . Misc::escapeInteger($associated_note_id);
         }
         $stmt .= " )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return DB_Helper::get_last_insert_id();
         }
+
+        return DB_Helper::get_last_insert_id();
     }
 
     /**
