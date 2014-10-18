@@ -6,6 +6,19 @@ body#stats {
 
 /* END Stats Page */
 
+/* Setup Page */
+body#setup {
+    font-size: 0.75em;
+    line-height: 1.25em;
+}
+
+body#setup td {
+    font-size: 0.8em;
+    vertical-align: text-top;
+}
+/* END Setup Page */
+
+
 /* New Issue Page */
 body#new_issue #create_issue {
     width: 80%;
