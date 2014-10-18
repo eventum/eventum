@@ -42,8 +42,14 @@ if (file_exists($autoload = dirname(__FILE__) . '/autoload.php')) {
 
     // no substitution, use bundled copy
     define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
+
+    // indicate whether we use components installed by composer
+    define('APP_USE_COMPONENTS', true);
     return;
 }
+
+// indicate whether we use components installed by composer
+define('APP_USE_COMPONENTS', false);
 
 if (!defined('APP_PEAR_PATH')) {
     define('APP_PEAR_PATH', APP_PATH . '/lib/pear');

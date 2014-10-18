@@ -13,7 +13,7 @@
   <title>{block name="title"}Eventum{/block}</title>
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/page.css">
-  {if $core.components|default:1}
+  {if $core.use_components|default:0}
     {* use composer component installer *}
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-ui/themes/base/all.css">
     <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
