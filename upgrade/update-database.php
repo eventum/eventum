@@ -2,10 +2,13 @@
 <?php
 require_once dirname(__FILE__) . '/init.php';
 
-// on fresh install config is empty or missing
+$dbconfig = DB_Helper::getConfig();
 if (!defined('APP_SQL_DBNAME')) {
-    error_log("Eventum not configured. Please run setup.");
-    exit(1);
+	define('APP_SQL_DBNAME', $dbconfig['database']);
+}
+
+if (!defined('APP_TABLE_PREFIX')) {
+	define('APP_TABLE_PREFIX', $dbconfig['table_prefix']);
 }
 
 define('EXIT_OK', 0);
