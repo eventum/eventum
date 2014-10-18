@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,14 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle project category related issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Category
@@ -48,17 +46,16 @@ class Category
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
-                    prc_id=" . Misc::escapeInteger($prc_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prc_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -72,17 +69,16 @@ class Category
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
                     prc_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -95,17 +91,16 @@ class Category
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
                     prc_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -121,20 +116,19 @@ class Category
             return -2;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  SET
-                    prc_title='" . Misc::escapeString($_POST["title"]) . "'
+                    prc_title=?
                  WHERE
-                    prc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
-                    prc_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prc_prj_id=? AND
+                    prc_id=";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["prj_id"], $_POST["id"]));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -147,23 +141,22 @@ class Category
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
+
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  (
                     prc_prj_id,
                     prc_title
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
-                    '" . Misc::escapeString($_POST["title"]) . "'
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["prj_id"], $_POST["title"]));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -179,19 +172,18 @@ class Category
                     prc_id,
                     prc_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
-                    prc_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    prc_prj_id=?
                  ORDER BY
                     prc_title ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -213,21 +205,20 @@ class Category
                     prc_id,
                     prc_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
-                    prc_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    prc_prj_id=?
                  ORDER BY
                     prc_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            $list[$prj_id] = $res;
-
-            return $res;
         }
+
+        $list[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -241,16 +232,15 @@ class Category
         $stmt = "SELECT
                     prc_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  WHERE
-                    prc_id=" . Misc::escapeInteger($prc_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prc_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prc_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }
