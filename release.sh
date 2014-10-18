@@ -60,7 +60,13 @@ if composer --version; then
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	composer install --prefer-dist --no-dev
-	# remove bundled deps
+fi
+
+# update to include checksums of js/css files
+./dyncontent-chksum.pl
+
+# remove bundled deps
+if composer --version; then
 	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
 	rm composer.lock
 	# cleanup vendors
@@ -72,14 +78,33 @@ if composer --version; then
 	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
 	rm vendor/composer/*.json
 
+	# component related deps, not needed runtime
+	rm -r vendor/symfony/process
+	rm -r vendor/kriswallsmith/assetic
+	rm -r vendor/robloach/component-installer
+	rm -r vendor/components
+	rm -r vendor/malsup/form
+	install -d vendor/kriswallsmith/assetic/src
+	touch vendor/kriswallsmith/assetic/src/functions.php
+	# cleanup components
+	rm htdocs/components/*/*-built.js
+	rm htdocs/components/*-built.js
+	rm htdocs/components/jquery-ui/*.js
+	rm htdocs/components/require.*
+	mv htdocs/components/jquery-ui/themes/{base,.base}
+	rm -r htdocs/components/jquery-ui/themes/*
+	mv htdocs/components/jquery-ui/themes/{.base,base}
+	rm -r htdocs/components/jquery-ui/ui/minified
+	rm -r htdocs/components/jquery-ui/ui/i18n
+
+	# and old code in repo
+	rm -r htdocs/js/jquery
+
 	# this will do clean pear in vendor dir
 	touch pear.download pear.install pear.clean
 	./update-pear.sh
 	rm pear.download pear.install pear.clean
 fi
-
-# update to include checksums of js/css files
-./dyncontent-chksum.pl
 
 make -C localization install localedir=.
 rm -f localization/{tsmarty2c,*.mo}
