@@ -53,7 +53,7 @@ class Template_Helper
         $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
         $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
 
-        // this avoids loading it twice with composer
+        // this avoids loading it twice when using composer
         if (function_exists('smarty_block_t')) {
             $this->smarty->registerPlugin('block', 't', 'smarty_block_t');
         }
@@ -136,6 +136,7 @@ class Template_Helper
             'roles'     =>  User::getAssocRoleIDs(),
             'auth_backend'  =>  APP_AUTH_BACKEND,
             'current_url'   =>  $_SERVER['PHP_SELF'],
+            'use_components' => APP_USE_COMPONENTS,
         );
 
         // If version is something like "Eventum 2.3.3-148-g78b3368", link ref to github

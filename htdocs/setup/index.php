@@ -164,6 +164,7 @@ $relative_url = implode('/', $relative_url);
 $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', array(
     'rel_url'   =>  $relative_url,
+    'use_components' => APP_USE_COMPONENTS,
 ));
 if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';

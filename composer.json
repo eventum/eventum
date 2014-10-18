@@ -57,6 +57,10 @@
 					"classmap": [ "gettext.php", "streams.php" ]
 				}
 			}
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/glensc/blockui"
 		}
 	],
 	"config": {
@@ -66,6 +70,11 @@
 	"minimum-stability": "stable",
 	"prefer-stable": true,
 	"require": {
+		"components/jquery": "~1.8.3",
+		"components/jquery-blockui": "*@dev",
+		"components/jquery-cookie": "~1.4.1",
+		"components/jqueryui": "*",
+		"malsup/form" :"*",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
@@ -76,7 +85,6 @@
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
-		"smarty-gettext/smarty-gettext": "~1.0",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
 		"pear/File_Util": "*",
@@ -86,8 +94,8 @@
 		"pear/Math_Stats": "*",
 		"pear/Net_LDAP2": "*",
 		"pear/Net_POP3": "*",
-		"pear/Net_SMTP": "*",
 		"pear/Net_SmartIRC": "*",
+		"pear/Net_SMTP": "*",
 		"pear/Net_Socket": "*",
 		"pear/Net_URL": "*",
 		"pear/PEAR": "*",
@@ -95,6 +103,7 @@
 		"pear/XML_RPC": "*",
 		"php": ">=5.1.2",
 		"php-gettext/php-gettext": "1.0.*",
+		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*"
 	},

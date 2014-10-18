@@ -12,6 +12,9 @@ templates_c/*
 misc/routed_emails/*
 misc/routed_notes/*
 localization/*.mo
+localization/*/
+htdocs/components
+po
 *.patch
 *.rej
 *.orig
