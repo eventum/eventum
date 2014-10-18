@@ -52,16 +52,17 @@ date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
 // create dummy file
 if (!file_exists(APP_SETUP_FILE)) {
-    // try grab params from existing config. hide constant redefined warnings
-    @include APP_PATH . '/config/config.php';
+    // create new config
     Setup::save(array(
-        'db' => array(
-            'table_prefix' => APP_TABLE_PREFIX,
-            'dbtype' => APP_SQL_DBTYPE,
-            'host' => APP_SQL_DBHOST,
-            'database' => APP_SQL_DBNAME,
-            'user' => APP_SQL_DBUSER,
-            'password' => APP_SQL_DBPASS,
+        'database' => array(
+            'driver' => 'mysql',
+
+            'hostname' => 'localhost',
+            'database' => 'eventum',
+            'username' => 'mysql',
+            'password' => '',
+            'port'     => 3306,
+            'table_prefix' => 'eventum_',
         ),
 
         // used for tests
@@ -73,17 +74,22 @@ if (!getenv('TRAVIS')) {
     // init these from setup file
     $setup = &Setup::load(true);
 
-    define('APP_DEFAULT_DB', $setup['db']['database']);
-    define('APP_TABLE_PREFIX', $setup['db']['table_prefix']);
-    define('APP_SQL_DBTYPE', $setup['db']['dbtype']);
-    define('APP_SQL_DBHOST', $setup['db']['host']);
-    define('APP_SQL_DBNAME', $setup['db']['database']);
-    define('APP_SQL_DBUSER', $setup['db']['user']);
-    define('APP_SQL_DBPASS', $setup['db']['password']);
-
     // used for tests
     define('APP_ADMIN_USER_ID', $setup['admin_user']);
 }
 
 // this setups ev_gettext wrappers
 Language::setup();
+
+// legacy constants. all classes interacting with database use these
+if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
+    $dbconfig = DB_Helper::getConfig();
+    if (!defined('APP_DEFAULT_DB')) {
+        define('APP_DEFAULT_DB', $dbconfig['database']);
+    }
+
+    if (!defined('APP_TABLE_PREFIX')) {
+        define('APP_TABLE_PREFIX', $dbconfig['table_prefix']);
+    }
+    unset($dbconfig);
+}
