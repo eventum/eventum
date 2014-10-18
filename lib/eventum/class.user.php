@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the administration
  * of users and permissions in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class User
@@ -82,17 +80,16 @@ class User
         $stmt = "SELECT
                     usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_customer_contact_id=" . Misc::escapeInteger($customer_contact_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    usr_customer_contact_id=?";
 
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($customer_contact_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -107,17 +104,15 @@ class User
         $stmt = "SELECT
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_customer_contact_id=" . Misc::escapeInteger($customer_contact_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_customer_contact_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($customer_contact_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -132,17 +127,16 @@ class User
         $stmt = "SELECT
                     usr_sms_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -156,19 +150,18 @@ class User
     public static function updateSMS($usr_id, $sms_email)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_sms_email='" . Misc::escapeString($sms_email) . "'
+                    usr_sms_email=?
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($sms_email, $usr_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -183,17 +176,16 @@ class User
         $stmt = "SELECT
                     usr_customer_contact_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -214,19 +206,18 @@ class User
         $stmt = "SELECT
                     usr_customer_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $returns[$usr_id] = $res;
-
-            return $res;
         }
+
+        $returns[$usr_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -238,19 +229,18 @@ class User
     public static function confirmVisitorAccount($email)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_status='active'
                  WHERE
-                    usr_email='" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_email=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($email));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -267,26 +257,23 @@ class User
         $stmt = "SELECT
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_email='" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_email=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($email));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            if ($res == NULL) {
-                return -2;
-            } else {
-                $check_hash = md5($res . $email . Auth::privateKey());
-                if ($hash != $check_hash) {
-                    return -3;
-                } else {
-                    return 1;
-                }
-            }
         }
+
+        if ($res == null) {
+            return -2;
+        }
+        $check_hash = md5($res . $email . Auth::privateKey());
+        if ($hash != $check_hash) {
+            return -3;
+        }
+        return 1;
     }
 
     /**
@@ -303,55 +290,57 @@ class User
         if (Auth::userExists($_POST["email"])) {
             return -2;
         }
+
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  (
                     usr_created_date,
                     usr_password,
                     usr_full_name,
                     usr_email,
                     usr_status
-                 ) VALUES (
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($_POST["passwd"])) . "',
-                    '" . Misc::escapeString($_POST["full_name"]) . "',
-                    '" . Misc::escapeString($_POST["email"]) . "',
-                    'pending'
-                 )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                 ) VALUES (?, ?, ?, ?, ?)";
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt, array(
+                    Date_Helper::getCurrentDateGMT(),
+                    Auth::hashPassword($_POST["passwd"]),
+                    $_POST["full_name"],
+                    $_POST["email"],
+                    'pending',
+                )
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_usr_id = DB_Helper::get_last_insert_id();
-            // add the project associations!
-            for ($i = 0; $i < count($projects); $i++) {
-                Project::associateUser($projects[$i], $new_usr_id, $role);
-            }
-
-            Prefs::set($new_usr_id, Prefs::getDefaults($projects));
-
-            // send confirmation email to user
-            $hash = md5($_POST["full_name"] . $_POST["email"] . Auth::privateKey());
-
-            $tpl = new Template_Helper();
-            $tpl->setTemplate('notifications/visitor_account.tpl.text');
-            $tpl->bulkAssign(array(
-                "app_title"   => Misc::getToolCaption(),
-                "email"     =>  $_POST['email'],
-                'hash'      =>  $hash
-            ));
-            $text_message = $tpl->getTemplateContents();
-
-            $setup = Setup::load();
-            $mail = new Mail_Helper();
-            // need to make this message MIME based
-            $mail->setTextBody($text_message);
-            $mail->send($setup["smtp"]["from"], $_POST["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
-
-            return 1;
         }
+
+        $new_usr_id = DB_Helper::get_last_insert_id();
+        // add the project associations!
+        for ($i = 0; $i < count($projects); $i++) {
+            Project::associateUser($projects[$i], $new_usr_id, $role);
+        }
+
+        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+
+        // send confirmation email to user
+        $hash = md5($_POST["full_name"] . $_POST["email"] . Auth::privateKey());
+
+        $tpl = new Template_Helper();
+        $tpl->setTemplate('notifications/visitor_account.tpl.text');
+        $tpl->bulkAssign(array(
+            "app_title"   => Misc::getToolCaption(),
+            "email"     =>  $_POST['email'],
+            'hash'      =>  $hash
+        ));
+        $text_message = $tpl->getTemplateContents();
+
+        $setup = Setup::load();
+        $mail = new Mail_Helper();
+        // need to make this message MIME based
+        $mail->setTextBody($text_message);
+        $mail->send($setup["smtp"]["from"], $_POST["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
+
+        return 1;
     }
 
     /**
@@ -403,13 +392,12 @@ class User
         $sql = "SELECT
                     usr_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                 WHERE
                     usr_external_id=?";
-        $res = DB_Helper::getInstance()->getOne($sql, array($external_id));
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($external_id));
+        } catch (DbException $e) {
             return null;
         }
 
@@ -446,23 +434,18 @@ class User
         $stmt = "SELECT
                     usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_email='" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    usr_email=?";
+        $res = DB_Helper::getInstance()->getOne($stmt, array($email));
 
-            return "";
+        if ((empty($res)) && $check_aliases) {
+            $returns[$email] = self::getUserIDByAlias($email);
         } else {
-            if ((empty($res)) && ($check_aliases)) {
-                $returns[$email] = self::getUserIDByAlias($email);
-            } else {
-                $returns[$email] = $res;
-            }
-
-            return $returns[$email];
+            $returns[$email] = $res;
         }
+
+        return $returns[$email];
     }
 
     /**
@@ -514,10 +497,10 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+                    %{{user}}";
         if ($prj_id != false) {
             $stmt .= ",
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user\n";
+                    {{%project_user}}";
         }
         $stmt .= "
                  WHERE
@@ -542,14 +525,13 @@ class User
         $stmt .= "
                  ORDER BY
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -619,6 +601,7 @@ class User
                 return $role_id;
             }
         }
+        return null;
     }
 
     /**
@@ -643,18 +626,18 @@ class User
         $stmt = "SELECT
                     pru_role
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%project_user}}
                  WHERE
-                    pru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                    pru_prj_id = " . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
+                    pru_usr_id=? AND
+                    pru_prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$usr_id][$prj_id] = $res;
-
-            return $res;
         }
+
+        $returns[$usr_id][$prj_id] = $res;
+        return $res;
     }
 
     /**
@@ -685,13 +668,12 @@ class User
             $stmt = "SELECT
                         *
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                        {{%user}}
                      WHERE
                         usr_id IN (" . implode(', ', Misc::escapeInteger($usr_ids)) . ")";
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            } catch (DbException $e) {
                 return null;
             }
 
@@ -744,23 +726,22 @@ class User
         $stmt = "SELECT
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
-        if (!is_array($usr_id)) {
-            $res = DB_Helper::getInstance()->getOne($stmt);
-        } else {
-            $res = DB_Helper::getInstance()->getCol($stmt);
-        }
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            if (!is_array($usr_id)) {
+                $res = DB_Helper::getInstance()->getOne($stmt);
+            } else {
+                $res = DB_Helper::getInstance()->getCol($stmt);
+            }
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$key] = $res;
-
-            return $res;
         }
+
+        $returns[$key] = $res;
+
+        return $res;
     }
 
     /**
@@ -795,26 +776,26 @@ class User
         $stmt = "SELECT
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
-        if (!is_array($usr_id)) {
-            $res = DB_Helper::getInstance()->getOne($stmt);
-        } else {
-            $res = DB_Helper::getInstance()->getCol($stmt);
-        }
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        try {
+            if (!is_array($usr_id)) {
+                $res = DB_Helper::getInstance()->getOne($stmt);
+            } else {
+                $res = DB_Helper::getInstance()->getCol($stmt);
+            }
+        } catch (DbException $e) {
             if (!is_array($usr_id)) {
                 return '';
             } else {
                 return array();
             }
-        } else {
-            $returns[$key] = $res;
-
-            return $res;
         }
+
+        $returns[$key] = $res;
+
+        return $res;
     }
 
     /**
@@ -841,23 +822,22 @@ class User
         $stmt = "SELECT
                     usr_grp_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
-        if (!is_array($usr_id)) {
-            $res = DB_Helper::getInstance()->getOne($stmt);
-        } else {
-            $res = DB_Helper::getInstance()->getCol($stmt);
-        }
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            if (!is_array($usr_id)) {
+                $res = DB_Helper::getInstance()->getOne($stmt);
+            } else {
+                $res = DB_Helper::getInstance()->getCol($stmt);
+            }
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$key] = $res;
-
-            return $res;
         }
+
+        $returns[$key] = $res;
+
+        return $res;
     }
 
     /**
@@ -879,19 +859,18 @@ class User
         $stmt = "SELECT
                     usr_status
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_email='" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_email=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($email));
+        } catch (DbException $e) {
             return '';
-        } else {
-            $returns[$email] = $res;
-
-            return $res;
         }
+
+        $returns[$email] = $res;
+
+        return $res;
     }
 
     /**
@@ -906,9 +885,10 @@ class User
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_status='active'";
+
         $total_active = DB_Helper::getInstance()->getOne($stmt);
         if (($total_active < 2) && ($_POST["status"] == "inactive")) {
             return false;
@@ -916,19 +896,18 @@ class User
 
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_status='" . $_POST["status"] . "'
+                    usr_status=?
                  WHERE
                     usr_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["status"]));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -944,23 +923,24 @@ class User
             return -2;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_password='" . Auth::hashPassword($_POST["new_password"]) . "'
+                    usr_password=?
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query(
+                $stmt, array(Auth::hashPassword($_POST["new_password"]), $usr_id)
+            );
+        } catch (DbException $e) {
             return -1;
-        } else {
-            if ($send_notification) {
-                Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
-            }
-
-            return 1;
         }
+
+        if ($send_notification) {
+            Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
+        }
+
+        return 1;
     }
 
     /**
@@ -973,15 +953,14 @@ class User
     {
         $full_name = trim(strip_tags($_POST["full_name"]));
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_full_name='" . Misc::escapeString($full_name) . "'
+                    usr_full_name=?
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($full_name, $usr_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -999,21 +978,20 @@ class User
     public static function updateEmail($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_email='" . Misc::escapeString($_POST["email"]) . "'
+                    usr_email=?
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["email"], $usr_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Notification::notifyUserAccount($usr_id);
-
-            return 1;
         }
+
+        Notification::notifyUserAccount($usr_id);
+
+        return 1;
     }
 
     public static function updateFromPost()
@@ -1050,7 +1028,7 @@ class User
         }
 
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_full_name='" . Misc::escapeString($data["full_name"]) . "',
                     usr_email='"     . Misc::escapeString($data["email"])     . "'";
@@ -1074,23 +1052,21 @@ class User
         $stmt .= "
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
         }
 
         if (isset($data['role'])) {
             // update the project associations now
             $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                        {{%project_user}
                      WHERE
-                        pru_usr_id=" . Misc::escapeInteger($usr_id);
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        pru_usr_id=?";
+            try {
+                DB_Helper::getInstance()->query($stmt, array($usr_id));
+            } catch (DbException $e) {
                 return -1;
             }
 
@@ -1099,20 +1075,21 @@ class User
                     continue;
                 }
                 $stmt = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                            {{%project_user}}
                          (
                             pru_prj_id,
                             pru_usr_id,
                             pru_role
                          ) VALUES (
-                            " . $prj_id . ",
-                            " . Misc::escapeInteger($usr_id) . ",
-                            " . $role . "
+                            ?, ?, ?
                          )";
-                $res = DB_Helper::getInstance()->query($stmt);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                try {
+                    DB_Helper::getInstance()->query(
+                        $stmt, array(
+                            $prj_id, $usr_id, $role
+                        )
+                    );
+                } catch (DbException $e) {
                     return -1;
                 }
             }
@@ -1175,12 +1152,12 @@ class User
             Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
-            $group_id,
+            $group_id, // FIXME $group_id is not defined
             $user['external_id'],
             isset($user['par_code']) ? $user['par_code'] : null,
         );
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  (
                     usr_customer_id,
                     usr_customer_contact_id,
@@ -1202,30 +1179,29 @@ class User
                     ?,
                     ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt, $params);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_usr_id = DB_Helper::get_last_insert_id();
-            // add the project associations!
-            $projects = array();
-            foreach ($user["role"] as $prj_id => $role) {
-                if ($role < 1) {
-                    continue;
-                }
-                Project::associateUser($prj_id, $new_usr_id, $role);
-                $projects[] = $prj_id;
-            }
-
-            Prefs::set($new_usr_id, Prefs::getDefaults($projects));
-
-            // send email to user
-            Notification::notifyNewUser($new_usr_id, $user["password"]);
-
-            return $new_usr_id;
         }
+
+        $new_usr_id = DB_Helper::get_last_insert_id();
+        // add the project associations!
+        $projects = array();
+        foreach ($user["role"] as $prj_id => $role) {
+            if ($role < 1) {
+                continue;
+            }
+            Project::associateUser($prj_id, $new_usr_id, $role);
+            $projects[] = $prj_id;
+        }
+
+        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+
+        // send email to user
+        Notification::notifyNewUser($new_usr_id, $user["password"]);
+
+        return $new_usr_id;
     }
 
     /**
@@ -1239,42 +1215,41 @@ class User
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_id != " . APP_SYSTEM_USER_ID . "
                  ORDER BY
                     usr_status ASC,
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $data = array();
-            $count = count($res);
-            for ($i = 0; $i < $count; $i++) {
-                $roles = Project::getAssocList($res[$i]['usr_id'], false, true);
-                $role = current($roles);
-                $role = $role['pru_role'];
-                if (($show_customers == false) && (
-                    ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID("Customer")) ||
-                    ((count($roles) == 1) && ($role == self::getRoleID("Customer"))))) {
-                    continue;
-                }
-                $row = $res[$i];
-                $row["roles"] = $roles;
-                if (!empty($res[$i]["usr_grp_id"])) {
-                    $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
-                }
-                if (!empty($res[$i]["usr_par_code"])) {
-                    $row["partner_name"] = Partner::getName($res[$i]["usr_par_code"]);
-                }
-                $data[] = $row;
-            }
-
-            return $data;
         }
+
+        $data = array();
+        $count = count($res);
+        for ($i = 0; $i < $count; $i++) {
+            $roles = Project::getAssocList($res[$i]['usr_id'], false, true);
+            $role = current($roles);
+            $role = $role['pru_role'];
+            if (($show_customers == false) && (
+                ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID("Customer")) ||
+                ((count($roles) == 1) && ($role == self::getRoleID("Customer"))))) {
+                continue;
+            }
+            $row = $res[$i];
+            $row["roles"] = $roles;
+            if (!empty($res[$i]["usr_grp_id"])) {
+                $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
+            }
+            if (!empty($res[$i]["usr_par_code"])) {
+                $row["partner_name"] = Partner::getName($res[$i]["usr_par_code"]);
+            }
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     /**
@@ -1295,17 +1270,16 @@ class User
                     LOWER(usr_email),
                     usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    {{%user}}";
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $emails = $res;
-
-            return $res;
         }
+
+        $emails = $res;
+
+        return $res;
     }
 
     /**
@@ -1320,17 +1294,15 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  ORDER BY
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -1352,20 +1324,18 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($usr_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$usr_id] = $res;
-
-            return $res;
         }
+
+        $returns[$usr_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -1394,38 +1364,35 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
                     usr_clocked_in=1";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
      * Marks a user as clocked in.
      *
      * @param   int $usr_id The id of the user to clock out.
+     * @return int
      */
     public static function clockIn($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_clocked_in = 1
                  WHERE
-                    usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -1436,20 +1403,19 @@ class User
      * Marks a user as clocked out.
      *
      * @param   integer $usr_id The id of the user to clock out.
+     * @return int
      */
     public static function clockOut($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_clocked_in = 0
                  WHERE
-                    usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -1472,16 +1438,15 @@ class User
         $stmt = "SELECT
                     usr_clocked_in
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+        } catch (DbException $e) {
             return -1;
         }
+
         if ($res == 1) {
             return true;
         } else {
@@ -1494,6 +1459,7 @@ class User
      *
      * @param   integer $usr_id The id of the user.
      * @param   integer $grp_id The id of the group.
+     * @return int
      */
     public static function setGroupID($usr_id, $grp_id)
     {
@@ -1504,16 +1470,14 @@ class User
         }
 
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_grp_id = $grp_id
+                    usr_grp_id = ?
                  WHERE
-                    usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($grp_id, $usr_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -1525,25 +1489,23 @@ class User
         static $returns;
 
         $usr_id = Misc::escapeInteger($usr_id);
-        if ((empty($returns[$usr_id])) || ($force_refresh == true)) {
+        if (empty($returns[$usr_id]) || $force_refresh == true) {
             $sql = "SELECT
                         usr_lang
                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                        {{%user}}
                     WHERE
-                        usr_id = $usr_id";
-            $res = DB_Helper::getInstance()->getOne($sql);
-            if (PEAR::isError($res)) {
-                /** @var $res PEAR_Error */
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        usr_id = ?";
+            try {
+                $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+            } catch (DbException $e) {
                 return APP_DEFAULT_LOCALE;
-            } else {
-                if (empty($res)) {
-                    $res = APP_DEFAULT_LOCALE;
-                }
-                $returns[$usr_id] = $res;
             }
+
+            if (empty($res)) {
+                $res = APP_DEFAULT_LOCALE;
+            }
+            $returns[$usr_id] = $res;
         }
 
         return $returns[$usr_id];
@@ -1552,16 +1514,14 @@ class User
     public static function setLang($usr_id, $language)
     {
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                 SET
-                    usr_lang = '" . Misc::escapeString($language) . "'
+                    usr_lang = ?
                 WHERE
-                    usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($language, $usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -1573,14 +1533,12 @@ class User
         $sql = "SELECT
                     ual_email
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                    {{%user_alias}}
                 WHERE
-                    ual_usr_id = " . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getCol($sql);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ual_usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($sql, array($usr_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -1601,15 +1559,14 @@ class User
         }
 
         $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                    {{%user_alias}}
                 SET
-                    ual_usr_id = " . Misc::escapeInteger($usr_id) . ",
-                    ual_email = '" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    ual_usr_id = ?,
+                    ual_email = ?";
 
+        try {
+            $res = DB_Helper::getInstance()->query($sql, array($usr_id, $email));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -1619,15 +1576,13 @@ class User
     public static function removeAlias($usr_id, $email)
     {
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                    {{%user_alias}}
                 WHERE
-                    ual_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    ual_email = '" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ual_usr_id = ? AND
+                    ual_email = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($usr_id, $email));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -1639,14 +1594,12 @@ class User
         $sql = "SELECT
                     ual_usr_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                    {{%user_alias}}
                 WHERE
-                    ual_email = '" . Misc::escapeString($email) . "'";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ual_email = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($email));
+        } catch (DbException $e) {
             return '';
         }
 
@@ -1658,14 +1611,12 @@ class User
         $sql = "SELECT
                     usr_par_code
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                 WHERE
                     usr_id = ?";
-        $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -1677,14 +1628,12 @@ class User
         $sql = "SELECT
                     usr_par_code
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                 WHERE
                     usr_id = ?";
-        $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -1701,15 +1650,14 @@ class User
     public static function unlock($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_failed_logins = 0
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
