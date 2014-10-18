@@ -1234,7 +1234,7 @@ class User
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    public static function getList($show_customers)
+    public static function getList($show_customers = false)
     {
         $stmt = "SELECT
                     *
