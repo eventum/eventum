@@ -1157,7 +1157,7 @@ class Custom_Field
                         {{%custom_field_option}}
                      WHERE
                         cfo_fld_id=?";
-            $current_options = DB_Helper::getInstance()->getCol($stmt, array($_POST["id"]));
+            $current_options = DB_Helper::getInstance()->getCol($stmt, 0, array($_POST["id"]));
         }
 
         if ($old_details["fld_type"] != $_POST["field_type"]) {
