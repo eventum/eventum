@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the administration
  * of projects in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Project
@@ -47,34 +45,31 @@ class Project
      */
     public static function getOutgoingSenderAddress($prj_id)
     {
+        $default = array(
+            'name'  => '',
+            'email' => ''
+        );
         $stmt = "SELECT
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-            return array(
-                'name'  => '',
-                'email' => ''
-            );
-        } else {
-            if (!empty($res)) {
-                return array(
-                    'name'  => $res['prj_outgoing_sender_name'],
-                    'email' => $res['prj_outgoing_sender_email']
-                );
-            } else {
-                return array(
-                    'name'  => '',
-                    'email' => ''
-                );
-            }
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
+            return $default;
         }
+
+        if (!empty($res)) {
+            return array(
+                'name'  => $res['prj_outgoing_sender_name'],
+                'email' => $res['prj_outgoing_sender_email']
+            );
+        }
+
+        return $default;
     }
 
     /**
@@ -89,17 +84,16 @@ class Project
         $stmt = "SELECT
                     prj_initial_sta_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -114,21 +108,21 @@ class Project
         $stmt = "SELECT
                     prj_anonymous_post_options
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            if (!is_string($res)) {
-                $res = (string) $res;
-            }
-
-            return @unserialize($res);
         }
+
+        // FIXME: wtf is this? from db it is always returned as string
+        if (!is_string($res)) {
+            $res = (string) $res;
+        }
+
+        return @unserialize($res);
     }
 
     /**
@@ -140,20 +134,20 @@ class Project
     public static function updateAnonymousPost($prj_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  SET
-                    prj_anonymous_post='" . Misc::escapeString($_POST["anonymous_post"]) . "',
-                    prj_anonymous_post_options='" . Misc::escapeString(@serialize($_POST["options"])) . "'
+                    prj_anonymous_post=?,
+                    prj_anonymous_post_options=?
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        $params = array($_POST["anonymous_post"], @serialize($_POST["options"]), $prj_id);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -168,19 +162,17 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
                     prj_anonymous_post='enabled'
                  ORDER BY
                     prj_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -194,21 +186,20 @@ class Project
         $stmt = "SELECT
                     COUNT(*) AS total
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res > 0) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        if ($res > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -222,17 +213,16 @@ class Project
         $stmt = "SELECT
                     prj_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_title='" . Misc::escapeString($prj_title) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_title=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_title));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -252,19 +242,18 @@ class Project
         $stmt = "SELECT
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$prj_id] = $res;
-
-            return $res;
         }
+
+        $returns[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -284,24 +273,25 @@ class Project
         $stmt = "SELECT
                     prj_segregate_reporter
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id="  . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
+            // FIXME: why return true?
             return true;
-        } else {
-            if ($res == 1) {
-                $res = true;
-            } else {
-                $res = false;
-            }
-            $returns[$prj_id] = $res;
-
-            return $res;
         }
+
+        if ($res == 1) {
+            $res = true;
+        } else {
+            $res = false;
+        }
+
+        $returns[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -315,20 +305,19 @@ class Project
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
-                    prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $res["prj_assigned_users"] = self::getUserColList($res["prj_id"]);
-            $res['assigned_statuses'] = array_keys(Status::getAssocStatusList($res['prj_id']));
-
-            return $res;
         }
+
+        $res["prj_assigned_users"] = self::getUserColList($res["prj_id"]);
+        $res['assigned_statuses'] = array_keys(Status::getAssocStatusList($res['prj_id']));
+
+        return $res;
     }
 
     /**
@@ -340,30 +329,30 @@ class Project
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
                     prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            self::removeUserByProjects($_POST["items"]);
-            Category::removeByProjects($_POST["items"]);
-            Release::removeByProjects($_POST["items"]);
-            Filter::removeByProjects($_POST["items"]);
-            Email_Account::removeAccountByProjects($_POST["items"]);
-            Issue::removeByProjects($_POST["items"]);
-            Custom_Field::removeByProjects($_POST["items"]);
-            $statuses = array_keys(Status::getAssocStatusList($_POST["items"]));
-            foreach ($_POST["items"] as $prj_id) {
-                Status::removeProjectAssociations($statuses, $prj_id);
-            }
-            Group::disassociateProjects($_POST["items"]);
-
-            return 1;
         }
+
+        self::removeUserByProjects($_POST["items"]);
+        Category::removeByProjects($_POST["items"]);
+        Release::removeByProjects($_POST["items"]);
+        Filter::removeByProjects($_POST["items"]);
+        Email_Account::removeAccountByProjects($_POST["items"]);
+        Issue::removeByProjects($_POST["items"]);
+        Custom_Field::removeByProjects($_POST["items"]);
+
+        $statuses = array_keys(Status::getAssocStatusList($_POST["items"]));
+        foreach ($_POST["items"] as $prj_id) {
+            Status::removeProjectAssociations($statuses, $prj_id);
+        }
+        Group::disassociateProjects($_POST["items"]);
+
+        return 1;
     }
 
     /**
@@ -378,20 +367,19 @@ class Project
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%project_user}}
                  WHERE
                     pru_prj_id IN ($items)";
         if ($users_to_not_remove != false) {
             $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', Misc::escapeInteger($users_to_not_remove)) . ")";
         }
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -404,47 +392,60 @@ class Project
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
+
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  SET
-                    prj_title='" . Misc::escapeString($_POST["title"]) . "',
-                    prj_status='" . Misc::escapeString($_POST["status"]) . "',
-                    prj_lead_usr_id=" . Misc::escapeInteger($_POST["lead_usr_id"]) . ",
-                    prj_initial_sta_id=" . Misc::escapeInteger($_POST["initial_status"]) . ",
-                    prj_outgoing_sender_name='" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
-                    prj_outgoing_sender_email='" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
-                    prj_mail_aliases='" . Misc::escapeString($_POST["mail_aliases"]) . "',
-                    prj_remote_invocation='" . Misc::escapeString($_POST["remote_invocation"]) . "',
-                    prj_segregate_reporter='" . Misc::escapeString($_POST["segregate_reporter"]) . "',
-                    prj_customer_backend='" . Misc::escapeString($_POST["customer_backend"]) . "',
-                    prj_workflow_backend='" . Misc::escapeString($_POST["workflow_backend"]) . "'
+                    prj_title=?,
+                    prj_status=?,
+                    prj_lead_usr_id=?,
+                    prj_initial_sta_id=?,
+                    prj_outgoing_sender_name=?,
+                    prj_outgoing_sender_email=?,
+                    prj_mail_aliases=?,
+                    prj_remote_invocation=?,
+                    prj_segregate_reporter=?,
+                    prj_customer_backend=?,
+                    prj_workflow_backend=?
                  WHERE
-                    prj_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prj_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array(
+                $_POST["title"],
+                $_POST["status"],
+                $_POST["lead_usr_id"],
+                $_POST["initial_status"],
+                $_POST["outgoing_sender_name"],
+                $_POST["outgoing_sender_email"],
+                $_POST["mail_aliases"],
+                $_POST["remote_invocation"],
+                $_POST["segregate_reporter"],
+                $_POST["customer_backend"],
+                $_POST["workflow_backend"],
+                $_POST["id"],
+            ));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            self::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
-            for ($i = 0; $i < count($_POST["users"]); $i++) {
-                if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
-                    self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Manager"));
-                } elseif (User::getRoleByUser($_POST["users"][$i], $_POST["id"]) == '') {
-                    // users who are now being associated with this project should be set to 'Standard User'
-                    self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Standard User"));
-                }
-            }
-            $statuses = array_keys(Status::getAssocStatusList($_POST["id"]));
-            if (count($statuses) > 0) {
-                Status::removeProjectAssociations($statuses, $_POST["id"]);
-            }
-            foreach ($_POST['statuses'] as $sta_id) {
-                Status::addProjectAssociation($sta_id, $_POST["id"]);
-            }
-
-            return 1;
         }
+
+        self::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
+        for ($i = 0; $i < count($_POST["users"]); $i++) {
+            if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
+                self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Manager"));
+            } elseif (User::getRoleByUser($_POST["users"][$i], $_POST["id"]) == '') {
+                // users who are now being associated with this project should be set to 'Standard User'
+                self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Standard User"));
+            }
+        }
+        $statuses = array_keys(Status::getAssocStatusList($_POST["id"]));
+        if (count($statuses) > 0) {
+            Status::removeProjectAssociations($statuses, $_POST["id"]);
+        }
+        foreach ($_POST['statuses'] as $sta_id) {
+            Status::addProjectAssociation($sta_id, $_POST["id"]);
+        }
+
+        return 1;
     }
 
     /**
@@ -464,40 +465,36 @@ class Project
         $sql = "SELECT
                     pru_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%project_user}}
                 WHERE
-                    pru_prj_id = $prj_id AND
-                    pru_usr_id = $usr_id";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pru_prj_id = ? AND
+                    pru_usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $usr_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if (empty($res)) {
-                $stmt = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                         (
-                            pru_usr_id,
-                            pru_prj_id,
-                            pru_role
-                         ) VALUES (
-                            $usr_id,
-                            $prj_id,
-                            " . Misc::escapeInteger($role) . "
-                         )";
-                $res = DB_Helper::getInstance()->query($stmt);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        }
 
-                    return false;
-                } else {
-                    return true;
-                }
+        if (empty($res)) {
+            $stmt = "INSERT INTO
+                        {{%project_user}}
+                     (
+                        pru_usr_id,
+                        pru_prj_id,
+                        pru_role
+                     ) VALUES (
+                        ?, ?, ?
+                     )";
+            try {
+                DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $role));
+            } catch (DbException $e) {
+                return false;
             }
 
             return true;
         }
+
+        return true;
     }
 
     /**
@@ -511,7 +508,7 @@ class Project
             return -2;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  (
                     prj_created_date,
                     prj_title,
@@ -525,22 +522,24 @@ class Project
                     prj_customer_backend,
                     prj_workflow_backend
                  ) VALUES (
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Misc::escapeString($_POST["status"]) . "',
-                    " . Misc::escapeInteger($_POST["lead_usr_id"]) . ",
-                    " . Misc::escapeInteger($_POST["initial_status"]) . ",
-                    '" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
-                    '" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
-                    '" . Misc::escapeString($_POST["mail_aliases"]) . "',
-                    '" . Misc::escapeString($_POST["remote_invocation"]) . "',
-                    '" . Misc::escapeString($_POST["customer_backend"]) . "',
-                    '" . Misc::escapeString($_POST["workflow_backend"]) . "'
+                     ?, ?, ?, ?, ?,
+                     ?, ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array(
+                Date_Helper::getCurrentDateGMT(),
+                $_POST["title"],
+                $_POST["status"],
+                $_POST["lead_usr_id"],
+                $_POST["initial_status"],
+                $_POST["outgoing_sender_name"],
+                $_POST["outgoing_sender_email"],
+                $_POST["mail_aliases"],
+                $_POST["remote_invocation"],
+                $_POST["customer_backend"],
+                $_POST["workflow_backend"],
+            ));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -578,20 +577,19 @@ class Project
                     prj_status,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%project}},
+                    {{%user}}
                  WHERE
                     prj_lead_usr_id=usr_id
                  ORDER BY
                     prj_title";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -607,7 +605,7 @@ class Project
     {
         static $returns;
 
-        if ((!empty($returns[$usr_id][$include_extra])) && ($force_refresh != true)) {
+        if (!empty($returns[$usr_id][$include_extra]) && $force_refresh != true) {
             return $returns[$usr_id][$include_extra];
         }
 
@@ -621,36 +619,40 @@ class Project
         }
         $stmt .= "
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%project}},
+                    {{%project_user}}
                  WHERE
                     prj_id=pru_prj_id AND
-                    pru_usr_id=" .  Misc::escapeInteger($usr_id) . " AND
+                    pru_usr_id=? AND
                     (
-                        prj_status != 'archived' OR
-                        pru_role >= " . User::getRoleID('Manager') . "
+                        prj_status <> ? OR
+                        pru_role >= ?
                     )
                  ORDER BY
                     prj_title";
-        if ($include_extra) {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, true, array(), DB_FETCHMODE_ASSOC);
-        } else {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
-        }
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-            return "";
-        } else {
+        try {
+            $params = array(
+                $usr_id,
+                'archived',
+                User::getRoleID('Manager'),
+            );
             if ($include_extra) {
-                foreach ($res as $prj_id => $data) {
-                    $res[$prj_id]['role'] = User::getRole($data['pru_role']);
-                }
+                $res = DB_Helper::getInstance()->getAssoc($stmt, true, $params, DB_FETCHMODE_ASSOC);
+            } else {
+                $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
-            $returns[$usr_id][$include_extra] = $res;
-
-            return $res;
+        } catch (DbException $e) {
+            return "";
         }
+
+        if ($include_extra) {
+            foreach ($res as $prj_id => $data) {
+                $res[$prj_id]['role'] = User::getRole($data['pru_role']);
+            }
+        }
+        $returns[$usr_id][$include_extra] = $res;
+
+        return $res;
     }
 
     /**
@@ -667,8 +669,8 @@ class Project
                     usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%user}},
+                    {{%project_user}}
                  WHERE
                     pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id AND
@@ -682,14 +684,13 @@ class Project
         $stmt .= "
                  ORDER BY
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -704,21 +705,20 @@ class Project
         $stmt = "SELECT
                     usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%user}},
+                    {{%project_user}}
                  WHERE
-                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pru_prj_id=? AND
                     pru_usr_id=usr_id
                  ORDER BY
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -734,21 +734,20 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
+                    {{%project}}";
         if (!$include_no_customer_association) {
             $stmt .= " WHERE prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
         }
         $stmt .= "
                  ORDER BY
                     prj_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -819,8 +818,8 @@ class Project
                     usr_full_name,
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%user}},
+                    {{%project_user}}
                  WHERE
                     pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id AND
@@ -835,14 +834,13 @@ class Project
                  ORDER BY
                     usr_customer_id DESC,
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -857,19 +855,18 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project}}
                  WHERE
                     prj_remote_invocation='enabled'
                  ORDER BY
                     prj_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -892,8 +889,8 @@ class Project
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%project}},
+                    {{%project_user}}
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
@@ -904,19 +901,18 @@ class Project
         $stmt .= "
                  ORDER BY
                     prj_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            // don't cache the results when the optional argument is used to avoid getting bogus results
-            if (!$only_customer_projects) {
-                $returns[$usr_id] = $res;
-            }
-
-            return $res;
         }
+
+        // don't cache the results when the optional argument is used to avoid getting bogus results
+        if (!$only_customer_projects) {
+            $returns[$usr_id] = $res;
+        }
+
+        return $res;
     }
 
     /**
@@ -938,8 +934,8 @@ class Project
                     usr_id,
                     usr_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%user}},
+                    {{%project_user}}
                  WHERE
                     pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id";
@@ -952,16 +948,15 @@ class Project
         $stmt .= "
                  ORDER BY
                     usr_email ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $returns[$prj_id] = $res;
-
-            return $res;
         }
+
+        $returns[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -978,24 +973,23 @@ class Project
                     DISTINCT usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%user}},
+                    {{%project_user}},
+                    {{%issue}}
                  WHERE
-                    pru_prj_id = " . Misc::escapeInteger($prj_id) . " AND
-                    iss_prj_id = " . Misc::escapeInteger($prj_id) . " AND
+                    pru_prj_id = ? AND
+                    iss_prj_id = ? AND
                     pru_usr_id = usr_id AND
                     usr_id = iss_usr_id
                  ORDER BY
                     usr_full_name ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $prj_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -1009,33 +1003,29 @@ class Project
     {
         // delete current settings
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                    {{%project_field_display}}
                  WHERE
-                    pfd_prj_id = " . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pfd_prj_id = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($prj_id));
+        } catch (DbException $e) {
             return -1;
         }
 
         // insert new values
         foreach ($settings as $field => $min_role) {
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                        {{%project_field_display}}
                      (
                         pfd_prj_id,
                         pfd_field,
                         pfd_min_role
                      ) VALUES (
-                        " . Misc::escapeInteger($prj_id) . ",
-                        '" . Misc::escapeString($field) . "',
-                        " . Misc::escapeInteger($min_role) . "
+                        ?, ?, ?
                      )";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                DB_Helper::getInstance()->query($stmt, array($prj_id, $field, $min_role));
+            } catch (DbException $e) {
                 return -1;
             }
         }
@@ -1055,15 +1045,15 @@ class Project
                     pfd_field,
                     pfd_min_role
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                    {{%project_field_display}}
                  WHERE
-                    pfd_prj_id = " . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pfd_prj_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, array($prj_id));
+        } catch (DbException $e) {
             return -1;
         }
+
         $fields = self::getDisplayFields();
         foreach ($fields as $field_name => $field_title) {
             if (!isset($res[$field_name])) {
