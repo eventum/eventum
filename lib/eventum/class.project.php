@@ -637,6 +637,7 @@ class Project
                 User::getRoleID('Manager'),
             );
             if ($include_extra) {
+                // FIXME: is $force_array=true (second param) neccessary?
                 $res = DB_Helper::getInstance()->getAssoc($stmt, true, $params, DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
