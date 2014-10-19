@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -34,9 +35,6 @@
  * Note! Any reference to the group table must use quoteIdentifier() around
  * the table name due to "group" being a reserved word and some users don't
  * use table prefixes.
- *
- * @version 1.0
- * @author Bryan Alsdorf <bryan@mysql.com>
  */
 
 class Group
@@ -49,32 +47,30 @@ class Group
     public static function insert()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    {{%group}}
                  (
                     grp_name,
                     grp_description,
                     grp_manager_usr_id
                  ) VALUES (
-                    '" . Misc::escapeString($_POST["group_name"]) . "',
-                    '" . Misc::escapeString($_POST["description"]) . "',
-                    '" . Misc::escapeInteger($_POST["manager"]) . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($_POST["group_name"], $_POST["description"], $_POST["manager"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $grp_id = DB_Helper::get_last_insert_id();
-
-            self::setProjects($grp_id, $_POST["projects"]);
-
-            foreach ($_POST["users"] as $usr_id) {
-                User::setGroupID($usr_id, $grp_id);
-            }
-
-            return 1;
         }
+
+        $grp_id = DB_Helper::get_last_insert_id();
+
+        self::setProjects($grp_id, $_POST["projects"]);
+
+        foreach ($_POST["users"] as $usr_id) {
+            User::setGroupID($usr_id, $grp_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -84,42 +80,41 @@ class Group
      */
     public static function update()
     {
-        $_POST['id'] = Misc::escapeInteger($_POST['id']);
-
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    {{%group}}
                  SET
-                    grp_name = '" . Misc::escapeString($_POST["group_name"]) . "',
-                    grp_description = '" . Misc::escapeString($_POST["description"]) . "',
-                    grp_manager_usr_id = '" . Misc::escapeInteger($_POST["manager"]) . "'
+                    grp_name = ?,
+                    grp_description = ?,
+                    grp_manager_usr_id = ?
                  WHERE
-                    grp_id = " . $_POST["id"];
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    grp_id = ?";
+        $params = array($_POST["group_name"], $_POST["description"], $_POST["manager"], $_POST["id"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            self::setProjects($_POST["id"], $_POST["projects"]);
-            // get old users so we can remove any ones that have been removed
-            $existing_users = self::getUsers($_POST["id"]);
-            $diff = array_diff($existing_users, Misc::escapeInteger($_POST["users"]));
-            if (count($diff) > 0) {
-                foreach ($diff as $usr_id) {
-                    User::setGroupID($usr_id, false);
-                }
-            }
-            foreach ($_POST["users"] as $usr_id) {
-                User::setGroupID($usr_id, $_POST["id"]);
-            }
-
-            return 1;
         }
+
+        self::setProjects($_POST["id"], $_POST["projects"]);
+        // get old users so we can remove any ones that have been removed
+        $existing_users = self::getUsers($_POST["id"]);
+        $diff = array_diff($existing_users, Misc::escapeInteger($_POST["users"]));
+        if (count($diff) > 0) {
+            foreach ($diff as $usr_id) {
+                User::setGroupID($usr_id, false);
+            }
+        }
+        foreach ($_POST["users"] as $usr_id) {
+            User::setGroupID($usr_id, $_POST["id"]);
+        }
+
+        return 1;
     }
 
     /**
      * Removes groups
      *
+     * @return int
      */
     public static function remove()
     {
@@ -127,24 +122,24 @@ class Group
             $users = self::getUsers($grp_id);
 
             $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                        {{%group}}
                      WHERE
-                        grp_id = $grp_id";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        grp_id = ?";
+            try {
+                DB_Helper::getInstance()->query($stmt, array($grp_id));
+            } catch (DbException $e) {
                 return -1;
-            } else {
-                self::removeProjectsByGroup($grp_id);
-
-                foreach ($users as $usr_id) {
-                    User::setGroupID($usr_id, false);
-                }
-
-                return 1;
             }
+
+            self::removeProjectsByGroup($grp_id);
+
+            foreach ($users as $usr_id) {
+                User::setGroupID($usr_id, false);
+            }
+
+            return 1;
         }
+        return 1;
     }
 
     /**
@@ -152,6 +147,7 @@ class Group
      *
      * @param   integer $grp_id The id of the group.
      * @param   array $projects An array of projects to associate with the group.
+     * @return int
      */
     public function setProjects($grp_id, $projects)
     {
@@ -162,18 +158,16 @@ class Group
         // make new associations
         foreach ($projects as $prj_id) {
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
+                        {{%project_group}}
                      (
                         pgr_prj_id,
                         pgr_grp_id
                      ) VALUES (
-                        $prj_id,
-                        $grp_id
+                        ?, ?
                      )";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                DB_Helper::getInstance()->query($stmt, array($prj_id, $grp_id));
+            } catch (DbException $e) {
                 return -1;
             }
         }
@@ -185,18 +179,18 @@ class Group
      * Removes all the projects for a group
      *
      * @param   integer $grp_id The ID of the group
+     * @return int
      */
     private function removeProjectsByGroup($grp_id)
     {
         // delete all current associations
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
+                    {{%project_group}}
                  WHERE
-                    pgr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pgr_grp_id = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($grp_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -213,13 +207,12 @@ class Group
     {
         // delete all current associations
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
+                    {{%project_group}}
                  WHERE
                     pgr_prj_id IN(" . join(",", Misc::escapeInteger($projects)) . ")";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -247,27 +240,28 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    {{%group}}
                  WHERE
-                    grp_id = $grp_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    grp_id = ?";
 
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($grp_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            if (count($res) > 0) {
-                $res["users"] = self::getUsers($grp_id);
-                $res["projects"] = self::getProjects($grp_id);
-                $res["project_ids"] = array_keys($res["projects"]);
-                $res["manager"] = User::getFullName($res["grp_manager_usr_id"]);
-            } else {
-                $res = array();
-            }
-            $returns[$grp_id] = $res;
-
-            return $res;
         }
+
+        if (count($res) > 0) {
+            $res["users"] = self::getUsers($grp_id);
+            $res["projects"] = self::getProjects($grp_id);
+            $res["project_ids"] = array_keys($res["projects"]);
+            $res["manager"] = User::getFullName($res["grp_manager_usr_id"]);
+        } else {
+            $res = array();
+        }
+        $returns[$grp_id] = $res;
+
+        return $res;
+
     }
 
     /**
@@ -303,23 +297,22 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    {{%group}}
                  ORDER BY
                     grp_name";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["users"] = self::getUsers($res[$i]['grp_id']);
-                $res[$i]["projects"] = self::getProjects($res[$i]['grp_id']);
-                $res[$i]["manager"] = User::getFullName($res[$i]["grp_manager_usr_id"]);
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["users"] = self::getUsers($res[$i]['grp_id']);
+            $res[$i]["projects"] = self::getProjects($res[$i]['grp_id']);
+            $res[$i]["manager"] = User::getFullName($res[$i]["grp_manager_usr_id"]);
+        }
+
+        return $res;
     }
 
     /**
@@ -342,23 +335,22 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
+                    {{%group}},
+                    {{%project_group}}
                  WHERE
                     grp_id = pgr_grp_id AND
-                    pgr_prj_id = $prj_id
+                    pgr_prj_id = ?
                  ORDER BY
                     grp_name";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $list[$prj_id] = $res;
-
-            return $res;
         }
+
+        $list[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -373,21 +365,20 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "group
+                    {{%group}}
                  ORDER BY
                     grp_name";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
-     * Returns an array of users who belong to the current group.
+     * Returns an array of user ids who belong to the current group.
      *
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of usr ids
@@ -397,13 +388,12 @@ class Group
         $stmt = "SELECT
                     usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_grp_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($grp_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -422,15 +412,14 @@ class Group
                     pgr_prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project_group}},
+                    {{%project}}
                  WHERE
                     pgr_prj_id = prj_id AND
-                    pgr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pgr_grp_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($grp_id));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -448,21 +437,21 @@ class Group
         $stmt = "SELECT
                     grp_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . ",
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
+                    {{%group}},
+                    {{%project_group}}
                  WHERE
                     grp_id = pgr_grp_id AND
-                    grp_name = '" . Misc::escapeString($name) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    grp_name = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($name));
+        } catch (DbException $e) {
             return -1;
         }
+
         if (empty($res)) {
             return -2;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }
