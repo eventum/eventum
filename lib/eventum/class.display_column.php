@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,17 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-//
-
 
 /**
  * Class to handle determining which columns should be displayed and in what order
  * on a page (e.g. Issue Listing page).
- *
- * @author Bryan Alsdorf <bryan@mysql.com>
- * @version 1.0
  */
 
 class Display_Column
@@ -124,27 +119,26 @@ class Display_Column
                     ctd_min_role,
                     ctd_rank
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
+                    {{%columns_to_display}}
                 WHERE
-                    ctd_prj_id = $prj_id AND
-                    ctd_page = '$page'
+                    ctd_prj_id = ? AND
+                    ctd_page = ?
                 ORDER BY
                     ctd_rank";
-        $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $page), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            $returns[$prj_id][$page] = array();
-            foreach ($res as $field_name => $row) {
-                $returns[$prj_id][$page][$field_name] = self::getColumnInfo($page, $field_name);
-                $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
-                $returns[$prj_id][$page][$field_name]['rank'] = $row['ctd_rank'];
-            }
-
-            return $returns[$prj_id][$page];
         }
+
+        $returns[$prj_id][$page] = array();
+        foreach ($res as $field_name => $row) {
+            $returns[$prj_id][$page][$field_name] = self::getColumnInfo($page, $field_name);
+            $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
+            $returns[$prj_id][$page][$field_name]['rank'] = $row['ctd_rank'];
+        }
+
+        return $returns[$prj_id][$page];
     }
 
     /**
@@ -256,30 +250,30 @@ class Display_Column
 
         // delete current entries
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
+                    {{%columns_to_display}}
                 WHERE
-                    ctd_prj_id = $prj_id AND
-                    ctd_page = '$page'";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ctd_prj_id = ? AND
+                    ctd_page = ?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($prj_id, $page));
+        } catch (DbException $e) {
             return -1;
         }
+
         $rank = 1;
         foreach ($ranks as $field_name => $requested_rank) {
             $sql = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
+                        {{%columns_to_display}}
                     SET
-                        ctd_prj_id = $prj_id,
-                        ctd_page = '$page',
-                        ctd_field = '$field_name',
-                        ctd_min_role = " . $_REQUEST['min_role'][$field_name] . ",
-                        ctd_rank = $rank";
-            $res = DB_Helper::getInstance()->query($sql);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        ctd_prj_id = ?,
+                        ctd_page = ?,
+                        ctd_field = ?,
+                        ctd_min_role = ?,
+                        ctd_rank = ?";
+            $params = array($prj_id, $page, $field_name, $_REQUEST['min_role'][$field_name], $rank);
+            try {
+                DB_Helper::getInstance()->query($sql, $params);
+            } catch (DbException $e) {
                 return -1;
             }
             $rank++;
@@ -292,6 +286,7 @@ class Display_Column
      * Adds records in database for new project.
      *
      * @param   integer $prj_id The ID of the project.
+     * @return int
      */
     public static function setupNewProject($prj_id)
     {
@@ -305,20 +300,21 @@ class Display_Column
                 $min_role = 1;
             }
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
+                        {{%columns_to_display}}
                      SET
-                        ctd_prj_id = $prj_id,
-                        ctd_page = '$page',
-                        ctd_field = '$field_name',
-                        ctd_min_role = $min_role,
-                        ctd_rank = $rank";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        ctd_prj_id = ?,
+                        ctd_page = ?,
+                        ctd_field = ?,
+                        ctd_min_role = ,
+                        ctd_rank = ?";
+            $params = array($prj_id, $page, $field_name, $min_role, $rank);
+            try {
+                DB_Helper::getInstance()->query($stmt, $params);
+            } catch (DbException $e) {
                 return -1;
             }
             $rank++;
         }
+        return 1;
     }
 }
