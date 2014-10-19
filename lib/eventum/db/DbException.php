@@ -27,4 +27,8 @@
 
 class DbException extends RuntimeException
 {
+    public function setExceptionLocation($file, $line) {
+        $this->file = $file;
+        $this->line = $line;
+    }
 }

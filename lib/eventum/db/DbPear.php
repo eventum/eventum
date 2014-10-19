@@ -68,7 +68,7 @@ class DbPear implements DbInterface
         }
 
         $db = DB::connect($dsn);
-        $this->assertError($db);
+        $this->assertError($db, 1);
 
         // DBTYPE specific session setup commands
         switch ($dsn['phptype']) {
@@ -136,7 +136,7 @@ class DbPear implements DbInterface
      * Fetches an entire query result and returns it as an
      * associative array using the first column as the key
      *
-     * This mode requires the result set to contain extactly 2 columns use getAssoc() if you need more.
+     * This mode requires the result set to contain exactly 2 columns use getAssoc() if you need more.
      *
      * @see DbPear::getAssoc
      * @param string $query
@@ -264,16 +264,18 @@ class DbPear implements DbInterface
      *
      * @param $e PEAR_Error
      */
-    private function assertError($e)
+    private function assertError($e, $depth = 2)
     {
         if (!PEAR::isError($e)) {
             return;
         }
 
-        list($file, $line) = self::getTrace(2);
+        list($file, $line) = self::getTrace($depth);
         Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), $file, $line);
 
-        throw new DbException($e->getMessage(), $e->getCode());
+        $de = new DbException($e->getMessage(), $e->getCode());
+        $de->setExceptionLocation($file, $line);
+        throw $de;
     }
 
     /**
