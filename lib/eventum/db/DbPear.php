@@ -106,7 +106,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-
     /**
      * Fetches an entire query result and returns it as an
      * associative array using the first column as the key
@@ -132,7 +131,6 @@ class DbPear implements DbInterface
         $this->assertError($res);
         return $res;
     }
-
 
     /**
      * Sends a query to the database server
@@ -294,19 +292,27 @@ class DbPear implements DbInterface
      */
     private function quoteSql($sql)
     {
+        /**
+         * NOTE: PEAR driver has treats these three as placeholders: '?&!'
+         * but we want to use only '?', so need to quote these first
+         *
+         * @see DB_common::prepare()
+         */
+        $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
+
         $that = $this;
-        return preg_replace_callback(
+        $sql = preg_replace_callback(
             '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
             function ($matches) use ($that) {
                 if (isset($matches[3])) {
                     return $that->quoteIdentifier($matches[3]);
-//                    return $matches[3];
                 } else {
                     return str_replace('%', $that->tablePrefix, $that->quoteIdentifier($matches[2]));
-//                    return str_replace('%', $that->tablePrefix, $matches[2]);
                 }
             },
             $sql
         );
+
+        return $sql;
     }
 }
