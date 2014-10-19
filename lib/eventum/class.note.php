@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,16 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
 
 
 /**
  * Class to handle the business logic related to adding, updating or
  * deleting notes from the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Note
@@ -49,37 +46,33 @@ class Note
      */
     public static function getSideLinks($issue_id, $not_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $not_id = Misc::escapeInteger($not_id);
         $stmt = "SELECT
                     not_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_iss_id=$issue_id AND
+                    not_iss_id= AND
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($issue_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            // COMPAT: the next line requires PHP >= 4.0.5
-            $index = array_search($not_id, $res);
-            if (!empty($res[$index+1])) {
-                $next = $res[$index+1];
-            }
-            if (!empty($res[$index-1])) {
-                $previous = $res[$index-1];
-            }
-
-            return array(
-                "next"     => @$next,
-                "previous" => @$previous
-            );
         }
+
+        $index = array_search($not_id, $res);
+        if (!empty($res[$index+1])) {
+            $next = $res[$index+1];
+        }
+        if (!empty($res[$index-1])) {
+            $previous = $res[$index-1];
+        }
+
+        return array(
+            "next"     => @$next,
+            "previous" => @$previous
+        );
     }
 
     /**
@@ -92,43 +85,42 @@ class Note
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
-                    " . APP_TABLE_PREFIX . "note.*,
+                    {{%note}}.*,
                     not_full_message,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%note}},
+                    {{%user}}
                  WHERE
                     not_usr_id=usr_id AND
-                    not_id='$note_id'";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return '';
-        } else {
-            if (count($res) > 0) {
-                $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
-                $res['not_created_date'] = Date_Helper::getFormattedDate($res['not_created_date']);
-                if ($res['not_is_blocked'] == 1) {
-                    $res['has_blocked_message'] = true;
-                } else {
-                    $res['has_blocked_message'] = false;
-                }
-                if (!empty($res["not_unknown_user"])) {
-                    $res["not_from"] = $res["not_unknown_user"];
-                } else {
-                    $res["not_from"] = User::getFullName($res['not_usr_id']);
-                }
-                if ($res['not_has_attachment']) {
-                    $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
-                }
-
-                return $res;
-            } else {
-                return '';
-            }
         }
+
+        if (count($res) > 0) {
+            $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+            $res['not_created_date'] = Date_Helper::getFormattedDate($res['not_created_date']);
+            if ($res['not_is_blocked'] == 1) {
+                $res['has_blocked_message'] = true;
+            } else {
+                $res['has_blocked_message'] = false;
+            }
+            if (!empty($res["not_unknown_user"])) {
+                $res["not_from"] = $res["not_unknown_user"];
+            } else {
+                $res["not_from"] = User::getFullName($res['not_usr_id']);
+            }
+            if ($res['not_has_attachment']) {
+                $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
+            }
+
+            return $res;
+        }
+
+        return '';
     }
 
     /**
@@ -149,16 +141,15 @@ class Note
                     not_id,
                     not_iss_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                 WHERE
-                    not_iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    not_iss_id = ? AND
                     not_removed = 0
                 ORDER BY
                     not_created_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt,  DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -187,17 +178,16 @@ class Note
         $stmt = "SELECT
                     not_full_message
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_id=$note_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -212,17 +202,15 @@ class Note
         $stmt = "SELECT
                     not_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_id=$note_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+        return $res;
     }
 
     /**
@@ -234,32 +222,31 @@ class Note
      */
     public static function getNoteBySequence($issue_id, $sequence)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
         $stmt = "SELECT
                     not_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                 WHERE
-                    not_iss_id = $issue_id AND
+                    not_iss_id =  AND
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC
                 LIMIT 1 OFFSET " . ($sequence - 1);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return self::getDetails($res);
         }
+
+        return self::getDetails($res);
     }
 
     /**
      * Method used to get the unknown_user from the note table for the specified note id.
      *
      * @param   integer $note_id The note ID
+     * @return string
      */
     public function getUnknownUser($note_id)
     {
@@ -267,17 +254,16 @@ class Note
         $sql = "SELECT
                     not_unknown_user
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_id=$note_id";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($note_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -341,7 +327,7 @@ class Note
             $_POST['message_id'] = Mail_Helper::generateMessageID();
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  (
                     not_iss_id,
                     not_usr_id,
@@ -389,32 +375,32 @@ class Note
         }
         $stmt .= "
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_note_id = DB_Helper::get_last_insert_id();
-            Issue::markAsUpdated($issue_id, 'note');
-            if ($log) {
-                // need to save a history entry for this
-                History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
-            }
-            // send notifications for the issue being updated
-            if ($send_notification) {
-                $internal_only = true;
-                if ((@$_POST['add_extra_recipients'] != 'yes') && (@count($_POST['note_cc']) > 0)) {
-                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $_POST['note_cc']);
-                } else {
-                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
-                }
-                Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $closing, $new_note_id);
-            }
-            // need to return the new note id here so it can
-            // be re-used to associate internal-only attachments
-            return $new_note_id;
         }
+
+        $new_note_id = DB_Helper::get_last_insert_id();
+        Issue::markAsUpdated($issue_id, 'note');
+        if ($log) {
+            // need to save a history entry for this
+            History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
+        }
+        // send notifications for the issue being updated
+        if ($send_notification) {
+            $internal_only = true;
+            if ((@$_POST['add_extra_recipients'] != 'yes') && (@count($_POST['note_cc']) > 0)) {
+                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $_POST['note_cc']);
+            } else {
+                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
+            }
+            Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $closing, $new_note_id);
+        }
+
+        // need to return the new note id here so it can
+        // be re-used to associate internal-only attachments
+        return $new_note_id;
     }
 
     /**
@@ -426,19 +412,18 @@ class Note
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
                     not_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -456,45 +441,43 @@ class Note
                     not_usr_id,
                     not_is_blocked AS has_blocked_message
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_id=$note_id";
-        $details = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (($details['not_usr_id'] != Auth::getUserID()) && ($details['has_blocked_message'] != 1) && (Auth::getCurrentRole() < User::getRoleID("Manager"))) {
+                    not_id=?";
+
+        $details = DB_Helper::getInstance()->getRow($stmt, array($note_id), DB_FETCHMODE_ASSOC);
+        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID("Manager")) {
             return -2;
         }
 
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  SET
                     not_removed = 1
                  WHERE
-                    not_id=$note_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->query($stmt, array($note_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            // also remove any internal-only files associated with this note
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
-                     WHERE
-                        iat_not_id=$note_id AND
-                        iat_status='internal'";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            }
-
-            Issue::markAsUpdated($details['not_iss_id']);
-            if ($log) {
-                // need to save a history entry for this
-                History::add($details['not_iss_id'], Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
-            }
-
-            return 1;
         }
+
+        // also remove any internal-only files associated with this note
+        $stmt = "DELETE FROM
+                    {{%issue_attachment}}
+                 WHERE
+                    iat_not_id=? AND
+                    iat_status='internal'";
+
+        DB_Helper::getInstance()->query($stmt, array($note_id));
+
+        Issue::markAsUpdated($details['not_iss_id']);
+        if ($log) {
+            // need to save a history entry for this
+            History::add($details['not_iss_id'], Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
+        }
+
+        return 1;
     }
 
     /**
@@ -506,7 +489,6 @@ class Note
      */
     public static function getListing($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     not_id,
                     not_created_date,
@@ -517,48 +499,47 @@ class Note
                     not_is_blocked AS has_blocked_message,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%note}},
+                    {{%user}}
                  WHERE
                     not_usr_id=usr_id AND
-                    not_iss_id=$issue_id AND
+                    not_iss_id=? AND
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            // only show the internal notes for users with the appropriate permission level
-            $role_id = Auth::getCurrentRole();
-            $t = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if ($role_id < User::getRoleID('standard user')) {
-                    continue;
-                }
+        }
 
-                // Display not_unknown_user instead of usr_full_name if not null.
-                // This is so the original sender of a blocked email is displayed on the note.
-                if (!empty($res[$i]["not_unknown_user"])) {
-                    $res[$i]["usr_full_name"] = $res[$i]["not_unknown_user"];
-                }
-
-                $res[$i]["not_created_date"] = Date_Helper::getFormattedDate($res[$i]["not_created_date"]);
-                $t[] = $res[$i];
+        // only show the internal notes for users with the appropriate permission level
+        $role_id = Auth::getCurrentRole();
+        $t = array();
+        for ($i = 0; $i < count($res); $i++) {
+            if ($role_id < User::getRoleID('standard user')) {
+                continue;
             }
 
-            return $t;
+            // Display not_unknown_user instead of usr_full_name if not null.
+            // This is so the original sender of a blocked email is displayed on the note.
+            if (!empty($res[$i]["not_unknown_user"])) {
+                $res[$i]["usr_full_name"] = $res[$i]["not_unknown_user"];
+            }
+
+            $res[$i]["not_created_date"] = Date_Helper::getFormattedDate($res[$i]["not_created_date"]);
+            $t[] = $res[$i];
         }
+
+        return $t;
     }
 
     /**
      * Converts a note to a draft or an email
      *
-     * @param   $note_id The id of the note
-     * @param   $target What the note should be converted too
-     * @param bool|If $authorize_sender If the sender should be added to authorized senders list.
+     * @param int $note_id The id of the note
+     * @param string $target What the note should be converted too (email, etc)
+     * @param bool $authorize_sender If $authorize_sender If the sender should be added to authorized senders list.
      * @return int
      */
     public static function convertNote($note_id, $target, $authorize_sender = false)
@@ -571,6 +552,7 @@ class Note
         $structure = Mime_Helper::decode($blocked_message, true, true);
         $body = $structure->body;
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+
         if ($target == 'email') {
             if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
@@ -592,6 +574,7 @@ class Note
                 'has_attachment' => $has_attachments,
                 'headers'        => $headers
             );
+
             // need to check for a possible customer association
             if (!empty($structure->headers['from'])) {
                 $details = Email_Account::getDetails($email_account_id);
@@ -614,6 +597,7 @@ class Note
             } else {
                 $update_type = 'customer action';
             }
+
             $res = Support::insertEmail($t, $structure, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $structure);
@@ -635,23 +619,24 @@ class Note
             }
 
             return $res;
-        } else {
-            // save message as a draft
-            $res = Draft::saveEmail($issue_id,
-                $structure->headers['to'],
-                $structure->headers['cc'],
-                $structure->headers['subject'],
-                $body,
-                false, $unknown_user);
-            // remove the note, if the draft was created successfully
-            if ($res) {
-                self::remove($note_id, false);
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
-                        "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
-            }
-
-            return $res;
         }
+
+        // save message as a draft
+        $res = Draft::saveEmail($issue_id,
+            $structure->headers['to'],
+            $structure->headers['cc'],
+            $structure->headers['subject'],
+            $body,
+            false, $unknown_user);
+
+        // remove the note, if the draft was created successfully
+        if ($res) {
+            self::remove($note_id, false);
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
+                    "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
+        }
+
+        return $res;
     }
 
     /**
@@ -667,22 +652,22 @@ class Note
         $stmt = "SELECT
                     COUNT(not_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%note}},
+                    {{%issue}}
                  WHERE
                     not_iss_id = iss_id AND
-                    iss_prj_id = " . Auth::getCurrentProject() . " AND
-                    not_created_date BETWEEN '$start' AND '$end' AND
-                    not_usr_id = $usr_id AND
+                    iss_prj_id = ? AND
+                    not_created_date BETWEEN ? AND ? AND
+                    not_usr_id = ? AND
                     not_removed = 0";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -694,19 +679,18 @@ class Note
     public static function setAttachmentFlag($note_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  SET
                     not_has_attachment=1
                  WHERE
-                    not_id=$note_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($note_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -720,18 +704,17 @@ class Note
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_iss_id=$issue_id AND
+                    not_iss_id=? AND
                     not_removed = 0";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DbException $e) {
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -746,17 +729,16 @@ class Note
         $stmt = "SELECT
                     not_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_message_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -770,24 +752,22 @@ class Note
         $sql = "SELECT
                     parent.not_message_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note child,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note parent
+                    {{%note}} child,
+                    {{%note}} parent
                 WHERE
                     parent.not_id = child.not_parent_id AND
-                    child.not_message_id = '" . Misc::escapeString($msg_id) . "'";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    child.not_message_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if (empty($res)) {
-                return false;
-            }
-
-            return $res;
         }
 
+        if (empty($res)) {
+            return false;
+        }
+
+        return $res;
     }
 
     /**
@@ -802,21 +782,20 @@ class Note
         $stmt = "SELECT
                     not_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_message_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if (empty($res)) {
-                return false;
-            } else {
-                return $res;
-            }
         }
+
+        if (empty($res)) {
+            return false;
+        }
+
+        return $res;
     }
 
     /**
@@ -831,21 +810,20 @@ class Note
         $stmt = "SELECT
                     not_message_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                  WHERE
-                    not_id=" . Misc::escapeInteger($id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if (empty($res)) {
-                return false;
-            } else {
-                return $res;
-            }
         }
+
+        if (empty($res)) {
+            return false;
+        }
+
+        return $res;
     }
 
     /**
@@ -859,19 +837,19 @@ class Note
         $sql = "SELECT
                     count(*)
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    {{%note}}
                 WHERE
-                    not_message_id ='" . Misc::escapeString($message_id) . "'";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    not_message_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
+        } catch (DbException $e) {
             return false;
         }
+
         if ($res > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
