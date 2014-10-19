@@ -69,8 +69,8 @@ class Edit_Reporter
         }
 
         if ($add_history) {
-            // add the change to the history of the issue
-            $summary = 'Reporter was changed to ' . $email . ' by ' . User::getFullName(Auth::getUserID());
+            // TRANSLATORS: %1: email, %2: full name
+            $summary = ev_gettext('Reporter was changed to %1$s  by %2$s', $email, User::getFullName(Auth::getUserID()));
             History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_updated'), $summary);
         }
 
