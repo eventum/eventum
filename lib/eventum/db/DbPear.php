@@ -126,6 +126,9 @@ class DbPear implements DbInterface
         $query, $force_array = false, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
     ) {
+        if (is_array($force_array)) {
+            throw new LogicException("force_array passed as array, did you mean fetchPair or forgot extra arg?");
+        }
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, $force_array, $params, $fetchmode, $group);
         $this->assertError($res);
