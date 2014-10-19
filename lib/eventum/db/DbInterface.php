@@ -34,6 +34,7 @@ interface DbInterface
 {
     public function getAll($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT);
     public function getAssoc($query, $force_array = false, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT, $group = false);
+    public function getPair($query, $params = array());
     public function getCol($query, $col = 0, $params = array());
     public function getOne($query, $params = array());
     public function getRow($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT);

@@ -133,6 +133,23 @@ class DbPear implements DbInterface
     }
 
     /**
+     * Fetches an entire query result and returns it as an
+     * associative array using the first column as the key
+     *
+     * This mode requires the result set to contain extactly 2 columns use getAssoc() if you need more.
+     *
+     * @see DbPear::getAssoc
+     * @param string $query
+     * @param mixed $params
+     * @return array  the associative array containing the query results.
+     * @throws DbException on failure.
+     */
+    public function getPair($query, $params = array())
+    {
+        return $this->getAssoc($query, false, $params);
+    }
+
+    /**
      * Sends a query to the database server
      *
      * @see DB_common::query
