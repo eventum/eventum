@@ -53,16 +53,17 @@ class Authorized_Replier
                     iur_id,
                     iur_usr_id,
                     usr_email,
-                    if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier,
-                    if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', 'other', 'user') replier_type
+                    if (iur_usr_id = ?, iur_email, usr_full_name) replier,
+                    if (iur_usr_id = ?, 'other', 'user') replier_type
                  FROM
                     {{%issue_user_replier}},
                     {{%user}}
                  WHERE
                     iur_iss_id=? AND
                     iur_usr_id=usr_id";
+        $params = array(APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array(
                 array(),
