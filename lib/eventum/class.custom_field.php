@@ -1241,7 +1241,7 @@ class Custom_Field
                  WHERE
                     pcf_prj_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1275,7 +1275,7 @@ class Custom_Field
                     WHERE
                         iss_prj_id = ?";
             try {
-                $res = DB_Helper::getInstance()->getCol($sql, array($prj_id));
+                $res = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id));
             } catch (DbException $e) {
                 return false;
             }

@@ -1537,7 +1537,7 @@ class User
                 WHERE
                     ual_usr_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getCol($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getCol($sql, 0, array($usr_id));
         } catch (DbException $e) {
             return array();
         }
