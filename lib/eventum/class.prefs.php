@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the user preferences
  * available in the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Prefs
@@ -80,8 +78,6 @@ class Prefs
     {
         static $returns;
 
-        $usr_id = Misc::escapeInteger($usr_id);
-
         if (!empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }
@@ -96,55 +92,55 @@ class Prefs
                     upr_auto_append_note_sig as auto_append_note_sig,
                     upr_auto_close_popup_window as close_popup_windows
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_preference
+                    {{%user_preference}}
                 WHERE
-                    upr_usr_id=$usr_id";
-        $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    upr_usr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($sql, array($usr_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
-        } elseif (is_null($res)) {
+        }
+        if (is_null($res)) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
-        } else {
-            $returns[$usr_id] = $res;
-            $returns[$usr_id]['receive_assigned_email'] = array();
-            $returns[$usr_id]['receive_new_issue_email'] = array();
-            $returns[$usr_id]['receive_copy_of_own_action'] = array();
+        }
 
-            // check for the refresh rate variables, and use the default values if appropriate
-            if (empty($returns[$usr_id]['list_refresh_rate'])) {
-                $returns[$usr_id]['list_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
-            }
-            if (empty($returns[$usr_id]['email_refresh_rate'])) {
-                $returns[$usr_id]['email_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
-            }
+        $returns[$usr_id] = $res;
+        $returns[$usr_id]['receive_assigned_email'] = array();
+        $returns[$usr_id]['receive_new_issue_email'] = array();
+        $returns[$usr_id]['receive_copy_of_own_action'] = array();
 
-            // get per project preferences
-            $sql = "SELECT
-                        upp_prj_id as prj_id,
-                        upp_receive_assigned_email as receive_assigned_email,
-                        upp_receive_new_issue_email as receive_new_issue_email,
-                        upp_receive_copy_of_own_action as receive_copy_of_own_action
-                    FROM
-                        " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_project_preference
-                    WHERE
-                        upp_usr_id = $usr_id";
+        // check for the refresh rate variables, and use the default values if appropriate
+        if (empty($returns[$usr_id]['list_refresh_rate'])) {
+            $returns[$usr_id]['list_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
+        }
+        if (empty($returns[$usr_id]['email_refresh_rate'])) {
+            $returns[$usr_id]['email_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
+        }
+
+        // get per project preferences
+        $sql = "SELECT
+                    upp_prj_id as prj_id,
+                    upp_receive_assigned_email as receive_assigned_email,
+                    upp_receive_new_issue_email as receive_new_issue_email,
+                    upp_receive_copy_of_own_action as receive_copy_of_own_action
+                FROM
+                    {{%user_project_preference}}
+                WHERE
+                    upp_usr_id = $usr_id";
+        try {
             $res = DB_Helper::getInstance()->getAssoc($sql, true, array(), DB_FETCHMODE_ASSOC);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return $returns[$usr_id];
-            }
-
-            foreach ($res as $prj_id => $project_prefs) {
-                $returns[$usr_id]['receive_assigned_email'][$prj_id] = $project_prefs['receive_assigned_email'];
-                $returns[$usr_id]['receive_new_issue_email'][$prj_id] = $project_prefs['receive_new_issue_email'];
-                $returns[$usr_id]['receive_copy_of_own_action'][$prj_id] = $project_prefs['receive_copy_of_own_action'];
-            }
-
+        } catch (DbException $e) {
             return $returns[$usr_id];
         }
+
+        foreach ($res as $prj_id => $project_prefs) {
+            $returns[$usr_id]['receive_assigned_email'][$prj_id] = $project_prefs['receive_assigned_email'];
+            $returns[$usr_id]['receive_new_issue_email'][$prj_id] = $project_prefs['receive_new_issue_email'];
+            $returns[$usr_id]['receive_copy_of_own_action'][$prj_id] = $project_prefs['receive_copy_of_own_action'];
+        }
+
+        return $returns[$usr_id];
+
     }
 
     /**
@@ -162,38 +158,53 @@ class Prefs
         }
 
         $sql = "REPLACE INTO
-                    " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_preference
+                    {{%user_preference}}
                 SET
-                    upr_usr_id = " . Misc::escapeInteger($usr_id) . ",
-                    upr_timezone = '" . Misc::escapeString(@$preferences['timezone']) . "',
-                    upr_week_firstday = '" . Misc::escapeString(@$preferences['week_firstday']) . "',
-                    upr_list_refresh_rate = '" . Misc::escapeInteger(@$preferences['list_refresh_rate']) . "',
-                    upr_email_refresh_rate = '" . Misc::escapeInteger(@$preferences['email_refresh_rate']) . "',
-                    upr_email_signature = '" . Misc::escapeString(@$preferences['email_signature']) . "',
-                    upr_auto_append_email_sig = '" . Misc::escapeInteger(@$preferences['auto_append_email_sig']) . "',
-                    upr_auto_append_note_sig = '" . Misc::escapeInteger(@$preferences['auto_append_note_sig']) . "',
-                    upr_auto_close_popup_window = '" . Misc::escapeInteger(@$preferences['close_popup_windows']) . "'";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    upr_usr_id = ?,
+                    upr_timezone = ?,
+                    upr_week_firstday = ?,
+                    upr_list_refresh_rate = ?,
+                    upr_email_refresh_rate = ?,
+                    upr_email_signature = ?,
+                    upr_auto_append_email_sig = ?,
+                    upr_auto_append_note_sig = ?
+                    upr_auto_close_popup_window = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array(
+                $usr_id,
+                @$preferences['timezone'],
+                @$preferences['week_firstday'],
+                @$preferences['list_refresh_rate'],
+                @$preferences['email_refresh_rate'],
+                @$preferences['email_signature'],
+                @$preferences['auto_append_email_sig'],
+                @$preferences['auto_append_note_sig'],
+                @$preferences['close_popup_windows'],
+            ));
+        } catch (DbException $e) {
             return -1;
         }
 
         $projects = Project::getAssocList($usr_id);
         foreach ($projects as $prj_id => $project_name) {
             $sql = "REPLACE INTO
-                        " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user_project_preference
+                        {{%user_project_preference}}
                     SET
-                        upp_usr_id = $usr_id,
-                        upp_prj_id = $prj_id,
-                        upp_receive_assigned_email = '" . @Misc::escapeInteger($preferences['receive_assigned_email'][$prj_id]) . "',
-                        upp_receive_new_issue_email = '" . @Misc::escapeInteger($preferences['receive_new_issue_email'][$prj_id]) . "',
-                        upp_receive_copy_of_own_action = '" . @Misc::escapeInteger($preferences['receive_copy_of_own_action'][$prj_id]) . "'";
-            $res = DB_Helper::getInstance()->query($sql);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                        upp_usr_id = ?,
+                        upp_prj_id = ?,
+                        upp_receive_assigned_email = ?,
+                        upp_receive_new_issue_email = ?,
+                        upp_receive_copy_of_own_action = ?";
 
+            try {
+                DB_Helper::getInstance()->query($sql, array(
+                    $usr_id,
+                    $prj_id,
+                    $preferences['receive_assigned_email'][$prj_id],
+                    $preferences['receive_new_issue_email'][$prj_id],
+                    $preferences['receive_copy_of_own_action'][$prj_id],
+                ));
+            } catch (DbException $e) {
                 return -1;
             }
         }
