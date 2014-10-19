@@ -315,8 +315,8 @@ class DbPear implements DbInterface
     private function quoteSql($sql, $params)
     {
         /**
-         * NOTE: PEAR driver has treats these three as placeholders: '?&!'
-         * but we want to use only '?', so need to quote these first
+         * NOTE: PEAR driver treats these three as placeholders: '?&!'
+         * but we want to use only '?', so need to quote these others first
          *
          * @see DB_common::prepare()
          */
