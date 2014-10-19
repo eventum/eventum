@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2013 Eventum Team.                              |
+// | Copyright (c) 2012 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
-//
 
 
 /**
@@ -66,15 +65,15 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     public function updatePassword($usr_id, $password)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
-                    usr_password='" . self::hashPassword($password) . "'
+                    usr_password=?
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        $params = array(self::hashPassword($password), $usr_id);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -98,16 +97,15 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     public function incrementFailedLogins($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_failed_logins = usr_failed_logins + 1,
                     usr_last_failed_login = NOW()
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -123,17 +121,16 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     public function resetFailedLogins($usr_id)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  SET
                     usr_failed_logins = 0,
                     usr_last_login = NOW(),
                     usr_last_failed_login = NULL
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id));
+        } catch (DbException $e) {
             return false;
         }
 
@@ -152,15 +149,15 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
             return false;
         }
         $stmt = "SELECT
-                    IF( usr_failed_logins >= " . APP_FAILED_LOGIN_BACKOFF_COUNT . ", NOW() < DATE_ADD(usr_last_failed_login, INTERVAL " . APP_FAILED_LOGIN_BACKOFF_MINUTES . " MINUTE), 0)
+                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL " . APP_FAILED_LOGIN_BACKOFF_MINUTES . " MINUTE), 0)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%user}}
                  WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    usr_id=?";
+        $params = array(APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id);
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
+        } catch (DbException $e) {
             return true;
         }
 

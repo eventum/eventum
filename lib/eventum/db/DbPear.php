@@ -263,6 +263,21 @@ class DbPear implements DbInterface
     }
 
     /**
+     * Determines the number of rows affected by a data manipulation query
+     *
+     * 0 is returned for queries that don't manipulate data.
+     *
+     * @return int  the number of rows
+     * @throws DbException on failure.
+     */
+    public function affectedRows()
+    {
+        $res = $this->db->affectedRows();
+        $this->assertError($res);
+        return $res;
+    }
+
+    /**
      * Check if $e is PEAR error, if so, throw as DbException
      *
      * @param $e PEAR_Error
