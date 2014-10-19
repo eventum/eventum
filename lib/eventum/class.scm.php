@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -28,12 +28,10 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the source control management
  * integration features of the application.
  */
-
 class SCM
 {
     /**
@@ -46,13 +44,12 @@ class SCM
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
+                    {{%issue_checkin}}
                  WHERE
                     isc_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -71,26 +68,26 @@ class SCM
         $stmt = "SELECT
                     isc_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
+                    {{%issue_checkin}}
                  WHERE
                     isc_id IN ($items)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt);
 
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
+                    {{%issue_checkin}}
                  WHERE
                     isc_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
         }
 
         // need to mark this issue as updated
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID())));
+        $summary = ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID()));
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), $summary);
 
         return 1;
     }
@@ -133,15 +130,14 @@ class SCM
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
+                    {{%issue_checkin}}
                  WHERE
-                    isc_iss_id=" . Misc::escapeInteger($issue_id) . "
+                    isc_iss_id=?
                  ORDER BY
                     isc_created_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -177,7 +173,7 @@ class SCM
     public static function logCheckin($issue_id, $module, $file, $username, $commit_msg)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
+                    {{%issue_checkin}}
                  (
                     isc_iss_id,
                     isc_module,
@@ -188,27 +184,31 @@ class SCM
                     isc_username,
                     isc_commit_msg
                  ) VALUES (
-                    $issue_id,
-                    '" . Misc::escapeString($module) . "',
-                    '" . Misc::escapeString($file['file']) . "',
-                    '" . Misc::escapeString($file['old_version']) . "',
-                    '" . Misc::escapeString($file['new_version']) . "',
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($username) . "',
-                    '" . Misc::escapeString($commit_msg) . "'
+                    ?, ?, ?, ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $issue_id,
+            $module,
+            $file['file'],
+            $file['old_version'],
+            $file['new_version'],
+            Date_Helper::getCurrentDateGMT(),
+            $username,
+            $commit_msg,
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
         // need to mark this issue as updated
         Issue::markAsUpdated($issue_id, 'scm checkin');
         // need to save a history entry for this
-        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
-                        ev_gettext("SCM Checkins associated by SCM user '") . $username . '\'.');
+
+        // TRANSLATORS: %1: username
+        $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
+        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'), $summary);
 
         return 1;
     }
