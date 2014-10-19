@@ -100,7 +100,7 @@ class DbPear implements DbInterface
      */
     public function getOne($query, $params = array())
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->getOne($query, $params);
         $this->assertError($res);
         return $res;
@@ -126,7 +126,7 @@ class DbPear implements DbInterface
         $query, $force_array = false, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
     ) {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, $force_array, $params, $fetchmode, $group);
         $this->assertError($res);
         return $res;
@@ -161,7 +161,7 @@ class DbPear implements DbInterface
      */
     public function query($query, $params = array())
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->query($query, $params);
         $this->assertError($res);
         return $res;
@@ -181,7 +181,7 @@ class DbPear implements DbInterface
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
     ) {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->getAll($query, $params, $fetchmode);
         $this->assertError($res);
         return $res;
@@ -202,7 +202,7 @@ class DbPear implements DbInterface
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
     ) {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->getRow($query, $params, $fetchmode);
         $this->assertError($res);
         return $res;
@@ -221,7 +221,7 @@ class DbPear implements DbInterface
      */
     public function getCol($query, $col = 0, $params = array())
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql($query, $params);
         $res = $this->db->getCol($query, $col, $params);
         $this->assertError($res);
         return $res;
@@ -309,7 +309,7 @@ class DbPear implements DbInterface
      * @return string the quoted SQL
      * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
      */
-    private function quoteSql($sql)
+    private function quoteSql($sql, $params)
     {
         /**
          * NOTE: PEAR driver has treats these three as placeholders: '?&!'
@@ -317,7 +317,9 @@ class DbPear implements DbInterface
          *
          * @see DB_common::prepare()
          */
-        $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
+        if (count($params)) {
+            $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
+        }
 
         $that = $this;
         $sql = preg_replace_callback(
