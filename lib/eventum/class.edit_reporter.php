@@ -6,7 +6,7 @@
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // | Copyright (c) 2011 - 2011 Anderson.net New Zealand                   |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -26,13 +26,11 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Dave Anderson <dave@anderson.net.nz>                        |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.
- *
- * @author  Dave Anderson <dave@anderson.net.nz>
  */
 class Edit_Reporter
 {
@@ -42,10 +40,10 @@ class Edit_Reporter
      * @param   integer $issue_id The id of the issue.
      * @param   string $fullname The id of the user.
      * @param   boolean $add_history If this should be logged.
+     * @return int
      */
     public static function update($issue_id, $email, $add_history = true)
     {
-
         $email = strtolower(Mail_Helper::getEmailAddress($email));
         $usr_id = User::getUserIDByEmail($email, true);
 
@@ -55,16 +53,15 @@ class Edit_Reporter
         }
 
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                 SET
-                    iss_usr_id = " . Misc::escapeInteger($usr_id) . "
+                    iss_usr_id = ?
                 WHERE
-                    iss_id = " . Misc::escapeInteger($issue_id);
+                    iss_id = ?";
 
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($sql, array($usr_id, $issue_id));
+        } catch (DbException $e) {
             return -1;
         }
 
