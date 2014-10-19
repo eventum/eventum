@@ -32,12 +32,28 @@
  */
 interface DbInterface
 {
-    public function getAll($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT);
-    public function getAssoc($query, $force_array = false, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT, $group = false);
+    /**
+     * Indicates the current default fetch mode should be used
+     * @see DB_common::$fetchmode
+     */
+    const DB_FETCHMODE_DEFAULT = 0;
+
+    /**
+     * Column data indexed by numbers, ordered from 0 and up
+     */
+    const DB_FETCHMODE_ORDERED = 1;
+
+    /**
+     * Column data indexed by column names
+     */
+    const DB_FETCHMODE_ASSOC = 2;
+
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
+    public function getAssoc($query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false);
     public function getPair($query, $params = array());
     public function getCol($query, $col = 0, $params = array());
     public function getOne($query, $params = array());
-    public function getRow($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT);
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
     public function escapeSimple($str);
 
     public function query($query, $params = array());
