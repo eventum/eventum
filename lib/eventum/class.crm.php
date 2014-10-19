@@ -321,7 +321,7 @@ abstract class CRM
                  ORDER BY
                     prj_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }

@@ -156,7 +156,7 @@ class Custom_Field
                      WHERE
                         fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
 
-            $field_types = DB_Helper::getInstance()->getAssoc($stmt);
+            $field_types = DB_Helper::getInstance()->getPair($stmt);
 
             // get the titles for all of the custom fields being submitted
             $stmt = "SELECT
@@ -166,7 +166,7 @@ class Custom_Field
                         {{%custom_field}}
                      WHERE
                         fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
-            $field_titles = DB_Helper::getInstance()->getAssoc($stmt);
+            $field_titles = DB_Helper::getInstance()->getPair($stmt);
 
             $updated_fields = array();
             foreach ($_POST["custom_fields"] as $fld_id => $value) {
@@ -944,7 +944,7 @@ class Custom_Field
                  ORDER BY
                     prj_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, array($fld_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($fld_id));
         } catch (DbException $e) {
             return "";
         }
@@ -1038,7 +1038,7 @@ class Custom_Field
                  ORDER BY
                     cfo_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1396,7 +1396,7 @@ class Custom_Field
                 ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, array($prj_id, Auth::getCurrentRole()));
+            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id, Auth::getCurrentRole()));
         } catch (DbException $e) {
            return array();
         }

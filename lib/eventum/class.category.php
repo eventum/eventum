@@ -211,7 +211,7 @@ class Category
                  ORDER BY
                     prc_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
