@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,13 +25,11 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 /**
  * Class to handle parsing content for links.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
- * @version 1.0
  */
 class Link_Filter
 {
@@ -50,26 +48,29 @@ class Link_Filter
                     lfi_pattern,
                     lfi_replacement
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
+                    {{%link_filter}}
                 WHERE
-                    lfi_id = " . Misc::escapeInteger($lfi_id);
-        $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    lfi_id = ?" ;
+        try {
+            $res = DB_Helper::getInstance()->getRow($sql, array($lfi_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } elseif (count($res) > 0) {
+        }
+
+        if (count($res) > 0) {
             $sql = "SELECT
                         plf_prj_id
                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
+                        {{%project_link_filter}}
                     WHERE
-                        plf_lfi_id = " . $res['lfi_id'];
-            $projects = DB_Helper::getInstance()->getCol($sql);
-            if (PEAR::isError($projects)) {
-                Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
+                        plf_lfi_id = ?";
+            try {
+                $projects = DB_Helper::getInstance()->getCol($sql, 0, array($res['lfi_id']));
+            } catch (DbException $e) {
                 $projects = array();
-            } elseif ($projects === null) {
+            }
+
+            if ($projects === null) {
                 $projects = array();
             }
             $res["projects"] = $projects;
@@ -92,30 +93,31 @@ class Link_Filter
                     lfi_pattern,
                     lfi_replacement
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
+                    {{%link_filter}}
                 ORDER BY
                     lfi_id";
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
+
         for ($i = 0; $i < count($res); $i++) {
             $sql = "SELECT
                         plf_prj_id,
                         prj_title
                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                        {{%project_link_filter}},
+                        {{%project}}
                     WHERE
                         prj_id = plf_prj_id AND
-                        plf_lfi_id = " . $res[$i]['lfi_id'];
-            $projects = DB_Helper::getInstance()->getAssoc($sql);
-            if (PEAR::isError($projects)) {
-                Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
+                        plf_lfi_id = ?";
+            try {
+                $projects = DB_Helper::getInstance()->getAssoc($sql, false, array($res[$i]['lfi_id']));
+            } catch (DbException $e) {
                 $projects = array();
-            } elseif ($projects === null) {
+            }
+            if ($projects === null) {
                 $projects = array();
             }
             $res[$i]["projects"] = array_keys($projects);
@@ -134,45 +136,40 @@ class Link_Filter
     public static function insert()
     {
         $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
+                    {{%link_filter}}
                 (
                     lfi_pattern,
                     lfi_replacement,
                     lfi_usr_role,
                     lfi_description
                 ) VALUES (
-                    '" . Misc::escapeString($_REQUEST["pattern"]) . "',
-                    '" . Misc::escapeString($_REQUEST["replacement"]) . "',
-                    '" . Misc::escapeInteger($_REQUEST["usr_role"]) . "',
-                    '" . Misc::escapeString($_REQUEST["description"]) . "'
+                    ?, ?, ?, ?
                 )";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($_REQUEST["pattern"], $_REQUEST["replacement"], $_REQUEST["usr_role"], $_REQUEST["description"]);
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $lfi_id = DB_Helper::get_last_insert_id();
-            foreach ($_REQUEST["projects"] as $prj_id) {
-                $sql = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
-                        (
-                            plf_prj_id,
-                            plf_lfi_id
-                        ) VALUES (
-                            $prj_id,
-                            $lfi_id
-                        )";
-                $res = DB_Helper::getInstance()->query($sql);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                    return -1;
-                }
-            }
-
-            return 1;
         }
+
+        $lfi_id = DB_Helper::get_last_insert_id();
+        foreach ($_REQUEST["projects"] as $prj_id) {
+            $sql = "INSERT INTO
+                        {{%project_link_filter}}
+                    (
+                        plf_prj_id,
+                        plf_lfi_id
+                    ) VALUES (
+                        ?, ?
+                    )";
+            try {
+                DB_Helper::getInstance()->query($sql, array($prj_id, $lfi_id));
+            } catch (DbException $e) {
+                return -1;
+            }
+        }
+
+        return 1;
     }
 
     /**
@@ -183,23 +180,22 @@ class Link_Filter
     public static function remove()
     {
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
+                    {{%link_filter}}
                 WHERE
                     lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
             return -1;
         }
+
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
+                    {{%project_link_filter}}
                 WHERE
                     plf_lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -214,50 +210,53 @@ class Link_Filter
     public static function update()
     {
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
+                    {{%link_filter}}
                 SET
-                    lfi_pattern = '" . Misc::escapeString($_REQUEST["pattern"]) . "',
-                    lfi_replacement = '" . Misc::escapeString($_REQUEST["replacement"]) . "',
-                    lfi_usr_role = '" . Misc::escapeInteger($_REQUEST["usr_role"]) . "',
-                    lfi_description = '" . Misc::escapeString($_REQUEST["description"]) . "'
+                    lfi_pattern = ?,
+                    lfi_replacement = ?,
+                    lfi_usr_role = ?,
+                    lfi_description = ?
                 WHERE
-                    lfi_id = " . $_REQUEST["id"];
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    lfi_id = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array(
+                $_REQUEST["pattern"],
+                $_REQUEST["replacement"],
+                $_REQUEST["usr_role"],
+                $_REQUEST["description"],
+                $_REQUEST["id"],
+            ));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $sql = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
-                    WHERE
-                        plf_lfi_id = " . Misc::escapeInteger($_REQUEST["id"]);
-            $res = DB_Helper::getInstance()->query($sql);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        }
 
+        $sql = "DELETE FROM
+                    {{%project_link_filter}}
+                WHERE
+                    plf_lfi_id = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($_REQUEST["id"]));
+        } catch (DbException $e) {
+            return -1;
+        }
+
+        foreach (Misc::escapeInteger($_REQUEST["projects"]) as $prj_id) {
+            $sql = "INSERT INTO
+                        {{%project_link_filter}}
+                    (
+                        plf_prj_id,
+                        plf_lfi_id
+                    ) VALUES (
+                        ?, ?
+                    )";
+            try {
+                DB_Helper::getInstance()->query($sql, array($prj_id, $_REQUEST["id"]));
+            } catch (DbException $e) {
                 return -1;
             }
-            foreach (Misc::escapeInteger($_REQUEST["projects"]) as $prj_id) {
-                $sql = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
-                        (
-                            plf_prj_id,
-                            plf_lfi_id
-                        ) VALUES (
-                            $prj_id,
-                            " . Misc::escapeInteger($_REQUEST["id"]) . "
-                        )";
-                $res = DB_Helper::getInstance()->query($sql);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                    return -1;
-                }
-            }
-
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -356,8 +355,6 @@ class Link_Filter
     {
         static $filters;
 
-        $prj_id = Misc::escapeInteger($prj_id);
-
         // poor man's caching system
         if (!empty($filters[$prj_id])) {
             return $filters[$prj_id];
@@ -367,18 +364,17 @@ class Link_Filter
                     CONCAT('/', lfi_pattern, '/i'),
                     lfi_replacement
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
+                    {{%link_filter}},
+                    {{%project_link_filter}}
                 WHERE
                     lfi_id = plf_lfi_id AND
-                    lfi_usr_role < " . Auth::getCurrentRole() . " AND
-                    plf_prj_id = $prj_id
+                    lfi_usr_role < ? AND
+                    plf_prj_id = ?
                 ORDER BY
                     lfi_id";
-        $res = DB_Helper::getInstance()->getAll($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentRole(), $prj_id));
+        } catch (DbException $e) {
             return array();
         }
 
