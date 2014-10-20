@@ -78,10 +78,10 @@ function validateForm(f)
       <td align="center" valign="top">
         <select name="interval">
             <option value=""></option>
-            <option value="day"{if $smarty.request.interval == 'day'} selected{/if}>Day</option>
-            <option value="week"{if $smarty.request.interval == 'week'} selected{/if}>Week</option>
-            <option value="month"{if $smarty.request.interval == 'month'} selected{/if}>Month</option>
-            <option value="year"{if $smarty.request.interval == 'year'} selected{/if}>Year</option>
+            <option value="day"{if $smarty.request.interval|default:'' == 'day'} selected{/if}>Day</option>
+            <option value="week"{if $smarty.request.interval|default:'' == 'week'} selected{/if}>Week</option>
+            <option value="month"{if $smarty.request.interval|default:'' == 'month'} selected{/if}>Month</option>
+            <option value="year"{if $smarty.request.interval|default:'' == 'year'} selected{/if}>Year</option>
         </select>
       </td>
     </tr>
