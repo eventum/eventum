@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Reminder
@@ -84,20 +82,20 @@ class Reminder
             $index = array_search($new_rank, $ranks);
             $replaced_rem_id = $ids[$index];
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                        {{%reminder_level}}
                      SET
-                        rem_rank=" . Misc::escapeInteger($ranking[$rem_id]) . "
+                        rem_rank=?
                      WHERE
-                        rem_id=" . Misc::escapeInteger($replaced_rem_id);
-            DB_Helper::getInstance()->query($stmt);
+                        rem_id=?";
+            DB_Helper::getInstance()->query($stmt, array($ranking[$rem_id], $replaced_rem_id));
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  SET
-                    rem_rank=" . Misc::escapeInteger($new_rank) . "
+                    rem_rank=?
                  WHERE
-                    rem_id=" . Misc::escapeInteger($rem_id);
-        DB_Helper::getInstance()->query($stmt);
+                    rem_id=?";
+        DB_Helper::getInstance()->query($stmt, array($new_rank, $rem_id));
 
         return true;
     }
@@ -114,17 +112,16 @@ class Reminder
                     rem_id,
                     rem_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  ORDER BY
                     rem_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -155,17 +152,16 @@ class Reminder
         $stmt = "SELECT
                     rem_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  WHERE
-                    rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -179,17 +175,16 @@ class Reminder
         $stmt = "SELECT
                     rem_prj_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  WHERE
-                    rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -203,44 +198,43 @@ class Reminder
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  WHERE
-                    rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($rem_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return '';
-        } else {
-            $requirements = self::getRequirements($rem_id);
-            if (!empty($requirements)) {
-                $res['type'] = $requirements['type'];
-                if ($res['type'] == 'support_level') {
-                    $res['rer_support_level_id'] = $requirements['values'];
-                } elseif ($res['type'] == 'customer') {
-                    $res['rer_customer_id'] = $requirements['values'];
-                } elseif ($res['type'] == 'issue') {
-                    $res['rer_iss_id'] = array_values($requirements['values']);
-                }
-            }
-            $priorities = self::getAssociatedPriorities($rem_id);
-            if (count($priorities) > 0) {
-                $res['check_priority'] = 'yes';
-                $res['rer_pri_id'] = $priorities;
-            }
-            $products = self::getAssociatedProducts($rem_id);
-            if (count($products) > 0) {
-                $res['check_product'] = 'yes';
-                $res['rer_pro_id'] = $products;
-            }
-            $severities = self::getAssociatedSeverities($rem_id);
-            if (count($severities) > 0) {
-                $res['check_severity'] = 'yes';
-                $res['rer_sev_id'] = $severities;
-            }
-
-            return $res;
         }
+
+        $requirements = self::getRequirements($rem_id);
+        if (!empty($requirements)) {
+            $res['type'] = $requirements['type'];
+            if ($res['type'] == 'support_level') {
+                $res['rer_support_level_id'] = $requirements['values'];
+            } elseif ($res['type'] == 'customer') {
+                $res['rer_customer_id'] = $requirements['values'];
+            } elseif ($res['type'] == 'issue') {
+                $res['rer_iss_id'] = array_values($requirements['values']);
+            }
+        }
+        $priorities = self::getAssociatedPriorities($rem_id);
+        if (count($priorities) > 0) {
+            $res['check_priority'] = 'yes';
+            $res['rer_pri_id'] = $priorities;
+        }
+        $products = self::getAssociatedProducts($rem_id);
+        if (count($products) > 0) {
+            $res['check_product'] = 'yes';
+            $res['rer_pro_id'] = $products;
+        }
+        $severities = self::getAssociatedSeverities($rem_id);
+        if (count($severities) > 0) {
+            $res['check_severity'] = 'yes';
+            $res['rer_sev_id'] = $severities;
+        }
+
+        return $res;
     }
 
     /**
@@ -255,17 +249,16 @@ class Reminder
         $stmt = "SELECT
                     rep_pri_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
+                    {{%reminder_priority}}
                  WHERE
-                    rep_rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rep_rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     public function getAssociatedProducts($rem_id)
@@ -273,17 +266,16 @@ class Reminder
         $stmt = "SELECT
                     rpr_pro_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                    {{%reminder_product}}
                  WHERE
-                    rpr_rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rpr_rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -298,17 +290,16 @@ class Reminder
         $stmt = "SELECT
                     rms_sev_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                    {{%reminder_severity}}
                  WHERE
-                    rms_rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rms_rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -322,22 +313,20 @@ class Reminder
     public function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_support_level_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    '" . Misc::escapeString($support_level_id) . "'
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $support_level_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -350,22 +339,20 @@ class Reminder
     public function addIssueAssociation($rem_id, $issue_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_iss_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($issue_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $issue_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -379,22 +366,20 @@ class Reminder
     public function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_customer_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($customer_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $customer_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -406,22 +391,20 @@ class Reminder
     public function associateAllIssues($rem_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_trigger_all_issues
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    1
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, 1));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -434,43 +417,39 @@ class Reminder
     public function addPriorityAssociation($rem_id, $priority_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
+                    {{%reminder_priority}}
                  (
                     rep_rem_id,
                     rep_pri_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($priority_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $priority_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     public function addProductAssociation($rem_id, $pro_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                    {{%reminder_product}}
                  (
                     rpr_rem_id,
                     rpr_pro_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($pro_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $pro_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -483,22 +462,20 @@ class Reminder
     public function addSeverityAssociation($rem_id, $severity_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                    {{%reminder_severity}}
                  (
                     rms_rem_id,
                     rms_sev_id
                  ) VALUES (
-                    " . Misc::escapeInteger($rem_id) . ",
-                    " . Misc::escapeInteger($severity_id) . "
+                    ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($rem_id, $severity_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -514,23 +491,25 @@ class Reminder
             $rem_id = array($rem_id);
         }
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  WHERE
                     rer_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
+
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
+                    {{%reminder_priority}}
                  WHERE
                     rep_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
+
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_product
+                    {{%reminder_product}}
                  WHERE
                     rpr_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
 
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_severity
+                    {{%reminder_severity}}
                  WHERE
                     rms_rem_id IN (" . implode(',', $rem_id) . ")";
         DB_Helper::getInstance()->query($stmt);
@@ -544,7 +523,7 @@ class Reminder
     public static function insert()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  (
                     rem_created_date,
                     rem_rank,
@@ -552,53 +531,55 @@ class Reminder
                     rem_prj_id,
                     rem_skip_weekend
                  ) VALUES (
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    " . Misc::escapeInteger($_POST['rank']) . ",
-                    '" . Misc::escapeString($_POST['title']) . "',
-                    " . Misc::escapeInteger($_POST['project']) . ",
-                    " . Misc::escapeInteger($_POST['skip_weekend']) . "
+                    ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['rank'],
+            $_POST['title'],
+            $_POST['project'],
+            $_POST['skip_weekend'],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_rem_id = DB_Helper::get_last_insert_id();
-            // map the reminder requirements now
-            if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-                for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                    self::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
-                }
-            } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-                for ($i = 0; $i < count($_POST['issues']); $i++) {
-                    self::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
-                }
-            } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-                for ($i = 0; $i < count($_POST['customers']); $i++) {
-                    self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
-                }
-            } elseif (@$_POST['reminder_type'] == 'all_issues') {
-                 self::associateAllIssues($new_rem_id);
-            }
-            if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-                for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                    self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
-                }
-            }
-            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-                for ($i = 0; $i < count($_POST['products']); $i++) {
-                    self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
-                }
-            }
-            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-                for ($i = 0; $i < count($_POST['severities']); $i++) {
-                    self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
-                }
-            }
-
-            return 1;
         }
+
+        $new_rem_id = DB_Helper::get_last_insert_id();
+        // map the reminder requirements now
+        if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
+            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
+                self::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
+            }
+        } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
+            for ($i = 0; $i < count($_POST['issues']); $i++) {
+                self::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
+            }
+        } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
+            for ($i = 0; $i < count($_POST['customers']); $i++) {
+                self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
+            }
+        } elseif (@$_POST['reminder_type'] == 'all_issues') {
+             self::associateAllIssues($new_rem_id);
+        }
+        if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
+            for ($i = 0; $i < count($_POST['priorities']); $i++) {
+                self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
+            }
+        }
+        if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+            for ($i = 0; $i < count($_POST['products']); $i++) {
+                self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
+            }
+        }
+        if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+            for ($i = 0; $i < count($_POST['severities']); $i++) {
+                self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
+            }
+        }
+
+        return 1;
     }
 
     /**
@@ -609,56 +590,63 @@ class Reminder
     public static function update()
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  SET
-                    rem_last_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    rem_rank=" . Misc::escapeInteger($_POST['rank']) . ",
-                    rem_title='" . Misc::escapeString($_POST['title']) . "',
-                    rem_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
-                    rem_skip_weekend=" . Misc::escapeInteger($_POST['skip_weekend']) . "
+                    rem_last_updated_date=?,
+                    rem_rank=?,
+                    rem_title=?,
+                    rem_prj_id=?,
+                    rem_skip_weekend=?
                  WHERE
-                    rem_id=" . Misc::escapeInteger($_POST['id']);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rem_id=?";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['rank'],
+            $_POST['title'],
+            $_POST['project'],
+            $_POST['skip_weekend'],
+            $_POST['id'],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            self::removeAllAssociations($_POST['id']);
-            // map the reminder requirements now
-            if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-                for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                    self::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
-                }
-            } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-                for ($i = 0; $i < count($_POST['issues']); $i++) {
-                    self::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
-                }
-            } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-                for ($i = 0; $i < count($_POST['customers']); $i++) {
-                    self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
-                }
-            } elseif (@$_POST['reminder_type'] == 'all_issues') {
-                 self::associateAllIssues($_POST['id']);
-            }
-            if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-                for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                    self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
-                }
-            }
-            if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-                for ($i = 0; $i < count($_POST['products']); $i++) {
-                    self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
-                }
-            }
-            if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-                for ($i = 0; $i < count($_POST['severities']); $i++) {
-                    self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
-                }
-            }
-
-            return 1;
         }
+
+        self::removeAllAssociations($_POST['id']);
+        // map the reminder requirements now
+        if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
+            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
+                self::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
+            }
+        } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
+            for ($i = 0; $i < count($_POST['issues']); $i++) {
+                self::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
+            }
+        } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
+            for ($i = 0; $i < count($_POST['customers']); $i++) {
+                self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
+            }
+        } elseif (@$_POST['reminder_type'] == 'all_issues') {
+             self::associateAllIssues($_POST['id']);
+        }
+        if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
+            for ($i = 0; $i < count($_POST['priorities']); $i++) {
+                self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+            }
+        }
+        if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
+            for ($i = 0; $i < count($_POST['products']); $i++) {
+                self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
+            }
+        }
+        if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
+            for ($i = 0; $i < count($_POST['severities']); $i++) {
+                self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
+            }
+        }
+
+        return 1;
     }
 
     /**
@@ -671,29 +659,28 @@ class Reminder
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  WHERE
                     rem_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            self::removeAllAssociations($_POST["items"]);
-            $stmt = "SELECT
-                        rma_id
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
-                     WHERE
-                        rma_rem_id IN ($items)";
-            $actions = DB_Helper::getInstance()->getCol($stmt);
-            if (count($actions) > 0) {
-                Reminder_Action::remove($actions);
-            }
-
-            return true;
         }
+
+        self::removeAllAssociations($_POST["items"]);
+        $stmt = "SELECT
+                    rma_id
+                 FROM
+                    {{%reminder_action}}
+                 WHERE
+                    rma_rem_id IN ($items)";
+        $actions = DB_Helper::getInstance()->getCol($stmt);
+        if (count($actions) > 0) {
+            Reminder_Action::remove($actions);
+        }
+
+        return true;
     }
 
     /**
@@ -711,37 +698,36 @@ class Reminder
                     rer_support_level_id,
                     rer_trigger_all_issues
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                    {{%reminder_requirement}}
                  WHERE
-                    rer_rem_id=" . Misc::escapeInteger($rem_id);
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rer_rem_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return '';
-        } else {
-            $type = '';
-            $values = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if ($res[$i]['rer_trigger_all_issues'] == '1') {
-                    return array('type' => 'ALL');
-                } elseif (!empty($res[$i]['rer_support_level_id'])) {
-                    $type = 'support_level';
-                    $values[] = $res[$i]['rer_support_level_id'];
-                } elseif (!empty($res[$i]['rer_customer_id'])) {
-                    $type = 'customer';
-                    $values[] = $res[$i]['rer_customer_id'];
-                } elseif (!empty($res[$i]['rer_iss_id'])) {
-                    $type = 'issue';
-                    $values[] = $res[$i]['rer_iss_id'];
-                }
-            }
-
-            return array(
-                'type'   => $type,
-                'values' => $values
-            );
         }
+
+        $type = '';
+        $values = array();
+        for ($i = 0; $i < count($res); $i++) {
+            if ($res[$i]['rer_trigger_all_issues'] == '1') {
+                return array('type' => 'ALL');
+            } elseif (!empty($res[$i]['rer_support_level_id'])) {
+                $type = 'support_level';
+                $values[] = $res[$i]['rer_support_level_id'];
+            } elseif (!empty($res[$i]['rer_customer_id'])) {
+                $type = 'customer';
+                $values[] = $res[$i]['rer_customer_id'];
+            } elseif (!empty($res[$i]['rer_iss_id'])) {
+                $type = 'issue';
+                $values[] = $res[$i]['rer_iss_id'];
+            }
+        }
+
+        return array(
+            'type'   => $type,
+            'values' => $values
+        );
     }
 
     /**
@@ -753,41 +739,40 @@ class Reminder
     public static function getAdminList()
     {
         $stmt = "SELECT
-                    " . APP_TABLE_PREFIX . "reminder_level.*,
+                    {{%reminder_level}}.*,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%reminder_level}},
+                    {{%project}}
                  WHERE
                     rem_prj_id=prj_id
                  ORDER BY
                     rem_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]["rem_created_date"]);
-                $actions = Reminder_Action::getList($res[$i]['rem_id']);
-                $res[$i]['total_actions'] = count($actions);
-                $priorities = self::getAssociatedPriorities($res[$i]['rem_id']);
-                $priority_titles = Priority::getAssocList($res[$i]['rem_prj_id']);
-                $res[$i]['priorities'] = array();
-                if (count($priorities) > 0) {
-                    foreach ($priorities as $pri_id) {
-                        $res[$i]['priorities'][] = $priority_titles[$pri_id];
-                    }
-                } else {
-                    $res[$i]['priorities'][] = 'Any';
-                }
-                $requirements = self::getRequirements($res[$i]['rem_id']);
-                $res[$i]['type'] = $requirements['type'];
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]["rem_created_date"]);
+            $actions = Reminder_Action::getList($res[$i]['rem_id']);
+            $res[$i]['total_actions'] = count($actions);
+            $priorities = self::getAssociatedPriorities($res[$i]['rem_id']);
+            $priority_titles = Priority::getAssocList($res[$i]['rem_prj_id']);
+            $res[$i]['priorities'] = array();
+            if (count($priorities) > 0) {
+                foreach ($priorities as $pri_id) {
+                    $res[$i]['priorities'][] = $priority_titles[$pri_id];
+                }
+            } else {
+                $res[$i]['priorities'][] = 'Any';
+            }
+            $requirements = self::getRequirements($res[$i]['rem_id']);
+            $res[$i]['type'] = $requirements['type'];
+        }
+
+        return $res;
     }
 
     /**
@@ -800,32 +785,31 @@ class Reminder
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                    {{%reminder_level}}
                  ORDER BY
                     rem_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                $t = array();
-                for ($i = 0; $i < count($res); $i++) {
-                    // ignore reminders that have no actions set yet...
-                    $actions = Reminder_Action::getList($res[$i]['rem_id']);
-                    if (count($actions) == 0) {
-                        continue;
-                    }
-                    $res[$i]['actions'] = $actions;
-                    $t[] = $res[$i];
-                }
-
-                return $t;
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        $t = array();
+        for ($i = 0; $i < count($res); $i++) {
+            // ignore reminders that have no actions set yet...
+            $actions = Reminder_Action::getList($res[$i]['rem_id']);
+            if (count($actions) == 0) {
+                continue;
+            }
+            $res[$i]['actions'] = $actions;
+            $t[] = $res[$i];
+        }
+
+        return $t;
     }
 
     /**
@@ -842,47 +826,46 @@ class Reminder
                     iss_id,
                     iss_prj_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+                    {{%issue}}";
 
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
             $stmt .= ",
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version";
+                    {{%issue_product_version}}";
         }
 
         $stmt .= self::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            // - if query returns >= 1, then run the appropriate action
-            if (empty($res)) {
-                return array();
-            } else {
-                // check for conditions that can't be run in the DB
-                foreach ($res as $iss_id => $iss_prj_id) {
-                    foreach ($conditions as $condition) {
-                        if (!empty($condition['rmf_sql_representation'])) {
-                            continue;
-                        }
-                        if ($condition['rmf_title'] == 'Active Group') {
-                            $equal = (Workflow::getActiveGroup($iss_prj_id) == $condition['rlc_value']);
-                            if ((($condition['rmo_sql_representation'] == '=') && ($equal != true)) ||
-                                (($condition['rmo_sql_representation'] == '<>') && ($equal != false))) {
-                                unset($res[$iss_id]);
-                            }
-                        }
+        }
+
+        // - if query returns >= 1, then run the appropriate action
+        if (empty($res)) {
+            return array();
+        }
+
+        // check for conditions that can't be run in the DB
+        foreach ($res as $iss_id => $iss_prj_id) {
+            foreach ($conditions as $condition) {
+                if (!empty($condition['rmf_sql_representation'])) {
+                    continue;
+                }
+                if ($condition['rmf_title'] == 'Active Group') {
+                    $equal = (Workflow::getActiveGroup($iss_prj_id) == $condition['rlc_value']);
+                    if ((($condition['rmo_sql_representation'] == '=') && ($equal != true)) ||
+                        (($condition['rmo_sql_representation'] == '<>') && ($equal != false))) {
+                        unset($res[$iss_id]);
                     }
                 }
-
-                return array_keys($res);
             }
         }
+
+        return array_keys($res);
     }
 
     /**
@@ -982,7 +965,7 @@ class Reminder
         $stmt = "SELECT
                     iss_id
                  FROM
-                    " . APP_TABLE_PREFIX . "issue";
+                    {{%issue}}";
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
             $stmt .= ",
@@ -1008,25 +991,24 @@ class Reminder
                     rmh_created_date,
                     rma_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_history}},
+                    {{%reminder_action}}
                  WHERE
-                    rmh_iss_id=" . Misc::escapeInteger($iss_id) . " AND
+                    rmh_iss_id=? AND
                     rmh_rma_id=rma_id
                  ORDER BY
                     rmh_created_date DESC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["rmh_created_date"] = Date_Helper::getFormattedDate($res[$i]["rmh_created_date"]);
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["rmh_created_date"] = Date_Helper::getFormattedDate($res[$i]["rmh_created_date"]);
+        }
+
+        return $res;
     }
 
     /**
