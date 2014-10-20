@@ -24,7 +24,10 @@
 {/foreach}
 //-->
 </script>
-    <form name="custom_filter_form" method="get" action="list.php" class="validate" data-validation-function='adv_search.validateForm'>
+
+  {assign var="tabindex" value=1}
+
+  <form name="custom_filter_form" method="get" action="list.php" class="validate" data-validation-function='adv_search.validateForm'>
     <input type="hidden" name="cat" value="search">
     <input type="hidden" name="hidden1" value="">
     <input type="hidden" name="hidden2" value="">
