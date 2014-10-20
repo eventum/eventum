@@ -71,31 +71,71 @@ class DB_Helper
     private $dbh;
 
     /**
+     * Get database config.
+     * load it from setup, fall back to legacy config.php constants
+     */
+    public static function getConfig() {
+        $setup = &Setup::load();
+
+        if (isset($setup['database'])) {
+            $config = $setup['database'];
+        } else {
+            // legacy: import from constants
+            $config = array(
+                // database driver
+                'driver'  => APP_SQL_DBTYPE,
+
+                // connection info
+                'hostname' => APP_SQL_DBHOST,
+                'database' => APP_SQL_DBNAME,
+                'username' => APP_SQL_DBUSER,
+                'password' => APP_SQL_DBPASS,
+                'port'     => APP_SQL_DBPORT,
+
+                // table prefix
+                'table_prefix' => APP_TABLE_PREFIX,
+
+                /**
+                 * @deprecated APP_DEFAULT_DB is deprecated (same as APP_SQL_DBNAME)
+                 */
+                //'default_db' => APP_DEFAULT_DB,
+            );
+
+            // save it back. this will effectively do the migration
+            $setup['database'] = $config;
+            Setup::save($setup);
+        }
+
+        return $config;
+    }
+
+    /**
      * Connects to the database and creates a data dictionary array to be used
      * on database related schema dynamic lookups.
      */
     private function __construct()
     {
+        $config = self::getConfig();
         $dsn = array(
-            'phptype'  => APP_SQL_DBTYPE,
-            'hostspec' => APP_SQL_DBHOST,
-            'database' => APP_SQL_DBNAME,
-            'username' => APP_SQL_DBUSER,
-            'password' => APP_SQL_DBPASS
+            'phptype'  => $config['driver'],
+            'hostspec' => $config['hostname'],
+            'database' => $config['database'],
+            'username' => $config['username'],
+            'password' => $config['password'],
         );
 
         // DBTYPE specific dsn settings
-        switch (APP_SQL_DBTYPE) {
+        switch ($dsn['phptype']) {
             case 'mysql':
             case 'mysqli':
                 // if we are using some non-standard mysql port, pass that value in the dsn
-                if (defined('APP_SQL_DBPORT') && (APP_SQL_DBPORT != 3306)) {
-                    $dsn['port'] = APP_SQL_DBPORT;
+                if ($config['port'] != 3306) {
+                    $dsn['port'] = $config['port'];
                 }
                 break;
             default:
-                if (defined('APP_SQL_DBPORT')) {
-                    $dsn['port'] = APP_SQL_DBPORT;
+                if ($config['port']) {
+                    $dsn['port'] = $config['port'];
                 }
                 break;
         }
@@ -106,7 +146,7 @@ class DB_Helper
         }
 
         // DBTYPE specific session setup commands
-        switch (APP_SQL_DBTYPE) {
+        switch ($dsn['phptype']) {
             case 'mysql':
             case 'mysqli':
                 $this->dbh->query("SET SQL_MODE = ''");
