@@ -753,14 +753,17 @@ class Report
                         $interval_group_by_field
                     ORDER BY
                         $label_field ASC";
-                $res = DB_Helper::getInstance()->getAssoc($stmt);
+                try {
+                    $res = DB_Helper::getInstance()->getAssoc($stmt);
+                } catch (DbException $e) {
+                    return array();
+                }
             } else {
-                $res = DB_Helper::getInstance()->getOne($stmt);
-            }
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return array();
+                try {
+                    $res = DB_Helper::getInstance()->getOne($stmt);
+                } catch (DbException $e) {
+                    return array();
+                }
             }
             $data[$value] = $res;
         }
@@ -769,18 +772,17 @@ class Report
         $stmt = "SELECT
                     COUNT(DISTINCT $group_by_field)
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%custom_field_option}},
+                    {{%issue_custom_field}},
+                    {{%issue}}
                 WHERE
                     cfo_id = icf_value AND
                     icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
                     cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt);
+        } catch (DbException $e) {
             return array();
         }
         $data["All Others"] = $res;
@@ -817,14 +819,14 @@ class Report
             }
             $sql .= "
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,";
+                    {{%time_tracking}},";
 
             if ($per_user) {
-                    $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user, ";
+                    $sql .= "{{%user}}, ";
             }
 
             $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        {{%issue}}
                     WHERE
                         iss_prj_id=" . Auth::getCurrentProject() . " AND
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . " 00:00:00' AND '" . Misc::escapeString($end_date) . " 23:59:59' AND
@@ -841,7 +843,7 @@ class Report
                 SELECT
                     count(*)
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field a
+                    {{%issue_custom_field}} a
                 WHERE
                     a.icf_fld_id = $fld_id AND
                     a.icf_value IN('" . join("','", Misc::escapeString(array_keys($options))) . "') AND
@@ -858,19 +860,18 @@ class Report
                     iss_id";
            }
 
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
-                $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
+            $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
+        }
+
+        return $res;
     }
     /**
      * Returns workload information for the specified date range and interval.
@@ -926,7 +927,7 @@ class Report
                     DATE_FORMAT(iss_created_date, '$format'),
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  WHERE
                     iss_prj_id=" . Auth::getCurrentProject() . " AND
                     iss_created_date BETWEEN '$start' AND '$end'";
@@ -940,10 +941,9 @@ class Report
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
         }
         $data["issues"]["points"] = $res;
@@ -972,11 +972,11 @@ class Report
                     DATE_FORMAT(sup_date, '$format'),
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+                    {{%support_email}},
+                    {{%email_account}}";
         if (!empty($category)) {
             $stmt .= ",
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+                     {{%issue}}";
         }
         $stmt .= "
                  WHERE
@@ -994,10 +994,10 @@ class Report
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'sup_date');
         }
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
         }
         $data["emails"]["points"] = $res;
