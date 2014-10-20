@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once 'Math/Stats.php';
@@ -33,9 +34,6 @@ require_once 'Date.php';
 /**
  * Class to handle the business logic related to all aspects of the
  * reporting system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Report
@@ -83,21 +81,21 @@ class Report
                     iss_private
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%issue}},
+                    {{%issue_user}},
+                    {{%user}}
                     )
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%status}}
                  ON
                     iss_sta_id=sta_id
                  WHERE
                     sta_is_closed=0 AND
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     iss_id=isu_iss_id AND
                     isu_usr_id=usr_id AND
-                    UNIX_TIMESTAMP(iss_last_response_date) < $before_ts AND
-                    UNIX_TIMESTAMP(iss_last_response_date) > $after_ts";
+                    UNIX_TIMESTAMP(iss_last_response_date) < ? AND
+                    UNIX_TIMESTAMP(iss_last_response_date) > ?";
         if (count($users) > 0) {
             $stmt .= " AND\nisu_usr_id IN(" . join(', ', Misc::escapeInteger($users)) . ")";
         }
@@ -111,43 +109,42 @@ class Report
                  ORDER BY
                     usr_full_name,
                     iss_last_response_date " . Misc::escapeString($sort_order);
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $before_ts, $after_ts), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            Time_Tracking::getTimeSpentByIssues($res);
-            $issues = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if (empty($res[$i]['iss_updated_date'])) {
-                    $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
-                }
-                if (empty($res[$i]['iss_last_response_date'])) {
-                    $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
-                }
-                $updated_date_ts = Date_Helper::getUnixTimestamp(
-                    $res[$i]['iss_updated_date'],
-                    Date_Helper::getDefaultTimezone()
-                );
-                $last_response_ts = Date_Helper::getUnixTimestamp(
-                    $res[$i]['iss_last_response_date'],
-                    Date_Helper::getDefaultTimezone()
-                );
-                $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
-                    'iss_summary'         => $res[$i]['iss_summary'],
-                    'sta_title'           => $res[$i]['sta_title'],
-                    'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                    'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
-                    'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
-                    'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
-                );
-            }
-
-            return $issues;
         }
+
+        Time_Tracking::getTimeSpentByIssues($res);
+        $issues = array();
+        for ($i = 0; $i < count($res); $i++) {
+            if (empty($res[$i]['iss_updated_date'])) {
+                $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
+            }
+            if (empty($res[$i]['iss_last_response_date'])) {
+                $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
+            }
+            $updated_date_ts = Date_Helper::getUnixTimestamp(
+                $res[$i]['iss_updated_date'],
+                Date_Helper::getDefaultTimezone()
+            );
+            $last_response_ts = Date_Helper::getUnixTimestamp(
+                $res[$i]['iss_last_response_date'],
+                Date_Helper::getDefaultTimezone()
+            );
+            $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
+                'iss_summary'         => $res[$i]['iss_summary'],
+                'sta_title'           => $res[$i]['sta_title'],
+                'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
+                'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
+                'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
+                'status_color'        => $res[$i]['sta_color'],
+                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
+                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
+            );
+        }
+
+        return $issues;
     }
 
     /**
@@ -178,70 +175,68 @@ class Report
                     sta_color
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user as assignee,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user as reporter
+                    {{%issue}},
+                    {{%issue_user}},
+                    {{%user}} as assignee,
+                    {{%user}} as reporter
                     )
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%status}}
                  ON
                     iss_sta_id=sta_id
                  WHERE
                     sta_is_closed=0 AND
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     iss_id=isu_iss_id AND
                     isu_usr_id=assignee.usr_id AND
                     iss_usr_id=reporter.usr_id AND
-                    UNIX_TIMESTAMP(iss_created_date) < (UNIX_TIMESTAMP() - $ts_diff)
+                    UNIX_TIMESTAMP(iss_created_date) < (UNIX_TIMESTAMP() - ?)
                  ORDER BY\n";
         if ($group_by_reporter) {
             $stmt .= "reporter.usr_full_name";
         } else {
             $stmt .= "assignee.usr_full_name";
         }
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            print_r($res);
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            Time_Tracking::getTimeSpentByIssues($res);
-            $issues = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if (empty($res[$i]['iss_updated_date'])) {
-                    $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
-                }
-                if (empty($res[$i]['iss_last_response_date'])) {
-                    $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
-                }
-                if ($group_by_reporter) {
-                    $name = $res[$i]['reporter_name'];
-                } else {
-                    $name = $res[$i]['assignee_name'];
-                }
-                $update_date_ts = Date_Helper::getUnixTimestamp(
-                    $res[$i]['iss_updated_date'],
-                    Date_Helper::getDefaultTimezone()
-                );
-                $last_response_ts = Date_Helper::getUnixTimestamp(
-                    $res[$i]['iss_last_response_date'],
-                    Date_Helper::getDefaultTimezone()
-                );
-                $issues[$name][$res[$i]['iss_id']] = array(
-                    'iss_summary'         => $res[$i]['iss_summary'],
-                    'sta_title'           => $res[$i]['sta_title'],
-                    'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                    'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
-                    'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
-                );
-            }
-
-            return $issues;
         }
+
+        Time_Tracking::getTimeSpentByIssues($res);
+        $issues = array();
+        for ($i = 0; $i < count($res); $i++) {
+            if (empty($res[$i]['iss_updated_date'])) {
+                $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
+            }
+            if (empty($res[$i]['iss_last_response_date'])) {
+                $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
+            }
+            if ($group_by_reporter) {
+                $name = $res[$i]['reporter_name'];
+            } else {
+                $name = $res[$i]['assignee_name'];
+            }
+            $update_date_ts = Date_Helper::getUnixTimestamp(
+                $res[$i]['iss_updated_date'],
+                Date_Helper::getDefaultTimezone()
+            );
+            $last_response_ts = Date_Helper::getUnixTimestamp(
+                $res[$i]['iss_last_response_date'],
+                Date_Helper::getDefaultTimezone()
+            );
+            $issues[$name][$res[$i]['iss_id']] = array(
+                'iss_summary'         => $res[$i]['iss_summary'],
+                'sta_title'           => $res[$i]['sta_title'],
+                'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
+                'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
+                'status_color'        => $res[$i]['sta_color'],
+                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
+                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
+            );
+        }
+
+        return $issues;
     }
 
     /**
@@ -263,50 +258,49 @@ class Report
                     sta_color
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%issue}},
+                    {{%issue_user}},
+                    {{%user}}
                     )
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%status}}
                  ON
                     iss_sta_id=sta_id
                  WHERE
-                    iss_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    iss_prj_id=? AND
                     iss_id=isu_iss_id AND
                     isu_usr_id=usr_id
                  ORDER BY
                     usr_full_name";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            Time_Tracking::getTimeSpentByIssues($res);
-            $issues = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
-                    'iss_summary'      => $res[$i]['iss_summary'],
-                    'sta_title'        => $res[$i]['sta_title'],
-                    'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                    'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
-                    'status_color'     => $res[$i]['sta_color']
-                );
-            }
-
-            return $issues;
         }
+
+        Time_Tracking::getTimeSpentByIssues($res);
+        $issues = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
+                'iss_summary'      => $res[$i]['iss_summary'],
+                'sta_title'        => $res[$i]['sta_title'],
+                'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
+                'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
+                'status_color'     => $res[$i]['sta_color']
+            );
+        }
+
+        return $issues;
     }
 
     /**
      * Returns the data used by the weekly report.
      *
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   string The start date of this report.
-     * @param   string The end date of this report.
-     * @param   boolean If closed issues should be separated from other issues.
-     * @param   boolean If issue status changes should be ignored in report.
+     * @param   string $start The start date of this report.
+     * @param   string $end The end date of this report.
+     * @param   boolean $separate_closed If closed issues should be separated from other issues.
+     * @param   boolean $ignore_statuses If issue status changes should be ignored in report.
      * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * @return  array An array of data containing all the elements of the weekly report.
      */
@@ -335,18 +329,20 @@ class Report
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%issue_user}},
+                    {{%status}}
                  WHERE
                     iss_id = isu_iss_id AND
                     iss_sta_id = sta_id AND
-                    isu_usr_id = $usr_id AND
-                    iss_prj_id = " . Auth::getCurrentProject() . " AND
-                    isu_assigned_date BETWEEN '$start_ts' AND '$end_ts'";
-        $newly_assigned = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($newly_assigned)) {
-            Error_Handler::logError(array($newly_assigned->getMessage(), $newly_assigned->getDebugInfo()), __FILE__, __LINE__);
+                    isu_usr_id = ? AND
+                    iss_prj_id = ? AND
+                    isu_assigned_date BETWEEN ? AND ?";
+        $params = array($usr_id, Auth::getCurrentProject(), $start_ts, $end_ts);
+        try {
+            $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
+        } catch (DbException $e) {
+            // FIXME: why no handling
         }
 
         $email_count = array(
@@ -395,23 +391,23 @@ class Report
                     SUM(if (pru_role > 3, 1, 0)) as dev_events,
                     SUM(if (pru_role > 3, 0, 1)) as cust_events
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%issue_history}},
+                    {{%user}},
+                    {{%project_user}}
                  WHERE
                     his_usr_id = usr_id AND
                     usr_id = pru_usr_id AND
-                    pru_prj_id = " . Auth::getCurrentProject() . "
+                    pru_prj_id = ?
                  GROUP BY
                     time_period, performer
                  ORDER BY
                     time_period";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
+
         // get total number of developer and customer events
         $event_count = array(
             "developer" =>  0,
@@ -482,13 +478,12 @@ class Report
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    {{%support_email}}
                  GROUP BY
                     time_period";
-        $total = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($total)) {
-            Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $total = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -504,15 +499,14 @@ class Report
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    {{%support_email}}
                  WHERE
                     sup_from IN('" . join("','", $emails) . "')
                  GROUP BY
                     time_period";
-        $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($dev_stats)) {
-            Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -658,15 +652,15 @@ class Report
             }
             $sql .= "
                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,";
+                        {{%custom_field}},";
             if (count($options) > 0) {
                 $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,";
+                        {{%custom_field_option}},";
             }
             $sql .= "
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                        {{%issue_custom_field}},
+                        {{%issue}},
+                        {{%issue_user}}
                     WHERE
                         fld_id = icf_fld_id AND";
             if (count($options) > 0) {
@@ -697,12 +691,12 @@ class Report
             }
             $sql .= "
                         row_count DESC";
-            $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+            try {
+                $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+            } catch (DbException $e) {
                 return array();
             }
+
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
                 $crm->processListIssuesResult($res);
@@ -733,9 +727,9 @@ class Report
             $stmt .= "
                         COUNT(DISTINCT $group_by_field)
                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                        {{%issue_custom_field}},
+                        {{%issue}},
+                        {{%issue_user}}
                     WHERE
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
