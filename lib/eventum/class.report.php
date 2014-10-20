@@ -745,7 +745,7 @@ class Report
                 $stmt .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
             }
             if ($assignee != false) {
-                $sql .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
+                $stmt .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
             }
             if ($interval_group_by_field != '') {
                 $stmt .= "
