@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -42,21 +43,20 @@ class Email_Account
         $stmt = "SELECT
                     ema_issue_auto_creation_options
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
-                    ema_id=$ema_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ema_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            if (!is_string($res)) {
-                $res = (string) $res;
-            }
-
-            return @unserialize($res);
         }
+
+        if (!is_string($res)) {
+            $res = (string) $res;
+        }
+
+        return @unserialize($res);
     }
 
     /**
@@ -68,20 +68,19 @@ class Email_Account
     public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  SET
-                    ema_issue_auto_creation='" . Misc::escapeString($auto_creation) . "',
-                    ema_issue_auto_creation_options='" . @serialize($options) . "'
+                    ema_issue_auto_creation=?,
+                    ema_issue_auto_creation_options=?
                  WHERE
-                    ema_id=" . Misc::escapeInteger($ema_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ema_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($auto_creation, @serialize($options), $ema_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -96,17 +95,16 @@ class Email_Account
         $stmt = "SELECT
                     sup_ema_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    {{%support_email}}
                  WHERE
-                    sup_id=$sup_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sup_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -122,23 +120,22 @@ class Email_Account
         $stmt = "SELECT
                     ema_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
-                    ema_username='" . Misc::escapeString($username) . "' AND
-                    ema_hostname='" . Misc::escapeString($hostname) . "' AND
-                    ema_folder='" . Misc::escapeString($mailbox) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ema_username=? AND
+                    ema_hostname=? AND
+                    ema_folder=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($username, $hostname, $mailbox));
+        } catch (DbException $e) {
             return 0;
-        } else {
-            if ($res == NULL) {
-                return 0;
-            } else {
-                return $res;
-            }
         }
+
+        if ($res == NULL) {
+            return 0;
+        }
+
+        return $res;
     }
 
     /**
@@ -167,19 +164,18 @@ class Email_Account
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
-                    ema_id=$ema_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ema_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
-
-            return $res;
         }
+
+        $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
+
+        return $res;
     }
 
     /**
@@ -195,29 +191,27 @@ class Email_Account
         $stmt = "SELECT
                     ema_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
                     ema_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            Support::removeEmailByAccounts($res);
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                     WHERE
-                        ema_prj_id IN ($items)";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        Support::removeEmailByAccounts($res);
+        $stmt = "DELETE FROM
+                    {{%email_account}}
+                 WHERE
+                    ema_prj_id IN ($items)";
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -229,19 +223,18 @@ class Email_Account
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
                     ema_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            Support::removeEmailByAccounts($_POST["items"]);
-
-            return true;
         }
+
+        Support::removeEmailByAccounts($_POST["items"]);
+
+        return true;
     }
 
     /**
@@ -264,7 +257,7 @@ class Email_Account
             $_POST['leave_copy'] = 0;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  (
                     ema_prj_id,
                     ema_type,
@@ -277,25 +270,29 @@ class Email_Account
                     ema_leave_copy,
                     ema_use_routing
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["project"]) . ",
-                    '" . Misc::escapeString($_POST["type"]) . "',
-                    '" . Misc::escapeString($_POST["hostname"]) . "',
-                    '" . Misc::escapeString($_POST["port"]) . "',
-                    '" . Misc::escapeString(@$_POST["folder"]) . "',
-                    '" . Misc::escapeString($_POST["username"]) . "',
-                    '" . Misc::escapeString($_POST["password"]) . "',
-                    " . Misc::escapeInteger($_POST["get_only_new"]) . ",
-                    " . Misc::escapeInteger($_POST["leave_copy"]) . ",
-                    " . Misc::escapeInteger($_POST["use_routing"]) . "
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $params = array(
+            $_POST["project"],
+            $_POST["type"],
+            $_POST["hostname"],
+            $_POST["port"],
+            @$_POST["folder"],
+            $_POST["username"],
+            $_POST["password"],
+            $_POST["get_only_new"],
+            $_POST["leave_copy"],
+            $_POST["use_routing"],
+        );
 
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -318,28 +315,41 @@ class Email_Account
             $_POST['leave_copy'] = 0;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  SET
-                    ema_prj_id=" . Misc::escapeInteger($_POST["project"]) . ",
-                    ema_type='" . Misc::escapeString($_POST["type"]) . "',
-                    ema_hostname='" . Misc::escapeString($_POST["hostname"]) . "',
-                    ema_port='" . Misc::escapeString($_POST["port"]) . "',
-                    ema_folder='" . Misc::escapeString(@$_POST["folder"]) . "',
-                    ema_username='" . Misc::escapeString($_POST["username"]) . "',
-                    ema_password='" . Misc::escapeString($_POST["password"]) . "',
-                    ema_get_only_new=" . Misc::escapeInteger($_POST["get_only_new"]) . ",
-                    ema_leave_copy=" . Misc::escapeInteger($_POST["leave_copy"]) . ",
-                    ema_use_routing=" . Misc::escapeInteger($_POST["use_routing"]) . "
+                    ema_prj_id=?,
+                    ema_type=?,
+                    ema_hostname=?,
+                    ema_port=?,
+                    ema_folder=?,
+                    ema_username=?,
+                    ema_password=?,
+                    ema_get_only_new=?,
+                    ema_leave_copy=?,
+                    ema_use_routing=?
                  WHERE
-                    ema_id=" . $_POST["id"];
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    ema_id=?";
+        $params = array(
+            $_POST["project"],
+            $_POST["type"],
+            $_POST["hostname"],
+            $_POST["port"],
+            @$_POST["folder"],
+            $_POST["username"],
+            $_POST["password"],
+            $_POST["get_only_new"],
+            $_POST["leave_copy"],
+            $_POST["use_routing"],
+            $_POST["id"],
+        );
 
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -353,21 +363,20 @@ class Email_Account
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  ORDER BY
                     ema_hostname";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["prj_title"] = Project::getName($res[$i]["ema_prj_id"]);
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["prj_title"] = Project::getName($res[$i]["ema_prj_id"]);
+        }
+
+        return $res;
     }
 
     /**
@@ -392,21 +401,20 @@ class Email_Account
                     ema_id,
                     $title_sql AS ema_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%email_account}},
+                    {{%project}}
                  WHERE
                     prj_id = ema_prj_id AND
                     ema_prj_id IN (" . join(',', $projects) . ")
                  ORDER BY
                     ema_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -424,19 +432,18 @@ class Email_Account
         $stmt = "SELECT
                     ema_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%email_account}}
                  WHERE
-                    ema_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    ema_prj_id=?
                  LIMIT
                     1 OFFSET 0";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -451,18 +458,17 @@ class Email_Account
         $stmt = "SELECT
                     ema_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%email_account}},
+                    {{%issue}}
                  WHERE
                     ema_prj_id=iss_prj_id AND
-                    iss_id=$issue_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    iss_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }
