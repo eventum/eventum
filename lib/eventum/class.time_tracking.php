@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the administration
  * of time tracking categories in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Time_Tracking
@@ -64,14 +62,13 @@ class Time_Tracking
         $stmt = "SELECT
                     ttc_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  WHERE
-                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    ttc_title='" . Misc::escapeString($ttc_title) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttc_prj_id=? AND
+                    ttc_title=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $ttc_title));
+        } catch (DbException $e) {
             return 0;
         }
 
@@ -89,13 +86,12 @@ class Time_Tracking
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  WHERE
-                    ttc_id=" . Misc::escapeInteger($ttc_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttc_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($ttc_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -114,14 +110,13 @@ class Time_Tracking
                     ttr_ttc_id,
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
                     ttr_ttc_id IN ($list)
                  GROUP BY 1";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return null;
         }
 
@@ -147,13 +142,12 @@ class Time_Tracking
 
         $items = implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  WHERE
                     ttc_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -171,16 +165,15 @@ class Time_Tracking
             return -2;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  SET
-                    ttc_title='" . Misc::escapeString($_POST["title"]) . "'
+                    ttc_title=?
                  WHERE
-                    ttc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
-                    ttc_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttc_prj_id=? AND
+                    ttc_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["prj_id"], $_POST["id"]));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -201,20 +194,17 @@ class Time_Tracking
         }
 
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  (
                     ttc_prj_id,
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
-                    " . Misc::escapeInteger($prj_id) . ",
-                    '" . Misc::escapeString($title) . "',
-                    '" . Date_Helper::getCurrentDateGMT() . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($prj_id, $title, Date_Helper::getCurrentDateGMT()));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -251,16 +241,15 @@ class Time_Tracking
                     ttc_id,
                     ttc_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  WHERE
-                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    ttc_prj_id=? AND
                     ttc_title NOT IN ($ttc_list)
                  ORDER BY
                     ttc_title ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -287,15 +276,14 @@ class Time_Tracking
                     ttc_id,
                     ttc_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking_category}}
                  WHERE
-                    ttc_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    ttc_prj_id=?
                  ORDER BY
                     ttc_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+        } catch (DbException $e) {
             return "";
         }
 
@@ -322,15 +310,14 @@ class Time_Tracking
                     ttr_iss_id,
                     SUM(ttr_time_spent)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
                     ttr_iss_id IN ($ids)
                  GROUP BY
                     ttr_iss_id";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return;
         }
 
@@ -350,13 +337,12 @@ class Time_Tracking
         $stmt = "SELECT
                     SUM(ttr_time_spent)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
-                    ttr_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttr_iss_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DbException $e) {
             return 0;
         }
 
@@ -381,19 +367,18 @@ class Time_Tracking
                     ttr_usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%time_tracking}},
+                    {{%time_tracking_category}},
+                    {{%user}}
                  WHERE
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
-                    ttr_iss_id=" . Misc::escapeInteger($issue_id) . "
+                    ttr_iss_id=?
                  ORDER BY
                     ttr_created_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return 0;
         }
 
@@ -437,13 +422,12 @@ class Time_Tracking
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
                     ttr_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -464,31 +448,31 @@ class Time_Tracking
                     ttr_iss_id issue_id,
                     ttr_usr_id owner_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
-                    ttr_id=$time_id";
-        $details = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
+                    ttr_id=?";
+
+        $details = DB_Helper::getInstance()->getRow($stmt, array($time_id), DB_FETCHMODE_ASSOC);
         // check if the owner is the one trying to remove this entry
         if (($details['owner_usr_id'] != $usr_id) || (!Issue::canAccess($details['issue_id'], $usr_id))) {
             return -1;
         }
 
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
-                    ttr_id=$time_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($time_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Issue::markAsUpdated($details['issue_id']);
-            // need to save a history entry for this
-            History::add($details['issue_id'], $usr_id, History::getTypeID('time_removed'), ev_gettext('Time tracking entry removed by %1$s', User::getFullName($usr_id)));
-
-            return 1;
         }
+
+        Issue::markAsUpdated($details['issue_id']);
+        // need to save a history entry for this
+        History::add($details['issue_id'], $usr_id, History::getTypeID('time_removed'), ev_gettext('Time tracking entry removed by %1$s', User::getFullName($usr_id)));
+
+        return 1;
     }
 
     /**
@@ -511,7 +495,7 @@ class Time_Tracking
         }
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  (
                     ttr_ttc_id,
                     ttr_iss_id,
@@ -520,17 +504,19 @@ class Time_Tracking
                     ttr_time_spent,
                     ttr_summary
                  ) VALUES (
-                    " . $_POST["category"] . ",
-                    " . $_POST["issue_id"] . ",
-                    $usr_id,
-                    '$created_date',
-                    " . Misc::escapeInteger($_POST["time_spent"]) . ",
-                    '" . Misc::escapeString($_POST["summary"]) . "'
+                    ?, ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $_POST["category"],
+            $_POST["issue_id"],
+            $usr_id,
+            $created_date,
+            $_POST["time_spent"],
+            $_POST["summary"],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -554,7 +540,7 @@ class Time_Tracking
     public static function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  (
                     ttr_ttc_id,
                     ttr_iss_id,
@@ -563,17 +549,18 @@ class Time_Tracking
                     ttr_time_spent,
                     ttr_summary
                  ) VALUES (
-                    " . Misc::escapeInteger($cat_id) . ",
-                    " . Misc::escapeInteger($issue_id) . ",
-                    " . Misc::escapeInteger($usr_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    " . Misc::escapeInteger($time_spent) . ",
-                    '" . Misc::escapeString($summary) . "'
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $cat_id,
+            $issue_id,
+            $usr_id,
+            Date_Helper::getCurrentDateGMT(),
+            $time_spent,
+            $summary,
+        );
+        try {
+            $res = DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -588,8 +575,8 @@ class Time_Tracking
      * Returns summary information about all time spent by a user in a specified time frame.
      *
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   integer The timestamp of the beginning of the report.
-     * @param   integer The timestamp of the end of this report.
+     * @param   integer $start The timestamp of the beginning of the report.
+     * @param   integer $end The timestamp of the end of this report.
      * @return  array An array of data containing information about time trackinge
      */
     public static function getSummaryByUser($usr_id, $start, $end)
@@ -599,21 +586,21 @@ class Time_Tracking
                     COUNT(ttr_id) as total,
                     SUM(ttr_time_spent) as total_time
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                    {{%time_tracking}},
+                    {{%issue}},
+                    {{%time_tracking_category}}
                  WHERE
                     iss_id = ttr_iss_id AND
                     ttr_ttc_id = ttc_id AND
-                    iss_prj_id = " . Auth::getCurrentProject() . " AND
-                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
+                    iss_prj_id = ? AND
+                    ttr_usr_id = ? AND
+                    ttr_created_date BETWEEN ? AND ?
                  GROUP BY
                     ttc_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -632,8 +619,8 @@ class Time_Tracking
      *
      * @param   integer $issue_id The issue ID
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   integer The timestamp of the beginning of the report.
-     * @param   integer The timestamp of the end of this report.
+     * @param   integer $start The timestamp of the beginning of the report.
+     * @param   integer $end The timestamp of the end of this report.
      * @return  integer The time spent
      */
     public function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
@@ -641,15 +628,14 @@ class Time_Tracking
         $stmt = "SELECT
                     SUM(ttr_time_spent)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
-                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
-                    ttr_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ttr_usr_id = ? AND
+                    ttr_created_date BETWEEN ? AND ? AND
+                    ttr_iss_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $start, $end, $issue_id));
+        } catch (DbException $e) {
             return 0;
         }
 
@@ -676,17 +662,15 @@ class Time_Tracking
         $stmt = "SELECT
                     ttr_iss_id, sum(ttr_time_spent)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                    {{%time_tracking}}
                  WHERE
-                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    ttr_usr_id = ? AND
+                    ttr_created_date BETWEEN ? AND ? AND
                     ttr_iss_id in ($ids)
                  GROUP BY ttr_iss_id";
-        $result = DB_Helper::getInstance()->getAssoc($stmt);
-
-        if (PEAR::isError($result)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $result = DB_Helper::getInstance()->getAssoc($stmt, false, array($usr_id, $start, $end));
+        } catch (DbException $e) {
             return 0;
         }
 
