@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -36,61 +37,69 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         $stmt = "(SELECT
                     iss_id
                  FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                     {{%issue}}
                  WHERE
-                     MATCH(iss_summary, iss_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                     MATCH(iss_summary, iss_description) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                     not_iss_id
                  FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                     {{%note}}
                  WHERE
                      not_removed = 0 AND
-                     MATCH(not_note) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                     MATCH(not_note) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                     ttr_iss_id
                  FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                     {{%time_tracking}}
                  WHERE
-                     MATCH(ttr_summary) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                     MATCH(ttr_summary) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                     phs_iss_id
                  FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                     {{%phone_support}}
                  WHERE
-                     MATCH(phs_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                     MATCH(phs_description) AGAINST (? IN BOOLEAN MODE)
                  ) UNION (
                  SELECT
                      sup_iss_id
                  FROM
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
+                     {{%support_email}},
+                     {{%support_email_body}}
                  WHERE
                      sup_id = seb_sup_id AND
                      sup_removed = 0 AND
-                     MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                     MATCH(seb_body) AGAINST (? IN BOOLEAN MODE)
                  )";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $options['keywords'],
+            $options['keywords'],
+            $options['keywords'],
+            $options['keywords'],
+            $options['keywords'],
+        );
+        try {
+            $res = DB_Helper::getInstance()->getCol($stmt, 0, $params);
+        } catch (DbException $e) {
             return array(-1);
-
         }
 
         $stmt = "SELECT
                     DISTINCT(icf_iss_id)
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                    {{%issue_custom_field}}
                 WHERE
-                    (MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE) OR
-                     MATCH (icf_value_integer) AGAINST ('" . Misc::escapeInteger($options['keywords']) . "' IN BOOLEAN MODE))";
-        $custom_res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($custom_res)) {
-            Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
-
+                    (MATCH (icf_value) AGAINST (? IN BOOLEAN MODE) OR
+                     MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))";
+        $params1 = array(
+            $options['keywords'],
+            $options['keywords']
+        );
+        try {
+            $custom_res = DB_Helper::getInstance()->getCol($stmt, 0, $params1);
+        } catch (DbException $e) {
             return array(-1);
         }
 
