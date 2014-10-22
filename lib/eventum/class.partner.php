@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2011 Eventum Team              .                       |
+// | Copyright (c) 2011-2014 Eventum Team         .                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,6 +23,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -113,8 +114,8 @@ class Partner
             $backend = self::getBackend($par_code);
             $backend->issueAdded($iss_id);
 
-            History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"),
-                "Partner '" . $backend->getName() . "' added to issue by " . User::getFullName(Auth::getUserID()));
+            $summary = ev_gettext('Partner "%1$s" added to issue by %1$s', $backend->getName(), User::getFullName(Auth::getUserID()));
+            History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"), $summary);
         }
 
         return true;
