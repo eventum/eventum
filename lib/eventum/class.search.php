@@ -103,8 +103,8 @@ class Search
             'category'       => Misc::escapeInteger(self::getParam('category', $request_only)),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues'        => Misc::escapeInteger(self::getParam('show_authorized_issues', $request_only)),
-            'show_notification_list_issues' => Misc::escapeInteger(self::getParam('show_notification_list_issues', $request_only)),
+            'show_authorized_issues'        => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
+            'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only)),
             'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
             'product'        => Misc::escapeInteger(self::getParam('product', $request_only)),
             // other fields
