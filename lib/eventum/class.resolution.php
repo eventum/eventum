@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -28,13 +28,9 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the administration
  * of resolutions in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Resolution
@@ -50,13 +46,12 @@ class Resolution
         $stmt = "SELECT
                     res_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  WHERE
-                    res_id=" . Misc::escapeInteger($res_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    res_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($res_id));
+        } catch (DbException $e) {
             return "";
         }
 
@@ -67,20 +62,19 @@ class Resolution
      * Method used to get the id of a specific resolution.
      *
      * @param   string  $title The resolution title
-     * @return  id The id of the resolution
+     * @return  int id The id of the resolution
      */
     public static function getID($title)
     {
         $stmt = "SELECT
                     res_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  WHERE
-                    res_title=" . Misc::escapeString($title);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    res_title=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($title));
+        } catch (DbException $e) {
             return "";
         }
 
@@ -98,30 +92,28 @@ class Resolution
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues before removing the resolution
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  SET
                     iss_res_id=0
                  WHERE
                     iss_res_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
-                     WHERE
-                        res_id IN ($items)";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        $stmt = "DELETE FROM
+                    {{%resolution}}
+                 WHERE
+                    res_id IN ($items)";
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -136,16 +128,15 @@ class Resolution
             return -2;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  SET
-                    res_title='" . Misc::escapeString($_POST["title"]) . "',
-                    res_rank=" . Misc::escapeInteger($_POST['rank']) . "
+                    res_title=?,
+                    res_rank=?
                  WHERE
-                    res_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    res_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST['rank'], $_POST["id"]));
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -163,17 +154,16 @@ class Resolution
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  WHERE
-                    res_id=" . Misc::escapeInteger($res_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    res_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($res_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -188,14 +178,13 @@ class Resolution
                     res_rank,
                     res_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  ORDER BY
                     res_rank ASC,
                     res_title ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -214,14 +203,13 @@ class Resolution
                     res_id,
                     res_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  ORDER BY
                     res_rank ASC,
                     res_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -240,20 +228,18 @@ class Resolution
             return -2;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
+                    {{%resolution}}
                  (
                     res_title,
                     res_rank,
                     res_created_date
                  ) VALUES (
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    " . Misc::escapeInteger($_POST['rank']) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($_POST["title"], $_POST['rank'], Date_Helper::getCurrentDateGMT());
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
