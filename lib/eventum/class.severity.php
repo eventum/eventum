@@ -4,6 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2010 Bryan Alsdorf                                     |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,13 +24,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com                           |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle issue severity
- *
- * @author Bryan Alsdorf <balsdorf@gmail.com>
  */
 
 class Severity
@@ -67,30 +67,28 @@ class Severity
             $index = array_search($new_rank, $ranks);
             $replaced_sev_id = $ids[$index];
             $sql = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                        {{%project_severity}}
                      SET
-                        sev_rank=" . Misc::escapeInteger($ranking[$sev_id]) . "
+                        sev_rank=?
                      WHERE
-                        sev_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                        sev_id=" . Misc::escapeInteger($replaced_sev_id);
-            $res = DB_Helper::getInstance()->query($sql);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                        sev_prj_id=? AND
+                        sev_id=?";
+            try {
+                DB_Helper::getInstance()->query($sql, array($ranking[$sev_id], $prj_id, $replaced_sev_id));
+            } catch (DbException $e) {
                 return array();
             }
         }
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  SET
-                    sev_rank=" . Misc::escapeInteger($new_rank) . "
+                    sev_rank=?
                  WHERE
-                    sev_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    sev_id=" . Misc::escapeInteger($sev_id);
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_prj_id=? AND
+                    sev_id=?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($new_rank, $prj_id, $sev_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -110,19 +108,18 @@ class Severity
                     sev_id,
                     sev_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    sev_prj_id=?
                  ORDER BY
                     sev_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($prj_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -136,17 +133,16 @@ class Severity
         $sql = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_id=" . Misc::escapeInteger($sev_id);
-        $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($sql, array($sev_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -160,17 +156,15 @@ class Severity
     {
         $items = @implode(", ", Misc::escapeInteger($prj_ids));
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
                     sev_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -187,17 +181,16 @@ class Severity
         }
         $items = @implode(", ", Misc::escapeInteger($sev_ids));
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
                     sev_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -211,21 +204,20 @@ class Severity
             return -2;
         }
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  SET
-                    sev_title='" . Misc::escapeString($title) . "',
-                    sev_description='" . Misc::escapeString($description) . "',
-                    sev_rank=" . Misc::escapeInteger($rank) . "
+                    sev_title=?,
+                    sev_description=?,
+                    sev_rank=?
                  WHERE
-                    sev_id=" . Misc::escapeInteger($sev_id);
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_id=?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($title, $description, $rank, $sev_id));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -239,20 +231,19 @@ class Severity
             return -2;
         }
         $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  SET
-                    sev_prj_id = " . Misc::escapeInteger($prj_id) . ",
-                    sev_title='" . Misc::escapeString($title) . "',
-                    sev_description='" . Misc::escapeString($description) . "',
-                    sev_rank=" . Misc::escapeInteger($rank);
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_prj_id = ?,
+                    sev_title=?,
+                    sev_description=?,
+                    sev_rank=?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($prj_id, $title, $description, $rank));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -270,16 +261,15 @@ class Severity
                     sev_rank,
                     sev_description
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    sev_prj_id=?
                  ORDER BY
                     sev_rank ASC";
 
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -297,17 +287,16 @@ class Severity
         $sql = "SELECT
                     sev_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_id=" . Misc::escapeInteger($sev_id);
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($sev_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -329,21 +318,20 @@ class Severity
                     sev_id,
                     sev_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    sev_prj_id=?
                  ORDER BY
                     sev_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($prj_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            $list[$prj_id] = $res;
-
-            return $res;
         }
+
+        $list[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
@@ -359,17 +347,16 @@ class Severity
         $sql = "SELECT
                     sev_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  WHERE
-                    sev_prj_id=" . Misc::escapeInteger($prj_id) . "
-					AND sev_title = '" . Misc::escapeString($sev_title) . "'";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sev_prj_id=?
+					AND sev_title = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $prj_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }
