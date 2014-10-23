@@ -352,7 +352,7 @@ class Severity
                     sev_prj_id=?
 					AND sev_title = ?";
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $prj_id));
+            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sev_title));
         } catch (DbException $e) {
             return false;
         }
