@@ -111,7 +111,7 @@
         {/if}
         <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
                 data-allow-unassigned="{$allow_unassigned_issues}"
-                data-placeholder="{t}Choose Assignees...{/t}" style="width:290px;" class="chosen-select">
+                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select">
         {html_options options=$users selected=$selected_users}
         </select>
         {include file="error_icon.tpl.html" field="users[]"}
