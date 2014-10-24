@@ -472,5 +472,11 @@ td.light {
 }
 
 
+/* for jquery-chosen */
+.chosen-container .chosen-drop {
+    position: relative;
+}
 
-
+.chosen-select {
+    width:290px;
+}

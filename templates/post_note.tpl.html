@@ -119,13 +119,10 @@ $().ready(function() {
       </th>
       <td>
         <select multiple name="note_cc[]"
-          {if $users|@count > 10}
-            size="10"
-          {else}
-            size="{$users|@count}"
-          {/if}>
+                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select"
+          >
           {html_options options=$users}
-        </select><input id="clear_note_cc" type="button" value="{t}Clear Selections{/t}"><br />
+        </select>
       </td>
     </tr>
     <tr>

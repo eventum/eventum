@@ -61,6 +61,35 @@
 		{
 			"type": "vcs",
 			"url": "https://github.com/glensc/blockui"
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "components/jquery-chosen",
+				"type": "component",
+				"version": "1.2.0",
+				"dist": {
+					"url": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
+					"type": "zip"
+				},
+				"extra": {
+					"component": {
+						"scripts": [
+							"chosen.jquery.js"
+						],
+						"style": [
+							"chosen.css"
+						],
+						"files": [
+							"*.png",
+							"chosen.css"
+						]
+					}
+				},
+				"require": {
+					"robloach/component-installer": "*"
+				}
+			}
 		}
 	],
 	"config": {
@@ -72,6 +101,7 @@
 	"require": {
 		"components/jquery": "~1.8.3",
 		"components/jquery-blockui": "*@dev",
+		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
 		"components/jqueryui": "*",
 		"malsup/form" :"*",

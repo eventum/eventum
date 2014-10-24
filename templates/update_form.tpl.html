@@ -256,14 +256,14 @@
                 {else}
                 <input type="hidden" name="keep_assignments" value="no">
                 {/if}
-                <select id="assignments" size="{if $issue.has_inactive_users}3{else}4{/if}" multiple name="assignments[]">
+                <select id="assignments" size="{if $issue.has_inactive_users}3{else}4{/if}" multiple name="assignments[]"
+                      data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select">
                     {if $issue.has_inactive_users}
                     {html_options options=$users}
                     {else}
                     {html_options options=$users selected=$issue.assigned_users}
                     {/if}
-                </select><input type="button" value="{t}Clear Selections{/t}" id="clear_selected"><br />
-                <div id="selection_assignments"></div>
+                </select>
             </div>
         </div>
     </div>

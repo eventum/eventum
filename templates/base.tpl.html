@@ -11,17 +11,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=8" />
   <link rel="shortcut icon" href="{$core.rel_url}favicon.ico" type="image/x-icon" />
   <title>{block name="title"}Eventum{/block}</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/page.css">
   {if $core.use_components|default:0}
     {* use composer component installer *}
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-ui/themes/base/all.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-chosen/chosen.css">
     <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-blockui/jquery.blockUI.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/form/jquery.form.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-cookie/jquery.cookie.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/core.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/datepicker.js"></script>
+    <script type="text/javascript" src="{$core.rel_url}components/jquery-chosen/chosen.jquery.js"></script>
   {else}
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}js/jquery/ui.datepicker.css">
     <script type="text/javascript" src="{$core.rel_url}js/jquery/jquery.js"></script>
@@ -30,8 +30,12 @@
     <script type="text/javascript" src="{$core.rel_url}js/jquery/cookie.js"></script>
     <script type="text/javascript" src="{$core.rel_url}js/jquery/ui.datepicker.js"></script>
   {/if}
+  {* our css/js after remote assets to allow overrides *}
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/page.css">
   <script type="text/javascript" src="{$core.rel_url}js/main.js"></script>
   <script type="text/javascript" src="{$core.rel_url}js/page.js"></script>
+
   {include file="extra_header.tpl.html"}
 
   <!-- Bundled CSS here -->

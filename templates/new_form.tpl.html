@@ -110,8 +110,9 @@
             {assign var='selected_users' value=$smarty.request.users|default:''}
         {/if}
         <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
-                data-allow-unassigned="{$allow_unassigned_issues}">
-          {html_options options=$users selected=$selected_users}
+                data-allow-unassigned="{$allow_unassigned_issues}"
+                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select">
+        {html_options options=$users selected=$selected_users}
         </select>
         {include file="error_icon.tpl.html" field="users[]"}
       </td>
