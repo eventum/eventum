@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Fix weekly report excluding last day (Elan Ruusamäe, LP#898607)
 - Package release assets with component (Elan Ruusamäe)
 - Fixed Search for issues where I am in the notification list (Bryan Alsdorf, LP#1201415)
+- Modernize select multiple using jQuery-chosen (Elan Ruusamäe, GH#12)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
