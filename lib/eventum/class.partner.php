@@ -296,7 +296,7 @@ class Partner
                     pap_prj_id = prj_id AND
                     pap_par_code = ?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($par_code));
+            $res = DB_Helper::getInstance()->getPair($sql, array($par_code));
         } catch (DbException $e) {
             return array();
         }

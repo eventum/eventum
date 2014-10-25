@@ -400,7 +400,7 @@ class Round_Robin
                  ORDER BY
                     usr_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prr_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prr_id));
         } catch (DbException $e) {
             return array();
         }

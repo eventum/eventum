@@ -105,7 +105,7 @@ class Priority
                  ORDER BY
                     pri_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -314,7 +314,7 @@ class Priority
                  ORDER BY
                     pri_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

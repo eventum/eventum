@@ -113,7 +113,7 @@ class Link_Filter
                         prj_id = plf_prj_id AND
                         plf_lfi_id = ?";
             try {
-                $projects = DB_Helper::getInstance()->getAssoc($sql, false, array($res[$i]['lfi_id']));
+                $projects = DB_Helper::getInstance()->getPair($sql, array($res[$i]['lfi_id']));
             } catch (DbException $e) {
                 $projects = array();
             }

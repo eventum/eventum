@@ -181,7 +181,7 @@ class Phone_Support
                  ORDER BY
                     phc_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

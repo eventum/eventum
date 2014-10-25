@@ -337,7 +337,7 @@ class News
                     prj_id=prn_prj_id AND
                     prn_nws_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($nws_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($nws_id));
         } catch (DbException $e) {
             return array();
         }

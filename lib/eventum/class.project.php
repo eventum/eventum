@@ -985,7 +985,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id, $prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1050,7 +1050,7 @@ class Project
                  WHERE
                     pfd_prj_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return -1;
         }

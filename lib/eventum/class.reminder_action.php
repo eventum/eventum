@@ -106,7 +106,7 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($rem_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($rem_id));
         } catch (DbException $e) {
             return array();
         }

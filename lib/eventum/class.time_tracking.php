@@ -282,7 +282,7 @@ class Time_Tracking
                  ORDER BY
                     ttc_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -669,7 +669,7 @@ class Time_Tracking
                     ttr_iss_id in ($ids)
                  GROUP BY ttr_iss_id";
         try {
-            $result = DB_Helper::getInstance()->getAssoc($stmt, false, array($usr_id, $start, $end));
+            $result = DB_Helper::getInstance()->getPair($stmt, array($usr_id, $start, $end));
         } catch (DbException $e) {
             return 0;
         }

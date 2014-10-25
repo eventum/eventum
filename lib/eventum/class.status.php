@@ -484,7 +484,7 @@ class Status
                     prj_id=prs_prj_id AND
                     prs_sta_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($sta_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($sta_id));
         } catch (DbException $e) {
             return array();
         }
@@ -703,7 +703,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

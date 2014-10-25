@@ -206,7 +206,7 @@ class Support
                  ORDER BY
                     sup_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($issue_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }
@@ -2651,7 +2651,7 @@ class Support
                 ORDER BY
                     sup_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($issue_id));
+            $res = DB_Helper::getInstance()->getPair($sql, array($issue_id));
         } catch (DbException $e) {
             return 0;
         }

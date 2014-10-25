@@ -354,7 +354,7 @@ class Draft
                  WHERE
                     edr_emd_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($emd_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($emd_id));
         } catch (DbException $e) {
             return array('', '');
         }

@@ -1681,7 +1681,7 @@ class Notification
                  WHERE
                     sbt_sub_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($sub_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($sub_id));
         } catch (DbException $e) {
             return "";
         }

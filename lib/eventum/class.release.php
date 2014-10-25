@@ -297,7 +297,7 @@ class Release
                  ORDER BY
                     pre_scheduled_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return "";
         }

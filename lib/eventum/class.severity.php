@@ -114,7 +114,7 @@ class Severity
                  ORDER BY
                     sev_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -324,7 +324,7 @@ class Severity
                  ORDER BY
                     sev_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
         } catch (DbException $e) {
             return false;
         }

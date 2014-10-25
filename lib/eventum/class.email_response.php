@@ -225,7 +225,7 @@ class Email_Response
                     prj_id=per_prj_id AND
                     per_ere_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($ere_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($ere_id));
         } catch (DbException $e) {
             return array();
         }
@@ -283,7 +283,7 @@ class Email_Response
                  ORDER BY
                     ere_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

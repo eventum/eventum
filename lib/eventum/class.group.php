@@ -343,7 +343,7 @@ class Group
                  ORDER BY
                     grp_name";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return -1;
         }
@@ -418,7 +418,7 @@ class Group
                     pgr_prj_id = prj_id AND
                     pgr_grp_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($grp_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($grp_id));
         } catch (DbException $e) {
             return -1;
         }

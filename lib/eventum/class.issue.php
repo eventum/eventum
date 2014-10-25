@@ -149,7 +149,7 @@ class Issue
                  ORDER BY
                     iss_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -1154,7 +1154,7 @@ class Issue
                     isu_iss_id=? AND
                     isu_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($issue_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -2879,7 +2879,7 @@ class Issue
                     isu_iss_id=? AND
                     isu_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($issue_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -3117,7 +3117,7 @@ class Issue
                             isu_usr_id = usr_id AND
                             isu_iss_id = ?";
                 try {
-                    $current_assignees = DB_Helper::getInstance()->getAssoc($stmt, false, array($items[$i]));
+                    $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($items[$i]));
                 } catch (DbException $e) {
                     return -1;
                 }
