@@ -32,12 +32,21 @@
  */
 class DbNull implements DbInterface
 {
-    public function getAll($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT)
+
+    public function __construct(array $config)
+    {
+    }
+
+    public function affectedRows()
+    {
+    }
+
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
     {
     }
 
     public function getAssoc(
-        $query, $force_array = false, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
+        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
     }
 
@@ -45,11 +54,19 @@ class DbNull implements DbInterface
     {
     }
 
+    public function getColumn($query, $params = array())
+    {
+    }
+
     public function getOne($query, $params = array())
     {
     }
 
-    public function getRow($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT)
+    public function getPair($query, $params = array())
+    {
+    }
+
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
