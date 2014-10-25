@@ -225,7 +225,7 @@ class Email_Response
                     prj_id=per_prj_id AND
                     per_ere_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, array($ere_id));
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($ere_id));
         } catch (DbException $e) {
             return array();
         }

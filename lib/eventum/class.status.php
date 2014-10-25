@@ -56,7 +56,7 @@ class Status
                     psd_prj_id=? AND
                     psd_sta_id IN (" . implode(', ', Misc::escapeInteger($sta_ids)) . ")";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
