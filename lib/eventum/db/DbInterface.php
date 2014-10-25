@@ -34,7 +34,6 @@ interface DbInterface
 {
     /**
      * Indicates the current default fetch mode should be used
-     * @see DB_common::$fetchmode
      */
     const DB_FETCHMODE_DEFAULT = 0;
 
@@ -68,7 +67,6 @@ interface DbInterface
     /**
      * Escapes a string according to the current DBMS's standards
      *
-     * @see DB_common::escapeSimple
      * @param string $str the string to be escaped
      * @return string  the escaped string
      * @throws DbException on failure.
@@ -78,7 +76,6 @@ interface DbInterface
     /**
      * Sends a query to the database server
      *
-     * @see DB_common::query
      * @param string $query the SQL query or the statement to prepare
      * @param mixed $params array, string or numeric data
      * @return mixed  a new DB_result object for successful SELECT queries
@@ -92,7 +89,6 @@ interface DbInterface
      *
      * Delimiting style depends on which database driver is being used.
      *
-     * @see DB_common::quoteIdentifier
      * @param string $str the identifier name to be quoted
      * @return string  the quoted identifier
      * @throws DbException on failure.
@@ -102,7 +98,6 @@ interface DbInterface
     /**
      * Fetches all of the rows from a query result
      *
-     * @see DB_common::getAll
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
      * @param int $fetchmode the fetch mode to use
@@ -118,7 +113,6 @@ interface DbInterface
      * Keep in mind that database functions in PHP usually return string
      * values for results regardless of the database's internal type.
      *
-     * @see DB_common::getAssoc
      * @param string $query
      * @param bool $force_array
      * @param mixed $params
@@ -133,7 +127,6 @@ interface DbInterface
      * Fetches a single column from a query result and returns it as an
      * indexed array
      *
-     * @see DB_common::getCol
      * @param string $query the SQL query
      * @param mixed $col which column to return
      * @param mixed $params array, string or numeric data
@@ -147,7 +140,6 @@ interface DbInterface
      *
      * Takes care of doing the query and freeing the results when finished.
      *
-     * @see DB_common::getOne
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
      * @return mixed the returned value of the query.
@@ -161,7 +153,7 @@ interface DbInterface
      *
      * This mode requires the result set to contain exactly 2 columns use getAssoc() if you need more.
      *
-     * @see DbPear::getAssoc
+     * @see DbInterface::getAssoc
      * @param string $query
      * @param mixed $params
      * @return array  the associative array containing the query results.
@@ -172,7 +164,6 @@ interface DbInterface
     /**
      * Fetches the first row of data returned from a query result
      *
-     * @see DB_common::getRow
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
      * @param int $fetchmode the fetch mode to use

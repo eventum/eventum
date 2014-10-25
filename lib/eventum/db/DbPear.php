@@ -83,6 +83,9 @@ class DbPear implements DbInterface
         $this->tablePrefix = $config['table_prefix'];
     }
 
+    /**
+     * @see DB_common::getOne
+     */
     public function getOne($query, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -91,6 +94,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::getAssoc
+     */
     public function getAssoc(
         $query, $force_array = false, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
@@ -109,6 +115,9 @@ class DbPear implements DbInterface
         return $this->getAssoc($query, false, $params);
     }
 
+    /**
+     * @see DB_common::query
+     */
     public function query($query, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -117,6 +126,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::getAll
+     */
     public function getAll(
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
@@ -127,6 +139,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::getRow
+     */
     public function getRow(
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
@@ -137,6 +152,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::getCol
+     */
     public function getCol($query, $col = 0, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -145,6 +163,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::quoteIdentifier
+     */
     public function quoteIdentifier($str)
     {
         $res = $this->db->quoteIdentifier($str);
@@ -152,6 +173,9 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::escapeSimple
+     */
     public function escapeSimple($str)
     {
         $res = $this->db->escapeSimple($str);
