@@ -8,23 +8,36 @@ rc=dev # development version
 dir=$app
 podir=po
 
-# checkout
-rm -rf $dir
-install -d $dir
-
-git archive HEAD | tar -x -C $dir
+find_composer() {
+	local c names="./composer.phar composer.phar composer"
+	composer=
+	for c in $names; do
+		$c --version || continue
+		composer=$c
+		break
+	done
+}
 
 # update timestamps from last commit
 # http://stackoverflow.com/questions/1964470/whats-the-equivalent-of-use-commit-times-for-git/5531813#5531813
 update_timestamps() {
 	set +x
-	echo "Updating timestamps from last commit, please wait..."
+	echo "Updating timestamps from last commit of each file, please wait..."
 	git ls-files | while read file; do
 		rev=$(git rev-list -n 1 HEAD "$file")
 		file_time=$(git show --pretty=format:%ai --abbrev-commit $rev | head -n 1)
 		touch -d "$file_time" "$dir/$file"
 	done
 }
+
+find_composer
+
+# checkout
+rm -rf $dir
+install -d $dir
+
+git archive HEAD | tar -x -C $dir
+
 update_timestamps
 
 # checkout localizations from launchpad
@@ -56,17 +69,17 @@ if [ "$rc" = "dev" ]; then
 fi
 
 # setup composer deps
-if composer --version; then
+if [ -n "$composer" ]; then
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
-	composer install --prefer-dist --no-dev
+	$composer install --prefer-dist --no-dev
 fi
 
 # update to include checksums of js/css files
 ./dyncontent-chksum.pl
 
 # remove bundled deps
-if composer --version; then
+if [ -n "$composer" ]; then
 	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
 	rm composer.lock
 	# cleanup vendors
