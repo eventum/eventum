@@ -12,6 +12,10 @@ class DbTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped("No DB tests in Travis");
+        }
+
         $this->db = DB_Helper::getInstance(false);
     }
 
