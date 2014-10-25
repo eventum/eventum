@@ -12,7 +12,7 @@ find_composer() {
 	local c names="./composer.phar composer.phar composer"
 	composer=
 	for c in $names; do
-		$c --version || continue
+		$c --version 2>/dev/null || continue
 		composer=$c
 		break
 	done
@@ -24,6 +24,8 @@ update_timestamps() {
 	set +x
 	echo "Updating timestamps from last commit of each file, please wait..."
 	git ls-files | while read file; do
+		# skip files which were not exported
+		test -f "$dir/$file" || continue
 		rev=$(git rev-list -n 1 HEAD "$file")
 		file_time=$(git show --pretty=format:%ai --abbrev-commit $rev | head -n 1)
 		touch -d "$file_time" "$dir/$file"
@@ -119,22 +121,19 @@ if [ -n "$composer" ]; then
 	rm pear.download pear.install pear.clean
 fi
 
-make -C localization install localedir=.
-rm -f localization/{tsmarty2c,*.mo}
+make -C localization install clean
 install -d logs templates_c locks htdocs/customer
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
-rm -f release.sh update-pear.sh phpxref.cfg phpxref.sh dyncontent-chksum.pl phpcs.xml build.xml pear.xml
-rm -f .editorconfig .gitignore .bzrignore composer.json .travis.yml phpunit.xml.dist .php_cs
-rm -rf tests
+# clean these now, can't omit them from git export as needed in release preparation process
+rm -f composer.json dyncontent-chksum.pl update-pear.sh
 
 # sanity check
 if [ "$rc" != "dev" ]; then
 	find -name '*.php' | xargs -l1 php -n -l
 fi
 
-rm -rf .bzr*
 cd -
 
 if [ "$rc" = "dev" ]; then
