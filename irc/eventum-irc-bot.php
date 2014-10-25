@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -26,6 +26,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 ini_set('memory_limit', '1024M');
@@ -340,9 +341,9 @@ class Eventum_Bot
                     ino_target_usr_id,
                     ino_category
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
+                    {{%irc_notice}}
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  ON
                     iss_id=ino_iss_id
                  WHERE
@@ -390,12 +391,12 @@ class Eventum_Bot
     {
         // mark message as sent
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
+                    {{%irc_notice}}
                  SET
                     ino_status='sent'
                  WHERE
-                    ino_id=" . $ino_id;
-        DB_Helper::getInstance()->query($stmt);
+                    ino_id=?";
+        DB_Helper::getInstance()->query($stmt, array($ino_id));
     }
 
     /**
