@@ -348,7 +348,7 @@ class Mail_Queue
         }
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($status), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($status));
         } catch (DbException $e) {
             return array();
         }
@@ -412,7 +412,7 @@ class Mail_Queue
                  WHERE
                     maq_id IN (" . implode(',', $maq_ids) . ")";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -487,7 +487,7 @@ class Mail_Queue
                  ORDER BY
                     maq_queued_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return false;
         }

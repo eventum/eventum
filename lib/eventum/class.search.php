@@ -399,7 +399,7 @@ class Search
                  LIMIT
                     " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
                 "list" => "",

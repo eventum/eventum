@@ -10,7 +10,7 @@ define('EXIT_ERROR', 1);
 function db_getAll($query)
 {
     try {
-        $res = DB_Helper::getInstance()->getAll($query, array(), DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($query);
     } catch (DbException $e) {
         echo $e->getMessage(), "\n";
         exit(1);

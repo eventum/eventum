@@ -59,7 +59,7 @@ class Support
                  WHERE
                     sup_id IN (" . implode(', ', Misc::escapeInteger($sup_ids)) . ")";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return -1;
         }
@@ -329,8 +329,9 @@ class Support
                     ema_prj_id=? AND
                     ema_id=sup_ema_id AND
                     sup_removed=1";
+        $params = array(Auth::getCurrentProject());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -1293,7 +1294,7 @@ class Support
                  LIMIT
                     " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
                 "list" => "",
@@ -1542,7 +1543,7 @@ class Support
                     sup_id=seb_sup_id AND
                     sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
 
-        $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt);
         for ($i = 0; $i < count($res); $i++) {
             // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
             $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
@@ -1675,8 +1676,9 @@ class Support
                     ema_id=sup_ema_id AND
                     ema_prj_id=? AND
                     sup_id IN ($items)";
+        $params = array(Auth::getCurrentProject());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -1764,7 +1766,7 @@ class Support
                  ORDER BY
                     sup_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }

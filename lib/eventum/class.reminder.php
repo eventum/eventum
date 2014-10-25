@@ -702,7 +702,7 @@ class Reminder
                  WHERE
                     rer_rem_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
         } catch (DbException $e) {
             return '';
         }
@@ -749,7 +749,7 @@ class Reminder
                  ORDER BY
                     rem_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -789,7 +789,7 @@ class Reminder
                  ORDER BY
                     rem_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -999,7 +999,7 @@ class Reminder
                  ORDER BY
                     rmh_created_date DESC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id));
         } catch (DbException $e) {
             return array();
         }

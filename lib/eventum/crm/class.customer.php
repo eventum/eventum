@@ -192,7 +192,7 @@ abstract class Customer
                     cam_customer_id=?";
         $params = array($this->crm->getProjectID(), $this->customer_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }

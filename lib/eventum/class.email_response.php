@@ -249,7 +249,7 @@ class Email_Response
                  ORDER BY
                     ere_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -310,7 +310,7 @@ class Email_Response
                     per_ere_id=ere_id AND
                     per_prj_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

@@ -207,7 +207,7 @@ class Stats
                  ORDER BY
                     total_items DESC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -248,7 +248,7 @@ class Stats
                  ORDER BY
                     total_open_items";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -289,7 +289,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -366,7 +366,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -447,7 +447,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

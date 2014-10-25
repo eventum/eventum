@@ -165,7 +165,7 @@ class Reminder_Condition
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($action_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($action_id));
         } catch (DbException $e) {
             return array();
         }
@@ -203,7 +203,7 @@ class Reminder_Condition
                  ORDER BY
                     rlc_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
         } catch (DbException $e) {
             return array();
         }

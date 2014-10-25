@@ -41,7 +41,7 @@ class DbNull implements DbInterface
     {
     }
 
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
     }
 

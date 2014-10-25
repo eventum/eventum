@@ -108,7 +108,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('phs_created_date', 'usr_id');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['phone'] = processResult($res, 'phs_created_date', 'phs_iss_id');
         } catch (DbException $e) {
         }
@@ -132,7 +132,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('not_created_date', 'not_usr_id');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['note'] = processResult($res, 'not_created_date', 'not_iss_id');
         } catch (DbException $e) {
         }
@@ -154,7 +154,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('sup_date', 'sup_usr_id');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
         } catch (DbException $e) {
         }
@@ -175,7 +175,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id ), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
 
             $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
             foreach ($data['draft'] as &$draft) {
@@ -214,7 +214,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['time'] = processResult($res, 'ttr_created_date', 'ttr_iss_id');
             foreach ($data['time'] as &$time) {
                 $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
@@ -241,7 +241,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     iss_prj_id = ? AND\n";
         $sql .= createWhereClause('rmh_created_date');
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id ), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
         } catch (DbException $e) {
         }

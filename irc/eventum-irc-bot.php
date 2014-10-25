@@ -348,7 +348,7 @@ class Eventum_Bot
                     iss_id=ino_iss_id
                  WHERE
                     ino_status='pending'";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt);
         for ($i = 0; $i < count($res); $i++) {
 
             if (empty($res[$i]['ino_category'])) {

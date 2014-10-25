@@ -394,7 +394,7 @@ abstract class CRM
                  WHERE
                     cam_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -614,7 +614,7 @@ abstract class CRM
                 ORDER BY
                     cno_customer_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }

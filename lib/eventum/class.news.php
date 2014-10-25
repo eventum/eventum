@@ -53,7 +53,7 @@ class News
                  LIMIT
                     3 OFFSET 0";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -305,7 +305,7 @@ class News
                  ORDER BY
                     nws_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }

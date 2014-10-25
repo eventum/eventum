@@ -268,7 +268,7 @@ class Severity
                     sev_rank ASC";
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
         } catch (DbException $e) {
             return false;
         }

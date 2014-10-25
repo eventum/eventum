@@ -315,7 +315,7 @@ class Draft
         $stmt .= "ORDER BY
                     emd_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return '';
         }

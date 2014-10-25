@@ -114,8 +114,9 @@ class History
                     htt_role <= ?
                  ORDER BY
                     his_id $order_by";
+        $params = array($iss_id, Auth::getCurrentRole());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id, Auth::getCurrentRole()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -248,7 +249,7 @@ class History
                     iss_id ASC";
         $params = array($usr_id, $start, $end, Auth::getCurrentProject());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -323,7 +324,7 @@ class History
                     sta_rank";
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -359,7 +360,7 @@ class History
                     AND his_htt_id IN(" . join(",", Misc::escapeInteger($htt_id)) . ")";
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }

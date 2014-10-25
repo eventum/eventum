@@ -100,7 +100,7 @@ class Impact_Analysis
                     isr_iss_id=? AND
                     isr_usr_id=A.usr_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }

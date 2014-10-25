@@ -397,7 +397,7 @@ class Custom_Field
                  ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -609,7 +609,7 @@ class Custom_Field
                  ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -902,7 +902,7 @@ class Custom_Field
                  ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1453,7 +1453,7 @@ class Custom_Field
                     icf_iss_id=? AND
                     fld_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($iss_id, $fld_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($iss_id, $fld_id));
         } catch (DbException $e) {
             return '';
         }

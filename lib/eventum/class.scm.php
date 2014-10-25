@@ -136,7 +136,7 @@ class SCM
                  ORDER BY
                     isc_created_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }

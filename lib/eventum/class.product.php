@@ -50,7 +50,7 @@ class Product
                 ORDER BY
                     pro_rank";
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -192,7 +192,7 @@ class Product
                     ipv_pro_id = pro_id AND
                     ipv_iss_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, array($issue_id));
         } catch (DbException $e) {
             return array();
         }

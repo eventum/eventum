@@ -194,7 +194,7 @@ class Status
                  ORDER BY
                     prj_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -452,7 +452,7 @@ class Status
                     sta_rank ASC,
                     sta_title";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -726,7 +726,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }

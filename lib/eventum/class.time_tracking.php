@@ -248,7 +248,7 @@ class Time_Tracking
                  ORDER BY
                     ttc_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -377,7 +377,7 @@ class Time_Tracking
                  ORDER BY
                     ttr_created_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return 0;
         }

@@ -445,7 +445,7 @@ class Filter
                     cst_title";
         $params = array(Auth::getCurrentProject(), Auth::getUserID());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }

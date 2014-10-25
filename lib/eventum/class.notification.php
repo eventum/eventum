@@ -414,7 +414,7 @@ class Notification
                  WHERE
                     sup_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -497,7 +497,7 @@ class Notification
                         sbt_type='" . Misc::escapeString($type) . "'";
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -973,7 +973,7 @@ class Notification
             $stmt .= " AND
                     usr_id NOT IN (" . join(', ', $exclude_list) . ")";
         }
-        $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
@@ -1002,7 +1002,7 @@ class Notification
                     isu_iss_id=? AND
                     usr_id=isu_usr_id AND
                     usr_status = 'active'";
-        $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         for ($i = 0; $i < count($res); $i++) {
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
@@ -1572,7 +1572,7 @@ class Notification
                       sbt_type = '" . Misc::escapeString($type) . "'";
         }
         try {
-            $users = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $users = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -1611,7 +1611,7 @@ class Notification
                 $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
             }
             try {
-                $emails = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+                $emails = DB_Helper::getInstance()->getAll($stmt);
             } catch (DbException $e) {
                 return array();
             }
@@ -1707,7 +1707,7 @@ class Notification
                  WHERE
                     sub_iss_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }

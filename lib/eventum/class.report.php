@@ -110,7 +110,7 @@ class Report
                     usr_full_name,
                     iss_last_response_date " . Misc::escapeString($sort_order);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $before_ts, $after_ts), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $before_ts, $after_ts));
         } catch (DbException $e) {
             return "";
         }
@@ -198,7 +198,7 @@ class Report
             $stmt .= "assignee.usr_full_name";
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff));
         } catch (DbException $e) {
             return "";
         }
@@ -273,7 +273,7 @@ class Report
                  ORDER BY
                     usr_full_name";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }
@@ -402,8 +402,9 @@ class Report
                     time_period, performer
                  ORDER BY
                     time_period";
+        $params = array(Auth::getCurrentProject());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -692,7 +693,7 @@ class Report
             $sql .= "
                         row_count DESC";
             try {
-                $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->getAll($sql);
             } catch (DbException $e) {
                 return array();
             }
@@ -855,7 +856,7 @@ class Report
            }
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql);
         } catch (DbException $e) {
             return array();
         }

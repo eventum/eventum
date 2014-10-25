@@ -301,7 +301,7 @@ class Group
                  ORDER BY
                     grp_name";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return -1;
         }

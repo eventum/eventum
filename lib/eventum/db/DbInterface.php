@@ -104,7 +104,7 @@ interface DbInterface
      * @return array the nested array.
      * @throws DbException on failure.
      */
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
 
     /**
      * Fetches an entire query result and returns it as an

@@ -97,7 +97,7 @@ class Link_Filter
                 ORDER BY
                     lfi_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql);
         } catch (DbException $e) {
             return array();
         }
@@ -372,8 +372,10 @@ class Link_Filter
                     plf_prj_id = ?
                 ORDER BY
                     lfi_id";
+        $params = array(Auth::getCurrentRole(), $prj_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(Auth::getCurrentRole(), $prj_id));
+            // FIXME: need fetchmod default?
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_DEFAULT);
         } catch (DbException $e) {
             return array();
         }

@@ -672,7 +672,7 @@ class User
                      WHERE
                         usr_id IN (" . implode(', ', Misc::escapeInteger($usr_ids)) . ")";
             try {
-                $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->getAll($stmt);
             } catch (DbException $e) {
                 return null;
             }
@@ -1222,7 +1222,7 @@ class User
                     usr_status ASC,
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }

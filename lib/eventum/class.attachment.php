@@ -309,7 +309,7 @@ class Attachment
                  WHERE
                     iaf_iat_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id));
         } catch (DbException $e) {
             return "";
         }
@@ -355,7 +355,7 @@ class Attachment
                  ORDER BY
                     iat_created_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }

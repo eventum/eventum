@@ -57,7 +57,7 @@ $sql = "SELECT
         GROUP BY
         	iss_prc_id";
 try {
-    $res = DB_Helper::getInstance()->getAll($sql, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+    $res = DB_Helper::getInstance()->getAll($sql, array(Auth::getCurrentProject()));
 } catch (DbException $e) {
     return false;
 }

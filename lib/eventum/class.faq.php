@@ -71,7 +71,7 @@ class FAQ
             $params = array($prj_id);
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -292,7 +292,7 @@ class FAQ
                  ORDER BY
                     faq_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return "";
         }

@@ -63,7 +63,7 @@ class Authorized_Replier
                     iur_usr_id=usr_id";
         $params = array(APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array(
                 array(),

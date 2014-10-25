@@ -809,7 +809,7 @@ class Issue
         $stmt .= "\nGROUP BY
                         iss_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -1034,7 +1034,7 @@ class Issue
                     iss_sta_id=sta_id AND
                     iss_duplicated_iss_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -2779,7 +2779,7 @@ class Issue
                     isu_usr_id=usr_id AND
                     isu_iss_id IN ($ids)";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -3353,7 +3353,7 @@ class Issue
                     iss_sta_id=sta_id AND
                     isa_issue_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -3408,8 +3408,9 @@ class Issue
                     iqu_iss_id=iss_id AND
                     iqu_expiration >= ? AND
                     iqu_expiration IS NOT NULL";
+        $params = array(Date_Helper::getCurrentDateGMT());
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array(Date_Helper::getCurrentDateGMT()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }

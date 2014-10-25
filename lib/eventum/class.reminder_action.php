@@ -229,7 +229,7 @@ class Reminder_Action
                  WHERE
                     ral_rma_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
         } catch (DbException $e) {
             return array();
         }
@@ -453,7 +453,7 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
         } catch (DbException $e) {
             return array();
         }
@@ -489,7 +489,7 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id));
         } catch (DbException $e) {
             return array();
         }
