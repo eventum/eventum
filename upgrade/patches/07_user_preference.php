@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 
-db_query("CREATE TABLE %TABLE_PREFIX%user_preference
+db_query("CREATE TABLE {{%user_preference}}
 (
     upr_usr_id int(11) unsigned NOT NULL,
     upr_timezone varchar(100) NOT NULL,
@@ -15,7 +15,7 @@ db_query("CREATE TABLE %TABLE_PREFIX%user_preference
     PRIMARY KEY(upr_usr_id)
 )");
 
-db_query("CREATE TABLE %TABLE_PREFIX%user_project_preference
+db_query("CREATE TABLE {{%user_project_preference}}
 (
     upp_usr_id int(11) unsigned NOT NULL,
     upp_prj_id int(11) unsigned NOT NULL,
@@ -29,12 +29,13 @@ $sql = "SELECT
             usr_id,
             usr_preferences
         FROM
-            " . APP_DEFAULT_DB . '.' . APP_TABLE_PREFIX . "user
+            {{%user}}
         ORDER BY
             usr_id DESC";
-$res = db_getall($sql);
-if (PEAR::isError($res)) {
-    echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+try {
+    $res = db_getall($sql);
+} catch (DbException $e) {
+    echo $e->getMessage(), "\n";
     exit(1);
 }
 

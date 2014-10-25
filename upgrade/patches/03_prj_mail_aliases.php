@@ -1,12 +1,12 @@
 <?php
+
+global $dbconfig;
+
 $res = db_getOne("SELECT count(*) as count FROM INFORMATION_SCHEMA.COLUMNS WHERE
-            TABLE_NAME = '%TABLE_PREFIX%project' AND
-            TABLE_SCHEMA = '%DBNAME%' AND
+            TABLE_NAME = '{$dbconfig['table_prefix']}project' AND
+            TABLE_SCHEMA = '{$dbconfig['database']}' AND
             COLUMN_NAME = 'prj_mail_aliases'");
-if (PEAR::isError($res)) {
-    echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
-    exit(1);
-}
+
 if ($res != 1) {
-    $queries[] = "ALTER TABLE %TABLE_PREFIX%project ADD COLUMN prj_mail_aliases varchar(255)";
+    $queries[] = "ALTER TABLE {{%project}} ADD COLUMN prj_mail_aliases varchar(255)";
 }
