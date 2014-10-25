@@ -21,9 +21,8 @@
 	},
 	"repositories": [
 		{
-			"type": "pear",
-			"url": "http://pear.php.net",
-			"vendor-alias": "pear"
+			"type": "composer",
+			"url": "https://raw.githubusercontent.com/eventum/composer/repo/"
 		},
 		{
 			"type": "package",

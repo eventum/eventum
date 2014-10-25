@@ -89,8 +89,15 @@ if [ -n "$composer" ]; then
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm -r vendor/smarty-gettext/smarty-gettext/tests
 	rm -r vendor/bin
-	rm -r vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
+
+	# smarty: use -f, as dist and src packages differ
+	# smarty src
+	rm -rf vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
 	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
+	# smarty dist
+	rm -rf vendor/smarty/smarty/demo
+	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
+
 	rm vendor/composer/*.json
 
 	# component related deps, not needed runtime
