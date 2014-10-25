@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once 'Mail.php';
@@ -98,7 +99,7 @@ class Mail_Queue
         list(,$text_headers) = $res;
 
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  (
                     maq_save_copy,
                     maq_queued_date,
@@ -133,14 +134,13 @@ class Mail_Queue
             $stmt .= ",\n" . $type_id;
         }
         $stmt .= ")";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return $res;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -298,22 +298,22 @@ class Mail_Queue
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getList($status, $limit = false)
+    private function _getList($status, $limit)
     {
+        $limit = Misc::escapeString($limit);
         $sql = "SELECT
                     maq_id id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
-                    maq_status='$status'
+                    maq_status=?
                  ORDER BY
                     maq_id ASC
                  LIMIT
                     $limit OFFSET 0";
-        $res = DB_Helper::getInstance()->getCol($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getCol($sql, 0, array($status));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -332,9 +332,9 @@ class Mail_Queue
         $sql = "SELECT
                     GROUP_CONCAT(maq_id) ids
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
-                    maq_status='$status'
+                    maq_status=?
                  AND
                     maq_type_id > 0
                  GROUP BY
@@ -343,13 +343,13 @@ class Mail_Queue
                     MIN(maq_id) ASC";
 
         if ($limit !== false) {
+            $limit = Misc::escapeString($limit);
             $sql .= " LIMIT 0, $limit";
         }
 
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($status), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -378,13 +378,12 @@ class Mail_Queue
                     maq_type,
                     maq_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
-                    maq_id=$maq_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    maq_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -409,13 +408,12 @@ class Mail_Queue
                     maq_type,
                     maq_usr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
                     maq_id IN (" . implode(',', $maq_ids) . ")";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array(), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -434,32 +432,35 @@ class Mail_Queue
     private function _saveStatusLog($maq_id, $status, $server_message)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue_log
+                    {{%mail_queue_log}}
                  (
                     mql_maq_id,
                     mql_created_date,
                     mql_status,
                     mql_server_message
                  ) VALUES (
-                    $maq_id,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($status) . "',
-                    '" . Misc::escapeString($server_message) . "'
+                    ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $maq_id,
+            Date_Helper::getCurrentDateGMT(),
+            $status,
+            $server_message,
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return false;
         }
 
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  SET
-                    maq_status='" . Misc::escapeString($status) . "'
+                    maq_status=?
                  WHERE
-                    maq_id=$maq_id";
-        DB_Helper::getInstance()->query($stmt);
+                    maq_id=?";
+
+        DB_Helper::getInstance()->query($stmt, array($status, $maq_id));
 
         return true;
     }
@@ -480,17 +481,17 @@ class Mail_Queue
                     maq_recipient,
                     maq_subject
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
-                    maq_iss_id = " . Misc::escapeInteger($issue_id) . "
+                    maq_iss_id = ?
                  ORDER BY
                     maq_queued_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return false;
         }
+
         if (count($res) > 0) {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
@@ -520,17 +521,16 @@ class Mail_Queue
                     maq_headers,
                     maq_body
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                  WHERE
-                    maq_id = " . Misc::escapeInteger($maq_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    maq_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id), DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     public static function getMessageRecipients($types, $type_id)
@@ -542,21 +542,20 @@ class Mail_Queue
         $sql = "SELECT
                     maq_recipient
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                    {{%mail_queue}}
                 WHERE
                     maq_type IN('" . join("', '", $types) . "') AND
-                    maq_type_id = " . Misc::escapeInteger($type_id);
-        $res = DB_Helper::getInstance()->getCol($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    maq_type_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getCol($sql, 0, array($type_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
+        }
+
+        return $res;
     }
 }
