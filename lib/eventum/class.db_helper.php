@@ -37,7 +37,7 @@ class DB_Helper
     /**
      * @return DbInterface
      */
-    public static function getInstance()
+    public static function getInstance($fallback = true)
     {
         static $instance;
         if ($instance !== null) {
@@ -54,8 +54,11 @@ class DB_Helper
             $instance = new $className($config);
         } catch (DbException $e) {
             // set dummy provider in as offline.php uses db methods
-            $instance = new DbNull();
+            $instance = new DbNull($config);
 
+            if (!$fallback) {
+                throw $e;
+            }
             /** @global $error_type */
             $error_type = "db";
             require_once APP_PATH . "/htdocs/offline.php";
@@ -102,6 +105,29 @@ class DB_Helper
         }
 
         return $config;
+    }
+
+    // assumed default if can't query from database
+    const max_allowed_packet = 8387584;
+
+    /**
+     * query database for 'max_allowed_packet'
+     *
+     * @return int
+     */
+    public static function getMaxAllowedPacket()
+    {
+        try {
+            $stmt = "show variables like 'max_allowed_packet'";
+            $res = DB_Helper::getInstance(false)->getPair($stmt);
+            $max_allowed_packet = (int)$res['max_allowed_packet'];
+        } catch (DbException $e) {
+        }
+
+        if (empty($max_allowed_packet)) {
+            return self::max_allowed_packet;
+        }
+        return $max_allowed_packet;
     }
 
     /**
