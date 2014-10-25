@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-
 
 /**
  * Example workflow backend class. For example purposes it will print what
  * method is called.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Example_Workflow_Backend extends Abstract_Workflow_Backend
 {
@@ -253,15 +250,15 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
     {
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                 SET
                     iss_percent_complete = '100%'
                 WHERE
-                    iss_id = $issue_id";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
+                    iss_id = ?";
+        try {
+            DB_Helper::getInstance()->query($sql, array($issue_id));
+        } catch (DbException $e) {
+            return;
         }
 
         echo "Workflow: handleIssueClosed<br />\n";

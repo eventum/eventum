@@ -40,7 +40,7 @@ class Prefs
      * Method used to get the system-wide default preferences.
      *
      * @param   array $projects An array of projects this user will have access too.
-     * @return  string array of the default preferences
+     * @return  array of the default preferences
      */
     public static function getDefaults($projects = null)
     {
