@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,14 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the custom filters.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Filter
@@ -49,22 +47,21 @@ class Filter
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
-                    cst_id=" . Misc::escapeInteger($cst_id) . " AND
+                    cst_id=? AND
                     cst_is_global=1";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res == 1) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        if ($res == 1) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -80,22 +77,22 @@ class Filter
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
-                    cst_id=" . Misc::escapeInteger($cst_id) . " AND
-                    cst_usr_id=" . Misc::escapeInteger($usr_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    cst_id=? AND
+                    cst_usr_id=?";
 
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id, $usr_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res == 1) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        if ($res == 1) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -115,6 +112,25 @@ class Filter
             'first_response_date',
             'closed_date'
         );
+
+        /**
+         * @var $created_date
+         * @var $created_date_filter_type
+         * @var $created_date_end
+         * @var $updated_date
+         * @var $updated_date_filter_type
+         * @var $updated_date_end
+         * @var $last_response_date
+         * @var $last_response_date_filter_type
+         * @var $last_response_date_end
+         * @var $first_response_date
+         * @var $first_response_date_filter_type
+         * @var $first_response_date_end
+         * @var $closed_date
+         * @var $closed_date_filter_type
+         * @var $closed_date_end
+         */
+
         foreach ($date_fields as $field_name) {
             $date_var = $field_name;
             $filter_type_var = $field_name . '_filter_type';
@@ -154,53 +170,95 @@ class Filter
         } else {
             $is_global_filter = $_POST['is_global'];
         }
+
         if ($cst_id != 0) {
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                        {{%custom_filter}}
                      SET
-                        cst_iss_pri_id='" . Misc::escapeInteger(@$_POST["priority"]) . "',
-                        cst_iss_sev_id='" . Misc::escapeInteger(@$_POST["severity"]) . "',
-                        cst_keywords='" . Misc::escapeString($_POST["keywords"]) . "',
-                        cst_users='" . Misc::escapeString($_POST["users"]) . "',
-                        cst_reporter=" . Misc::escapeInteger($_POST["reporter"]) . ",
-                        cst_iss_sta_id='" . Misc::escapeInteger($_POST["status"]) . "',
-                        cst_iss_pre_id='" . Misc::escapeInteger(@$_POST["release"]) . "',
-                        cst_iss_prc_id='" . Misc::escapeInteger(@$_POST["category"]) . "',
-                        cst_pro_id='" . Misc::escapeInteger(@$_POST["product"]) . "',
-                        cst_rows='" . Misc::escapeString($_POST["rows"]) . "',
-                        cst_sort_by='" . Misc::escapeString($_POST["sort_by"]) . "',
-                        cst_sort_order='" . Misc::escapeString($_POST["sort_order"]) . "',
-                        cst_hide_closed='" . Misc::escapeInteger(@$_POST["hide_closed"]) . "',
-                        cst_show_authorized='" . Misc::escapeString(@$_POST["show_authorized_issues"]) . "',
-                        cst_show_notification_list='" . Misc::escapeString(@$_POST["show_notification_list_issues"]) . "',
-                        cst_created_date=$created_date,
-                        cst_created_date_filter_type=$created_date_filter_type,
-                        cst_created_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
-                        cst_created_date_end=$created_date_end,
-                        cst_updated_date=$updated_date,
-                        cst_updated_date_filter_type=$updated_date_filter_type,
-                        cst_updated_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
-                        cst_updated_date_end=$updated_date_end,
-                        cst_last_response_date=$last_response_date,
-                        cst_last_response_date_filter_type=$last_response_date_filter_type,
-                        cst_last_response_date_time_period='" .@ Misc::escapeInteger(@$_REQUEST['last_response_date']['time_period']) . "',
-                        cst_last_response_date_end=$last_response_date_end,
-                        cst_first_response_date=$first_response_date,
-                        cst_first_response_date_filter_type=$first_response_date_filter_type,
-                        cst_first_response_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
-                        cst_first_response_date_end=$first_response_date_end,
-                        cst_closed_date=$closed_date,
-                        cst_closed_date_filter_type=$closed_date_filter_type,
-                        cst_closed_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
-                        cst_closed_date_end=" . Misc::escapeString($closed_date_end) . ",
-                        cst_is_global=" . Misc::escapeInteger($is_global_filter) . ",
-                        cst_search_type='" . Misc::escapeString($_POST['search_type']) . "',
-                        cst_custom_field='" . Misc::escapeString($custom_field_string) . "'
+                        cst_iss_pri_id=?,
+                        cst_iss_sev_id=?,
+                        cst_keywords=?,
+                        cst_users=?,
+                        cst_reporter=?,
+                        cst_iss_sta_id=?,
+                        cst_iss_pre_id=?,
+                        cst_iss_prc_id=?,
+                        cst_pro_id=?,
+                        cst_rows=?,
+                        cst_sort_by=?,
+                        cst_sort_order=?,
+                        cst_hide_closed=?,
+                        cst_show_authorized=?,
+                        cst_show_notification_list=?,
+                        cst_created_date=?,
+                        cst_created_date_filter_type=?,
+                        cst_created_date_time_period=?,
+                        cst_created_date_end=?,
+                        cst_updated_date=?,
+                        cst_updated_date_filter_type=?,
+                        cst_updated_date_time_period=?,
+                        cst_updated_date_end=?,
+                        cst_last_response_date=?,
+                        cst_last_response_date_filter_type=?,
+                        cst_last_response_date_time_period=?,
+                        cst_last_response_date_end=?,
+                        cst_first_response_date=?,
+                        cst_first_response_date_filter_type=?,
+                        cst_first_response_date_time_period=?,
+                        cst_first_response_date_end=?,
+                        cst_closed_date=?,
+                        cst_closed_date_filter_type=?,
+                        cst_closed_date_time_period=?,
+                        cst_closed_date_end=?,
+                        cst_is_global=?,
+                        cst_search_type=?,
+                        cst_custom_field=?
                      WHERE
-                        cst_id=$cst_id";
+                        cst_id=?";
+            $params = array(
+                @$_POST["priority"],
+                @$_POST["severity"],
+                $_POST["keywords"],
+                $_POST["users"],
+                $_POST["reporter"],
+                $_POST["status"],
+                @$_POST["release"],
+                @$_POST["category"],
+                @$_POST["product"],
+                $_POST["rows"],
+                $_POST["sort_by"],
+                $_POST["sort_order"],
+                @$_POST["hide_closed"],
+                @$_POST["show_authorized_issues"],
+                @$_POST["show_notification_list_issues"],
+                $created_date,
+                $created_date_filter_type,
+                @$_REQUEST['created_date']['time_period'],
+                $created_date_end,
+                $updated_date,
+                $updated_date_filter_type,
+                @$_REQUEST['updated_date']['time_period'],
+                $updated_date_end,
+                $last_response_date,
+                $last_response_date_filter_type,
+                @$_REQUEST['last_response_date']['time_period'],
+                $last_response_date_end,
+                $first_response_date,
+                $first_response_date_filter_type,
+                @$_REQUEST['first_response_date']['time_period'],
+                $first_response_date_end,
+                $closed_date,
+                $closed_date_filter_type,
+                @$_REQUEST['closed_date']['time_period'],
+                $closed_date_end,
+                $is_global_filter,
+                $_POST['search_type'],
+                $custom_field_string,
+                $cst_id,
+            );
         } else {
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                        {{%custom_filter}}
                      (
                         cst_usr_id,
                         cst_prj_id,
@@ -244,57 +302,64 @@ class Filter
                         cst_search_type,
                         cst_custom_field
                      ) VALUES (
-                        " . Auth::getUserID() . ",
-                        " . Auth::getCurrentProject() . ",
-                        '" . Misc::escapeString($_POST["title"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["priority"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["severity"]) . "',
-                        '" . Misc::escapeString($_POST["keywords"]) . "',
-                        '" . Misc::escapeString($_POST["users"]) . "',
-                        '" . Misc::escapeInteger($_POST["reporter"]) . "',
-                        '" . Misc::escapeInteger($_POST["status"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["release"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["category"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["product"]) . "',
-                        '" . Misc::escapeString($_POST["rows"]) . "',
-                        '" . Misc::escapeString($_POST["sort_by"]) . "',
-                        '" . Misc::escapeString($_POST["sort_order"]) . "',
-                        '" . Misc::escapeInteger(@$_POST["hide_closed"]) . "',
-                        '" . Misc::escapeString(@$_POST["show_authorized_issues"]) . "',
-                        '" . Misc::escapeString(@$_POST["show_notification_list_issues"]) . "',
-                        $created_date,
-                        $created_date_filter_type,
-                        '" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
-                        $created_date_end,
-                        $updated_date,
-                        $updated_date_filter_type,
-                        '" . @Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
-                        $updated_date_end,
-                        $last_response_date,
-                        $last_response_date_filter_type,
-                        '" . @Misc::escapeInteger(@$_REQUEST['response_date']['time_period']) . "',
-                        $last_response_date_end,
-                        $first_response_date,
-                        $first_response_date_filter_type,
-                        '" . @Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
-                        $first_response_date_end,
-                        $closed_date,
-                        $closed_date_filter_type,
-                        '" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
-                        $closed_date_end,
-                        " . Misc::escapeInteger($is_global_filter) . ",
-                        '" . Misc::escapeString($_POST['search_type']) . "',
-                        '" . Misc::escapeString($custom_field_string) . "'
+                         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                         ?
                      )";
+            $params = array(
+                Auth::getUserID(),
+                Auth::getCurrentProject(),
+                $_POST["title"],
+                @$_POST["priority"],
+                @$_POST["severity"],
+                $_POST["keywords"],
+                $_POST["users"],
+                $_POST["reporter"],
+                $_POST["status"],
+                @$_POST["release"],
+                @$_POST["category"],
+                @$_POST["product"],
+                $_POST["rows"],
+                $_POST["sort_by"],
+                $_POST["sort_order"],
+                @$_POST["hide_closed"],
+                @$_POST["show_authorized_issues"],
+                @$_POST["show_notification_list_issues"],
+                $created_date,
+                $created_date_filter_type,
+                @$_REQUEST['created_date']['time_period'],
+                $created_date_end,
+                $updated_date,
+                $updated_date_filter_type,
+                @$_REQUEST['updated_date']['time_period'],
+                $updated_date_end,
+                $last_response_date,
+                $last_response_date_filter_type,
+                @$_REQUEST['response_date']['time_period'],
+                $last_response_date_end,
+                $first_response_date,
+                $first_response_date_filter_type,
+                @$_REQUEST['first_response_date']['time_period'],
+                $first_response_date_end,
+                $closed_date,
+                $closed_date_filter_type,
+                @$_REQUEST['closed_date']['time_period'],
+                $closed_date_end,
+                $is_global_filter,
+                $_POST['search_type'],
+                $custom_field_string,
+            );
         }
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -309,19 +374,19 @@ class Filter
         $stmt = "SELECT
                     cst_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
-                    cst_usr_id=" . Auth::getUserID() . " AND
-                    cst_prj_id=" . Auth::getCurrentProject() . " AND
-                    cst_title='" . Misc::escapeString($cst_title) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cst_usr_id=? AND
+                    cst_prj_id=? AND
+                    cst_title=?";
+        $params = array(Auth::getUserID(), Auth::getCurrentProject(), $cst_title);
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
+        } catch (DbException $e) {
             return 0;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -337,23 +402,23 @@ class Filter
                     cst_id,
                     cst_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
-                    cst_prj_id=" . Auth::getCurrentProject() . " AND
+                    cst_prj_id=? AND
                     (
-                        cst_usr_id=" . Auth::getUserID() . " OR
+                        cst_usr_id=? OR
                         cst_is_global=1
                     )
                  ORDER BY
                     cst_title";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(Auth::getCurrentProject(), Auth::getUserID());
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -369,30 +434,30 @@ class Filter
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
-                    cst_prj_id=" . Auth::getCurrentProject() . " AND
+                    cst_prj_id=? AND
                     (
-                        cst_usr_id=" . Auth::getUserID() . " OR
+                        cst_usr_id=? OR
                         cst_is_global=1
                     )
                  ORDER BY
                     cst_title";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(Auth::getCurrentProject(), Auth::getUserID());
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            if ((count($res) > 0) && ($build_url == true)) {
-                $filter_info = self::getFiltersInfo();
-                for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($res[$i]));
-                }
-            }
-
-            return $res;
         }
+
+        if (count($res) > 0 && $build_url == true) {
+            $filter_info = self::getFiltersInfo();
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($res[$i]));
+            }
+        }
+
+        return $res;
     }
 
     private static function removeCSTprefix($res)
@@ -514,27 +579,31 @@ class Filter
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE";
+        $params = array();
         if ($check_perm) {
             $stmt .= "
-                    cst_usr_id=" . Auth::getUserID() . " AND
-                    cst_prj_id=" . Auth::getCurrentProject() . " AND ";
+                    cst_usr_id=? AND
+                    cst_prj_id=? AND ";
+            $params[] = Auth::getUserID();
+            $params[] = Auth::getCurrentProject();
         }
         $stmt .= "
-                    cst_id=$cst_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    cst_id=?";
+        $params[] = $cst_id;
 
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, $params, DB_FETCHMODE_ASSOC);
+        } catch (DbException $e) {
             return "";
-        } else {
-            if (is_string($res['cst_custom_field'])) {
-                $res['cst_custom_field'] = unserialize($res['cst_custom_field']);
-            }
-
-            return $res;
         }
+
+        if (is_string($res['cst_custom_field'])) {
+            $res['cst_custom_field'] = unserialize($res['cst_custom_field']);
+        }
+
+        return $res;
     }
 
     /**
@@ -546,26 +615,32 @@ class Filter
     {
         foreach ($_POST["item"] as $cst_id) {
             $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                        {{%custom_filter}}
                      WHERE";
+            $params = array();
+
             if (self::isGlobal($cst_id)) {
                 if (Auth::getCurrentRole() >= User::getRoleID('Manager')) {
                     $stmt .= " cst_is_global=1 AND ";
                 } else {
                     $stmt .= "
                         cst_is_global=1 AND
-                        cst_usr_id=" . Auth::getUserID() . " AND ";
+                        cst_usr_id=? AND ";
+                    $params[] = Auth::getUserID();
                 }
             } else {
-                $stmt .= " cst_usr_id=" . Auth::getUserID() . " AND ";
+                $stmt .= " cst_usr_id=? AND ";
+                $params[] = Auth::getUserID();
             }
             $stmt .= "
-                        cst_prj_id=" . Auth::getCurrentProject() . " AND
-                        cst_id=$cst_id";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                        cst_prj_id=? AND
+                        cst_id=?";
+            $params[] = Auth::getCurrentProject();
+            $params[] = $cst_id;
 
+            try {
+                DB_Helper::getInstance()->query($stmt, $params);
+            } catch (DbException $e) {
                 return -1;
             }
         }
@@ -584,17 +659,15 @@ class Filter
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                    {{%custom_filter}}
                  WHERE
                     cst_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
