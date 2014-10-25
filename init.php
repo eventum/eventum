@@ -234,7 +234,8 @@ if (APP_MAINTENANCE) {
 // Default IRC category
 define("APP_EVENTUM_IRC_CATEGORY_DEFAULT", "default");
 
-// legacy constants. all classes interacting with database use these
+// legacy constants, enable this block if you need time to migrate custom workflow, custom_field, customer, etc classes
+/*
 if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
     $dbconfig = DB_Helper::getConfig();
     if (!defined('APP_DEFAULT_DB')) {
@@ -246,3 +247,4 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
     }
     unset($dbconfig);
 }
+*/
