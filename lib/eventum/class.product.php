@@ -76,7 +76,7 @@ class Product
         }
         $params = array($title, $version_howto, $rank, $removed);
         $sql = "INSERT INTO
-                    {{product}}
+                    {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,

@@ -274,7 +274,7 @@ class News
         $stmt = "SELECT
                     *
                  FROM
-                    %{{news}}
+                    {{%news}}
                  WHERE
                     nws_id=?";
         try {

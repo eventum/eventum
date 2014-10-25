@@ -497,7 +497,7 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    %{{user}}";
+                    {{%user}}";
         if ($prj_id != false) {
             $stmt .= ",
                     {{%project_user}}";
