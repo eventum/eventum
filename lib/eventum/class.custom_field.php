@@ -205,11 +205,11 @@ class Custom_Field
                              FROM
                                 {{%issue_custom_field}}
                              WHERE
-                                icf_iss_id=" . $issue_id . " AND
-                                icf_fld_id=$fld_id";
+                                icf_iss_id=? AND
+                                icf_fld_id=?";
 
                     try {
-                        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
+                        $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, $fld_id));
                     } catch (DbException $e) {
                         return -1;
                     }
@@ -974,7 +974,7 @@ class Custom_Field
                  WHERE
                     fld_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($fld_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($fld_id));
         } catch (DbException $e) {
             return "";
         }

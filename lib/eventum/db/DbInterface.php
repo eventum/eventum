@@ -182,5 +182,5 @@ interface DbInterface
      * @return array  the first row of results as an array.
      * @throws DbException on failure.
      */
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
 }

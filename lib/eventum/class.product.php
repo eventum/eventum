@@ -145,7 +145,7 @@ class Product
                     pro_id = ?";
 
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($pro_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($sql, array($pro_id));
         } catch (DbException $e) {
             return array();
         }

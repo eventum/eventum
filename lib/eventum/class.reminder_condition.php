@@ -50,7 +50,7 @@ class Reminder_Condition
                  WHERE
                     rlc_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id));
         } catch (DbException $e) {
             return '';
         }

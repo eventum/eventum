@@ -245,7 +245,7 @@ class Group
                     grp_id = ?";
 
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($grp_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($grp_id));
         } catch (DbException $e) {
             return -1;
         }

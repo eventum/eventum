@@ -455,7 +455,7 @@ abstract class CRM
                  WHERE
                     cam_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id));
         } catch (DbException $e) {
             return array();
         }
@@ -564,7 +564,7 @@ abstract class CRM
                 WHERE
                     cno_customer_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id));
         } catch (DbException $e) {
             return array();
         }
@@ -589,7 +589,7 @@ abstract class CRM
                 WHERE
                     cno_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id));
         } catch (DbException $e) {
             return array();
         }

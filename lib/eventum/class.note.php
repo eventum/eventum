@@ -95,7 +95,7 @@ class Note
                     not_usr_id=usr_id AND
                     not_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id));
         } catch (DbException $e) {
             return '';
         }
@@ -445,7 +445,7 @@ class Note
                  WHERE
                     not_id=?";
 
-        $details = DB_Helper::getInstance()->getRow($stmt, array($note_id), DB_FETCHMODE_ASSOC);
+        $details = DB_Helper::getInstance()->getRow($stmt, array($note_id));
         if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID("Manager")) {
             return -2;
         }

@@ -142,10 +142,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getRow
      */
-    public function getRow(
-        $query, $params = array(),
-        $fetchmode = DB_FETCHMODE_DEFAULT
-    ) {
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC) {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getRow($query, $params, $fetchmode);
         $this->assertError($res);

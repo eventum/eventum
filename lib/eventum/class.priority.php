@@ -128,7 +128,7 @@ class Priority
                  WHERE
                     pri_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id));
         } catch (DbException $e) {
             return "";
         }

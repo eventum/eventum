@@ -96,7 +96,7 @@ class Prefs
                 WHERE
                     upr_usr_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($usr_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
         } catch (DbException $e) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }

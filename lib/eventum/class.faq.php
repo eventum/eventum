@@ -257,7 +257,7 @@ class FAQ
                  WHERE
                     faq_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id));
         } catch (DbException $e) {
             return "";
         }

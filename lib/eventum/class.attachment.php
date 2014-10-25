@@ -167,7 +167,7 @@ class Attachment
                     iat_id=iaf_iat_id AND
                     iaf_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($file_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($file_id));
         } catch (DbException $e) {
             return "";
         }

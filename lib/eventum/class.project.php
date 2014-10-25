@@ -57,7 +57,7 @@ class Project
                  WHERE
                     prj_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id));
         } catch (DbException $e) {
             return $default;
         }
@@ -309,7 +309,7 @@ class Project
                  WHERE
                     prj_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

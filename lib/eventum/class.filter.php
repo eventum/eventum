@@ -594,7 +594,7 @@ class Filter
         $params[] = $cst_id;
 
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, $params);
         } catch (DbException $e) {
             return "";
         }

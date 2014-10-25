@@ -163,7 +163,7 @@ abstract class Customer
                 WHERE
                     cno_customer_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id));
         } catch (DbException $e) {
             return array();
         }

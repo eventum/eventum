@@ -90,7 +90,7 @@ class Time_Tracking
                  WHERE
                     ttc_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($ttc_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($ttc_id));
         } catch (DbException $e) {
             return "";
         }
@@ -452,7 +452,7 @@ class Time_Tracking
                  WHERE
                     ttr_id=?";
 
-        $details = DB_Helper::getInstance()->getRow($stmt, array($time_id), DB_FETCHMODE_ASSOC);
+        $details = DB_Helper::getInstance()->getRow($stmt, array($time_id));
         // check if the owner is the one trying to remove this entry
         if (($details['owner_usr_id'] != $usr_id) || (!Issue::canAccess($details['issue_id'], $usr_id))) {
             return -1;

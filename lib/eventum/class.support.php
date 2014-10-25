@@ -1599,7 +1599,7 @@ class Support
                     sup_id=seb_sup_id AND
                     sup_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($sup_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($sup_id));
         } catch (DbException $e) {
             return "";
         }
@@ -1641,7 +1641,8 @@ class Support
                     sup_id
                 LIMIT 1 OFFSET " . (Misc::escapeInteger($sequence) - 1);
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
+            // FIXME: need DB_FETCHMODE_DEFAULT here?
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DbInterface::DB_FETCHMODE_DEFAULT);
         } catch (DbException $e) {
             return array();
         }

@@ -137,7 +137,7 @@ class Severity
                  WHERE
                     sev_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($sev_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($sql, array($sev_id));
         } catch (DbException $e) {
             return "";
         }

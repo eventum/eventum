@@ -251,7 +251,7 @@ class News
                  WHERE
                     nws_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
         } catch (DbException $e) {
             return "";
         }
@@ -278,7 +278,7 @@ class News
                  WHERE
                     nws_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
         } catch (DbException $e) {
             return "";
         }

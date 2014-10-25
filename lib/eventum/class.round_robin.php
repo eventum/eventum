@@ -423,7 +423,7 @@ class Round_Robin
                  WHERE
                     prr_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($prr_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prr_id));
         } catch (DbException $e) {
             return "";
         }

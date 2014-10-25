@@ -370,7 +370,7 @@ class Notification
                     not_id=? AND
                     not_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id));
         } catch (DbException $e) {
             return "";
         }
@@ -451,7 +451,7 @@ class Notification
                     iat_iss_id=? AND
                     iat_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, $attachment_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, $attachment_id));
         } catch (DbException $e) {
             return "";
         }
@@ -1651,7 +1651,7 @@ class Notification
                  WHERE
                     sub_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($sub_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($sub_id));
         } catch (DbException $e) {
             return "";
         }
@@ -1884,7 +1884,7 @@ class Notification
                  WHERE
                     sub_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($sub_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($sub_id));
         } catch (DbException $e) {
             return '';
         }
@@ -2175,7 +2175,8 @@ class Notification
                     sub_id=?";
 
         // FIXME $usr_id unused
-        list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt, array($sub_id));
+        // TODO: need fetchmode default?
+        list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt, array($sub_id), DbInterface::DB_FETCHMODE_DEFAULT);
 
         $email = strtolower(Mail_Helper::getEmailAddress($_POST["email"]));
         $usr_id = User::getUserIDByEmail($email, true);

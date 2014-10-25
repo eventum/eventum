@@ -81,7 +81,7 @@ class Release
                  WHERE
                     pre_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id));
         } catch (DbException $e) {
             return "";
         }

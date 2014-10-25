@@ -50,7 +50,7 @@ class Category
                  WHERE
                     prc_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id));
         } catch (DbException $e) {
             return "";
         }

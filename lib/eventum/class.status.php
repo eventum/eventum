@@ -79,7 +79,7 @@ class Status
                  WHERE
                     psd_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($psd_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($psd_id));
         } catch (DbException $e) {
             return "";
         }
@@ -426,7 +426,7 @@ class Status
                  WHERE
                     sta_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($sta_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($sta_id));
         } catch (DbException $e) {
             return "";
         }

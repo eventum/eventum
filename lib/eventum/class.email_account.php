@@ -168,7 +168,7 @@ class Email_Account
                  WHERE
                     ema_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
         } catch (DbException $e) {
             return "";
         }

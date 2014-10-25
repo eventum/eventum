@@ -127,7 +127,7 @@ class Phone_Support
                  WHERE
                     phc_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($phc_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($phc_id));
         } catch (DbException $e) {
             return "";
         }
@@ -204,7 +204,7 @@ class Phone_Support
                  WHERE
                     phs_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($phs_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($phs_id));
         } catch (DbException $e) {
             return "";
         }
@@ -369,7 +369,7 @@ class Phone_Support
                     {{%phone_support}}
                  WHERE
                     phs_id=?";
-        $details = DB_Helper::getInstance()->getRow($stmt, array($phone_id), DB_FETCHMODE_ASSOC);
+        $details = DB_Helper::getInstance()->getRow($stmt, array($phone_id));
         if ($details['phs_usr_id'] != Auth::getUserID()) {
             return -2;
         }

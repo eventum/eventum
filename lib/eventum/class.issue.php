@@ -844,7 +844,7 @@ class Issue
                     iss_usr_id=usr_id AND
                     iss_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
             return '';
         }
@@ -2946,7 +2946,7 @@ class Issue
                     iss_id=? AND
                     iss_prj_id=prj_id";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }
@@ -3065,7 +3065,7 @@ class Issue
                     iss_sta_id=sta_id AND
                     iss_id=?";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -3437,7 +3437,7 @@ class Issue
                         (iqu_expiration > ? OR
                         iqu_expiration IS NULL)";
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, Date_Helper::getCurrentDateGMT()), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, Date_Helper::getCurrentDateGMT()));
         } catch (DbException $e) {
             return array();
         }
