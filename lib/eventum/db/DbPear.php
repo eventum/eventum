@@ -37,11 +37,7 @@ class DbPear implements DbInterface
      */
     private $tablePrefix;
 
-    /**
-     * Connects to the database and creates a data dictionary array to be used
-     * on database related schema dynamic lookups.
-     */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $dsn = array(
             'phptype'  => $config['driver'],
@@ -87,17 +83,6 @@ class DbPear implements DbInterface
         $this->tablePrefix = $config['table_prefix'];
     }
 
-    /**
-     * Fetches the first column of the first row from a query result
-     *
-     * Takes care of doing the query and freeing the results when finished.
-     *
-     * @see DB_common::getOne
-     * @param string $query the SQL query
-     * @param mixed $params array, string or numeric data
-     * @return mixed the returned value of the query.
-     * @throws DbException on failure.
-     */
     public function getOne($query, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -106,22 +91,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Fetches an entire query result and returns it as an
-     * associative array using the first column as the key
-     *
-     * Keep in mind that database functions in PHP usually return string
-     * values for results regardless of the database's internal type.
-     *
-     * @see DB_common::getAssoc
-     * @param string $query
-     * @param bool $force_array
-     * @param mixed $params
-     * @param int $fetchmode
-     * @param bool $group
-     * @return array  the associative array containing the query results.
-     * @throws DbException on failure.
-     */
     public function getAssoc(
         $query, $force_array = false, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
@@ -135,33 +104,11 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Fetches an entire query result and returns it as an
-     * associative array using the first column as the key
-     *
-     * This mode requires the result set to contain exactly 2 columns use getAssoc() if you need more.
-     *
-     * @see DbPear::getAssoc
-     * @param string $query
-     * @param mixed $params
-     * @return array  the associative array containing the query results.
-     * @throws DbException on failure.
-     */
     public function getPair($query, $params = array())
     {
         return $this->getAssoc($query, false, $params);
     }
 
-    /**
-     * Sends a query to the database server
-     *
-     * @see DB_common::query
-     * @param string $query the SQL query or the statement to prepare
-     * @param mixed $params array, string or numeric data
-     * @return mixed  a new DB_result object for successful SELECT queries
-     *                 or DB_OK for successull data manipulation queries.
-     * @throws DbException on failure.
-     */
     public function query($query, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -170,16 +117,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Fetches all of the rows from a query result
-     *
-     * @see DB_common::getAll
-     * @param string $query the SQL query
-     * @param mixed $params array, string or numeric data
-     * @param int $fetchmode the fetch mode to use
-     * @return array the nested array.
-     * @throws DbException on failure.
-     */
     public function getAll(
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
@@ -190,17 +127,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-
-    /**
-     * Fetches the first row of data returned from a query result
-     *
-     * @see DB_common::getRow
-     * @param string $query the SQL query
-     * @param mixed $params array, string or numeric data
-     * @param int $fetchmode the fetch mode to use
-     * @return array  the first row of results as an array.
-     * @throws DbException on failure.
-     */
     public function getRow(
         $query, $params = array(),
         $fetchmode = DB_FETCHMODE_DEFAULT
@@ -211,17 +137,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Fetches a single column from a query result and returns it as an
-     * indexed array
-     *
-     * @see DB_common::getCol
-     * @param string $query the SQL query
-     * @param mixed $col which column to return
-     * @param mixed $params array, string or numeric data
-     * @return array  the results as an array.
-     * @throws DbException on failure.
-     */
     public function getCol($query, $col = 0, $params = array())
     {
         $query = $this->quoteSql($query, $params);
@@ -230,16 +145,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Quotes a string so it can be safely used as a table or column name
-     *
-     * Delimiting style depends on which database driver is being used.
-     *
-     * @see DB_common::quoteIdentifier
-     * @param string $str the identifier name to be quoted
-     * @return string  the quoted identifier
-     * @throws DbException on failure.
-     */
     public function quoteIdentifier($str)
     {
         $res = $this->db->quoteIdentifier($str);
@@ -247,14 +152,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Escapes a string according to the current DBMS's standards
-     *
-     * @see DB_common::escapeSimple
-     * @param string $str the string to be escaped
-     * @return string  the escaped string
-     * @throws DbException on failure.
-     */
     public function escapeSimple($str)
     {
         $res = $this->db->escapeSimple($str);
@@ -262,14 +159,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    /**
-     * Determines the number of rows affected by a data manipulation query
-     *
-     * 0 is returned for queries that don't manipulate data.
-     *
-     * @return int  the number of rows
-     * @throws DbException on failure.
-     */
     public function affectedRows()
     {
         $res = $this->db->affectedRows();
