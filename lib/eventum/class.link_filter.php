@@ -65,7 +65,7 @@ class Link_Filter
                     WHERE
                         plf_lfi_id = ?";
             try {
-                $projects = DB_Helper::getInstance()->getCol($sql, 0, array($res['lfi_id']));
+                $projects = DB_Helper::getInstance()->getColumn($sql, array($res['lfi_id']));
             } catch (DbException $e) {
                 $projects = array();
             }

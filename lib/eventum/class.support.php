@@ -264,7 +264,7 @@ class Support
                  WHERE
                     sup_id IN (" . implode(", ", Misc::escapeInteger($sup_ids)) . ")";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -998,7 +998,7 @@ class Support
                  WHERE
                     sup_ema_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($ema_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($ema_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1506,7 +1506,7 @@ class Support
                     {{%support_email}}
                  WHERE
                     sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
-        $res = DB_Helper::getInstance()->getCol($stmt);
+        $res = DB_Helper::getInstance()->getColumn($stmt);
         for ($i = 0; $i < count($res); $i++) {
             History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
                    ev_gettext('Email (subject: \'%1$s\') associated by %2$s', $res[$i], User::getFullName($usr_id)));

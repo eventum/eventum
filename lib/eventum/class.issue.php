@@ -1326,7 +1326,7 @@ class Issue
                  WHERE
                     iss_prj_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return false;
         }
@@ -2653,7 +2653,7 @@ class Issue
                     " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -2690,7 +2690,7 @@ class Issue
                     isu_iss_id=? AND
                     isu_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($issue_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -2852,7 +2852,7 @@ class Issue
                     isu_iss_id=? AND
                     isu_usr_id=usr_id";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($issue_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -3268,7 +3268,7 @@ class Issue
                  ORDER BY
                     iss_id DESC";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return "";
         }

@@ -93,7 +93,7 @@ class Notification
         $stmt .= "
                     sub_iss_id=" . Misc::escapeInteger($issue_id);
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1766,7 +1766,7 @@ class Notification
                  WHERE
                     sub_iss_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return false;
         }

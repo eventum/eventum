@@ -51,12 +51,12 @@ class Note
                  FROM
                     {{%note}}
                  WHERE
-                    not_iss_id= AND
+                    not_iss_id=? AND
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($issue_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
             return "";
         }

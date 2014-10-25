@@ -1157,7 +1157,7 @@ class Custom_Field
                         {{%custom_field_option}}
                      WHERE
                         cfo_fld_id=?";
-            $current_options = DB_Helper::getInstance()->getCol($stmt, 0, array($_POST["id"]));
+            $current_options = DB_Helper::getInstance()->getColumn($stmt, array($_POST["id"]));
         }
 
         if ($old_details["fld_type"] != $_POST["field_type"]) {
@@ -1241,7 +1241,7 @@ class Custom_Field
                  WHERE
                     pcf_prj_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($prj_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1275,7 +1275,7 @@ class Custom_Field
                     WHERE
                         iss_prj_id = ?";
             try {
-                $res = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id));
+                $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
             } catch (DbException $e) {
                 return false;
             }
@@ -1319,7 +1319,7 @@ class Custom_Field
                  WHERE
                     cfo_fld_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return false;
         }
@@ -1674,14 +1674,13 @@ class Custom_Field
                         icf_value_date LIKE ?
                     )";
         try {
-            $res = DB_Helper::getInstance()->getCol(
-                $sql, array(
-                    $fld_id,
-                    "%$search%",
-                    "%$search%",
-                    "%$search%",
-                )
+            $params = array(
+                $fld_id,
+                "%$search%",
+                "%$search%",
+                "%$search%",
             );
+            $res = DB_Helper::getInstance()->getColumn($sql, $params);
         } catch (DbException $e) {
             return array();
         }

@@ -253,7 +253,7 @@ class Reminder
                  WHERE
                     rep_rem_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
             return array();
         }
@@ -270,7 +270,7 @@ class Reminder
                  WHERE
                     rpr_rem_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
             return array();
         }
@@ -294,7 +294,7 @@ class Reminder
                  WHERE
                     rms_rem_id=?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($rem_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
             return array();
         }
@@ -675,7 +675,7 @@ class Reminder
                     {{%reminder_action}}
                  WHERE
                     rma_rem_id IN ($items)";
-        $actions = DB_Helper::getInstance()->getCol($stmt);
+        $actions = DB_Helper::getInstance()->getColumn($stmt);
         if (count($actions) > 0) {
             Reminder_Action::remove($actions);
         }

@@ -312,7 +312,7 @@ class Mail_Queue
                  LIMIT
                     $limit OFFSET 0";
         try {
-            $res = DB_Helper::getInstance()->getCol($sql, 0, array($status));
+            $res = DB_Helper::getInstance()->getColumn($sql, array($status));
         } catch (DbException $e) {
             return array();
         }
@@ -547,7 +547,7 @@ class Mail_Queue
                     maq_type IN('" . join("', '", $types) . "') AND
                     maq_type_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getCol($sql, 0, array($type_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, array($type_id));
         } catch (DbException $e) {
             return false;
         }

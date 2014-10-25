@@ -714,7 +714,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($prj_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($prj_id));
         } catch (DbException $e) {
             return "";
         }

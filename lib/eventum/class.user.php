@@ -733,7 +733,7 @@ class User
             if (!is_array($usr_id)) {
                 $res = DB_Helper::getInstance()->getOne($stmt);
             } else {
-                $res = DB_Helper::getInstance()->getCol($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt);
             }
         } catch (DbException $e) {
             return "";
@@ -783,7 +783,7 @@ class User
             if (!is_array($usr_id)) {
                 $res = DB_Helper::getInstance()->getOne($stmt);
             } else {
-                $res = DB_Helper::getInstance()->getCol($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt);
             }
         } catch (DbException $e) {
             if (!is_array($usr_id)) {
@@ -829,7 +829,7 @@ class User
             if (!is_array($usr_id)) {
                 $res = DB_Helper::getInstance()->getOne($stmt);
             } else {
-                $res = DB_Helper::getInstance()->getCol($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt);
             }
         } catch (DbException $e) {
             return "";
@@ -1537,7 +1537,7 @@ class User
                 WHERE
                     ual_usr_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getCol($sql, 0, array($usr_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, array($usr_id));
         } catch (DbException $e) {
             return array();
         }

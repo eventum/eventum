@@ -50,7 +50,7 @@ class Monitor
                     maq_id";
 
         // FIXME: selecting 2 columns but using 1 column!
-        $queue_ids = DB_Helper::getInstance()->getCol($stmt);
+        $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
         $errors = count($queue_ids);
         if ($errors) {
             echo ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors), "\n";
@@ -269,7 +269,7 @@ class Monitor
 
         // check if all of the required tables are really there
         $stmt = "SHOW TABLES";
-        $table_list = DB_Helper::getInstance()->getCol($stmt);
+        $table_list = DB_Helper::getInstance()->getColumn($stmt);
         $errors = 0;
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list)) {

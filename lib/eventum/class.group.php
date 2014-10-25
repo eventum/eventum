@@ -392,7 +392,7 @@ class Group
                  WHERE
                     usr_grp_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, array($grp_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, array($grp_id));
         } catch (DbException $e) {
             return -1;
         }

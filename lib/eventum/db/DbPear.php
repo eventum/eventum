@@ -154,6 +154,7 @@ class DbPear implements DbInterface
 
     /**
      * @see DB_common::getCol
+     * @deprecated
      */
     public function getCol($query, $col = 0, $params = array())
     {
@@ -161,6 +162,14 @@ class DbPear implements DbInterface
         $res = $this->db->getCol($query, $col, $params);
         $this->assertError($res);
         return $res;
+    }
+
+    /**
+     * @see DbPear::getCol
+     */
+    public function getColumn($query, $params = array())
+    {
+        return $this->getCol($query, 0, $params);
     }
 
     /**

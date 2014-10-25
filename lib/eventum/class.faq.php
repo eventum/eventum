@@ -323,7 +323,7 @@ class FAQ
                         {{%faq_support_level}}
                      WHERE
                         fsl_faq_id=?";
-            $ids = DB_Helper::getInstance()->getCol($stmt, 0, array($faq_id));
+            $ids = DB_Helper::getInstance()->getColumn($stmt, array($faq_id));
 
             $t = array();
             $levels = $crm->getSupportLevelAssocList();

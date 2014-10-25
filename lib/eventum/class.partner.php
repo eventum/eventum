@@ -151,7 +151,7 @@ class Partner
                     pap_prj_id = ?";
 
         try {
-            $res = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
         } catch (DbException $e) {
             return array();
         }
@@ -179,7 +179,7 @@ class Partner
                     pap_prj_id = ? AND
                     ipa_iss_id = ?";
         try {
-            $partners = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id, $iss_id));
+            $partners = DB_Helper::getInstance()->getColumn($sql, array($prj_id, $iss_id));
         } catch (DbException $e) {
             return array();
         }

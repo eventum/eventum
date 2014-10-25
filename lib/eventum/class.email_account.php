@@ -195,7 +195,7 @@ class Email_Account
                  WHERE
                     ema_prj_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return false;
         }

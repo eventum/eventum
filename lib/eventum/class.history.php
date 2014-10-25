@@ -178,7 +178,7 @@ class History
                  WHERE
                     htt_name IN('" . join("','", $name) . "')";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return "unknown";
         }

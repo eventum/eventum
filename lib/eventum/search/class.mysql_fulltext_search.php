@@ -81,7 +81,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
             $options['keywords'],
         );
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, $params);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
             return array(-1);
         }
@@ -98,7 +98,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
             $options['keywords']
         );
         try {
-            $custom_res = DB_Helper::getInstance()->getCol($stmt, 0, $params1);
+            $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);
         } catch (DbException $e) {
             return array(-1);
         }

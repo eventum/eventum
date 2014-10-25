@@ -34,7 +34,7 @@ function db_getOne($query)
 function db_getCol($query)
 {
     try {
-        $res = DB_Helper::getInstance()->getCol($query);
+        $res = DB_Helper::getInstance()->getColumn($query);
     } catch (DbException $e) {
         echo $e->getMessage(), "\n";
         exit(1);

@@ -317,7 +317,7 @@ class Customer_Stats_Report
                  GROUP BY
                     iss_customer_id";
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -355,7 +355,7 @@ class Customer_Stats_Report
                     sup_iss_id";
         $params = array(User::getRoleID('Customer'));
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, $params);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -391,7 +391,7 @@ class Customer_Stats_Report
                     sup_iss_id";
         $params1 = array(User::getRoleID('Customer'));
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, $params1);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params1);
         } catch (DbException $e) {
             return array();
         }
@@ -463,7 +463,7 @@ class Customer_Stats_Report
         }
         $stmt .= "\nAND " . $this->getWhereClause("iss_customer_id", "ttr_created_date");
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt, 0, $params);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -504,7 +504,7 @@ class Customer_Stats_Report
                     iss_closed_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -545,7 +545,7 @@ class Customer_Stats_Report
                     iss_first_response_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
         try {
-            $res = DB_Helper::getInstance()->getCol($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             return array();
         }

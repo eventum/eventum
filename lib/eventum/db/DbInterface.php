@@ -132,8 +132,20 @@ interface DbInterface
      * @param mixed $params array, string or numeric data
      * @return array  the results as an array.
      * @throws DbException on failure.
+     * @deprecated use getColumn() instead and reorder select fields if need some other index
      */
     public function getCol($query, $col = 0, $params = array());
+
+    /**
+     * Fetches a first column from a query result and returns it as an
+     * indexed array
+     *
+     * @param string $query the SQL query
+     * @param mixed $params array, string or numeric data
+     * @return array  the results as an array.
+     * @throws DbException on failure.
+     */
+    public function getColumn($query, $params = array());
 
     /**
      * Fetches the first column of the first row from a query result
