@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -38,6 +39,8 @@ if (!Access::canAccessReports(Auth::getUserID())) {
     echo "Invalid role";
     exit;
 }
+
+// TODO: move this query to some class
 
 $prj_id = Auth::getCurrentProject();
 $categories = Category::getAssocList($prj_id);
@@ -53,14 +56,14 @@ foreach ($categories as $cat_id => $cat_title) {
         $sql = "SELECT
                     count(*)
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                 WHERE
-                    iss_prj_id = $prj_id AND
-                    iss_sta_id = $sta_id AND
-                    iss_prc_id = $cat_id";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    iss_prj_id = ? AND
+                    iss_sta_id = ? AND
+                    iss_prc_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
+        } catch (DbException $e) {
             break 2;
         }
         $data[$cat_id]['statuses'][$sta_id] = array(

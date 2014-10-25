@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -39,25 +40,25 @@ if (!Access::canAccessReports(Auth::getUserID())) {
     exit;
 }
 
+// TODO: move this query to some class
 $sql = "SELECT
             prc_id,
         	prc_title,
         	SUM(iss_dev_time) as dev_time
         FROM
-        	" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-        	" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category,
-        	" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+        	{{%issue}},
+        	{{%project_category}},
+        	{{%status}}
         WHERE
         	iss_prc_id = prc_id AND
         	iss_sta_id = sta_id AND
         	sta_is_closed != 1 AND
-        	iss_prj_id = " . Auth::getCurrentProject() . "
+        	iss_prj_id = ?
         GROUP BY
         	iss_prc_id";
-$res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-if (PEAR::isError($res)) {
-    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+try {
+    $res = DB_Helper::getInstance()->getAll($sql, array(Auth::getCurrentProject()), DB_FETCHMODE_ASSOC);
+} catch (DbException $e) {
     return false;
 }
 $total = 0;
