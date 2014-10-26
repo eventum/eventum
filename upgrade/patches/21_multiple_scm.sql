@@ -3,3 +3,7 @@ ALTER TABLE {{%issue_checkin}}
 
 UPDATE {{%issue_checkin}}
   SET isc_reponame='default';
+
+# alter these to be just NULL
+update {{%issue_checkin}} set isc_old_version=NULL where isc_old_version='NONE';
+update {{%issue_checkin}} set isc_new_version=NULL where isc_new_version='NONE';

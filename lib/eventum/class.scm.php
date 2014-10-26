@@ -122,8 +122,8 @@ class SCM
             $scm = self::getScmCheckinByName($checkin['isc_reponame']);
 
             // add ADDED and REMOVED fields
-            $checkin['added'] = $checkin['isc_old_version'] == 'NONE' || !isset($checkin['isc_old_version']);
-            $checkin['removed'] = $checkin['isc_new_version'] == 'NONE' || !isset($checkin['isc_new_version']);
+            $checkin['added'] = !isset($checkin['isc_old_version']);
+            $checkin['removed'] = !isset($checkin['isc_new_version']);
 
             $checkin["isc_commit_msg"] = Link_Filter::processText(
                 Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin["isc_commit_msg"]))
