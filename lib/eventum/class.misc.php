@@ -888,7 +888,7 @@ class Misc
 
     public static function displayErrorMessage($msg)
     {
-        Misc::setMessage(ev_gettext($msg), Misc::MSG_ERROR);
+        Misc::setMessage($msg, Misc::MSG_ERROR);
         $tpl = new Template_Helper();
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();

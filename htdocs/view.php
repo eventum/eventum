@@ -76,7 +76,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
-        Misc::displayErrorMessage(ev_gettext(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id)));
+        Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id));
     } else {
         // now that we can access to the issue, add more verbose HTML <title>
         // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
