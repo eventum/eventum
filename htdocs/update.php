@@ -61,7 +61,7 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
     Auth::setCurrentProject($iss_prj_id, $cookie["remember"], true);
     $auto_switched_from = $iss_prj_id;
     $prj_id = $iss_prj_id;
-    Misc::setMessage(ev_gettext("Note: Project automatically switched to '%1s' from '%2s'.",
+    Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".',
                                 Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
 }
 
@@ -94,7 +94,7 @@ $tpl->assign('issue_lock', $issue_lock);
         // be sure not to unlock somebody else's lock
         if (!$issue_lock) {
             Issue_Lock::release($issue_id);
-            Misc::setMessage(ev_gettext("Cancelled Issue #%1s update.", $issue_id), Misc::MSG_INFO);
+            Misc::setMessage(ev_gettext('Cancelled Issue #%1$s update.', $issue_id), Misc::MSG_INFO);
         }
 
         Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
@@ -115,7 +115,7 @@ $tpl->assign('issue_lock', $issue_lock);
             $tpl->displayTemplate();
             exit;
         } elseif ($res == 1) {
-            Misc::setMessage(ev_gettext("Thank you, issue #%1s was updated successfully.", $issue_id), Misc::MSG_INFO);
+            Misc::setMessage(ev_gettext('Thank you, issue #%1$s was updated successfully.', $issue_id), Misc::MSG_INFO);
         }
 
         $notify_list = Notification::getLastNotifiedAddresses($issue_id);
