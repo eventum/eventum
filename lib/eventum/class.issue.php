@@ -2544,8 +2544,8 @@ class Issue
                     $result[$i]['status_change_date'] = '';
                     continue;
                 }
-                // TRANSLATORS: %s = label, %s = date diff
-                $desc = ev_gettext("%s: %s ago");
+                // TRANSLATORS: %1 = label, %2 = date diff
+                $desc = ev_gettext('%1$s: %$2s ago');
                 $target_date = $result[$i][$date_field_name];
                 if (empty($target_date)) {
                     $result[$i]['status_change_date'] = '';
