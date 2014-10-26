@@ -79,7 +79,7 @@ interface DbInterface
      * @param string $query the SQL query or the statement to prepare
      * @param mixed $params array, string or numeric data
      * @return mixed  a new DB_result object for successful SELECT queries
-     *                 or DB_OK for successull data manipulation queries.
+     *                 or DB_OK for successful data manipulation queries.
      * @throws DbException on failure.
      */
     public function query($query, $params = array());

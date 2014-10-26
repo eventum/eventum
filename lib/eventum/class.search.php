@@ -750,8 +750,6 @@ class Search
 
     /**
      * This needs to be called after getFullTextIssues
-     *
-     * @return void
      */
     public static function getFullTextExcerpts()
     {

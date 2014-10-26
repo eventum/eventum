@@ -321,8 +321,9 @@ class Time_Tracking
             return;
         }
 
-        for ($i = 0; $i < count($result); $i++) {
-            @$result[$i]['time_spent'] = $res[$result[$i]['iss_id']];
+        foreach ($result as $i => &$row) {
+            $iss_id = $row['iss_id'];
+            $row['time_spent'] = isset($res[$iss_id]) ? $res[$iss_id] : 0;
         }
     }
 
