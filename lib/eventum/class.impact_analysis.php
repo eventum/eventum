@@ -90,7 +90,7 @@ class Impact_Analysis
                  FROM
                     (
                     {{%issue_requirement}},
-                    {{%user} A
+                    {{%user}} A
                     )
                  LEFT JOIN
                     {{%user}} B
