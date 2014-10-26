@@ -48,7 +48,7 @@ class SCM
                  WHERE
                     isc_iss_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
             return false;
         }
