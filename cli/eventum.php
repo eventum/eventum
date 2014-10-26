@@ -5,21 +5,32 @@
 // | Eventum - Defect Tracking System                                     |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 Joao Prado Maia                                   |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-// definitions of path related variables
-define('APP_PATH', dirname(__FILE__) . '/');
+define('APP_PATH', dirname(__FILE__) . '/..');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
-
-if (defined('APP_PEAR_PATH')) {
-    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
-}
-require_once APP_INC_PATH . '/class.command_line.php';
-require_once 'XML/RPC.php';
+require_once APP_PATH . '/vendor/autoload-dist.php';
 
 list($user_email, $user_password, $url, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {

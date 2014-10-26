@@ -4,7 +4,8 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,17 +25,67 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: config.inc.php 3823 2009-02-10 06:46:03Z glen $
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-set_time_limit(0);
+/**
+ * Class to hold methods and algorithms that wouldn't fit in other classes, such
+ * as functions to work around PHP bugs or incompatibilities between separate
+ * PHP configurations.
+ */
 
-// definitions of path related variables
-define('APP_PATH', dirname(__FILE__) . '/');
-define('APP_INC_PATH', APP_PATH . 'include/');
-define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
+class CLI_Misc
+{
+    /**
+     * Method used to print a prompt asking the user for information.
+     *
+     * @access  public
+     * @param   string $message The message to print
+     * @param   string $default_value The default value to be used if the user just press <enter>
+     * @return  string The user response
+     */
+    public static function prompt($message, $default_value)
+    {
+        echo $message;
+        if ($default_value !== FALSE) {
+            echo " [default: $default_value] -> ";
+        } else {
+            echo " [required] -> ";
+        }
+        flush();
+        $input = trim(self::getInput());
+        if (empty($input)) {
+            if ($default_value === FALSE) {
+                die("ERROR: Required parameter was not provided!\n");
+            } else {
+                return $default_value;
+            }
+        } else {
+            return $input;
+        }
+    }
 
-set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
+    /**
+     * Method used to get the standard input.
+     *
+     * @access  public
+     * @return  string The standard input value
+     */
+    public function getInput()
+    {
+        return fgets(STDIN);
+    }
+
+    public static function base64_decode($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = self::base64_decode($v);
+            }
+        } else {
+            $data = base64_decode($data);
+        }
+
+        return $data;
+    }
+}

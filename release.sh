@@ -126,6 +126,9 @@ if [ -n "$composer" ]; then
 	touch pear.download pear.install pear.clean
 	./update-pear.sh
 	rm pear.download pear.install pear.clean
+
+	# eventum standalone cli
+	make -C cli eventum.phar
 fi
 
 make -C localization install clean
@@ -135,6 +138,7 @@ chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
 # clean these now, can't omit them from git export as needed in release preparation process
 rm -f composer.json dyncontent-chksum.pl update-pear.sh
+rm -f cli/{composer.json,box.json.dist,Makefile}
 
 # sanity check
 if [ "$rc" != "dev" ]; then
