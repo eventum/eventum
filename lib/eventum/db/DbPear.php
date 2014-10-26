@@ -209,6 +209,9 @@ class DbPear implements DbInterface
 
         $de = new DbException($e->getMessage(), $e->getCode());
         $de->setExceptionLocation($file, $line);
+
+        error_log($de->getMessage());
+        error_log($de->getTraceAsString());
         throw $de;
     }
 
