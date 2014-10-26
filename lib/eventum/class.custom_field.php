@@ -310,7 +310,9 @@ class Custom_Field
                     }
                     $i++;
                 }
-                History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
+
+                $summary = ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID()));
+                History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), $summary);
             }
         }
 

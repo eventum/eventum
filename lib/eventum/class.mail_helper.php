@@ -85,7 +85,7 @@ class Mail_Helper
             $subject = trim(preg_replace("/\[#\d+\] {0,1}/", '', $subject));
         }
         // XXX: this works in most cases,
-        // probably the reply prefixes should be configrable per Eventum install
+        // probably the reply prefixes should be configurable per Eventum install
         $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww]|[Rr][Ii][Ff]\.?)(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
             // TRANSLATORS: %1 = email subject
