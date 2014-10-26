@@ -117,6 +117,7 @@
       </td>
     </tr>
     {/if}
+
     {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group}
     <tr>
       <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
@@ -178,6 +179,20 @@
         {include file="error_icon.tpl.html" field="description"}
       </td>
     </tr>
+
+    {if $core.current_role > $core.roles.customer}
+      <tr>
+
+        <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
+          {t}Expected Resolution Date{/t}:
+        </th>
+
+        <td>
+          <input type="text" name="expected_resolution_date" id="expected_resolution" value="" class="date_picker">
+        </td>
+      </tr>
+    {/if}
+
     {if $core.current_role >= $field_display_settings.estimated_dev_time}
     <tr>
       <th {if $field_display_settings.estimated_dev_time > $core.roles.customer}class="internal"{/if}>
@@ -192,6 +207,7 @@
       </td>
     </tr>
     {/if}
+
     {if $products|@count > 0 && $core.current_role >= $field_display_settings.product}
     <tr>
       <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>

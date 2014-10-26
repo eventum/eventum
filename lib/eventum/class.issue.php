@@ -2155,7 +2155,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
-            'product', 'product_version',
+            'product', 'product_version', 'expected_resolution_date'
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2355,8 +2355,8 @@ class Issue
      */
     private function insertIssue($prj_id, $usr_id, $data)
     {
-
-        // XXX missing_fields never used
+        // FIXME: $usr_id never used
+        // FIXME: missing_fields never used
         $missing_fields = array();
         if ($data['category'] == -1) {
             $missing_fields[] = 'Category';
@@ -2398,6 +2398,10 @@ class Issue
             $stmt .= "iss_sev_id=". Misc::escapeInteger($data['severity']) . ",";
         }
 
+        if (!empty($data["expected_resolution_date"])) {
+            $stmt .= "iss_expected_resolution_date='". Misc::escapeString($data["expected_resolution_date"]) . "',";
+        }
+
         $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
         $initial_status = Project::getInitialStatus($prj_id);
@@ -2437,7 +2441,7 @@ class Issue
         ";
 
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
             return -1;
         }
