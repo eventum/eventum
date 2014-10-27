@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,16 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-//
 
 /**
  * Class to handle the business logic related to setting and updating
  * the setup information of the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Setup
@@ -133,7 +129,7 @@ class Setup
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
-    private static function array_extend($a, $b)
+    public static function array_extend($a, $b)
     {
         foreach ($b as $k => $v) {
             if (is_array($v)) {
