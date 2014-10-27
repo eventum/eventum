@@ -128,8 +128,7 @@ class Prefs
                 WHERE
                     upp_usr_id = $usr_id";
         try {
-            // FIXME: is force_array (second param) neccessary?
-            $res = DB_Helper::getInstance()->getAssoc($sql, true, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAssoc($sql, false, array(), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return $returns[$usr_id];
         }
