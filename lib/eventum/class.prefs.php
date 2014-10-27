@@ -167,7 +167,7 @@ class Prefs
                     upr_email_refresh_rate = ?,
                     upr_email_signature = ?,
                     upr_auto_append_email_sig = ?,
-                    upr_auto_append_note_sig = ?
+                    upr_auto_append_note_sig = ?,
                     upr_auto_close_popup_window = ?";
         try {
             DB_Helper::getInstance()->query($sql, array(
