@@ -53,6 +53,10 @@ class Template_Helper
         $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
         $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
 
+        // Fixes problem with CRM API and dynamic includes.
+        // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
+        $this->smarty->inheritance_merge_compiled_includes = false;
+
         // this avoids loading it twice when using composer
         if (function_exists('smarty_block_t')) {
             $this->smarty->registerPlugin('block', 't', 'smarty_block_t');
