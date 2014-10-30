@@ -1547,13 +1547,15 @@ class User
     public static function addAlias($usr_id, $email)
     {
         // see if alias belongs to a user right now
+        // it may belong to some other account!
+        // these checks will avoid adding email alias to two unrelated accounts
         $email_usr_id = self::getUserIDByEmail($email);
-        if (!empty($email_usr_id)) {
+        if ($email_usr_id) {
             return false;
         }
 
         $existing_alias_usr_id = self::getUserIDByAlias($email);
-        if (!empty($existing_alias_usr_id)) {
+        if ($existing_alias_usr_id) {
             return false;
         }
 
@@ -1564,7 +1566,7 @@ class User
                     ual_email = ?";
 
         try {
-            $res = DB_Helper::getInstance()->query($sql, array($usr_id, $email));
+            DB_Helper::getInstance()->query($sql, array($usr_id, $email));
         } catch (DbException $e) {
             return false;
         }
