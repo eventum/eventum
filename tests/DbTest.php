@@ -19,6 +19,22 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->db = DB_Helper::getInstance(false);
     }
 
+    /**
+     * @dataProvider quoteData
+     */
+    public function testQuote($input, $exp)
+    {
+        $res = $this->db->escapeSimple($input);
+        $this->assertEquals($exp, $res);
+    }
+
+    public function quoteData() {
+        return array(
+            array("C'est La Vie", "C\\'est La Vie"),
+            array(array("Jää-äär"), null),
+        );
+    }
+
     public function testGetAllDefault()
     {
         $res = $this->db->getAll(
