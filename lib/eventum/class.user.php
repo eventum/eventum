@@ -1210,19 +1210,27 @@ class User
      * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    public static function getList($show_customers = false)
+    public static function getList($show_customers, $show_inactive)
     {
+        // FIXME: what about other statuses like "pending"?
         $stmt = "SELECT
                     *
                  FROM
                     {{%user}}
                  WHERE
-                    usr_id != " . APP_SYSTEM_USER_ID . "
-                 ORDER BY
+                    usr_id != ?";
+        $params = array(APP_SYSTEM_USER_ID);
+
+        if (!$show_inactive) {
+            $stmt .= " AND usr_status != ?";
+            $params[] = 'inactive';
+        }
+        $stmt .= "
+                ORDER BY
                     usr_status ASC,
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
