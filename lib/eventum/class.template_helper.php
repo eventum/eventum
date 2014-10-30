@@ -24,6 +24,8 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
+// +----------------------------------------------------------------------+
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -57,7 +59,9 @@ class Template_Helper
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
-        $smarty->inheritance_merge_compiled_includes = false;
+        if (isset($smarty->inheritance_merge_compiled_includes)) {
+            $smarty->inheritance_merge_compiled_includes = false;
+        }
 
         // this avoids loading it twice when using composer
         if (function_exists('smarty_block_t')) {
