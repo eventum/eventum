@@ -1061,7 +1061,7 @@ class User
         if (isset($data['role'])) {
             // update the project associations now
             $stmt = "DELETE FROM
-                        {{%project_user}
+                        {{%project_user}}
                      WHERE
                         pru_usr_id=?";
             try {
