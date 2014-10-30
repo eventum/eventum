@@ -42,25 +42,29 @@ class Template_Helper
      */
     public function __construct()
     {
-        $this->smarty = new Smarty();
-        // TODO: remove APP_LOCAL_PATH from the list in 2.4.1
-        $this->smarty->setTemplateDir(array(APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH));
-        $this->smarty->setCompileDir(APP_TPL_COMPILE_PATH);
-        $this->smarty->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
-        $this->smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
-        $this->smarty->registerPlugin("modifier", "activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
-        $this->smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
-        $this->smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
-        $this->smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
+        $smarty = new Smarty();
+        // TODO: remove "APP_LOCAL_PATH" from the list in 2.4.1
+        $smarty->setTemplateDir(array(APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH));
+        $smarty->setCompileDir(APP_TPL_COMPILE_PATH);
+
+        $smarty->addPluginsDir(array(APP_INC_PATH . '/smarty'));
+
+        $smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
+        $smarty->registerPlugin("modifier", "activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
+        $smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
+        $smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
+        $smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
-        $this->smarty->inheritance_merge_compiled_includes = false;
+        $smarty->inheritance_merge_compiled_includes = false;
 
         // this avoids loading it twice when using composer
         if (function_exists('smarty_block_t')) {
-            $this->smarty->registerPlugin('block', 't', 'smarty_block_t');
+            $smarty->registerPlugin('block', 't', 'smarty_block_t');
         }
+
+        $this->smarty = $smarty;
     }
 
     /**

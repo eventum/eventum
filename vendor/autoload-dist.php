@@ -35,9 +35,6 @@ if (defined('APP_LOCAL_PATH')) {
 if (file_exists($autoload = dirname(__FILE__) . '/autoload.php')) {
     require $autoload;
 
-    // APP_SMARTY_PATH needed for template_helper
-    define('APP_SMARTY_PATH', APP_PATH . '/vendor/smarty/smarty/libs');
-    
     // needed for init.php and gettext.inc
     define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
