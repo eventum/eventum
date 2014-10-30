@@ -1152,7 +1152,7 @@ class User
             Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
-            !empty($user["grp_id"]) ? Misc::escapeInteger($user["grp_id"]) : 'NULL',
+            !empty($user["grp_id"]) ? $user["grp_id"] : null,
             $user['external_id'],
             isset($user['par_code']) ? $user['par_code'] : null,
         );
