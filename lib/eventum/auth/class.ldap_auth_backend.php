@@ -210,6 +210,11 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
         // if local user found, update it and return usr id
         if ($local_usr_id) {
+            // do not reset user password, it maybe be set locally before ldap
+            unset($data['password']);
+
+            // FIXME: perspective what is main address and what is alias may be different in ldap and in eventum
+
             $update = User::update($local_usr_id, $data, false);
             if ($update > 0) {
                 $this->updateAliases($local_usr_id, $remote['aliases']);
@@ -391,11 +396,11 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'binddn' => '',
             'bindpw' => '',
             'basedn' => 'dc=example,dc=org',
-            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
+            'userdn'                => 'uid=%UID%,ou=People,dc=example,dc=org',
             'customer_id_attribute' => '',
-            'contact_id_attribute' => '',
-            'create_users' => null,
-            'default_role' => array(
+            'contact_id_attribute'  => '',
+            'create_users'          => null,
+            'default_role'          => array(
                 // ensure there is entry for current project
                 Auth::getCurrentProject() => 0,
             ),
