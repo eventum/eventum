@@ -480,10 +480,9 @@ class Misc
             if (!$count) {
                 continue;
             }
-            $i = rand(0, $count);
+            $i = rand(0, $count - 1);
 
             return $files[$i];
-
         }
 
         return null;
