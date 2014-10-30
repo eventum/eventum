@@ -178,9 +178,9 @@
                       {t}Partner{/t}
                   </th>
                   <td width="80%">
-                      <select name="par_code" size="1" class="default">
+                      <select name="par_code" size="1">
                           <option value="">{t}-- Select One --{/t}</option>
-                          {html_options options=$partners selected=$info.usr_par_code}
+                          {html_options options=$partners selected=$info.usr_par_code|default:''}
                       </select>
                       {include file="error_icon.tpl.html" field="par_code"}
                   </td>
