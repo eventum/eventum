@@ -258,14 +258,17 @@ class DbPear implements DbInterface
             $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
         }
 
+        // needed for PHP 5.3
         $that = $this;
+        $tablePrefix = $this->tablePrefix;
+
         $sql = preg_replace_callback(
             '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
-            function ($matches) use ($that) {
+            function ($matches) use ($that, $tablePrefix) {
                 if (isset($matches[3])) {
                     return $that->quoteIdentifier($matches[3]);
                 } else {
-                    return str_replace('%', $that->tablePrefix, $that->quoteIdentifier($matches[2]));
+                    return str_replace('%', $tablePrefix, $that->quoteIdentifier($matches[2]));
                 }
             },
             $sql
