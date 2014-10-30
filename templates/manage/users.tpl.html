@@ -96,6 +96,12 @@
       window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_customers',
               $('#show_customers:checked').length);
   }
+
+  function showInactiveUsers()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_inactive',
+      $('#show_inactive:checked').length);
+  }
   function openAliasList(e)
   {
     var target = $(e.target);
@@ -111,6 +117,7 @@
 
       $('a.manage_alias').click(openAliasList);
       $('#show_customers').click(showCustomerUsers);
+      $('#show_inactive').click(showInactiveUsers);
 
       $('#delete_form').submit(checkDelete);
   });
@@ -297,6 +304,9 @@
                     <div class="right">
                       <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers|default:0 == 1}checked{/if}>
                       <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
+
+                      <input type="checkbox" id="show_inactive" name="show_inactive" value="yes" {if $smarty.get.show_inactive|default:0 == 1}checked{/if}>
+                      <label for="show_inactive">{t}Show Inactive Users{/t}</label>&nbsp;
                     </div>
               </td>
             </tr>

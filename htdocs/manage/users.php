@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -77,12 +78,10 @@ foreach ($project_list as $prj_id => $prj_title) {
     }
     $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
 }
-if (@$_GET['show_customers'] == 1) {
-    $show_customer = true;
-} else {
-    $show_customer = false;
-}
-$tpl->assign("list", User::getList($show_customer));
+
+$show_customer = !empty($_GET['show_customers']);
+$show_inactive = !empty($_GET['show_inactive']);
+$tpl->assign("list", User::getList($show_customer, $show_inactive));
 $tpl->assign("project_list", $project_list);
 $tpl->assign("project_roles", $project_roles);
 $tpl->assign("group_list", Group::getAssocListAllProjects());
