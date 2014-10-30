@@ -59,7 +59,7 @@ class SCM
     /**
      * Method used to remove a specific list of checkins
      *
-     * @param   int[] $isc_id list to remove
+     * @param   int[] $items list to remove
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public static function remove($items)
@@ -154,12 +154,11 @@ class SCM
         // this will throw if invalid
         self::getScmCheckinByName($scm_name);
 
-        // run workflow first, it may modify username, etc
+        // TODO: add workflow pre method first, so it may setup username, etc
         $usr_id = APP_SYSTEM_USER_ID;
 
         // workflow needs to know project_id to find out which workflow class to use.
         $prj_id = Issue::getProjectID($issue_id);
-        Workflow::handleSCMCheckins($prj_id, $usr_id, $issue_id, $files, $username, $commit_msg);
 
         foreach ($files as $file) {
             self::insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg);
@@ -172,6 +171,8 @@ class SCM
         // TRANSLATORS: %1: scm username
         $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
         History::add($issue_id, $usr_id, History::getTypeID('scm_checkin_associated'), $summary);
+
+        Workflow::handleSCMCheckins($prj_id, $usr_id, $issue_id, $files, $username, $commit_msg);
 
         return 1;
     }
