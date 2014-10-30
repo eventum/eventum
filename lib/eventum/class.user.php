@@ -439,11 +439,10 @@ class User
                     usr_email=?";
         $res = DB_Helper::getInstance()->getOne($stmt, array($email));
 
-        if ((empty($res)) && $check_aliases) {
-            $returns[$email] = self::getUserIDByAlias($email);
-        } else {
-            $returns[$email] = $res;
+        if (empty($res) && $check_aliases) {
+            $res = self::getUserIDByAlias($email);
         }
+        $returns[$email] = $res;
 
         return $returns[$email];
     }

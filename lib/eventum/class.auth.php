@@ -380,11 +380,7 @@ class Auth
         }
 
         $usr_id = self::getAuthBackend()->getUserIDByLogin($login);
-        if ($usr_id == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $usr_id > 0;
     }
 
     /**

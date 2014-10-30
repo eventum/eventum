@@ -145,7 +145,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
-        if (PEAR::isError($entry)) {
+        if (!$entry || PEAR::isError($entry)) {
             return null;
         }
 
@@ -204,11 +204,15 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 }
             }
             $return = User::insert($data);
-            $this->updateAliases($return, $remote['aliases']);
+            if ($return > 0) {
+                $this->updateAliases($return, $remote['aliases']);
+            }
             return $return;
         } else {
             $update = User::update($local_usr_id, $data, false);
-            $this->updateAliases($local_usr_id, $remote['aliases']);
+            if ($update > 0) {
+                $this->updateAliases($local_usr_id, $remote['aliases']);
+            }
             return $local_usr_id;
         }
     }
@@ -223,13 +227,16 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     public function getUserIDByLogin($login)
     {
         $usr_id = User::getUserIDByEmail($login, true);
-        if (empty($usr_id)) {
+        if (!$usr_id) {
             // the login is not a local email address, try external id
             $usr_id = User::getUserIDByExternalID($login);
         }
 
-        $local_user_info = User::getDetails($usr_id);
-        if ($local_user_info !== false && empty($local_user_info['usr_external_id'])) {
+        if ($usr_id) {
+            $local_user_info = User::getDetails($usr_id);
+        }
+
+        if (!empty($local_user_info) && empty($local_user_info['usr_external_id'])) {
             // local user exist and is not associated with LDAP, don't try to update.
             return $usr_id;
         }
