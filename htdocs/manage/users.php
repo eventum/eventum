@@ -86,5 +86,6 @@ $tpl->assign("list", User::getList($show_customer));
 $tpl->assign("project_list", $project_list);
 $tpl->assign("project_roles", $project_roles);
 $tpl->assign("group_list", Group::getAssocListAllProjects());
+$tpl->assign("partners", Partner::getAssocList());
 
 $tpl->displayTemplate();
