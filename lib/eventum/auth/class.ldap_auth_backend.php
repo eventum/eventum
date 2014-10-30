@@ -179,42 +179,60 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return false;
         }
 
+        // first try with user supplied input
+        // FIXME: this is duplicate with all emails check below?
         $local_usr_id = User::getUserIDByEmail($login, true);
-        if (empty($local_usr_id)) {
+
+        if (!$local_usr_id) {
+            // need to find local user by email by ALL aliases from remote system
+            $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
+            foreach ($emails as $email) {
+                $local_usr_id = User::getUserIDByEmail($email, true);
+                if ($local_usr_id) {
+                    break;
+                }
+            }
+        }
+
+        if (!$local_usr_id) {
+            // try by login name
             $local_usr_id = User::getUserIDByExternalID($login);
         }
 
         $data = array(
-            'password'  =>  '',
-            'full_name' =>  $remote['full_name'],
-            'email'     =>  $remote['email'],
-            'external_id'   =>  $remote['uid'],
-            'customer_id'   =>  $remote['customer_id'],
-            'contact_id'   =>  $remote['contact_id'],
+            'password'    => '',
+            'full_name'   => $remote['full_name'],
+            'email'       => $remote['email'],
+            'external_id' => $remote['uid'],
+            'customer_id' => $remote['customer_id'],
+            'contact_id'  => $remote['contact_id'],
         );
-        if ($local_usr_id == null) {
-            $setup = $this->loadSetup();
-            $data['role'] = $setup['default_role'];
 
-            if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
-                foreach ($data['role'] as $prj_id => $role) {
-                    if ($role > 0) {
-                        $data['role'][$prj_id] = User::getRoleID('Customer');
-                    }
-                }
-            }
-            $return = User::insert($data);
-            if ($return > 0) {
-                $this->updateAliases($return, $remote['aliases']);
-            }
-            return $return;
-        } else {
+        // if local user found, update it and return usr id
+        if ($local_usr_id) {
             $update = User::update($local_usr_id, $data, false);
             if ($update > 0) {
                 $this->updateAliases($local_usr_id, $remote['aliases']);
             }
             return $local_usr_id;
         }
+
+        // create new local user
+        $setup = $this->loadSetup();
+        $data['role'] = $setup['default_role'];
+
+        if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
+            foreach ($data['role'] as $prj_id => $role) {
+                if ($role > 0) {
+                    $data['role'][$prj_id] = User::getRoleID('Customer');
+                }
+            }
+        }
+        $return = User::insert($data);
+        if ($return > 0) {
+            $this->updateAliases($return, $remote['aliases']);
+        }
+        return $return;
     }
 
     private function updateAliases($local_usr_id, $aliases)
@@ -237,7 +255,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
 
         if (!empty($local_user_info) && empty($local_user_info['usr_external_id'])) {
-            // local user exist and is not associated with LDAP, don't try to update.
+            // local user exists and is not associated with LDAP, don't try to update.
             return $usr_id;
         }
 
@@ -351,7 +369,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 return -2;
             }
         }
-        $contents = "<"."?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
+        $contents = "<" . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
         if ($res === false) {
             return -2;
@@ -390,7 +408,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
      * Method used to update the account password for a specific user.
      *
      * @param   integer $usr_id The user ID
-     * @param   string  $password The password.
+     * @param   string $password The password.
      * @return  boolean true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password)
