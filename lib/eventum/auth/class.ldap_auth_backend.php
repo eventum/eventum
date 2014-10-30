@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2013 Eventum Team.                              |
+// | Copyright (c) 2012 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,6 +23,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once 'Net/LDAP2.php';
@@ -296,25 +297,32 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         }
     }
 
+    /**
+     * TODO: discard this loadSetup/saveSetup, and use plain Setup class
+     */
     public static function loadSetup($force = false)
     {
         static $setup;
         if (empty($setup) || $force == true) {
-            if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
-                return array();
+            $setup = array();
+            $configfile = APP_CONFIG_PATH . '/ldap.php';
+
+            if (file_exists($configfile)) {
+                $ldap_setup_string = $ldap_setup = null;
+
+                require $configfile;
+
+                if (isset($ldap_setup)) {
+                    $setup = $ldap_setup;
+
+                } elseif (isset($ldap_setup_string)) {
+                    // support reading legacy base64 encoded config
+                    $setup = unserialize(base64_decode($ldap_setup_string));
+                }
             }
 
-            $ldap_setup_string = $ldap_setup = null;
-            require APP_CONFIG_PATH . '/ldap.php';
-            if ($ldap_setup_string == null and $ldap_setup == null) {
-                return null;
-            }
-            if (isset($ldap_setup)) {
-                $setup = $ldap_setup;
-            } else {
-                // support reading legacy base64 encoded config
-                $setup = unserialize(base64_decode($ldap_setup_string));
-            }
+            // merge with defaults
+            $setup = Setup::array_extend(self::getDefaults(), $setup);
         }
 
         return $setup;
@@ -344,6 +352,33 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
         return 1;
     }
+
+    /**
+     * Method used to get the system-wide defaults.
+     *
+     * @return  string array of the default parameters
+     */
+    public static function getDefaults()
+    {
+        $defaults = array(
+            'host' => 'localhost',
+            'port' => '389',
+            'binddn' => '',
+            'bindpw' => '',
+            'basedn' => 'dc=example,dc=org',
+            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
+            'customer_id_attribute' => '',
+            'contact_id_attribute' => '',
+            'create_users' => null,
+            'default_role' => array(
+                // ensure there is entry for current project
+                Auth::getCurrentProject() => 0,
+            ),
+        );
+
+        return $defaults;
+    }
+
     /**
      * Method used to update the account password for a specific user.
      *
