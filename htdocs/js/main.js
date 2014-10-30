@@ -446,6 +446,8 @@ Eventum.openHelp = function(e)
     var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var helpWin = window.open(Eventum.rel_url + 'help.php?topic=' + topic, '_help', features);
     helpWin.focus();
+
+    return false;
 }
 
 
