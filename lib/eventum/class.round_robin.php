@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -186,33 +187,31 @@ class Round_Robin
     {
         $prr_id = self::getID($prj_id);
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
+                    {{%round_robin_user}}
                  SET
                     rru_next=0
                  WHERE
-                    rru_prr_id=$prr_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rru_prr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->query($stmt, array($prr_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
-                     SET
-                        rru_next=1
-                     WHERE
-                        rru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                        rru_prr_id=$prr_id";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        $stmt = "UPDATE
+                    {{%round_robin_user}}
+                 SET
+                    rru_next=1
+                 WHERE
+                    rru_usr_id=? AND
+                    rru_prr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id, $prr_id));
+        } catch (DbException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -226,17 +225,16 @@ class Round_Robin
         $stmt = "SELECT
                     prr_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
+                    {{%project_round_robin}}
                  WHERE
-                    prr_prj_id=" . Misc::escapeInteger($prj_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prr_prj_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -254,40 +252,39 @@ class Round_Robin
                     prr_blackout_start,
                     prr_blackout_end
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%project_round_robin}},
+                    {{%round_robin_user}},
+                    {{%user}}
                  WHERE
-                    prr_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    prr_prj_id=? AND
                     prr_id=rru_prr_id AND
                     rru_usr_id=usr_id
                  ORDER BY
                     usr_id ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            $blackout_start = '';
-            $blackout_end = '';
-            $t = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $blackout_start = $res[$i]['prr_blackout_start'];
-                $blackout_end = $res[$i]['prr_blackout_end'];
-                $prefs = Prefs::get($res[$i]['usr_id']);
-                $t[$res[$i]['usr_id']] = array(
-                    'timezone' => $prefs['timezone'],
-                    'is_next'  => $res[$i]['rru_next']
-                );
-            }
+        }
 
-            return array(
-                $blackout_start,
-                $blackout_end,
-                $t
+        $blackout_start = '';
+        $blackout_end = '';
+        $t = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $blackout_start = $res[$i]['prr_blackout_start'];
+            $blackout_end = $res[$i]['prr_blackout_end'];
+            $prefs = Prefs::get($res[$i]['usr_id']);
+            $t[$res[$i]['usr_id']] = array(
+                'timezone' => $prefs['timezone'],
+                'is_next'  => $res[$i]['rru_next']
             );
         }
+
+        return array(
+            $blackout_start,
+            $blackout_end,
+            $t
+        );
     }
 
     /**
@@ -300,30 +297,27 @@ class Round_Robin
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
+                    {{%project_round_robin}}
                  (
                     prr_prj_id,
                     prr_blackout_start,
                     prr_blackout_end
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["project"]) . ",
-                    '" . Misc::escapeString($blackout_start) . "',
-                    '" . Misc::escapeString($blackout_end) . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["project"], $blackout_start, $blackout_end));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_id = DB_Helper::get_last_insert_id();
-            // add all of the user associated with this round robin entry
-            foreach ($_POST['users'] as $usr_id) {
-                self::addUserAssociation($new_id, $usr_id);
-            }
-
-            return 1;
         }
+
+        $new_id = DB_Helper::get_last_insert_id();
+        // add all of the user associated with this round robin entry
+        foreach ($_POST['users'] as $usr_id) {
+            self::addUserAssociation($new_id, $usr_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -336,24 +330,21 @@ class Round_Robin
     public function addUserAssociation($prr_id, $usr_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
+                    {{%round_robin_user}}
                  (
                     rru_prr_id,
                     rru_usr_id,
                     rru_next
                  ) VALUES (
-                    " . Misc::escapeInteger($prr_id) . ",
-                    " . Misc::escapeInteger($usr_id) . ",
-                    0
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($prr_id, $usr_id, 0));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -368,25 +359,24 @@ class Round_Robin
                     prr_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%project_round_robin}},
+                    {{%project}}
                  WHERE
                     prr_prj_id=prj_id
                  ORDER BY
                     prj_title ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get the list of associated users
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['users'] = implode(", ", array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
-            }
-
-            return $res;
         }
+
+        // get the list of associated users
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['users'] = implode(", ", array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
+        }
+
+        return $res;
     }
 
     /**
@@ -402,21 +392,20 @@ class Round_Robin
                     usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%round_robin_user}},
+                    {{%user}}
                  WHERE
                     rru_usr_id=usr_id AND
-                    rru_prr_id=" . Misc::escapeInteger($prr_id) . "
+                    rru_prr_id=?
                  ORDER BY
                     usr_id ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prr_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -430,20 +419,19 @@ class Round_Robin
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
+                    {{%project_round_robin}}
                  WHERE
-                    prr_id=" . Misc::escapeInteger($prr_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prr_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($prr_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get all of the user associations here as well
-            $res['users'] = array_keys(self::getAssociatedUsers($res['prr_id']));
-
-            return $res;
         }
+
+        // get all of the user associations here as well
+        $res['users'] = array_keys(self::getAssociatedUsers($res['prr_id']));
+
+        return $res;
     }
 
     /**
@@ -456,27 +444,26 @@ class Round_Robin
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
+                    {{%project_round_robin}}
                  SET
-                    prr_prj_id=" . Misc::escapeInteger($_POST["project"]) . ",
-                    prr_blackout_start='" . Misc::escapeString($blackout_start) . "',
-                    prr_blackout_end='" . Misc::escapeString($blackout_end) . "'
+                    prr_prj_id=?,
+                    prr_blackout_start=?,
+                    prr_blackout_end=?
                  WHERE
-                    prr_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prr_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["project"], $blackout_start, $blackout_end, $_POST["id"]));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            // remove all of the associations with users, then add them all again
-            self::removeUserAssociations($_POST['id']);
-            foreach ($_POST['users'] as $usr_id) {
-                self::addUserAssociation($_POST['id'], $usr_id);
-            }
-
-            return 1;
         }
+
+        // remove all of the associations with users, then add them all again
+        self::removeUserAssociations($_POST['id']);
+        foreach ($_POST['users'] as $usr_id) {
+            self::addUserAssociation($_POST['id'], $usr_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -493,17 +480,16 @@ class Round_Robin
         }
         $items = @implode(", ", Misc::escapeInteger($prr_id));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
+                    {{%round_robin_user}}
                  WHERE
                     rru_prr_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -515,18 +501,17 @@ class Round_Robin
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
+                    {{%project_round_robin}}
                  WHERE
                     prr_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            self::removeUserAssociations($_POST['items']);
-
-            return true;
         }
+
+        self::removeUserAssociations($_POST['items']);
+
+        return true;
     }
 }

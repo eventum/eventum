@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../../init.php';
@@ -32,6 +33,7 @@ require_once dirname(__FILE__) . '/../../../init.php';
 // creates user accounts for all the customers
 $prj_id = 1;
 
+// FIXME: Customer::getAssocList does not exist
 $customers = Customer::getAssocList($prj_id);
 
 foreach ($customers as $customer_id => $customer_name) {
@@ -44,16 +46,26 @@ foreach ($customers as $customer_id => $customer_name) {
         $contact_id = User::getUserIDByContactID($contact['contact_id']);
         if (empty($contact_id)) {
             $sql = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                        {{%user}}
                     SET
-                        usr_created_date = '" . Date_Helper::getCurrentDateGMT() . "',
-                        usr_full_name = '" . Misc::escapeString($contact['first_name'] . " " . $contact['last_name']) . "',
-                        usr_email = '" . $contact['email'] . "',
-                        usr_customer_id = " . $customer_id . ",
-                        usr_customer_contact_id = " . $contact['contact_id'] . ",
-                        usr_preferences = '" . Misc::escapeString(Prefs::getDefaults(array($prj_id))) . "'";
-            $res = DB_Helper::getInstance()->query($sql);
-            if (PEAR::isError($res)) {
+                        usr_created_date = ?,
+                        usr_full_name = ?,
+                        usr_email = ?,
+                        usr_customer_id = ?,
+                        usr_customer_contact_id = ?,
+                        usr_preferences = ?";
+            $params = array(
+                Date_Helper::getCurrentDateGMT(),
+                $contact['first_name'] . " " . $contact['last_name'],
+                $contact['email'],
+                $customer_id,
+                $contact['contact_id'],
+                // FIXME: usr_preferences needs to be json encoded?
+                Prefs::getDefaults(array($prj_id)),
+            );
+            try {
+                $res = DB_Helper::getInstance()->query($sql, $params);
+            } catch (DbException $e) {
                 echo "Error inserting user<br /><pre>";
                 print_r($res);
                 echo "</pre>";

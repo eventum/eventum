@@ -159,17 +159,16 @@ abstract class Customer
                     cno_customer_id,
                     cno_note
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
+                    {{%customer_note}}
                 WHERE
-                    cno_customer_id = '" . Misc::escapeString($this->customer_id) . "'";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    cno_customer_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -185,25 +184,23 @@ abstract class Customer
                     usr_email,
                     cam_type
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    {{%customer_account_manager}},
+                    {{%user}}
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND
                     cam_customer_id=?";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC, array($this->crm->getProjectID(),
-            $this->customer_id));
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($this->crm->getProjectID(), $this->customer_id);
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                return $res;
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+        return $res;
     }
 }
 

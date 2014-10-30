@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -42,19 +43,18 @@ class Search_Profile
     public static function remove($usr_id, $prj_id, $type)
     {
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
+                    {{%search_profile}}
                  WHERE
-                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    sep_type='" . Misc::escapeString($type) . "'";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sep_usr_id=? AND
+                    sep_prj_id=? AND
+                    sep_type=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -77,25 +77,24 @@ class Search_Profile
         $stmt = "SELECT
                     sep_user_profile
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
+                    {{%search_profile}}
                  WHERE
-                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    sep_type='" . Misc::escapeString($type) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sep_usr_id=? AND
+                    sep_prj_id=? AND
+                    sep_type=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                $returns[$usr_id][$prj_id][$type] = unserialize($res);
-
-                return unserialize($res);
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        $returns[$usr_id][$prj_id][$type] = unserialize($res);
+
+        return unserialize($res);
     }
 
     /**
@@ -112,23 +111,22 @@ class Search_Profile
         $stmt = "SELECT
                     COUNT(*) AS total
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
+                    {{%search_profile}}
                  WHERE
-                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    sep_type='" . Misc::escapeString($type) . "'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    sep_usr_id=? AND
+                    sep_prj_id=? AND
+                    sep_type=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res > 0) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        if ($res > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -163,26 +161,22 @@ class Search_Profile
     private function _insert($usr_id, $prj_id, $type, $profile)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
+                    {{%search_profile}}
                  (
                     sep_usr_id,
                     sep_prj_id,
                     sep_type,
                     sep_user_profile
                  ) VALUES (
-                    " . Misc::escapeInteger($usr_id) . ",
-                    " . Misc::escapeInteger($prj_id) . ",
-                    '" . Misc::escapeString($type) . "',
-                    '" . Misc::escapeString(serialize($profile)) . "'
+                    ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type, serialize($profile)));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -198,20 +192,20 @@ class Search_Profile
     private function _update($usr_id, $prj_id, $type, $profile)
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
+                    {{%search_profile}}
                  SET
-                    sep_user_profile='" . Misc::escapeString(serialize($profile)) . "'
+                    sep_user_profile=?
                  WHERE
-                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
-                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    sep_type='" . Misc::escapeString($type) . "'";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    sep_usr_id=? AND
+                    sep_prj_id=? AND
+                    sep_type=?";
 
+        try {
+            DB_Helper::getInstance()->query($stmt, array(serialize($profile), $usr_id, $prj_id, $type));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 }

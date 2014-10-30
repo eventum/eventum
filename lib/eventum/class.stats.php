@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the generation of the
  * issue statistics displayed in the main screen of the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Stats
@@ -86,17 +84,18 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%issue}},
+                        {{%status}}
                      WHERE
                         iss_sta_id = sta_id AND
-                        iss_prj_id=$prj_id AND
-                        iss_prc_id=" . $prc_id;
+                        iss_prj_id=? AND
+                        iss_prc_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $prc_id));
             if ($res > 0) {
                 $stats[$prc_title] = $res;
             }
@@ -122,17 +121,17 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%issue}},
+                        {{%status}}
                      WHERE
                         iss_sta_id = sta_id AND
-                        iss_prj_id=$prj_id AND
-                        iss_pre_id=" . $pre_id;
+                        iss_prj_id=? AND
+                        iss_pre_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pre_id));
             if ($res > 0) {
                 $stats[$pre_title] = $res;
             }
@@ -158,17 +157,17 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%issue}},
+                        {{%status}}
                      WHERE
                         iss_sta_id = sta_id AND
-                        iss_prj_id=$prj_id AND
-                        iss_sta_id=" . $sta_id;
+                        iss_prj_id=? AND
+                        iss_sta_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $sta_id));
             if ($res > 0) {
                 $stats[$sta_title] = $res;
             }
@@ -193,11 +192,11 @@ class Stats
                     sta_title,
                     COUNT(*) AS total_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%status}}
                  WHERE
                     iss_sta_id=sta_id AND
-                    iss_prj_id=$prj_id";
+                    iss_prj_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
@@ -207,14 +206,13 @@ class Stats
                     iss_sta_id
                  ORDER BY
                     total_items DESC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -233,11 +231,11 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%project_category}},
+                    {{%status}}
                  WHERE
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     iss_prc_id=prc_id AND
                     iss_sta_id=sta_id";
         if ($hide_closed) {
@@ -249,14 +247,13 @@ class Stats
                     iss_prc_id
                  ORDER BY
                     total_open_items";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -275,11 +272,11 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%project_release}},
+                    {{%status}}
                  WHERE
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     iss_pre_id=pre_id AND
                     iss_sta_id=sta_id";
         if ($hide_closed) {
@@ -291,14 +288,13 @@ class Stats
                     iss_pre_id
                  ORDER BY
                     total_open_items DESC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -317,17 +313,17 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%issue}},
+                        {{%status}}
                      WHERE
                         iss_sta_id = sta_id AND
-                        iss_prj_id=$prj_id AND
-                        iss_pri_id=" . $pri_id;
+                        iss_prj_id=? AND
+                        iss_pri_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_id));
             if ($res > 0) {
                 $stats[$pri_title] = $res;
             }
@@ -353,13 +349,13 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%project_priority}},
+                    {{%status}}
                  WHERE
                     iss_pri_id=pri_id AND
                     iss_sta_id=sta_id AND
-                    iss_prj_id=$prj_id";
+                    iss_prj_id=?";
         if ($hide_closed) {
             $stmt .= " AND
                     sta_is_closed = 0";
@@ -369,14 +365,13 @@ class Stats
                     iss_pri_id
                  ORDER BY
                     total_open_items DESC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -395,19 +390,19 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%issue}},
+                        {{%issue_user}},
+                        {{%status}}
                      WHERE
                         iss_sta_id = sta_id AND
                         isu_iss_id=iss_id AND
-                        iss_prj_id=$prj_id AND
-                        isu_usr_id=" . $usr_id;
+                        iss_prj_id=? AND
+                        isu_usr_id=?";
             if ($hide_closed) {
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $usr_id));
             if ($res > 0) {
                 $stats[$usr_full_name] = $res;
             }
@@ -433,14 +428,14 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%issue}},
+                    {{%issue_user}},
+                    {{%user}},
+                    {{%status}}
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id=iss_id AND
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     iss_sta_id=sta_id";
         if ($hide_closed) {
             $stmt .= " AND
@@ -451,14 +446,13 @@ class Stats
                     isu_usr_id
                  ORDER BY
                     total_open_items DESC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -474,20 +468,20 @@ class Stats
                     CASE WHEN sup_iss_id > 0 THEN 'associated' ELSE 'unassociated' END AS type,
                     COUNT(*) AS total_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%support_email}},
+                    {{%email_account}}
                  WHERE
                     sup_ema_id=ema_id AND
-                    ema_prj_id=$prj_id AND
+                    ema_prj_id=? AND
                     sup_removed=0
                  GROUP BY
                     type";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
         }
+
         if (empty($res['associated'])) {
             $res['associated'] = 0;
         }
@@ -497,16 +491,15 @@ class Stats
         $stmt = "SELECT
                     COUNT(*) AS total_items
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%support_email}},
+                    {{%email_account}}
                  WHERE
                     sup_ema_id=ema_id AND
-                    ema_prj_id=$prj_id AND
+                    ema_prj_id=? AND
                     sup_removed=1";
-        $res3 = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res3)) {
-            Error_Handler::logError(array($res3->getMessage(), $res3->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res3 = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
         }
 

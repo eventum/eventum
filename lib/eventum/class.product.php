@@ -4,6 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2010 Bryan Alsdorf                                     |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,14 +24,14 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 class Product
 {
     public static function getList($include_removed=null)
     {
-        $data = array();
+        $params = array();
         $sql = "SELECT
                     pro_id,
                     pro_title,
@@ -38,20 +39,19 @@ class Product
                     pro_rank,
                     pro_removed
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product";
+                    {{%product}}";
         if ($include_removed !== null) {
             $sql .= "
                 WHERE
                     pro_removed = ?";
-            $data[] = $include_removed;
+            $params[] = $include_removed;
         }
         $sql .= "
                 ORDER BY
                     pro_rank";
-        $res = DB_Helper::getInstance()->getAll($sql, $data, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, $params);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -74,18 +74,17 @@ class Product
         if ($removed != 1) {
             $removed = 0;
         }
-        $data = array($title, $version_howto, $rank, $removed);
+        $params = array($title, $version_howto, $rank, $removed);
         $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product
+                    {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
                     pro_rank = ?,
                     pro_removed = ?";
-        $res = DB_Helper::getInstance()->query($sql, $data);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -97,9 +96,9 @@ class Product
         if ($removed != 1) {
             $removed = 0;
         }
-        $data = array($title, $version_howto, $rank, $removed, $id);
+        $params = array($title, $version_howto, $rank, $removed, $id);
         $sql = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product
+                    {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
@@ -107,10 +106,9 @@ class Product
                     pro_removed = ?
                 WHERE
                     pro_id = ?";
-        $res = DB_Helper::getInstance()->query($sql, $data);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -120,13 +118,13 @@ class Product
     public static function remove($ids)
     {
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product
+                    {{%product}}
                 WHERE
                     pro_id IN(" . join(', ', Misc::escapeInteger($ids)) . ")";
-        $res = DB_Helper::getInstance()->query($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
 
+        try {
+            DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
             return -1;
         }
 
@@ -142,13 +140,13 @@ class Product
                     pro_rank,
                     pro_removed
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product
+                    {{%product}}
                 WHERE
                     pro_id = ?";
-        $res = DB_Helper::getInstance()->getRow($sql, array($pro_id), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
 
+        try {
+            $res = DB_Helper::getInstance()->getRow($sql, array($pro_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -165,16 +163,15 @@ class Product
     public static function addIssueProductVersion($issue_id, $pro_id, $version)
     {
         $sql = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                    {{%issue_product_version}}
                 SET
                     ipv_iss_id = ?,
                     ipv_pro_id = ?,
                     ipv_version = ?";
-        $data = array($issue_id, $pro_id, $version);
-        $res = DB_Helper::getInstance()->query($sql, $data);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        $params = array($issue_id, $pro_id, $version);
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return false;
         }
 
@@ -189,15 +186,14 @@ class Product
                     pro_title as product,
                     ipv_version as version
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "product
+                    {{%issue_product_version}},
+                    {{%product}}
                 WHERE
                     ipv_pro_id = pro_id AND
                     ipv_iss_id = ?";
-        $res = DB_Helper::getInstance()->getAll($sql, array($issue_id), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($issue_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -235,24 +231,23 @@ class Product
     {
         if ($pro_id == -1) {
             $sql = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                        {{%issue_product_version}}
                     WHERE
                         ipv_id = ?";
-            $data = array($ipv_id);
+            $params = array($ipv_id);
         } else {
             $sql = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                        {{%issue_product_version}}
                     SET
                         ipv_pro_id = ?,
                         ipv_version = ?
                     WHERE
                         ipv_id = ?";
-            $data = array($pro_id, $version, $ipv_id);
+            $params = array($pro_id, $version, $ipv_id);
         }
-        $res = DB_Helper::getInstance()->query($sql, $data);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return false;
         }
 

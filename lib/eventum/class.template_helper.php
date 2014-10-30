@@ -154,7 +154,7 @@ class Template_Helper
         }
 
         $usr_id = Auth::getUserID();
-        if ($usr_id != '') {
+        if ($usr_id) {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
             $setup = Setup::load();

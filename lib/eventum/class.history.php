@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the history information for
  * the issues entered in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class History
@@ -69,7 +67,7 @@ class History
     public static function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    {{%issue_history}}
                  (
                     his_iss_id,
                     his_usr_id,
@@ -80,19 +78,16 @@ class History
             $stmt .= ", his_is_hidden";
         }
         $stmt .= ") VALUES (
-                    " . Misc::escapeInteger($iss_id) . ",
-                    " . Misc::escapeInteger($usr_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($summary) . "',
-                    $htt_id";
+                    ?, ?, ?, ?, ?
+                    ";
         if ($hide == true) {
             $stmt .= ", 1";
         }
         $stmt .= ")";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($iss_id, $usr_id, Date_Helper::getCurrentDateGMT(), $summary, $htt_id);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
         }
     }
@@ -106,22 +101,23 @@ class History
      */
     public static function getListing($iss_id, $order_by = 'DESC')
     {
+        $order_by = Misc::escapeString($order_by);
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
+                    {{%issue_history}},
+                    {{%history_type}}
                  WHERE
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
-                    his_iss_id=" . Misc::escapeInteger($iss_id) . " AND
-                    htt_role <= " . Auth::getCurrentRole() . "
+                    his_iss_id=? AND
+                    htt_role <= ?
                  ORDER BY
                     his_id $order_by";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($iss_id, Auth::getCurrentRole());
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return "";
         }
 
@@ -145,23 +141,22 @@ class History
     {
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    {{%issue_history}}
                  WHERE
                     his_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
      * Returns the id for the history type based on name.
      *
-     * @param   string The name of the history type
+     * @param   string $name The name of the history type
      * @return  integer The id of this type.
      */
     public static function getTypeID($name)
@@ -180,22 +175,21 @@ class History
         $stmt = "SELECT
                     htt_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
+                    {{%history_type}}
                  WHERE
                     htt_name IN('" . join("','", $name) . "')";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt);
+        } catch (DbException $e) {
             return "unknown";
-        } else {
-            if (count($name) == 1) {
-                $res = current($res);
-            }
-            $returns[$serialized] = $res;
-
-            return $res;
         }
+
+        if (count($name) == 1) {
+            $res = current($res);
+        }
+        $returns[$serialized] = $res;
+
+        return $res;
     }
 
     /**
@@ -233,60 +227,60 @@ class History
                     pri_title,
                     sta_is_closed
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue_history}},
+                    {{%issue}}
                     LEFT JOIN
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                        {{%status}}
                     ON
                         iss_sta_id = sta_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  ON
                     iss_pri_id = pri_id
                  WHERE
                     his_iss_id = iss_id AND
-                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    his_usr_id = ? AND
+                    his_created_date BETWEEN ? AND ? AND
                     his_htt_id NOT IN(" . join(',', $htt_list) . ") AND
-                    iss_prj_id = " . Auth::getCurrentProject() . "
+                    iss_prj_id = ?
                  GROUP BY
                     iss_id
                  ORDER BY
                     iss_id ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($usr_id, $start, $end, Auth::getCurrentProject());
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return "";
-        } else {
-            $data = array(
-                "no_time"   =>  array(),
-                "not_mine"  =>  array(),
-                "closed"    =>  array(),
-                "other"     =>  array()
-            );
-            if (count($res) > 0) {
-                if (isset($_REQUEST['show_per_issue'])) {
-                    Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
-                }
-                foreach ($res as $row) {
-                    if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
-                        $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
-                    }
-                    if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
-                        $data['closed'][] = $row;
-                    } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
-                        $data['not_mine'][] = $row;
-                    } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
-                        $data['no_time'][] = $row;
-                    } else {
-                        $data['other'][] = $row;
-                    }
-                }
-                $sort_function = create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);');
-                @usort($data['closed'], $sort_function);
-                @usort($data['other'], $sort_function);
+        }
+
+        $data = array(
+            "no_time"   =>  array(),
+            "not_mine"  =>  array(),
+            "closed"    =>  array(),
+            "other"     =>  array()
+        );
+        if (count($res) > 0) {
+            if (isset($_REQUEST['show_per_issue'])) {
+                Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
             }
+            foreach ($res as $row) {
+                if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
+                    $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
+                }
+                if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
+                    $data['closed'][] = $row;
+                } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
+                    $data['not_mine'][] = $row;
+                } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
+                    $data['no_time'][] = $row;
+                } else {
+                    $data['other'][] = $row;
+                }
+            }
+            $sort_function = create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);');
+            @usort($data['closed'], $sort_function);
+            @usort($data['other'], $sort_function);
         }
 
         return $data;
@@ -307,15 +301,15 @@ class History
                     sta_title,
                     count(DISTINCT iss_id) as total
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    {{%issue}},
+                    {{%status}},
+                    {{%issue_history}}
                  WHERE
                     his_iss_id = iss_id AND
                     iss_sta_id = sta_id AND
-                    iss_prj_id = " . Auth::getCurrentProject() . " AND
-                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'";
+                    iss_prj_id = ? AND
+                    his_usr_id = ? AND
+                    his_created_date BETWEEN ? AND ?";
         if ($statuses != false) {
             $stmt .= " AND
                     (
@@ -328,14 +322,14 @@ class History
                     sta_title
                  ORDER BY
                     sta_rank";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -356,18 +350,18 @@ class History
                     his_summary,
                     his_htt_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    {{%issue_history}}
                  WHERE
-                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    his_created_date BETWEEN '" . date("Y/m/d", $start) . "' AND '" . date("Y/m/d", $end) . "'";
+                    his_usr_id = ? AND
+                    his_created_date BETWEEN ? AND ?";
+        $params = array($usr_id, date("Y/m/d", $start), date("Y/m/d", $end));
         if ($htt_id != false) {
             $stmt .= "
                     AND his_htt_id IN(" . join(",", Misc::escapeInteger($htt_id)) . ")";
         }
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -385,17 +379,16 @@ class History
         $sql = "SELECT
                     his_usr_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    {{%issue_history}}
                 WHERE
-                    his_iss_id = " . Misc::escapeInteger($issue_id) . " AND
-                    his_htt_id = '" . self::getTypeID('issue_closed') . "'
+                    his_iss_id = ? AND
+                    his_htt_id = ?
                 ORDER BY
                     his_created_date DESC
                 LIMIT 1";
-        $res = DB_Helper::getInstance()->getOne($sql);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($issue_id, self::getTypeID('issue_closed')));
+        } catch (DbException $e) {
             return 0;
         }
 

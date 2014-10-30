@@ -3,9 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2014 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,59 +22,63 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once dirname(__FILE__) . '/../../init.php';
+/**
+ * Class DbNull
+ *
+ * Database which all methods do nothing, to be used for offline.php
+ */
+class DbNull implements DbInterface
+{
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("reports/category_statuses.tpl.html");
+    public function __construct(array $config)
+    {
+    }
 
-Auth::checkAuthentication(APP_COOKIE);
+    public function affectedRows()
+    {
+    }
 
-if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
-    exit;
-}
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    {
+    }
 
-// TODO: move this query to some class
+    public function getAssoc(
+        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
+    ) {
+    }
 
-$prj_id = Auth::getCurrentProject();
-$categories = Category::getAssocList($prj_id);
-$statuses = Status::getAssocStatusList($prj_id, true);
+    public function getCol($query, $col = 0, $params = array())
+    {
+    }
 
-$data = array();
-foreach ($categories as $cat_id => $cat_title) {
-    $data[$cat_id] = array(
-        'title' =>  $cat_title,
-        'statuses'  =>  array()
-    );
-    foreach ($statuses as $sta_id => $sta_title) {
-        $sql = "SELECT
-                    count(*)
-                FROM
-                    {{%issue}}
-                WHERE
-                    iss_prj_id = ? AND
-                    iss_sta_id = ? AND
-                    iss_prc_id = ?";
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
-        } catch (DbException $e) {
-            break 2;
-        }
-        $data[$cat_id]['statuses'][$sta_id] = array(
-            'title' =>  $sta_title,
-            'count' =>  $res
-        );
+    public function getColumn($query, $params = array())
+    {
+    }
+
+    public function getOne($query, $params = array())
+    {
+    }
+
+    public function getPair($query, $params = array())
+    {
+    }
+
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    {
+    }
+
+    public function escapeSimple($str)
+    {
+    }
+
+    public function query($query, $params = array())
+    {
+    }
+
+    public function quoteIdentifier($str)
+    {
     }
 }
-
-$tpl->assign(array(
-    'statuses'  =>  $statuses,
-    'categories'    =>  $categories,
-    'data'  =>  $data,
-));
-
-$tpl->displayTemplate();

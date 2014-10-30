@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,13 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Reminder_Action
@@ -71,20 +69,20 @@ class Reminder_Action
             $index = array_search($new_rank, $ranks);
             $replaced_rma_id = $ids[$index];
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                        {{%reminder_action}}
                      SET
-                        rma_rank=" . Misc::escapeInteger($ranking[$rma_id]) . "
+                        rma_rank=?
                      WHERE
-                        rma_id=" . Misc::escapeInteger($replaced_rma_id);
-            DB_Helper::getInstance()->query($stmt);
+                        rma_id=?";
+            DB_Helper::getInstance()->query($stmt, array($ranking[$rma_id], $replaced_rma_id));
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  SET
-                    rma_rank=" . Misc::escapeInteger($new_rank) . "
+                    rma_rank=?
                  WHERE
-                    rma_id=" . Misc::escapeInteger($rma_id);
-        DB_Helper::getInstance()->query($stmt);
+                    rma_id=?";
+        DB_Helper::getInstance()->query($stmt, array($new_rank, $rma_id));
 
         return true;
     }
@@ -102,19 +100,18 @@ class Reminder_Action
                     rma_id,
                     rma_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  WHERE
-                    rma_rem_id = " . Misc::escapeInteger($rem_id) . "
+                    rma_rem_id = ?
                  ORDER BY
                     rma_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($rem_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -128,17 +125,16 @@ class Reminder_Action
         $stmt = "SELECT
                     rma_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  WHERE
-                    rma_id=" . Misc::escapeInteger($rma_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rma_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($rma_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -152,22 +148,21 @@ class Reminder_Action
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  WHERE
-                    rma_id=" . Misc::escapeInteger($rma_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rma_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($rma_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            // get the user list, if appropriate
-            if (self::isUserList($res['rma_rmt_id'])) {
-                $res['user_list'] = self::getUserList($res['rma_id']);
-            }
-
-            return $res;
         }
+
+        // get the user list, if appropriate
+        if (self::isUserList($res['rma_rmt_id'])) {
+            $res['user_list'] = self::getUserList($res['rma_id']);
+        }
+
+        return $res;
     }
 
     /**
@@ -178,7 +173,7 @@ class Reminder_Action
     public static function insert()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  (
                     rma_rem_id,
                     rma_rmt_id,
@@ -189,29 +184,32 @@ class Reminder_Action
                     rma_alert_group_leader,
                     rma_boilerplate
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST['rem_id']) . ",
-                    " . Misc::escapeInteger($_POST['type']) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST['title']) . "',
-                    '" . Misc::escapeInteger($_POST['rank']) . "',
-                    " . Misc::escapeInteger($_POST['alert_irc']) . ",
-                    " . Misc::escapeInteger($_POST['alert_group_leader']) . ",
-                    '" . Misc::escapeString($_POST['boilerplate']) . "'
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $_POST['rem_id'],
+            $_POST['type'],
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['title'],
+            $_POST['rank'],
+            $_POST['alert_irc'],
+            $_POST['alert_group_leader'],
+            $_POST['boilerplate'],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_rma_id = DB_Helper::get_last_insert_id();
-            // add the user list, if appropriate
-            if (self::isUserList($_POST['type'])) {
-                self::associateUserList($new_rma_id, $_POST['user_list']);
-            }
-
-            return 1;
         }
+
+        $new_rma_id = DB_Helper::get_last_insert_id();
+        // add the user list, if appropriate
+        if (self::isUserList($_POST['type'])) {
+            self::associateUserList($new_rma_id, $_POST['user_list']);
+        }
+
+        return 1;
     }
 
     /**
@@ -227,26 +225,25 @@ class Reminder_Action
                     ral_usr_id,
                     ral_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                    {{%reminder_action_list}}
                  WHERE
-                    ral_rma_id=" . Misc::escapeInteger($rma_id);
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    ral_rma_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            $t = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if (Validation::isEmail($res[$i]['ral_email'])) {
-                    $t[$res[$i]['ral_email']] = $res[$i]['ral_email'];
-                } else {
-                    $t[$res[$i]['ral_usr_id']] = User::getFullName($res[$i]['ral_usr_id']);
-                }
-            }
-
-            return $t;
         }
+
+        $t = array();
+        for ($i = 0; $i < count($res); $i++) {
+            if (Validation::isEmail($res[$i]['ral_email'])) {
+                $t[$res[$i]['ral_email']] = $res[$i]['ral_email'];
+            } else {
+                $t[$res[$i]['ral_usr_id']] = User::getFullName($res[$i]['ral_usr_id']);
+            }
+        }
+
+        return $t;
     }
 
     /**
@@ -268,17 +265,15 @@ class Reminder_Action
                 $email = $user_list[$i];
             }
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                        {{%reminder_action_list}}
                      (
                         ral_rma_id,
                         ral_usr_id,
                         ral_email
                      ) VALUES (
-                        " . Misc::escapeInteger($rma_id) . ",
-                        " . Misc::escapeInteger($usr_id) . ",
-                        '" . Misc::escapeString($email) . "'
+                        ?, ?, ?
                      )";
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, array($rma_id, $usr_id, $email));
         }
     }
 
@@ -290,32 +285,41 @@ class Reminder_Action
     public static function update()
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  SET
-                    rma_last_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    rma_rank='" . Misc::escapeInteger($_POST['rank']) . "',
-                    rma_title='" . Misc::escapeString($_POST['title']) . "',
-                    rma_rmt_id=" . Misc::escapeInteger($_POST['type']) . ",
-                    rma_alert_irc=" . Misc::escapeInteger($_POST['alert_irc']) . ",
-                    rma_alert_group_leader=" . Misc::escapeInteger($_POST['alert_group_leader']) . ",
-                    rma_boilerplate='" . Misc::escapeString($_POST['boilerplate']) . "'
+                    rma_last_updated_date=?,
+                    rma_rank=?,
+                    rma_title=?,
+                    rma_rmt_id=?,
+                    rma_alert_irc=?,
+                    rma_alert_group_leader=?,
+                    rma_boilerplate=?
                  WHERE
-                    rma_id=" . Misc::escapeInteger($_POST['id']);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rma_id=?";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['rank'],
+            $_POST['title'],
+            $_POST['type'],
+            $_POST['alert_irc'],
+            $_POST['alert_group_leader'],
+            $_POST['boilerplate'],
+            $_POST['id'],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            // remove any user list associated with this reminder action
-            self::clearActionUserList($_POST['id']);
-            // add the user list back in, if appropriate
-            if (self::isUserList($_POST['type'])) {
-                self::associateUserList($_POST['id'], $_POST['user_list']);
-            }
-
-            return 1;
         }
+
+        // remove any user list associated with this reminder action
+        self::clearActionUserList($_POST['id']);
+        // add the user list back in, if appropriate
+        if (self::isUserList($_POST['type'])) {
+            self::associateUserList($_POST['id'], $_POST['user_list']);
+        }
+
+        return 1;
     }
 
     /**
@@ -330,25 +334,25 @@ class Reminder_Action
         $stmt = "SELECT
                     rmt_type
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
+                    {{%reminder_action_type}}
                  WHERE
-                    rmt_id=" . Misc::escapeInteger($rmt_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rmt_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            $user_list_types = array(
-                'sms_list',
-                'email_list'
-            );
-            if (!in_array($res, $user_list_types)) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        $user_list_types = array(
+            'sms_list',
+            'email_list'
+        );
+
+        if (!in_array($res, $user_list_types)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -364,7 +368,7 @@ class Reminder_Action
         }
         $items = @implode(", ", Misc::escapeInteger($rma_id));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                    {{%reminder_action_list}}
                  WHERE
                     ral_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
@@ -380,20 +384,23 @@ class Reminder_Action
     {
         $items = @implode(", ", Misc::escapeInteger($action_ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  WHERE
                     rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
+
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history
+                    {{%reminder_history}}
                  WHERE
                     rmh_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
+
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
+                    {{%reminder_level_condition}}
                  WHERE
                     rlc_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
+
         self::clearActionUserList($action_ids);
     }
 
@@ -408,17 +415,16 @@ class Reminder_Action
                     rmt_id,
                     rmt_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
+                    {{%reminder_action_type}}
                  ORDER BY
                     rmt_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -439,31 +445,30 @@ class Reminder_Action
                     rma_alert_irc,
                     rma_alert_group_leader
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
+                    {{%reminder_action}},
+                    {{%reminder_action_type}}
                  WHERE
                     rma_rmt_id=rmt_id AND
-                    rma_rem_id=" . Misc::escapeInteger($rem_id) . "
+                    rma_rem_id=?
                  ORDER BY
                     rma_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $conditions = Reminder_Condition::getList($res[$i]['rma_id']);
-                $res[$i]['total_conditions'] = count($conditions);
-                foreach ($conditions as $condition) {
-                    if ($condition['rmf_sql_field'] == 'iss_sta_id') {
-                        $res[$i]['status'] = Status::getStatusTitle($condition['rlc_value']);
-                    }
+        }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $conditions = Reminder_Condition::getList($res[$i]['rma_id']);
+            $res[$i]['total_conditions'] = count($conditions);
+            foreach ($conditions as $condition) {
+                if ($condition['rmf_sql_field'] == 'iss_sta_id') {
+                    $res[$i]['status'] = Status::getStatusTitle($condition['rlc_value']);
                 }
             }
-
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -478,23 +483,22 @@ class Reminder_Action
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                    {{%reminder_action}}
                  WHERE
-                    rma_rem_id=" . Misc::escapeInteger($reminder_id) . "
+                    rma_rem_id=?
                  ORDER BY
                     rma_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                return $res;
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        return $res;
     }
 
     /**
@@ -508,17 +512,16 @@ class Reminder_Action
         $stmt = "SELECT
                     rmt_type
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
+                    {{%reminder_action_type}}
                  WHERE
-                    rmt_id=" . Misc::escapeInteger($rmt_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rmt_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -532,24 +535,21 @@ class Reminder_Action
     public function saveHistory($issue_id, $rma_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history
+                    {{%reminder_history}}
                  (
                     rmh_iss_id,
                     rmh_rma_id,
                     rmh_created_date
                  ) VALUES (
-                    " . Misc::escapeInteger($issue_id) . ",
-                    " . Misc::escapeInteger($rma_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($issue_id, $rma_id, Date_Helper::getCurrentDateGMT()));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -802,26 +802,25 @@ class Reminder_Action
                     rta_iss_id,
                     rta_rma_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                    {{%reminder_triggered_action}}
                  WHERE
                     rta_iss_id IN (" . implode(', ', Misc::escapeInteger($issues)) . ")";
-        $triggered_actions = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($triggered_actions)) {
-            Error_Handler::logError(array($triggered_actions->getMessage(), $triggered_actions->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $triggered_actions = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return $issues;
-        } else {
-            $repeat_issues = array();
-            foreach ($issues as $issue_id) {
-                // if the issue was already triggered and the last triggered
-                // action was the given one, then add it to the list of repeat issues
-                if ((in_array($issue_id, array_keys($triggered_actions))) && ($triggered_actions[$issue_id] == $rma_id)) {
-                    $repeat_issues[] = $issue_id;
-                }
-            }
-
-            return $repeat_issues;
         }
+
+        $repeat_issues = array();
+        foreach ($issues as $issue_id) {
+            // if the issue was already triggered and the last triggered
+            // action was the given one, then add it to the list of repeat issues
+            if ((in_array($issue_id, array_keys($triggered_actions))) && ($triggered_actions[$issue_id] == $rma_id)) {
+                $repeat_issues[] = $issue_id;
+            }
+        }
+
+        return $repeat_issues;
     }
 
     /**
@@ -839,20 +838,21 @@ class Reminder_Action
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                    {{%reminder_triggered_action}}
                  WHERE
-                    rta_iss_id=$issue_id";
-        $total = DB_Helper::getInstance()->getOne($stmt);
+                    rta_iss_id=?";
+
+        $total = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         if ($total == 1) {
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                        {{%reminder_triggered_action}}
                      SET
                         rta_rma_id=$rma_id
                      WHERE
                         rta_iss_id=$issue_id";
         } else {
             $stmt = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                        {{%reminder_triggered_action}}
                      (
                         rta_iss_id,
                         rta_rma_id
@@ -861,14 +861,13 @@ class Reminder_Action
                         $rma_id
                      )";
         }
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -880,16 +879,15 @@ class Reminder_Action
     public static function clearLastTriggered($issue_id)
     {
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                    {{%reminder_triggered_action}}
                  WHERE
-                    rta_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rta_iss_id=?";
+        try {
+            $res = DB_Helper::getInstance()->query($stmt, array($issue_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 }

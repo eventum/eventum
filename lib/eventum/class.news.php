@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,8 +25,8 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 class News
 {
@@ -42,41 +42,40 @@ class News
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
+                    {{%news}},
+                    {{%project_news}}
                  WHERE
                     prn_nws_id=nws_id AND
-                    prn_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    prn_prj_id=? AND
                     nws_status='active'
                  ORDER BY
                     nws_created_date DESC
                  LIMIT
                     3 OFFSET 0";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]["nws_created_date"]);
-                if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
-                    $next_space = strpos($res[$i]['nws_message'], ' ', 254);
-                    if (empty($next_space)) {
-                        $next_space = strpos($res[$i]['nws_message'], "\n", 254);
-                    }
-                    if (($next_space > 0) && (($next_space - 255) < 50)) {
-                        $cut = $next_space;
-                    } else {
-                        $cut = 255;
-                    }
-                    $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, $cut) . '...';
-                }
-                $res[$i]['nws_message'] = nl2br(htmlspecialchars($res[$i]['nws_message']));
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]["nws_created_date"]);
+            if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
+                $next_space = strpos($res[$i]['nws_message'], ' ', 254);
+                if (empty($next_space)) {
+                    $next_space = strpos($res[$i]['nws_message'], "\n", 254);
+                }
+                if (($next_space > 0) && (($next_space - 255) < 50)) {
+                    $cut = $next_space;
+                } else {
+                    $cut = 255;
+                }
+                $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, $cut) . '...';
+            }
+            $res[$i]['nws_message'] = nl2br(htmlspecialchars($res[$i]['nws_message']));
+        }
+
+        return $res;
     }
 
     /**
@@ -89,15 +88,14 @@ class News
     public function addProjectAssociation($nws_id, $prj_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
+                    {{%project_news}}
                  (
                     prn_nws_id,
                     prn_prj_id
                  ) VALUES (
-                    " . Misc::escapeInteger($nws_id) . ",
-                    " . Misc::escapeInteger($prj_id) . "
+                    ?, ?
                  )";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, array($nws_id, $prj_id));
     }
 
     /**
@@ -114,7 +112,7 @@ class News
             return -3;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  (
                     nws_usr_id,
                     nws_created_date,
@@ -122,26 +120,28 @@ class News
                     nws_message,
                     nws_status
                  ) VALUES (
-                    " . Auth::getUserID() . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Misc::escapeString($_POST["message"]) . "',
-                    '" . Misc::escapeString($_POST["status"]) . "'
+                    ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            Auth::getUserID(),
+            Date_Helper::getCurrentDateGMT(),
+            $_POST["title"],
+            $_POST["message"],
+            $_POST["status"],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_news_id = DB_Helper::get_last_insert_id();
-            // now populate the project-news mapping table
-            foreach ($_POST['projects'] as $prj_id) {
-                self::addProjectAssociation($new_news_id, $prj_id);
-            }
-
-            return 1;
         }
+
+        $new_news_id = DB_Helper::get_last_insert_id();
+        // now populate the project-news mapping table
+        foreach ($_POST['projects'] as $prj_id) {
+            self::addProjectAssociation($new_news_id, $prj_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -153,19 +153,18 @@ class News
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  WHERE
                     nws_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            self::removeProjectAssociations($_POST['items']);
-
-            return true;
         }
+
+        self::removeProjectAssociations($_POST['items']);
+
+        return true;
     }
 
     /**
@@ -183,20 +182,21 @@ class News
         }
         $items = @implode(", ", Misc::escapeInteger($nws_id));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
+                    {{%project_news}}
                  WHERE
                     prn_nws_id IN ($items)";
+        $params = array();
         if ($prj_id) {
-            $stmt .= " AND prn_prj_id=" . Misc::escapeInteger($prj_id);
+            $stmt .= " AND prn_prj_id=?";
+            $params[] = $prj_id;
         }
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -213,27 +213,27 @@ class News
             return -3;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  SET
-                    nws_title='" . Misc::escapeString($_POST["title"]) . "',
-                    nws_message='" . Misc::escapeString($_POST["message"]) . "',
-                    nws_status='" . Misc::escapeString($_POST["status"]) . "'
+                    nws_title=?,
+                    nws_message=?,
+                    nws_status=?
                  WHERE
-                    nws_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    nws_id=?";
+        $params = array($_POST["title"], $_POST["message"], $_POST["status"], $_POST["id"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            // remove all of the associations with projects, then add them all again
-            self::removeProjectAssociations($_POST['id']);
-            foreach ($_POST['projects'] as $prj_id) {
-                self::addProjectAssociation($_POST['id'], $prj_id);
-            }
-
-            return 1;
         }
+
+        // remove all of the associations with projects, then add them all again
+        self::removeProjectAssociations($_POST['id']);
+        foreach ($_POST['projects'] as $prj_id) {
+            self::addProjectAssociation($_POST['id'], $prj_id);
+        }
+
+        return 1;
     }
 
     /**
@@ -247,21 +247,20 @@ class News
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  WHERE
-                    nws_id=" . Misc::escapeInteger($nws_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    nws_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get all of the project associations here as well
-            $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
-            $res['nws_message'] = nl2br(htmlspecialchars($res['nws_message']));
-
-            return $res;
         }
+
+        // get all of the project associations here as well
+        $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
+        $res['nws_message'] = nl2br(htmlspecialchars($res['nws_message']));
+
+        return $res;
     }
 
     /**
@@ -275,20 +274,19 @@ class News
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  WHERE
-                    nws_id=" . Misc::escapeInteger($nws_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    nws_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get all of the project associations here as well
-            $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
-
-            return $res;
         }
+
+        // get all of the project associations here as well
+        $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
+
+        return $res;
     }
 
     /**
@@ -303,22 +301,21 @@ class News
                     nws_title,
                     nws_status
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                    {{%news}}
                  ORDER BY
                     nws_title ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get the list of associated projects
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
-            }
-
-            return $res;
         }
+
+        // get the list of associated projects
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
+        }
+
+        return $res;
     }
 
     /**
@@ -334,18 +331,17 @@ class News
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
+                    {{%project}},
+                    {{%project_news}}
                  WHERE
                     prj_id=prn_prj_id AND
-                    prn_nws_id=" . Misc::escapeInteger($nws_id);
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    prn_nws_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($nws_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }

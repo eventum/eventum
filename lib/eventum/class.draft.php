@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,9 +25,8 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-
 
 class Draft
 {
@@ -76,7 +75,7 @@ class Draft
             $usr_id = Auth::getUserID();
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  (
                     emd_updated_date,
                     emd_usr_id,
@@ -84,41 +83,45 @@ class Draft
                     emd_sup_id,
                     emd_subject,
                     emd_body";
+
         if (!empty($unknown_user)) {
             $stmt .= ", emd_unknown_user";
         }
         $stmt .= ") VALUES (
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    $usr_id,
-                    $issue_id,
-                    $parent_id,
-                    '" . Misc::escapeString($subject) . "',
-                    '" . Misc::escapeString($message) . "'";
+                    ?, ?, ?, ?, ?, ?
+                ";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $usr_id,
+            $issue_id,
+            $parent_id,
+            $subject,
+            $message,
+        );
         if (!empty($unknown_user)) {
-            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
+            $stmt .= ", ?";
+            $params[] = $unknown_user;
         }
         $stmt .= ")";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_emd_id = DB_Helper::get_last_insert_id();
-            self::addEmailRecipient($new_emd_id, $to, false);
-            $cc = str_replace(',', ';', $cc);
-            $ccs = explode(';', $cc);
-            foreach ($ccs as $cc) {
-                self::addEmailRecipient($new_emd_id, $cc, true);
-            }
-            Issue::markAsUpdated($issue_id, "draft saved");
-            if ($add_history_entry) {
-                History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
-            }
-
-            return 1;
         }
+
+        $new_emd_id = DB_Helper::get_last_insert_id();
+        self::addEmailRecipient($new_emd_id, $to, false);
+        $cc = str_replace(',', ';', $cc);
+        $ccs = explode(';', $cc);
+        foreach ($ccs as $cc) {
+            self::addEmailRecipient($new_emd_id, $cc, true);
+        }
+        Issue::markAsUpdated($issue_id, "draft saved");
+        if ($add_history_entry) {
+            History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
+        }
+
+        return 1;
     }
 
     /**
@@ -145,24 +148,24 @@ class Draft
 
         // update previous draft and insert new record
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  SET
-                    emd_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    emd_updated_date=?,
                     emd_status = 'edited'
                  WHERE
-                    emd_id=$emd_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    emd_id=?";
+        $params = array(Date_Helper::getCurrentDateGMT(), $emd_id);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id, "draft saved");
-            History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
-            self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
-
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id, "draft saved");
+        History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
+        self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
+
+        return 1;
     }
 
     /**
@@ -173,21 +176,19 @@ class Draft
      */
     public static function remove($emd_id)
     {
-        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  SET
                     emd_status = 'sent'
                  WHERE
-                    emd_id=$emd_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    emd_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($emd_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -199,19 +200,17 @@ class Draft
      */
     public function removeRecipients($emd_id)
     {
-        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
+                    {{%email_draft_recipient}}
                  WHERE
-                    edr_emd_id=$emd_id";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    edr_emd_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($emd_id));
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -233,25 +232,25 @@ class Draft
         }
         $email = trim($email);
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
+                    {{%email_draft_recipient}}
                  (
                     edr_emd_id,
                     edr_is_cc,
                     edr_email
                  ) VALUES (
-                    $emd_id,
-                    $is_cc,
-                    '" . Misc::escapeString($email) . "'
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $emd_id,
+            $is_cc,
+            $email,
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
@@ -266,26 +265,25 @@ class Draft
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  WHERE
-                    emd_id=$emd_id";
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            /** @var $res PEAR_Error */
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    emd_id=?";
 
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
-            if (!empty($res['emd_unknown_user'])) {
-                $res['from'] = $res["emd_unknown_user"];
-            } else {
-                $res['from'] = User::getFromHeader($res['emd_usr_id']);
-            }
-            list($res['to'], $res['cc']) = self::getEmailRecipients($emd_id);
-
-            return $res;
         }
+
+        $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
+        if (!empty($res['emd_unknown_user'])) {
+            $res['from'] = $res["emd_unknown_user"];
+        } else {
+            $res['from'] = User::getFromHeader($res['emd_usr_id']);
+        }
+        list($res['to'], $res['cc']) = self::getEmailRecipients($emd_id);
+
+        return $res;
     }
 
     /**
@@ -306,35 +304,36 @@ class Draft
                     emd_unknown_user,
                     emd_status
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  WHERE
-                    emd_iss_id=$issue_id\n";
+                    emd_iss_id=?\n";
+        $params = array($issue_id);
+
         if ($show_all == false) {
             $stmt .= "AND emd_status = 'pending'\n";
         }
         $stmt .= "ORDER BY
                     emd_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return '';
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["emd_updated_date"] = Date_Helper::getFormattedDate($res[$i]["emd_updated_date"]);
-                if (!empty($res[$i]['emd_unknown_user'])) {
-                    $res[$i]['from'] = $res[$i]["emd_unknown_user"];
-                } else {
-                    $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
-                }
-                list($res[$i]['to'], ) = self::getEmailRecipients($res[$i]['emd_id']);
-                if (empty($res[$i]['to'])) {
-                    $res[$i]['to'] = "Notification List";
-                }
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["emd_updated_date"] = Date_Helper::getFormattedDate($res[$i]["emd_updated_date"]);
+            if (!empty($res[$i]['emd_unknown_user'])) {
+                $res[$i]['from'] = $res[$i]["emd_unknown_user"];
+            } else {
+                $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
+            }
+            list($res[$i]['to'], ) = self::getEmailRecipients($res[$i]['emd_id']);
+            if (empty($res[$i]['to'])) {
+                $res[$i]['to'] = "Notification List";
+            }
+        }
+
+        return $res;
     }
 
     /**
@@ -351,30 +350,29 @@ class Draft
                     edr_email,
                     edr_is_cc
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
+                    {{%email_draft_recipient}}
                  WHERE
-                    edr_emd_id=$emd_id";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    edr_emd_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($emd_id));
+        } catch (DbException $e) {
             return array('', '');
-        } else {
-            $to = '';
-            $ccs = array();
-            foreach ($res as $email => $is_cc) {
-                if ($is_cc) {
-                    $ccs[] = $email;
-                } else {
-                    $to = $email;
-                }
-            }
-
-            return array(
-                $to,
-                $ccs
-            );
         }
+
+        $to = '';
+        $ccs = array();
+        foreach ($res as $email => $is_cc) {
+            if ($is_cc) {
+                $ccs[] = $email;
+            } else {
+                $to = $email;
+            }
+        }
+
+        return array(
+            $to,
+            $ccs
+        );
     }
 
     /**
@@ -386,30 +384,28 @@ class Draft
      */
     public static function getDraftBySequence($issue_id, $sequence)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $sequence = Misc::escapeInteger($sequence);
         $stmt = "SELECT
                     emd_id
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                 WHERE
-                    emd_iss_id = $issue_id AND
+                    emd_iss_id = ? AND
                     emd_status = 'pending'
                 ORDER BY
                     emd_id ASC
                 LIMIT 1 OFFSET " . ($sequence - 1);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                return self::getDetails($res);
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        return self::getDetails($res);
     }
 
     /**
@@ -449,14 +445,13 @@ class Draft
         $stmt = "SELECT
                     COUNT(emd_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                    {{%email_draft}}
                  WHERE
-                    emd_updated_date BETWEEN '$start' AND '$end' AND
-                    emd_usr_id = $usr_id";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    emd_updated_date BETWEEN ? AND ? AND
+                    emd_usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($start, $end, $usr_id));
+        } catch (DbException $e) {
             return "";
         }
 

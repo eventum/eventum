@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Reminder_Condition
@@ -49,17 +46,16 @@ class Reminder_Condition
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
+                    {{%reminder_level_condition}}
                  WHERE
-                    rlc_id=" . Misc::escapeInteger($rlc_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rlc_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -70,7 +66,7 @@ class Reminder_Condition
     public static function insert()
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
+                    {{%reminder_level_condition}}
                  (
                     rlc_created_date,
                     rlc_rma_id,
@@ -79,21 +75,23 @@ class Reminder_Condition
                     rlc_value,
                     rlc_comparison_rmf_id
                  ) VALUES (
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    " . Misc::escapeInteger($_POST['rma_id']) . ",
-                    " . Misc::escapeInteger($_POST['field']) . ",
-                    " . Misc::escapeInteger($_POST['operator']) . ",
-                    '" . Misc::escapeString(@$_POST['value']) . "',
-                    '" . Misc::escapeInteger(@$_POST['comparison_field']) . "'
+                    ?, ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['rma_id'],
+            $_POST['field'],
+            $_POST['operator'],
+            @$_POST['value'],
+            @$_POST['comparison_field'],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -104,23 +102,31 @@ class Reminder_Condition
     public static function update()
     {
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
+                    {{%reminder_level_condition}}
                  SET
-                    rlc_last_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    rlc_rmf_id=" . Misc::escapeInteger($_POST['field']) . ",
-                    rlc_rmo_id=" . Misc::escapeInteger($_POST['operator']) . ",
-                    rlc_value='" . Misc::escapeString(@$_POST['value']) . "',
-                    rlc_comparison_rmf_id = '" . Misc::escapeInteger(@$_POST['comparison_field']) . "'
+                    rlc_last_updated_date=?,
+                    rlc_rmf_id=?,
+                    rlc_rmo_id=?,
+                    rlc_value=?,
+                    rlc_comparison_rmf_id = ?
                  WHERE
-                    rlc_id=" . Misc::escapeInteger($_POST['id']);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    rlc_id=?";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            $_POST['field'],
+            $_POST['operator'],
+            @$_POST['value'],
+            @$_POST['comparison_field'],
+            $_POST['id'],
+        );
 
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -133,7 +139,7 @@ class Reminder_Condition
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
+                    {{%reminder_level_condition}}
                  WHERE
                     rlc_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
@@ -151,25 +157,24 @@ class Reminder_Condition
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_operator
+                    {{%reminder_level_condition}},
+                    {{%reminder_field}},
+                    {{%reminder_operator}}
                  WHERE
-                    rlc_rma_id=" . Misc::escapeInteger($action_id) . " AND
+                    rlc_rma_id=? AND
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($action_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            if (empty($res)) {
-                return array();
-            } else {
-                return $res;
-            }
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        return $res;
     }
 
     /**
@@ -188,37 +193,36 @@ class Reminder_Condition
                     rmf_title,
                     rmo_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_operator
+                    {{%reminder_level_condition}},
+                    {{%reminder_field}},
+                    {{%reminder_operator}}
                  WHERE
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id AND
-                    rlc_rma_id=" . Misc::escapeInteger($rma_id) . "
+                    rlc_rma_id=?
                  ORDER BY
                     rlc_id ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                    $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
-                } elseif (strtolower($res[$i]['rmf_title']) == 'status') {
-                    $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
-                } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
-                    $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
-                } elseif ((strtolower($res[$i]['rmf_title']) == 'group') || (strtolower($res[$i]['rmf_title']) == 'active group')) {
-                    $res[$i]['rlc_value'] = Group::getName($res[$i]['rlc_value']);
-                } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
-                    $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");
-                }
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
+                $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+            } elseif (strtolower($res[$i]['rmf_title']) == 'status') {
+                $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
+            } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
+                $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
+            } elseif ((strtolower($res[$i]['rmf_title']) == 'group') || (strtolower($res[$i]['rmf_title']) == 'active group')) {
+                $res[$i]['rlc_value'] = Group::getName($res[$i]['rlc_value']);
+            } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
+                $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");
+            }
+        }
+
+        return $res;
     }
 
     /**
@@ -232,17 +236,16 @@ class Reminder_Condition
         $stmt = "SELECT
                     rmf_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
+                    {{%reminder_field}}
                  WHERE
-                    rmf_id=" . Misc::escapeInteger($field_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rmf_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -256,17 +259,16 @@ class Reminder_Condition
         $stmt = "SELECT
                     rmf_sql_field
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
+                    {{%reminder_field}}
                  WHERE
-                    rmf_id=" . Misc::escapeInteger($field_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rmf_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -282,20 +284,19 @@ class Reminder_Condition
                     rmf_id,
                     rmf_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field\n";
+                    {{%reminder_field}}\n";
         if ($comparable_only == true) {
             $stmt .= "WHERE rmf_allow_column_compare = 1\n";
         }
         $stmt .= "ORDER BY
                     rmf_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -310,17 +311,16 @@ class Reminder_Condition
                     rmo_id,
                     rmo_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_operator
+                    {{%reminder_operator}}
                  ORDER BY
                     rmo_title ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -334,16 +334,15 @@ class Reminder_Condition
         $stmt = "SELECT
                     rmf_allow_column_compare
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
+                    {{%reminder_field}}
                  WHERE
-                    rmf_id=" . Misc::escapeInteger($field_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    rmf_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+        } catch (DbException $e) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }

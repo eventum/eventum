@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -33,9 +34,6 @@
  * of the view issue page. This section allows the developer to give feedback
  * on the impacts required to implement a needed feature, or to change an
  * existing application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Impact_Analysis
@@ -50,30 +48,27 @@ class Impact_Analysis
     {
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  (
                     isr_iss_id,
                     isr_usr_id,
                     isr_created_date,
                     isr_requirement
                  ) VALUES (
-                    " . Misc::escapeInteger($issue_id) . ",
-                    $usr_id,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST["new_requirement"]) . "'
+                    ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST["new_requirement"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), ev_gettext('New requirement submitted by %1$s', User::getFullName($usr_id)));
-
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), ev_gettext('New requirement submitted by %1$s', User::getFullName($usr_id)));
+
+        return 1;
     }
 
     /**
@@ -94,34 +89,33 @@ class Impact_Analysis
                     B.usr_full_name AS handler_name
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user A
+                    {{%issue_requirement}},
+                    {{%user}} A
                     )
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user B
+                    {{%user}} B
                  ON
                     isr_updated_usr_id=B.usr_id
                  WHERE
-                    isr_iss_id=" . Misc::escapeInteger($issue_id) . " AND
+                    isr_iss_id=? AND
                     isr_usr_id=A.usr_id";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            if (count($res) == 0) {
-                return "";
-            } else {
-                for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]["isr_requirement"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_requirement"])));
-                    $res[$i]["isr_impact_analysis"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
-                    $res[$i]["formatted_dev_time"] = Misc::getFormattedTime($res[$i]["isr_dev_time"]);
-                }
-
-                return $res;
-            }
         }
+
+        if (count($res) == 0) {
+            return "";
+        }
+
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]["isr_requirement"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_requirement"])));
+            $res[$i]["isr_impact_analysis"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
+            $res[$i]["formatted_dev_time"] = Misc::getFormattedTime($res[$i]["isr_dev_time"]);
+        }
+
+        return $res;
     }
 
     /**
@@ -136,35 +130,35 @@ class Impact_Analysis
         $stmt = "SELECT
                     isr_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  WHERE
-                    isr_id=" . Misc::escapeInteger($isr_id);
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    isr_id=?";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, array($isr_id));
 
         // we are storing minutes, not hours
         $dev_time = $_POST["dev_time"] * 60;
         $usr_id = Auth::getUserID();
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  SET
-                    isr_updated_usr_id=$usr_id,
-                    isr_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    isr_dev_time=$dev_time,
-                    isr_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
+                    isr_updated_usr_id=?,
+                    isr_updated_date=?,
+                    isr_dev_time=?,
+                    isr_impact_analysis=?
                  WHERE
-                    isr_id=" . Misc::escapeInteger($isr_id);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    isr_id=?";
+        $params = array($usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST["impact_analysis"], $isr_id);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), ev_gettext('Impact analysis submitted by %1$s', User::getFullName($usr_id)));
-
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), ev_gettext('Impact analysis submitted by %1$s', User::getFullName($usr_id)));
+
+        return 1;
     }
 
     /**
@@ -178,27 +172,26 @@ class Impact_Analysis
         $stmt = "SELECT
                     isr_iss_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  WHERE
                     isr_id IN ($items)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt);
 
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  WHERE
                     isr_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), ev_gettext('Impact analysis removed by %1$s', User::getFullName(Auth::getUserID())));
-
-            return 1;
         }
+
+        Issue::markAsUpdated($issue_id);
+        // need to save a history entry for this
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), ev_gettext('Impact analysis removed by %1$s', User::getFullName(Auth::getUserID())));
+
+        return 1;
     }
 
     /**
@@ -212,16 +205,15 @@ class Impact_Analysis
     {
         $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
+                    {{%issue_requirement}}
                  WHERE
                     isr_iss_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 }

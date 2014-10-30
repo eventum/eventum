@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,14 +25,11 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 /**
  * Class to handle project priority related issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Priority
@@ -69,22 +66,22 @@ class Priority
             $index = array_search($new_rank, $ranks);
             $replaced_pri_id = $ids[$index];
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                        {{%project_priority}}
                      SET
-                        pri_rank=" . Misc::escapeInteger($ranking[$pri_id]) . "
+                        pri_rank=?
                      WHERE
-                        pri_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                        pri_id=" . Misc::escapeInteger($replaced_pri_id);
-            DB_Helper::getInstance()->query($stmt);
+                        pri_prj_id=? AND
+                        pri_id=?";
+            DB_Helper::getInstance()->query($stmt, array($ranking[$pri_id], $prj_id, $replaced_pri_id));
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  SET
-                    pri_rank=" . Misc::escapeInteger($new_rank) . "
+                    pri_rank=?
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    pri_id=" . Misc::escapeInteger($pri_id);
-        DB_Helper::getInstance()->query($stmt);
+                    pri_prj_id=? AND
+                    pri_id=?";
+        DB_Helper::getInstance()->query($stmt, array($new_rank, $prj_id, $pri_id));
 
         return true;
     }
@@ -102,19 +99,18 @@ class Priority
                     pri_id,
                     pri_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    pri_prj_id=?
                  ORDER BY
                     pri_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -128,17 +124,16 @@ class Priority
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_id=" . Misc::escapeInteger($pri_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pri_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -152,17 +147,16 @@ class Priority
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
                     pri_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -175,17 +169,16 @@ class Priority
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
                     pri_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -201,21 +194,20 @@ class Priority
             return -2;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  SET
-                    pri_title='" . Misc::escapeString($_POST["title"]) . "',
-                    pri_rank=" . Misc::escapeInteger($_POST['rank']) . "
+                    pri_title=?,
+                    pri_rank=?
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
-                    pri_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pri_prj_id=? AND
+                    pri_id=?";
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST['rank'], $_POST["prj_id"], $_POST["id"]));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -229,24 +221,21 @@ class Priority
             return -2;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  (
                     pri_prj_id,
                     pri_title,
                     pri_rank
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    " . Misc::escapeInteger($_POST['rank']) . "
+                    ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt, array($_POST["prj_id"], $_POST["title"], $_POST['rank']));
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -263,19 +252,18 @@ class Priority
                     pri_title,
                     pri_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    pri_prj_id=?
                  ORDER BY
                     pri_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -289,17 +277,16 @@ class Priority
         $stmt = "SELECT
                     pri_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_id=" . Misc::escapeInteger($pri_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pri_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($pri_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -321,28 +308,26 @@ class Priority
                     pri_id,
                     pri_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    pri_prj_id=?
                  ORDER BY
                     pri_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            $list[$prj_id] = $res;
-
-            return $res;
         }
+
+        $list[$prj_id] = $res;
+
+        return $res;
     }
 
     /**
      * Method used to get the pri_id of a project by priority title.
      *
      * @param   integer $prj_id The project ID
-     * @param   integer $pri_id The priority ID
      * @param   string $pri_title The priority title
      * @return  integer $pri_id The priority ID
      */
@@ -351,18 +336,17 @@ class Priority
         $stmt = "SELECT
                     pri_id
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
-                    AND pri_title = '" . Misc::escapeString($pri_title) . "'";
+                    pri_prj_id=?
+                    AND pri_title = ?";
 
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_title));
+        } catch (DbException $e) {
             return null;
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }

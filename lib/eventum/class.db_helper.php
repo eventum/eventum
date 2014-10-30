@@ -25,50 +25,49 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
-require_once 'DB.php';
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
- * useful to mantain a data dictionary of the current database schema tables.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
+ * useful to maintain a data dictionary of the current database schema tables.
  */
 
 class DB_Helper
 {
     /**
-     * @var DB_Helper $instance
+     * @return DbInterface
      */
-    private static $instance;
-
-    /**
-     * @static
-     * @return DB_common
-     */
-    public static function getInstance()
+    public static function getInstance($fallback = true)
     {
-        if (!self::$instance) {
-            // assign value immediately this avoids deep recursion
-            self::$instance = new DB_Helper();
-
-            if (PEAR::isError($e = self::$instance->dbh)) {
-                /** @var $e PEAR_Error */
-                Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
-                /** @global $error_type  */
-                $error_type = "db";
-                require_once APP_PATH . "/htdocs/offline.php";
-                exit(2);
-            }
+        static $instance;
+        if ($instance !== null) {
+            return $instance;
         }
 
-        return self::$instance->dbh;
-    }
+        // initialize value to avoid recursion
+        $instance = false;
 
-    /** @var DB_common */
-    private $dbh;
+        $config = self::getConfig();
+        $className = isset($config['classname']) ? $config['classname'] : 'DbPear';
+
+        try {
+            $instance = new $className($config);
+        } catch (DbException $e) {
+            // set dummy provider in as offline.php uses db methods
+            $instance = new DbNull($config);
+
+            if (!$fallback) {
+                throw $e;
+            }
+            /** @global $error_type */
+            $error_type = "db";
+            require_once APP_PATH . "/htdocs/offline.php";
+            exit(2);
+        }
+
+        return $instance;
+    }
 
     /**
      * Get database config.
@@ -109,54 +108,27 @@ class DB_Helper
         return $config;
     }
 
+    // assumed default if can't query from database
+    const max_allowed_packet = 8387584;
+
     /**
-     * Connects to the database and creates a data dictionary array to be used
-     * on database related schema dynamic lookups.
+     * query database for 'max_allowed_packet'
+     *
+     * @return int
      */
-    private function __construct()
+    public static function getMaxAllowedPacket()
     {
-        $config = self::getConfig();
-        $dsn = array(
-            'phptype'  => $config['driver'],
-            'hostspec' => $config['hostname'],
-            'database' => $config['database'],
-            'username' => $config['username'],
-            'password' => $config['password'],
-        );
-
-        // DBTYPE specific dsn settings
-        switch ($dsn['phptype']) {
-            case 'mysql':
-            case 'mysqli':
-                // if we are using some non-standard mysql port, pass that value in the dsn
-                if ($config['port'] != 3306) {
-                    $dsn['port'] = $config['port'];
-                }
-                break;
-            default:
-                if ($config['port']) {
-                    $dsn['port'] = $config['port'];
-                }
-                break;
+        try {
+            $stmt = "show variables like 'max_allowed_packet'";
+            $res = DB_Helper::getInstance(false)->getPair($stmt);
+            $max_allowed_packet = (int)$res['max_allowed_packet'];
+        } catch (DbException $e) {
         }
 
-        $this->dbh = DB::connect($dsn);
-        if (PEAR::isError($this->dbh)) {
-            return;
+        if (empty($max_allowed_packet)) {
+            return self::max_allowed_packet;
         }
-
-        // DBTYPE specific session setup commands
-        switch ($dsn['phptype']) {
-            case 'mysql':
-            case 'mysqli':
-                $this->dbh->query("SET SQL_MODE = ''");
-                if (Language::isUTF8()) {
-                    $this->dbh->query("SET NAMES utf8");
-                }
-                break;
-            default:
-                break;
-        }
+        return $max_allowed_packet;
     }
 
     /**
@@ -184,14 +156,13 @@ class DB_Helper
      */
     public static function escapeString($str, $add_quotes = false)
     {
-        $dbh = self::getInstance();
-
-        if (PEAR::isError($dbh)) {
-            // can't really do anything with this
-            // should really throw away PEAR::DB and use exceptions
-            $res = false;
+        $db = self::getInstance();
+        if ($db) {
+            $res = $db->escapeSimple($str);
         } else {
-            $res = $dbh->escapeSimple($str);
+            // as this is so low level (handled by offline page)
+            // supply some fallback
+            $res = null;
         }
 
         if ($add_quotes) {

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -61,7 +62,7 @@ class Error_Handler
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
-        if ($notify_error === false || $dbh === null || PEAR::isError($dbh)) {
+        if ($notify_error === false || !$dbh || PEAR::isError($dbh)) {
             return false;
         }
 
@@ -114,17 +115,7 @@ class Error_Handler
         }
         $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
 
-        // query database for 'max_allowed_packet'
-        $stmt = "show variables like 'max_allowed_packet'";
-        $res =& DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            // we failed, assume 8M
-            $max_allowed_packet = 8387584;
-        } else {
-            $arr = $res->fetchRow(DB_FETCHMODE_ORDERED);
-            $max_allowed_packet = $arr[1];
-            $res->free();
-        }
+        $max_allowed_packet = DB_Helper::getMaxAllowedPacket();
 
         // skip error details of an email notification about a query that
         // was bigger than max_allowed_packet + 1024

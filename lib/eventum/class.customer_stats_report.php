@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,16 +25,14 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once 'Math/Stats.php';
 
 /**
  * The Customer Stats report will be too complex to group with the rest of
- * the reports so I am seperating it into a seperate class.
- *
- * @version 1.0
- * @author Bryan Alsdorf <bryan@mysql.com>
+ * the reports so I am separating it into a separate class.
  */
 
 class Customer_Stats_Report
@@ -299,6 +297,7 @@ class Customer_Stats_Report
      * Returns an array of issue counts for customers.
      *
      * @param   string $name The name of this data row.
+     * @return string
      */
     private function getIssueCountsByCustomer($name)
     {
@@ -312,15 +311,14 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  WHERE
                     " . $this->getWhereClause("iss_customer_id", "iss_created_date") . "
                  GROUP BY
                     iss_customer_id";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt);
+        } catch (DbException $e) {
             return "";
         }
         $issue_counts[$name] = $res;
@@ -342,23 +340,23 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%support_email}},
+                    {{%email_account}},
+                    {{%issue}},
+                    {{%project_user}}
                  WHERE
                     sup_ema_id = ema_id AND
                     sup_iss_id = iss_id AND
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
-                    pru_role = " . User::getRoleID('Customer') . " AND
+                    pru_role = ? AND
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(User::getRoleID('Customer'));
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
+        } catch (DbException $e) {
             return array();
         }
 
@@ -378,25 +376,26 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    {{%support_email}},
+                    {{%email_account}},
+                    {{%issue}},
+                    {{%project_user}}
                  WHERE
                     sup_ema_id = ema_id AND
                     sup_iss_id = iss_id AND
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
-                    pru_role != " . User::getRoleID('Customer') . " AND
+                    pru_role != ? AND
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params1 = array(User::getRoleID('Customer'));
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params1);
+        } catch (DbException $e) {
             return array();
         }
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
@@ -453,20 +452,22 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     ttr_time_spent
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%time_tracking}},
+                    {{%issue}}
                  WHERE
                     ttr_iss_id = iss_id";
+        $params = array();
         if ($ttc_id != false) {
-            $stmt .= "\n AND ttr_ttc_id = $ttc_id";
+            $stmt .= "\n AND ttr_ttc_id = ?";
+            $params[] = $ttc_id;
         }
         $stmt .= "\nAND " . $this->getWhereClause("iss_customer_id", "ttr_created_date");
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
+        } catch (DbException $e) {
             return array();
         }
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
@@ -498,16 +499,16 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     round(((unix_timestamp(iss_closed_date) - unix_timestamp(iss_created_date)) / 60))
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  WHERE
                     iss_closed_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt);
+        } catch (DbException $e) {
             return array();
         }
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
@@ -539,16 +540,16 @@ class Customer_Stats_Report
         $stmt = "SELECT
                     round(((unix_timestamp(iss_first_response_date) - unix_timestamp(iss_created_date)) / 60))
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  WHERE
                     iss_first_response_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
-        $res = DB_Helper::getInstance()->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getColumn($stmt);
+        } catch (DbException $e) {
             return array();
         }
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);

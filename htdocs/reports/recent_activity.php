@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -39,6 +40,8 @@ if (!Access::canAccessReports(Auth::getUserID())) {
     echo "Invalid role";
     exit;
 }
+
+// TODO: move logic below to some class
 
 $units = array(
     "hour"  =>  "Hours",
@@ -86,98 +89,94 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
     $data = array();
     if (in_array('phone', $_REQUEST['activity_types'])) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
+                    {{%phone_support}}.*,
                     phc_title,
                     usr_full_name,
                     iss_summary,
                     sta_color
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%phone_support}},
+                    {{%project_phone_category}},
+                    {{%issue}},
+                    {{%user}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     phs_phc_id = phc_id AND
                     phs_iss_id = iss_id AND
                     phs_usr_id = usr_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('phs_created_date', 'usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['phone'] = processResult($res, 'phs_created_date', 'phs_iss_id');
+        } catch (DbException $e) {
         }
     }
 
     if (in_array('note', $_REQUEST['activity_types'])) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note.*,
+                    {{%note}}.*,
                     usr_full_name,
                     iss_summary,
                     sta_color
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%note}},
+                    {{%issue}},
+                    {{%user}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     not_iss_id = iss_id AND
                     not_usr_id = usr_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('not_created_date', 'not_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['note'] = processResult($res, 'not_created_date', 'not_iss_id');
+        } catch (DbException $e) {
         }
     }
 
     if (in_array('email', $_REQUEST['activity_types'])) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email.*,
+                    {{%support_email}}.*,
                     iss_summary,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id,
                     sta_color
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%support_email}},
+                    {{%issue}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     sup_iss_id = iss_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('sup_date', 'sup_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
+        } catch (DbException $e) {
         }
     }
 
     if (in_array('draft', $_REQUEST['activity_types'])) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft.*,
+                    {{%email_draft}}.*,
                     iss_summary,
                     sta_color
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%email_draft}},
+                    {{%issue}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     emd_iss_id = iss_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+
             $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
             foreach ($data['draft'] as &$draft) {
                 if (!empty($draft['emd_unknown_user'])) {
@@ -190,62 +189,61 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     $draft['to'] = "Notification List";
                 }
             }
+        } catch (DbException $e) {
         }
     }
 
     if (in_array('time', $_REQUEST['activity_types'])) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking.*,
+                    {{%time_tracking}}.*,
                     ttc_title,
                     iss_summary,
                     usr_full_name,
                     sta_color
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%time_tracking}},
+                    {{%time_tracking_category}},
+                    {{%issue}},
+                    {{%user}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     ttr_iss_id = iss_id AND
                     ttr_ttc_id = ttc_id AND
                     ttr_usr_id = usr_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['time'] = processResult($res, 'ttr_created_date', 'ttr_iss_id');
             foreach ($data['time'] as &$time) {
                 $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
             }
+        } catch (DbException $e) {
         }
     }
 
     if ((empty($_REQUEST['developer'])) && (in_array('reminder', $_REQUEST['activity_types']))) {
         $sql = "SELECT
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history.*,
+                    {{%reminder_history}}.*,
                     iss_summary,
                     sta_color,
                     rma_title
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%reminder_history}},
+                    {{%reminder_action}},
+                    {{%issue}},
+                    {{%status}}
                 WHERE
                     iss_sta_id = sta_id AND
                     rmh_iss_id = iss_id AND
                     rmh_rma_id = rma_id AND
-                    iss_prj_id = $prj_id AND\n";
+                    iss_prj_id = ? AND\n";
         $sql .= createWhereClause('rmh_created_date');
-        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-        } else {
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
             $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
+        } catch (DbException $e) {
         }
     }
 

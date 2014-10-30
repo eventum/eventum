@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,8 +25,8 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 class FAQ
 {
@@ -48,41 +48,42 @@ class FAQ
             $stmt = "SELECT
                         *
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                        {{%faq}}
                      WHERE
-                        faq_prj_id = $prj_id
+                        faq_prj_id = ?
                      ORDER BY
                         faq_rank ASC";
+            $params = array($prj_id);
         } else {
             $stmt = "SELECT
                         *
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
+                        {{%faq}},
+                        {{%faq_support_level}}
                      WHERE
                         faq_id=fsl_faq_id AND
                         fsl_support_level_id IN('" . join("', '", $support_level_ids) . "') AND
-                        faq_prj_id = $prj_id
+                        faq_prj_id =
                      GROUP BY
                         faq_id
                      ORDER BY
                         faq_rank ASC";
+            $params = array($prj_id);
         }
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
             return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                if (empty($res[$i]['faq_updated_date'])) {
-                    $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
-                }
-                $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]["faq_updated_date"]);
-            }
-
-            return $res;
         }
+
+        for ($i = 0; $i < count($res); $i++) {
+            if (empty($res[$i]['faq_updated_date'])) {
+                $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
+            }
+            $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]["faq_updated_date"]);
+        }
+
+        return $res;
     }
 
     /**
@@ -94,19 +95,18 @@ class FAQ
     {
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  WHERE
                     faq_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            self::removeSupportLevelAssociations($_POST['items']);
-
-            return true;
         }
+
+        self::removeSupportLevelAssociations($_POST['items']);
+
+        return true;
     }
 
     /**
@@ -124,17 +124,16 @@ class FAQ
         }
         $items = @implode(", ", $faq_id);
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
+                    {{%faq_support_level}}
                  WHERE
                     fsl_faq_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -153,31 +152,31 @@ class FAQ
             return -3;
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  SET
-                    faq_prj_id=" . $_POST['project'] . ",
-                    faq_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    faq_title='" . Misc::escapeString($_POST["title"]) . "',
-                    faq_message='" . Misc::escapeString($_POST["message"]) . "',
-                    faq_rank=" . $_POST['rank'] . "
+                    faq_prj_id=?,
+                    faq_updated_date=?,
+                    faq_title=?,
+                    faq_message=?,
+                    faq_rank=?
                  WHERE
-                    faq_id=" . $_POST["id"];
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    faq_id=?";
+        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank'], $_POST["id"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            // remove all of the associations with support levels, then add them all again
-            self::removeSupportLevelAssociations($_POST['id']);
-            if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
-                foreach ($_POST['support_levels'] as $support_level_id) {
-                    self::addSupportLevelAssociation($_POST['id'], $support_level_id);
-                }
-            }
-
-            return 1;
         }
+
+        // remove all of the associations with support levels, then add them all again
+        self::removeSupportLevelAssociations($_POST['id']);
+        if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
+            foreach ($_POST['support_levels'] as $support_level_id) {
+                self::addSupportLevelAssociation($_POST['id'], $support_level_id);
+            }
+        }
+
+        return 1;
     }
 
     /**
@@ -194,7 +193,7 @@ class FAQ
             return -3;
         }
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  (
                     faq_prj_id,
                     faq_usr_id,
@@ -203,29 +202,24 @@ class FAQ
                     faq_message,
                     faq_rank
                  ) VALUES (
-                    " . $_POST['project'] . ",
-                    " . Auth::getUserID() . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Misc::escapeString($_POST["message"]) . "',
-                    " . $_POST['rank'] . "
+                    ?, ?, ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array($_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank']);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            $new_faq_id = DB_Helper::get_last_insert_id();
-            if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
-                // now populate the faq-support level mapping table
-                foreach ($_POST['support_levels'] as $support_level_id) {
-                    self::addSupportLevelAssociation($new_faq_id, $support_level_id);
-                }
-            }
-
-            return 1;
         }
+
+        $new_faq_id = DB_Helper::get_last_insert_id();
+        if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
+            // now populate the faq-support level mapping table
+            foreach ($_POST['support_levels'] as $support_level_id) {
+                self::addSupportLevelAssociation($new_faq_id, $support_level_id);
+            }
+        }
+
+        return 1;
     }
 
     /**
@@ -238,15 +232,14 @@ class FAQ
     public function addSupportLevelAssociation($faq_id, $support_level_id)
     {
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
+                    {{%faq_support_level}}
                  (
                     fsl_faq_id,
                     fsl_support_level_id
                  ) VALUES (
-                    " . Misc::escapeInteger($faq_id) . ",
-                    '" . Misc::escapeString($support_level_id) . "'
+                    ?, ?
                  )";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, array($faq_id, $support_level_id));
     }
 
     /**
@@ -260,27 +253,26 @@ class FAQ
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  WHERE
-                    faq_id=" . Misc::escapeInteger($faq_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    faq_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            if ($res == NULL) {
-                return "";
-            }
-            $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
-            if (empty($res['faq_updated_date'])) {
-                $res['faq_updated_date'] = $res['faq_created_date'];
-            }
-            $res['faq_updated_date'] = Date_Helper::getFormattedDate($res['faq_updated_date']);
-            $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
-
-            return $res;
         }
+
+        if ($res == NULL) {
+            return "";
+        }
+        $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
+        if (empty($res['faq_updated_date'])) {
+            $res['faq_updated_date'] = $res['faq_created_date'];
+        }
+        $res['faq_updated_date'] = Date_Helper::getFormattedDate($res['faq_updated_date']);
+        $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
+
+        return $res;
     }
 
     /**
@@ -296,22 +288,21 @@ class FAQ
                     faq_title,
                     faq_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  ORDER BY
                     faq_rank ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return "";
-        } else {
-            // get the list of associated support levels
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
-            }
-
-            return $res;
         }
+
+        // get the list of associated support levels
+        for ($i = 0; $i < count($res); $i++) {
+            $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
+        }
+
+        return $res;
     }
 
     /**
@@ -329,10 +320,10 @@ class FAQ
             $stmt = "SELECT
                         fsl_support_level_id
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
+                        {{%faq_support_level}}
                      WHERE
-                        fsl_faq_id=" . Misc::escapeInteger($faq_id);
-            $ids = DB_Helper::getInstance()->getCol($stmt);
+                        fsl_faq_id=?";
+            $ids = DB_Helper::getInstance()->getColumn($stmt, array($faq_id));
 
             $t = array();
             $levels = $crm->getSupportLevelAssocList();
@@ -380,20 +371,20 @@ class FAQ
             $index = array_search($new_rank, $ranks);
             $replaced_faq_id = $ids[$index];
             $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                        {{%faq}}
                      SET
-                        faq_rank=" . $ranking[$faq_id] . "
+                        faq_rank=?
                      WHERE
-                        faq_id=" . $replaced_faq_id;
-            DB_Helper::getInstance()->query($stmt);
+                        faq_id=?";
+            DB_Helper::getInstance()->query($stmt, array($ranking[$faq_id], $replaced_faq_id));
         }
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  SET
-                    faq_rank=" . $new_rank . "
+                    faq_rank=?
                  WHERE
-                    faq_id=" . $faq_id;
-        DB_Helper::getInstance()->query($stmt);
+                    faq_id=?";
+        DB_Helper::getInstance()->query($stmt, array($new_rank, $faq_id));
 
         return true;
     }
@@ -410,16 +401,15 @@ class FAQ
                     faq_id,
                     faq_rank
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                    {{%faq}}
                  ORDER BY
                     faq_rank ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
+        } catch (DbException $e) {
             return array();
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }

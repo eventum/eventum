@@ -100,15 +100,14 @@ class Partner
         if (!in_array($par_code, $current_partners)) {
             $params = array($iss_id, $par_code, Date_Helper::getCurrentDateGMT());
             $sql = "INSERT INTO
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                        {{%issue_partner}}
                     SET
                         ipa_iss_id = ?,
                         ipa_par_code = ?,
                         ipa_created_date = ?";
-            $res = DB_Helper::getInstance()->query($sql, $params);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+            try {
+                DB_Helper::getInstance()->query($sql, $params);
+            } catch (DbException $e) {
                 return false;
             }
             $backend = self::getBackend($par_code);
@@ -125,14 +124,13 @@ class Partner
     {
         $params = array($iss_id, $par_code);
         $sql = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                    {{%issue_partner}}
                 WHERE
                     ipa_iss_id = ? AND
                     ipa_par_code = ?";
-        $res = DB_Helper::getInstance()->query($sql, $params);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            DB_Helper::getInstance()->query($sql, $params);
+        } catch (DbException $e) {
             return false;
         }
         $backend = self::getBackend($par_code);
@@ -149,13 +147,13 @@ class Partner
         $sql = "SELECT
                     pap_par_code
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "partner_project
+                    {{%partner_project}}
                 WHERE
                     pap_prj_id = ?";
-        $res = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id));
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
 
+        try {
+            $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -175,16 +173,15 @@ class Partner
         $sql = "SELECT
                     ipa_par_code
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "partner_project
+                    {{%issue_partner}},
+                    {{%partner_project}}
                 WHERE
                     ipa_par_code = pap_par_code AND
                     pap_prj_id = ? AND
                     ipa_iss_id = ?";
-        $partners = DB_Helper::getInstance()->getCol($sql, 0, array($prj_id, $iss_id));
-        if (PEAR::isError($partners)) {
-            Error_Handler::logError(array($partners->getMessage(), $partners->getDebugInfo()));
-
+        try {
+            $partners = DB_Helper::getInstance()->getColumn($sql, array($prj_id, $iss_id));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -261,27 +258,25 @@ class Partner
 
         // delete all first, then re-insert
         $sql = "DELETE FROM
-                    ". APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "partner_project
+                    {{%partner_project}}
                 WHERE
                     pap_par_code = ?";
-        $res = DB_Helper::getInstance()->query($sql, array($par_code));
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            DB_Helper::getInstance()->query($sql, array($par_code));
+        } catch (DbException $e) {
             return -1;
         }
 
         if (is_array($projects)) {
             foreach ($projects as $prj_id) {
                 $sql = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "partner_project
+                            {{%partner_project}}
                         SET
                             pap_par_code = ?,
                             pap_prj_id = ?";
-                $res = DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+                try {
+                    DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
+                } catch (DbException $e) {
                     return -1;
                 }
             }
@@ -296,15 +291,14 @@ class Partner
                     pap_prj_id,
                     prj_title
                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "partner_project,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    {{%partner_project}},
+                    {{%project}}
                 WHERE
                     pap_prj_id = prj_id AND
                     pap_par_code = ?";
-        $res = DB_Helper::getInstance()->getAssoc($sql, false, array($par_code));
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()));
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($sql, array($par_code));
+        } catch (DbException $e) {
             return array();
         }
 
@@ -388,10 +382,8 @@ class Partner
     }
 
     /**
-     * @static
      * @param $usr_id
-     * @param string $section partners, drafts, files, time, notes, phone, history, notification_list,
-     *  authorized_repliers
+     * @param string $section partners, drafts, files, time, notes, phone, history, notification_list, authorized_repliers
      * @return bool
      */
     public static function canUserAccessIssueSection($usr_id, $section)

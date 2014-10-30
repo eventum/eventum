@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,15 +25,12 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-
 
 /**
  * Class to handle the business logic related to the administration
  * of releases in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Release
@@ -49,22 +46,22 @@ class Release
         $stmt = "SELECT
                     COUNT(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
-                    pre_id=" . Misc::escapeInteger($pre_id) . " AND
-                    pre_status='available'";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    pre_id=? AND
+                    pre_status=?";
 
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id, 'available'));
+        } catch (DbException $e) {
             return false;
-        } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        if ($res == 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -80,17 +77,16 @@ class Release
                     MONTH(pre_scheduled_date) AS scheduled_month,
                     YEAR(pre_scheduled_date) AS scheduled_year
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
-                    pre_id=" . Misc::escapeInteger($pre_id);
-        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pre_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -104,17 +100,16 @@ class Release
         $stmt = "SELECT
                     pre_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
-                    pre_id=" . Misc::escapeInteger($pre_id);
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pre_id=?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -128,17 +123,16 @@ class Release
     {
         $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
                     pre_prj_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -152,30 +146,28 @@ class Release
         $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues that are using this release
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    {{%issue}}
                  SET
                     iss_pre_id=0
                  WHERE
                     iss_pre_id IN ($items)";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
             return false;
-        } else {
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
-                     WHERE
-                        pre_id IN ($items)";
-            $res = DB_Helper::getInstance()->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        $stmt = "DELETE FROM
+                    {{%project_release}}
+                 WHERE
+                    pre_id IN ($items)";
+        try {
+            DB_Helper::getInstance()->query($stmt);
+        } catch (DbException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -191,22 +183,22 @@ class Release
         }
         $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
         $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  SET
-                    pre_title='" . Misc::escapeString($_POST["title"]) . "',
-                    pre_scheduled_date='" . Misc::escapeString($scheduled_date) . "',
-                    pre_status='" . Misc::escapeString($_POST["status"]) . "'
+                    pre_title=?,
+                    pre_scheduled_date=?,
+                    pre_status=?
                  WHERE
-                    pre_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
-                    pre_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+                    pre_prj_id=? AND
+                    pre_id=?";
+        $params = array($_POST["title"], $scheduled_date, $_POST["status"], $_POST["prj_id"], $_POST["id"]);
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -222,26 +214,28 @@ class Release
         }
         $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
         $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  (
                     pre_prj_id,
                     pre_title,
                     pre_scheduled_date,
                     pre_status
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
-                    '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Misc::escapeString($scheduled_date) . "',
-                    '" . Misc::escapeString($_POST["status"]) . "'
+                    ?, ?, ?, ?
                  )";
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        $params = array(
+            $_POST["prj_id"],
+            $_POST["title"],
+            $scheduled_date,
+            $_POST["status"],
+        );
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DbException $e) {
             return -1;
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -259,19 +253,18 @@ class Release
                     pre_scheduled_date,
                     pre_status
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
-                    pre_prj_id=" . Misc::escapeInteger($prj_id) . "
+                    pre_prj_id=?
                  ORDER BY
                     pre_scheduled_date ASC";
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**
@@ -288,26 +281,27 @@ class Release
                     pre_id,
                     pre_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  WHERE
-                    pre_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pre_prj_id=? AND
                     (
-                      pre_status='available'";
+                      pre_status=?";
+        $params = array($prj_id, 'available');
         if ($show_all_dates != true) {
             $stmt .= " AND
-                      pre_scheduled_date >= '" . gmdate('Y-m-d') . "'";
+                      pre_scheduled_date >= ?";
+            $params[] = gmdate('Y-m-d');
         }
         $stmt .= "
                     )
                  ORDER BY
                     pre_scheduled_date ASC";
-        $res = DB_Helper::getInstance()->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
+        } catch (DbException $e) {
             return "";
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 }

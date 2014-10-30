@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003, 2004, 2005, 2006 MySQL AB                        |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -274,8 +274,8 @@ class Search
                     sev_title
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+                    {{%issue}},
+                    {{%user}}";
 
         // join custom fields if we are searching by custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
@@ -293,10 +293,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
+                        $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
                     }
                 } else {
-                    $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . "\n";
+                    $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . "\n";
                 }
             }
         }
@@ -305,8 +305,8 @@ class Search
         // check for the custom fields we want to sort by
         if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_id = str_replace("custom_field_", '', $options['sort_by']);
-            $stmt .= "\n LEFT JOIN \n" .
-                APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf_sort
+            $stmt .= "\n LEFT JOIN \n
+                    {{%issue_custom_field}} as cf_sort
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
@@ -314,7 +314,7 @@ class Search
         if (!empty($options["users"]) || $options["sort_by"] === "isu_usr_id") {
             $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                    {{%issue_user}}
                  ON
                     isu_iss_id=iss_id";
         }
@@ -322,58 +322,58 @@ class Search
             // restrict partners
             $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_partner
+                    {{%issue_partner}}
                  ON
                     ipa_iss_id=iss_id";
         }
         if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    {{%issue_user_replier}}
                  ON
                     iur_iss_id=iss_id";
         }
         if (!empty($options["show_notification_list_issues"])) {
             $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                    {{%subscription}}
                  ON
                     sub_iss_id=iss_id";
         }
         if (!empty($options["product"])) {
             $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_product_version
+                    {{%issue_product_version}}
                  ON
                     ipv_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . DB_Helper::getInstance()->quoteIdentifier(APP_TABLE_PREFIX . "group") . "
+                    {{%group}}
                  ON
                     iss_grp_id=grp_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    {{%project_category}}
                  ON
                     iss_prc_id=prc_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    {{%project_release}}
                  ON
                     iss_pre_id = pre_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    {{%status}}
                  ON
                     iss_sta_id=sta_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    {{%project_priority}}
                  ON
                     iss_pri_id=pri_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_severity
+                    {{%project_severity}}
                  ON
                     iss_sev_id=sev_id
                  LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
+                    {{%issue_quarantine}}
                  ON
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
@@ -398,10 +398,9 @@ class Search
         $stmt .= "
                  LIMIT
                     " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
-        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return array(
                 "list" => "",
                 "info" => ""
@@ -751,10 +750,8 @@ class Search
 
     /**
      * This needs to be called after getFullTextIssues
-     *
-     * @return void
      */
-    public function getFullTextExcerpts()
+    public static function getFullTextExcerpts()
     {
         if (APP_ENABLE_FULLTEXT) {
             return self::getFullTextSearchInstance()->getExcerpts();

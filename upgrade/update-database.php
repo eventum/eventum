@@ -3,25 +3,16 @@
 require_once dirname(__FILE__) . '/init.php';
 
 $dbconfig = DB_Helper::getConfig();
-if (!defined('APP_SQL_DBNAME')) {
-	define('APP_SQL_DBNAME', $dbconfig['database']);
-}
-
-if (!defined('APP_TABLE_PREFIX')) {
-	define('APP_TABLE_PREFIX', $dbconfig['table_prefix']);
-}
 
 define('EXIT_OK', 0);
 define('EXIT_ERROR', 1);
 
 function db_getAll($query)
 {
-    $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
-    $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-
-    $res = DB_Helper::getInstance()->getAll($query, DB_FETCHMODE_ASSOC);
-    if (PEAR::isError($res)) {
-        echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    try {
+        $res = DB_Helper::getInstance()->getAll($query);
+    } catch (DbException $e) {
+        echo $e->getMessage(), "\n";
         exit(1);
     }
 
@@ -30,12 +21,10 @@ function db_getAll($query)
 
 function db_getOne($query)
 {
-    $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
-    $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-
-    $res = DB_Helper::getInstance()->getOne($query);
-    if (PEAR::isError($res)) {
-        echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    try {
+        $res = DB_Helper::getInstance()->getOne($query);
+    } catch (DbException $e) {
+        echo $e->getMessage(), "\n";
         exit(1);
     }
 
@@ -44,12 +33,10 @@ function db_getOne($query)
 
 function db_getCol($query)
 {
-    $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
-    $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-
-    $res = DB_Helper::getInstance()->getCol($query);
-    if (PEAR::isError($res)) {
-        echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    try {
+        $res = DB_Helper::getInstance()->getColumn($query);
+    } catch (DbException $e) {
+        echo $e->getMessage(), "\n";
         exit(1);
     }
 
@@ -58,12 +45,10 @@ function db_getCol($query)
 
 function db_query($query)
 {
-    $query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
-    $query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-
-    $res = DB_Helper::getInstance()->query($query);
-    if (PEAR::isError($res)) {
-        echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    try {
+        $res = DB_Helper::getInstance()->query($query);
+    } catch (DbException $e) {
+        echo $e->getMessage(), "\n";
         exit(1);
     }
 
@@ -86,8 +71,9 @@ function exec_sql_file($input_file)
     }
 
     foreach ($queries as $query) {
-       if (trim($query) != '') {
-           db_query(trim($query));
+        $query = trim($query);
+        if ($query) {
+           db_query($query);
        }
     }
 }
@@ -114,10 +100,10 @@ function read_patches($update_path)
 function patch_database()
 {
     // sanity check. check that the version table exists.
-    $last_patch = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
+    $last_patch = db_getOne("SELECT ver_version FROM {{%version}}");
     if (!isset($last_patch)) {
         // insert initial value
-        db_query("INSERT INTO %TABLE_PREFIX%version SET ver_version=0");
+        db_query("INSERT INTO {{%version}} SET ver_version=0");
         $last_patch = 0;
     }
 
@@ -128,7 +114,7 @@ function patch_database()
         if ($number > $last_patch) {
             echo "* Applying patch: ", $number, " (", basename($file), ")\n";
             exec_sql_file($file);
-            db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$number");
+            db_query("UPDATE {{%version}} SET ver_version=$number");
             $addCount++;
         }
     }
@@ -145,7 +131,7 @@ if (php_sapi_name() != 'cli') {
     echo "<pre>\n";
 }
 
-$ret = patch_database();
+patch_database();
 
 if (php_sapi_name() != 'cli') {
     echo "</pre>\n";

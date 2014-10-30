@@ -80,16 +80,3 @@ if (!getenv('TRAVIS')) {
 
 // this setups ev_gettext wrappers
 Language::setup();
-
-// legacy constants. all classes interacting with database use these
-if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
-    $dbconfig = DB_Helper::getConfig();
-    if (!defined('APP_DEFAULT_DB')) {
-        define('APP_DEFAULT_DB', $dbconfig['database']);
-    }
-
-    if (!defined('APP_TABLE_PREFIX')) {
-        define('APP_TABLE_PREFIX', $dbconfig['table_prefix']);
-    }
-    unset($dbconfig);
-}

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -41,14 +41,16 @@ class Monitor
                     maq_id,
                     COUNT(mql_id) total_tries
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue_log
+                    {{%mail_queue}},
+                    {{%mail_queue_log}}
                  WHERE
                     maq_status='error' AND
                     maq_id=mql_maq_id
                  GROUP BY
                     maq_id";
-        $queue_ids = DB_Helper::getInstance()->getCol($stmt);
+
+        // FIXME: selecting 2 columns but using 1 column!
+        $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
         $errors = count($queue_ids);
         if ($errors) {
             echo ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors), "\n";
@@ -71,21 +73,21 @@ class Monitor
                     COUNT(*)
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    {{%support_email}},
+                    {{%email_account}}
                     )
                     LEFT JOIN
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        {{%issue}}
                     ON
                         sup_iss_id = iss_id
                     WHERE sup_removed=0 AND sup_ema_id=ema_id AND sup_iss_id = 0
         ";
-        $res = DB_Helper::getInstance()->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt);
+        } catch (DbException $e) {
             return false;
         }
+
         if ($res > 0) {
             echo ev_gettext('ERROR: There is a total of %d emails not associated.', $res), "\n";
         }
@@ -267,7 +269,7 @@ class Monitor
 
         // check if all of the required tables are really there
         $stmt = "SHOW TABLES";
-        $table_list = DB_Helper::getInstance()->getCol($stmt);
+        $table_list = DB_Helper::getInstance()->getColumn($stmt);
         $errors = 0;
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list)) {
