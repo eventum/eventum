@@ -53,7 +53,8 @@ class XmlRpcServer
     {
         $signatures = array();
         foreach ($this->getMethods() as $methodName => $method) {
-            $signature = $this->getSignature($method->getDocComment());
+            $tags = $this->parseBlockComment($method->getDocComment());
+            $signature = $this->getSignature($tags);
             $function = $this->getFunctionDecorator($method);
             $signatures[$methodName] = array(
                 'function'  => $function,
@@ -66,6 +67,8 @@ class XmlRpcServer
     }
 
     /**
+     * Get public methods to be exposed over API
+     *
      * @return ReflectionMethod[]
      */
     private function getMethods()
@@ -85,6 +88,12 @@ class XmlRpcServer
         return $methods;
     }
 
+    /**
+     * Parse PHP Doc block and return array for each tag
+     *
+     * @param string $doc
+     * @return array
+     */
     private function parseBlockComment($doc)
     {
         $doc = preg_replace('#/+|\t+|\*+#', '', $doc);
@@ -117,14 +126,11 @@ class XmlRpcServer
     /**
      * Extract parameter types for XMLRPC from PHP docBlock
      *
-     * @param string $docBlock
+     * @param array $tags
      * @return array
-     * @throws Exception
      */
-    private function getSignature($docBlock)
+    private function getSignature($tags)
     {
-        $tags = $this->parseBlockComment($docBlock);
-
         $signature = array();
 
         // first goes return type
