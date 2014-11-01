@@ -565,7 +565,7 @@ class RemoteApi
      * @param string $email
      * @param string $password
      * @param int $prj_id
-     * @return string
+     * @return struct
      */
     public function getClosedAbbreviationAssocList($email, $password, $prj_id)
     {
@@ -576,7 +576,7 @@ class RemoteApi
 
         $res = Status::getClosedAbbreviationAssocList($prj_id);
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
