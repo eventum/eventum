@@ -67,8 +67,8 @@ class RemoteApi {
                 "prj_id"   => $project,
                 "remember" => false
             );
+            $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
         }
-        $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
     }
 
     /**
