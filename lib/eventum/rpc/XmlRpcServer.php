@@ -61,6 +61,7 @@ class XmlRpcServer
                 'docstring' => $method->getDocComment(),
             );
         }
+
         return $signatures;
     }
 
@@ -80,6 +81,7 @@ class XmlRpcServer
             }
 
         }
+
         return $methods;
     }
 
@@ -157,6 +159,7 @@ class XmlRpcServer
         } elseif ($type == 'boolean') {
             $type = 'bool';
         }
+
         return $type;
     }
 

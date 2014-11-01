@@ -33,9 +33,12 @@
  *
  * All public non-static methods are exposed for XMLRPC
  */
-class RemoteApi {
-    protected static function userError($fstr = '') {
+class RemoteApi
+{
+    protected static function userError($fstr = '')
+    {
         global $XML_RPC_erruser;
+
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, $fstr);
     }
 
@@ -77,7 +80,7 @@ class RemoteApi {
      * @param int $prj_id
      * @return struct
      */
-    function getDeveloperList($email, $password, $prj_id)
+    public function getDeveloperList($email, $password, $prj_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -107,7 +110,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return struct
      */
-    function getSimpleIssueDetails($email, $password, $issue_id)
+    public function getSimpleIssueDetails($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -138,7 +141,7 @@ class RemoteApi {
      * @param string $status
      * @return array
      */
-    function getOpenIssues($email, $password, $prj_id, $show_all_issues, $status)
+    public function getOpenIssues($email, $password, $prj_id, $show_all_issues, $status)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -173,7 +176,7 @@ class RemoteApi {
      * @param string $password
      * @return string
      */
-    function isValidLogin($email, $password)
+    public function isValidLogin($email, $password)
     {
         if (!Auth::isCorrectPassword($email, $password)) {
             $is_valid = 'no';
@@ -190,7 +193,7 @@ class RemoteApi {
      * @param boolean $only_customer_projects
      * @return array
      */
-    function getUserAssignedProjects($email, $password, $only_customer_projects)
+    public function getUserAssignedProjects($email, $password, $only_customer_projects)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -220,7 +223,7 @@ class RemoteApi {
      * @param int $p
      * @return struct
      */
-    function getIssueDetails($email, $password, $issue_id)
+    public function getIssueDetails($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -257,7 +260,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return struct
      */
-    function getTimeTrackingCategories($email, $password, $issue_id)
+    public function getTimeTrackingCategories($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -281,7 +284,7 @@ class RemoteApi {
      * @param int $time_spent
      * @return string
      */
-    function recordTimeWorked($email, $password, $issue_id, $cat_id, $summary, $time_spent)
+    public function recordTimeWorked($email, $password, $issue_id, $cat_id, $summary, $time_spent)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -304,7 +307,7 @@ class RemoteApi {
      * @param string $new_status
      * @return string
      */
-    function setIssueStatus($email, $password, $issue_id, $new_status)
+    public function setIssueStatus($email, $password, $issue_id, $new_status)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -329,7 +332,7 @@ class RemoteApi {
      * @param string $developer
      * @return XML_RPC_Response
      */
-    function assignIssue($email, $password, $issue_id, $project_id, $developer)
+    public function assignIssue($email, $password, $issue_id, $project_id, $developer)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -365,7 +368,7 @@ class RemoteApi {
      * @param int $project_id
      * @return string
      */
-    function takeIssue($email, $password, $issue_id, $project_id)
+    public function takeIssue($email, $password, $issue_id, $project_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -409,7 +412,7 @@ class RemoteApi {
      * @param string $new_replier
      * @return string
      */
-    function addAuthorizedReplier($email, $password, $issue_id, $project_id, $new_replier)
+    public function addAuthorizedReplier($email, $password, $issue_id, $project_id, $new_replier)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -447,7 +450,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return string
      */
-    function getFileList($email, $password, $issue_id)
+    public function getFileList($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -470,7 +473,7 @@ class RemoteApi {
      * @param int $file_id
      * @return string
      */
-    function getFile($email, $password, $file_id)
+    public function getFile($email, $password, $file_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -493,7 +496,7 @@ class RemoteApi {
      * @param string $value
      * @return string
      */
-    function lookupCustomer($email, $password, $prj_id, $field, $value)
+    public function lookupCustomer($email, $password, $prj_id, $field, $value)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -528,7 +531,7 @@ class RemoteApi {
      * @param string $p
      * @return string
      */
-    function closeIssue($email, $password, $issue_id, $new_status, $resolution_id, $send_notification, $note)
+    public function closeIssue($email, $password, $issue_id, $new_status, $resolution_id, $send_notification, $note)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -564,7 +567,7 @@ class RemoteApi {
      * @param int $prj_id
      * @return string
      */
-    function getClosedAbbreviationAssocList($email, $password, $prj_id)
+    public function getClosedAbbreviationAssocList($email, $password, $prj_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -583,7 +586,7 @@ class RemoteApi {
      * @param bool $show_closed
      * @return string
      */
-    function getAbbreviationAssocList($email, $password, $prj_id, $show_closed)
+    public function getAbbreviationAssocList($email, $password, $prj_id, $show_closed)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -601,7 +604,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return array
      */
-    function getEmailListing($email, $password, $issue_id)
+    public function getEmailListing($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -645,7 +648,7 @@ class RemoteApi {
      * @param int $email_id
      * @return array
      */
-    function getEmail($email, $password, $issue_id, $email_id)
+    public function getEmail($email, $password, $issue_id, $email_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -686,7 +689,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return array
      */
-    function getNoteListing($email, $password, $issue_id)
+    public function getNoteListing($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -713,7 +716,7 @@ class RemoteApi {
      * @param int $note_id
      * @return array
      */
-    function getNote($email, $password, $issue_id, $note_id)
+    public function getNote($email, $password, $issue_id, $note_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -742,13 +745,12 @@ class RemoteApi {
      * @param bool $authorize_sender
      * @return string
      */
-    function convertNote($email, $password, $issue_id, $note_id, $target, $authorize_sender)
+    public function convertNote($email, $password, $issue_id, $note_id, $target, $authorize_sender)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
             return $auth;
         }
-
 
         self::createFakeCookie($email, Issue::getProjectID($issue_id));
         $res = Note::convertNote($note_id, $target, $authorize_sender);
@@ -765,7 +767,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return string
      */
-    function mayChangeIssue($email, $password, $issue_id)
+    public function mayChangeIssue($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -795,7 +797,7 @@ class RemoteApi {
      * @param int $separate_closed
      * @return string
      */
-    function getWeeklyReport($email, $password, $week, $start, $end, $separate_closed)
+    public function getWeeklyReport($email, $password, $week, $start, $end, $separate_closed)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -834,7 +836,7 @@ class RemoteApi {
     /**
      * @return string
      */
-    function getResolutionAssocList()
+    public function getResolutionAssocList()
     {
         $res = Resolution::getAssocList();
 
@@ -847,7 +849,7 @@ class RemoteApi {
      * @param string $action
      * @return string
      */
-    function timeClock($email, $password, $action)
+    public function timeClock($email, $password, $action)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -881,7 +883,7 @@ class RemoteApi {
      * @param int $issue_id
      * @return array
      */
-    function getDraftListing($email, $password, $issue_id)
+    public function getDraftListing($email, $password, $issue_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -907,7 +909,7 @@ class RemoteApi {
      * @param int $draft_id
      * @return array
      */
-    function getDraft($email, $password, $issue_id, $draft_id)
+    public function getDraft($email, $password, $issue_id, $draft_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -938,7 +940,7 @@ class RemoteApi {
      * @param int $draft_id
      * @return string
      */
-    function sendDraft($email, $password, $issue_id, $draft_id)
+    public function sendDraft($email, $password, $issue_id, $draft_id)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -966,7 +968,7 @@ class RemoteApi {
      * @param struct $types
      * @return string
      */
-    function redeemIssue($email, $password, $issue_id, $types)
+    public function redeemIssue($email, $password, $issue_id, $types)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -1017,7 +1019,7 @@ class RemoteApi {
      * @param struct $types
      * @return string
      */
-    function unredeemIssue($email, $password, $issue_id, $types)
+    public function unredeemIssue($email, $password, $issue_id, $types)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -1068,7 +1070,7 @@ class RemoteApi {
      * @param bool $redeemed_only
      * @return string
      */
-    function getIncidentTypes($email, $password, $issue_id, $redeemed_only)
+    public function getIncidentTypes($email, $password, $issue_id, $redeemed_only)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
@@ -1112,7 +1114,7 @@ class RemoteApi {
      * @param string $command
      * @return string
      */
-    function logCommand($email, $password, $command)
+    public function logCommand($email, $password, $command)
     {
         $auth = self::authenticate($email, $password);
         if (is_object($auth)) {
