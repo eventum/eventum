@@ -225,7 +225,7 @@ class RemoteApi
             throw new RemoteApiException("No time tracking categories could be found");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
@@ -560,13 +560,11 @@ class RemoteApi
         }
 
         // get requested email
-        if ((count($email) < 1) || (!is_array($email))) {
+        if (count($email) < 1 || !is_array($email)) {
             throw new RemoteApiException("Email #" . $email_id . " does not exist for issue #$issue_id");
         }
-        // since xml-rpc has issues, lets base64 encode everything
-        $email = Misc::base64_encode($email);
 
-        return new XML_RPC_Response(XML_RPC_Encode($email));
+        return $email;
     }
 
     /**
@@ -718,14 +716,14 @@ class RemoteApi
                 $msg = "is clocked out";
             }
 
-            return new XML_RPC_Response(XML_RPC_Encode("$email $msg.\n"));
+            return "$email $msg.\n";
         }
 
         if ($res == 1) {
-            return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked $action.\n"));
-        } else {
-            throw new RemoteApiException("Error clocking $action.\n");
+            return "$email successfully clocked $action.\n";
         }
+
+        throw new RemoteApiException("Error clocking $action.\n");
     }
 
     /**
@@ -877,7 +875,7 @@ class RemoteApi
             }
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
@@ -911,12 +909,12 @@ class RemoteApi
         $incidents = $contract->getIncidents();
         foreach ($incidents as $type_id => $type_details) {
             $is_redeemed = $contract->isRedeemedIncident($issue_id, $type_id);
-            if ((($redeemed_only) && (!$is_redeemed)) || ((!$redeemed_only) && ($is_redeemed))) {
+            if (($redeemed_only && !$is_redeemed) || (!$redeemed_only && $is_redeemed)) {
                 unset($incidents[$type_id]);
             }
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode($incidents));
+        return $incidents;
     }
 
     /**
