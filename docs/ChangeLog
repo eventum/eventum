@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Add layer for database to replace PEAR DB in the future (Elan Ruusamäe, GH#13)
 - Allow setting Expected Resolution Date from new issue form (Elan Ruusamäe)
 - Admin/LDAP: fix ui warning when setting up initial config (Elan Ruusamäe)
+- Admin/users: show user aliases in the listing (Elan Ruusamäe)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
