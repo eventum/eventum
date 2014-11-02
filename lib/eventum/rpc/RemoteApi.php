@@ -39,31 +39,17 @@ class RemoteApiException extends RuntimeException
  */
 class RemoteApi
 {
-    protected static function authenticate($email, $password)
-    {
-        // XXX: The role check shouldn't be hardcoded for project 1
-        if (!Auth::isCorrectPassword($email, $password)
-            || (User::getRoleByUser(User::getUserIDByEmail($email), 1) <= User::getRoleID("Customer"))
-        ) {
-            throw new RemoteApiException(
-                "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role"
-            );
-        }
-
-        self::createFakeCookie($email);
-
-        return true;
-    }
-
     /**
      * Fakes the creation of the login cookie
      */
-    protected static function createFakeCookie($email, $project = false)
+    public static function createFakeCookie($email, $project = false)
     {
-        $cookie = array(
-            "email" => $email
-        );
-        $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
+        if ($email) {
+            $cookie = array(
+                "email" => $email
+            );
+            $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
+        }
 
         if ($project) {
             $cookie = array(
@@ -75,18 +61,12 @@ class RemoteApi
     }
 
     /**
-     * @param struct $email
-     * @param string $password
      * @param int $prj_id
      * @return struct
+     * @access protected
      */
-    public function getDeveloperList($email, $password, $prj_id)
+    public function getDeveloperList($prj_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $res = Project::getRemoteAssocList();
         if (empty($res)) {
             throw new RemoteApiException("There are currently no projects setup for remote invocation");
@@ -105,19 +85,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return struct
+     * @access protected
      */
-    public function getSimpleIssueDetails($email, $password, $issue_id)
+    public function getSimpleIssueDetails($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(null, Issue::getProjectID($issue_id));
 
         $details = Issue::getDetails($issue_id);
         if (empty($details)) {
@@ -138,23 +112,17 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $prj_id
      * @param boolean $show_all_issues
      * @param string $status
      * @return array
+     * @access protected
      */
-    public function getOpenIssues($email, $password, $prj_id, $show_all_issues, $status)
+    public function getOpenIssues($prj_id, $show_all_issues, $status)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($prj_id);
+        self::createFakeCookie(false, $prj_id);
         $status_id = Status::getStatusID($status);
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = Auth::getUserID();
 
         $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
 
@@ -194,19 +162,14 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param boolean $only_customer_projects
      * @return array
+     * @access protected
      */
-    public function getUserAssignedProjects($email, $password, $only_customer_projects)
+    public function getUserAssignedProjects($only_customer_projects)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
 
-        $usr_id = User::getUserIDByEmail($email);
         $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
             throw new RemoteApiException("You are not assigned to any projects at this moment");
@@ -226,19 +189,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
-     * @param int $p
+     * @param int $issue_id
      * @return struct
+     * @access protected
      */
-    public function getIssueDetails($email, $password, $issue_id)
+    public function getIssueDetails($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         $res = Issue::getDetails($issue_id);
 
@@ -263,17 +220,12 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return struct
+     * @access protected
      */
-    public function getTimeTrackingCategories($email, $password, $issue_id)
+    public function getTimeTrackingCategories($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
         $prj_id = Issue::getProjectID($issue_id);
         $res = Time_Tracking::getAssocCategories($prj_id);
         if (empty($res)) {
@@ -284,22 +236,17 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $cat_id
      * @param string $summary
      * @param int $time_spent
      * @return string
+     * @access protected
      */
-    public function recordTimeWorked($email, $password, $issue_id, $cat_id, $summary, $time_spent)
+    public function recordTimeWorked($issue_id, $cat_id, $summary, $time_spent)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
 
-        $usr_id = User::getUserIDByEmail($email);
         $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
             throw new RemoteApiException("Could not record the time tracking entry");
@@ -309,20 +256,15 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param string $new_status
      * @return string
+     * @access protected
      */
-    public function setIssueStatus($email, $password, $issue_id, $new_status)
+    public function setIssueStatus($issue_id, $new_status)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
 
-        $usr_id = User::getUserIDByEmail($email);
         $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
         if ($res == -1) {
             throw new RemoteApiException("Could not set the status to issue #$issue_id");
@@ -332,24 +274,18 @@ class RemoteApi
     }
 
     /**
-     * @param string $p
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $project_id
      * @param string $developer
-     * @return XML_RPC_Response
+     * @return string
+     * @access protected
      */
-    public function assignIssue($email, $password, $issue_id, $project_id, $developer)
+    public function assignIssue($issue_id, $project_id, $developer)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        $usr_id = Auth::getUserID();
 
-        $usr_id = User::getUserIDByEmail($email);
         $assignee = User::getUserIDByEmail($developer);
         if (empty($assignee)) {
             throw new RemoteApiException("Could not find a user with email '$developer'");
@@ -372,20 +308,14 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $project_id
      * @return string
+     * @access protected
      */
-    public function takeIssue($email, $password, $issue_id, $project_id)
+    public function takeIssue($issue_id, $project_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
@@ -393,7 +323,7 @@ class RemoteApi
             throw new RemoteApiException("Issue is currently assigned to " . join(',', $current_assignees));
         }
 
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = Auth::getUserID();
 
         // check if the assignee is even allowed to be in the given project
         $projects = Project::getRemoteAssocListByUser($usr_id);
@@ -417,21 +347,16 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $project_id
      * @param string $new_replier
      * @return string
+     * @access protected
      */
-    public function addAuthorizedReplier($email, $password, $issue_id, $project_id, $new_replier)
+    public function addAuthorizedReplier($issue_id, $project_id, $new_replier)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
 
-        $usr_id = User::getUserIDByEmail($email);
         $replier_usr_id = User::getUserIDByEmail($new_replier);
 
         // if this is an actual user, not just an email address check permissions
@@ -459,19 +384,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return string
+     * @access protected
      */
-    public function getFileList($email, $password, $issue_id)
+    public function getFileList($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         $res = Attachment::getList($issue_id);
         if (empty($res)) {
@@ -482,18 +401,12 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $file_id
      * @return string
+     * @access protected
      */
-    public function getFile($email, $password, $file_id)
+    public function getFile($file_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $res = Attachment::getDetails($file_id);
         if (empty($res)) {
             throw new RemoteApiException("The requested file could not be found");
@@ -503,26 +416,21 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param string $prj_id
      * @param string $field
      * @param string $value
+     * @access protected
      * @return string
      */
-    public function lookupCustomer($email, $password, $prj_id, $field, $value)
+    public function lookupCustomer($prj_id, $field, $value)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $possible_fields = array('email', 'support', 'customer');
         if (!in_array($field, $possible_fields)) {
             throw new RemoteApiException("Unknown field type '$field'");
         }
 
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = Auth::getUserID();
+
         // only customers should be able to use this page
         $role_id = User::getRoleByUser($usr_id, $prj_id);
         if ($role_id < User::getRoleID('Developer')) {
@@ -536,25 +444,20 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
-     * @param int $p
-     * @param string $p
-     * @param int $p
-     * @param bool $p
-     * @param string $p
+     * @param int $issue_id
+     * @param string $new_status
+     * @param int $resolution_id
+     * @param bool $send_notification
+     * @param string $note
      * @return string
+     * @access protected
      */
-    public function closeIssue($email, $password, $issue_id, $new_status, $resolution_id, $send_notification, $note)
+    public function closeIssue($issue_id, $new_status, $resolution_id, $send_notification, $note)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = Auth::getUserID();
         $status_id = Status::getStatusID($new_status);
 
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
@@ -577,55 +480,37 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $prj_id
      * @return struct
+     * @access protected
      */
-    public function getClosedAbbreviationAssocList($email, $password, $prj_id)
+    public function getClosedAbbreviationAssocList($prj_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $res = Status::getClosedAbbreviationAssocList($prj_id);
 
         return $res;
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $prj_id
      * @param bool $show_closed
      * @return string
+     * @access protected
      */
-    public function getAbbreviationAssocList($email, $password, $prj_id, $show_closed)
+    public function getAbbreviationAssocList($prj_id, $show_closed)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $res = Status::getAbbreviationAssocList($prj_id, $show_closed);
 
         return new XML_RPC_Response(XML_RPC_Encode($res));
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return array
+     * @access protected
      */
-    public function getEmailListing($email, $password, $issue_id)
+    public function getEmailListing($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $real_emails = Support::getEmailsByIssue($issue_id);
 
         $issue = Issue::getDetails($issue_id);
@@ -657,19 +542,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $email_id
      * @return array
+     * @access protected
      */
-    public function getEmail($email, $password, $issue_id, $email_id)
+    public function getEmail($issue_id, $email_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         if ($email_id == 0) {
             // return issue description instead
             $issue = Issue::getDetails($issue_id);
@@ -699,19 +578,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return array
+     * @access protected
      */
-    public function getNoteListing($email, $password, $issue_id)
+    public function getNoteListing($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
         $notes = Note::getListing($issue_id);
 
         // since xml-rpc has issues, lets base64 encode everything
@@ -725,19 +598,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $note_id
      * @return array
+     * @access protected
      */
-    public function getNote($email, $password, $issue_id, $note_id)
+    public function getNote($issue_id, $note_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $note = Note::getNoteBySequence($issue_id, $note_id);
 
         if (count($note) < 1 || !is_array($note)) {
@@ -752,22 +619,17 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $note_id
      * @param string $target
      * @param bool $authorize_sender
      * @return string
+     * @access protected
      */
-    public function convertNote($email, $password, $issue_id, $note_id, $target, $authorize_sender)
+    public function convertNote($issue_id, $note_id, $target, $authorize_sender)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
         $res = Note::convertNote($note_id, $target, $authorize_sender);
         if (empty($res)) {
             throw new RemoteApiException("Error converting note");
@@ -777,19 +639,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @return string
+     * @access protected
      */
-    public function mayChangeIssue($email, $password, $issue_id)
+    public function mayChangeIssue($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = Auth::getUserID();
 
         $assignees = Issue::getAssignedUserIDs($issue_id);
         if (count($assignees) > 0) {
@@ -804,25 +660,21 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $week
      * @param string $start
      * @param string $end
      * @param int $separate_closed
      * @return string
+     * @access protected
      */
-    public function getWeeklyReport($email, $password, $week, $start, $end, $separate_closed)
+    public function getWeeklyReport($week, $start, $end, $separate_closed)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
         $week = abs($week);
 
         // we have to set a project so the template class works, even though the weekly report doesn't actually need it
         $projects = Project::getAssocList(Auth::getUserID());
-        self::createFakeCookie($email, current(array_keys($projects)));
+        self::createFakeCookie(false, current(array_keys($projects)));
 
         // figure out the correct week
         if ((empty($start)) || (empty($end))) {
@@ -841,7 +693,7 @@ class RemoteApi
         }
         $tpl = new Template_Helper();
         $tpl->setTemplate("reports/weekly_data.tpl.html");
-        $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end, $separate_closed));
+        $tpl->assign("data", Report::getWeeklyReport($usr_id, $start, $end, $separate_closed));
 
         $ret = $tpl->getTemplateContents() . "\n";
 
@@ -859,52 +711,44 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param string $action
      * @return string
+     * @access protected
      */
-    public function timeClock($email, $password, $action)
+    public function timeClock($action)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
+        // TODO: is the email printing neccessary?
+        $email = User::getEmail($usr_id);
 
         if ($action == "in") {
-            $res = User::clockIn(User::getUserIDByEmail($email));
+            $res = User::clockIn($usr_id);
         } elseif ($action == "out") {
-            $res = User::clockOut(User::getUserIDByEmail($email));
+            $res = User::clockOut($usr_id);
         } else {
-            if (User::isClockedIn(User::getUserIDByEmail($email))) {
+            if (User::isClockedIn($usr_id)) {
                 $msg = "is clocked in";
             } else {
                 $msg = "is clocked out";
             }
 
-            return new XML_RPC_Response(XML_RPC_Encode("$email " . $msg . ".\n"));
+            return new XML_RPC_Response(XML_RPC_Encode("$email $msg.\n"));
         }
 
         if ($res == 1) {
-            return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked " . $action . ".\n"));
+            return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked $action.\n"));
         } else {
-            throw new RemoteApiException("Error clocking " . $action . ".\n");
+            throw new RemoteApiException("Error clocking $action.\n");
         }
     }
 
     /**
-     * @param array $email
-     * @param array $password
      * @param int $issue_id
      * @return array
+     * @access protected
      */
-    public function getDraftListing($email, $password, $issue_id)
+    public function getDraftListing($issue_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $drafts = Draft::getList($issue_id);
 
         // since xml-rpc has issues, lets base64 encode everything
@@ -918,19 +762,13 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $draft_id
      * @return array
+     * @access protected
      */
-    public function getDraft($email, $password, $issue_id, $draft_id)
+    public function getDraft($issue_id, $draft_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
 
         if ((count($draft) < 1) || (!is_array($draft))) {
@@ -949,21 +787,15 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param int $draft_id
      * @return string
+     * @access protected
      */
-    public function sendDraft($email, $password, $issue_id, $draft_id)
+    public function sendDraft($issue_id, $draft_id)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
-        self::createFakeCookie($email, Issue::getProjectID($issue_id));
+        self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         if ((count($draft) < 1) || (!is_array($draft))) {
             throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
@@ -977,21 +809,15 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param struct $types
      * @return string
+     * @access protected
      */
-    public function redeemIssue($email, $password, $issue_id, $types)
+    public function redeemIssue($issue_id, $types)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie($email, $prj_id);
+        self::createFakeCookie(false, $prj_id);
         $customer_id = Issue::getCustomerID($issue_id);
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
@@ -1032,21 +858,15 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param struct $types
      * @return string
+     * @access protected
      */
-    public function unredeemIssue($email, $password, $issue_id, $types)
+    public function unredeemIssue($issue_id, $types)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie($email, $prj_id);
+        self::createFakeCookie(false, $prj_id);
 
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
@@ -1085,21 +905,15 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param int $issue_id
      * @param bool $redeemed_only
      * @return string
+     * @access protected
      */
-    public function getIncidentTypes($email, $password, $issue_id, $redeemed_only)
+    public function getIncidentTypes($issue_id, $redeemed_only)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
-
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie($email, $prj_id);
+        self::createFakeCookie(false, $prj_id);
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
 
@@ -1130,17 +944,14 @@ class RemoteApi
     }
 
     /**
-     * @param string $email
-     * @param string $password
      * @param string $command
      * @return string
+     * @access protected
      */
-    public function logCommand($email, $password, $command)
+    public function logCommand($command)
     {
-        $auth = self::authenticate($email, $password);
-        if (is_object($auth)) {
-            return $auth;
-        }
+        $usr_id = Auth::getUserID();
+        $email = User::getEmail($usr_id);
         $command = base64_decode($command);
 
         $msg = $email . "\t" . $command . "\n";

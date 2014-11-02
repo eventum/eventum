@@ -27,6 +27,9 @@
 
 class XmlRpcServer
 {
+    /**
+     * @var RemoteApi
+     */
     protected $api;
 
     /**
@@ -54,8 +57,9 @@ class XmlRpcServer
         $signatures = array();
         foreach ($this->getMethods() as $methodName => $method) {
             $tags = $this->parseBlockComment($method->getDocComment());
-            $signature = $this->getSignature($tags);
-            $function = $this->getFunctionDecorator($method);
+            $protected = isset($tags['access']) && $tags['access'][0][0] == 'protected';
+            $signature = $this->getSignature($tags, $protected);
+            $function = $this->getFunctionDecorator($method, $protected);
             $signatures[$methodName] = array(
                 'function'  => $function,
                 'signature' => array($signature),
@@ -127,9 +131,10 @@ class XmlRpcServer
      * Extract parameter types for XMLRPC from PHP docBlock
      *
      * @param array $tags
+     * @param bool $protected true if method should be protected with username/password
      * @return array
      */
-    private function getSignature($tags)
+    private function getSignature($tags, $protected)
     {
         $signature = array();
 
@@ -141,7 +146,13 @@ class XmlRpcServer
         }
         $signature[] = $this->getXmlRpcType($return);
 
-        // then parameters
+        // for protected add email and password strings
+        if ($protected) {
+            $signature[] = $this->getXmlRpcType('string');
+            $signature[] = $this->getXmlRpcType('string');
+        }
+
+        // now the rest of the parameters
         if (isset($tags['param'])) {
             foreach ($tags['param'] as $param) {
                 $signature[] = $this->getXmlRpcType($param[0]);
@@ -173,15 +184,16 @@ class XmlRpcServer
      * Create callable to proxy
      *
      * @param ReflectionMethod $method
+     * @param bool $protected true if method should be protected with username/password
      * @return callable
      */
-    private function getFunctionDecorator($method)
+    private function getFunctionDecorator($method, $protected)
     {
         // create $handler variable for PHP 5.3
         $handler = $this;
 
-        $function = function ($params) use ($handler, $method) {
-            return $handler->handle($method, $params);
+        $function = function ($params) use ($handler, $method, $protected) {
+            return $handler->handle($method, $params, $protected);
         };
 
         return $function;
@@ -190,9 +202,10 @@ class XmlRpcServer
     /**
      * @param ReflectionMethod $method
      * @param XML_RPC_Message $message
+     * @param bool $protected true if method should be protected with username/password
      * @return string
      */
-    private function handle($method, $message)
+    private function handle($method, $message, $protected)
     {
         $params = array();
         $nparams = $message->getNumParams();
@@ -201,6 +214,23 @@ class XmlRpcServer
         }
 
         try {
+            if ($protected) {
+                list($email, $password) = array_splice($params, 0, 2);
+
+                $usr_id = User::getUserIDByEmail($email);
+                // FIXME: The role check shouldn't be hardcoded for project 1
+                $prj_id = 1;
+                if (!Auth::isCorrectPassword($email, $password)
+                    || (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer'))
+                ) {
+                    throw new RemoteApiException(
+                        "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role"
+                    );
+                }
+
+                RemoteApi::createFakeCookie($email);
+            }
+
             $res = $method->invokeArgs($this->api, $params);
         } catch (Exception $e) {
             global $XML_RPC_erruser;
