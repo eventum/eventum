@@ -81,7 +81,7 @@ class RemoteApi
             throw new RemoteApiException("There are currently no users associated with the given project");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
@@ -98,16 +98,12 @@ class RemoteApi
             throw new RemoteApiException("Issue #$issue_id could not be found");
         }
 
-        return new XML_RPC_Response(
-            new XML_RPC_Value(
-                array(
-                    "summary"          => new XML_RPC_Value($details['iss_summary']),
-                    "customer"         => new XML_RPC_Value(@$details['customer_info']['customer_name']),
-                    "status"           => new XML_RPC_Value(@$details['sta_title']),
-                    "assignments"      => new XML_RPC_Value(@$details["assignments"]),
-                    "authorized_names" => new XML_RPC_Value(@implode(', ', $details['authorized_names']))
-                ), "struct"
-            )
+        return array(
+            "summary"          => $details['iss_summary'],
+            "customer"         => @$details['customer_info']['customer_name'],
+            "status"           => @$details['sta_title'],
+            "assignments"      => @$details["assignments"],
+            "authorized_names" => @implode(', ', $details['authorized_names']),
         );
     }
 
@@ -132,20 +128,20 @@ class RemoteApi
 
         $structs = array();
         foreach ($results as $res) {
-            $structs[] = new XML_RPC_Value(
-                array(
-                    "issue_id"       => new XML_RPC_Value($res['iss_id'], "int"),
-                    "summary"        => new XML_RPC_Value($res['iss_summary']),
-                    'assigned_users' => new XML_RPC_Value($res['assigned_users']),
-                    'status'         => new XML_RPC_Value($res['sta_title'])
-                ), "struct"
+            $structs[] = array(
+                'issue_id'       => $res['iss_id'],
+                'summary'        => $res['iss_summary'],
+                'assigned_users' => $res['assigned_users'],
+                'status'         => $res['sta_title'],
             );
         }
 
-        return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
+        return $structs;
     }
 
     /**
+     * FIXME: this should return bool
+     *
      * @param string $email
      * @param string $password
      * @return string
@@ -162,7 +158,7 @@ class RemoteApi
     }
 
     /**
-     * @param boolean $only_customer_projects
+     * @param bool $only_customer_projects
      * @return array
      * @access protected
      */
@@ -177,15 +173,13 @@ class RemoteApi
 
         $structs = array();
         foreach ($res as $prj_id => $prj_title) {
-            $structs[] = new XML_RPC_Value(
-                array(
-                    "id"    => new XML_RPC_Value($prj_id, "int"),
-                    "title" => new XML_RPC_Value($prj_title)
-                ), "struct"
+            $structs[] = array(
+                "id"    => $prj_id,
+                "title" => $prj_title,
             );
         }
 
-        return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
+        return $structs;
     }
 
     /**
@@ -208,7 +202,6 @@ class RemoteApi
             $res['contract'] = $res['contract']->getDetails();
         }
 
-        $res = Misc::base64_encode($res);
         if (empty($res)) {
             throw new RemoteApiException("Issue #$issue_id could not be found");
         }
@@ -216,7 +209,7 @@ class RemoteApi
         // remove some naughty fields
         unset($res['iss_original_description']);
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
@@ -252,7 +245,7 @@ class RemoteApi
             throw new RemoteApiException("Could not record the time tracking entry");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
@@ -270,7 +263,7 @@ class RemoteApi
             throw new RemoteApiException("Could not set the status to issue #$issue_id");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
@@ -304,7 +297,7 @@ class RemoteApi
             throw new RemoteApiException("Could not assign issue #$issue_id to $developer");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
