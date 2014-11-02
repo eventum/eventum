@@ -1,8 +1,8 @@
 <?php
 
-class XmlRpcTest extends PHPUnit_Framework_TestCase
+class RemoteApiTest extends PHPUnit_Framework_TestCase
 {
-    const DEBUG = 1;
+    const DEBUG = 0;
 
     private $login = 'admin@example.com';
     private $password = 'admin';
@@ -61,6 +61,56 @@ class XmlRpcTest extends PHPUnit_Framework_TestCase
         return $value;
     }
 
+    /**
+     * @covers RemoteApi::getDeveloperList
+     */
+    public function testGetDeveloperList()
+    {
+        $prj_id = 1;
+        $res = self::call('getDeveloperList', array($this->login, $this->password, $prj_id));
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('Admin User', $res);
+        $this->assertEquals('admin@example.com', $res['Admin User']);
+    }
+
+    /**
+     * @covers RemoteApi::getSimpleIssueDetails
+     */
+    public function testGetSimpleIssueDetails()
+    {
+        $issue_id = 1;
+        $res = self::call('getSimpleIssueDetails', array($this->login, $this->password, $issue_id));
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('summary', $res);
+        $this->assertArrayHasKey('customer', $res);
+        $this->assertArrayHasKey('status', $res);
+        $this->assertArrayHasKey('assignments', $res);
+        $this->assertArrayHasKey('authorized_names', $res);
+    }
+
+    /**
+     * @covers RemoteApi::getOpenIssues
+     */
+    public function testGetOpenIssues()
+    {
+        $prj_id = 1;
+        $show_all_issues = true;
+        $status = '';
+        $res = self::call('getOpenIssues', array($this->login, $this->password, $prj_id, $show_all_issues, $status));
+
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('0', $res);
+        $issue = $res[0];
+
+        $this->assertArrayHasKey('issue_id', $issue);
+        $this->assertArrayHasKey('summary', $issue);
+        $this->assertArrayHasKey('assigned_users', $issue);
+        $this->assertArrayHasKey('status', $issue);
+    }
+
+    /**
+     * @covers RemoteApi::getClosedAbbreviationAssocList
+     */
     public function testGetClosedAbbreviationAssocList()
     {
         $res = self::call('getClosedAbbreviationAssocList', array($this->login, $this->password, 1));
