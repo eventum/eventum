@@ -132,7 +132,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
     public function getRemoteUserInfo($uid)
     {
-
         if (strpos($uid, '@') === false) {
             $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
         } else {
@@ -145,7 +144,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
-        if (PEAR::isError($entry)) {
+        if (!$entry || PEAR::isError($entry)) {
             return null;
         }
 
@@ -179,38 +178,72 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return false;
         }
 
+        // first try with user supplied input
+        // FIXME: this is duplicate with all emails check below?
         $local_usr_id = User::getUserIDByEmail($login, true);
-        if (empty($local_usr_id)) {
+
+        if (!$local_usr_id) {
+            // need to find local user by email by ALL aliases from remote system
+            $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
+            foreach ($emails as $email) {
+                $local_usr_id = User::getUserIDByEmail($email, true);
+                if ($local_usr_id) {
+                    break;
+                }
+            }
+        }
+
+        if (!$local_usr_id) {
+            // try by login name
             $local_usr_id = User::getUserIDByExternalID($login);
         }
 
         $data = array(
-            'password'  =>  '',
-            'full_name' =>  $remote['full_name'],
-            'email'     =>  $remote['email'],
-            'external_id'   =>  $remote['uid'],
-            'customer_id'   =>  $remote['customer_id'],
-            'contact_id'   =>  $remote['contact_id'],
+            'password'    => '',
+            'full_name'   => $remote['full_name'],
+            'email'       => $remote['email'],
+            'external_id' => $remote['uid'],
+            'customer_id' => $remote['customer_id'],
+            'contact_id'  => $remote['contact_id'],
         );
-        if ($local_usr_id == null) {
-            $setup = $this->loadSetup();
-            $data['role'] = $setup['default_role'];
 
-            if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
-                foreach ($data['role'] as $prj_id => $role) {
-                    if ($role > 0) {
-                        $data['role'][$prj_id] = User::getRoleID('Customer');
-                    }
-                }
+        // if local user found, update it and return usr id
+        if ($local_usr_id) {
+            // do not reset user password, it maybe be set locally before ldap
+            unset($data['password']);
+
+            // perspective what is main address and what is alias may be different in ldap and in eventum
+            $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
+            $email = User::getEmail($local_usr_id);
+
+            if (($key = array_search($email, $emails)) !== false) {
+                unset($emails[$key]);
+                $data['email'] = $email;
             }
-            $return = User::insert($data);
-            $this->updateAliases($return, $remote['aliases']);
-            return $return;
-        } else {
+
             $update = User::update($local_usr_id, $data, false);
-            $this->updateAliases($local_usr_id, $remote['aliases']);
+            if ($update > 0) {
+                $this->updateAliases($local_usr_id, $emails);
+            }
             return $local_usr_id;
         }
+
+        // create new local user
+        $setup = $this->loadSetup();
+        $data['role'] = $setup['default_role'];
+
+        if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
+            foreach ($data['role'] as $prj_id => $role) {
+                if ($role > 0) {
+                    $data['role'][$prj_id] = User::getRoleID('Customer');
+                }
+            }
+        }
+        $return = User::insert($data);
+        if ($return > 0) {
+            $this->updateAliases($return, $remote['aliases']);
+        }
+        return $return;
     }
 
     private function updateAliases($local_usr_id, $aliases)
@@ -223,14 +256,17 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     public function getUserIDByLogin($login)
     {
         $usr_id = User::getUserIDByEmail($login, true);
-        if (empty($usr_id)) {
+        if (!$usr_id) {
             // the login is not a local email address, try external id
             $usr_id = User::getUserIDByExternalID($login);
         }
 
-        $local_user_info = User::getDetails($usr_id);
-        if ($local_user_info !== false && empty($local_user_info['usr_external_id'])) {
-            // local user exist and is not associated with LDAP, don't try to update.
+        if ($usr_id) {
+            $local_user_info = User::getDetails($usr_id);
+        }
+
+        if (!empty($local_user_info) && empty($local_user_info['usr_external_id'])) {
+            // local user exists and is not associated with LDAP, don't try to update.
             return $usr_id;
         }
 
@@ -344,7 +380,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 return -2;
             }
         }
-        $contents = "<"."?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
+        $contents = "<" . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
         if ($res === false) {
             return -2;
@@ -366,11 +402,11 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             'binddn' => '',
             'bindpw' => '',
             'basedn' => 'dc=example,dc=org',
-            'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
+            'userdn'                => 'uid=%UID%,ou=People,dc=example,dc=org',
             'customer_id_attribute' => '',
-            'contact_id_attribute' => '',
-            'create_users' => null,
-            'default_role' => array(
+            'contact_id_attribute'  => '',
+            'create_users'          => null,
+            'default_role'          => array(
                 // ensure there is entry for current project
                 Auth::getCurrentProject() => 0,
             ),
@@ -383,7 +419,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
      * Method used to update the account password for a specific user.
      *
      * @param   integer $usr_id The user ID
-     * @param   string  $password The password.
+     * @param   string $password The password.
      * @return  boolean true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password)
