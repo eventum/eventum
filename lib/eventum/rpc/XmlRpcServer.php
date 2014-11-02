@@ -173,8 +173,8 @@ class XmlRpcServer
     {
         if ($type == 'integer') {
             $type = 'int';
-        } elseif ($type == 'boolean') {
-            $type = 'bool';
+        } elseif ($type == 'bool') {
+            $type = 'boolean';
         }
 
         return $type;
