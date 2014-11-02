@@ -1235,24 +1235,27 @@ class User
         }
 
         $data = array();
-        $count = count($res);
-        for ($i = 0; $i < $count; $i++) {
-            $roles = Project::getAssocList($res[$i]['usr_id'], false, true);
+        foreach ($res as &$row) {
+            $roles = Project::getAssocList($row['usr_id'], false, true);
             $role = current($roles);
             $role = $role['pru_role'];
-            if (($show_customers == false) && (
+            if ($show_customers == false && (
                 ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID("Customer")) ||
-                ((count($roles) == 1) && ($role == self::getRoleID("Customer"))))) {
+                (count($roles) == 1 && $role == self::getRoleID("Customer")))) {
                 continue;
             }
-            $row = $res[$i];
+
             $row["roles"] = $roles;
-            if (!empty($res[$i]["usr_grp_id"])) {
-                $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
+            if (!empty($row["usr_grp_id"])) {
+                $row["group_name"] = Group::getName($row["usr_grp_id"]);
             }
-            if (!empty($res[$i]["usr_par_code"])) {
-                $row["partner_name"] = Partner::getName($res[$i]["usr_par_code"]);
+            if (!empty($row["usr_par_code"])) {
+                $row["partner_name"] = Partner::getName($row["usr_par_code"]);
             }
+
+            // add email aliases
+            $row['aliases'] = User::getAliases($row['usr_id']);
+
             $data[] = $row;
         }
 

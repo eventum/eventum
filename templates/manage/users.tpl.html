@@ -272,9 +272,13 @@
               </td>
               <td width="30%">
                 &nbsp;<a href="mailto:{$list[i].usr_email}" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
+
+                {foreach from=$list[i].aliases item=email}
+                  &nbsp;{$email}
+                {/foreach}
               </td>
               <td width="10%">
-                &nbsp;<a title="{t}list all email aliases{/t}" href="email_alias.php?id={$list[i].usr_id}" class="manage_alias" data-usr-id="{$list[i].usr_id}">{t}manage alias{/t}</a>
+                &nbsp;<a title="{t}list all email aliases{/t}" href="email_alias.php?id={$list[i].usr_id}" class="manage_alias" data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
               </td>
               <td width="10%">
                 &nbsp;{$list[i].usr_status|capitalize}
