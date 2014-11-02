@@ -328,6 +328,7 @@ class RemoteApi
 
         $res = Issue::remoteAssign($issue_id, $usr_id, $usr_id);
         if ($res == -1) {
+            $email = User::getEmail($usr_id);
             throw new RemoteApiException("Could not assign issue #$issue_id to $email");
         }
 
