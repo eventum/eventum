@@ -28,6 +28,10 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
+class RemoteApiException extends RuntimeException
+{
+}
+
 /**
  * Class RemoteApi
  *
@@ -35,19 +39,15 @@
  */
 class RemoteApi
 {
-    protected static function userError($fstr = '')
-    {
-        global $XML_RPC_erruser;
-
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, $fstr);
-    }
-
     protected static function authenticate($email, $password)
     {
         // XXX: The role check shouldn't be hardcoded for project 1
-        if (!Auth::isCorrectPassword($email, $password) ||
-            (User::getRoleByUser(User::getUserIDByEmail($email), 1) <= User::getRoleID("Customer"))) {
-            return self::userError("Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role");
+        if (!Auth::isCorrectPassword($email, $password)
+            || (User::getRoleByUser(User::getUserIDByEmail($email), 1) <= User::getRoleID("Customer"))
+        ) {
+            throw new RemoteApiException(
+                "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role"
+            );
         }
 
         self::createFakeCookie($email);
@@ -89,16 +89,16 @@ class RemoteApi
 
         $res = Project::getRemoteAssocList();
         if (empty($res)) {
-            return self::userError("There are currently no projects setup for remote invocation");
+            throw new RemoteApiException("There are currently no projects setup for remote invocation");
         }
         // check if this project allows remote invocation
         if (!in_array($prj_id, array_keys($res))) {
-            return self::userError("This project does not allow remote invocation");
+            throw new RemoteApiException("This project does not allow remote invocation");
         }
 
         $res = Project::getAddressBookAssocList($prj_id);
         if (empty($res)) {
-            return self::userError("There are currently no users associated with the given project");
+            throw new RemoteApiException("There are currently no users associated with the given project");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode($res));
@@ -121,16 +121,20 @@ class RemoteApi
 
         $details = Issue::getDetails($issue_id);
         if (empty($details)) {
-            return self::userError("Issue #$issue_id could not be found");
+            throw new RemoteApiException("Issue #$issue_id could not be found");
         }
 
-        return new XML_RPC_Response(new XML_RPC_Value(array(
-                    "summary"     => new XML_RPC_Value($details['iss_summary']),
-                    "customer"    => new XML_RPC_Value(@$details['customer_info']['customer_name']),
-                    "status"      => new XML_RPC_Value(@$details['sta_title']),
-                    "assignments" => new XML_RPC_Value(@$details["assignments"]),
-                    "authorized_names"  =>  new XML_RPC_Value(@implode(', ', $details['authorized_names']))
-                ), "struct"));
+        return new XML_RPC_Response(
+            new XML_RPC_Value(
+                array(
+                    "summary"          => new XML_RPC_Value($details['iss_summary']),
+                    "customer"         => new XML_RPC_Value(@$details['customer_info']['customer_name']),
+                    "status"           => new XML_RPC_Value(@$details['sta_title']),
+                    "assignments"      => new XML_RPC_Value(@$details["assignments"]),
+                    "authorized_names" => new XML_RPC_Value(@implode(', ', $details['authorized_names']))
+                ), "struct"
+            )
+        );
     }
 
     /**
@@ -155,17 +159,19 @@ class RemoteApi
         $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
 
         if (empty($results)) {
-            return self::userError("There are currently no open issues");
+            throw new RemoteApiException("There are currently no open issues");
         }
 
         $structs = array();
         foreach ($results as $res) {
-            $structs[] = new XML_RPC_Value(array(
-                    "issue_id"   => new XML_RPC_Value($res['iss_id'], "int"),
-                    "summary"    => new XML_RPC_Value($res['iss_summary']),
-                    'assigned_users'    => new XML_RPC_Value($res['assigned_users']),
-                    'status'     => new XML_RPC_Value($res['sta_title'])
-                ), "struct");
+            $structs[] = new XML_RPC_Value(
+                array(
+                    "issue_id"       => new XML_RPC_Value($res['iss_id'], "int"),
+                    "summary"        => new XML_RPC_Value($res['iss_summary']),
+                    'assigned_users' => new XML_RPC_Value($res['assigned_users']),
+                    'status'         => new XML_RPC_Value($res['sta_title'])
+                ), "struct"
+            );
         }
 
         return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
@@ -203,15 +209,17 @@ class RemoteApi
         $usr_id = User::getUserIDByEmail($email);
         $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
-            return self::userError("You are not assigned to any projects at this moment");
+            throw new RemoteApiException("You are not assigned to any projects at this moment");
         }
 
         $structs = array();
         foreach ($res as $prj_id => $prj_title) {
-            $structs[] = new XML_RPC_Value(array(
-                    "id"   => new XML_RPC_Value($prj_id, "int"),
-                    "title"    => new XML_RPC_Value($prj_title)
-                ), "struct");
+            $structs[] = new XML_RPC_Value(
+                array(
+                    "id"    => new XML_RPC_Value($prj_id, "int"),
+                    "title" => new XML_RPC_Value($prj_title)
+                ), "struct"
+            );
         }
 
         return new XML_RPC_Response(new XML_RPC_Value($structs, "array"));
@@ -245,7 +253,7 @@ class RemoteApi
 
         $res = Misc::base64_encode($res);
         if (empty($res)) {
-            return self::userError("Issue #$issue_id could not be found");
+            throw new RemoteApiException("Issue #$issue_id could not be found");
         }
 
         // remove some naughty fields
@@ -269,7 +277,7 @@ class RemoteApi
         $prj_id = Issue::getProjectID($issue_id);
         $res = Time_Tracking::getAssocCategories($prj_id);
         if (empty($res)) {
-            return self::userError("No time tracking categories could be found");
+            throw new RemoteApiException("No time tracking categories could be found");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode($res));
@@ -294,7 +302,7 @@ class RemoteApi
         $usr_id = User::getUserIDByEmail($email);
         $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
-            return self::userError("Could not record the time tracking entry");
+            throw new RemoteApiException("Could not record the time tracking entry");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -317,7 +325,7 @@ class RemoteApi
         $usr_id = User::getUserIDByEmail($email);
         $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
         if ($res == -1) {
-            return self::userError("Could not set the status to issue #$issue_id");
+            throw new RemoteApiException("Could not set the status to issue #$issue_id");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -344,18 +352,20 @@ class RemoteApi
         $usr_id = User::getUserIDByEmail($email);
         $assignee = User::getUserIDByEmail($developer);
         if (empty($assignee)) {
-            return self::userError("Could not find a user with email '$developer'");
+            throw new RemoteApiException("Could not find a user with email '$developer'");
         }
 
         // check if the assignee is even allowed to be in the given project
         $projects = Project::getRemoteAssocListByUser($assignee);
         if (!in_array($project_id, array_keys($projects))) {
-            return self::userError("The selected developer is not permitted in the project associated with issue #$issue_id");
+            throw new RemoteApiException(
+                "The selected developer is not permitted in the project associated with issue #$issue_id"
+            );
         }
 
         $res = Issue::remoteAssign($issue_id, $usr_id, $assignee);
         if ($res == -1) {
-            return self::userError("Could not assign issue #$issue_id to $developer");
+            throw new RemoteApiException("Could not assign issue #$issue_id to $developer");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -380,7 +390,7 @@ class RemoteApi
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
         if (count($current_assignees) > 0) {
-            return self::userError("Issue is currently assigned to " . join(',', $current_assignees));
+            throw new RemoteApiException("Issue is currently assigned to " . join(',', $current_assignees));
         }
 
         $usr_id = User::getUserIDByEmail($email);
@@ -388,17 +398,19 @@ class RemoteApi
         // check if the assignee is even allowed to be in the given project
         $projects = Project::getRemoteAssocListByUser($usr_id);
         if (!in_array($project_id, array_keys($projects))) {
-            return self::userError("The selected developer is not permitted in the project associated with issue #$issue_id");
+            throw new RemoteApiException(
+                "The selected developer is not permitted in the project associated with issue #$issue_id"
+            );
         }
 
         $res = Issue::remoteAssign($issue_id, $usr_id, $usr_id);
         if ($res == -1) {
-            return self::userError("Could not assign issue #$issue_id to $email");
+            throw new RemoteApiException("Could not assign issue #$issue_id to $email");
         }
 
         $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
         if ($res == -1) {
-            return self::userError("Could not set status for issue #$issue_id");
+            throw new RemoteApiException("Could not set status for issue #$issue_id");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -427,18 +439,20 @@ class RemoteApi
             // check if the assignee is even allowed to be in the given project
             $projects = Project::getRemoteAssocListByUser($replier_usr_id);
             if (!in_array($project_id, array_keys($projects))) {
-                return self::userError("The given user is not permitted in the project associated with issue #$issue_id");
+                throw new RemoteApiException(
+                    "The given user is not permitted in the project associated with issue #$issue_id"
+                );
             }
         }
 
         // check if user is already authorized
         if (Authorized_Replier::isAuthorizedReplier($issue_id, $new_replier)) {
-            return self::userError("The given user is already an authorized replier on issue #$issue_id");
+            throw new RemoteApiException("The given user is already an authorized replier on issue #$issue_id");
         }
 
         $res = Authorized_Replier::remoteAddAuthorizedReplier($issue_id, $usr_id, $new_replier);
         if ($res == -1) {
-            return self::userError("Could not add '$new_replier' as an authorized replier to issue #$issue_id");
+            throw new RemoteApiException("Could not add '$new_replier' as an authorized replier to issue #$issue_id");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -461,7 +475,7 @@ class RemoteApi
 
         $res = Attachment::getList($issue_id);
         if (empty($res)) {
-            return self::userError("No files could be found");
+            throw new RemoteApiException("No files could be found");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode($res));
@@ -482,7 +496,7 @@ class RemoteApi
 
         $res = Attachment::getDetails($file_id);
         if (empty($res)) {
-            return self::userError("The requested file could not be found");
+            throw new RemoteApiException("The requested file could not be found");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode(Misc::base64_encode($res)));
@@ -505,14 +519,14 @@ class RemoteApi
 
         $possible_fields = array('email', 'support', 'customer');
         if (!in_array($field, $possible_fields)) {
-            return self::userError("Unknown field type '$field'");
+            throw new RemoteApiException("Unknown field type '$field'");
         }
 
         $usr_id = User::getUserIDByEmail($email);
         // only customers should be able to use this page
         $role_id = User::getRoleByUser($usr_id, $prj_id);
         if ($role_id < User::getRoleID('Developer')) {
-            return self::userError("You don't have the appropriate permissions to lookup customer information");
+            throw new RemoteApiException("You don't have the appropriate permissions to lookup customer information");
         }
 
         $crm = CRM::getInstance($prj_id);
@@ -544,7 +558,7 @@ class RemoteApi
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
-            return self::userError("Could not close issue #$issue_id");
+            throw new RemoteApiException("Could not close issue #$issue_id");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -555,7 +569,8 @@ class RemoteApi
                 if ($contract->hasPerIncident()) {
                     return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
                 }
-            } catch (CRMException $e) {}
+            } catch (CRMException $e) {
+            }
         }
 
         return new XML_RPC_Response(XML_RPC_Encode('OK'));
@@ -615,11 +630,11 @@ class RemoteApi
 
         $issue = Issue::getDetails($issue_id);
         $email = array(
-            'sup_date'  =>  $issue['iss_created_date'],
-            'sup_from'  =>  $issue['reporter'],
-            'sup_to'    => '',
-            'sup_cc'    =>  '',
-            'sup_subject'   =>  $issue['iss_summary']
+            'sup_date'    => $issue['iss_created_date'],
+            'sup_from'    => $issue['reporter'],
+            'sup_to'      => '',
+            'sup_cc'      => '',
+            'sup_subject' => $issue['iss_summary']
         );
         if ($real_emails != '') {
             $emails = array_merge(array($email), $real_emails);
@@ -659,15 +674,15 @@ class RemoteApi
             // return issue description instead
             $issue = Issue::getDetails($issue_id);
             $email = array(
-                'sup_date'  =>  $issue['iss_created_date'],
-                'sup_from'  =>  $issue['reporter'],
-                'sup_to'    => '',
-                'recipients'=>  '',
-                'sup_cc'    =>  '',
-                'sup_has_attachment'    =>  0,
-                'sup_subject'   =>  $issue['iss_summary'],
-                'message'   =>  $issue['iss_original_description'],
-                'seb_full_email'    =>  $issue['iss_original_description']
+                'sup_date'           => $issue['iss_created_date'],
+                'sup_from'           => $issue['reporter'],
+                'sup_to'             => '',
+                'recipients'         => '',
+                'sup_cc'             => '',
+                'sup_has_attachment' => 0,
+                'sup_subject'        => $issue['iss_summary'],
+                'message'            => $issue['iss_original_description'],
+                'seb_full_email'     => $issue['iss_original_description']
             );
         } else {
             $email = Support::getEmailBySequence($issue_id, $email_id);
@@ -675,7 +690,7 @@ class RemoteApi
 
         // get requested email
         if ((count($email) < 1) || (!is_array($email))) {
-            return self::userError("Email #" . $email_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException("Email #" . $email_id . " does not exist for issue #$issue_id");
         }
         // since xml-rpc has issues, lets base64 encode everything
         $email = Misc::base64_encode($email);
@@ -726,7 +741,7 @@ class RemoteApi
         $note = Note::getNoteBySequence($issue_id, $note_id);
 
         if (count($note) < 1 || !is_array($note)) {
-            return self::userError("Note #" . $note_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException("Note #" . $note_id . " does not exist for issue #$issue_id");
         }
         // since xml-rpc has issues, lets base64 encode everything
         foreach ($note as $key => $val) {
@@ -755,7 +770,7 @@ class RemoteApi
         self::createFakeCookie($email, Issue::getProjectID($issue_id));
         $res = Note::convertNote($note_id, $target, $authorize_sender);
         if (empty($res)) {
-            return self::userError("Error converting note");
+            throw new RemoteApiException("Error converting note");
         }
 
         return new XML_RPC_Response(XML_RPC_Encode("OK"));
@@ -828,7 +843,7 @@ class RemoteApi
         $tpl->setTemplate("reports/weekly_data.tpl.html");
         $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end, $separate_closed));
 
-        $ret = $tpl->getTemplateContents(). "\n";
+        $ret = $tpl->getTemplateContents() . "\n";
 
         return new XML_RPC_Response(XML_RPC_Encode(base64_encode($ret)));
     }
@@ -873,7 +888,7 @@ class RemoteApi
         if ($res == 1) {
             return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked " . $action . ".\n"));
         } else {
-            return self::userError("Error clocking " . $action . ".\n");
+            throw new RemoteApiException("Error clocking " . $action . ".\n");
         }
     }
 
@@ -919,7 +934,7 @@ class RemoteApi
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
 
         if ((count($draft) < 1) || (!is_array($draft))) {
-            return self::userError("Draft #" . $draft_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
         }
         if (empty($draft['to'])) {
             $draft['to'] = "Notification List";
@@ -951,13 +966,13 @@ class RemoteApi
         self::createFakeCookie($email, Issue::getProjectID($issue_id));
 
         if ((count($draft) < 1) || (!is_array($draft))) {
-            return self::userError("Draft #" . $draft_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
         }
         $res = Draft::send($draft["emd_id"]);
         if ($res == 1) {
             return new XML_RPC_Response(XML_RPC_Encode("Draft #" . $draft_id . " sent successfully.\n"));
         } else {
-            return self::userError("Error sending Draft #" . $draft_id . "\n");
+            throw new RemoteApiException("Error sending Draft #" . $draft_id . "\n");
         }
     }
 
@@ -981,7 +996,7 @@ class RemoteApi
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
-            return self::userError("No customer integration for issue #$issue_id");
+            throw new RemoteApiException("No customer integration for issue #$issue_id");
         }
 
         $crm = CRM::getInstance($prj_id);
@@ -990,22 +1005,26 @@ class RemoteApi
 
         if (!$contract->hasPerIncident()) {
             // check if is per incident contract
-            return self::userError("Customer for issue #$issue_id does not have a per-incident contract");
+            throw new RemoteApiException("Customer for issue #$issue_id does not have a per-incident contract");
         }
 
         // check if incidents are remaining
         foreach ($types as $type_id) {
             if ($contract->isRedeemedIncident($issue_id, $type_id)) {
-                return self::userError("Issue #$issue_id is already marked as redeemed incident of type " . $all_types[$type_id]);
+                throw new RemoteApiException(
+                    "Issue #$issue_id is already marked as redeemed incident of type " . $all_types[$type_id]
+                );
             } elseif (!$contract->hasIncidentsLeft($customer_id, $type_id)) {
-                return self::userError("Customer for issue #$issue_id has no remaining incidents of type " . $all_types[$type_id]);
+                throw new RemoteApiException(
+                    "Customer for issue #$issue_id has no remaining incidents of type " . $all_types[$type_id]
+                );
             }
         }
 
         foreach ($types as $type_id) {
             $res = $contract->redeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                return self::userError("An error occured trying to mark issue as redeemed.");
+                throw new RemoteApiException("An error occured trying to mark issue as redeemed.");
             }
         }
 
@@ -1034,7 +1053,7 @@ class RemoteApi
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
-            return self::userError("No customer integration for issue #$issue_id");
+            throw new RemoteApiException("No customer integration for issue #$issue_id");
         }
 
         $crm = CRM::getInstance($prj_id);
@@ -1043,20 +1062,22 @@ class RemoteApi
 
         if (!$contract->hasPerIncident()) {
             // check if is per incident contract
-            return self::userError("Customer for issue #$issue_id does not have a per-incident contract");
+            throw new RemoteApiException("Customer for issue #$issue_id does not have a per-incident contract");
         }
 
         // check if incidents are remaining
         foreach ($types as $type_id) {
             if (!$contract->isRedeemedIncident($issue_id, $type_id)) {
-                return self::userError("Issue #$issue_id is not marked as redeemed incident of type " . $all_types[$type_id]);
+                throw new RemoteApiException(
+                    "Issue #$issue_id is not marked as redeemed incident of type " . $all_types[$type_id]
+                );
             }
         }
 
         foreach ($types as $type_id) {
             $res = $contract->unRedeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                return self::userError("An error occured trying to mark issue as unredeemed.");
+                throw new RemoteApiException("An error occured trying to mark issue as unredeemed.");
             }
         }
 
@@ -1084,7 +1105,7 @@ class RemoteApi
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
-            return self::userError("No customer integration for issue #$issue_id");
+            throw new RemoteApiException("No customer integration for issue #$issue_id");
         }
 
         $crm = CRM::getInstance($prj_id);
@@ -1094,7 +1115,7 @@ class RemoteApi
 
         if (!$contract->hasPerIncident()) {
             // check if is per incident contract
-            return self::userError("Customer for issue #$issue_id does not have a per-incident contract");
+            throw new RemoteApiException("Customer for issue #$issue_id does not have a per-incident contract");
         }
 
         $incidents = $contract->getIncidents();

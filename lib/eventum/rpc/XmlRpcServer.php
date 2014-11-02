@@ -200,7 +200,12 @@ class XmlRpcServer
             $params[] = XML_RPC_decode($message->getParam($i));
         }
 
-        $res = $method->invokeArgs($this->api, $params);
+        try {
+            $res = $method->invokeArgs($this->api, $params);
+        } catch (Exception $e) {
+            global $XML_RPC_erruser;
+            $res = new XML_RPC_Response(0, $XML_RPC_erruser + 1, $e->getMessage());
+        }
 
         if (!$res instanceof XML_RPC_Response) {
             $res = new XML_RPC_Response(XML_RPC_Encode($res));
