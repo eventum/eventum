@@ -1,8 +1,6 @@
 * API cleanups:
  - Support::getEmailInfo() does more than the name says
 
-* mail queue view (at least) is broken with PEAR Date 1.5.0
-
 * Manage Statuses is silly, if you update one status it deletes all entries for
   that prs_sta_id and reinserts everything again except the one you perhaps removed:
 
@@ -29,20 +27,12 @@ UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id 
        // XXX manage/custom_fields.php uses role_id = 9 as "Never Display", which is hack
        return isset($roles[$role_id]) ? $roles[$role_id] : null;
 
-* HTML modernization
-  convert all "checkRadio" calls to HTML labels. see revision@4227
-
 * autocomplete="off"
 Add this to forms where you save OTHER USER passwords (admin screens)
 
 * Inline JavaScript must die.
 Move them to some common file, better to review code and make similar changes.
 
-* Integrate multiselect search
-
-Current multi selects are uncomfortable to use if you have lots of users in Eventum
-https://github.com/raul72/multiselect-search
-
-* finish other post pages like 6d1fcee
+* finish other post pages like d0ba4a2
 * UI:
 ** Add new user lookup tool for notification and authorized replier pages
