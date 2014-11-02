@@ -184,7 +184,7 @@ class Note
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
         } catch (DbException $e) {
-            return '';
+            throw new RuntimeException("Can't find note $note_id");
         }
 
         return $res;
