@@ -693,7 +693,7 @@ class RemoteApi
     {
         $res = Resolution::getAssocList();
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
@@ -737,20 +737,13 @@ class RemoteApi
     {
         $drafts = Draft::getList($issue_id);
 
-        // since xml-rpc has issues, lets base64 encode everything
-        foreach ($drafts as &$draft) {
-            foreach ($draft as $key => $val) {
-                $draft[$key] = base64_encode($val);
-            }
-        }
-
-        return new XML_RPC_Response(XML_RPC_Encode($drafts));
+        return $drafts;
     }
 
     /**
      * @param int $issue_id
      * @param int $draft_id
-     * @return array
+     * @return struct
      * @access protected
      */
     public function getDraft($issue_id, $draft_id)
@@ -764,12 +757,8 @@ class RemoteApi
             $draft['to'] = "Notification List";
         }
         $draft['cc'] = @join(", ", $draft['cc']);
-        // since xml-rpc has issues, lets base64 encode everything
-        foreach ($draft as $key => $val) {
-            $draft[$key] = base64_encode($val);
-        }
 
-        return new XML_RPC_Response(XML_RPC_Encode($draft));
+        return $draft;
     }
 
     /**
@@ -783,20 +772,21 @@ class RemoteApi
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
         self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
-        if ((count($draft) < 1) || (!is_array($draft))) {
+        if (count($draft) < 1 || !is_array($draft)) {
             throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
         }
+
         $res = Draft::send($draft["emd_id"]);
         if ($res == 1) {
-            return new XML_RPC_Response(XML_RPC_Encode("Draft #" . $draft_id . " sent successfully.\n"));
-        } else {
-            throw new RemoteApiException("Error sending Draft #" . $draft_id . "\n");
+            return "Draft #{$draft_id} sent successfully.\n";
         }
+
+        throw new RemoteApiException("Error sending Draft #" . $draft_id . "\n");
     }
 
     /**
      * @param int $issue_id
-     * @param struct $types
+     * @param array $types
      * @return string
      * @access protected
      */
@@ -840,12 +830,12 @@ class RemoteApi
             }
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
      * @param int $issue_id
-     * @param struct $types
+     * @param array $types
      * @return string
      * @access protected
      */
@@ -938,7 +928,6 @@ class RemoteApi
     {
         $usr_id = Auth::getUserID();
         $email = User::getEmail($usr_id);
-        $command = base64_decode($command);
 
         $msg = $email . "\t" . $command . "\n";
 
@@ -946,6 +935,6 @@ class RemoteApi
         @fwrite($fp, $msg);
         @fclose($fp);
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 }

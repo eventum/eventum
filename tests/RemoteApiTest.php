@@ -418,7 +418,9 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $target = 'email';
         $authorize_sender = false;
         try {
-            $res = self::call('convertNote', array($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender));
+            $res = self::call(
+                'convertNote', array($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender)
+            );
         } catch (Exception $e) {
 
         }
@@ -443,115 +445,136 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $start = "";
         $end = "";
         $separate_closed = false;
-        $res = self::call('getWeeklyReport', array($this->login, $this->password, $week, $start, $end, $separate_closed));
+        $res = self::call(
+            'getWeeklyReport', array($this->login, $this->password, $week, $start, $end, $separate_closed)
+        );
         $this->assertRegExp('/Admin User.*Weekly Report/', $res);
     }
 
     /**
      * @covers RemoteApi::getResolutionAssocList
-     * @todo   Implement testGetResolutionAssocList().
      */
     public function testGetResolutionAssocList()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $res = self::call('getResolutionAssocList', array());
+        $exp = array(
+            2 => 'fixed',
+            4 => 'unable to reproduce',
+            5 => 'not fixable',
+            6 => 'duplicate',
+            7 => 'not a bug',
+            8 => 'suspended',
+            9 => 'won\'t fix',
         );
+        $this->assertEquals($exp, $res);
     }
 
     /**
      * @covers RemoteApi::timeClock
-     * @todo   Implement testTimeClock().
      */
     public function testTimeClock()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $action = 'out';
+        $res = self::call('timeClock', array($this->login, $this->password, $action));
+        $this->assertEquals("admin@example.com successfully clocked out.\n", $res);
     }
 
     /**
      * @covers RemoteApi::getDraftListing
-     * @todo   Implement testGetDraftListing().
      */
     public function testGetDraftListing()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $res = self::call('getDraftListing', array($this->login, $this->password, $issue_id));
+        $this->assertInternalType('array', $res);
+        $this->arrayHasKey('0', $res);
+
+        $draft = $res[0];
+        $this->assertArrayHasKey('emd_id', $draft);
+        $this->assertArrayHasKey('emd_status', $draft);
+        $this->assertEquals('pending', $draft['emd_status']);
     }
 
     /**
      * @covers RemoteApi::getDraft
-     * @todo   Implement testGetDraft().
      */
     public function testGetDraft()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $draft_id = 1;
+        $res = self::call('getDraft', array($this->login, $this->password, $issue_id, $draft_id));
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('emd_id', $res);
+        $this->assertArrayHasKey('emd_status', $res);
+        $this->assertEquals('pending', $res['emd_status']);
     }
 
     /**
      * @covers RemoteApi::sendDraft
-     * @todo   Implement testSendDraft().
      */
     public function testSendDraft()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $draft_id = 1;
+        try {
+            $res = self::call('sendDraft', array($this->login, $this->password, $issue_id, $draft_id));
+        } catch (Exception $e) {
+
+        }
     }
 
     /**
      * @covers RemoteApi::redeemIssue
-     * @todo   Implement testRedeemIssue().
      */
     public function testRedeemIssue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $types = array();
+        try {
+            $res = self::call('redeemIssue', array($this->login, $this->password, $issue_id, $types));
+            $this->assertEquals('OK', $res);
+        } catch (Exception $e) {
+            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+        }
     }
 
     /**
      * @covers RemoteApi::unredeemIssue
-     * @todo   Implement testUnredeemIssue().
      */
     public function testUnredeemIssue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $types = array();
+        try {
+            $res = self::call('unredeemIssue', array($this->login, $this->password, $issue_id, $types));
+            $this->assertEquals('OK', $res);
+        } catch (Exception $e) {
+            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+        }
     }
 
     /**
      * @covers RemoteApi::getIncidentTypes
-     * @todo   Implement testGetIncidentTypes().
      */
     public function testGetIncidentTypes()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $redeemed_only = false;
+
+        try {
+            $res = self::call('getIncidentTypes', array($this->login, $this->password, $issue_id, $redeemed_only));
+        } catch (Exception $e) {
+            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+        }
     }
 
     /**
      * @covers RemoteApi::logCommand
-     * @todo   Implement testLogCommand().
      */
     public function testLogCommand()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $command = 'hello world';
+        $res = self::call('logCommand', array($this->login, $this->password, $command));
+        $this->assertEquals('OK', $res);
     }
 }
