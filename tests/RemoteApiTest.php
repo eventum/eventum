@@ -320,7 +320,8 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
      */
     public function testGetClosedAbbreviationAssocList()
     {
-        $res = self::call('getClosedAbbreviationAssocList', array($this->login, $this->password, 1));
+        $prj_id = 1;
+        $res = self::call('getClosedAbbreviationAssocList', array($this->login, $this->password, $prj_id));
         $exp = array(
             'REL' => 'released',
             'KIL' => 'killed',
@@ -330,98 +331,120 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers RemoteApi::getAbbreviationAssocList
-     * @todo   Implement testGetAbbreviationAssocList().
      */
     public function testGetAbbreviationAssocList()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $prj_id = 1;
+        $show_closed = false;
+        $res = self::call('getAbbreviationAssocList', array($this->login, $this->password, $prj_id, $show_closed));
+        $exp = array(
+            'DSC' => 'discovery',
+            'REQ' => 'requirements',
+            'IMP' => 'implementation',
+            'TST' => 'evaluation and testing',
         );
+        $this->assertEquals($exp, $res);
     }
 
     /**
      * @covers RemoteApi::getEmailListing
-     * @todo   Implement testGetEmailListing().
      */
     public function testGetEmailListing()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $res = self::call('getEmailListing', array($this->login, $this->password, $issue_id));
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('0', $res);
+
+        $email = $res[0];
+        $this->assertArrayHasKey('sup_subject', $email);
+        $this->assertArrayHasKey('sup_from', $email);
+        $this->assertEquals('Admin User', $email['sup_from']);
     }
 
     /**
      * @covers RemoteApi::getEmail
-     * @todo   Implement testGetEmail().
      */
     public function testGetEmail()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $emai_id = 1;
+        try {
+            $res = self::call('getEmail', array($this->login, $this->password, $issue_id, $emai_id));
+        } catch (Exception $e) {
+
+        }
+        $this->markTestIncomplete('no test data');
     }
 
     /**
      * @covers RemoteApi::getNoteListing
-     * @todo   Implement testGetNoteListing().
      */
     public function testGetNoteListing()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $res = self::call('getNoteListing', array($this->login, $this->password, $issue_id));
+        $this->assertInternalType('array', $res);
+        $this->arrayHasKey('0', $res);
+
+        $note = $res[0];
+        $this->assertArrayHasKey('not_id', $note);
+        $this->assertArrayHasKey('not_title', $note);
+        $this->assertEquals('Issue closed comments', $note['not_title']);
     }
 
     /**
      * @covers RemoteApi::getNote
-     * @todo   Implement testGetNote().
      */
     public function testGetNote()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $note_id = 1;
+        $res = self::call('getNote', array($this->login, $this->password, $issue_id, $note_id));
+        $this->assertInternalType('array', $res);
+
+        $this->assertArrayHasKey('not_id', $res);
+        $this->assertArrayHasKey('not_title', $res);
+        $this->assertEquals('Issue closed comments', $res['not_title']);
     }
 
     /**
      * @covers RemoteApi::convertNote
-     * @todo   Implement testConvertNote().
      */
     public function testConvertNote()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $note_id = 1;
+        $target = 'email';
+        $authorize_sender = false;
+        try {
+            $res = self::call('convertNote', array($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender));
+        } catch (Exception $e) {
+
+        }
     }
 
     /**
      * @covers RemoteApi::mayChangeIssue
-     * @todo   Implement testMayChangeIssue().
      */
     public function testMayChangeIssue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $res = self::call('mayChangeIssue', array($this->login, $this->password, $issue_id));
+        $this->assertEquals('no', $res);
     }
 
     /**
      * @covers RemoteApi::getWeeklyReport
-     * @todo   Implement testGetWeeklyReport().
      */
     public function testGetWeeklyReport()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $week = 1;
+        $start = "";
+        $end = "";
+        $separate_closed = false;
+        $res = self::call('getWeeklyReport', array($this->login, $this->password, $week, $start, $end, $separate_closed));
+        $this->assertRegExp('/Admin User.*Weekly Report/', $res);
     }
 
     /**

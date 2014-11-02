@@ -491,14 +491,14 @@ class RemoteApi
     /**
      * @param int $prj_id
      * @param bool $show_closed
-     * @return string
+     * @return struct
      * @access protected
      */
     public function getAbbreviationAssocList($prj_id, $show_closed)
     {
         $res = Status::getAbbreviationAssocList($prj_id, $show_closed);
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
@@ -524,18 +524,13 @@ class RemoteApi
             $emails[] = $email;
         }
 
-        // since xml-rpc has issues, lets base64 encode everything
         if (is_array($emails)) {
             foreach ($emails as &$email) {
                 unset($email["seb_body"]);
-
-                foreach ($email as $key => $val) {
-                    $email[$key] = base64_encode($val);
-                }
             }
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode($emails));
+        return $emails;
     }
 
     /**
@@ -584,14 +579,7 @@ class RemoteApi
         self::createFakeCookie(false, Issue::getProjectID($issue_id));
         $notes = Note::getListing($issue_id);
 
-        // since xml-rpc has issues, lets base64 encode everything
-        foreach ($notes as &$note) {
-            foreach ($note as $key => $val) {
-                $note[$key] = base64_encode($val);
-            }
-        }
-
-        return new XML_RPC_Response(XML_RPC_Encode($notes));
+        return $notes;
     }
 
     /**
@@ -607,12 +595,8 @@ class RemoteApi
         if (count($note) < 1 || !is_array($note)) {
             throw new RemoteApiException("Note #" . $note_id . " does not exist for issue #$issue_id");
         }
-        // since xml-rpc has issues, lets base64 encode everything
-        foreach ($note as $key => $val) {
-            $note[$key] = base64_encode($val);
-        }
 
-        return new XML_RPC_Response(XML_RPC_Encode($note));
+        return $note;
     }
 
     /**
@@ -632,10 +616,12 @@ class RemoteApi
             throw new RemoteApiException("Error converting note");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode("OK"));
+        return 'OK';
     }
 
     /**
+     * TODO: use boolean return
+     *
      * @param int $issue_id
      * @return string
      * @access protected
@@ -647,12 +633,12 @@ class RemoteApi
         $assignees = Issue::getAssignedUserIDs($issue_id);
         if (count($assignees) > 0) {
             if (in_array($usr_id, $assignees)) {
-                return new XML_RPC_Response(XML_RPC_Encode("yes"));
+                return "yes";
             } else {
-                return new XML_RPC_Response(XML_RPC_Encode("no"));
+                return "no";
             }
         } else {
-            return new XML_RPC_Response(XML_RPC_Encode("yes"));
+            return "yes";
         }
     }
 
@@ -660,7 +646,7 @@ class RemoteApi
      * @param int $week
      * @param string $start
      * @param string $end
-     * @param int $separate_closed
+     * @param bool $separate_closed
      * @return string
      * @access protected
      */
@@ -690,11 +676,14 @@ class RemoteApi
         }
         $tpl = new Template_Helper();
         $tpl->setTemplate("reports/weekly_data.tpl.html");
-        $tpl->assign("data", Report::getWeeklyReport($usr_id, $start, $end, $separate_closed));
+        $tpl->assign(array(
+            'report_type' => 'weekly',
+            'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed)
+        ));
 
         $ret = $tpl->getTemplateContents() . "\n";
 
-        return new XML_RPC_Response(XML_RPC_Encode(base64_encode($ret)));
+        return $ret;
     }
 
     /**
