@@ -132,7 +132,6 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
     public function getRemoteUserInfo($uid)
     {
-
         if (strpos($uid, '@') === false) {
             $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
         } else {
@@ -213,11 +212,18 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             // do not reset user password, it maybe be set locally before ldap
             unset($data['password']);
 
-            // FIXME: perspective what is main address and what is alias may be different in ldap and in eventum
+            // perspective what is main address and what is alias may be different in ldap and in eventum
+            $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
+            $email = User::getEmail($local_usr_id);
+
+            if (($key = array_search($email, $emails)) !== false) {
+                unset($emails[$key]);
+                $data['email'] = $email;
+            }
 
             $update = User::update($local_usr_id, $data, false);
             if ($update > 0) {
-                $this->updateAliases($local_usr_id, $remote['aliases']);
+                $this->updateAliases($local_usr_id, $emails);
             }
             return $local_usr_id;
         }
