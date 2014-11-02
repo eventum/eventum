@@ -432,9 +432,12 @@ class RemoteApi
         }
 
         $crm = CRM::getInstance($prj_id);
+        if (!$crm) {
+            throw new RemoteApiException("Customer Integration not enabled for project $prj_id");
+        }
         $res = $crm->lookup($field, $value, array());
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return new $res;
     }
 
     /**

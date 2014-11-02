@@ -284,10 +284,14 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $prj_id = 1;
         $field = 'email';
-        $value = '';
+        $value = 'id';
 
-        $res = self::call('lookupCustomer', array($this->login, $this->password, $prj_id, $field, $value));
-        print_r($res);
+        try {
+            $res = self::call('lookupCustomer', array($this->login, $this->password, $prj_id, $field, $value));
+            $this->assertInternalType('string', $res);
+        } catch (Exception $e) {
+            $this->assertEquals("Customer Integration not enabled for project $prj_id", $e->getMessage());
+        }
     }
 
     /**
