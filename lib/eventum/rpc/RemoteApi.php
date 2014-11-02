@@ -467,13 +467,13 @@ class RemoteApi
             try {
                 $contract = $crm->getContract(Issue::getContractID($issue_id));
                 if ($contract->hasPerIncident()) {
-                    return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
+                    return 'INCIDENT';
                 }
             } catch (CRMException $e) {
             }
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**

@@ -295,15 +295,24 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * FIXME: this doesn't have any sane error checking for invalid status, etc
+     *
      * @covers RemoteApi::closeIssue
-     * @todo   Implement testCloseIssue().
      */
     public function testCloseIssue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $issue_id = 1;
+        $new_status = 'closed';
+        $resolution_id = 1;
+        $send_notification = false;
+        $note = __FUNCTION__;
+
+        $res = self::call(
+            'closeIssue',
+            array($this->login, $this->password, $issue_id, $new_status, $resolution_id, $send_notification, $note)
         );
+
+        $this->assertEquals('OK', $res);
     }
 
     /**
