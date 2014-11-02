@@ -311,7 +311,10 @@ class Project
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+        }
+
+        if (empty($res)) {
+            return array();
         }
 
         $res["prj_assigned_users"] = self::getUserColList($res["prj_id"]);
