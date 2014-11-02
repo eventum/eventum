@@ -175,7 +175,9 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $cat_id = 1;
         $summary = __FUNCTION__;
         $time_spent = 10;
-        $res = self::call('recordTimeWorked', array($this->login, $this->password, $issue_id, $cat_id, $summary, $time_spent));
+        $res = self::call(
+            'recordTimeWorked', array($this->login, $this->password, $issue_id, $cat_id, $summary, $time_spent)
+        );
 
         $this->assertEquals('OK', $res);
     }
@@ -207,62 +209,85 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers RemoteApi::takeIssue
-     * @todo   Implement testTakeIssue().
      */
     public function testTakeIssue()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+        $prj_id = 1;
+        try {
+            $res = self::call('takeIssue', array($this->login, $this->password, $issue_id, $prj_id));
+            $this->assertEquals('OK', $res);
+        } catch (Exception $e) {
+            // already assigned
+            $this->assertRegExp('/Issue is currently assigned to/', $e->getMessage());
+        }
     }
 
     /**
      * @covers RemoteApi::addAuthorizedReplier
-     * @todo   Implement testAddAuthorizedReplier().
      */
     public function testAddAuthorizedReplier()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $issue_id = 1;
+        $prj_id = 1;
+        $new_replier = 'admin@example.com';
+        $res = self::call(
+            'addAuthorizedReplier', array($this->login, $this->password, $issue_id, $prj_id, $new_replier)
         );
+
+        $this->assertEquals('OK', $res);
     }
 
     /**
      * @covers RemoteApi::getFileList
-     * @todo   Implement testGetFileList().
      */
     public function testGetFileList()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $issue_id = 1;
+
+        try {
+            $res = self::call('getFileList', array($this->login, $this->password, $issue_id));
+
+            $this->assertInternalType('array', $res);
+            $this->assertArrayHasKey('0', $res);
+
+            $file = $res[0];
+            $this->assertInternalType('array', $file);
+            $this->assertArrayHasKey('iat_id', $file);
+            $this->assertArrayHasKey('iat_status', $file);
+            $this->assertEquals('internal', $file['iat_status']);
+
+        } catch (Exception $e) {
+            $this->assertEquals('No files could be found', $e->getMessage());
+        }
     }
 
     /**
      * @covers RemoteApi::getFile
-     * @todo   Implement testGetFile().
      */
     public function testGetFile()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $file_id = 1;
+
+        $res = self::call('getFile', array($this->login, $this->password, $file_id));
+
+        $this->assertInternalType('array', $res);
+        $this->assertArrayHasKey('iat_id', $res);
+        $this->assertArrayHasKey('iat_status', $res);
+        $this->assertEquals('internal', $res['iat_status']);
     }
 
     /**
      * @covers RemoteApi::lookupCustomer
-     * @todo   Implement testLookupCustomer().
      */
     public function testLookupCustomer()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $prj_id = 1;
+        $field = 'email';
+        $value = '';
+
+        $res = self::call('lookupCustomer', array($this->login, $this->password, $prj_id, $field, $value));
+        print_r($res);
     }
 
     /**

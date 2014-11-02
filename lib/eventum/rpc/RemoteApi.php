@@ -337,7 +337,7 @@ class RemoteApi
             throw new RemoteApiException("Could not set status for issue #$issue_id");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
@@ -374,7 +374,7 @@ class RemoteApi
             throw new RemoteApiException("Could not add '$new_replier' as an authorized replier to issue #$issue_id");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        return 'OK';
     }
 
     /**
@@ -391,12 +391,12 @@ class RemoteApi
             throw new RemoteApiException("No files could be found");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode($res));
+        return $res;
     }
 
     /**
      * @param int $file_id
-     * @return string
+     * @return struct
      * @access protected
      */
     public function getFile($file_id)
@@ -406,11 +406,11 @@ class RemoteApi
             throw new RemoteApiException("The requested file could not be found");
         }
 
-        return new XML_RPC_Response(XML_RPC_Encode(Misc::base64_encode($res)));
+        return $res;
     }
 
     /**
-     * @param string $prj_id
+     * @param int $prj_id
      * @param string $field
      * @param string $value
      * @access protected
