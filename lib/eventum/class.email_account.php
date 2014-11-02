@@ -170,7 +170,11 @@ class Email_Account
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
         } catch (DbException $e) {
-            return "";
+            throw new RuntimeException("email with id $ema_id not found");
+        }
+
+        if (!$res) {
+            throw new RuntimeException("email with id $ema_id not found");
         }
 
         $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);

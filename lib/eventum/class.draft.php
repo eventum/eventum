@@ -272,7 +272,7 @@ class Draft
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
         } catch (DbException $e) {
-            return '';
+            throw new RuntimeException("email $emd_id not found");
         }
 
         $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
@@ -412,10 +412,10 @@ class Draft
      * Converts an email to a draft and sends it.
      *
      * @param   integer $draft_id The id of the draft to send.
+     * @return int
      */
     public static function send($draft_id)
     {
-        $draft_id = Misc::escapeInteger($draft_id);
         $draft = self::getDetails($draft_id);
         $_POST["issue_id"] = $draft["emd_iss_id"];
         $_POST["subject"] = $draft["emd_subject"];

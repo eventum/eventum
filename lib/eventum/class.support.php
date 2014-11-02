@@ -1128,6 +1128,7 @@ class Support
             return -1;
         }
 
+        // FIXME: $row['ema_id'] is empty when mail is sent via convert note!
         Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
         return 1;
     }
