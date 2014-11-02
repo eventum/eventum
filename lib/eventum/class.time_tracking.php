@@ -550,6 +550,7 @@ class Time_Tracking
                     ttr_time_spent,
                     ttr_summary
                  ) VALUES (
+                    ?, ?, ?, ?, ?, ?
                  )";
         $params = array(
             $cat_id,
