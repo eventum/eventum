@@ -228,7 +228,7 @@ class Note
                 FROM
                     {{%note}}
                 WHERE
-                    not_iss_id =  AND
+                    not_iss_id = ? AND
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC
