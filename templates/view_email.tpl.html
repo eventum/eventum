@@ -53,7 +53,7 @@ function openRawHeaders()
 function viewEmail(ema_id, id)
 {
 {/literal}
-{if $smarty.get.cat == 'list_emails'}
+{if $smarty.get.cat|default:'' == 'list_emails'}
     window.location.href = 'view_email.php?cat=list_emails&ema_id=' + ema_id + '&id=' + id;
 {else}
     window.location.href = 'view_email.php?issue_id=' + issue_id + '&ema_id=' + ema_id + '&id=' + id;
