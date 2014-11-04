@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Admin/LDAP: fix ui warning when setting up initial config (Elan Ruusamäe)
 - Admin/users: show user aliases in the listing (Elan Ruusamäe)
 - Improved LDAP login with email aliases (Elan Ruusamäe)
+- Added page class to body tag of popup (Bryan Alsdorf)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
