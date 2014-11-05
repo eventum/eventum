@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -302,7 +302,7 @@ class Abstract_Workflow_Backend
      * @param   array $row The array of data that was inserted into the database.
      * @param   boolean $closing If we are closing the issue.
      */
-    public function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
+    public function handleNewEmail($prj_id, $issue_id, $message, $row = null, $closing = false)
     {
     }
 
@@ -354,7 +354,7 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
      * @param   string $email The email address to subscribe to subscribe (if this is not a real user).
-     * @param   array $types The action types.
+     * @param   array $actions The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
      */
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
@@ -386,7 +386,7 @@ class Abstract_Workflow_Backend
      * @param   string $type The type of notification to send.
      * @return  boolean
      */
-    public function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    public function shouldEmailAddress($prj_id, $address, $issue_id = null, $type = null)
     {
         return true;
     }
@@ -410,7 +410,7 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue
-     * @param   string The email address that is trying to send an email
+     * @param   string $email The email address that is trying to send an email
      * @return  boolean true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used.
      */
@@ -445,7 +445,7 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called at the begining of the email download process. If it returns true, the
+     * Called at the beginning of the email download process. If it returns true, the
      * rest of the email code will not be executed.
      *
      * @param   integer $prj_id The project ID
@@ -499,6 +499,7 @@ class Abstract_Workflow_Backend
      * @param   string  $subject The subject of this message.
      * @param   array   $to An array of to addresses
      * @param   array   $cc An array of cc addresses
+     * @return int
      */
     public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
