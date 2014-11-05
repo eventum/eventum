@@ -42,9 +42,6 @@ if (@$_POST["cat"] == "update") {
     $setup = Setup::load();
 
     $setup["scm_integration"] = $_POST["scm_integration"];
-    $setup["checkout_url"] = isset($_POST["checkout_url"]) ? $_POST["checkout_url"] : null;
-    $setup["diff_url"] = isset($_POST["diff_url"]) ? $_POST["diff_url"] : null;
-    $setup["scm_log_url"] = isset($_POST["scm_log_url"]) ? $_POST["scm_log_url"] : null;;
 
     $res = Setup::save($setup);
     $tpl->assign("result", $res);

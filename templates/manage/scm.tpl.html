@@ -10,50 +10,10 @@ function validateForm()
         alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
         return false;
     }
-    if (Eventum.getField('scm_integration').first().is(':checked')) {
-        if (Validation.isFieldWhitespace('checkout_url')) {
-            Validation.selectField('checkout_url');
-            alert('{/literal}{t escape=js}Please enter the checkout page URL for your SCM integration tool.{/t}{literal}');
-            return false;
-        }
-        if (Validation.isFieldWhitespace('diff_url')) {
-            Validation.selectField('diff_url');
-            alert('{/literal}{t escape=js}Please enter the diff page URL for your SCM integration tool.{/t}{literal}');
-            return false;
-        }
-        if (Validation.isFieldWhitespace('scm_log_url')) {
-            Validation.selectField('scm_log_url');
-            alert('{/literal}{t escape=js}Please enter the log page URL for your SCM integration tool.{/t}{literal}');
-            return false;
-        }
-    }
     return true;
-}
-function disableSCMFields(bool)
-{
-    var field, bgcolor;
-    if (bool) {
-        bgcolor = '#CCCCCC';
-    } else {
-        bgcolor = '#FFFFFF';
-    }
-
-    Eventum.getField('checkout_url').attr('disabled', bool).css('backgroundColor', bgcolor);
-    Eventum.getField('diff_url').attr('disabled', bool).css('backgroundColor', bgcolor);
-    Eventum.getField('scm_log_url').attr('disabled', bool).css('backgroundColor', bgcolor);
-}
-function setDisabledFields()
-{
-    if (Eventum.getField('scm_integration').first().is(':checked')) {
-        disableSCMFields(false);
-    } else {
-        disableSCMFields(true);
-    }
 }
 
 $().ready(function() {
-    $('input[name=scm_integration]').change(setDisabledFields);
-    setDisabledFields();
     $('#general_setup_form').submit(validateForm);
 });
 //-->
@@ -80,36 +40,9 @@ $().ready(function() {
                 <input type="radio" name="scm_integration" value="enabled" {if $setup.scm_integration|default:'' == 'enabled'}checked{/if}>
                 {t}Enabled{/t}</label>&nbsp;&nbsp;
               <label>
-                <input type="radio" name="scm_integration" value="disabled" {if not $setup.scm_integration|default:'' == 'enabled'}checked{/if}>
+                <input type="radio" name="scm_integration" value="disabled" {if $setup.scm_integration|default:'' != 'enabled'}checked{/if}>
                 {t}Disabled{/t}
               </label>
-            </td>
-          </tr>
-          <tr>
-            <td width="100" align="right">
-              {t}Checkout Page{/t}:&nbsp;
-            </td>
-            <td width="80%">
-              <input type="text" name="checkout_url" size="50" value="{$setup.checkout_url|escape:"html"|default:''}">
-              {include file="error_icon.tpl.html" field="checkout_url"}
-            </td>
-          </tr>
-          <tr>
-            <td width="100" align="right">
-              {t}Diff Page{/t}:&nbsp;
-            </td>
-            <td width="80%">
-              <input type="text" name="diff_url" size="50" value="{$setup.diff_url|escape:"html"|default:''}">
-              {include file="error_icon.tpl.html" field="diff_url"}
-            </td>
-          </tr>
-          <tr>
-            <td width="100" align="right">
-              {t}Log Page{/t}:&nbsp;
-            </td>
-            <td width="80%">
-              <input type="text" name="scm_log_url" size="50" value="{$setup.scm_log_url|escape:"html"|default:''}">
-              {include file="error_icon.tpl.html" field="scm_log_url"}
             </td>
           </tr>
         </table>
