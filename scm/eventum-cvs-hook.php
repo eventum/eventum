@@ -32,6 +32,8 @@
 // URL to your Eventum installation.
 // https is supported transparently by PHP 5 if you have openssl module enabled.
 $eventum_url = 'http://eventum.example.com/';
+// SCM repository name. Needed if multiple repositories configured
+$scm_name = 'cvs';
 
 //
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
@@ -112,9 +114,10 @@ if (count($matches[1]) > 0) {
     $commit_msg = rawurlencode($commit_msg);
     $cvs_module = rawurlencode($cvs_module);
     $username = rawurlencode($username);
+    $scm_name = rawurlencode($scm_name);
 
     // build the GET url to use
-    $ping_url = $eventum_url. "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
+    $ping_url = $eventum_url. "scm_ping.php?scm_name=$scm_name&module=$cvs_module&username=$username&commit_msg=$commit_msg";
     foreach ($matches[1] as $issue_id) {
         $ping_url .= "&issue[]=$issue_id";
     }

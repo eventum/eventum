@@ -457,23 +457,26 @@ class Workflow
     }
 
     /**
-     * Called when SCM checkin is associated.
+     * Called when SCM checkins are associated.
      *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
-     * @param   string $module The SCM module commit was made.
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
      */
-    public static function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public static function handleSCMCheckins($prj_id, $issue_id, $files, $username, $commit_msg)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend =& self::_getBackend($prj_id);
 
-        return $backend->handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
+        $backend = self::_getBackend($prj_id);
+
+        /**
+         * @deprecated. The $module parameter is deprecated. always NULL, use 'module' from $file object
+         */
+        $backend->handleSCMCheckins($prj_id, $issue_id, null, $files, $username, $commit_msg);
     }
 
     /**
