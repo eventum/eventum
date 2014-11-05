@@ -985,12 +985,8 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             self::quit($result->faultString());
         }
         $notes = XML_RPC_decode($result->value());
-        // since xml-rpc has issues, we have to base64 decode everything
         $nnotes = count($notes);
         for ($i = 0; $i < $nnotes; $i++) {
-            foreach ($notes[$i] as $key => $val) {
-                $notes[$i][$key] = base64_decode($val);
-            }
             if ($notes[$i]["has_blocked_message"] == 1) {
                 $notes[$i]["not_title"] = '(BLOCKED) ' . $notes[$i]["not_title"];
             }
@@ -1061,13 +1057,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             self::quit($result->faultString());
         }
         $note = XML_RPC_decode($result->value());
-        // since xml-rpc has issues, we have to base64 decode everything
-        if (is_array($note)) {
-            foreach ($note as $key => $val) {
-                $note[$key] = base64_decode($val);
-            }
-        }
-
         return $note;
     }
 
@@ -1130,14 +1119,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             new XML_RPC_Value($week, "int"),
             new XML_RPC_Value($start_date, "string"),
             new XML_RPC_Value($end_date, "string"),
-            new XML_RPC_Value($separate_closed ? 1 : 0, 'int'),
+            new XML_RPC_Value($separate_closed, 'boolean'),
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             self::quit($result->faultString());
         } else {
             $ret = XML_RPC_decode($result->value());
-            echo base64_decode($ret);
+            echo $ret;
         }
     }
 
@@ -1186,9 +1175,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         // since xml-rpc has issues, we have to base64 decode everything
         $ndrafts = count($drafts);
         for ($i = 0; $i < $ndrafts; $i++) {
-            foreach ($drafts[$i] as $key => $val) {
-                $drafts[$i][$key] = base64_decode($val);
-            }
             $drafts[$i]["id"] = ($i+1);
         }
         if (count($drafts) < 1) {
@@ -1264,12 +1250,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             self::quit($result->faultString());
         }
         $draft = XML_RPC_decode($result->value());
-        // since xml-rpc has issues, we have to base64 decode everything
-        if (is_array($draft)) {
-            foreach ($draft as $key => $val) {
-                $draft[$key] = base64_decode($val);
-            }
-        }
 
         return $draft;
     }
