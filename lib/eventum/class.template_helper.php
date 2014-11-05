@@ -199,7 +199,7 @@ class Template_Helper
                 'current_full_name' =>  $info['usr_full_name'],
                 'current_email'     =>  $info['usr_email'],
                 'current_user_id'   =>  $usr_id,
-                'current_user_timestamp'    =>  time(),
+                'current_user_datetime' =>  Date_Helper::getDateTime()->format('Y-m-d H:i:s'),
                 'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
                 'is_anon_user'  =>  Auth::isAnonUser(),
                 'is_current_user_partner'   =>  !empty($info['usr_par_code']),
