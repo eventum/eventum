@@ -358,7 +358,6 @@ class Command_Line
             self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
-        $details = CLI_Misc::base64_decode($details);
 
         // check if the file already exists
         if (@file_exists($details['iaf_filename'])) {
@@ -432,8 +431,6 @@ class Command_Line
             self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
-
-        $details = CLI_Misc::base64_decode($details);
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
@@ -904,12 +901,8 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             echo "No emails for this issue\n";
             exit;
         }
-        // since xml-rpc has issues, we have to base64 decode everything
         $nemails = count($emails);
         for ($i = 0; $i < $nemails; $i++) {
-            foreach ($emails[$i] as $key => $val) {
-                $emails[$i][$key] = base64_decode($val);
-            }
             $emails[$i]["id"] = $i;
         }
         $format = array(
@@ -958,8 +951,6 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             self::quit($result->faultString());
         }
         $email = XML_RPC_decode($result->value());
-        // since xml-rpc has issues, we have to base64 decode everything
-        $email = CLI_Misc::base64_decode($email);
         if ($display_full) {
             echo $email["seb_full_email"];
         } else {
