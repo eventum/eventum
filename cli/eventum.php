@@ -29,10 +29,9 @@
 // +----------------------------------------------------------------------+
 
 define('APP_PATH', dirname(__FILE__) . '/..');
-define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 require_once APP_PATH . '/vendor/autoload-dist.php';
 
-list($user_email, $user_password, $url, $port, $relative_url) = Command_Line::getEnvironmentSettings();
+list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {
     $port = 80;
 }
@@ -49,9 +48,10 @@ if (($argv[1] == '--help') || ($argv[1] == 'help')) {
 }
 
 $should_confirm = Command_Line::isSafeExecution();
-
-$client = new XML_RPC_Client($relative_url . "/rpc/xmlrpc.php", $url, $port);
-//$client->setDebug(1);
+$scheme = $port == 443 ? 'https' : 'http';
+$client = new Eventum_RPC("$scheme://$hostname$relative_url/rpc/xmlrpc.php");
+//$client->setCredentials($user_email, $user_password);
+//$client->setDebug(true);
 
 // need to process authentication first
 Command_Line::checkAuthentication($client, $user_email, $user_password);
