@@ -377,7 +377,7 @@ class Access
     public static function canCreateIssue($usr_id)
     {
         $prj_id = Auth::getCurrentProject();
-        if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Reporter')) {
+        if (User::getRoleByUser($usr_id, $prj_id) < User::getRoleID('Reporter')) {
             return false;
         }
         if (User::isPartner($usr_id)) {
