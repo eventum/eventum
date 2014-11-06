@@ -17,6 +17,8 @@ Eventum Issue Tracking System
 - Admin/users: show user aliases in the listing (Elan Ruusamäe)
 - Improved LDAP login with email aliases (Elan Ruusamäe)
 - Added page class to body tag of popup (Bryan Alsdorf)
+- SCM rewrite to support multiple SCM, improvements to svn hook (Elan Ruusamäe, GH#15)
+- Rework of XMLRPC code (Elan Ruusamäe, GH#17)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
