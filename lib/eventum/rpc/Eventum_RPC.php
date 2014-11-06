@@ -33,22 +33,6 @@ class Eventum_RPC_Exception extends Exception
 class Eventum_RPC
 {
     /**
-     * A user name for accessing the RPC server
-     *
-     * @var string
-     * @see XML_RPC_Client::setCredentials()
-     */
-    private $username;
-
-    /**
-     * A password for accessing the RPC server
-     *
-     * @var string
-     * @see XML_RPC_Client::setCredentials()
-     */
-    private $password;
-
-    /**
      * The URL of Eventum installation to send requests to
      *
      * @var string
@@ -56,35 +40,40 @@ class Eventum_RPC
     private $url;
 
     /**
-     * Set username and password properties for connecting to the RPC server
-     *
-     * @param string $u the user name
-     * @param string $p the password
-     *
-     * @return void
-     *
-     * @see XML_RPC_Client::$username, XML_RPC_Client::$password
+     * @var XML_RPC_Client
      */
-    public function setCredentials($u, $p)
-    {
-        $this->username = $u;
-        $this->password = $p;
-    }
+    private $client;
 
-    public function setURL($url)
+    public function __construct($url)
     {
         $this->url = $url;
+        $this->client = $this->getClient();
     }
 
-    private $client;
-    private $debug = 0;
+    /**
+     * Change the current debug mode
+     *
+     * @param int $debug  where 1 = on, 0 = off
+     */
+    public function setDebug($debug)
+    {
+        $this->client->setDebug($debug);
+    }
+
+    /**
+     * Set username and password properties for connecting to the RPC server
+     *
+     * @param string $username the user name
+     * @param string $password the password
+     * @see XML_RPC_Client::$username, XML_RPC_Client::$password
+     */
+    public function setCredentials($username, $password)
+    {
+        $this->client->setCredentials($username, $password);
+    }
 
     private function getClient()
     {
-        if (isset($this->client)) {
-            return $this->client;
-        }
-
         $data = parse_url($this->url);
         if (!isset($data['port'])) {
             $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
@@ -94,22 +83,12 @@ class Eventum_RPC
         }
         $data['path'] .= '/rpc/xmlrpc.php';
 
-        $this->client = new XML_RPC_Client($data['path'], $data['host'], $data['port']);
-        $this->client->setDebug($this->debug);
-
-        return $this->client;
-    }
-
-    public function setDebug($debug)
-    {
-        $this->debug = $debug;
+        return new XML_RPC_Client($data['path'], $data['host'], $data['port']);
     }
 
     public function __call($method, $args)
     {
         $params = array();
-        $params[] = new XML_RPC_Value($this->username, 'string');
-        $params[] = new XML_RPC_Value($this->password, 'string');
         foreach ($args as $arg) {
             $type = gettype($arg);
             if ($type == 'integer') {
@@ -119,21 +98,17 @@ class Eventum_RPC
         }
         $msg = new XML_RPC_Message($method, $params);
 
-        $client = $this->getClient();
-        $result = $client->send($msg);
+        $result = $this->client->send($msg);
 
         if ($result === 0) {
-            throw new Eventum_RPC_Exception($client->errstr);
+            throw new Eventum_RPC_Exception($this->client->errstr);
         }
         if (is_object($result) && $result->faultCode()) {
             throw new Eventum_RPC_Exception($result->faultString());
         }
 
-        $details = XML_RPC_decode($result->value());
-        foreach ($details as $k => $v) {
-            $details[$k] = base64_decode($v);
-        }
+        $value = XML_RPC_decode($result->value());
 
-        return $details;
+        return $value;
     }
 }
