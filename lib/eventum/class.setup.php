@@ -59,7 +59,7 @@ class Setup
             }
 
             // merge with defaults
-            $setup = self::array_extend(self::getDefaults(), $setup);
+            $setup = Misc::array_extend(self::getDefaults(), $setup);
         }
 
         return $setup;
@@ -124,25 +124,5 @@ class Setup
         );
 
         return $defaults;
-    }
-
-    /*
-     * Merge two arrays so that $a contains all keys that $b would
-     */
-    public static function array_extend($a, $b)
-    {
-        foreach ($b as $k => $v) {
-            if (is_array($v)) {
-                if (!isset($a[$k])) {
-                    $a[$k] = $v;
-                } else {
-                    $a[$k] = self::array_extend($a[$k], $v);
-                }
-            } else {
-                $a[$k] = $v;
-            }
-        }
-
-        return $a;
     }
 }

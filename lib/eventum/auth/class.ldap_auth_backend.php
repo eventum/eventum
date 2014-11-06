@@ -358,7 +358,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             }
 
             // merge with defaults
-            $setup = Setup::array_extend(self::getDefaults(), $setup);
+            $setup = Misc::array_extend(self::getDefaults(), $setup);
         }
 
         return $setup;

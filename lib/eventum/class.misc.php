@@ -34,9 +34,6 @@
  * Class to hold methods and algorythms that woudln't fit in other classes, such
  * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Misc
@@ -101,6 +98,26 @@ class Misc
         }
 
         return $result;
+    }
+
+    /*
+     * Merge two arrays so that $a contains all keys that $b would
+     */
+    public static function array_extend($a, $b)
+    {
+        foreach ($b as $k => $v) {
+            if (is_array($v)) {
+                if (!isset($a[$k])) {
+                    $a[$k] = $v;
+                } else {
+                    $a[$k] = self::array_extend($a[$k], $v);
+                }
+            } else {
+                $a[$k] = $v;
+            }
+        }
+
+        return $a;
     }
 
     /**
