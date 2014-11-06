@@ -1014,7 +1014,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to send
-     * @return  array An array containg draft details.
+     * @return  array An array containing draft details.
      */
     public function sendDraft($client, $auth, $issue_id, $draft_id)
     {
