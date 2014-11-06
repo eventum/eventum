@@ -2522,7 +2522,7 @@ class Issue
                     continue;
                 }
                 // TRANSLATORS: %1 = label, %2 = date diff
-                $desc = ev_gettext('%1$s: %$2s ago');
+                $desc = ev_gettext('%1$s: %2$s ago');
                 $target_date = $result[$i][$date_field_name];
                 if (empty($target_date)) {
                     $result[$i]['status_change_date'] = '';
