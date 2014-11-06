@@ -7,7 +7,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     private $login = 'admin@example.com';
     private $password = 'admin';
 
-    /** @var XML_RPC_Client */
+    /** @var RemoteApi */
     private static $client;
 
     public static function setupBeforeClass()
@@ -20,45 +20,11 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         /*
          * 'tests.xmlrpc_url' => 'http://localhost/eventum/rpc/xmlrpc.php',
          */
-        $url = $setup['tests.xmlrpc_url'];
 
-        $data = parse_url($url);
-        if (!isset($data['port'])) {
-            $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
-        }
-        if (!isset($data['path'])) {
-            $data['path'] = '';
-        }
-
-        $client = new XML_RPC_Client($data['path'], $data['host'], $data['port']);
+        $client = new Eventum_RPC($setup['tests.xmlrpc_url']);
         $client->setDebug(self::DEBUG);
 
         self::$client = $client;
-    }
-
-    private static function call($method, $args)
-    {
-        $params = array();
-        foreach ($args as $arg) {
-            $type = gettype($arg);
-            if ($type == 'integer') {
-                $type = 'int';
-            }
-            $params[] = new XML_RPC_Value($arg, $type);
-        }
-        $msg = new XML_RPC_Message($method, $params);
-        $result = self::$client->send($msg);
-
-        if ($result === 0) {
-            throw new Exception(self::$client->errstr);
-        }
-        if (is_object($result) && $result->faultCode()) {
-            throw new Exception($result->faultString());
-        }
-
-        $value = XML_RPC_decode($result->value());
-
-        return $value;
     }
 
     /**
@@ -67,7 +33,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetDeveloperList()
     {
         $prj_id = 1;
-        $res = self::call('getDeveloperList', array($this->login, $this->password, $prj_id));
+        $res = self::$client->getDeveloperList($this->login, $this->password, $prj_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('Admin User', $res);
         $this->assertEquals('admin@example.com', $res['Admin User']);
@@ -79,7 +45,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetSimpleIssueDetails()
     {
         $issue_id = 1;
-        $res = self::call('getSimpleIssueDetails', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getSimpleIssueDetails($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('summary', $res);
         $this->assertArrayHasKey('customer', $res);
@@ -96,7 +62,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $prj_id = 1;
         $show_all_issues = true;
         $status = '';
-        $res = self::call('getOpenIssues', array($this->login, $this->password, $prj_id, $show_all_issues, $status));
+        $res = self::$client->getOpenIssues($this->login, $this->password, $prj_id, $show_all_issues, $status);
 
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('0', $res);
@@ -114,15 +80,15 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidLogin()
     {
-        $res = self::call('isValidLogin', array($this->login, $this->password));
+        $res = self::$client->isValidLogin($this->login, $this->password);
         $this->assertInternalType('string', $res);
         $this->assertEquals('yes', $res);
 
-        $res = self::call('isValidLogin', array($this->login . '1', $this->password));
+        $res = self::$client->isValidLogin($this->login . '1', $this->password);
         $this->assertInternalType('string', $res);
         $this->assertEquals('no', $res);
 
-        $res = self::call('isValidLogin', array($this->login . '1', $this->password . '1'));
+        $res = self::$client->isValidLogin($this->login . '1', $this->password . '1');
         $this->assertInternalType('string', $res);
         $this->assertEquals('no', $res);
     }
@@ -133,7 +99,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetUserAssignedProjects()
     {
         $only_customer_projects = false;
-        $res = self::call('getUserAssignedProjects', array($this->login, $this->password, $only_customer_projects));
+        $res = self::$client->getUserAssignedProjects($this->login, $this->password, $only_customer_projects);
         $exp = array(
             array(
                 'id'    => '1',
@@ -149,7 +115,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetIssueDetails()
     {
         $issue_id = 1;
-        $res = self::call('getIssueDetails', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getIssueDetails($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('iss_id', $res);
         $this->assertEquals(1, $res['iss_id']);
@@ -161,7 +127,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetTimeTrackingCategories()
     {
         $issue_id = 1;
-        $res = self::call('getTimeTrackingCategories', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getTimeTrackingCategories($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->assertContains('Tech-Support', $res);
     }
@@ -175,9 +141,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $cat_id = 1;
         $summary = __FUNCTION__;
         $time_spent = 10;
-        $res = self::call(
-            'recordTimeWorked', array($this->login, $this->password, $issue_id, $cat_id, $summary, $time_spent)
-        );
+        $res = self::$client->recordTimeWorked($this->login, $this->password, $issue_id, $cat_id, $summary, $time_spent);
 
         $this->assertEquals('OK', $res);
     }
@@ -189,7 +153,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $issue_id = 1;
         $new_status = 'implementation';
-        $res = self::call('setIssueStatus', array($this->login, $this->password, $issue_id, $new_status));
+        $res = self::$client->setIssueStatus($this->login, $this->password, $issue_id, $new_status);
 
         $this->assertEquals('OK', $res);
     }
@@ -202,7 +166,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $prj_id = 1;
         $developer = 'admin@example.com';
-        $res = self::call('assignIssue', array($this->login, $this->password, $issue_id, $prj_id, $developer));
+        $res = self::$client->assignIssue($this->login, $this->password, $issue_id, $prj_id, $developer);
 
         $this->assertEquals('OK', $res);
     }
@@ -215,7 +179,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $prj_id = 1;
         try {
-            $res = self::call('takeIssue', array($this->login, $this->password, $issue_id, $prj_id));
+            $res = self::$client->takeIssue($this->login, $this->password, $issue_id, $prj_id);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             // already assigned
@@ -231,9 +195,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $prj_id = 1;
         $new_replier = 'admin@example.com';
-        $res = self::call(
-            'addAuthorizedReplier', array($this->login, $this->password, $issue_id, $prj_id, $new_replier)
-        );
+        $res = self::$client->addAuthorizedReplier($this->login, $this->password, $issue_id, $prj_id, $new_replier);
 
         $this->assertEquals('OK', $res);
     }
@@ -246,7 +208,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
 
         try {
-            $res = self::call('getFileList', array($this->login, $this->password, $issue_id));
+            $res = self::$client->getFileList($this->login, $this->password, $issue_id);
 
             $this->assertInternalType('array', $res);
             $this->assertArrayHasKey('0', $res);
@@ -269,7 +231,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $file_id = 1;
 
-        $res = self::call('getFile', array($this->login, $this->password, $file_id));
+        $res = self::$client->getFile($this->login, $this->password, $file_id);
 
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('iat_id', $res);
@@ -287,7 +249,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $value = 'id';
 
         try {
-            $res = self::call('lookupCustomer', array($this->login, $this->password, $prj_id, $field, $value));
+            $res = self::$client->lookupCustomer($this->login, $this->password, $prj_id, $field, $value);
             $this->assertInternalType('string', $res);
         } catch (Exception $e) {
             $this->assertEquals("Customer Integration not enabled for project $prj_id", $e->getMessage());
@@ -307,10 +269,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $send_notification = false;
         $note = __FUNCTION__;
 
-        $res = self::call(
-            'closeIssue',
-            array($this->login, $this->password, $issue_id, $new_status, $resolution_id, $send_notification, $note)
-        );
+        $res = self::$client->closeIssue($this->login, $this->password, $issue_id, $new_status, $resolution_id, $send_notification, $note);
 
         $this->assertEquals('OK', $res);
     }
@@ -321,7 +280,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetClosedAbbreviationAssocList()
     {
         $prj_id = 1;
-        $res = self::call('getClosedAbbreviationAssocList', array($this->login, $this->password, $prj_id));
+        $res = self::$client->getClosedAbbreviationAssocList($this->login, $this->password, $prj_id);
         $exp = array(
             'REL' => 'released',
             'KIL' => 'killed',
@@ -336,7 +295,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $prj_id = 1;
         $show_closed = false;
-        $res = self::call('getAbbreviationAssocList', array($this->login, $this->password, $prj_id, $show_closed));
+        $res = self::$client->getAbbreviationAssocList($this->login, $this->password, $prj_id, $show_closed);
         $exp = array(
             'DSC' => 'discovery',
             'REQ' => 'requirements',
@@ -352,7 +311,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetEmailListing()
     {
         $issue_id = 1;
-        $res = self::call('getEmailListing', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getEmailListing($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('0', $res);
 
@@ -370,7 +329,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $emai_id = 1;
         try {
-            $res = self::call('getEmail', array($this->login, $this->password, $issue_id, $emai_id));
+            $res = self::$client->getEmail($this->login, $this->password, $issue_id, $emai_id);
         } catch (Exception $e) {
 
         }
@@ -383,7 +342,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetNoteListing()
     {
         $issue_id = 1;
-        $res = self::call('getNoteListing', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getNoteListing($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->arrayHasKey('0', $res);
 
@@ -400,7 +359,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $issue_id = 1;
         $note_id = 1;
-        $res = self::call('getNote', array($this->login, $this->password, $issue_id, $note_id));
+        $res = self::$client->getNote($this->login, $this->password, $issue_id, $note_id);
         $this->assertInternalType('array', $res);
 
         $this->assertArrayHasKey('not_id', $res);
@@ -418,9 +377,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $target = 'email';
         $authorize_sender = false;
         try {
-            $res = self::call(
-                'convertNote', array($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender)
-            );
+            $res = self::$client->convertNote($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender);
         } catch (Exception $e) {
 
         }
@@ -432,7 +389,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testMayChangeIssue()
     {
         $issue_id = 1;
-        $res = self::call('mayChangeIssue', array($this->login, $this->password, $issue_id));
+        $res = self::$client->mayChangeIssue($this->login, $this->password, $issue_id);
         $this->assertEquals('no', $res);
     }
 
@@ -445,9 +402,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $start = "";
         $end = "";
         $separate_closed = false;
-        $res = self::call(
-            'getWeeklyReport', array($this->login, $this->password, $week, $start, $end, $separate_closed)
-        );
+        $res = self::$client->getWeeklyReport($this->login, $this->password, $week, $start, $end, $separate_closed);
         $this->assertRegExp('/Admin User.*Weekly Report/', $res);
     }
 
@@ -456,7 +411,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResolutionAssocList()
     {
-        $res = self::call('getResolutionAssocList', array());
+        $res = self::$client->getResolutionAssocList();
         $exp = array(
             2 => 'fixed',
             4 => 'unable to reproduce',
@@ -464,7 +419,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
             6 => 'duplicate',
             7 => 'not a bug',
             8 => 'suspended',
-            9 => 'won\'t fix',
+            9 => "won't fix",
         );
         $this->assertEquals($exp, $res);
     }
@@ -475,7 +430,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testTimeClock()
     {
         $action = 'out';
-        $res = self::call('timeClock', array($this->login, $this->password, $action));
+        $res = self::$client->timeClock($this->login, $this->password, $action);
         $this->assertEquals("admin@example.com successfully clocked out.\n", $res);
     }
 
@@ -485,7 +440,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testGetDraftListing()
     {
         $issue_id = 1;
-        $res = self::call('getDraftListing', array($this->login, $this->password, $issue_id));
+        $res = self::$client->getDraftListing($this->login, $this->password, $issue_id);
         $this->assertInternalType('array', $res);
         $this->arrayHasKey('0', $res);
 
@@ -502,7 +457,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     {
         $issue_id = 1;
         $draft_id = 1;
-        $res = self::call('getDraft', array($this->login, $this->password, $issue_id, $draft_id));
+        $res = self::$client->getDraft($this->login, $this->password, $issue_id, $draft_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('emd_id', $res);
         $this->assertArrayHasKey('emd_status', $res);
@@ -517,7 +472,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $draft_id = 1;
         try {
-            $res = self::call('sendDraft', array($this->login, $this->password, $issue_id, $draft_id));
+            $res = self::$client->sendDraft($this->login, $this->password, $issue_id, $draft_id);
         } catch (Exception $e) {
 
         }
@@ -531,7 +486,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $types = array();
         try {
-            $res = self::call('redeemIssue', array($this->login, $this->password, $issue_id, $types));
+            $res = self::$client->redeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             $this->assertEquals("No customer integration for issue #1", $e->getMessage());
@@ -546,7 +501,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $issue_id = 1;
         $types = array();
         try {
-            $res = self::call('unredeemIssue', array($this->login, $this->password, $issue_id, $types));
+            $res = self::$client->unredeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             $this->assertEquals("No customer integration for issue #1", $e->getMessage());
@@ -562,7 +517,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
         $redeemed_only = false;
 
         try {
-            $res = self::call('getIncidentTypes', array($this->login, $this->password, $issue_id, $redeemed_only));
+            $res = self::$client->getIncidentTypes($this->login, $this->password, $issue_id, $redeemed_only);
         } catch (Exception $e) {
             $this->assertEquals("No customer integration for issue #1", $e->getMessage());
         }
@@ -574,7 +529,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
     public function testLogCommand()
     {
         $command = 'hello world';
-        $res = self::call('logCommand', array($this->login, $this->password, $command));
+        $res = self::$client->logCommand($this->login, $this->password, $command);
         $this->assertEquals('OK', $res);
     }
 }
