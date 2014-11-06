@@ -7,8 +7,9 @@
     "finder": [
         {
             "name": [
-                "class.command_line.php",
-                "class.cli_misc.php"
+                "Eventum_RPC.php",
+                "class.cli_misc.php",
+                "class.command_line.php"
             ],
             "in": "lib/eventum"
         },
