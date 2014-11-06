@@ -379,7 +379,7 @@ class RemoteApi
 
     /**
      * @param int $issue_id
-     * @return string
+     * @return array
      * @access protected
      */
     public function getFileList($issue_id)
@@ -685,7 +685,7 @@ class RemoteApi
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getResolutionAssocList()
     {
@@ -881,7 +881,7 @@ class RemoteApi
     /**
      * @param int $issue_id
      * @param bool $redeemed_only
-     * @return string
+     * @return array
      * @access protected
      */
     public function getIncidentTypes($issue_id, $redeemed_only)

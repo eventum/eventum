@@ -36,18 +36,13 @@ class Command_Line
      * Prompts the user for a resolution option, and returns the ID of the
      * selected one.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @return  integer The selected resolution id
      */
-    public function promptResolutionSelection(&$rpc_conn)
+    public function promptResolutionSelection($client)
     {
-        $msg = new XML_RPC_Message("getResolutionAssocList");
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $list = XML_RPC_decode($result->value());
+        $list = $client->getResolutionAssocList();
+
         if (count($list) > 1) {
             // need to ask which status this person wants to use
             $prompt = "Which resolution do you want to use in this action?\n";
@@ -76,21 +71,15 @@ class Command_Line
      * Prompts the user for a status option, and returns the title of the
      * selected one.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $prj_id The project ID
      * @return  string The selected status title
      */
-    public function promptStatusSelection(&$rpc_conn, $auth, $prj_id)
+    public function promptStatusSelection($client, $auth, $prj_id)
     {
-        $msg = new XML_RPC_Message("getClosedAbbreviationAssocList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($prj_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $list = XML_RPC_decode($result->value());
+        $list = $client->getClosedAbbreviationAssocList($auth[0], $auth[1], $prj_id);
+
         if (count($list) > 1) {
             // need to ask which status this person wants to use
             $prompt = "Which status do you want to use in this action?\n";
@@ -101,6 +90,7 @@ class Command_Line
             $status = CLI_Misc::prompt($prompt, false);
             $lowercase_keys = array_map('strtolower', array_keys($list));
             $lowercase_values = array_map('strtolower', array_values($list));
+
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
                     (!in_array(strtolower($status), $lowercase_values)))  {
                 self::quit("Entered status doesn't match any in the list available to you");
@@ -122,18 +112,17 @@ class Command_Line
     /**
      * Marks an issue as closed.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function closeIssue(&$rpc_conn, $auth, $issue_id)
+    public static function closeIssue($client, $auth, $issue_id)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
         // prompt for status selection (accept abbreviations)
-        $new_status = self::promptStatusSelection($rpc_conn, $auth, $details['iss_prj_id']);
+        $new_status = self::promptStatusSelection($client, $auth, $details['iss_prj_id']);
         // check if the issue already is set to the new status
         if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
                 (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
@@ -141,7 +130,7 @@ class Command_Line
         }
 
         // prompt for status selection (accept abbreviations)
-        $resolution_id = self::promptResolutionSelection($rpc_conn);
+        $resolution_id = self::promptResolutionSelection($client);
 
         // ask whether to send a notification email about this action or not (defaults to yes)
         $msg = "Would you like to send a notification email about this issue being closed? [y/n]";
@@ -156,22 +145,11 @@ class Command_Line
         $prompt = "Please enter a reason for closing this issue (one line only)";
         $note = CLI_Misc::prompt($prompt, false);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($new_status),
-            new XML_RPC_Value($resolution_id, 'int'),
-            new XML_RPC_Value($send_notification, 'boolean'),
-            new XML_RPC_Value($note)
-        );
-        $msg = new XML_RPC_Message("closeIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
+        $result = $client->closeIssue($auth[0], $auth[1], $issue_id, $new_status, $resolution_id, $send_notification, $note);
+
         echo "OK - Issue #$issue_id successfully closed.\n";
-        if (XML_RPC_decode($result->value()) == 'INCIDENT') {
+
+        if ($result == 'INCIDENT') {
             echo "WARNING: This customer has incidents. Please redeem incidents by running 'eventum $issue_id redeem'\n";
         }
     }
@@ -179,57 +157,47 @@ class Command_Line
     /**
      * Looks up customer information given a set of search parameters.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $field The field in which to search
      * @param   string $value The value to search against
      */
-    public function lookupCustomer(&$rpc_conn, $auth, $field, $value)
+    public function lookupCustomer($client, $auth, $field, $value)
     {
-        $project_id = self::promptProjectSelection($rpc_conn, $auth, true);
+        $project_id = self::promptProjectSelection($client, $auth, true);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($project_id, 'int'),
-            new XML_RPC_Value($field),
-            new XML_RPC_Value($value)
-        );
-        $msg = new XML_RPC_Message("lookupCustomer", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $res = XML_RPC_decode($result->value());
+        $res = $client->lookupCustomer($auth[0], $auth[1], $project_id, $field, $value);
+
         if (!is_array($res)) {
             echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
-        } else {
-            if (count($res) == 0) {
-                echo "Sorry, no customers could be found.\n";
-            } else {
-                $out = array();
-                $out[] = "Customer Lookup Results:\n";
-                foreach ($res as $customer) {
-                    $out[] = '         Customer: ' . $customer['customer_name'];
-                    $out[] = '    Support Level: ' . $customer['support_level'];
-                    $out[] = '       Expiration: ' . $customer['expiration_date'];
-                    $out[] = '  Contract Status: ' . $customer['contract_status'];
-                    // contacts now...
-                    if (count($customer['contacts']) > 0) {
-                        $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'] .
-                                (empty($customer['contacts'][0]['phone']) ? '' : (' - ' . $customer['contacts'][0]['phone']));
-                        $ncontacts = count($customer['contacts']);
-                        for ($i = 1; $i < $ncontacts; $i++) {
-                            $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'] .
-                                (empty($customer['contacts'][$i]['phone']) ? '' : (' - ' . $customer['contacts'][$i]['phone']));
-                        }
-                    }
-                    $out[] = "\n";
-                }
-                echo implode("\n", $out);
-            }
+            return;
         }
+
+        if (count($res) == 0) {
+            echo "Sorry, no customers could be found.\n";
+            return;
+        }
+
+        $out = array();
+        $out[] = "Customer Lookup Results:\n";
+        foreach ($res as $customer) {
+            $out[] = '         Customer: ' . $customer['customer_name'];
+            $out[] = '    Support Level: ' . $customer['support_level'];
+            $out[] = '       Expiration: ' . $customer['expiration_date'];
+            $out[] = '  Contract Status: ' . $customer['contract_status'];
+            // contacts now...
+            if (count($customer['contacts']) > 0) {
+                $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'] .
+                        (empty($customer['contacts'][0]['phone']) ? '' : (' - ' . $customer['contacts'][0]['phone']));
+                $ncontacts = count($customer['contacts']);
+                for ($i = 1; $i < $ncontacts; $i++) {
+                    $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'] .
+                        (empty($customer['contacts'][$i]['phone']) ? '' : (' - ' . $customer['contacts'][$i]['phone']));
+                }
+            }
+            $out[] = "\n";
+        }
+        echo implode("\n", $out);
     }
 
     /**
@@ -283,22 +251,16 @@ class Command_Line
     /**
      * Prints out a list of attachments associated with the given issue ID.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function printFileList(&$rpc_conn, $auth, $issue_id)
+    public static function printFileList($client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $list = XML_RPC_decode($result->value());
+        $list = $client->getFileList($auth[0], $auth[1], $issue_id);
+
         $i = 1;
         foreach ($list as $attachment) {
             echo "--------------------------------------------------------------\n";
@@ -314,24 +276,19 @@ class Command_Line
     /**
      * Downloads a given attachment file number.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $file_number The attachment file number
      */
-    public static function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
+    public static function getFile($client, $auth, $issue_id, $file_number)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        // FIXME: $details not used
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
         // check if the provided file number is valid
-        $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                    new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $list = XML_RPC_decode($result->value());
+        $list = $client->getFileList($auth[0], $auth[1], $issue_id);
+
         $file_id = 0;
         $i = 1;
         foreach ($list as $attachment) {
@@ -347,25 +304,16 @@ class Command_Line
         }
 
         echo "Downloading file #$file_number from issue $issue_id...\n";
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($file_id, 'int')
-        );
-        $msg = new XML_RPC_Message("getFile", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
+
+        $details = $client->getFile($auth[0], $auth[1], $file_id);
 
         // check if the file already exists
-        if (@file_exists($details['iaf_filename'])) {
+        if (file_exists($details['iaf_filename'])) {
             $msg = "The requested file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
             $ret = CLI_Misc::prompt($msg, false);
             if (strtolower($ret) == 'y') {
-                @unlink($details['iaf_filename']);
-                if (@file_exists($details['iaf_filename'])) {
+                unlink($details['iaf_filename']);
+                if (file_exists($details['iaf_filename'])) {
                     self::quit("No permission to remove the file");
                 }
             } else {
@@ -382,30 +330,21 @@ class Command_Line
      * Checks whether the given user email address is assigned to the given
      * issue ID.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function checkIssueAssignment(&$rpc_conn, $auth, $issue_id)
+    public function checkIssueAssignment($client, $auth, $issue_id)
     {
         // check if the confirmation message was already displayed
         if (!$GLOBALS['_displayed_confirmation']) {
             // check if the current user is allowed to change the given issue
-            $msg = new XML_RPC_Message("mayChangeIssue", array(
-                new XML_RPC_Value($auth[0], 'string'),
-                new XML_RPC_Value($auth[1], 'string'),
-                new XML_RPC_Value($issue_id, 'int')
-            ));
-            $result = $rpc_conn->send($msg);
-            if ($result->faultCode()) {
-                self::quit($result->faultString());
-            }
-            $may_change_issue = XML_RPC_decode($result->value());
+            $may_change_issue = $client->mayChangeIssue($auth[0], $auth[1], $issue_id);
+
             // if not, show confirmation message
             if ($may_change_issue != 'yes') {
                 echo "WARNING: You are not currently assigned to issue #$issue_id.\n";
-                self::promptConfirmation($rpc_conn, $auth, $issue_id, false);
+                self::promptConfirmation($client, $auth, $issue_id, false);
             }
         }
     }
@@ -414,29 +353,20 @@ class Command_Line
      * Checks whether the given user email address is allowed to work with the
      * given issue ID.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
-     * @param   array The issue details, if the user is allowed to work on it
+     * @return array The issue details, if the user is allowed to work on it
      */
-    public function checkIssuePermissions(&$rpc_conn, $auth, $issue_id)
+    public function checkIssuePermissions($client, $auth, $issue_id)
     {
-        $projects = self::getUserAssignedProjects($rpc_conn, $auth);
-
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
+        $projects = self::getUserAssignedProjects($client, $auth);
+        $details = $client->getIssueDetails($auth[0], $auth[1], $issue_id);
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
-        $nprojects = count($projects);
-        for ($i = 0; $i < $nprojects; $i++) {
-            if ($details['iss_prj_id'] == $projects[$i]['id']) {
+        foreach ($projects as $i => $project) {
+            if ($details['iss_prj_id'] == $project['id']) {
                 $found = 1;
                 break;
             }
@@ -451,107 +381,83 @@ class Command_Line
     /**
      * Method used to assign an issue to the current user.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $developer The email address of the assignee
      */
-    public static function assignIssue(&$rpc_conn, $auth, $issue_id, $developer)
+    public static function assignIssue($client, $auth, $issue_id, $developer)
     {
         // check if the given email address is indeed an email
         if (!strstr($developer, '@')) {
             self::quit("The third argument for this command needs to be a valid email address");
         }
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($details['iss_prj_id'], 'int'),
-            new XML_RPC_Value($developer)
-        );
-        $msg = new XML_RPC_Message("assignIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+        $result = $client->assignIssue($auth[0], $auth[1], $issue_id, $details['iss_prj_id'], $developer);
+        if ($result == 'OK') {
+            echo "OK - Issue #$issue_id successfully assigned to '$developer'\n";
+        } else {
+            die("Not OK\n");
         }
-        echo "OK - Issue #$issue_id successfully assigned to '$developer'\n";
     }
 
     /**
      * Method used to assign an issue to the current user and set status to 'assigned'.
      * If issue is already assigned to someone else, this will fail.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function takeIssue(&$rpc_conn, $auth, $issue_id)
+    public function takeIssue($client, $auth, $issue_id)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($details['iss_prj_id'], 'int'),
-        );
-        $msg = new XML_RPC_Message("takeIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, $details['iss_prj_id']);
+        if ($result == 'OK') {
+            echo "OK - Issue #$issue_id successfully taken.\n";
+        } else {
+            die("Not OK\n");
         }
-        echo "OK - Issue #$issue_id successfully taken.\n";
     }
 
     /**
      * Method used to add an authorized replier
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $new_replier The email address of the assignee
      */
-    public static function addAuthorizedReplier(&$rpc_conn, $auth, $issue_id, $new_replier)
+    public static function addAuthorizedReplier($client, $auth, $issue_id, $new_replier)
     {
         // check if the given email address is indeed an email
         if (!strstr($new_replier, '@')) {
             self::quit("The third argument for this command needs to be a valid email address");
         }
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($details['iss_prj_id'], 'int'),
-            new XML_RPC_Value($new_replier)
-        );
-        $msg = new XML_RPC_Message("addAuthorizedReplier", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+        $result = $client->addAuthorizedReplier($auth[0], $auth[1], $issue_id, $details['iss_prj_id'], $new_replier);
+        if ($result == 'OK') {
+            echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
+        } else {
+            die("Not OK\n");
         }
-        echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
     }
 
     /**
      * Method used to change the status of an issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $new_status The new status title
      */
-    public static function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
+    public static function setIssueStatus(&$client, $auth, $issue_id, $new_status)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
         // check if the issue already is set to the new status
         if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
@@ -560,17 +466,8 @@ class Command_Line
         }
 
         // check if the given status is a valid option
-        $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($details['iss_prj_id'], 'int'),
-            new XML_RPC_Value(false, 'boolean'),
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $statuses = XML_RPC_decode($result->value());
+        $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], $details['iss_prj_id'], false);
+
         $titles = array_map('strtolower', array_values($statuses));
         $abbreviations = array_map('strtolower', array_keys($statuses));
         if ((!in_array(strtolower($new_status), $titles)) &&
@@ -583,46 +480,30 @@ class Command_Line
             $index = array_search(strtolower($new_status), $abbreviations);
             $new_status = $titles[$index];
         }
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($new_status)
-        );
-        $msg = new XML_RPC_Message("setIssueStatus", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+
+        $result = $client->setIssueStatus($auth[0], $auth[1], $issue_id, $new_status);
+        if ($result == 'OK') {
+            echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";
+        } else {
+            die("Not OK\n");
         }
-        echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";
     }
 
     /**
      * Method used to add a time tracking entry to an existing issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $time_spent The time spent in minutes
      */
-    public static function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
+    public static function addTimeEntry($client, $auth, $issue_id, $time_spent)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
         // list the time tracking categories
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-        );
-        $msg = new XML_RPC_Message("getTimeTrackingCategories", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $cats = XML_RPC_decode($result->value());
+        $cats = $client->getTimeTrackingCategories($auth[0], $auth[1], $issue_id);
 
         $prompt = "Which time tracking category would you like to associate with this time entry?\n";
         foreach ($cats as $id => $title) {
@@ -637,33 +518,24 @@ class Command_Line
         $prompt = "Please enter a quick summary of what you worked on";
         $summary = CLI_Misc::prompt($prompt, false);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($cat_id, 'int'),
-            new XML_RPC_Value($summary),
-            new XML_RPC_Value($time_spent, 'int')
-        );
-        $msg = new XML_RPC_Message("recordTimeWorked", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+        $result = $client->recordTimeWorked($auth[0], $auth[1], $issue_id, $cat_id, $summary, $time_spent);
+        if ($result == 'OK') {
+            echo "OK - Added time tracking entry to issue #$issue_id\n";
+        } else {
+            die("Not OK\n");
         }
-        echo "OK - Added time tracking entry to issue #$issue_id\n";
     }
 
     /**
      * Method used to print the current details for a given issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function printIssueDetails(&$rpc_conn, $auth, $issue_id)
+    public static function printIssueDetails($client, $auth, $issue_id)
     {
-        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
         $msg = '';
         if (!empty($details["quarantine"]["iqu_status"])) {
@@ -697,29 +569,19 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Method used to print the list of open issues.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $show_all_issues Whether to show all open issues or just the ones assigned to the current user
      * @param   string $status The status that should be used to restrict the results
      */
-    public function printOpenIssues(&$rpc_conn, $auth, $show_all_issues, $status)
+    public function printOpenIssues($client, $auth, $show_all_issues, $status)
     {
-        $project_id = self::promptProjectSelection($rpc_conn, $auth);
+        $project_id = self::promptProjectSelection($client, $auth);
         // check the status option
         // check if the given status is a valid option
         if (!empty($status)) {
-            $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
-                new XML_RPC_Value($auth[0], 'string'),
-                new XML_RPC_Value($auth[1], 'string'),
-                new XML_RPC_Value($project_id, 'int'),
-                new XML_RPC_Value(true, 'boolean'),
-            ));
-            $result = $rpc_conn->send($msg);
-            if ($result->faultCode()) {
-                self::quit($result->faultString());
-            }
-            $statuses = XML_RPC_decode($result->value());
+            $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
+
             $titles = array_map('strtolower', array_values($statuses));
             $abbreviations = array_map('strtolower', array_keys($statuses));
             if ((!in_array(strtolower($status), $titles)) &&
@@ -732,23 +594,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             }
         }
 
-        $msg = new XML_RPC_Message("getOpenIssues", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($project_id, 'int'),
-            new XML_RPC_Value($show_all_issues, 'boolean'),
-            new XML_RPC_Value($status)
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $issues = XML_RPC_decode($result->value());
+        $issues = $client->getOpenIssues($auth[0], $auth[1], $project_id, $show_all_issues, $status);
+
         if (!empty($status)) {
             echo "The following issues are set to status '$status':\n";
         } else {
             echo "The following issues are still open:\n";
         }
+
         foreach ($issues as $issue) {
             echo "- #" . $issue['issue_id'] . " - " . $issue['summary'] . " (" . $issue['status'] . ")";
             if (!empty($issue['assigned_users'])) {
@@ -763,40 +616,30 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Method used to get the list of projects assigned to a given email address.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    public function getUserAssignedProjects(&$rpc_conn, $auth, $only_customer_projects = false)
+    public function getUserAssignedProjects($client, $auth, $only_customer_projects = false)
     {
-        $msg = new XML_RPC_Message("getUserAssignedProjects", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($only_customer_projects, 'boolean')
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
+        $result = $client->getUserAssignedProjects($auth[0], $auth[1], $only_customer_projects);
 
-        return XML_RPC_decode($result->value());
+        return $result;
     }
 
     /**
      * Method used to prompt the current user to select a project.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  integer The project ID
      */
-    public function promptProjectSelection(&$rpc_conn, $auth, $only_customer_projects = false)
+    public function promptProjectSelection($client, $auth, $only_customer_projects = false)
     {
         // list the projects that this user is assigned to
-        $projects = self::getUserAssignedProjects($rpc_conn, $auth, $only_customer_projects);
+        $projects = self::getUserAssignedProjects($client, $auth, $only_customer_projects);
 
         if (count($projects) > 1) {
             // need to ask which project this person is asking about
@@ -828,24 +671,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * Method used to print the available statuses associated with the
      * currently selected project.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      */
-    public function printStatusList(&$rpc_conn, $auth)
+    public function printStatusList($client, $auth)
     {
-        $project_id = self::promptProjectSelection($rpc_conn, $auth);
-        $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($project_id, 'int'),
-            new XML_RPC_Value(true, 'boolean'),
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $items = XML_RPC_decode($result->value());
+        $project_id = self::promptProjectSelection($client, $auth);
+        $items = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
+
         echo "Available Statuses:\n";
         foreach ($items as $abbreviation => $title) {
             echo "$abbreviation => $title\n";
@@ -855,23 +688,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Method used to print the list of developers.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
-     * @param   string $email The email address of the current user
+     * @param   RemoteApi $client The connection resource
+     * @param   array $auth Array of authentication information (email, password)
      */
-    public function printDeveloperList(&$rpc_conn, $auth)
+    public function printDeveloperList($client, $auth)
     {
-        $project_id = self::promptProjectSelection($rpc_conn, $auth);
-        $msg = new XML_RPC_Message("getDeveloperList", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($project_id, "int")
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $developers = XML_RPC_decode($result->value());
+        $project_id = self::promptProjectSelection($client, $auth);
+        $developers = $client->getDeveloperList($auth[0], $auth[1], $project_id);
+
         echo "Available Developers:\n";
         foreach ($developers as $name => $email) {
             echo "-> $name - $email\n";
@@ -881,30 +705,25 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Method used to list emails for a given issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function listEmails(&$rpc_conn, $auth, $issue_id)
+    public static function listEmails(&$client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $msg = new XML_RPC_Message("getEmailListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $emails = XML_RPC_decode($result->value());
+        $emails = $client->getEmailListing($auth[0], $auth[1], $issue_id);
+
         if (!is_array($emails) || count($emails) < 1) {
             echo "No emails for this issue\n";
             exit;
         }
-        $nemails = count($emails);
-        for ($i = 0; $i < $nemails; $i++) {
-            $emails[$i]["id"] = $i;
+
+        foreach ($emails as $id => &$email) {
+            $email["id"] = $id;
         }
+
         $format = array(
             "id" => array(
                 "width" => 3,
@@ -927,30 +746,25 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 "title" => "Subject"
             )
         );
+
         self::printTable($format, $emails);
     }
 
     /**
      * Method to show the contents of an email.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $email_id The sequential id of the email to view
      * @param   boolean $display_full If the full email should be displayed.
      */
-    public static function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
+    public static function printEmail($client, $auth, $issue_id, $email_id, $display_full)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $msg = new XML_RPC_Message("getEmail", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                    new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($email_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $email = XML_RPC_decode($result->value());
+        $email = $client->getEmail($auth[0], $auth[1], $issue_id, $email_id);
+
         if ($display_full) {
             echo $email["seb_full_email"];
         } else {
@@ -969,33 +783,28 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Method used to list notes for a given issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function listNotes(&$rpc_conn, $auth, $issue_id)
+    public static function listNotes($client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $msg = new XML_RPC_Message("getNoteListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $notes = XML_RPC_decode($result->value());
-        $nnotes = count($notes);
-        for ($i = 0; $i < $nnotes; $i++) {
-            if ($notes[$i]["has_blocked_message"] == 1) {
-                $notes[$i]["not_title"] = '(BLOCKED) ' . $notes[$i]["not_title"];
+        $notes = $client->getNoteListing($auth[0], $auth[1], $issue_id);
+
+        foreach ($notes as $i => &$note) {
+            if ($note["has_blocked_message"] == 1) {
+                $note["not_title"] = '(BLOCKED) ' . $note["not_title"];
             }
-            $notes[$i]["id"] = ($i+1);
+            $note["id"] = ($i+1);
         }
+
         if (count($notes) < 1) {
             echo "No notes for this issue\n";
             exit;
         }
+
         $format = array(
             "id" => array(
                 "width" => 3,
@@ -1014,23 +823,23 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 "title" => "Date"
             )
         );
+
         self::printTable($format, $notes);
     }
 
     /**
      * Method to show the contents of a note.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      */
-    public static function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
+    public static function printNote($client, $auth, $issue_id, $note_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $note = self::getNote($rpc_conn, $auth, $issue_id, $note_id);
+        $note = self::getNote($client, $auth, $issue_id, $note_id);
         echo sprintf("%15s: %s\n", "Date", $note["not_created_date"]);
         echo sprintf("%15s: %s\n", "From", $note["not_from"]);
         echo sprintf("%15s: %s\n", "Title", $note["not_title"]);
@@ -1041,60 +850,41 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Returns the contents of a note via XML-RPC.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
-     * @return  array An array containg note details.
+     * @return  array An array containing note details.
      */
-    public function getNote(&$rpc_conn, $auth, $issue_id, $note_id)
+    public function getNote($client, $auth, $issue_id, $note_id)
     {
-        $msg = new XML_RPC_Message("getNote", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($note_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $note = XML_RPC_decode($result->value());
+        $note = $client->getNote($auth[0], $auth[1], $issue_id, $note_id);
         return $note;
     }
 
     /**
      * Converts a note into a draft or an email.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection source
+     * @param   RemoteApi $client The connection source
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      * @param   string $target What this note should be converted too, a draft or an email.
      * @param   boolean $authorize_sender If the sender should be added to the authorized repliers list.
      */
-    public function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target, $authorize_sender)
+    public function convertNote($client, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
-        $note_details = self::getNote($rpc_conn, $auth, $issue_id, $note_id);
+        $note_details = self::getNote($client, $auth, $issue_id, $note_id);
         if (count($note_details) < 2) {
             self::quit("Note #$note_id does not exist for issue #$issue_id");
         } elseif ($note_details["has_blocked_message"] != 1) {
             self::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
         }
-        $msg = new XML_RPC_Message("convertNote", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, "int"),
-            new XML_RPC_Value($note_details["not_id"], "int"),
-            new XML_RPC_Value($target, "string"),
-            new XML_RPC_Value($authorize_sender, 'boolean')
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $message = XML_RPC_decode($result->value());
+
+        $message = $client->convertNote($auth[0], $auth[1], $issue_id, $note_details["not_id"], $target, $authorize_sender);
         if ($message == "OK") {
             echo "OK - Note successfully converted to $target\n";
         }
@@ -1103,84 +893,54 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Fetches the weekly report for the current developer for the specified week.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
-     * @param   boolean If closed issues should be separated from other issues.
+     * @param   boolean $separate_closed If closed issues should be separated from other issues.
      */
-    public function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
+    public function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
-        $msg = new XML_RPC_Message("getWeeklyReport", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($week, "int"),
-            new XML_RPC_Value($start_date, "string"),
-            new XML_RPC_Value($end_date, "string"),
-            new XML_RPC_Value($separate_closed, 'boolean'),
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        } else {
-            $ret = XML_RPC_decode($result->value());
-            echo $ret;
-        }
+        $ret = $client->getWeeklyReport($auth[0], $auth[1], $week, $start_date, $end_date, $separate_closed);
+        echo $ret;
     }
 
     /**
      * Clocks a user in/out of the system.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $action If the user is clocking in or out.
      */
-    public function timeClock(&$rpc_conn, $auth, $action)
+    public function timeClock($client, $auth, $action)
     {
-        $msg = new XML_RPC_Message("timeClock", array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($action, "string")
-        ));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        } else {
-            echo XML_RPC_decode($result->value());
-        }
+        $result = $client->timeClock($auth[0], $auth[1], $action);
+        echo $result;
     }
 
     /**
      * Lists drafts associated with an issue.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function listDrafts(&$rpc_conn, $auth, $issue_id)
+    public function listDrafts($client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $msg = new XML_RPC_Message("getDraftListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $drafts = XML_RPC_decode($result->value());
-        // since xml-rpc has issues, we have to base64 decode everything
-        $ndrafts = count($drafts);
-        for ($i = 0; $i < $ndrafts; $i++) {
-            $drafts[$i]["id"] = ($i+1);
-        }
+        $drafts = $client->getDraftListing($auth[0], $auth[1], $issue_id);
+
         if (count($drafts) < 1) {
             echo "No drafts for this issue\n";
             exit;
         }
+
+        foreach ($drafts as $i => &$draft) {
+            $draft["id"] = ($i + 1);
+        }
+
         $format = array(
             "id" => array(
                 "width" => 3,
@@ -1203,23 +963,23 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 "title" => "Date"
             )
         );
+
         self::printTable($format, $drafts);
     }
 
     /**
      * Method to show the contents of a draft.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
-     * @param   integer $note_id The sequential id of the draft to view
+     * @param   integer $draft_id The sequential id of the draft to view
      */
-    public function printDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function printDraft($client, $auth, $issue_id, $draft_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $draft = self::getDraft($rpc_conn, $auth, $issue_id, $draft_id);
+        $draft = self::getDraft($client, $auth, $issue_id, $draft_id);
         echo sprintf("%15s: %s\n", "Date", $draft["emd_updated_date"]);
         echo sprintf("%15s: %s\n", "From", $draft["from"]);
         echo sprintf("%15s: %s\n", "To", $draft["to"]);
@@ -1234,22 +994,15 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Returns the contents of a draft via XML-RPC.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to view
-     * @return  array An array containg draft details.
+     * @return  array An array containing draft details.
      */
-    public function getDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function getDraft($client, $auth, $issue_id, $draft_id)
     {
-        $msg = new XML_RPC_Message("getDraft", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $draft = XML_RPC_decode($result->value());
+        $draft = $client->getDraft($auth[0], $auth[1], $issue_id, $draft_id);
 
         return $draft;
     }
@@ -1257,111 +1010,67 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Converts a draft to an email and sends it.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to send
-     * @return  array An array containg draft details.
+     * @return  array An array containing draft details.
      */
-    public function sendDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
+    public function sendDraft($client, $auth, $issue_id, $draft_id)
     {
-        $msg = new XML_RPC_Message("sendDraft", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                        new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        echo XML_RPC_decode($result->value());
+        $result = $client->sendDraft($auth[0], $auth[1], $issue_id, $draft_id);
+        echo $result;
     }
 
     /**
      * Marks an issue as redeemed incident
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function redeemIssue(&$rpc_conn, $auth, $issue_id)
+    public function redeemIssue($client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
-        $types = self::promptIncidentTypes($rpc_conn, $auth, $issue_id);
-        foreach ($types as $type_id => $type_value) {
-            $types[$type_id] = new XML_RPC_Value($type_value, 'string');
-        }
+        $types = self::promptIncidentTypes($client, $auth, $issue_id);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($types, 'struct')
-        );
-        $msg = new XML_RPC_Message("redeemIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
+        $result = $client->redeemIssue($auth[0], $auth[1], $issue_id, $types);
         echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
     }
 
     /**
      * Un-marks an issue as redeemed incident
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function unredeemIssue(&$rpc_conn, $auth, $issue_id)
+    public function unredeemIssue($client, $auth, $issue_id)
     {
-        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssueAssignment($client, $auth, $issue_id);
 
-        $types = self::promptIncidentTypes($rpc_conn, $auth, $issue_id, true);
-        foreach ($types as $type_id => $type_value) {
-            $types[$type_id] = new XML_RPC_Value($type_value, 'string');
-        }
+        $types = self::promptIncidentTypes($client, $auth, $issue_id, true);
 
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($types, 'struct')
-        );
-        $msg = new XML_RPC_Message("unredeemIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
+        $result = $client->unredeemIssue($auth[0], $auth[1], $issue_id, $types);
         echo "OK - Issue #$issue_id successfully marked as unredeemed incident.\n";
     }
 
     /**
      * Returns the list of incident types available.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   boolean $redeemed_only If this should only show items that have been redeemed.
+     * @return array|string
      */
-    public function promptIncidentTypes(&$rpc_conn, $auth, $issue_id, $redeemed_only = false)
+    public function promptIncidentTypes($client, $auth, $issue_id, $redeemed_only = false)
     {
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'),
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($redeemed_only, 'boolean')
-        );
-        $msg = new XML_RPC_Message("getIncidentTypes", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $types =  XML_RPC_decode($result->value());
+        $types = $client->getIncidentTypes($auth[0], $auth[1], $issue_id, $redeemed_only);
+
         if (count($types) < 1) {
             if ($redeemed_only) {
                 self::quit("No incident types have been redeemed for this issue");
@@ -1369,6 +1078,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
                 self::quit("All incident types have already been redeemed for this issue");
             }
         }
+
         $prompt = "Please enter a comma seperated list of incident types to ";
         if ($redeemed_only) {
             $prompt .= "un";
@@ -1381,16 +1091,16 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
             self::quit("Please enter a comma seperated list of issue types");
-        } else {
-            $type_keys = array_keys($types);
-            foreach ($requested_types as $type_id) {
-                if (!in_array($type_id, $type_keys)) {
-                    self::quit("Input '$type_id' is not a valid incident type");
-                }
-            }
-
-            return $requested_types;
         }
+
+        $type_keys = array_keys($types);
+        foreach ($requested_types as $type_id) {
+            if (!in_array($type_id, $type_keys)) {
+                self::quit("Input '$type_id' is not a valid incident type");
+            }
+        }
+
+        return $requested_types;
     }
 
     /**
@@ -1424,71 +1134,57 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * of the given issue. The $command parameter can be used to determine what type of
      * confirmation to show to the user.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $args The arguments passed to this script
      */
-    public static function promptConfirmation(&$rpc_conn, $auth, $issue_id, $args)
+    public static function promptConfirmation($client, $auth, $issue_id, $args)
     {
         // this is needed to prevent multiple confirmations from being shown to the user
         $GLOBALS['_displayed_confirmation'] = true;
+
         // get summary, customer status and assignment of issue, then show confirmation prompt to user
-        $msg = new XML_RPC_Message("getSimpleIssueDetails", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
-                    new XML_RPC_Value($issue_id, "int")));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        } else {
-            switch ($args[2]) {
-                case 'convert-note':
-                case 'cn':
-                    $note_details = self::getNote($rpc_conn, $auth, $issue_id, $args[3]);
-                    $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
-                            "   Date: " . $note_details["not_created_date"] . "\n" .
-                            "   From: " . $note_details["not_from"] . "\n" .
-                            "  Title: " . $note_details["not_title"] . "\n" .
-                            "Are you sure you want to convert this note into a " . $args[4] . "?";
-                    break;
-                default:
-                    $details = XML_RPC_decode($result->value());
-                    $msg = "These are the current details for issue #$issue_id:\n" .
-                            "         Summary: " . $details['summary'] . "\n";
-                    if (@!empty($details['customer'])) {
-                        $msg .= "        Customer: " . $details['customer'] . "\n";
-                    }
-                    $msg .= "          Status: " . $details['status'] . "\n" .
-                            "      Assignment: " . $details["assignments"] . "\n" .
-                            "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
-                            "Are you sure you want to change this issue?";
-            }
-            $ret = CLI_Misc::prompt($msg, 'y');
-            if (strtolower($ret) != 'y') {
-                exit;
-            }
+        $details = $client->getSimpleIssueDetails($auth[0], $auth[1], $issue_id);
+
+        switch ($args[2]) {
+            case 'convert-note':
+            case 'cn':
+                $note_details = self::getNote($client, $auth, $issue_id, $args[3]);
+                $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
+                        "   Date: " . $note_details["not_created_date"] . "\n" .
+                        "   From: " . $note_details["not_from"] . "\n" .
+                        "  Title: " . $note_details["not_title"] . "\n" .
+                        "Are you sure you want to convert this note into a " . $args[4] . "?";
+                break;
+            default:
+                $msg = "These are the current details for issue #$issue_id:\n" .
+                        "         Summary: " . $details['summary'] . "\n";
+                if (@!empty($details['customer'])) {
+                    $msg .= "        Customer: " . $details['customer'] . "\n";
+                }
+                $msg .= "          Status: " . $details['status'] . "\n" .
+                        "      Assignment: " . $details["assignments"] . "\n" .
+                        "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
+                        "Are you sure you want to change this issue?";
+        }
+
+        $ret = CLI_Misc::prompt($msg, 'y');
+        if (strtolower($ret) != 'y') {
+            exit;
         }
     }
 
     /**
      * Method used to check the authentication of the current user.
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   string $email The email address of the current user
      * @param   string $password The password of the current user
      */
-    public static function checkAuthentication(&$rpc_conn, $email, $password)
+    public static function checkAuthentication($client, $email, $password)
     {
-        $msg = new XML_RPC_Message("isValidLogin", array(new XML_RPC_Value($email), new XML_RPC_Value($password)));
-        $result = $rpc_conn->send($msg);
-        if (!is_object($result)) {
-            self::quit("result is not an object. This is most likely due connection problems or openssl/curl extension not loaded.");
-        }
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
-        }
-        $is_valid = XML_RPC_Decode($result->value());
+        $is_valid = $client->isValidLogin($email, $password);
         if ($is_valid != 'yes') {
             self::quit("Login information could not be authenticated");
         }
@@ -1497,18 +1193,16 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     /**
      * Logs the current command
      *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
+     * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $command The command used to run this script.
      */
-    public static function log(&$rpc_conn, $auth, $command)
+    public static function log($client, $auth, $command)
     {
-        $command = base64_encode($command);
-        $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            self::quit($result->faultString());
+        try {
+            $client->logCommand($auth[0], $auth[1], $command);
+        } catch (Eventum_RPC_Exception $e) {
+            self::quit($e->getMessage());
         }
     }
 

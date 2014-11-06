@@ -28,7 +28,8 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'class.Eventum_RPC.php';
+require_once 'XML/RPC.php';
+require_once 'Eventum_RPC.php';
 
 $client = new Eventum_RPC();
 $client->setURL("http://rabbit.impleo.net/rpc/xmlrpc.php");
