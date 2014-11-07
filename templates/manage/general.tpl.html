@@ -644,21 +644,6 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
-              {t}Daily Tips{/t}
-            </th>
-            <td>
-              <label>
-                <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips|default:'' == 'enabled'}checked{/if}>
-                {t}Enabled{/t}
-              </label>
-              <label>
-                <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips|default:'' != 'enabled'}checked{/if}>
-                {t}Disabled{/t}
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <th width="120">
               {t}Email Spell Checker{/t}
             </th>
             <td>

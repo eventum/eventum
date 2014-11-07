@@ -483,29 +483,6 @@ class Misc
     }
 
     /**
-     * Method used to get a random file from the 'daily tips' directory.
-     *
-     * @param   object $tpl The template object
-     * @return  string Random filename
-     */
-    public static function getRandomTip($tpl)
-    {
-        foreach ((array) $tpl->smarty->template_dir as $tpl_dir) {
-            $tip_dir = $tpl_dir . '/tips';
-            $files = self::getFileList($tip_dir);
-            $count = count($files);
-            if (!$count) {
-                continue;
-            }
-            $i = rand(0, $count - 1);
-
-            return $files[$i];
-        }
-
-        return null;
-    }
-
-    /**
      * Method used to get the full list of files contained in a specific
      * directory.
      *
