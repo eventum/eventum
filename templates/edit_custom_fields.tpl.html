@@ -47,18 +47,14 @@
     {else}
     <select id="custom_field_{$custom_fields[i].fld_id}"
         {if $custom_fields[i].fld_type == 'multiple'}
-          {if $custom_fields[i].field_options|@count > 10}
-            multiple size="10"
-          {else}
-            multiple size="{$custom_fields[i].field_options|@count}"
-          {/if}
+            multiple class="chosen-select"
         {/if}
       name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}"
       {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>
 
       {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
       {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value|default:''}
-    </select>
+    </select><br/>
     {/if}
     {if $custom_fields[i].lookup_method|default:'' != ''}
     <script type="text/javascript">custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>

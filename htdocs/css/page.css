@@ -407,3 +407,7 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #select_customer label {
     display: block;
 }
+
+#custom_fields_popup .chosen-select {
+    width:360px;
+}
