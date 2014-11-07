@@ -122,6 +122,7 @@ class Template_Helper
     /**
      * Returns the contents of the parsed template
      *
+     * @param bool $process Whether to process template or use cached result. Default true
      * @return string The contents of the parsed template
      */
     public function getTemplateContents($process=true)
