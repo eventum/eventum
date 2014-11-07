@@ -110,10 +110,14 @@ class Template_Helper
     /**
      * Prints the actual parsed template.
      *
+     * @param bool $process Whether to call process template to fill template variables. Default true
      */
-    public function displayTemplate()
+    public function displayTemplate($process = true)
     {
-        $this->processTemplate();
+        if ($process) {
+            $this->processTemplate();
+        }
+
         // finally display the parsed template
         $this->smarty->display($this->tpl_name);
     }
@@ -121,7 +125,7 @@ class Template_Helper
     /**
      * Returns the contents of the parsed template
      *
-     * @param bool $process Whether to process template or use cached result. Default true
+     * @param bool $process Whether to call process template to fill template variables. Default true
      * @return string The contents of the parsed template
      */
     public function getTemplateContents($process = true)

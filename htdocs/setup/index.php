@@ -48,6 +48,7 @@ define('APP_TPL_COMPILE_PATH', APP_PATH . '/templates_c');
 define('APP_LOG_PATH', APP_PATH . '/logs');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 define('APP_LOCKS_PATH', APP_PATH . '/locks');
+define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
@@ -131,16 +132,7 @@ function ev_gettext($str)
     return $str;
 }
 
-$tpl = new Smarty();
-$tpl->setPluginsDir(array(APP_INC_PATH . '/smarty', APP_SMARTY_PATH . '/plugins'));
-$tpl->template_dir = APP_TPL_PATH;
-$tpl->compile_dir = APP_TPL_COMPILE_PATH;
-$tpl->config_dir = '';
-
-// this avoids loading it twice with composer
-if (function_exists('smarty_block_t')) {
-    $tpl->registerPlugin('block', 't', 'smarty_block_t');
-}
+$tpl = new Template_Helper();
 
 if (@$_POST['cat'] == 'install') {
     $res = install();
@@ -176,7 +168,9 @@ $tpl->assign('ssl_mode', $ssl_mode);
 $tpl->assign("zones", Date_Helper::getTimezoneList());
 $tpl->assign("default_timezone", getTimezone());
 $tpl->assign("default_weekday", getFirstWeekday());
-$tpl->display('setup.tpl.html');
+
+$tpl->setTemplate('setup.tpl.html');
+$tpl->displayTemplate(false);
 
 function checkPermissions($file, $desc, $is_directory = false)
 {
