@@ -18,7 +18,7 @@ Eventum Issue Tracking System
 - Improved LDAP login with email aliases (Elan Ruusamäe)
 - Added page class to body tag of popup (Bryan Alsdorf)
 - SCM rewrite to support multiple SCM, improvements to svn hook (Elan Ruusamäe, GH#15)
-- Rework of XMLRPC code (Elan Ruusamäe, GH#17)
+- Rework of XMLRPC code (Elan Ruusamäe, GH#17, GH#19)
 - Remove "Daily Tips" (Bryan Alsdorf, GH#20)
 
 2014-10-04, Version 2.4.0 pre1
