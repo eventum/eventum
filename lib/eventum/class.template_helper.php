@@ -32,7 +32,6 @@
  * is especially useful to be able to change template backends in the future
  * without having to rewrite all PHP based scripts.
  */
-
 class Template_Helper
 {
     public $smarty;
@@ -125,13 +124,34 @@ class Template_Helper
      * @param bool $process Whether to process template or use cached result. Default true
      * @return string The contents of the parsed template
      */
-    public function getTemplateContents($process=true)
+    public function getTemplateContents($process = true)
     {
         if ($process) {
             $this->processTemplate();
         }
 
         return $this->smarty->fetch($this->tpl_name);
+    }
+
+    private static function getVcsVersion()
+    {
+        // Try APP_VERSION match: "Eventum 2.3.3-148-g78b3368"
+        if (preg_match('/^[\d.-]+-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
+            return $m['hash'];
+        }
+
+        // if version ends with "-dev", try look into VCS
+        if (substr(APP_VERSION, -4) == '-dev' && file_exists($file = APP_PATH . '/.git/HEAD')) {
+            list(, $refname) = explode(": ", file_get_contents($file));
+            if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
+                return null;
+            }
+            $hash = file_get_contents($file);
+            return substr($hash, 0, 7);
+        }
+
+        // probably release version
+        return null;
     }
 
     /**
@@ -152,10 +172,12 @@ class Template_Helper
             'use_components' => APP_USE_COMPONENTS,
         );
 
-        // If version is something like "Eventum 2.3.3-148-g78b3368", link ref to github
-        if (preg_match('/^[\d.-]+-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
-            $link = "https://github.com/eventum/eventum/commit/{$m['hash']}";
+        // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
+        $vcsVersion = self::getVcsVersion();
+        if ($vcsVersion) {
+            $link = "https://github.com/eventum/eventum/commit/{$vcsVersion}";
             $core['application_version_link'] = $link;
+            $core['app_version'] = "v{$core['app_version']}-g{$vcsVersion}";
         }
 
         $usr_id = Auth::getUserID();
@@ -182,7 +204,8 @@ class Template_Helper
                             $contact = $crm->getContact($core['user']['usr_customer_contact_id']);
                             $core['allowed_customers'] = $contact->getCustomers();
                             $core['current_customer'] = $crm->getCustomer(Auth::getCurrentCustomerID(false));
-                        } catch (CRMException $e) {}
+                        } catch (CRMException $e) {
+                        }
                     }
                 }
             }
