@@ -139,8 +139,10 @@ class Template_Helper
 
     private static function getVcsVersion()
     {
-        // Try APP_VERSION match: "Eventum 2.3.3-148-g78b3368"
-        if (preg_match('/^[\d.-]+-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
+        // Try APP_VERSION match:
+        // "Eventum 2.3.3-148-g78b3368"
+        // "Eventum 2.4.0-pre1-285-g298325e"
+        if (preg_match('/^[\d.]+(?:-[^-]+)(?:-\d+)?-g(?P<hash>[0-9a-f]+)$/', APP_VERSION, $m)) {
             return $m['hash'];
         }
 
@@ -181,7 +183,10 @@ class Template_Helper
         if ($vcsVersion) {
             $link = "https://github.com/eventum/eventum/commit/{$vcsVersion}";
             $core['application_version_link'] = $link;
-            $core['app_version'] = "v{$core['app_version']}-g{$vcsVersion}";
+            // append VCS version if not yet there
+            if (!preg_match('/-g[0-9a-f]+$/', APP_VERSION)) {
+                $core['app_version'] = "v{$core['app_version']}-g{$vcsVersion}";
+            }
         }
 
         $usr_id = Auth::getUserID();
