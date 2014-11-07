@@ -142,21 +142,6 @@ function hideClosed(hide_closed)
     {/if}
     <td width="80%" valign="top">
       {include file="latest_news.tpl.html"}
-      {if $core.app_setup.daily_tips|default:'' == 'enabled'}
-            <table class="bordered">
-              <tr>
-                <td>
-                  <span><b>{t}Did you Know?{/t}</b></span>
-                </td>
-              </tr>
-              <tr>
-                <td class="light">
-                  {include file="tips/$random_tip"}
-                </td>
-              </tr>
-            </table>
-      <br />
-      {/if}
       {if $pie_chart && $hide_stats != true}
             <table class="bordered">
               <tr>

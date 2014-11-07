@@ -76,7 +76,6 @@ if ($role_id == User::getRoleID('customer')) {
         $tpl->assign("emails", Stats::getEmailStatus($hide_closed));
         $tpl->assign("pie_chart", Stats::getPieChart($hide_closed));
     }
-    $tpl->assign("random_tip", Misc::getRandomTip($tpl));
 }
 
 if (@$_REQUEST['hide_closed'] == '') {
