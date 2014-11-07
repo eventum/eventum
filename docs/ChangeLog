@@ -19,7 +19,7 @@ Eventum Issue Tracking System
 - Added page class to body tag of popup (Bryan Alsdorf)
 - SCM rewrite to support multiple SCM, improvements to svn hook (Elan Ruusamäe, GH#15)
 - Rework of XMLRPC code (Elan Ruusamäe, GH#17)
-- Remove "Daily Tips" (Bryan Alsdorf)
+- Remove "Daily Tips" (Bryan Alsdorf, GH#20)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
