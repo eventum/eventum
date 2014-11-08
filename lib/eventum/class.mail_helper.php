@@ -25,6 +25,7 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 
@@ -544,17 +545,17 @@ class Mail_Helper
         $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
         if ((PEAR::isError($res)) || ($res == false)) {
             return $res;
-        } else {
-            // RFC 822 formatted date
-            $header = 'Date: ' . date('D, j M Y H:i:s O') . "\r\n";
-            // return the full dump of the email
-            foreach ($hdrs as $name => $value) {
-                $header .= "$name: $value\r\n";
-            }
-            $header .= "\r\n";
-
-            return $header . $body;
         }
+
+        // RFC 822 formatted date
+        $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
+        // return the full dump of the email
+        foreach ($hdrs as $name => $value) {
+            $header .= "$name: $value\r\n";
+        }
+        $header .= "\r\n";
+
+        return $header . $body;
     }
 
     /**
@@ -580,7 +581,8 @@ class Mail_Helper
         ));
         $hdrs = $this->mime->headers($this->headers);
         // RFC 822 formatted date
-        $header = 'Date: ' . gmdate('D, j M Y H:i:s O') . "\r\n";
+        $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
+
         // return the full dump of the email
         foreach ($hdrs as $name => $value) {
             $header .= "$name: $value\r\n";
@@ -745,7 +747,7 @@ class Mail_Helper
             $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
             foreach ($cf_values as $fld_id => $values) {
                 // skip empty titles
-                // TODO: why the are empty?
+                // TODO: why they are empty?
                 if (!isset($cf_titles[$fld_id])) {
                     continue;
                 }
