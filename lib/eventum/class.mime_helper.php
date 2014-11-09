@@ -115,10 +115,15 @@ class Mime_Helper
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace("</DIV><DIV>", "\n", $str);
             $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
+
         }
+
         // XXX: do we also need to do something here about base64 encoding?
         if ($is_html) {
             $str = strip_tags($str);
+
+            // convert html entities. this should be done after strip tags
+            $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
         }
         return $str;
     }
