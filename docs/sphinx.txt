@@ -14,10 +14,10 @@ Open config/config.php with a text editor.
 Make sure APP_ENABLE_FULLTEXT is set to true.
 
 Remove the line:
-define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
 
 Add the following lines:
-define('APP_FULLTEXT_SEARCH_CLASS', 'sphinx_fulltext_search');
+define('APP_FULLTEXT_SEARCH_CLASS', 'Sphinx_Fulltext_Search');
 define('SPHINX_SEARCHD_HOST', 'localhost');
 define('SPHINX_SEARCHD_PORT', 3312);
 

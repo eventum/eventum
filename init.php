@@ -130,7 +130,7 @@ if (!defined('APP_ENABLE_FULLTEXT')) {
 }
 
 if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
-    define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
+    define('APP_FULLTEXT_SEARCH_CLASS', 'MySQL_Fulltext_Search');
 }
 
 if (!defined('APP_AUTH_BACKEND')) {

@@ -769,9 +769,14 @@ class Search
         static $instance = false;
 
         if ($instance == false) {
-            require_once APP_INC_PATH . "/search/class." . APP_FULLTEXT_SEARCH_CLASS . ".php";
-
             $class = APP_FULLTEXT_SEARCH_CLASS;
+
+            // XXX legacy: handle lowercased classname
+            if ($class == 'mysql_fulltext_search') {
+                $class = 'MySQL_Fulltext_Search';
+            } elseif ($class == 'sphinx_fulltext_search') {
+                $class = 'Sphinx_Fulltext_Search';
+            }
 
             $instance = new $class();
         }

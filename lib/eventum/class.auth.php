@@ -653,7 +653,6 @@ class Auth
         static $instance = false;
 
         if ($instance == false) {
-            require_once APP_INC_PATH . "/auth/class.mysql_auth_backend.php";
             $instance = new Mysql_Auth_Backend();
         }
 

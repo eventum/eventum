@@ -65,6 +65,10 @@ class Eventum_Autoload
 
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',
+            'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
+            'Abstract_Fulltext_Search' => $baseDir . '/search/class.abstract_fulltext_search.php',
+            'MySQL_Fulltext_Search' => $baseDir . '/search/class.mysql_fulltext_search.php',
+            'Sphinx_Fulltext_Search' => $baseDir . '/search/class.sphinx_fulltext_search.php',
         );
     }
 
