@@ -63,7 +63,7 @@ $(function() {
 {if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
 var contact_list = new Array();
 {section name="i" loop=$assoc_emails}
-contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
+contact_list[contact_list.length] = '{$assoc_emails[i]|escape:javascript}';
 {/section}
 {/if}
 
