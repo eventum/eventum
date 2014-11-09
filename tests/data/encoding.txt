@@ -1,0 +1,16 @@
+Return-Path: <help@localhost>
+Date: Fri, 7 Nov 2014 16:24:28 +0200
+From: IT <help@localhost>
+To: <issue-73358@eventum.example.org>
+Message-ID: <33237888.1235.1415370268211.JavaMail.JON$@JON>
+Subject: =?UTF-8?Q?P=C3=B6=C3=B6rdumine_SR#922870_on_registreeritud?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+  boundary="----=_Part_1234_14857120.1415370268195"
+
+------=_Part_1234_14857120.1415370268195
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+<HTML><HEAD></HEAD><BODY><DIV><FONT face=Arial size="2"><br>p&#x00F6;&#x00F6;rdumise</B> t&#x00F6;&#x00F6;taja.<br>&lt;b&gt;V&#x00F5;tame&lt;/b&gt; t&#x00F6;&#x00F6;sse v&#x00F5;imalusel.<br>p&#x00F6;&#x00F6;rdumisele s&#x00FC;steemis<br></FONT></DIV></BODY></HTML>
+------=_Part_1234_14857120.1415370268195--

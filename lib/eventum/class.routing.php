@@ -75,7 +75,7 @@ class Routing
                 if (Routing::getMatchingIssueIDs($address, $type) === false) {
                     continue;
                 }
-                $method = "route_$type";
+                $method = "route_{$type}s";
                 $return = Routing::$method($full_message);
                 if (is_array($return)) {
                     return $return;
