@@ -67,7 +67,7 @@ processed by a cron job. If an email cannot be sent, it will be marked as such
 in the mail queue log, and the cron job script will re-try to send it again the
 next time it runs.
 
-* * * * * <PATH-TO-EVENTUM>/crons/process_mail_queue.php
+* * * * * <PATH-TO-EVENTUM>/bin/process_mail_queue.php
 
 The above line will run the mail queue script every minute. To setup the SMTP
 server that Eventum should use to send these queued emails, go to:
@@ -81,7 +81,7 @@ In order for Eventum's email integration feature to work, you need to setup a
 cron job to run the script above every so often. The following is an example of
 the required crontab line:
 
-0 * * * * <PATH-TO-EVENTUM>/crons/download_emails.php username_here mail.domain.com INBOX
+0 * * * * <PATH-TO-EVENTUM>/bin/download_emails.php username_here mail.domain.com INBOX
 
 The above will run the command every hour, and will download emails associated
 with the given email account. If you have more than one email account, you may
@@ -102,7 +102,7 @@ for issues that need attention. Depending on what configuration you create, you
 may have several reminders (or alerts) be sent out whenever an issue needs
 attention, for whatever parameter you may deem necessary.
 
-*/10 * * * * <PATH-TO-EVENTUM>/crons/check_reminders.php
+*/10 * * * * <PATH-TO-EVENTUM>/bin/check_reminders.php
 
 It is recommended that you run the reminder cron job every 10 minutes, so it
 won't flood you with alerts too often, but it would still be enough to handle
@@ -119,7 +119,7 @@ the heartbeat monitor, you may need to customize some of the checks to be
 appropriate for your own system, particularly the permission and file checks on
 Monitor::checkConfiguration().
 
-*/10 * * * * <PATH-TO-EVENTUM>/crons/monitor.php
+*/10 * * * * <PATH-TO-EVENTUM>/bin/monitor.php
 
 
 
@@ -154,7 +154,7 @@ The entire email message should be passed as standard input to the script, and
 the only parameter to it should be email account to which this email should be
 associated with. The following is an example of a successful run of this script:
 
-./route_emails.php 1 < example_note_email.txt
+./bin/route_emails.php 1 < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose emails. Create a 'routed_emails' sub-directory under
@@ -179,7 +179,7 @@ the issue and broadcasted to the notification list staff members.
 The entire email message should be passed as standard input to the script. The
 following is an example of a successful run of this script:
 
-./route_notes.php < example_note_email.txt
+./bin/route_notes.php < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose notes. Create a 'routed_notes' sub-directory under
@@ -203,7 +203,7 @@ in Eventum. These drafts will NOT broadcasted to the notification list.
 The entire email message should be passed as standard input to the script. The
 following is an example of a successful run of this script:
 
-<PATH-TO-EVENTUM>/route_drafts.php < example_note_email.txt
+<PATH-TO-EVENTUM>/bin/route_drafts.php < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose drafts. Create a 'routed_drafts' sub-directory under
