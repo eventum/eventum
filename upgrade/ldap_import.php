@@ -53,7 +53,6 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
     public function updateLocalUser($usr)
     {
         $data = array(
-            'password'  =>  '',
             'full_name' =>  $usr->full_name,
             'email'     =>  $usr->email,
             'external_id'   =>  $usr->uid,
@@ -69,7 +68,7 @@ if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
 }
 
 $users = array();
-foreach (User::getList() as $entry) {
+foreach (User::getList(false, false) as $entry) {
     $usr = new UserEntry($entry);
     $users[$usr->id] = $usr;
 }
