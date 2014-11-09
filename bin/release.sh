@@ -78,7 +78,7 @@ if [ -n "$composer" ]; then
 fi
 
 # update to include checksums of js/css files
-./dyncontent-chksum.pl
+./bin/dyncontent-chksum.pl
 
 # remove bundled deps
 if [ -n "$composer" ]; then
@@ -124,7 +124,7 @@ if [ -n "$composer" ]; then
 
 	# this will do clean pear in vendor dir
 	touch pear.download pear.install pear.clean
-	./update-pear.sh
+	./bin/update-pear.sh
 	rm pear.download pear.install pear.clean
 
 	# eventum standalone cli
@@ -137,7 +137,7 @@ touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
 # clean these now, can't omit them from git export as needed in release preparation process
-rm -f composer.json dyncontent-chksum.pl update-pear.sh
+rm -f composer.json bin/{dyncontent-chksum.pl,update-pear.sh}
 rm -f cli/{composer.json,box.json.dist,Makefile}
 
 # sanity check

@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
@@ -5,6 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,47 +25,15 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'init.php';
+ini_set('memory_limit', '1024M');
+require_once dirname(__FILE__) . '/../init.php';
 
-$full_message = Misc::getInput();
-
-$structure = Mime_Helper::decode($full_message, false, true);
-// TODO: Actually use values from config
-
-// since this is all hacked up anyway, let's hardcode the values
-if ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'email') !== false) {
-    $_SERVER['argv'][1] = '1';
-    $return = Routing::route_emails($full_message);
-} elseif ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'note') !== false) {
-    $return = Routing::route_notes($full_message);
-} elseif ((isset($structure->headers['to'])) && Routing::getMatchingIssueIDs($structure->headers['to'], 'draft') !== false) {
-    $return = Routing::route_drafts($full_message);
-} elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'email') !== false) {
-    $_SERVER['argv'][1] = '1';
-    $return = Routing::route_emails($full_message);
-} elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'note') !== false) {
-    $return = Routing::route_notes($full_message);
-} elseif ((isset($structure->headers['cc'])) && Routing::getMatchingIssueIDs($structure->headers['cc'], 'draft') !== false) {
-    $return = Routing::route_drafts($full_message);
-} else {
-    /*
-     * TODO: Save other emails
-    // save this message in a special directory
-    $path = "/home/eventum/bounced_emails/";
-    list($usec,) = explode(" ", microtime());
-    $filename = date('d-m-Y.H-i-s.') . $usec . '.email.txt';
-    $fp = fopen($path . $filename, 'a+');
-    fwrite($fp, $full_message);
-    fclose($fp);
-    chmod($path . $filename, 0777);
-    */
-    // postfix uses exit code 67 to flag unknown users
-    $return = array(67, '');
-}
-
+$full_message = stream_get_contents(STDIN);
+$return = Routing::route_notes($full_message);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);

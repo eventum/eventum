@@ -12,7 +12,7 @@ all:
 install: install-eventum install-cli install-irc install-scm install-libs
 
 dist:
-	./release.sh
+	./bin/release.sh
 
 phpcs:
 	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
@@ -34,7 +34,7 @@ install-eventum:
 	cp -a htdocs $(DESTDIR)$(datadir)
 	cp -a templates $(DESTDIR)$(datadir)
 	cp -a upgrade $(DESTDIR)$(datadir)
-	cp -a crons $(DESTDIR)$(datadir)
+	cp -a bin $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -26,13 +26,14 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 ini_set('memory_limit', '1024M');
-require_once 'init.php';
+require_once dirname(__FILE__) . '/../init.php';
 
 $full_message = stream_get_contents(STDIN);
-$return = Routing::route_notes($full_message);
+$return = Routing::route_drafts($full_message);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);

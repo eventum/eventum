@@ -2,7 +2,7 @@
 set -e
 
 XREFDIR=/usr/share/phpxref
-CONFIG=./phpxref.cfg
+CONFIG=./config/phpxref.cfg
 
 . "$CONFIG"
 [ -d "$OUTPUT" ] || mkdir -p "$OUTPUT"
