@@ -331,7 +331,6 @@ class Notification
             }
         }
 
-        require_once 'Mail/mime.php';
         foreach ($emails as $to) {
             $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($to));
             // add the warning message about replies being blocked or not
@@ -568,10 +567,6 @@ class Notification
             $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percent_complete'];
         }
         if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
-            // need real diff engine here
-            require_once 'Text/Diff.php';
-            require_once 'Text/Diff/Renderer.php';
-            require_once 'Text/Diff/Renderer/unified.php';
             $old['iss_description'] = explode("\n", $old['iss_description']);
             $new['description'] = explode("\n", $new['description']);
             $diff = new Text_Diff($old["iss_description"], $new["description"]);

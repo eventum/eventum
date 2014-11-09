@@ -28,8 +28,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'Math/Stats.php';
-
 /**
  * Class to handle the business logic related to all aspects of the
  * reporting system.

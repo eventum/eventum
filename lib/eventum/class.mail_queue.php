@@ -28,8 +28,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'Mail.php';
-
 class Mail_Queue
 {
     /**

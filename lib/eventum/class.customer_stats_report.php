@@ -28,8 +28,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'Math/Stats.php';
-
 /**
  * The Customer Stats report will be too complex to group with the rest of
  * the reports so I am separating it into a separate class.

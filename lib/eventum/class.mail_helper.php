@@ -29,8 +29,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once 'Mail/RFC822.php';
-
 /**
  * Class to handle the business logic related to sending email to
  * outside recipients. This class utilizes the PEAR::Mail
@@ -54,8 +52,6 @@ class Mail_Helper
      */
     public function Mail_Helper()
     {
-        require_once 'Mail.php';
-        require_once 'Mail/mime.php';
         $this->mime = new Mail_mime("\r\n");
     }
 

@@ -26,8 +26,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'Net/LDAP2.php';
-
 /**
  * This auth backend integrates with an LDAP server and if set to, will create
  * a local user with the specified name and email. The user will be

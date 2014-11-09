@@ -1,22 +1,76 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2009 - 2014 Eventum Team.                              |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
+// +----------------------------------------------------------------------+
+
 /**
  * Autoload class for Eventum.
- *
- * @author Elan Ruusamäe <glen@delfi.ee>
- *
- * @package Eventum
  */
 class Eventum_Autoload
 {
     private static $excludes = array('.', '..', '.svn', 'CVS');
     private static $classes;
 
-    public static function autoload($className)
-    {
-        $classMap = array(
+    protected static function getMap() {
+        $baseDir = APP_INC_PATH;
+        $pearDir = APP_PEAR_PATH;
+
+        return array(
+            'DB' => $pearDir . '/DB.php',
+            'DB_Error' => $pearDir . '/DB.php',
+            'DB_common' => $pearDir . '/DB/common.php',
+            'DB_mysql' => $pearDir . '/DB/mysql.php',
+            'DB_mysqli' => $pearDir . '/DB/mysqli.php',
+            'Date' => $pearDir . '/Date.php',
+            'Date_Calc' => $pearDir . '/Date/Calc.php',
+            'Date_Span' => $pearDir . '/Date/Span.php',
+            'Date_TimeZone' => $pearDir . '/Date/TimeZone.php',
+            'Mail' => $pearDir . '/Mail.php',
+            'Mail_RFC822' => $pearDir . '/Mail/RFC822.php',
+            'Mail_mime' => $pearDir . '/Mail/mime.php',
+            'Mail_mimeDecode' => $pearDir . '/Mail/mimeDecode.php',
+            'Math_Stats' => $pearDir . '/Math/Stats.php',
+            'Net_LDAP2' => $pearDir . '/Net/LDAP2.php',
+            'PEAR5' => $pearDir . '/PEAR5.php',
+            'PEAR_Error' => $pearDir . '/PEAR.php',
+            'Text_Diff' => $pearDir . '/Text/Diff.php',
+            'Text_Diff_Renderer' => $pearDir . '/Text/Diff/Renderer.php',
+            'Text_Diff_Renderer_unified' => $pearDir . '/Text/Diff/Renderer/unified.php',
+            'XML_RPC_Server' => $pearDir . '/XML/RPC/Server.php',
+
             'Smarty' => APP_SMARTY_PATH . '/Smarty.class.php',
             'SphinxClient' => APP_SPHINXAPI_PATH . '/sphinxapi.php',
+
+            'DbPear' => $baseDir . '/db/DbPear.php',
+            'DbInterface' => $baseDir . '/db/DbInterface.php',
         );
+    }
+
+    public static function autoload($className)
+    {
+        $classMap = self::getMap();
 
         if (isset($classMap[$className])) {
             require_once $classMap[$className];

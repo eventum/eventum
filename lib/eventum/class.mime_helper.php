@@ -40,8 +40,6 @@
 *
 */
 
-require_once 'Mail/mimeDecode.php';
-
 /**
  * Class to handle the business logic related to the MIME email
  * processing. The is8bit(), endode() and _encode() functions come from

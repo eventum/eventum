@@ -25,8 +25,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once 'DB.php';
-
 class DbPear implements DbInterface
 {
     /** @var DB_common */
