@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -29,15 +29,64 @@
 // +----------------------------------------------------------------------+
 //
 
-
 /**
  * Class to handle all routing functionality
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
- * @version 1.0
  */
 class Routing
 {
+    /** data format error */
+    const EX_DATAERR = 65;
+
+    /** cannot open input */
+    const EX_NOINPUT = 66;
+
+    /** addressee unknown */
+    const EX_NOUSER = 67;
+
+    /** permission denied */
+    const EX_NOPERM = 77;
+
+    /** configuration error */
+    const EX_CONFIG = 78;
+
+    /**
+     * Route all mail kinds: emails, notes, drafts (in that order) processing "To:" and "Cc:" headers
+     *
+     * @param string &$full_message
+     * @return array|bool
+     */
+    public static function route(&$full_message)
+    {
+        $structure = Mime_Helper::decode($full_message, false, true);
+
+        $addresses = array();
+        if (isset($structure->headers['to'])) {
+            $addresses[] = $structure->headers['to'];
+        }
+        if (isset($structure->headers['cc'])) {
+            $addresses[] = $structure->headers['cc'];
+        }
+        // free memory
+        unset($structure);
+
+        $types = array('email', 'note', 'draft');
+        foreach ($addresses as $address) {
+            foreach ($types as $type) {
+                if (Routing::getMatchingIssueIDs($address, $type) === false) {
+                    continue;
+                }
+                $method = "route_$type";
+                $return = Routing::$method($full_message);
+                if (is_array($return)) {
+                    return $return;
+                }
+            }
+        }
+
+        // did not handle anything
+        return false;
+    }
+
     /**
      * Routes an email to the correct issue.
      *
@@ -48,7 +97,7 @@ class Routing
     {
         // need some validation here
         if (empty($full_message)) {
-            return array(66, ev_gettext("Error: The email message was empty") . ".\n");
+            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty") . ".\n");
         }
 
         // save the full message for logging purposes
@@ -57,19 +106,19 @@ class Routing
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::load();
         if ($setup['email_routing']['status'] != 'enabled') {
-            return array(78, ev_gettext("Error: The email routing interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: The email routing interface is disabled.") . "\n");
         }
         if (empty($setup['email_routing']['address_prefix'])) {
-            return array(78, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
         }
         if (empty($setup['email_routing']['address_host'])) {
-            return array(78, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
         }
 
         // associate routed emails to the internal system account
         $sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
         if (empty($sys_account['usr_email'])) {
-            return array(78, ev_gettext("Error: The associated user for the email routing interface needs to be set.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: The associated user for the email routing interface needs to be set.") . "\n");
         }
         unset($sys_account);
 
@@ -99,17 +148,17 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
         $issue_prj_id = Issue::getProjectID($issue_id);
         if (empty($issue_prj_id)) {
-            return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
         $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
         if (empty($email_account_id)) {
-            return array(78, ev_gettext("Error: Please provide the email account ID.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please provide the email account ID.") . "\n");
         }
 
         $body = $structure->body;
@@ -251,7 +300,7 @@ class Routing
 
         // need some validation here
         if (empty($full_message)) {
-            return array(66, ev_gettext("Error: The email message was empty.") . "\n");
+            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty.") . "\n");
         }
 
         // remove the reply-to: header
@@ -262,13 +311,13 @@ class Routing
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::load();
         if (@$setup['note_routing']['status'] != 'enabled') {
-            return array(78, ev_gettext("Error: The internal note routing interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: The internal note routing interface is disabled.") . "\n");
         }
         if (empty($setup['note_routing']['address_prefix'])) {
-            return array(78, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
         }
         if (empty($setup['note_routing']['address_host'])) {
-            return array(78, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
         }
         $structure = Mime_Helper::decode($full_message, true, true);
 
@@ -283,7 +332,7 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(65, ev_gettext("Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext("Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -293,7 +342,7 @@ class Routing
         if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User')) ||
                 (User::isPartner($sender_usr_id) && !Access::canViewInternalNotes($issue_id, $sender_usr_id))) &&
                 ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
-            return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
+            return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
 
         if (empty($sender_usr_id)) {
@@ -375,7 +424,7 @@ class Routing
 
         // need some validation here
         if (empty($full_message)) {
-            return array(66, ev_gettext("Error: The email message was empty.") . "\n");
+            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty.") . "\n");
         }
 
         // remove the reply-to: header
@@ -386,13 +435,13 @@ class Routing
         // check if the draft interface is even supposed to be enabled
         $setup = Setup::load();
         if (@$setup['draft_routing']['status'] != 'enabled') {
-            return array(78, ev_gettext("Error: The email draft interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: The email draft interface is disabled.") . "\n");
         }
         if (empty($setup['draft_routing']['address_prefix'])) {
-            return array(78, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
         }
         if (empty($setup['draft_routing']['address_host'])) {
-            return array(78, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
         }
 
         $structure = Mime_Helper::decode($full_message, true, false);
@@ -408,7 +457,7 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -418,7 +467,7 @@ class Routing
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
             if ($sender_role < User::getRoleID('Standard User')) {
-                return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
+                return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
             }
         }
 
