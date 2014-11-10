@@ -180,12 +180,12 @@ function checkPermissions($file, $desc, $is_directory = false)
             // try to create the file ourselves then
             $fp = @fopen($file, 'w');
             if (!$fp) {
-                return  getPermissionError($file, $desc, $is_directory, false);
+                return getPermissionError($file, $desc, $is_directory, false);
             }
             @fclose($fp);
         } else {
             if (!@mkdir($file)) {
-                return  getPermissionError($file, $desc, $is_directory, false);
+                return getPermissionError($file, $desc, $is_directory, false);
             }
         }
     }
@@ -409,47 +409,34 @@ function e($s)
     return var_export($s, 1);
 }
 
-function install()
+/**
+ * return error message as string, or true indicating success
+ * requires setup to be written first.
+ */
+function setup_database()
 {
-    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
-    $config_file_path = APP_CONFIG_PATH . '/config.php';
+//    $db = DB_Helper::getInstance();
+    global $conn;
 
-    clearstatcache();
-    // check if config directory is writable
-    if (!is_writable(APP_CONFIG_PATH)) {
-        return "The file '" . APP_CONFIG_PATH . "' directory needs to be writable by the web server user. Please correct this problem and try again.";
-    }
-    // need to create a random private key variable
-    $private_key = '<'.'?php
-$private_key = "' . md5(microtime()) . '";
-';
-    $fp = @fopen($private_key_path, 'w');
-    if ($fp === false) {
-        return "Could not open the file '$private_key_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
-    }
-    $res = fwrite($fp, $private_key);
-    if ($fp === false) {
-        return "Could not write the configuration information to '$private_key_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    }
-    fclose($fp);
     // check if we can connect
     $conn = mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
     if (!$conn) {
-        return getErrorMessage('connect', mysql_error());
+        throw new RuntimeException(getErrorMessage('connect', mysql_error()));
     }
     $db_list = getDatabaseList($conn);
     $db_list = array_map('strtolower', $db_list);
     if (@$_POST['create_db'] == 'yes') {
         if (!in_array(strtolower($_POST['db_name']), $db_list)) {
             if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $conn)) {
-                return getErrorMessage('create_db', mysql_error());
+                throw new RuntimeException(getErrorMessage('create_db', mysql_error()));
             }
         }
     } else {
-        if ((count($db_list) > 0) && (!in_array(strtolower($_POST['db_name']), $db_list))) {
-            return "The provided database name could not be found. Review your information or specify that the database should be created in the form below.";
+        if (count($db_list) > 0 && !in_array(strtolower($_POST['db_name']), $db_list)) {
+            throw new RuntimeException("The provided database name could not be found. Review your information or specify that the database should be created in the form below.");
         }
     }
+
     // create the new user, if needed
     if (@$_POST["alternate_user"] == 'yes') {
         $user_list = getUserList($conn);
@@ -459,19 +446,19 @@ $private_key = "' . md5(microtime()) . '";
                 if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
                     $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $_POST['db_name'] . ".* TO '" . $_POST["eventum_user"] . "'@'%' IDENTIFIED BY '" . $_POST["eventum_password"] . "'";
                     if (!mysql_query($stmt, $conn)) {
-                        return getErrorMessage('create_user', mysql_error());
+                        throw new RuntimeException(getErrorMessage('create_user', mysql_error()));
                     }
                 }
             } else {
                 if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
-                    return "The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.";
+                    throw new RuntimeException("The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.");
                 }
             }
         }
     }
     // check if we can use the database
     if (!mysql_select_db($_POST['db_name'])) {
-        return getErrorMessage('select_db', mysql_error());
+        throw new RuntimeException(getErrorMessage('select_db', mysql_error()));
     }
 
     // set sql mode (sad that we rely on old bad mysql defaults)
@@ -482,11 +469,11 @@ $private_key = "' . md5(microtime()) . '";
     $table_list = array_map('strtolower', $table_list);
     if (!in_array('eventum_test', $table_list)) {
         if (!mysql_query('CREATE TABLE eventum_test (test char(1))', $conn)) {
-            return getErrorMessage('create_test', mysql_error());
+            throw new RuntimeException(getErrorMessage('create_test', mysql_error()));
         }
     }
     if (!mysql_query('DROP TABLE eventum_test', $conn)) {
-        return getErrorMessage('drop_test', mysql_error());
+        throw new RuntimeException(getErrorMessage('drop_test', mysql_error()));
     }
     $contents = implode("", file("schema.sql"));
     $queries = explode(";", $contents);
@@ -506,17 +493,97 @@ $private_key = "' . md5(microtime()) . '";
                 $type = 'create_table';
             }
 
-            return getErrorMessage($type, mysql_error());
+            throw new RuntimeException(getErrorMessage($type, mysql_error()));
         }
+    }
+
+    // finish database setup with upgrade script
+    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+    exec("$upgrade_script 2>&1", $upgrade_log, $rc);
+    if ($rc != 0) {
+        $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+
+        throw new RuntimeException("Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.");
     }
 
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
-        $_POST['db_username'] = $_POST['eventum_user'];
-        $_POST['db_password'] = $_POST['eventum_password'];
+        $setup = Setup::load();
+        $setup['database'] = array(
+            'username' => $_POST['eventum_user'],
+            'password' => $_POST['eventum_password'],
+        );
+        Setup::save($setup);
     }
+}
+
+function write_file($file, $contents)
+{
+    clearstatcache();
+    // check if directory is writable
+    $dir = dirname($file);
+    if (!is_writable($dir)) {
+        throw new RuntimeException("The file '{$dir}' directory needs to be writable by the web server user. Please correct this problem and try again.");
+    }
+    $fp = @fopen($file, 'w');
+    if ($fp === false) {
+        throw new RuntimeException("Could not open the file '$file' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.");
+    }
+    $res = fwrite($fp, $contents);
+    if ($res <= 0) {
+        throw new RuntimeException("Could not write the configuration information to '$file'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.");
+    }
+    fclose($fp);
+}
+
+/**
+ * write initial values for setup file
+ */
+function write_setup()
+{
+    $setup = $_REQUEST['setup'];
+    $setup['update'] = 1;
+    $setup['closed'] = 1;
+    $setup['emails'] = 1;
+    $setup['files'] = 1;
+    $setup['allow_unassigned_issues'] = 'yes';
+    $setup['support_email'] = 'enabled';
+
+    $setup['database'] = array(
+        // database driver
+        'driver' => 'mysql',
+
+        // connection info
+        'hostname' => $_POST['db_hostname'],
+        'database' => $_POST['db_name'],
+        'username' => $_POST['db_username'],
+        'password' => $_POST['db_password'],
+        'port' => 3306,
+
+        // table prefix
+        'table_prefix' => $_POST['db_table_prefix'],
+    );
+
+    Setup::save($setup);
+}
+
+/**
+ * create a random private key variable
+ */
+function write_privatekey()
+{
+    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
+
+    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(microtime()), 1) . ";\n";
+    write_file($private_key_path, $private_key);
+}
+
+function write_config()
+{
+    $config_file_path = APP_CONFIG_PATH . '/config.php';
 
     // disable the full-text search feature for certain mysql server users
+    global $conn;
     $stmt = "SELECT VERSION();";
     $res = mysql_query($stmt, $conn);
     $mysql_version = mysql_result($res, 0, 0);
@@ -528,58 +595,26 @@ $private_key = "' . md5(microtime()) . '";
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
         "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
-        "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
-        "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ?  'https://' : 'http://'),
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$_POST['default_weekday'],
+        "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ? 'https://' : 'http://'),
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );
 
     $config_contents = file_get_contents('config.php');
     $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
-    $fp = @fopen($config_file_path, 'w');
-    if ($fp === false) {
-        return "Could not open the file '$config_file_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
-    }
-    $res = fwrite($fp, $config_contents);
-    if ($fp === false) {
-        return "Could not write the configuration information to '$config_file_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    }
-    fclose($fp);
+    write_file($config_file_path, $config_contents);
+}
 
-    // write setup file
-    require_once APP_INC_PATH . '/class.setup.php';
-    $setup = $_REQUEST['setup'];
-    $setup['update'] = 1;
-    $setup['closed'] = 1;
-    $setup['emails'] = 1;
-    $setup['files'] = 1;
-    $setup['allow_unassigned_issues'] = 'yes';
-    $setup['support_email'] = 'enabled';
-
-    $setup['database'] = array(
-        // database driver
-        'driver'  => 'mysql',
-
-        // connection info
-        'hostname' => $_POST['db_hostname'],
-        'database' => $_POST['db_name'],
-        'username' => $_POST['db_username'],
-        'password' => $_POST['db_password'],
-        'port'     => 3306,
-
-        // table prefix
-        'table_prefix' => $_POST['db_table_prefix'],
-    );
-
-    Setup::save($setup);
-
-    // after config has been written down, we can finish database setup by calling upgrade script
-    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    exec("$upgrade_script 2>&1", $upgrade_log, $rc);
-    if ($rc != 0) {
-        $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
-
-        return "Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.";
+function install()
+{
+    try {
+        write_privatekey();
+        write_setup();
+        setup_database();
+        write_config();
+    } catch (RuntimeException $e) {
+        return $e->getMessage();
     }
 
     return 'success';
