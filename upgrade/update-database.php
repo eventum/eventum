@@ -4,62 +4,30 @@ require_once dirname(__FILE__) . '/init.php';
 
 $dbconfig = DB_Helper::getConfig();
 
-define('EXIT_OK', 0);
-define('EXIT_ERROR', 1);
-
 function db_getAll($query)
 {
-    try {
-        $res = DB_Helper::getInstance()->getAll($query);
-    } catch (DbException $e) {
-        echo $e->getMessage(), "\n";
-        exit(1);
-    }
-
-    return $res;
+    return DB_Helper::getInstance()->getAll($query);
 }
 
 function db_getOne($query)
 {
-    try {
-        $res = DB_Helper::getInstance()->getOne($query);
-    } catch (DbException $e) {
-        echo $e->getMessage(), "\n";
-        exit(1);
-    }
-
-    return $res;
+    return DB_Helper::getInstance()->getOne($query);
 }
 
 function db_getCol($query)
 {
-    try {
-        $res = DB_Helper::getInstance()->getColumn($query);
-    } catch (DbException $e) {
-        echo $e->getMessage(), "\n";
-        exit(1);
-    }
-
-    return $res;
+    return DB_Helper::getInstance()->getColumn($query);
 }
 
 function db_query($query)
 {
-    try {
-        $res = DB_Helper::getInstance()->query($query);
-    } catch (DbException $e) {
-        echo $e->getMessage(), "\n";
-        exit(1);
-    }
-
-    return $res;
+    return DB_Helper::getInstance()->query($query);
 }
 
 function exec_sql_file($input_file)
 {
     if (!file_exists($input_file) && !is_readable($input_file)) {
-        echo "ERROR: Can't read file: $input_file\n";
-        exit(EXIT_ERROR);
+        throw new RuntimeException("Can't read file: $input_file");
     }
 
     // use *.php for complex updates
@@ -73,8 +41,8 @@ function exec_sql_file($input_file)
     foreach ($queries as $query) {
         $query = trim($query);
         if ($query) {
-           db_query($query);
-       }
+            db_query($query);
+        }
     }
 }
 
@@ -82,13 +50,12 @@ function read_patches($update_path)
 {
     $handle = opendir($update_path);
     if (!$handle) {
-        echo "ERROR: Could not read: $update_path\n";
-        exit(EXIT_ERROR);
+        throw new RuntimeException("Could not read: $update_path");
     }
     while (false !== ($file = readdir($handle))) {
-        $number =  substr($file, 0, strpos($file, '_'));
+        $number = substr($file, 0, strpos($file, '_'));
         if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-            $files[(int) $number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
+            $files[(int)$number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
         }
     }
     closedir($handle);
@@ -131,10 +98,13 @@ if (php_sapi_name() != 'cli') {
     echo "<pre>\n";
 }
 
-patch_database();
+try {
+    patch_database();
+} catch (Exception $e) {
+    echo $e->getMessage(), "\n";
+    exit(1);
+}
 
 if (php_sapi_name() != 'cli') {
     echo "</pre>\n";
 }
-
-exit(EXIT_OK);
