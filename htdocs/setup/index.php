@@ -309,11 +309,6 @@ function checkRequirements()
     return array($warnings, $errors);
 }
 
-function replace_table_prefix($str)
-{
-    return str_replace('%TABLE_PREFIX%', $_POST['db_table_prefix'], $str);
-}
-
 function getErrorMessage($type, $message)
 {
     if (empty($message)) {
@@ -501,7 +496,6 @@ function setup_database()
     $contents = file_get_contents(APP_PATH . '/upgrade/schema.sql');
     $queries = explode(";", $contents);
     $queries = array_map("trim", $queries);
-    $queries = array_map("replace_table_prefix", $queries);
     $queries = array_filter($queries);
     foreach ($queries as $stmt) {
         if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
