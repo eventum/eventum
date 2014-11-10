@@ -17,6 +17,7 @@ if (!class_exists('DB_Helper')) {
 }
 
 $in_setup = defined('IN_SETUP');
+global $dbconfig, $db;
 $dbconfig = DB_Helper::getConfig();
 $db = DB_Helper::getInstance();
 
