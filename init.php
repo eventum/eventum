@@ -89,10 +89,6 @@ if (!defined('APP_LOCKS_PATH')) {
     define('APP_LOCKS_PATH', APP_PATH . '/locks');
 }
 
-if (!defined('APP_SQL_PATCHES_PATH')) {
-    define('APP_SQL_PATCHES_PATH', APP_PATH . '/upgrade/patches');
-}
-
 if (!defined('APP_LOG_PATH')) {
     define('APP_LOG_PATH', APP_PATH . '/logs');
 }

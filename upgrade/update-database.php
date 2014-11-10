@@ -2,6 +2,11 @@
 <?php
 require_once dirname(__FILE__) . '/init.php';
 
+if (!defined('APP_SQL_PATCHES_PATH')) {
+    define('APP_SQL_PATCHES_PATH', APP_PATH . '/upgrade/patches');
+}
+
+$in_setup = defined('IN_SETUP');
 $dbconfig = DB_Helper::getConfig();
 
 function db_getAll($query)
@@ -94,17 +99,20 @@ function patch_database()
     }
 }
 
-if (php_sapi_name() != 'cli') {
+if (!$in_setup && php_sapi_name() != 'cli') {
     echo "<pre>\n";
 }
 
 try {
     patch_database();
 } catch (Exception $e) {
+    if ($in_setup) {
+        throw $e;
+    }
     echo $e->getMessage(), "\n";
     exit(1);
 }
 
-if (php_sapi_name() != 'cli') {
+if (!$in_setup && php_sapi_name() != 'cli') {
     echo "</pre>\n";
 }

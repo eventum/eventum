@@ -129,6 +129,28 @@ function disableAuthFields(bool)
 </table>
 {/if}
 
+{if $db_result|default:''}
+  <br />
+  <table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+    <tr>
+      <td>
+        <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+          <tr>
+            <td colspan="2">
+              <div>
+                <h3>{t}Database upgrade log:{/t}</h3>
+                <pre>
+                <br/>{$db_result|escape:html}
+                </pre>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+{/if}
+
 {if $result|default:'' == 'success'}
 <br />
 <table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">

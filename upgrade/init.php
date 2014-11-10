@@ -10,4 +10,7 @@ if (!file_exists(CONFIG_PATH . '/setup.php') || !filesize(CONFIG_PATH . '/setup.
     exit(1);
 }
 
-require_once INSTALL_PATH . '/init.php';
+// load init only no autoloader present
+if (!class_exists('DB_Helper')) {
+    require_once INSTALL_PATH . '/init.php';
+}

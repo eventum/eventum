@@ -418,6 +418,18 @@ function e($s)
 }
 
 /**
+ * @param $str
+ * @return string
+ */
+function strip_hashbang($str)
+{
+    $str = explode(PHP_EOL, $str);
+    array_shift($str);
+    $str = implode(PHP_EOL, $str);
+    return $str;
+}
+
+/**
  * return error message as string, or true indicating success
  * requires setup to be written first.
  */
@@ -513,15 +525,25 @@ function setup_database()
 
     // finish database setup with upgrade script
     $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    exec("$upgrade_script 2>&1", $upgrade_log, $rc);
-    if ($rc != 0) {
-        $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+    // use ob_ to strip out hashbang
+    ob_start();
+    try {
+        define('IN_SETUP', true);
+        require $upgrade_script;
+        $out = ob_get_clean();
+        $e = false;
+    } catch (Exception $e) {
+        $out = ob_get_clean();
+    }
 
-        throw new RuntimeException("Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.");
+    global $tpl;
+    $tpl->assign('db_result', strip_hashbang($out));
+
+    if ($e) {
+        throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
     }
 
     $setup = Setup::load();
-
     // write db name now that it has been created
     $setup['database']['database'] = $_POST['db_name'];
 
