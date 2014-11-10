@@ -366,40 +366,48 @@ function getFirstWeekday()
     return 1;
 }
 
-function getDatabaseList($conn)
+/***
+ * @param DbInterface $conn
+ * @param string $database
+ * @return array|null
+ */
+function checkDatabaseExists($conn, $database)
 {
-    $db_list = mysql_list_dbs($conn);
-    $dbs = array();
-    while ($row = mysql_fetch_array($db_list)) {
-        $dbs[] = $row['Database'];
-    }
-
-    return $dbs;
+    $exists = $conn->getOne("SHOW DATABASES LIKE ?", $database);
+    return $exists;
 }
 
+/**
+ * @param DbInterface $conn
+ * @return array
+ */
 function getUserList($conn)
 {
-    @mysql_select_db('mysql');
-    $res = @mysql_query('SELECT DISTINCT User from user');
-    $users = array();
-    // if the user cannot select from the mysql.user table, then return an empty list
-    if (!$res) {
-        return $users;
+    // avoid "1046 ** No database selected" error
+    $conn->query("USE mysql");
+    try {
+        $users = $conn->getColumn('SELECT DISTINCT User from user');
+    } catch (DbException $e) {
+        // if the user cannot select from the mysql.user table, then return an empty list
+        return array();
     }
-    while ($row = mysql_fetch_row($res)) {
-        $users[] = $row[0];
-    }
+
+    // FIXME: why lowercase neccessary?
+    $users = array_map('strtolower', $users);
 
     return $users;
 }
 
+/**
+ * @param DbInterface $conn
+ * @return array
+ */
 function getTableList($conn)
 {
-    $res = mysql_query('SHOW TABLES', $conn);
-    $tables = array();
-    while ($row = mysql_fetch_row($res)) {
-        $tables[] = $row[0];
-    }
+    $tables = $conn->getColumn("SHOW TABLES");
+
+    // FIXME: why lowercase neccessary?
+    $tables = array_map('strtolower', $tables);
 
     return $tables;
 }
@@ -415,24 +423,17 @@ function e($s)
  */
 function setup_database()
 {
-//    $db = DB_Helper::getInstance();
-    global $conn;
+    $conn = DB_Helper::getInstance(false);
 
-    // check if we can connect
-    $conn = mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
-    if (!$conn) {
-        throw new RuntimeException(getErrorMessage('connect', mysql_error()));
-    }
-    $db_list = getDatabaseList($conn);
-    $db_list = array_map('strtolower', $db_list);
-    if (@$_POST['create_db'] == 'yes') {
-        if (!in_array(strtolower($_POST['db_name']), $db_list)) {
-            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $conn)) {
-                throw new RuntimeException(getErrorMessage('create_db', mysql_error()));
+    $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
+    if (!$db_exists) {
+        if (@$_POST['create_db'] == 'yes') {
+            try {
+                $conn->query("CREATE DATABASE {{{$_POST['db_name']}}}");
+            } catch (DbException $e) {
+                throw new RuntimeException(getErrorMessage('create_db', $e->getMessage()));
             }
-        }
-    } else {
-        if (count($db_list) > 0 && !in_array(strtolower($_POST['db_name']), $db_list)) {
+        } else {
             throw new RuntimeException("The provided database name could not be found. Review your information or specify that the database should be created in the form below.");
         }
     }
@@ -440,60 +441,73 @@ function setup_database()
     // create the new user, if needed
     if (@$_POST["alternate_user"] == 'yes') {
         $user_list = getUserList($conn);
-        if (count($user_list) > 0) {
-            $user_list = array_map('strtolower', $user_list);
+        if ($user_list) {
+            $user_exists = in_array(strtolower(@$_POST['eventum_user']), $user_list);
+
             if (@$_POST["create_user"] == 'yes') {
-                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
-                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $_POST['db_name'] . ".* TO '" . $_POST["eventum_user"] . "'@'%' IDENTIFIED BY '" . $_POST["eventum_password"] . "'";
-                    if (!mysql_query($stmt, $conn)) {
-                        throw new RuntimeException(getErrorMessage('create_user', mysql_error()));
+                if (!$user_exists) {
+                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
+                    try {
+                        $conn->query($stmt, array($_POST["eventum_user"], $_POST["eventum_password"]));
+                    } catch (DbException $e) {
+                        throw new RuntimeException(getErrorMessage('create_user', $e->getMessage()));
                     }
                 }
             } else {
-                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
+                if (!$user_exists) {
                     throw new RuntimeException("The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.");
                 }
             }
         }
     }
+
     // check if we can use the database
-    if (!mysql_select_db($_POST['db_name'])) {
-        throw new RuntimeException(getErrorMessage('select_db', mysql_error()));
+    try {
+        $conn->query("USE {{{$_POST['db_name']}}}");
+    } catch (DbException $e) {
+        throw new RuntimeException(getErrorMessage('select_db', $e->getMessage()));
     }
 
     // set sql mode (sad that we rely on old bad mysql defaults)
-    mysql_query("SET SQL_MODE = ''");
+    $conn->query("SET SQL_MODE = ''");
 
     // check the CREATE and DROP privileges by trying to create and drop a test table
     $table_list = getTableList($conn);
-    $table_list = array_map('strtolower', $table_list);
     if (!in_array('eventum_test', $table_list)) {
-        if (!mysql_query('CREATE TABLE eventum_test (test char(1))', $conn)) {
-            throw new RuntimeException(getErrorMessage('create_test', mysql_error()));
+        try {
+            $conn->query('CREATE TABLE eventum_test (test char(1))');
+        } catch (DbException $e) {
+            throw new RuntimeException(getErrorMessage('create_test', $e->getMessage()));
         }
     }
-    if (!mysql_query('DROP TABLE eventum_test', $conn)) {
-        throw new RuntimeException(getErrorMessage('drop_test', mysql_error()));
+    try {
+        $conn->query('DROP TABLE eventum_test');
+    } catch (DbException $e) {
+        throw new RuntimeException(getErrorMessage('drop_test', $e->getMessage()));
     }
+
     $contents = implode("", file("schema.sql"));
     $queries = explode(";", $contents);
     unset($queries[count($queries)-1]);
-    // COMPAT: the next line requires PHP >= 4.0.6
+
     $queries = array_map("trim", $queries);
     $queries = array_map("replace_table_prefix", $queries);
     foreach ($queries as $stmt) {
         if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
             continue;
         }
-        // need to check if a CREATE TABLE on an existing table throws an error
-        if (!mysql_query($stmt, $conn)) {
+
+        try {
+            $conn->query($stmt);
+        } catch (DbException $e) {
+            // need to check if a CREATE TABLE on an existing table throws an error
             if (stristr($stmt, 'DROP TABLE')) {
                 $type = 'drop_table';
             } else {
                 $type = 'create_table';
             }
 
-            throw new RuntimeException(getErrorMessage($type, mysql_error()));
+            throw new RuntimeException(getErrorMessage($type, $e->getMessage()));
         }
     }
 
@@ -506,15 +520,18 @@ function setup_database()
         throw new RuntimeException("Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.");
     }
 
+    $setup = Setup::load();
+
+    // write db name now that it has been created
+    $setup['database']['database'] = $_POST['db_name'];
+
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
-        $setup = Setup::load();
-        $setup['database'] = array(
-            'username' => $_POST['eventum_user'],
-            'password' => $_POST['eventum_password'],
-        );
-        Setup::save($setup);
+        $setup['database']['username'] = $_POST['eventum_user'];
+        $setup['database']['password'] = $_POST['eventum_password'];
     }
+
+    Setup::save($setup);
 }
 
 function write_file($file, $contents)
@@ -555,7 +572,7 @@ function write_setup()
 
         // connection info
         'hostname' => $_POST['db_hostname'],
-        'database' => $_POST['db_name'],
+        'database' => '', // NOTE: db name has to be written after the table has been created
         'username' => $_POST['db_username'],
         'password' => $_POST['db_password'],
         'port' => 3306,
@@ -583,10 +600,8 @@ function write_config()
     $config_file_path = APP_CONFIG_PATH . '/config.php';
 
     // disable the full-text search feature for certain mysql server users
-    global $conn;
-    $stmt = "SELECT VERSION();";
-    $res = mysql_query($stmt, $conn);
-    $mysql_version = mysql_result($res, 0, 0);
+    /** @var DbInterface $conn */
+    $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
     preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
     $enable_fulltext = $matches[1] > '4.0.23';
 
