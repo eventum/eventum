@@ -498,12 +498,11 @@ function setup_database()
         throw new RuntimeException(getErrorMessage('drop_test', $e->getMessage()));
     }
 
-    $contents = implode("", file("schema.sql"));
+    $contents = file_get_contents(APP_PATH . '/upgrade/schema.sql');
     $queries = explode(";", $contents);
-    unset($queries[count($queries)-1]);
-
     $queries = array_map("trim", $queries);
     $queries = array_map("replace_table_prefix", $queries);
+    $queries = array_filter($queries);
     foreach ($queries as $stmt) {
         if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
             continue;
