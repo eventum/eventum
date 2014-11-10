@@ -514,16 +514,7 @@ function setup_database()
         }
     }
 
-    $queries = get_queries(APP_PATH . '/upgrade/schema.sql');
-    foreach ($queries as $stmt) {
-        try {
-            $conn->query($stmt);
-        } catch (DbException $e) {
-            throw new RuntimeException(getErrorMessage('create_table', $e->getMessage()));
-        }
-    }
-
-    // finish database setup with upgrade script
+    // setup database with upgrade script
     $upgrade_script = APP_PATH . '/upgrade/update-database.php';
     // use ob_ to strip out hashbang
     ob_start();

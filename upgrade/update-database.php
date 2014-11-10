@@ -2,10 +2,6 @@
 <?php
 require_once dirname(__FILE__) . '/init.php';
 
-if (!defined('APP_SQL_PATCHES_PATH')) {
-    define('APP_SQL_PATCHES_PATH', APP_PATH . '/upgrade/patches');
-}
-
 $in_setup = defined('IN_SETUP');
 $dbconfig = DB_Helper::getConfig();
 
@@ -69,9 +65,22 @@ function read_patches($update_path)
     return $files;
 }
 
+function init_database()
+{
+    $file = __DIR__ . '/schema.sql';
+    echo "* Creating database: ", basename($file), "\n";
+    exec_sql_file($file);
+}
+
 function patch_database()
 {
     // sanity check. check that the version table exists.
+    global $dbconfig;
+    $has_table = db_getOne("SHOW TABLES LIKE '{$dbconfig['table_prefix']}version'");
+    if (!$has_table) {
+        init_database();
+    }
+
     $last_patch = db_getOne("SELECT ver_version FROM {{%version}}");
     if (!isset($last_patch)) {
         // insert initial value
@@ -79,7 +88,7 @@ function patch_database()
         $last_patch = 0;
     }
 
-    $files = read_patches(APP_SQL_PATCHES_PATH);
+    $files = read_patches(__DIR__ . '/patches');
 
     $addCount = 0;
     foreach ($files as $number => $file) {
