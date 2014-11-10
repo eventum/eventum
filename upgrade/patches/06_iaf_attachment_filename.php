@@ -5,13 +5,13 @@
  */
 
 // Attachments that need to be decoded
-$res = $db->getAll("SELECT iaf_id, iaf_filename FROM {{%issue_attachment_file}} WHERE iaf_filename LIKE '%=?%'");
+$res = $db->getAll("SELECT iaf_id, iaf_filename FROM {{%issue_attachment_file}} WHERE iaf_filename LIKE ?", array('%=?%'));
 
 foreach ($res as $idx => $row) {
     $iaf_filename = Mime_Helper::decodeQuotedPrintable($row['iaf_filename']);
     $db->query("UPDATE {{%issue_attachment_file}} ".
-        "SET iaf_filename='". DB_Helper::escapeString($iaf_filename). "' ".
-        "WHERE iaf_id=".$row['iaf_id']
+        "SET iaf_filename=? ".
+        "WHERE iaf_id=?", array($iaf_filename, $row['iaf_id'])
     );
 }
 
@@ -23,7 +23,7 @@ foreach ($res as $idx => $row) {
     $iaf_filename = ev_gettext('Untitled.%s', $ext);
 
     $db->query("UPDATE {{%issue_attachment_file}} ".
-        "SET iaf_filename='". DB_Helper::escapeString($iaf_filename). "' ".
-        "WHERE iaf_id=".$row['iaf_id']
+        "SET iaf_filename=? ".
+        "WHERE iaf_id=?", array($iaf_filename, $row['iaf_id'])
     );
 }
