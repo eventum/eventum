@@ -207,7 +207,7 @@ function disableAuthFields(bool)
             <nobr>&nbsp;<b>{t}MySQL Server Hostname{/t}: *</b></nobr>
           </td>
           <td>
-            <input type="text" name="db_hostname" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname|default:''}">
+            <input type="text" name="db_hostname" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname|default:'localhost'}">
             {include file="error_icon.tpl.html" field="db_hostname"}
           </td>
         </tr>
@@ -216,7 +216,7 @@ function disableAuthFields(bool)
             <b>{t}MySQL Database{/t}: *</b>
           </td>
           <td>
-            <input type="text" name="db_name" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name|default:''}">
+            <input type="text" name="db_name" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name|default:'eventum'}">
             {include file="error_icon.tpl.html" field="db_name"}
             <br/>
             <label><input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db|default:'' == 'yes'}checked{/if}> Create Database</label>
@@ -394,7 +394,7 @@ function disableAuthFields(bool)
             <b>{t}Hostname{/t}: *</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|default:''|escape:"html"}" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|default:'localhost'|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][host]"}
           </td>
         </tr>
@@ -403,7 +403,7 @@ function disableAuthFields(bool)
             <b>{t}Port{/t}: *</b>
           </td>
           <td width="80%">
-            <input type="text" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port|default:'' }" tabindex="{$tabindex}">
+            <input type="text" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port|default:'25'}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][port]"}
           </td>
         </tr>
