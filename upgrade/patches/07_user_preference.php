@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 
-db_query("CREATE TABLE {{%user_preference}}
+$db->query("CREATE TABLE {{%user_preference}}
 (
     upr_usr_id int(11) unsigned NOT NULL,
     upr_timezone varchar(100) NOT NULL,
@@ -15,7 +15,7 @@ db_query("CREATE TABLE {{%user_preference}}
     PRIMARY KEY(upr_usr_id)
 )");
 
-db_query("CREATE TABLE {{%user_project_preference}}
+$db->query("CREATE TABLE {{%user_project_preference}}
 (
     upp_usr_id int(11) unsigned NOT NULL,
     upp_prj_id int(11) unsigned NOT NULL,
@@ -32,12 +32,7 @@ $sql = "SELECT
             {{%user}}
         ORDER BY
             usr_id DESC";
-try {
-    $res = db_getall($sql);
-} catch (DbException $e) {
-    echo $e->getMessage(), "\n";
-    exit(1);
-}
+$res = $db->getAll($sql);
 
 foreach ($res as $row) {
     $usr_id = $row['usr_id'];

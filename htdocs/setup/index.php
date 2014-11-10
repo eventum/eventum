@@ -180,12 +180,12 @@ function checkPermissions($file, $desc, $is_directory = false)
             // try to create the file ourselves then
             $fp = @fopen($file, 'w');
             if (!$fp) {
-                return  getPermissionError($file, $desc, $is_directory, false);
+                return getPermissionError($file, $desc, $is_directory, false);
             }
             @fclose($fp);
         } else {
             if (!@mkdir($file)) {
-                return  getPermissionError($file, $desc, $is_directory, false);
+                return getPermissionError($file, $desc, $is_directory, false);
             }
         }
     }
@@ -309,11 +309,6 @@ function checkRequirements()
     return array($warnings, $errors);
 }
 
-function replace_table_prefix($str)
-{
-    return str_replace('%TABLE_PREFIX%', $_POST['db_table_prefix'], $str);
-}
-
 function getErrorMessage($type, $message)
 {
     if (empty($message)) {
@@ -366,40 +361,48 @@ function getFirstWeekday()
     return 1;
 }
 
-function getDatabaseList($conn)
+/***
+ * @param DbInterface $conn
+ * @param string $database
+ * @return array|null
+ */
+function checkDatabaseExists($conn, $database)
 {
-    $db_list = mysql_list_dbs($conn);
-    $dbs = array();
-    while ($row = mysql_fetch_array($db_list)) {
-        $dbs[] = $row['Database'];
-    }
-
-    return $dbs;
+    $exists = $conn->getOne("SHOW DATABASES LIKE ?", $database);
+    return $exists;
 }
 
+/**
+ * @param DbInterface $conn
+ * @return array
+ */
 function getUserList($conn)
 {
-    @mysql_select_db('mysql');
-    $res = @mysql_query('SELECT DISTINCT User from user');
-    $users = array();
-    // if the user cannot select from the mysql.user table, then return an empty list
-    if (!$res) {
-        return $users;
+    // avoid "1046 ** No database selected" error
+    $conn->query("USE mysql");
+    try {
+        $users = $conn->getColumn('SELECT DISTINCT User from user');
+    } catch (DbException $e) {
+        // if the user cannot select from the mysql.user table, then return an empty list
+        return array();
     }
-    while ($row = mysql_fetch_row($res)) {
-        $users[] = $row[0];
-    }
+
+    // FIXME: why lowercase neccessary?
+    $users = array_map('strtolower', $users);
 
     return $users;
 }
 
+/**
+ * @param DbInterface $conn
+ * @return array
+ */
 function getTableList($conn)
 {
-    $res = mysql_query('SHOW TABLES', $conn);
-    $tables = array();
-    while ($row = mysql_fetch_row($res)) {
-        $tables[] = $row[0];
-    }
+    $tables = $conn->getColumn("SHOW TABLES");
+
+    // FIXME: why lowercase neccessary?
+    $tables = array_map('strtolower', $tables);
 
     return $tables;
 }
@@ -409,145 +412,165 @@ function e($s)
     return var_export($s, 1);
 }
 
-function install()
+/**
+ * @param $str
+ * @return string
+ */
+function strip_hashbang($str)
 {
-    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
-    $config_file_path = APP_CONFIG_PATH . '/config.php';
+    $str = explode(PHP_EOL, $str);
+    array_shift($str);
+    $str = implode(PHP_EOL, $str);
+    return $str;
+}
 
-    clearstatcache();
-    // check if config directory is writable
-    if (!is_writable(APP_CONFIG_PATH)) {
-        return "The file '" . APP_CONFIG_PATH . "' directory needs to be writable by the web server user. Please correct this problem and try again.";
-    }
-    // need to create a random private key variable
-    $private_key = '<'.'?php
-$private_key = "' . md5(microtime()) . '";
-';
-    $fp = @fopen($private_key_path, 'w');
-    if ($fp === false) {
-        return "Could not open the file '$private_key_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
-    }
-    $res = fwrite($fp, $private_key);
-    if ($fp === false) {
-        return "Could not write the configuration information to '$private_key_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    }
-    fclose($fp);
-    // check if we can connect
-    $conn = mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
-    if (!$conn) {
-        return getErrorMessage('connect', mysql_error());
-    }
-    $db_list = getDatabaseList($conn);
-    $db_list = array_map('strtolower', $db_list);
-    if (@$_POST['create_db'] == 'yes') {
-        if (!in_array(strtolower($_POST['db_name']), $db_list)) {
-            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $conn)) {
-                return getErrorMessage('create_db', mysql_error());
+function get_queries($file)
+{
+    $contents = file_get_contents($file);
+    $queries = explode(";", $contents);
+    $queries = array_map("trim", $queries);
+    $queries = array_filter($queries);
+    return $queries;
+}
+
+/**
+ * return error message as string, or true indicating success
+ * requires setup to be written first.
+ */
+function setup_database()
+{
+    $conn = DB_Helper::getInstance(false);
+
+    $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
+    if (!$db_exists) {
+        if (@$_POST['create_db'] == 'yes') {
+            try {
+                $conn->query("CREATE DATABASE {{{$_POST['db_name']}}}");
+            } catch (DbException $e) {
+                throw new RuntimeException(getErrorMessage('create_db', $e->getMessage()));
             }
-        }
-    } else {
-        if ((count($db_list) > 0) && (!in_array(strtolower($_POST['db_name']), $db_list))) {
-            return "The provided database name could not be found. Review your information or specify that the database should be created in the form below.";
+        } else {
+            throw new RuntimeException("The provided database name could not be found. Review your information or specify that the database should be created in the form below.");
         }
     }
+
     // create the new user, if needed
     if (@$_POST["alternate_user"] == 'yes') {
         $user_list = getUserList($conn);
-        if (count($user_list) > 0) {
-            $user_list = array_map('strtolower', $user_list);
+        if ($user_list) {
+            $user_exists = in_array(strtolower(@$_POST['eventum_user']), $user_list);
+
             if (@$_POST["create_user"] == 'yes') {
-                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
-                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $_POST['db_name'] . ".* TO '" . $_POST["eventum_user"] . "'@'%' IDENTIFIED BY '" . $_POST["eventum_password"] . "'";
-                    if (!mysql_query($stmt, $conn)) {
-                        return getErrorMessage('create_user', mysql_error());
+                if (!$user_exists) {
+                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
+                    try {
+                        $conn->query($stmt, array($_POST["eventum_user"], $_POST["eventum_password"]));
+                    } catch (DbException $e) {
+                        throw new RuntimeException(getErrorMessage('create_user', $e->getMessage()));
                     }
                 }
             } else {
-                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
-                    return "The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.";
+                if (!$user_exists) {
+                    throw new RuntimeException("The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.");
                 }
             }
         }
     }
+
     // check if we can use the database
-    if (!mysql_select_db($_POST['db_name'])) {
-        return getErrorMessage('select_db', mysql_error());
+    try {
+        $conn->query("USE {{{$_POST['db_name']}}}");
+    } catch (DbException $e) {
+        throw new RuntimeException(getErrorMessage('select_db', $e->getMessage()));
     }
 
     // set sql mode (sad that we rely on old bad mysql defaults)
-    mysql_query("SET SQL_MODE = ''");
+    $conn->query("SET SQL_MODE = ''");
 
     // check the CREATE and DROP privileges by trying to create and drop a test table
     $table_list = getTableList($conn);
-    $table_list = array_map('strtolower', $table_list);
     if (!in_array('eventum_test', $table_list)) {
-        if (!mysql_query('CREATE TABLE eventum_test (test char(1))', $conn)) {
-            return getErrorMessage('create_test', mysql_error());
+        try {
+            $conn->query('CREATE TABLE eventum_test (test char(1))');
+        } catch (DbException $e) {
+            throw new RuntimeException(getErrorMessage('create_test', $e->getMessage()));
         }
     }
-    if (!mysql_query('DROP TABLE eventum_test', $conn)) {
-        return getErrorMessage('drop_test', mysql_error());
+    try {
+        $conn->query('DROP TABLE eventum_test');
+    } catch (DbException $e) {
+        throw new RuntimeException(getErrorMessage('drop_test', $e->getMessage()));
     }
-    $contents = implode("", file("schema.sql"));
-    $queries = explode(";", $contents);
-    unset($queries[count($queries)-1]);
-    // COMPAT: the next line requires PHP >= 4.0.6
-    $queries = array_map("trim", $queries);
-    $queries = array_map("replace_table_prefix", $queries);
-    foreach ($queries as $stmt) {
-        if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
-            continue;
-        }
-        // need to check if a CREATE TABLE on an existing table throws an error
-        if (!mysql_query($stmt, $conn)) {
-            if (stristr($stmt, 'DROP TABLE')) {
-                $type = 'drop_table';
-            } else {
-                $type = 'create_table';
-            }
 
-            return getErrorMessage($type, mysql_error());
+    // if requested. drop tables first
+    if (@$_POST['drop_tables'] == 'yes') {
+        $queries = get_queries(APP_PATH . '/upgrade/drop.sql');
+        foreach ($queries as $stmt) {
+            try {
+                $conn->query($stmt);
+            } catch (DbException $e) {
+                throw new RuntimeException(getErrorMessage('drop_table', $e->getMessage()));
+            }
         }
     }
+
+    // setup database with upgrade script
+    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+    // use ob_ to strip out hashbang
+    ob_start();
+    try {
+        define('IN_SETUP', true);
+        require $upgrade_script;
+        $out = ob_get_clean();
+        $e = false;
+    } catch (Exception $e) {
+        $out = ob_get_clean();
+    }
+
+    global $tpl;
+    $tpl->assign('db_result', strip_hashbang($out));
+
+    if ($e) {
+        throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
+    }
+
+    $setup = Setup::load();
+    // write db name now that it has been created
+    $setup['database']['database'] = $_POST['db_name'];
 
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
-        $_POST['db_username'] = $_POST['eventum_user'];
-        $_POST['db_password'] = $_POST['eventum_password'];
+        $setup['database']['username'] = $_POST['eventum_user'];
+        $setup['database']['password'] = $_POST['eventum_password'];
     }
 
-    // disable the full-text search feature for certain mysql server users
-    $stmt = "SELECT VERSION();";
-    $res = mysql_query($stmt, $conn);
-    $mysql_version = mysql_result($res, 0, 0);
-    preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
-    $enable_fulltext = $matches[1] > '4.0.23';
+    Setup::save($setup);
+}
 
-    $replace = array(
-        "'%{APP_HOSTNAME}%'" => e($_POST['hostname']),
-        "'%{CHARSET}%'" => e(APP_CHARSET),
-        "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
-        "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
-        "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
-        "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ?  'https://' : 'http://'),
-        "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
-    );
-
-    $config_contents = file_get_contents('config.php');
-    $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
-
-    $fp = @fopen($config_file_path, 'w');
-    if ($fp === false) {
-        return "Could not open the file '$config_file_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+function write_file($file, $contents)
+{
+    clearstatcache();
+    // check if directory is writable
+    $dir = dirname($file);
+    if (!is_writable($dir)) {
+        throw new RuntimeException("The file '{$dir}' directory needs to be writable by the web server user. Please correct this problem and try again.");
     }
-    $res = fwrite($fp, $config_contents);
+    $fp = @fopen($file, 'w');
     if ($fp === false) {
-        return "Could not write the configuration information to '$config_file_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
+        throw new RuntimeException("Could not open the file '$file' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.");
+    }
+    $res = fwrite($fp, $contents);
+    if ($res <= 0) {
+        throw new RuntimeException("Could not write the configuration information to '$file'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.");
     }
     fclose($fp);
+}
 
-    // write setup file
-    require_once APP_INC_PATH . '/class.setup.php';
+/**
+ * write initial values for setup file
+ */
+function write_setup()
+{
     $setup = $_REQUEST['setup'];
     $setup['update'] = 1;
     $setup['closed'] = 1;
@@ -558,28 +581,68 @@ $private_key = "' . md5(microtime()) . '";
 
     $setup['database'] = array(
         // database driver
-        'driver'  => 'mysql',
+        'driver' => 'mysql',
 
         // connection info
         'hostname' => $_POST['db_hostname'],
-        'database' => $_POST['db_name'],
+        'database' => '', // NOTE: db name has to be written after the table has been created
         'username' => $_POST['db_username'],
         'password' => $_POST['db_password'],
-        'port'     => 3306,
+        'port' => 3306,
 
         // table prefix
         'table_prefix' => $_POST['db_table_prefix'],
     );
 
     Setup::save($setup);
+}
 
-    // after config has been written down, we can finish database setup by calling upgrade script
-    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    exec("$upgrade_script 2>&1", $upgrade_log, $rc);
-    if ($rc != 0) {
-        $upgrade_log = htmlspecialchars(implode("\n", $upgrade_log));
+/**
+ * create a random private key variable
+ */
+function write_privatekey()
+{
+    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
 
-        return "Database setup failed on upgrade. Upgrade log:<br/><pre>$upgrade_log</pre><br/>You may want run update script <tt>$upgrade_script</tt> manually.";
+    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(microtime()), 1) . ";\n";
+    write_file($private_key_path, $private_key);
+}
+
+function write_config()
+{
+    $config_file_path = APP_CONFIG_PATH . '/config.php';
+
+    // disable the full-text search feature for certain mysql server users
+    /** @var DbInterface $conn */
+    $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
+    preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
+    $enable_fulltext = $matches[1] > '4.0.23';
+
+    $replace = array(
+        "'%{APP_HOSTNAME}%'" => e($_POST['hostname']),
+        "'%{CHARSET}%'" => e(APP_CHARSET),
+        "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
+        "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$_POST['default_weekday'],
+        "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ? 'https://' : 'http://'),
+        "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
+    );
+
+    $config_contents = file_get_contents('config.php');
+    $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
+
+    write_file($config_file_path, $config_contents);
+}
+
+function install()
+{
+    try {
+        write_privatekey();
+        write_setup();
+        setup_database();
+        write_config();
+    } catch (RuntimeException $e) {
+        return $e->getMessage();
     }
 
     return 'success';

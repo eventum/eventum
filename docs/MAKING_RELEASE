@@ -1,26 +1,18 @@
---- before RC tarball
-	* make sure schema.sql is up to date
-	* Change the release number in /init.php (APP_VERSION)
-	* Update the ChangeLog file with the correct version number and release date
-	* Update UPGRADE with instructions, check misc/upgrade new files have proper text and versions
-	* Localization: update from launchpad, make pot, review, commit
-	$ bzr merge bzr+ssh://bazaar.launchpad.net/~glen666/eventum/po 
-	$ make -C localization pot
-	$ make -C localization update-po
-	$ bzr commit
-	$ bzr push
+--- make tarball:
+	* make sure upgrade/drop.sql lists all created tables
+	* Change the release number in init.php (APP_VERSION)
+	* Update the docs/ChangeLog file with the correct version number and release date
+	$ make dist
 
---- making RC tarball
-	* Set proper rc=RC1 in release.sh
-	$ ./release.sh
-
---- after RC
-	* remove "rc=" in release.sh, remake tarball
-	* Tag the repository with the new release (bzr tag)
+--- making release, pre-release tarball
+	* Tag the repository with the new release (git tag)
+	* run make tarball procedure
+	* if all well, push out the tag
 
 ---
 	* Test the new release directory with a quick installation
 		o see if a new issue can be created correctly and etc
+		o see that tables created are also in upgrade/drop.sql
 
 --- after release
 	* update freshmeat: http://freshmeat.net/projects/eventum/
