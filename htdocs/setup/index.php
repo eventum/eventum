@@ -424,6 +424,15 @@ function strip_hashbang($str)
     return $str;
 }
 
+function get_queries($file)
+{
+    $contents = file_get_contents($file);
+    $queries = explode(";", $contents);
+    $queries = array_map("trim", $queries);
+    $queries = array_filter($queries);
+    return $queries;
+}
+
 /**
  * return error message as string, or true indicating success
  * requires setup to be written first.
@@ -493,26 +502,24 @@ function setup_database()
         throw new RuntimeException(getErrorMessage('drop_test', $e->getMessage()));
     }
 
-    $contents = file_get_contents(APP_PATH . '/upgrade/schema.sql');
-    $queries = explode(";", $contents);
-    $queries = array_map("trim", $queries);
-    $queries = array_filter($queries);
-    foreach ($queries as $stmt) {
-        if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
-            continue;
+    // if requested. drop tables first
+    if (@$_POST['drop_tables'] == 'yes') {
+        $queries = get_queries(APP_PATH . '/upgrade/drop.sql');
+        foreach ($queries as $stmt) {
+            try {
+                $conn->query($stmt);
+            } catch (DbException $e) {
+                throw new RuntimeException(getErrorMessage('drop_table', $e->getMessage()));
+            }
         }
+    }
 
+    $queries = get_queries(APP_PATH . '/upgrade/schema.sql');
+    foreach ($queries as $stmt) {
         try {
             $conn->query($stmt);
         } catch (DbException $e) {
-            // need to check if a CREATE TABLE on an existing table throws an error
-            if (stristr($stmt, 'DROP TABLE')) {
-                $type = 'drop_table';
-            } else {
-                $type = 'create_table';
-            }
-
-            throw new RuntimeException(getErrorMessage($type, $e->getMessage()));
+            throw new RuntimeException(getErrorMessage('create_table', $e->getMessage()));
         }
     }
 

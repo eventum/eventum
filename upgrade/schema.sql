@@ -1,5 +1,4 @@
 
-DROP TABLE IF EXISTS {{%custom_filter}};
 CREATE TABLE {{%custom_filter}} (
   cst_id int(10) unsigned NOT NULL auto_increment,
   cst_usr_id int(10) unsigned NOT NULL default 0,
@@ -45,7 +44,6 @@ CREATE TABLE {{%custom_filter}} (
   KEY cst_usr_id (cst_usr_id,cst_prj_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%email_account}};
 CREATE TABLE {{%email_account}} (
   ema_id int(10) unsigned NOT NULL auto_increment,
   ema_prj_id int(10) unsigned NOT NULL default 0,
@@ -65,7 +63,6 @@ CREATE TABLE {{%email_account}} (
   UNIQUE (ema_username, ema_hostname(100), ema_folder(100))
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%history_type}};
 CREATE TABLE {{%history_type}} (
   htt_id tinyint(2) unsigned NOT NULL auto_increment,
   htt_name varchar(25) NOT NULL,
@@ -134,7 +131,6 @@ INSERT INTO {{%history_type}} SET htt_name = 'scm_checkin_associated';
 INSERT INTO {{%history_type}} SET htt_name = 'issue_bulk_updated';
 INSERT INTO {{%history_type}} SET htt_name = 'draft_routed',  htt_role = 4;
 
-DROP TABLE IF EXISTS {{%issue}};
 CREATE TABLE {{%issue}} (
   iss_id int(11) unsigned NOT NULL auto_increment,
   iss_customer_id varchar(128) NULL,
@@ -183,14 +179,12 @@ CREATE TABLE {{%issue}} (
   FULLTEXT ft_issue (iss_summary, iss_description)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_association}};
 CREATE TABLE {{%issue_association}} (
   isa_issue_id int(10) unsigned NOT NULL default 0,
   isa_associated_id int(10) unsigned NOT NULL default 0,
   KEY isa_issue_id (isa_issue_id,isa_associated_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_attachment}};
 CREATE TABLE {{%issue_attachment}} (
   iat_id int(10) unsigned NOT NULL auto_increment,
   iat_iss_id int(10) unsigned NOT NULL default 0,
@@ -204,7 +198,6 @@ CREATE TABLE {{%issue_attachment}} (
   KEY iat_iss_id (iat_iss_id,iat_usr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_attachment_file}};
 CREATE TABLE {{%issue_attachment_file}} (
   iaf_id int(10) unsigned NOT NULL auto_increment,
   iaf_iat_id int(10) unsigned NOT NULL default 0,
@@ -216,7 +209,6 @@ CREATE TABLE {{%issue_attachment_file}} (
   KEY iaf_iat_id (iaf_iat_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_checkin}};
 CREATE TABLE {{%issue_checkin}} (
   isc_id int(10) unsigned NOT NULL auto_increment,
   isc_iss_id int(10) unsigned NOT NULL default 0,
@@ -231,7 +223,6 @@ CREATE TABLE {{%issue_checkin}} (
   KEY isc_iss_id (isc_iss_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_history}};
 CREATE TABLE {{%issue_history}} (
   his_id int(10) unsigned NOT NULL auto_increment,
   his_iss_id int(10) unsigned NOT NULL default 0,
@@ -246,7 +237,6 @@ CREATE TABLE {{%issue_history}} (
   KEY his_created_date (his_created_date)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_requirement}};
 CREATE TABLE {{%issue_requirement}} (
   isr_id int(10) unsigned NOT NULL auto_increment,
   isr_iss_id int(10) unsigned NOT NULL default 0,
@@ -263,7 +253,6 @@ CREATE TABLE {{%issue_requirement}} (
   KEY isr_updated_usr_id (isr_updated_usr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_user}};
 CREATE TABLE {{%issue_user}} (
   isu_iss_id int(10) unsigned NOT NULL default 0,
   isu_usr_id int(10) unsigned NOT NULL default 0,
@@ -275,7 +264,6 @@ CREATE TABLE {{%issue_user}} (
   KEY isu_iss_id (isu_iss_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%note}};
 CREATE TABLE {{%note}} (
   not_id int(11) unsigned NOT NULL auto_increment,
   not_iss_id int(11) unsigned NOT NULL default 0,
@@ -297,7 +285,6 @@ CREATE TABLE {{%note}} (
   FULLTEXT ft_note (not_title,not_note)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_priority}};
 CREATE TABLE {{%project_priority}} (
   pri_id smallint(3) unsigned NOT NULL auto_increment,
   pri_prj_id int(11) unsigned NOT NULL,
@@ -312,7 +299,6 @@ INSERT INTO {{%project_priority}} (pri_id, pri_prj_id, pri_title, pri_rank) VALU
 INSERT INTO {{%project_priority}} (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (4, 1, 'Low', 4);
 INSERT INTO {{%project_priority}} (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (5, 1, 'Not Prioritized', 5);
 
-DROP TABLE IF EXISTS {{%project}};
 CREATE TABLE {{%project}} (
   prj_id int(11) unsigned NOT NULL auto_increment,
   prj_created_date datetime NOT NULL default '0000-00-00 00:00:00',
@@ -335,7 +321,6 @@ CREATE TABLE {{%project}} (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 INSERT INTO {{%project}} (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', '0', NULL, 'Default Project', 'default_project@example.com');
 
-DROP TABLE IF EXISTS {{%project_field_display}};
 CREATE TABLE {{%project_field_display}} (
   pfd_prj_id int(11) unsigned NOT NULL,
   pfd_field varchar(20) NOT NULL,
@@ -343,7 +328,6 @@ CREATE TABLE {{%project_field_display}} (
   PRIMARY KEY (pfd_prj_id, pfd_field)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_category}};
 CREATE TABLE {{%project_category}} (
   prc_id int(11) unsigned NOT NULL auto_increment,
   prc_prj_id int(11) unsigned NOT NULL default 0,
@@ -356,7 +340,6 @@ INSERT INTO {{%project_category}} (prc_id, prc_prj_id, prc_title) VALUES (1, 1, 
 INSERT INTO {{%project_category}} (prc_id, prc_prj_id, prc_title) VALUES (2, 1, 'Feature Request');
 INSERT INTO {{%project_category}} (prc_id, prc_prj_id, prc_title) VALUES (3, 1, 'Technical Support');
 
-DROP TABLE IF EXISTS {{%project_release}};
 CREATE TABLE {{%project_release}} (
   pre_id int(10) unsigned NOT NULL auto_increment,
   pre_prj_id int(10) unsigned NOT NULL default 0,
@@ -368,7 +351,6 @@ CREATE TABLE {{%project_release}} (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 INSERT INTO {{%project_release}} (pre_id, pre_prj_id, pre_title, pre_scheduled_date, pre_status) VALUES (1, 1, 'Example Release', (CURDATE() + INTERVAL 1 MONTH), 'available');
 
-DROP TABLE IF EXISTS {{%project_user}};
 CREATE TABLE {{%project_user}} (
   pru_id int(11) unsigned NOT NULL auto_increment,
   pru_prj_id int(11) unsigned NOT NULL default 0,
@@ -379,7 +361,6 @@ CREATE TABLE {{%project_user}} (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 INSERT INTO {{%project_user}} (pru_id, pru_prj_id, pru_usr_id, pru_role) VALUES (1, 1, 2, 7);
 
-DROP TABLE IF EXISTS {{%resolution}};
 CREATE TABLE {{%resolution}} (
   res_id int(10) unsigned NOT NULL auto_increment,
   res_title varchar(64) NOT NULL default '',
@@ -395,7 +376,6 @@ INSERT INTO {{%resolution}} (res_id, res_title, res_created_date) VALUES (7, 'no
 INSERT INTO {{%resolution}} (res_id, res_title, res_created_date) VALUES (8, 'suspended', NOW());
 INSERT INTO {{%resolution}} (res_id, res_title, res_created_date) VALUES (9, 'won\'t fix', NOW());
 
-DROP TABLE IF EXISTS {{%subscription}};
 CREATE TABLE {{%subscription}} (
   sub_id int(10) unsigned NOT NULL auto_increment,
   sub_iss_id int(10) unsigned NOT NULL default 0,
@@ -407,7 +387,6 @@ CREATE TABLE {{%subscription}} (
   KEY sub_iss_id (sub_iss_id,sub_usr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%subscription_type}};
 CREATE TABLE {{%subscription_type}} (
   sbt_id int(10) unsigned NOT NULL auto_increment,
   sbt_sub_id int(10) unsigned NOT NULL default 0,
@@ -416,7 +395,6 @@ CREATE TABLE {{%subscription_type}} (
   KEY sbt_sub_id (sbt_sub_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%support_email}};
 CREATE TABLE {{%support_email}} (
   sup_id int(11) unsigned NOT NULL auto_increment,
   sup_ema_id int(10) unsigned NOT NULL default 0,
@@ -441,7 +419,6 @@ CREATE TABLE {{%support_email}} (
   KEY sup_usr_id(sup_usr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%support_email_body}};
 CREATE TABLE {{%support_email_body}} (
   seb_sup_id int(11) unsigned NOT NULL,
   seb_body longtext NOT NULL,
@@ -450,7 +427,6 @@ CREATE TABLE {{%support_email_body}} (
   FULLTEXT ft_support_email (seb_body)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%time_tracking}};
 CREATE TABLE {{%time_tracking}} (
   ttr_id int(10) unsigned NOT NULL auto_increment,
   ttr_ttc_id int(10) unsigned NOT NULL default 0,
@@ -465,7 +441,6 @@ CREATE TABLE {{%time_tracking}} (
   FULLTEXT ft_time_tracking (ttr_summary)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%time_tracking_category}};
 CREATE TABLE {{%time_tracking_category}} (
   ttc_id int(10) unsigned NOT NULL auto_increment,
   ttc_title varchar(128) NOT NULL default '',
@@ -484,7 +459,6 @@ INSERT INTO {{%time_tracking_category}} (ttc_id, ttc_title, ttc_created_date) VA
 INSERT INTO {{%time_tracking_category}} (ttc_id, ttc_title, ttc_created_date) VALUES (9, 'Email Discussion', NOW());
 INSERT INTO {{%time_tracking_category}} (ttc_id, ttc_title, ttc_created_date) VALUES (10, 'Note Discussion', NOW());
 
-DROP TABLE IF EXISTS {{%user}};
 CREATE TABLE {{%user}} (
   usr_id int(11) unsigned NOT NULL auto_increment,
   usr_grp_id int(11) unsigned NULL default NULL,
@@ -507,7 +481,6 @@ CREATE TABLE {{%user}} (
 INSERT INTO {{%user}} (usr_id, usr_created_date, usr_status, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (1, NOW(), 'inactive', '14589714398751513457adf349173434', 'system', 'system-account@example.com', '');
 INSERT INTO {{%user}} (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', '');
 
-DROP TABLE IF EXISTS {{%user_alias}};
 CREATE TABLE {{%user_alias}} (
     ual_usr_id int(11) unsigned not null,
     ual_email varchar(255),
@@ -515,7 +488,6 @@ CREATE TABLE {{%user_alias}} (
     UNIQUE(ual_email)
 );
 
-DROP TABLE IF EXISTS {{%custom_field}};
 CREATE TABLE {{%custom_field}} (
   fld_id int(10) unsigned NOT NULL auto_increment,
   fld_title varchar(32) NOT NULL default '',
@@ -534,7 +506,6 @@ CREATE TABLE {{%custom_field}} (
   PRIMARY KEY  (fld_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%custom_field_option}};
 CREATE TABLE {{%custom_field_option}} (
   cfo_id int(10) unsigned NOT NULL auto_increment,
   cfo_fld_id int(10) unsigned NOT NULL default 0,
@@ -543,7 +514,6 @@ CREATE TABLE {{%custom_field_option}} (
   KEY icf_fld_id (cfo_fld_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_custom_field}};
 CREATE TABLE {{%issue_custom_field}} (
   icf_id int(10) unsigned NOT NULL auto_increment,
   icf_iss_id int(10) unsigned NOT NULL default 0,
@@ -557,7 +527,6 @@ CREATE TABLE {{%issue_custom_field}} (
   FULLTEXT KEY `ft_icf_value` (`icf_value`)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_custom_field}};
 CREATE TABLE {{%project_custom_field}} (
   pcf_id int(10) unsigned NOT NULL auto_increment,
   pcf_prj_id int(10) unsigned NOT NULL default 0,
@@ -567,7 +536,6 @@ CREATE TABLE {{%project_custom_field}} (
   KEY pcf_fld_id (pcf_fld_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%email_response}};
 CREATE TABLE {{%email_response}} (
   ere_id int(10) unsigned NOT NULL auto_increment,
   ere_title varchar(64) NOT NULL,
@@ -576,7 +544,6 @@ CREATE TABLE {{%email_response}} (
   UNIQUE KEY ere_title (ere_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%phone_support}};
 CREATE TABLE {{%phone_support}} (
   phs_id int(10) unsigned NOT NULL auto_increment,
   phs_usr_id int(10) unsigned NOT NULL default 0,
@@ -598,7 +565,6 @@ CREATE TABLE {{%phone_support}} (
   FULLTEXT ft_phone_support (phs_description)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%status}};
 CREATE TABLE {{%status}} (
   sta_id int(10) unsigned NOT NULL auto_increment,
   sta_title varchar(64) NOT NULL default '',
@@ -618,7 +584,6 @@ INSERT INTO {{%status}} (sta_id, sta_title, sta_abbreviation, sta_rank, sta_colo
 INSERT INTO {{%status}} (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (5, 'released', 'REL', 5, '#CCCCCC', 1);
 INSERT INTO {{%status}} (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (6, 'killed', 'KIL', 6, '#FFFFFF', 1);
 
-DROP TABLE IF EXISTS {{%project_status}};
 CREATE TABLE {{%project_status}} (
   prs_id int(10) unsigned NOT NULL auto_increment,
   prs_prj_id int(10) unsigned NOT NULL,
@@ -633,7 +598,6 @@ INSERT INTO {{%project_status}} (prs_prj_id, prs_sta_id) VALUES (1, 4);
 INSERT INTO {{%project_status}} (prs_prj_id, prs_sta_id) VALUES (1, 5);
 INSERT INTO {{%project_status}} (prs_prj_id, prs_sta_id) VALUES (1, 6);
 
-DROP TABLE IF EXISTS {{%customer_note}};
 CREATE TABLE {{%customer_note}} (
   cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   cno_prj_id int(11) unsigned NOT NULL,
@@ -645,7 +609,6 @@ CREATE TABLE {{%customer_note}} (
   UNIQUE(cno_prj_id, cno_customer_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%customer_account_manager}};
 CREATE TABLE {{%customer_account_manager}} (
   cam_id int(11) unsigned NOT NULL auto_increment,
   cam_prj_id int(11) unsigned NOT NULL,
@@ -657,7 +620,6 @@ CREATE TABLE {{%customer_account_manager}} (
   UNIQUE KEY cam_manager (cam_prj_id, cam_customer_id, cam_usr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_level}};
 CREATE TABLE {{%reminder_level}} (
   rem_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rem_created_date DATETIME NOT NULL,
@@ -669,7 +631,6 @@ CREATE TABLE {{%reminder_level}} (
   PRIMARY KEY(rem_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_priority}};
 CREATE TABLE {{%reminder_priority}} (
   rep_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rep_rem_id INT(11) UNSIGNED NOT NULL,
@@ -677,7 +638,6 @@ CREATE TABLE {{%reminder_priority}} (
   PRIMARY KEY(rep_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_requirement}};
 CREATE TABLE {{%reminder_requirement}} (
   rer_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rer_rem_id INT(11) UNSIGNED NOT NULL,
@@ -688,7 +648,6 @@ CREATE TABLE {{%reminder_requirement}} (
   PRIMARY KEY(rer_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_history}};
 CREATE TABLE {{%reminder_history}} (
   rmh_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rmh_iss_id INT(11) NOT NULL,
@@ -697,7 +656,6 @@ CREATE TABLE {{%reminder_history}} (
   PRIMARY KEY(rmh_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_action}};
 CREATE TABLE {{%reminder_action}} (
   rma_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rma_rem_id INT(11) UNSIGNED NOT NULL,
@@ -712,14 +670,12 @@ CREATE TABLE {{%reminder_action}} (
   PRIMARY KEY(rma_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_action_list}};
 CREATE TABLE {{%reminder_action_list}} (
   ral_rma_id INT(11) UNSIGNED NOT NULL,
   ral_email VARCHAR(255) NOT NULL,
   ral_usr_id INT(11) UNSIGNED NOT NULL
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_action_type}};
 CREATE TABLE {{%reminder_action_type}} (
   rmt_id TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   rmt_type VARCHAR(32) NOT NULL,
@@ -733,7 +689,6 @@ INSERT INTO {{%reminder_action_type}} (rmt_type, rmt_title) VALUES ('sms_assigne
 INSERT INTO {{%reminder_action_type}} (rmt_type, rmt_title) VALUES ('email_list', 'Send Email Alert To...');
 INSERT INTO {{%reminder_action_type}} (rmt_type, rmt_title) VALUES ('sms_list', 'Send SMS Alert To...');
 
-DROP TABLE IF EXISTS {{%reminder_level_condition}};
 CREATE TABLE {{%reminder_level_condition}} (
   rlc_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rlc_rma_id INT(11) UNSIGNED NOT NULL,
@@ -746,7 +701,6 @@ CREATE TABLE {{%reminder_level_condition}} (
   PRIMARY KEY(rlc_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_field}};
 CREATE TABLE {{%reminder_field}} (
   rmf_id TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   rmf_title VARCHAR(128) NOT NULL,
@@ -765,7 +719,6 @@ INSERT INTO {{%reminder_field}} (rmf_title, rmf_sql_field, rmf_sql_representatio
 INSERT INTO {{%reminder_field}} (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Closed Date', 'iss_closed_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_closed_date), 0))', 1);
 INSERT INTO {{%reminder_field}} (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Category', 'iss_prc_id', 'iss_prc_id', 0);
 
-DROP TABLE IF EXISTS {{%reminder_operator}};
 CREATE TABLE {{%reminder_operator}} (
   rmo_id TINYINT(1) UNSIGNED NOT NULL AUTO_INCREMENT,
   rmo_title VARCHAR(32) NULL,
@@ -782,7 +735,6 @@ INSERT INTO {{%reminder_operator}} (rmo_title, rmo_sql_representation) VALUES ('
 INSERT INTO {{%reminder_operator}} (rmo_title, rmo_sql_representation) VALUES ('greater or equal than', '>=');
 INSERT INTO {{%reminder_operator}} (rmo_title, rmo_sql_representation) VALUES ('less or equal than', '<=');
 
-DROP TABLE IF EXISTS {{%news}};
 CREATE TABLE {{%news}} (
   nws_id int(11) unsigned NOT NULL auto_increment,
   nws_usr_id int(11) unsigned NOT NULL,
@@ -794,14 +746,12 @@ CREATE TABLE {{%news}} (
   UNIQUE KEY nws_title (nws_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_news}};
 CREATE TABLE {{%project_news}} (
   prn_nws_id int(11) unsigned NOT NULL,
   prn_prj_id int(11) unsigned NOT NULL,
   PRIMARY KEY (prn_prj_id, prn_nws_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_round_robin}};
 CREATE TABLE {{%project_round_robin}} (
   prr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   prr_prj_id INT(11) UNSIGNED NOT NULL,
@@ -811,14 +761,12 @@ CREATE TABLE {{%project_round_robin}} (
   UNIQUE KEY prr_prj_id (prr_prj_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%round_robin_user}};
 CREATE TABLE {{%round_robin_user}} (
   rru_prr_id INT(11) UNSIGNED NOT NULL,
   rru_usr_id INT(11) UNSIGNED NOT NULL,
   rru_next TINYINT(1) UNSIGNED NULL
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%email_draft}};
 CREATE TABLE {{%email_draft}} (
   emd_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   emd_usr_id INT(11) UNSIGNED NOT NULL,
@@ -832,7 +780,6 @@ CREATE TABLE {{%email_draft}} (
   PRIMARY KEY(emd_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%email_draft_recipient}};
 CREATE TABLE {{%email_draft_recipient}} (
   edr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   edr_emd_id INT(11) UNSIGNED NOT NULL,
@@ -841,7 +788,6 @@ CREATE TABLE {{%email_draft_recipient}} (
   PRIMARY KEY(edr_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%irc_notice}};
 CREATE TABLE {{%irc_notice}} (
   ino_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   ino_prj_id int(11) NOT NULL,
@@ -852,7 +798,6 @@ CREATE TABLE {{%irc_notice}} (
   PRIMARY KEY(ino_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_user_replier}};
 CREATE TABLE {{%issue_user_replier}} (
   iur_id int(11) unsigned NOT NULL auto_increment,
   iur_iss_id int(10) unsigned NOT NULL default 0,
@@ -863,7 +808,6 @@ CREATE TABLE {{%issue_user_replier}} (
   KEY iur_iss_id (iur_iss_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%mail_queue}};
 CREATE TABLE {{%mail_queue}} (
   maq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   maq_iss_id int(11) unsigned default NULL,
@@ -884,7 +828,6 @@ CREATE TABLE {{%mail_queue}} (
   PRIMARY KEY(maq_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%mail_queue_log}};
 CREATE TABLE {{%mail_queue_log}} (
   mql_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   mql_maq_id INT(11) UNSIGNED NOT NULL,
@@ -895,7 +838,6 @@ CREATE TABLE {{%mail_queue_log}} (
   PRIMARY KEY(mql_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_status_date}};
 CREATE TABLE {{%project_status_date}} (
   psd_id INT(11) UNSIGNED NOT NULL auto_increment,
   psd_prj_id INT(11) UNSIGNED NOT NULL,
@@ -906,7 +848,6 @@ CREATE TABLE {{%project_status_date}} (
   UNIQUE KEY (psd_prj_id, psd_sta_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%faq}};
 CREATE TABLE {{%faq}} (
   faq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   faq_prj_id INT(11) UNSIGNED NOT NULL,
@@ -920,21 +861,18 @@ CREATE TABLE {{%faq}} (
   UNIQUE KEY faq_title (faq_title)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%faq_support_level}};
 CREATE TABLE {{%faq_support_level}} (
   fsl_faq_id INT(11) UNSIGNED NOT NULL,
   fsl_support_level_id INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (fsl_faq_id, fsl_support_level_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_email_response}};
 CREATE TABLE {{%project_email_response}} (
   per_prj_id int(11) unsigned NOT NULL,
   per_ere_id int(10) unsigned NOT NULL,
   PRIMARY KEY (per_prj_id, per_ere_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_phone_category}};
 CREATE TABLE {{%project_phone_category}} (
   phc_id int(11) unsigned NOT NULL auto_increment,
   phc_prj_id int(11) unsigned NOT NULL default 0,
@@ -948,7 +886,6 @@ INSERT INTO {{%project_phone_category}} (phc_id, phc_prj_id, phc_title) VALUES (
 INSERT INTO {{%project_phone_category}} (phc_id, phc_prj_id, phc_title) VALUES (3, 1, 'Administrative Issues');
 INSERT INTO {{%project_phone_category}} (phc_id, phc_prj_id, phc_title) VALUES (4, 1, 'Other');
 
-DROP TABLE IF EXISTS {{%group}};
 CREATE TABLE {{%group}} (
   grp_id int(11) unsigned not null auto_increment,
   grp_name varchar(100) not null,
@@ -958,21 +895,18 @@ CREATE TABLE {{%group}} (
   UNIQUE KEY (grp_name)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_group}};
 CREATE TABLE {{%project_group}} (
   pgr_prj_id int(11) unsigned not null,
   pgr_grp_id int(11) unsigned not null,
   PRIMARY KEY (pgr_prj_id, pgr_grp_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%reminder_triggered_action}};
 CREATE TABLE {{%reminder_triggered_action}} (
   rta_iss_id int(11) unsigned not null,
   rta_rma_id int(11) unsigned not null,
   PRIMARY KEY (rta_iss_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%issue_quarantine}};
 CREATE TABLE {{%issue_quarantine}} (
     iqu_iss_id int(11) unsigned auto_increment,
     iqu_expiration datetime NULL,
@@ -981,7 +915,6 @@ CREATE TABLE {{%issue_quarantine}} (
     INDEX(iqu_expiration)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%link_filter}};
 CREATE TABLE {{%link_filter}} (
   lfi_id int(11) unsigned NOT NULL auto_increment,
   lfi_pattern varchar(255) NOT NULL,
@@ -991,14 +924,12 @@ CREATE TABLE {{%link_filter}} (
   PRIMARY KEY  (lfi_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%project_link_filter}};
 CREATE TABLE {{%project_link_filter}} (
   plf_prj_id int(11) NOT NULL,
   plf_lfi_id int(11) NOT NULL,
   PRIMARY KEY  (plf_prj_id, plf_lfi_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%columns_to_display}};
 CREATE TABLE {{%columns_to_display}} (
   ctd_prj_id int(11) unsigned NOT NULL,
   ctd_page varchar(20) NOT NULL,
@@ -1025,7 +956,6 @@ INSERT INTO {{%columns_to_display}} VALUES (1,'list_issues','iss_summary',1,14);
 INSERT INTO {{%columns_to_display}} VALUES (1,'list_issues','iss_dev_time',9,15);
 INSERT INTO {{%columns_to_display}} VALUES (1,'list_issues','iss_percent_complete',9,16);
 
-DROP TABLE IF EXISTS {{%search_profile}};
 CREATE TABLE {{%search_profile}} (
   sep_id int(11) unsigned NOT NULL auto_increment,
   sep_usr_id int(11) unsigned NOT NULL,
@@ -1036,7 +966,6 @@ CREATE TABLE {{%search_profile}} (
   UNIQUE (sep_usr_id, sep_prj_id, sep_type)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS {{%version}};
 CREATE TABLE {{%version}} (
     ver_version int(11) unsigned NOT NULL DEFAULT 0
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
