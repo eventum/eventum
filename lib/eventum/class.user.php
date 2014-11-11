@@ -36,16 +36,23 @@
 
 class User
 {
+    const ROLE_VIEWER = 1;
+    const ROLE_REPORTER = 2;
+    const ROLE_CUSTOMER = 3;
+    const ROLE_USER = 4;
+    const ROLE_DEVELOPER = 5;
+    const ROLE_MANAGER = 6;
+    const ROLE_ADMINISTRATOR = 7;
 
     // definition of roles
     private static $roles = array(
-        1 => "Viewer",
-        2 => "Reporter",
-        3 => "Customer",
-        4 => "Standard User",
-        5 => "Developer",
-        6 => "Manager",
-        7 => "Administrator"
+        self::ROLE_VIEWER => "Viewer",
+        self::ROLE_REPORTER => "Reporter",
+        self::ROLE_CUSTOMER => "Customer",
+        self::ROLE_USER => "Standard User",
+        self::ROLE_DEVELOPER => "Developer",
+        self::ROLE_MANAGER => "Manager",
+        self::ROLE_ADMINISTRATOR => "Administrator"
     );
 
     private static $localized_roles;
