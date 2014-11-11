@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Rework of XMLRPC code (Elan Ruusamäe, GH#17, GH#19)
 - Remove "Daily Tips" (Bryan Alsdorf, GH#20)
 - Improve setup (Elan Ruusamäe, GH#21)
+- Hide draft and email sections if no email account is setup (Bryan Alsdorf)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)

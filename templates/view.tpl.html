@@ -40,7 +40,7 @@
   {include file="phone_support.tpl.html"}
   {/if}
 
-  {if $core.app_setup.support_email == 'enabled'}
+  {if $core.app_setup.support_email == 'enabled' && $ema_id != ""}
     {if $issue_access.drafts}
       {include file="email_drafts.tpl.html"}
     {/if}
