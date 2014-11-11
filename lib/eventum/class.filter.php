@@ -518,7 +518,10 @@ class Filter
             if (is_array($options['custom_field'])) {
                 $options['custom_field'] = serialize($options['custom_field']);
             }
-            $url .= 'custom_field=' . urlencode($options['custom_field']);
+            $url .= 'custom_field=' . urlencode($options['custom_field']) . "&";
+        }
+        if (isset($options['nosave'])) {
+            $url .= 'nosave=' . $options['nosave'] . "&";
         }
 
         return $url;
