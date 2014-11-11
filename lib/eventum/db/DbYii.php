@@ -42,7 +42,7 @@ class DbYii implements DbInterface
     /**
      * @param $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         define('YII_ENABLE_EXCEPTION_HANDLER', false);
         define('YII_ENABLE_ERROR_HANDLER', false);
@@ -84,14 +84,16 @@ class DbYii implements DbInterface
                 ),
             ),
         );
+
         return $yiiConfig;
     }
 
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertParams($params, $fetchmode);
         $this->convertFetchMode($fetchmode);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->queryAll($fetchmode);
     }
 
@@ -123,6 +125,7 @@ class DbYii implements DbInterface
 
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->queryAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
     }
 
@@ -130,6 +133,7 @@ class DbYii implements DbInterface
     {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->queryAll(PDO::FETCH_KEY_PAIR);
     }
 
@@ -149,10 +153,11 @@ class DbYii implements DbInterface
         return $this->getColumn($query, $params);
     }
 
-    public function getColumn($query, $params)
+    public function getColumn($query, $params = array())
     {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->queryColumn();
     }
 
@@ -165,14 +170,16 @@ class DbYii implements DbInterface
         if ($res === false) {
             return null;
         }
+
         return $res;
     }
 
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertParams($params, $fetchmode);
         $this->convertFetchMode($fetchmode);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->queryOne($fetchmode);
     }
 
@@ -188,6 +195,7 @@ class DbYii implements DbInterface
         if ($str[0] == "'") {
             return substr($str, 1, -1);
         }
+
         return $str;
     }
 
@@ -195,6 +203,7 @@ class DbYii implements DbInterface
     {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
+
         return $command->execute();
     }
 
@@ -232,7 +241,8 @@ class DbYii implements DbInterface
             }
         }
 
-        if (isset($params[0])) {
+        // can't use isset() as 0 may be null
+        if (array_key_exists(0, $params)) {
             array_unshift($params, false);
             unset($params[0]);
         }
