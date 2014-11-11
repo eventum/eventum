@@ -44,7 +44,7 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
     {
         $usr_id = User::getUserIDByEmail($login, true);
         $user = User::getDetails($usr_id);
-        if ($user['usr_password'] == self::hashPassword($password)) {
+        if ($user['usr_password'] == Auth::hashPassword($password)) {
             self::resetFailedLogins($usr_id);
 
             return true;
@@ -70,7 +70,7 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
                     usr_password=?
                  WHERE
                     usr_id=?";
-        $params = array(self::hashPassword($password), $usr_id);
+        $params = array(Auth::hashPassword($password), $usr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {

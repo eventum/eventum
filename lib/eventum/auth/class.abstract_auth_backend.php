@@ -59,25 +59,9 @@ abstract class Abstract_Auth_Backend
     }
 
     /**
-     * Hashes the password according to APP_HASH_TYPE constant
-     *
-     * @param   string $password The plain text password
-     * @return  string The hashed password
-     */
-    public static function hashPassword($password)
-    {
-        if (APP_HASH_TYPE == 'MD5-64') {
-            return base64_encode(pack('H*', md5($password)));
-        } else {
-            // default to md5
-            return md5($password);
-        }
-    }
-
-    /**
      * Creates or updates local user entry for the specified ID.
      *
-     * @param $login The $username ID of the user to create or update
+     * @param string $login The $username ID of the user to create or update
      * @return  bool True if the user was created or updated, false otherwise
      */
     public function updateLocalUserFromBackend($login)
