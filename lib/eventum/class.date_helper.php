@@ -178,6 +178,22 @@ class Date_Helper
     }
 
     /**
+     * Method used to get the current date in the GMT timezone in an
+     * iso8601 compliant format.
+     *
+     * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
+     *
+     * @return  string $ts The current GMT date
+     * @param $ts
+     */
+    public static function getISO8601date($ts)
+    {
+        $date = self::getDateTime($ts, 'GMT');
+
+        return $date->format(DateTime::ISO8601);
+    }
+
+    /**
      * Method used to get the current date in the GMT timezone.
      *
      * @return  string The current GMT date in DATE_FORMAT_ISO format.
