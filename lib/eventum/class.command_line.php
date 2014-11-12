@@ -664,7 +664,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             $project_id = $projects[0]['id'];
         }
 
-        return $project_id;
+        return (int) $project_id;
     }
 
     /**

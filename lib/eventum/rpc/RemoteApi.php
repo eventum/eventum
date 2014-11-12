@@ -437,7 +437,7 @@ class RemoteApi
         }
         $res = $crm->lookup($field, $value, array());
 
-        return new $res;
+        return $res;
     }
 
     /**
