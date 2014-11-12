@@ -613,29 +613,34 @@ class Auth
     }
 
     /**
-     * @static
-     * @return Abstract_Auth_Backend
+     * @return Auth_Backend_Interface
      */
-    private static function getAuthBackend()
+    public static function getAuthBackend()
     {
         static $instance = false;
 
         if ($instance == false) {
-            require_once APP_INC_PATH . "/auth/class." . APP_AUTH_BACKEND. ".php";
             $class = APP_AUTH_BACKEND;
-            $instance = new $class();
 
-            if (!$instance->isSetup()) {
-                Error_Handler::logError("Unable to use auth backend: " . $class);
-                $message = $instance->getConnectError();
-                if ($message) {
-                    error_log("Unable to use auth backend '$class': $message");
-                }
+            // legacy: allow lowercase variants
+            if (strtolower($class) == "mysql_auth_backend") {
+                $class = "Mysql_Auth_Backend";
+            } elseif (strtolower($class) == "ldap_auth_backend") {
+                $class = "LDAP_Auth_Backend";
+            }
+
+            try {
+                $instance = new $class();
+            } catch (AuthException $e) {
+                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
+                error_log($message);
+                Error_Handler::logError($message);
+
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     die("Unable to use auth backend: " . $class);
-                } else {
-                    $instance = self::getFallBackAuthBackend();
                 }
+
+                $instance = self::getFallBackAuthBackend();
             }
         }
 
@@ -643,25 +648,36 @@ class Auth
     }
 
     /**
-     * Returns an instance of the MySQL Auth Backend. This is used when the primary backend is not handling the user.
+     * Returns an instance of the MySQL Auth Backend.
+     * This is used when the primary backend is not handling the user.
      *
-     * @static
-     * @return Abstract_Auth_Backend
+     * @return Auth_Backend_Interface
      */
     public static function getFallBackAuthBackend()
     {
-        static $instance = false;
+        static $instance;
 
-        if ($instance == false) {
+        if (!$instance) {
             $instance = new Mysql_Auth_Backend();
         }
 
         return $instance;
     }
 
+    /**
+     * Hashes the password according to APP_HASH_TYPE constant
+     *
+     * @param   string $password The plain text password
+     * @return  string The hashed password
+     */
     public static function hashPassword($password)
     {
-        return self::getAuthBackend()->hashPassword($password);
+        if (APP_HASH_TYPE == 'MD5-64') {
+            return base64_encode(pack('H*', md5($password)));
+        } else {
+            // default to md5
+            return md5($password);
+        }
     }
 
     /**

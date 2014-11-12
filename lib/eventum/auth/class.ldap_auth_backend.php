@@ -32,14 +32,12 @@
  * authenticated against the LDAP server on each login.
  *
  * This backend will look for users in the default mysql backend if no LDAP
- * user is found. This behaviour may be
- * configurable in the future.
+ * user is found. This behaviour may be configurable in the future.
  *
- * Set define('APP_AUTH_BACKEND', 'ldap_auth_backend') in the config file and
- * then fill in the LDAP server details
- * in manage
+ * Set define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend') in the config file and
+ * then fill in the LDAP server details in manage
  */
-class LDAP_Auth_Backend extends Abstract_Auth_Backend
+class LDAP_Auth_Backend implements Auth_Backend_Interface
 {
     /**
      * @var $conn
@@ -55,6 +53,12 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
     protected $customer_id_attribute;
     protected $contact_id_attribute;
 
+    /**
+     * configures LDAP
+     * connects to LDAP
+     *
+     * @throws AuthException if failed to connect to ldap
+     */
     public function __construct()
     {
         $setup = self::loadSetup();
@@ -71,38 +75,24 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
-        $this->conn = Net_LDAP2::connect($this->config);
+        $this->conn = $this->connect($this->config);
     }
 
-    public function isSetup()
-    {
-        // Testing for connection error
-        if (PEAR::isError($this->conn)) {
-            return false;
-        } else {
-            return true;
+    private function connect($config) {
+        $conn = Net_LDAP2::connect($config);
+        if (PEAR::isError($conn)) {
+            throw new AuthException($conn->getMessage(), $conn->getCode());
         }
+        return $conn;
     }
 
-    /**
-     * TODO: refactor this and make __construct to throw on error
-     */
-    public function getConnectError()
-    {
-        if (PEAR::isError($this->conn)) {
-            return $this->conn->getMessage();
-        } else {
-            return false;
-        }
-    }
-
-    private function isValidUser($uid, $password)
+    private function validatePassword($uid, $password)
     {
         $setup = self::loadSetup();
         $errors = array();
 
         foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
-            $config = array (
+            $config = array(
                 'binddn'    =>  $userDNstring,
                 'bindpw'    =>  $password,
                 'basedn'    =>  $setup['basedn'],
@@ -110,25 +100,51 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
                 'port'      =>  $setup['port'],
             );
 
-            // Connecting using the configuration:
-            $ldap = Net_LDAP2::connect($config);
-
-            // Testing for connection error
-            if (PEAR::isError($ldap)) {
-                $errors[] = $ldap;
-            } else {
+            // Connecting using the configuration
+            try {
+                $this->connect($config);
                 return true;
+            } catch (AuthException $e) {
+                $errors[] = $e;
             }
         }
 
-        foreach ($errors as $error) {
-            Auth::saveLoginAttempt($uid, 'failure', $error->getMessage());
+        foreach ($errors as $e) {
+            /** @var Exception $e */
+            Auth::saveLoginAttempt($uid, 'failure', $e->getMessage());
         }
 
         return false;
     }
 
-    public function getRemoteUserInfo($uid)
+    /**
+     * Get all users from remote LDAP
+     * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
+     */
+    public function getUserListing() {
+        $filter = Net_LDAP2_Filter::create('uid', 'equals',  '*', false);
+        if (!empty($this->user_filter_string)) {
+            $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
+            $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
+        }
+//        print_r($filter);
+//        die;
+        $search = $this->conn->search($this->config['basedn'], $filter);
+
+        if (PEAR::isError($search)) {
+            throw new AuthException($search->getMessage(), $search->getCode());
+        }
+
+        return $search;
+    }
+
+    /**
+     * Retrieve information from LDAP
+     *
+     * @param string $uid login or email
+     * @return array
+     */
+    private function getRemoteUserInfo($uid)
     {
         if (strpos($uid, '@') === false) {
             $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
@@ -148,17 +164,17 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
 
         $email = $entry->get_value('mail', 'single');
         $aliases = $entry->get_value('mail', 'all');
-        if(($key = array_search($email, $aliases)) !== false) {
+        if (($key = array_search($email, $aliases)) !== false) {
             unset($aliases[$key]);
         }
 
         $details = array(
-            'uid'   =>  $entry->get_value('uid'),
-            'full_name'  =>  $entry->get_value('cn'),
-            'email'  =>  $email,
-            'customer_id'   =>  $entry->get_value($this->customer_id_attribute),
-            'contact_id'  =>  $entry->get_value($this->contact_id_attribute),
-            'aliases'   =>  $aliases,
+            'uid' => $entry->get_value('uid'),
+            'full_name' => $entry->get_value('cn'),
+            'email' => $email,
+            'customer_id' => $entry->get_value($this->customer_id_attribute),
+            'contact_id' => $entry->get_value($this->contact_id_attribute),
+            'aliases' => $aliases,
         );
 
         return $details;
@@ -169,32 +185,47 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         return str_replace('%UID%', $uid, $this->user_dn_string);
     }
 
-    public function updateLocalUserFromBackend($login)
+    /**
+     * Get local user by login or by emails
+     *
+     * @param string $login
+     * @param string[] $emails
+     * @return int|null
+     */
+    public function getLocalUserId($login, $emails)
     {
-        $remote = $this->getRemoteUserInfo($login);
-        if ($remote == null) {
-            return false;
+        // try by login name
+        $usr_id = User::getUserIDByExternalID($login);
+        if ($usr_id) {
+            return $usr_id;
         }
 
-        // first try with user supplied input
-        // FIXME: this is duplicate with all emails check below?
-        $local_usr_id = User::getUserIDByEmail($login, true);
-
-        if (!$local_usr_id) {
-            // need to find local user by email by ALL aliases from remote system
-            $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
-            foreach ($emails as $email) {
-                $local_usr_id = User::getUserIDByEmail($email, true);
-                if ($local_usr_id) {
-                    break;
-                }
+        // find local user by email by ALL aliases from remote system
+        foreach ($emails as $email) {
+            $usr_id = User::getUserIDByEmail($email, true);
+            if ($usr_id) {
+                return $usr_id;
             }
         }
 
-        if (!$local_usr_id) {
-            // try by login name
-            $local_usr_id = User::getUserIDByExternalID($login);
+        return null;
+    }
+
+    /**
+     * Creates or updates local user entry for the specified ID.
+     *
+     * @param string $login The login or email of the user to create or update
+     * @return  bool True if the user was created or updated, false otherwise
+     */
+    public function updateLocalUserFromBackend($login)
+    {
+        $remote = $this->getRemoteUserInfo($login);
+        if (!$remote) {
+            return false;
         }
+
+        $emails = array_merge((array)$remote['email'], (array)$remote['aliases']);
+        $local_usr_id = $this->getLocalUserId($login, $emails);;
 
         $data = array(
             'password'    => '',
@@ -293,7 +324,7 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
             return Auth::getFallBackAuthBackend()->verifyPassword($login, $password);
         }
 
-        $user_info = $this->isValidUser($local_user_info['usr_external_id'], $password);
+        $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
         if ($user_info == null) {
             return false;
         } else {
@@ -427,5 +458,20 @@ class LDAP_Auth_Backend extends Abstract_Auth_Backend
         } else {
             return false;
         }
+    }
+
+    public function incrementFailedLogins($usr_id)
+    {
+        return true;
+    }
+
+    public function resetFailedLogins($usr_id)
+    {
+        return true;
+    }
+
+    public function isUserBackOffLocked($usr_id)
+    {
+        return false;
     }
 }
