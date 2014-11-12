@@ -44,6 +44,7 @@ define('APP_DEFAULT_WEEKDAY', 1);
 define('APP_DEFAULT_REFRESH_RATE', 0);
 define('APP_DEFAULT_ASSIGNED_EMAILS', true);
 define('APP_DEFAULT_NEW_EMAILS', false);
+define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 
 require_once APP_PATH . '/vendor/autoload-dist.php';
 
