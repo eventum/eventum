@@ -1,4 +1,5 @@
-<?PHP
+#!/usr/bin/php
+<?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -35,6 +36,9 @@ require_once dirname(__FILE__) . '/../init.php';
 $new_role = User::ROLE_REPORTER;
 $new_projects = array("Support");
 
+$active_dn = "ou=People,dc=example,dc=net";
+$inactive_dn = "ou=Inactive Accounts,dc=example,dc=net";
+
 $projects = array();
 foreach ($new_projects as $project) {
     $projects[] = Project::getID($project);
@@ -48,32 +52,28 @@ $search = $backend->getUserListing();
 
 while ($entry = $search->shiftEntry()) {
     $uid = $entry->getValue('uid');
-    echo "updating: $uid\n";
-    if ($uid == "vladimirkja") {
-        $values = $entry->getValues();
-        var_dump($values);
-        die;
+    $dn = $entry->dn();
+
+    // if no email, skip completely
+    $emails = $entry->get_value('mail', 'all');
+    if (!$emails) {
+        echo "skip (no email): $uid, $dn\n";
+        continue;
+    }
+
+//    if ($uid != 'telvislightuploader') {
+//        continue;
+//    }
+
+    $suffix = substr($dn, -strlen($inactive_dn));
+    if ($suffix == $inactive_dn) {
+        echo "disabling: $uid, $dn\n";
+        $backend->disableAccount($uid);
+    }
+    $suffix = substr($dn, -strlen($active_dn));
+    if ($suffix == $active_dn) {
+        $active = true;
+        echo "updating: $uid, $dn\n";
+        $backend->updateLocalUserFromBackend($uid);
     }
 }
-die;
-
-$ldap = ldap_connect(LDAP_HOST, LDAP_PORT);
-ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-$bind_result = ldap_bind($ldap, LDAP_BIND_DN, LDAP_BIND_PASSWORD);
-if (true !== $bind_result) {
-    print ">Unable to connect to LDAP server";
-    exit;
-}
-
-
-$ldap_result = ldap_search(
-    $ldap, "ou=People,dc=example,dc=org", "(&(zimbraAccountStatus=active)(!(zimbraHideInGAL=TRUE)))",
-    array('mail', 'cn')
-);
-$info = ldap_get_entries($ldap, $ldap_result);
-for ($i = 0; $i < $info["count"]; $i++) {
-    $entry = $info[$i];
-    $uid = $entry['uid'][0];
-    $backend->updateLocalUserFromBackend($uid);
-}
-

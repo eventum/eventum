@@ -249,6 +249,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 // just use first email
                 if ($emails) {
                     $data['email'] = array_shift($emails);
+                } else {
+                    // email is required somewhy
+                    $data['email'] = '';
                 }
             }
 
@@ -266,6 +269,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $emails = $remote['emails'];
         if ($emails) {
             $data['email'] = array_shift($emails);
+        } else {
+            // email is required somewhy
+            $data['email'] = '';
         }
 
         if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
