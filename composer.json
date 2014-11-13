@@ -23,77 +23,14 @@
 		{
 			"type": "composer",
 			"url": "https://raw.githubusercontent.com/eventum/composer/repo/"
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "sphinx/php-sphinxapi",
-				"version": "2.0.1",
-				"dist": {
-					"url": "http://sphinxsearch.googlecode.com/svn/tags/REL_2_0_1/api/sphinxapi.php",
-					"shasum": "2b1274cbbc4b2be2aba2cb90dc5daf2036df0f49",
-					"type": "file"
-				},
-				"autoload": {
-					"classmap": [ "sphinxapi.php" ]
-				}
-			}
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "php-gettext/php-gettext",
-				"version": "1.0.11",
-				"dist": {
-					"url": "https://launchpad.net/php-gettext/trunk/1.0.11/+download/php-gettext-1.0.11.tar.gz",
-					"shasum": "9e6f402b460ba5e691e6e21f95d23527ab965f71",
-					"type": "tar"
-				},
-				"provide":  {
-					"ext-gettext":"self.version"
-				},
-				"autoload": {
-					"classmap": [ "gettext.php", "streams.php" ]
-				}
-			}
-		},
-		{
-			"type": "vcs",
-			"url": "https://github.com/glensc/blockui"
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "components/jquery-chosen",
-				"type": "component",
-				"version": "1.2.0",
-				"dist": {
-					"url": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
-					"type": "zip"
-				},
-				"extra": {
-					"component": {
-						"scripts": [
-							"chosen.jquery.js"
-						],
-						"style": [
-							"chosen.css"
-						],
-						"files": [
-							"*.png",
-							"chosen.css"
-						]
-					}
-				},
-				"require": {
-					"robloach/component-installer": "*"
-				}
-			}
 		}
 	],
 	"config": {
 		"component-dir": "htdocs/components",
 		"component-baseurl": "/components"
+	},
+	"autoload": {
+		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
 	},
 	"minimum-stability": "stable",
 	"prefer-stable": true,
@@ -138,8 +75,5 @@
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend"
-	},
-	"autoload": {
-		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
 	}
 }
