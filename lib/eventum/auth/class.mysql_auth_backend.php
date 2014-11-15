@@ -177,14 +177,4 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         return true;
     }
-
-    /**
-     * Returns true if the backend is ready to process users, false otherwise.
-     *
-     * @return bool
-     */
-    public function isSetup()
-    {
-        return true;
-    }
 }

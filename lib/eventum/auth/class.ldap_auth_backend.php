@@ -53,6 +53,12 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     protected $customer_id_attribute;
     protected $contact_id_attribute;
 
+    /**
+     * configures LDAP
+     * connects to LDAP
+     *
+     * @throws AuthException if failed to connect to ldap
+     */
     public function __construct()
     {
         $setup = self::loadSetup();
@@ -69,29 +75,16 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
-        $this->conn = Net_LDAP2::connect($this->config);
+        $this->conn = $this->connect($this->config);
     }
 
-    public function isSetup()
+    private function connect($config)
     {
-        // Testing for connection error
-        if (PEAR::isError($this->conn)) {
-            return false;
-        } else {
-            return true;
+        $conn = Net_LDAP2::connect($config);
+        if (PEAR::isError($conn)) {
+            throw new AuthException($conn->getMessage(), $conn->getCode());
         }
-    }
-
-    /**
-     * TODO: refactor this and make __construct to throw on error
-     */
-    public function getConnectError()
-    {
-        if (PEAR::isError($this->conn)) {
-            return $this->conn->getMessage();
-        } else {
-            return false;
-        }
+        return $conn;
     }
 
     private function isValidUser($uid, $password)
@@ -100,7 +93,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $errors = array();
 
         foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
-            $config = array (
+            $config = array(
                 'binddn'    =>  $userDNstring,
                 'bindpw'    =>  $password,
                 'basedn'    =>  $setup['basedn'],
@@ -108,19 +101,18 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 'port'      =>  $setup['port'],
             );
 
-            // Connecting using the configuration:
-            $ldap = Net_LDAP2::connect($config);
-
-            // Testing for connection error
-            if (PEAR::isError($ldap)) {
-                $errors[] = $ldap;
-            } else {
+            // Connecting using the configuration
+            try {
+                $this->connect($config);
                 return true;
+            } catch (AuthException $e) {
+                $errors[] = $e;
             }
         }
 
-        foreach ($errors as $error) {
-            Auth::saveLoginAttempt($uid, 'failure', $error->getMessage());
+        foreach ($errors as $e) {
+            /** @var Exception $e */
+            Auth::saveLoginAttempt($uid, 'failure', $e->getMessage());
         }
 
         return false;
@@ -129,9 +121,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     public function getRemoteUserInfo($uid)
     {
         if (strpos($uid, '@') === false) {
-            $filter = Net_LDAP2_Filter::create('uid', 'equals',  $uid);
+            $filter = Net_LDAP2_Filter::create('uid', 'equals', $uid);
         } else {
-            $filter = Net_LDAP2_Filter::create('mail', 'equals',  $uid);
+            $filter = Net_LDAP2_Filter::create('mail', 'equals', $uid);
         }
         if (!empty($this->user_filter_string)) {
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);

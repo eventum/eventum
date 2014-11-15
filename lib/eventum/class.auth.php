@@ -630,17 +630,18 @@ class Auth
                 $class = "LDAP_Auth_Backend";
             }
 
-            if (!$instance->isSetup()) {
-                Error_Handler::logError("Unable to use auth backend: " . $class);
-                $message = $instance->getConnectError();
-                if ($message) {
-                    error_log("Unable to use auth backend '$class': $message");
-                }
+            try {
+                $instance = new $class();
+            } catch (AuthException $e) {
+                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
+                error_log($message);
+                Error_Handler::logError($message);
+
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     die("Unable to use auth backend: " . $class);
-                } else {
-                    $instance = self::getFallBackAuthBackend();
                 }
+
+                $instance = self::getFallBackAuthBackend();
             }
         }
 
