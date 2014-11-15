@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -181,18 +181,15 @@ class Command_Line
         $out = array();
         $out[] = "Customer Lookup Results:\n";
         foreach ($res as $customer) {
-            $out[] = '         Customer: ' . $customer['customer_name'];
-            $out[] = '    Support Level: ' . $customer['support_level'];
-            $out[] = '       Expiration: ' . $customer['expiration_date'];
-            $out[] = '  Contract Status: ' . $customer['contract_status'];
+            $out[] = '         Customer: ' . $customer['name'];
+            $out[] = '    Support Level: ' . $customer['contract']['support_level'];
+            $out[] = '       Expiration: ' . $customer['contract']['end_date'];
+            $out[] = '  Contract Status: ' . $customer['contract']['status'];
             // contacts now...
-            if (count($customer['contacts']) > 0) {
-                $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'] .
-                        (empty($customer['contacts'][0]['phone']) ? '' : (' - ' . $customer['contacts'][0]['phone']));
-                $ncontacts = count($customer['contacts']);
-                for ($i = 1; $i < $ncontacts; $i++) {
-                    $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'] .
-                        (empty($customer['contacts'][$i]['phone']) ? '' : (' - ' . $customer['contacts'][$i]['phone']));
+            if (count($customer['contract']['contacts']) > 0) {
+                foreach ($customer['contract']['contacts'] as $contact) {
+                    $out[] = "                   " . $contact['name'] . ' - ' . $contact['email'] .
+                        (empty($contact['phone']) ? '' : (' - ' . $contact['phone']));
                 }
             }
             $out[] = "\n";
@@ -664,7 +661,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             $project_id = $projects[0]['id'];
         }
 
-        return $project_id;
+        return (int) $project_id;
     }
 
     /**

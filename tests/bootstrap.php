@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
 // we init paths ourselves like init.php does, to be independent and not
@@ -42,6 +42,9 @@ define('APP_COOKIE', 'eventum');
 define('APP_DEFAULT_TIMEZONE', 'UTC');
 define('APP_DEFAULT_WEEKDAY', 1);
 define('APP_DEFAULT_REFRESH_RATE', 0);
+define('APP_DEFAULT_ASSIGNED_EMAILS', true);
+define('APP_DEFAULT_NEW_EMAILS', false);
+define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 
 require_once APP_PATH . '/vendor/autoload-dist.php';
 

@@ -49,21 +49,6 @@
           Validation.selectField('full_name');
           return false;
       }
-
-      var has_project_selected = false;
-      for (var i = 0; i < projects.length; i++) {
-        var role_field = Eventum.getField('role[' + projects[i] + ']');
-        if ((role_field[0].selectedIndex > 0) ||
-            (role_field[0].type == 'hidden' &&
-            role_field[0].value != '')) {
-            has_project_selected = true;
-        }
-      }
-      if (!has_project_selected) {
-          alert('{/literal}{t escape=js}Please assign the appropriate projects for this user.{/t}{literal}');
-          Validation.selectField('projects[]');
-          return false;
-      }
       return true;
   }
 

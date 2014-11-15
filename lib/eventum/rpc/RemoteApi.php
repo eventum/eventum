@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -437,7 +437,7 @@ class RemoteApi
         }
         $res = $crm->lookup($field, $value, array());
 
-        return new $res;
+        return $res;
     }
 
     /**

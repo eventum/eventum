@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
@@ -232,7 +232,7 @@ class Template_Helper
                 'current_full_name' =>  $info['usr_full_name'],
                 'current_email'     =>  $info['usr_email'],
                 'current_user_id'   =>  $usr_id,
-                'current_user_datetime' =>  Date_Helper::getDateTime()->format('Y-m-d H:i:s'),
+                'current_user_datetime' =>  Date_Helper::getISO8601date('now'),
                 'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
                 'is_anon_user'  =>  Auth::isAnonUser(),
                 'is_current_user_partner'   =>  !empty($info['usr_par_code']),

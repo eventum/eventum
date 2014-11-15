@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -518,7 +518,10 @@ class Filter
             if (is_array($options['custom_field'])) {
                 $options['custom_field'] = serialize($options['custom_field']);
             }
-            $url .= 'custom_field=' . urlencode($options['custom_field']);
+            $url .= 'custom_field=' . urlencode($options['custom_field']) . "&";
+        }
+        if (isset($options['nosave'])) {
+            $url .= 'nosave=' . $options['nosave'] . "&";
         }
 
         return $url;

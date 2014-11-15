@@ -20,8 +20,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
@@ -91,6 +91,7 @@ class Search
             "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
             "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
             "customer_id"    => Misc::escapeString(self::getParam('customer_id')),
+            "nosave"         => self::getParam('nosave', $request_only),
             // quick filter form
             'keywords'       => self::getParam('keywords', $request_only),
             'match_mode'     => self::getParam('match_mode', $request_only),
@@ -110,7 +111,7 @@ class Search
             // other fields
             'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
-            'custom_field'   => Misc::stripHTML($custom_field)
+            'custom_field'   => Misc::stripHTML($custom_field),
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
@@ -209,7 +210,9 @@ class Search
                     $sort_order = "asc";
                 }
             }
-            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?sort_by=" . $sortfield . "&sort_order=" . $sort_order;
+            $options['sort_by'] = $sortfield;
+            $options['sort_order'] = $sort_order;
+            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?" . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
         }
 
         return $items;

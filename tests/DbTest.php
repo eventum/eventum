@@ -53,7 +53,7 @@ class DbTest extends PHPUnit_Framework_TestCase
                 0 => 2,
                 1 => 'Admin User',
                 2 => 'admin@example.com',
-                3 => 'en_US'
+                3 => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -77,7 +77,7 @@ class DbTest extends PHPUnit_Framework_TestCase
                 'usr_id'        => 2,
                 'usr_full_name' => 'Admin User',
                 'usr_email'     => 'admin@example.com',
-                'usr_lang'      => 'en_US',
+                'usr_lang'      => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -152,7 +152,7 @@ class DbTest extends PHPUnit_Framework_TestCase
             2 => array(
                 'usr_full_name' => 'Admin User',
                 'usr_email'     => 'admin@example.com',
-                'usr_lang'      => 'en_US',
+                'usr_lang'      => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -176,7 +176,7 @@ class DbTest extends PHPUnit_Framework_TestCase
             2 => array(
                 'usr_full_name' => 'Admin User',
                 'usr_email'     => 'admin@example.com',
-                'usr_lang'      => 'en_US',
+                'usr_lang'      => null,
             ),
         );
         $this->assertEquals($exp, $res);

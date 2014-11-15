@@ -4,45 +4,55 @@
 
 {block "content"}
 <br />
-<form name="login_form" method="post" action="">
-    <input type="hidden" name="cat" value="select">
-    <input type="hidden" name="url" value="{$smarty.get.url|default:''}">
-    <table align="center" width="400" class="bordered">
-        <tr class="title">
-            <th colspan="2" align="center">
-                {t}Select Project{/t}
-            </th>
-        </tr>
-        {if $err|default:0 != 0 || $smarty.get.err|default:0 != 0}
-        <tr>
-            <td colspan="2" align="center" class="error">
-                <b>
-                    {if $err == 1 || $smarty.get.err == 1}
-                    {t}You are not allowed to use the selected project.{/t}
-                    {/if}
-                </b>
-            </td>
-        </tr>
-        {/if}
-        {foreach from=$active_projects key=prj_id item=project}
-        <tr>
-            <td width="10">
-                <input type="radio" name="project" value="{$prj_id}" id="project_{$prj_id}"
-                {if $project@first}checked="checked"{/if}>
-            </td>
-            <td>
-                <label for="project_{$prj_id}">{$project}</label>
-            </td>
-        </tr>
-        {/foreach}
-        <tr class="buttons">
-            <td colspan="2">
-                <input type="submit" name="Submit" value="{t}Continue{/t} &gt;&gt;">
-                <label for="remember" accesskey="r">
-                <input type="checkbox" id="remember" name="remember" value="1">{t}Remember Selection{/t}</label>
-            </td>
-        </tr>
-    </table>
-</form>
-
+{if $active_projects|@count < 1}
+    <div class="note_box">
+        <p>
+        {t}Sorry, you do not have access to any projects currently. Please contact the administrator for more information.{/t}
+        </p>
+        <p>
+            <a href="{$core.rel_url}logout.php">{t}Logout{/t}</a>
+        </p>
+    </div>
+{else}
+    <form name="login_form" method="post" action="">
+        <input type="hidden" name="cat" value="select">
+        <input type="hidden" name="url" value="{$smarty.get.url|default:''}">
+        <table align="center" width="400" class="bordered">
+            <tr class="title">
+                <th colspan="2" align="center">
+                    {t}Select Project{/t}
+                </th>
+            </tr>
+            {if $err|default:0 != 0 || $smarty.get.err|default:0 != 0}
+            <tr>
+                <td colspan="2" align="center" class="error">
+                    <b>
+                        {if $err == 1 || $smarty.get.err == 1}
+                        {t}You are not allowed to use the selected project.{/t}
+                        {/if}
+                    </b>
+                </td>
+            </tr>
+            {/if}
+            {foreach from=$active_projects key=prj_id item=project}
+            <tr>
+                <td width="10">
+                    <input type="radio" name="project" value="{$prj_id}" id="project_{$prj_id}"
+                    {if $project@first}checked="checked"{/if}>
+                </td>
+                <td>
+                    <label for="project_{$prj_id}">{$project}</label>
+                </td>
+            </tr>
+            {/foreach}
+            <tr class="buttons">
+                <td colspan="2">
+                    <input type="submit" name="Submit" value="{t}Continue{/t} &gt;&gt;">
+                    <label for="remember" accesskey="r">
+                    <input type="checkbox" id="remember" name="remember" value="1">{t}Remember Selection{/t}</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+{/if}
 {/block}

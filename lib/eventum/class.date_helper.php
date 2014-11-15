@@ -21,8 +21,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 59 Temple Place - Suite 330                                          |
-// | Boston, MA 02111-1307, USA.                                          |
+// | 51 Franklin Street, Suite 330                                          |
+// | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
 /**
@@ -175,6 +175,22 @@ class Date_Helper
         $date = self::getDateTime($ts, 'GMT');
 
         return $date->format('D, d M Y H:i:s') . ' GMT';
+    }
+
+    /**
+     * Method used to get the current date in the GMT timezone in an
+     * iso8601 compliant format.
+     *
+     * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
+     *
+     * @return  string $ts The current GMT date
+     * @param $ts
+     */
+    public static function getISO8601date($ts)
+    {
+        $date = self::getDateTime($ts, 'GMT');
+
+        return $date->format(DateTime::ISO8601);
     }
 
     /**
