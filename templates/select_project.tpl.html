@@ -7,11 +7,10 @@
 {if $active_projects|@count < 1}
     <div class="note_box">
         <p>
-        Sorry, you do not have access to any projects currently. Please contact the
-        administrator for more information.
+        {t}Sorry, you do not have access to any projects currently. Please contact the administrator for more information.{/t}
         </p>
         <p>
-            <a href="{$core.rel_url}logout.php">Logout</a>
+            <a href="{$core.rel_url}logout.php">{t}Logout{/t}</a>
         </p>
     </div>
 {else}
