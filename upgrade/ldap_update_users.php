@@ -33,20 +33,9 @@ require_once dirname(__FILE__) . '/../init.php';
  * Get the new user information from the LDAP servers
  */
 
-$new_role = User::ROLE_REPORTER;
-$new_projects = array("Support");
-
 $active_dn = "ou=People,dc=example,dc=net";
 $inactive_dn = "ou=Inactive Accounts,dc=example,dc=net";
 
-$projects = array();
-foreach ($new_projects as $project) {
-    $projects[] = Project::getID($project);
-}
-
-$active_users = array();
-
-//$auth = Auth::getAuthBackend();
 $backend = new LDAP_Auth_Backend();
 $search = $backend->getUserListing();
 
