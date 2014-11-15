@@ -130,7 +130,7 @@ if (!defined('APP_FULLTEXT_SEARCH_CLASS')) {
 }
 
 if (!defined('APP_AUTH_BACKEND')) {
-    define('APP_AUTH_BACKEND', 'mysql_auth_backend');
+    define('APP_AUTH_BACKEND', 'Mysql_Auth_Backend');
 }
 
 if (!defined('APP_AUTH_BACKEND_ALLOW_FALLBACK')) {

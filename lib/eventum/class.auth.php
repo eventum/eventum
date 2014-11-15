@@ -613,17 +613,22 @@ class Auth
     }
 
     /**
-     * @static
      * @return Abstract_Auth_Backend
      */
-    private static function getAuthBackend()
+    public static function getAuthBackend()
     {
+        /** @var Abstract_Auth_Backend $instance */
         static $instance = false;
 
         if ($instance == false) {
-            require_once APP_INC_PATH . "/auth/class." . APP_AUTH_BACKEND. ".php";
             $class = APP_AUTH_BACKEND;
-            $instance = new $class();
+
+            // legacy: allow lowercase variants
+            if (strtolower($class) == "mysql_auth_backend") {
+                $class = "Mysql_Auth_Backend";
+            } elseif (strtolower($class) == "ldap_auth_backend") {
+                $class = "LDAP_Auth_Backend";
+            }
 
             if (!$instance->isSetup()) {
                 Error_Handler::logError("Unable to use auth backend: " . $class);
@@ -643,16 +648,16 @@ class Auth
     }
 
     /**
-     * Returns an instance of the MySQL Auth Backend. This is used when the primary backend is not handling the user.
+     * Returns an instance of the MySQL Auth Backend.
+     * This is used when the primary backend is not handling the user.
      *
-     * @static
      * @return Abstract_Auth_Backend
      */
     public static function getFallBackAuthBackend()
     {
-        static $instance = false;
+        static $instance;
 
-        if ($instance == false) {
+        if (!$instance) {
             $instance = new Mysql_Auth_Backend();
         }
 
