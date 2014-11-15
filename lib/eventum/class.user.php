@@ -879,28 +879,35 @@ class User
         return $res;
     }
 
+    const USER_STATUS_ACTIVE = 'active';
+    const USER_STATUS_INACTIVE = 'inactive';
+
     /**
      * Method used to change the status of users, making them inactive
      * or active.
      *
+     * @param int[] $usr_ids
+     * @param string $status
      * @return  boolean
      */
-    public static function changeStatus()
+    public static function changeStatus($usr_ids, $status)
     {
         // check if the user being inactivated is the last one
-        $stmt = "SELECT
+        if ($status == self::USER_STATUS_INACTIVE) {
+            $stmt = "SELECT
                     COUNT(*)
                  FROM
                     {{%user}}
                  WHERE
-                    usr_status='active'";
+                    usr_status=?";
 
-        $total_active = DB_Helper::getInstance()->getOne($stmt);
-        if (($total_active < 2) && ($_POST["status"] == "inactive")) {
-            return false;
+            $total_active = DB_Helper::getInstance()->getOne($stmt, array(self::USER_STATUS_ACTIVE));
+            if ($total_active < 2) {
+                return false;
+            }
         }
 
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = implode(", ", Misc::escapeInteger((array)$usr_ids));
         $stmt = "UPDATE
                     {{%user}}
                  SET
@@ -908,7 +915,7 @@ class User
                  WHERE
                     usr_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["status"]));
+            DB_Helper::getInstance()->query($stmt, array($status));
         } catch (DbException $e) {
             return false;
         }
