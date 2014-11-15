@@ -55,7 +55,7 @@ if (@$_POST["cat"] == "new") {
             -1  =>  array(ev_gettext('An error occurred while trying to update the user information.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "change_status") {
-    User::changeStatus();
+    User::changeStatus($_POST["items"], $_POST["status"]);
 }
 
 $project_roles = array();
