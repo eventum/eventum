@@ -613,11 +613,11 @@ class Auth
     }
 
     /**
-     * @return Abstract_Auth_Backend
+     * @return Auth_Backend_Interface
      */
     public static function getAuthBackend()
     {
-        /** @var Abstract_Auth_Backend $instance */
+        /** @var Auth_Backend_Interface $instance */
         static $instance = false;
 
         if ($instance == false) {
@@ -651,7 +651,7 @@ class Auth
      * Returns an instance of the MySQL Auth Backend.
      * This is used when the primary backend is not handling the user.
      *
-     * @return Abstract_Auth_Backend
+     * @return Auth_Backend_Interface
      */
     public static function getFallBackAuthBackend()
     {

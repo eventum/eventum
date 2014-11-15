@@ -66,7 +66,7 @@ class Eventum_Autoload
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',
 
-            'Abstract_Auth_Backend' => $baseDir . '/auth/class.abstract_auth_backend.php',
+            'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
             'LDAP_Auth_Backend' => $baseDir . '/auth/class.ldap_auth_backend.php',
 

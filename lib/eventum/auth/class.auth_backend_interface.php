@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2013 Eventum Team.                              |
+// | Copyright (c) 2012 - 2014 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,26 +25,21 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
-//
-
 
 /**
- * Abstract class for auth backend
+ * Auth Backend Interface
  */
-abstract class Abstract_Auth_Backend
+interface Auth_Backend_Interface
 {
     /**
-     * Checks whether the provided password match against the email
+     * Checks whether the provided password match against the login or email
      * address provided.
      *
-     * @param   string $login The login to check for
+     * @param   string $login The login or email to check for
      * @param   string $password The password of the user to check for
      * @return  boolean
      */
-    public function verifyPassword($login, $password)
-    {
-        return false;
-    }
+    public function verifyPassword($login, $password);
 
     /**
      * Method used to update the account password for a specific user.
@@ -53,74 +48,40 @@ abstract class Abstract_Auth_Backend
      * @param   string  $password The password.
      * @return  boolean true if update worked, false otherwise
      */
-    public function updatePassword($usr_id, $password)
-    {
-        return false;
-    }
-
-    /**
-     * Creates or updates local user entry for the specified ID.
-     *
-     * @param string $login The $username ID of the user to create or update
-     * @return  bool True if the user was created or updated, false otherwise
-     */
-    public function updateLocalUserFromBackend($login)
-    {
-        return false;
-    }
+    public function updatePassword($usr_id, $password);
 
     /**
      * Returns the user ID for the specified login. This can be the email address, an alias,
      * the external login id or any other info the backend can handle.
      *
-     * @abstract
      * @param $login
      * @return  int|null The user id or null
      */
-    abstract public function getUserIDByLogin($login);
+    public function getUserIDByLogin($login);
 
     /**
      * If this backend allows the user to update their name.
      *
-     * @param $usr_id
+     * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateName($usr_id)
-    {
-        return true;
-    }
+    public function canUserUpdateName($usr_id);
 
     /**
      * If this backend allows the user to update their email.
      *
-     * @param $usr_id
+     * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdateEmail($usr_id)
-    {
-        return true;
-    }
+    public function canUserUpdateEmail($usr_id);
 
     /**
      * If this backend allows the user to update their password.
      *
-     * @param $usr_id
+     * @param int $usr_id
      * @return bool
      */
-    public function canUserUpdatePassword($usr_id)
-    {
-        return true;
-    }
-
-    /**
-     * Returns true if the backend is ready to process users, false otherwise.
-     *
-     * @return bool
-     */
-    public function isSetup()
-    {
-        return true;
-    }
+    public function canUserUpdatePassword($usr_id);
 
     /**
      * Increment the failed logins attempts for this user
@@ -128,10 +89,7 @@ abstract class Abstract_Auth_Backend
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
-    public function incrementFailedLogins($usr_id)
-    {
-        return true;
-    }
+    public function incrementFailedLogins($usr_id);
 
     /**
      * Reset the failed logins attempts for this user
@@ -139,10 +97,7 @@ abstract class Abstract_Auth_Backend
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
-    public function resetFailedLogins($usr_id)
-    {
-        return true;
-    }
+    public function resetFailedLogins($usr_id);
 
     /**
      * Returns the true if the account is currently locked becouse of Back-Off locking
@@ -150,16 +105,5 @@ abstract class Abstract_Auth_Backend
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
-    public function isUserBackOffLocked($usr_id)
-    {
-        return false;
-    }
-
-    /**
-     * TODO: refactor this and make __construct to throw on error
-     */
-    public function getConnectError()
-    {
-        return '';
-    }
+    public function isUserBackOffLocked($usr_id);
 }

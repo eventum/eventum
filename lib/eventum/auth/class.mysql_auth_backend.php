@@ -26,11 +26,10 @@
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
 // +----------------------------------------------------------------------+
 
-
 /**
- * Abstract class for auth backend
+ * MySQL (builtin) auth backend
  */
-class Mysql_Auth_Backend extends Abstract_Auth_Backend
+class Mysql_Auth_Backend implements Auth_Backend_Interface
 {
     /**
      * Checks whether the provided password match against the email
@@ -162,5 +161,30 @@ class Mysql_Auth_Backend extends Abstract_Auth_Backend
         }
 
         return $res == 1;
+    }
+
+    public function canUserUpdateName($usr_id)
+    {
+        return true;
+    }
+
+    public function canUserUpdateEmail($usr_id)
+    {
+        return true;
+    }
+
+    public function canUserUpdatePassword($usr_id)
+    {
+        return true;
+    }
+
+    /**
+     * Returns true if the backend is ready to process users, false otherwise.
+     *
+     * @return bool
+     */
+    public function isSetup()
+    {
+        return true;
     }
 }
