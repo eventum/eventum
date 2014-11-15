@@ -617,6 +617,7 @@ class Auth
      */
     public static function getAuthBackend()
     {
+        /** @var Auth_Backend_Interface $instance */
         static $instance = false;
 
         if ($instance == false) {
