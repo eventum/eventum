@@ -99,6 +99,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
             $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
         }
+
         $search = $this->conn->search($this->config['basedn'], $filter);
 
         if (PEAR::isError($search)) {
@@ -205,9 +206,13 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return null;
     }
 
-    public function disableAccount($login)
+    public function disableAccount($uid)
     {
-
+        $usr_id = User::getUserIDByExternalID($uid);
+        if ($usr_id <= 0) {
+            return false;
+        }
+        return User::changeStatus($usr_id, User::USER_STATUS_INACTIVE);
     }
 
     /**
