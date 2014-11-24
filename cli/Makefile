@@ -1,3 +1,4 @@
+# Depending on your shell you may need to pass SHELL=/bin/bash as an argument
 COMPOSER := $(shell which composer.phar 2>/dev/null || which composer 2>/dev/null || echo false)
 BOX := $(shell which box.phar 2>/dev/null || which box 2>/dev/null || echo false)
 
