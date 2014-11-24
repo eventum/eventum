@@ -217,7 +217,7 @@ class XmlRpcServer
             if ($protected) {
                 list($email, $password) = array_splice($params, 0, 2);
 
-                $usr_id = User::getUserIDByEmail($email);
+                $usr_id = User::getUserIDByEmail($email, true);
                 // FIXME: The role check shouldn't be hardcoded for project 1
                 $prj_id = 1;
                 if (!Auth::isCorrectPassword($email, $password)
