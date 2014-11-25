@@ -87,7 +87,6 @@ if [ -n "$composer" ]; then
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
-	rm -r vendor/smarty-gettext/smarty-gettext/tests
 	rm -r vendor/bin
 
 	# smarty: use -f, as dist and src packages differ
