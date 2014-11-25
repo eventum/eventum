@@ -56,8 +56,12 @@ if (in_array('--debug', $argv)) {
     unset($argv[array_search('--debug', $argv)]);
 }
 
-// need to process authentication first
-Command_Line::checkAuthentication($client, $user_email, $user_password);
+try {
+    // need to process authentication first
+    Command_Line::checkAuthentication($client, $user_email, $user_password);
+} catch (Eventum_RPC_Exception $e) {
+    Command_Line::quit($e->getMessage());
+}
 
 $auth = array($user_email, $user_password);
 
