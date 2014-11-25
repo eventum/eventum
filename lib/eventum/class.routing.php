@@ -77,7 +77,7 @@ class Routing
                 }
                 $method = "route_{$type}s";
                 $return = Routing::$method($full_message);
-                if (is_array($return)) {
+                if ($return === true || is_array($return)) {
                     return $return;
                 }
             }

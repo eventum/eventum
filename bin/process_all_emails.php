@@ -40,6 +40,10 @@ $return = Routing::route($full_message);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);
+} elseif($return === false) {
+    // message was not able to be routed
+    echo "no route";
+    exit(Routing::EX_NOUSER);
 }
 
 /*
@@ -53,5 +57,6 @@ fwrite($fp, $full_message);
 fclose($fp);
 chmod($path . $filename, 0777);
 */
-echo "No route\n";
-exit(Routing::EX_NOUSER);
+
+// this indicates the script ran successfully to postfix
+exit(0);
