@@ -162,7 +162,7 @@ class Command_Line
      * @param   string $field The field in which to search
      * @param   string $value The value to search against
      */
-    public function lookupCustomer($client, $auth, $field, $value)
+    public static function lookupCustomer($client, $auth, $field, $value)
     {
         $project_id = self::promptProjectSelection($client, $auth, true);
 
@@ -571,7 +571,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $show_all_issues Whether to show all open issues or just the ones assigned to the current user
      * @param   string $status The status that should be used to restrict the results
      */
-    public function printOpenIssues($client, $auth, $show_all_issues, $status)
+    public static function printOpenIssues($client, $auth, $show_all_issues, $status)
     {
         $project_id = self::promptProjectSelection($client, $auth);
         // check the status option
@@ -671,7 +671,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      */
-    public function printStatusList($client, $auth)
+    public static function printStatusList($client, $auth)
     {
         $project_id = self::promptProjectSelection($client, $auth);
         $items = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
@@ -688,7 +688,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      */
-    public function printDeveloperList($client, $auth)
+    public static function printDeveloperList($client, $auth)
     {
         $project_id = self::promptProjectSelection($client, $auth);
         $developers = $client->getDeveloperList($auth[0], $auth[1], $project_id);
@@ -869,7 +869,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $target What this note should be converted too, a draft or an email.
      * @param   boolean $authorize_sender If the sender should be added to the authorized repliers list.
      */
-    public function convertNote($client, $auth, $issue_id, $note_id, $target, $authorize_sender)
+    public static function convertNote($client, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
         self::checkIssueAssignment($client, $auth, $issue_id);
@@ -897,7 +897,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   string $end_date The end_date of the report. (optional)
      * @param   boolean $separate_closed If closed issues should be separated from other issues.
      */
-    public function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
+    public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
         $ret = $client->getWeeklyReport($auth[0], $auth[1], $week, $start_date, $end_date, $separate_closed);
         echo $ret;
@@ -910,7 +910,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   string $action If the user is clocking in or out.
      */
-    public function timeClock($client, $auth, $action)
+    public static function timeClock($client, $auth, $action)
     {
         $result = $client->timeClock($auth[0], $auth[1], $action);
         echo $result;
@@ -923,7 +923,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function listDrafts($client, $auth, $issue_id)
+    public static function listDrafts($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -972,7 +972,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to view
      */
-    public function printDraft($client, $auth, $issue_id, $draft_id)
+    public static function printDraft($client, $auth, $issue_id, $draft_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -1013,7 +1013,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $draft_id The sequential id of the draft to send
      * @return  array An array containing draft details.
      */
-    public function sendDraft($client, $auth, $issue_id, $draft_id)
+    public static function sendDraft($client, $auth, $issue_id, $draft_id)
     {
         $result = $client->sendDraft($auth[0], $auth[1], $issue_id, $draft_id);
         echo $result;
@@ -1026,7 +1026,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function redeemIssue($client, $auth, $issue_id)
+    public static function redeemIssue($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
         self::checkIssueAssignment($client, $auth, $issue_id);
@@ -1044,7 +1044,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function unredeemIssue($client, $auth, $issue_id)
+    public static function unredeemIssue($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
         self::checkIssueAssignment($client, $auth, $issue_id);
