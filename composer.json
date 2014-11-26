@@ -1,6 +1,7 @@
 {
 	"name": "eventum/eventum",
 	"description": "Eventum Issue / Bug tracking system",
+	"type": "project",
 	"homepage": "https://launchpad.net/eventum",
 	"license": "GPL-2.0",
 	"authors": [
