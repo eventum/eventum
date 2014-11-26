@@ -1,4 +1,3 @@
-# Depending on your shell you may need to pass SHELL=/bin/bash as an argument
 COMPOSER := $(shell which composer.phar 2>/dev/null || which composer 2>/dev/null || echo false)
 BOX := $(shell which box.phar 2>/dev/null || which box 2>/dev/null || echo false)
 
@@ -9,7 +8,7 @@ eventum.phar:
 	 # setup clean tree as can't seem to find a way to include parent dirs
 	 # also main eventum composer.json includes too much deps
 	 rm -rf build
-	 install -d build/{cli,lib/eventum,vendor}
+	 install -d build/cli build/lib/eventum build/vendor
 	 cp -p *.php eventumrc build/cli
 	 cp -p *.json *.json.dist build
 	 cp -a ../lib/eventum/*  build/lib/eventum
