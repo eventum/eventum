@@ -213,6 +213,10 @@ class XmlRpcServer
             $params[] = XML_RPC_decode($message->getParam($i));
         }
 
+        // there's method to set this via $client->setAutoBase64(true);
+        // but nothing at server side. where we actually need it
+        $GLOBALS['XML_RPC_auto_base64'] = true;
+
         try {
             if ($protected) {
                 list($email, $password) = array_splice($params, 0, 2);
