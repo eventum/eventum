@@ -25,10 +25,10 @@
 			"url": "https://raw.githubusercontent.com/eventum/composer/repo/"
 		}
 	],
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"pear-pear.php.net/XML_RPC": "*",
+		"eventum/rpc": "*",
 		"php": ">=5.1.2"
 	},
 	"autoload": {

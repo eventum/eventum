@@ -32,7 +32,7 @@
 	"autoload": {
 		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
 	},
-	"minimum-stability": "stable",
+	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
 		"components/jquery": "~1.8.3",
@@ -40,7 +40,7 @@
 		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
 		"components/jqueryui": "*",
-		"malsup/form" :"*",
+		"eventum/rpc": "*",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
@@ -51,6 +51,7 @@
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
+		"malsup/form" :"*",
 		"pear-pear.php.net/Auth_SASL": "*",
 		"pear-pear.php.net/DB": "*",
 		"pear-pear.php.net/File_Util": "*",
@@ -60,8 +61,8 @@
 		"pear-pear.php.net/Math_Stats": "*",
 		"pear-pear.php.net/Net_LDAP2": "*",
 		"pear-pear.php.net/Net_POP3": "*",
-		"pear-pear.php.net/Net_SmartIRC": "*",
 		"pear-pear.php.net/Net_SMTP": "*",
+		"pear-pear.php.net/Net_SmartIRC": "*",
 		"pear-pear.php.net/Net_Socket": "*",
 		"pear-pear.php.net/Net_URL": "*",
 		"pear-pear.php.net/PEAR": "*",

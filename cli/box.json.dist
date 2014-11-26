@@ -7,7 +7,6 @@
     "finder": [
         {
             "name": [
-                "Eventum_RPC.php",
                 "class.cli_misc.php",
                 "class.command_line.php"
             ],
@@ -31,6 +30,12 @@
                 "RPC.php"
             ],
             "in": "vendor/pear-pear.php.net/XML_RPC"
+        },
+        {
+            "name": [
+                "class.Eventum_RPC.php"
+            ],
+            "in": "vendor/eventum/rpc"
         }
     ],
     "compactors": [
