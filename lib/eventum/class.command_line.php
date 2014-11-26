@@ -302,7 +302,7 @@ class Command_Line
 
         echo "Downloading file #$file_number from issue $issue_id...\n";
 
-        $details = $client->getFile($auth[0], $auth[1], $file_id);
+        $details = $client->getFile($auth[0], $auth[1], (int)$file_id);
 
         // check if the file already exists
         if (file_exists($details['iaf_filename'])) {
