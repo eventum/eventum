@@ -147,7 +147,8 @@ class XmlRpcServer
         $signature[] = $this->getXmlRpcType($return);
 
         // for protected add email and password strings
-        if ($protected) {
+        // skip adding if HTTP Authorization header is present
+        if ($protected && !isset($_SERVER['PHP_AUTH_USER'])) {
             $signature[] = $this->getXmlRpcType('string');
             $signature[] = $this->getXmlRpcType('string');
         }
@@ -219,7 +220,7 @@ class XmlRpcServer
 
         try {
             if ($protected) {
-                list($email, $password) = array_splice($params, 0, 2);
+                list($email, $password) = $this->getAuthParams($params);
 
                 $usr_id = User::getUserIDByEmail($email, true);
                 // FIXME: The role check shouldn't be hardcoded for project 1
@@ -228,7 +229,7 @@ class XmlRpcServer
                     || (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer'))
                 ) {
                     throw new RemoteApiException(
-                        "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role"
+                        "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role."
                     );
                 }
 
@@ -246,5 +247,20 @@ class XmlRpcServer
         }
 
         return $res;
+    }
+
+    /**
+     * Get auth username and password.
+     * Take credentials from HTTP Authorization, otherwise chop off from parameters.
+     *
+     * @param array $params
+     * @return array
+     */
+    private function getAuthParams(&$params) {
+        if (isset($_SERVER['PHP_AUTH_USER'])) {
+            return array($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+        }
+
+        return array_splice($params, 0, 2);
     }
 }
