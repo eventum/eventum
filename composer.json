@@ -41,7 +41,7 @@
 		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
 		"components/jqueryui": "*",
-		"eventum/rpc": "*",
+		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-gd": "*",
 		"ext-iconv": "*",
