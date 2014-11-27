@@ -49,7 +49,7 @@ if (($argv[1] == '--help') || ($argv[1] == 'help')) {
 
 $should_confirm = Command_Line::isSafeExecution();
 $scheme = $port == 443 ? 'https' : 'http';
-$client = new Eventum_RPC("$scheme://$hostname$relative_url");
+$client = new Eventum_RPC("$scheme://$hostname$relative_url/rpc/xmlrpc.php");
 //$client->setCredentials($user_email, $user_password);
 if (in_array('--debug', $argv)) {
     $client->setDebug(true);
