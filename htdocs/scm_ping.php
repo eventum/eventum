@@ -21,69 +21,77 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-// shortcut to exit out when no issue id-s are passed in request
-// as this script is always called by CVS but we handle only ones which can be
-// associated with issues.
-if (empty($_GET['issue'])) {
-    exit(0);
-}
-
 require_once dirname(__FILE__) . '/../init.php';
 
-$module = $_GET['module'];
-$username = $_GET['username'];
-$commit_msg = $_GET['commit_msg'];
-$scm_name = isset($_GET['scm_name']) ? $_GET['scm_name'] : null;
-
-// module is per file (svn hook)
-if (is_array($module)) {
-    $module = null;
+try {
+    ob_start();
+    $scm_name = isset($_GET['scm_name']) ? $_GET['scm_name'] : null;
+    scm_ping($_GET['module'], $_GET['username'], $scm_name, $_GET['issue'], $_GET['commit_msg']);
+    $status = array(
+        'code' => 0,
+        'message' => ob_get_clean(),
+    );
+} catch (Exception $e) {
+    $code = $e->getCode();
+    $status = array(
+        'code' => $code ? $code : -1,
+        'message' => $e->getMessage(),
+    );
+    error_log($e->getMessage());
+    error_log($e->getTraceAsString());
 }
 
-// process checkins for each issue
-foreach ($_GET['issue'] as $issue_id) {
-    // check early if issue exists to report proper message back
-    // workflow needs to know project_id to find out which workflow class to use.
-    $prj_id = Issue::getProjectID($issue_id);
-    if (empty($prj_id)) {
-        echo "issue #$issue_id not found\n";
-        continue;
+if (!empty($_GET['json'])) {
+    echo json_encode($status);
+} else {
+    echo $status['message'];
+    exit($status['code']);
+}
+
+function scm_ping($module, $username, $scm_name, $issues, $commit_msg)
+{
+    // module is per file (svn hook)
+    if (is_array($module)) {
+        $module = null;
     }
 
-    $files = array();
-    $nfiles = count($_GET['files']);
-    for ($y = 0; $y < $nfiles; $y++) {
-        $file = array(
-            'file' => $_GET['files'][$y],
-            // version may be missing to indicate 'added' or ''removed'' state
-            'old_version' => isset($_GET['old_versions'][$y]) ? $_GET['old_versions'][$y] : null,
-            'new_version' => isset($_GET['new_versions'][$y]) ? $_GET['new_versions'][$y] : null,
-            // there may be per file global (cvs) or module (svn)
-            'module' => isset($module) ? $module : $_GET['module'][$y],
-        );
+    // process checkins for each issue
+    foreach ($issues as $issue_id) {
+        // check early if issue exists to report proper message back
+        // workflow needs to know project_id to find out which workflow class to use.
+        $prj_id = Issue::getProjectID($issue_id);
+        if (empty($prj_id)) {
+            echo "issue #$issue_id not found\n";
+            continue;
+        }
 
-        $files[] = $file;
-    }
+        $files = array();
+        $nfiles = count($_GET['files']);
+        for ($y = 0; $y < $nfiles; $y++) {
+            $file = array(
+                'file' => $_GET['files'][$y],
+                // version may be missing to indicate 'added' or ''removed'' state
+                'old_version' => isset($_GET['old_versions'][$y]) ? $_GET['old_versions'][$y] : null,
+                'new_version' => isset($_GET['new_versions'][$y]) ? $_GET['new_versions'][$y] : null,
+                // there may be per file global (cvs) or module (svn)
+                'module' => isset($module) ? $module : $_GET['module'][$y],
+            );
 
-    $commit_time = Date_Helper::getCurrentDateGMT();
-    try {
+            $files[] = $file;
+        }
+
+        $commit_time = Date_Helper::getCurrentDateGMT();
         SCM::addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files);
 
         // print report to stdout of commits so hook could report status back to commiter
         $details = Issue::getDetails($issue_id);
         echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-
-    } catch (Exception $e) {
-        // echo, to give some indication to user about error
-        echo "ERROR: ", $e->getMessage(), "\n";
-        error_log($e->getMessage());
-        error_log($e->getTraceAsString());
     }
 }
