@@ -65,8 +65,8 @@ foreach ($_GET['issue'] as $issue_id) {
             // version may be missing to indicate 'added' or ''removed'' state
             'old_version' => isset($_GET['old_versions'][$y]) ? $_GET['old_versions'][$y] : null,
             'new_version' => isset($_GET['new_versions'][$y]) ? $_GET['new_versions'][$y] : null,
-            // there may be per file module (svn) or global (cvs)
-            'module' => isset($_GET['module'][$y]) ? $_GET['module'][$y] : $module,
+            // there may be per file global (cvs) or module (svn)
+            'module' => isset($module) ? $module : $_GET['module'][$y],
         );
 
         $files[] = $file;
