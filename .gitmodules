@@ -1,0 +1,3 @@
+[submodule "scm"]
+	path = scm
+	url = git@github.com:eventum/scm.git

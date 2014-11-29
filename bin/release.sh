@@ -19,7 +19,7 @@ find_composer() {
 }
 
 # update timestamps from last commit
-# http://stackoverflow.com/questions/1964470/whats-the-equivalent-of-use-commit-times-for-git/5531813#5531813
+# see http://stackoverflow.com/a/5531813
 update_timestamps() {
 	set +x
 	echo "Updating timestamps from last commit of each file, please wait..."
@@ -37,8 +37,12 @@ find_composer
 # checkout
 rm -rf $dir
 install -d $dir
+dir=$(readlink -f $dir)
 
 git archive HEAD | tar -x -C $dir
+# include submodules
+# see http://stackoverflow.com/a/16843717
+dir=$dir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
 
 update_timestamps
 
