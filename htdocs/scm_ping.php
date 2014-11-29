@@ -75,6 +75,11 @@ foreach ($_GET['issue'] as $issue_id) {
     $commit_time = Date_Helper::getCurrentDateGMT();
     try {
         SCM::addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files);
+
+        // print report to stdout of commits so hook could report status back to commiter
+        $details = Issue::getDetails($issue_id);
+        echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
+
     } catch (Exception $e) {
         // echo, to give some indication to user about error
         echo "ERROR: ", $e->getMessage(), "\n";
