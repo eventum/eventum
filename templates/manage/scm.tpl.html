@@ -10,11 +10,28 @@ function validateForm()
         alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
         return false;
     }
+
     return true;
 }
 
-$().ready(function() {
-    $('#general_setup_form').submit(validateForm);
+function disableSCMFields(bool)
+{
+  $('#scm_setup').css('display', !bool ? 'table-row' : 'none');
+}
+
+function setDisabledFields()
+{
+  if (Eventum.getField('scm_integration').first().is(':checked')) {
+    disableSCMFields(false);
+  } else {
+    disableSCMFields(true);
+  }
+}
+
+$(function() {
+  $('#general_setup_form').submit(validateForm);
+  $('input[name=scm_integration]').change(setDisabledFields);
+  setDisabledFields();
 });
 //-->
 </script>
@@ -46,6 +63,37 @@ $().ready(function() {
             </td>
           </tr>
         </table>
+      </td>
+      </tr>
+    <tr id="scm_setup">
+      <th></th>
+      <td>
+        {t escape=no}To add scm backends, add to your <b>setup.php</b> like{/t}:
+        {literal}<pre>
+  'scm' => array(
+    'cvs' => array(
+      // cvsweb urls
+      'name' => 'cvs',
+      'checkout_url' => 'http://cvs.example.org/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+      'diff_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+      'log_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
+    ),
+    'svn' => array(
+      // trac urls
+      'name' => 'svn',
+      'checkout_url' => 'http://trac.example.org/browser/{MODULE}/{FILE}?rev={VERSION}',
+      'diff_url' => 'http://trac.example.org/changeset/{VERSION}/{MODULE}/{FILE}',
+      'log_url' => 'http://trac.example.org/log/{MODULE}/{FILE}?rev={VERSION}',
+    ),
+    'git' => array(
+      // gitweb urls
+      'name' => 'git',
+      'checkout_url' => 'http://git.example.org/?p=test.git;a=blob;f={FILE};hb={VERSION}',
+      'diff_url' => 'http://git.example.org/?p=test.git;a=commitdiff;h={VERSION}',
+      'log_url' => 'http://git.example.org/?p=test.git;a=history;f={FILE};hb={VERSION}',
+    ),
+  )
+</pre>{/literal}
       </td>
     </tr>
 
