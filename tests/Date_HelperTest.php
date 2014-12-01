@@ -23,6 +23,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
      */
     public function setAdminUserPreferences()
     {
+        $this->hasDatabase();
+
         $usr_id = APP_ADMIN_USER_ID;
         $prefs = Prefs::get($usr_id);
         $prefs['timezone'] = self::USER_TIMEZONE;
