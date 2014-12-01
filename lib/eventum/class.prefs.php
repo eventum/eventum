@@ -71,14 +71,15 @@ class Prefs
     /**
      * Method used to get the preferences set by a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @return  array The preferences
+     * @param integer $usr_id The user ID
+     * @param bool $force Set to true to force database refresh
+     * @return array The preferences
      */
-    public static function get($usr_id)
+    public static function get($usr_id, $force = false)
     {
         static $returns;
 
-        if (!empty($returns[$usr_id])) {
+        if (!$force && !empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }
 

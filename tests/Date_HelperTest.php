@@ -173,8 +173,15 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
         $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
         $this->assertEquals('UTC', $res);
 
-        $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);
-        $this->assertEquals('Europe/Tallinn', $res);
+        $usr_id = APP_ADMIN_USER_ID;
+        $prefs = Prefs::get($usr_id);
+        $prefs['timezone'] = 'Europe/Tallinn';
+        Prefs::set($usr_id, $prefs);
+        // this will force db refetch
+        Prefs::get($usr_id, true);
+
+        $res = Date_Helper::getPreferredTimezone($usr_id);
+        $this->assertEquals($prefs['timezone'], $res);
     }
 
     /**
