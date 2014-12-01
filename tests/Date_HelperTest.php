@@ -3,13 +3,32 @@
 class Date_HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * timezone used for preferred user timezone tests
+     */
+    const USER_TIMEZONE = 'Europe/Tallinn';
+
+    /**
      * @test Dependency to database tests
      */
-    public function hasDatabase() {
+    public function hasDatabase()
+    {
         if (getenv('TRAVIS')) {
             $this->markTestSkipped('Test requires database');
         }
         $this->assertTrue(true, "has database");
+    }
+
+    /**
+     * @test Dependency test regarding user preferences
+     */
+    public function setAdminUserPreferences()
+    {
+        $usr_id = APP_ADMIN_USER_ID;
+        $prefs = Prefs::get($usr_id);
+        $prefs['timezone'] = self::USER_TIMEZONE;
+        Prefs::set($usr_id, $prefs);
+        // this will force db refetch
+        Prefs::get($usr_id, true);
     }
 
     /**
@@ -109,7 +128,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Date_Helper::getTimezoneShortNameByUser
+     * @depends setAdminUserPreferences
+     * @covers  Date_Helper::getTimezoneShortNameByUser
      */
     public function testGetTimezoneShortNameByUser()
     {
@@ -161,7 +181,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Date_Helper::getPreferredTimezone
+     * @depends setAdminUserPreferences
+     * @covers  Date_Helper::getPreferredTimezone
      */
     public function testGetPreferredTimezone()
     {
@@ -173,15 +194,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
         $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
         $this->assertEquals('UTC', $res);
 
-        $usr_id = APP_ADMIN_USER_ID;
-        $prefs = Prefs::get($usr_id);
-        $prefs['timezone'] = 'Europe/Tallinn';
-        Prefs::set($usr_id, $prefs);
-        // this will force db refetch
-        Prefs::get($usr_id, true);
-
-        $res = Date_Helper::getPreferredTimezone($usr_id);
-        $this->assertEquals($prefs['timezone'], $res);
+        $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);
+        $this->assertEquals(self::USER_TIMEZONE, $res);
     }
 
     /**
@@ -227,7 +241,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider testInvalidTimezone_data
      */
-    public function testInvalidTimezone($ts, $tz, $exp) {
+    public function testInvalidTimezone($ts, $tz, $exp)
+    {
         $date = Date_Helper::getFormattedDate($ts, $tz);
         $this->assertEquals($exp, $date);
     }
@@ -243,7 +258,8 @@ class Date_HelperTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetTimezoneList() {
+    public function testGetTimezoneList()
+    {
         $pear_timezones = require __DIR__ . '/data/timezones.php';
         $timezones = Date_Helper::getTimezoneList();
 
