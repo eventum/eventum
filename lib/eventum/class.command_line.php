@@ -359,6 +359,7 @@ class Command_Line
     {
         $projects = self::getUserAssignedProjects($client, $auth);
         $details = $client->getIssueDetails($auth[0], $auth[1], $issue_id);
+        $details['iss_prj_id'] = (int) $details['iss_prj_id'];
 
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
@@ -407,11 +408,11 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public function takeIssue($client, $auth, $issue_id)
+    public static function takeIssue($client, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, $details['iss_prj_id']);
+        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, (int)$details['iss_prj_id']);
         if ($result == 'OK') {
             echo "OK - Issue #$issue_id successfully taken.\n";
         } else {
