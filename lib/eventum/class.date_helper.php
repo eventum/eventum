@@ -184,13 +184,21 @@ class Date_Helper
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
      * @return  string $ts The current GMT date
-     * @param $ts
+     * @param   int|DateTime|string $ts
+     * @param   string $timezone
+     * @param   bool $omit_offset
      */
-    public static function getISO8601date($ts)
+    public static function getISO8601date($ts, $timezone = '', $omit_offset=false)
     {
-        $date = self::getDateTime($ts, 'GMT');
+        $date = self::getDateTime($ts, $timezone);
 
-        return $date->format(DateTime::ISO8601);
+        if ($omit_offset) {
+            $fmt = 'Y-m-d\TH:i:s';
+        } else {
+            $fmt = DateTime::ISO8601;
+        }
+
+        return $date->format($fmt);
     }
 
     /**
