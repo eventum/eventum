@@ -41,7 +41,6 @@
     "compactors": [
         "Herrera\\Box\\Compactor\\Php"
     ],
-    "compression": "GZ",
     "main": "cli/eventum.php",
     "output": "cli/eventum.phar",
     "stub": true
