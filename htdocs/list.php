@@ -79,7 +79,6 @@ if (isset($_REQUEST['view'])) {
                 "&sort_order=" . $profile['sort_order'] . "&nosave=1");
     } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
-        Search_Profile::remove($usr_id, $prj_id, 'issue');
         Auth::redirect("list.php?reporter=" . Misc::escapeInteger($_REQUEST['reporter_id']) .
                 "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
                 "&sort_order=" . $profile['sort_order'] . "&nosave=1");

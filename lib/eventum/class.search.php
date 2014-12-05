@@ -200,11 +200,13 @@ class Search
             "links"  => array(),
             "images" => array()
         );
+        $current_sort_by = $options['sort_by'];
+        $current_sort_order = $options['sort_order'];
         foreach ($sortfields as $field => $sortfield) {
             $sort_order = $fields[$field];
-            if ($options["sort_by"] == $sortfield) {
-                $items["images"][$field] = "images/" . strtolower($options["sort_order"]) . ".gif";
-                if (strtolower($options["sort_order"]) == "asc") {
+            if ($current_sort_by == $sortfield) {
+                $items["images"][$field] = "images/" . strtolower($current_sort_order) . ".gif";
+                if (strtolower($current_sort_order) == "asc") {
                     $sort_order = "desc";
                 } else {
                     $sort_order = "asc";
