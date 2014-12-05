@@ -103,6 +103,11 @@ if (@$_GET["cat"] == "delete_note") {
         $res = Issue::setQuarantine($_GET['iss_id'], 0);
         $tpl->assign('remove_quarantine_result', $res);
     }
+} elseif (@$_GET['cat'] == 'selfnotify') {
+    if (Issue::canAccess($_GET['iss_id'], $usr_id)) {
+        $res = Notification::subscribeUser($usr_id, $_GET['iss_id'], $usr_id, Notification::getDefaultActions($_GET['iss_id']));
+        $tpl->assign('selfnotify_result', $res);
+    }
 }
 
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));

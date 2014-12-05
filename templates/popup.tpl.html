@@ -146,6 +146,13 @@
   {t}Thank you, this issue was removed from quarantine.{/t}
 {/if}
 
+{if $selfnotify_result|default:'' != 1}
+    {t}An error occurred subscribing you to the issue{/t}
+{elseif $selfnotify_result|default:'' == 1}
+  {t}Thank you, you are now subscribed to this issue.{/t}
+{/if}
+
+
 
 <script type="text/javascript">
 <!--

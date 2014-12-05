@@ -346,7 +346,7 @@ issue_view.unassign = function()
 issue_view.selfNotification = function()
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('notification.php?iss_id=' + issue_view.get_issue_id() + '&cat=selfnotify', '_notification', features);
+    var popupWin = window.open('popup.php?iss_id=' + issue_view.get_issue_id() + '&cat=selfnotify', '_notification', features);
     popupWin.focus();
 }
 

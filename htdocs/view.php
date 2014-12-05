@@ -244,6 +244,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                 'enabled_partners'    => Partner::getPartnersByProject($prj_id),
                 'partners'            => Partner::getPartnersByIssue($issue_id),
                 'issue_access'        => Access::getIssueAccessArray($issue_id, $usr_id),
+                'is_user_notified'   => Notification::isUserNotified($issue_id, $usr_id),
             ));
 
             if ($role_id != User::getRoleID('customer')) {
@@ -268,7 +269,6 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'notes'              => Note::getListing($issue_id),
                     'is_user_assigned'   => Issue::isAssignedToUser($issue_id, $usr_id),
                     'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
-                    'is_user_notified'   => Notification::isUserNotified($issue_id, $usr_id),
                     'phone_entries'      => Phone_Support::getListing($issue_id),
                     'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
                     'checkins'           => SCM::getCheckinList($issue_id),

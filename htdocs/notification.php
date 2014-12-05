@@ -53,16 +53,7 @@ foreach ($default as $action) {
 }
 $tpl->assign("default_actions", $res);
 
-if (@$_GET['cat'] == "selfnotify") {
-    $usr_email = User::getEmail($usr_id);
-    $res = Notification::subscribeEmail($usr_id, $issue_id, $usr_email, $default);
-    $sub_id = Notification::getSubscriberID($issue_id, $usr_email);
-    Auth::redirect(APP_RELATIVE_URL . "notification.php?cat=edit&iss_id=" . $issue_id . "&id=" . $sub_id);
-    $tpl->assign("insert_result", $res);
-    if ($res == 1) {
-        Misc::setMessage(ev_gettext("Thank you, you have been subscribed to the issue."));
-    }
-} elseif (@$_POST["cat"] == "insert") {
+if (@$_POST["cat"] == "insert") {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
     if ($res == 1) {
         Misc::setMessage(ev_gettext("Thank you, the email has been subscribed to the issue."));
