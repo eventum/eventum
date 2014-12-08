@@ -37,4 +37,8 @@ Auth::setCurrentProject($_POST["current_project"], $cookie["remember"]);
 
 Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
 
+if (stristr($_REQUEST['current_page'], 'view.php') !== false) {
+    $_REQUEST['current_page'] = APP_RELATIVE_URL . "list.php";
+}
+
 Auth::redirect($_REQUEST['current_page']);
