@@ -2610,6 +2610,13 @@ class Issue
                  ON
                     sub_iss_id=iss_id";
         }
+        if (!empty($options["product"])) {
+            $stmt .= "
+                 LEFT JOIN
+                    {{%issue_product_version}}
+                 ON
+                    ipv_iss_id=iss_id";
+        }
         if (@$options["sort_by"] == "pre_scheduled_date") {
             $stmt .= "
                  LEFT JOIN
