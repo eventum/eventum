@@ -1316,15 +1316,14 @@ class Issue
      */
     public static function removeByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     iss_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id IN ($items)";
+                    iss_prj_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }

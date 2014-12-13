@@ -121,13 +121,12 @@ class Release
      */
     public static function removeByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     {{%project_release}}
                  WHERE
-                    pre_prj_id IN ($items)";
+                    pre_prj_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }

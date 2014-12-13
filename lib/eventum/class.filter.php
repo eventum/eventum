@@ -663,13 +663,12 @@ class Filter
      */
     public static function removeByProjects($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     {{%custom_filter}}
                  WHERE
-                    cst_prj_id IN ($items)";
+                    cst_prj_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
