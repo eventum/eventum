@@ -498,13 +498,13 @@ abstract class CRM
      */
     public static function removeAccountManager()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%customer_account_manager}}
                  WHERE
-                    cam_id IN ($items)";
+                    cam_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -704,9 +704,9 @@ abstract class CRM
         $stmt = "DELETE FROM
                     {{%customer_note}}
                  WHERE
-                    cno_id IN (" . join(", ", Misc::escapeInteger($ids)) . ")";
+                    cno_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return -1;
         }
