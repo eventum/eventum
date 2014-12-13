@@ -579,7 +579,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, $prj_id);
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
         } catch (DbException $e) {
             return "";
         }
@@ -617,7 +617,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, $prj_id);
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
         } catch (DbException $e) {
             return "";
         }
@@ -655,7 +655,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, $prj_id);
+            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
         } catch (DbException $e) {
             return "";
         }
