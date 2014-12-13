@@ -493,44 +493,32 @@ class Attachment
      */
     public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = false, $associated_note_id = false)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $usr_id = Misc::escapeInteger($usr_id);
         if ($internal_only) {
             $attachment_status = 'internal';
         } else {
             $attachment_status = 'public';
         }
 
-        $stmt = "INSERT INTO
-                    {{%issue_attachment}}
-                 (
-                    iat_iss_id,
-                    iat_usr_id,
-                    iat_created_date,
-                    iat_description,
-                    iat_status";
+        $params = array(
+            'iat_iss_id' => $issue_id,
+            'iat_usr_id' => $usr_id,
+            'iat_created_date'=> Date_Helper::getCurrentDateGMT(),
+            'iat_description'=> $description,
+            'iat_status' => $attachment_status,
+        );
+
         if ($unknown_user != false) {
-            $stmt .= ", iat_unknown_user ";
+            $params['iat_unknown_user'] = $unknown_user;
         }
+
         if ($associated_note_id != false) {
-            $stmt .= ", iat_not_id ";
+            $params['iat_not_id'] = $associated_note_id;
         }
-        $stmt .=") VALUES (
-                    $issue_id,
-                    $usr_id,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($description) . "',
-                    '" . Misc::escapeString($attachment_status) . "'";
-        if ($unknown_user != false) {
-            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
-        }
-        if ($associated_note_id != false) {
-            $stmt .= ", " . Misc::escapeInteger($associated_note_id);
-        }
-        $stmt .= " )";
+
+        $stmt = "INSERT INTO {{%issue_attachment}} SET ". DB_Helper::buildSet($params);
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
