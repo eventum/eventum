@@ -32,7 +32,6 @@
  * Class to handle the business logic related to setting and updating
  * the setup information of the system.
  */
-
 class Setup
 {
     /**
@@ -44,22 +43,8 @@ class Setup
     public static function &load($force = false)
     {
         static $setup;
-        if (empty($setup) || $force == true) {
-            $setup = array();
-            $eventum_setup_string = $eventum_setup = null;
-
-            require APP_SETUP_FILE;
-
-            if (isset($eventum_setup)) {
-                $setup = $eventum_setup;
-
-            } elseif (isset($eventum_setup_string)) {
-                // support reading legacy base64 encoded config
-                $setup = unserialize(base64_decode($eventum_setup_string));
-            }
-
-            // merge with defaults
-            $setup = Misc::array_extend(self::getDefaults(), $setup);
+        if (!$setup || $force == true) {
+            $setup = self::loadConfig(APP_SETUP_FILE, self::getDefaults());
         }
 
         return $setup;
@@ -73,28 +58,88 @@ class Setup
      */
     public static function save($options)
     {
-        // this is needed to check if the file can be created or not
-        if (!file_exists(APP_SETUP_FILE)) {
-            if (!is_writable(APP_CONFIG_PATH)) {
-                clearstatcache();
+        try {
+            self::saveConfig(APP_SETUP_FILE, $options);
+        } catch (Exception $e) {
+            $code = $e->getCode();
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
+            return $code ?: -1;
+        }
+        return 1;
+    }
 
-                return -1;
+    /**
+     * Load config from $path and merge with $defaults.
+     * Config file should return configuration array.
+     *
+     * @param string $path
+     * @param array $defaults
+     * @return array
+     */
+    private static function loadConfig($path, $defaults)
+    {
+        $eventum_setup_string = $eventum_setup = null;
+
+        // config array is supposed to be returned from that path
+        $config = require $path;
+
+        // fall back to old modes:
+        // 1. $eventum_setup string
+        // 2. base64 encoded $eventum_setup_string
+        // TODO: save it over so the support could be removed soon
+        if (isset($eventum_setup)) {
+            $config = $eventum_setup;
+        } elseif (isset($eventum_setup_string)) {
+            $config = unserialize(base64_decode($eventum_setup_string));
+        }
+
+        // merge with defaults
+        if ($defaults) {
+            $config = Misc::array_extend($defaults, $config);
+        }
+
+        return $config;
+    }
+
+    /**
+     * Save config to filesystem
+     *
+     * @param string $path
+     * @param array $config
+     */
+    private static function saveConfig($path, $config)
+    {
+        // if file exists, the file must be writable
+        if (file_exists($path)) {
+            if (!is_writable($path)) {
+                throw new RuntimeException("File '$path' is not writable'", -2);
             }
         } else {
-            if (!is_writable(APP_SETUP_FILE)) {
-                clearstatcache();
-
-                return -2;
+            // if file does not exist, it's parent dir must be writable
+            $dir = dirname($path);
+            if (!is_writable($dir)) {
+                throw new RuntimeException("Directory '$dir' is not writable'", -1);
             }
         }
 
-        $contents = "<"."?php\n\$eventum_setup = " . var_export($options, 1) . ";\n";
-        $res = file_put_contents(APP_SETUP_FILE, $contents);
+        $contents = self::dumpConfig($config);
+        $res = file_put_contents($path, $contents);
         if ($res === false) {
-            return -2;
+            throw new RuntimeException("Can't write {$path}", -2);
         }
+        clearstatcache(true, $path);
+    }
 
-        return 1;
+    /**
+     * Export config in a format to be stored to config file
+     *
+     * @param array $config
+     * @return string
+     */
+    private static function dumpConfig($config)
+    {
+        return '<' . "?php\nreturn " . var_export($config, 1) . ";\n";
     }
 
     /**
