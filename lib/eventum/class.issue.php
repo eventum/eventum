@@ -864,14 +864,14 @@ class Issue
      * @param   string $type The type of update that was made (optional)
      * @return  boolean
      */
-    public static function markAsUpdated($issue_id, $type = false)
+    public static function markAsUpdated($issue_id, $type = null)
     {
         $public = array("staff response", "customer action", "file uploaded", "user response");
         $stmt = "UPDATE
                     {{%issue}}
                  SET
                     iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "'\n";
-        if ($type != false) {
+        if ($type) {
             if (in_array($type, $public)) {
                 $field = "iss_last_public_action_";
             } else {
