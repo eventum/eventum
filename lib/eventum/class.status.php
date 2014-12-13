@@ -103,7 +103,7 @@ class Status
                  WHERE
                     psd_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
