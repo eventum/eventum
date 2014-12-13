@@ -200,6 +200,20 @@ class DB_Helper
     }
 
     /**
+     * Give valid ORDER BY parameter
+     *
+     * @param string $order
+     * @param string $default
+     * @return string
+     */
+    public static function orderBy($order, $default = "DESC") {
+        if (!in_array(strtoupper($order), array("ASC", "DESC"))) {
+            return $default;
+        }
+        return $order;
+    }
+
+    /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.

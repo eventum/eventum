@@ -94,7 +94,7 @@ class History
      */
     public static function getListing($iss_id, $order_by = 'DESC')
     {
-        $order_by = Misc::escapeString($order_by);
+        $order_by = DB_Helper::orderBy($order_by);
         $stmt = "SELECT
                     *
                  FROM

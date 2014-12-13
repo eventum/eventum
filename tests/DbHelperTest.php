@@ -40,10 +40,28 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
 
         // test merge two arrays
-        $stmt = "WHERE icf_fld_id IN (" . DB_Helper::buildList($ids) . ") AND icf_value IN (" . DB_Helper::buildList($ids) . ")";
+        $stmt
+            = "WHERE icf_fld_id IN (" . DB_Helper::buildList($ids) . ") AND icf_value IN (" . DB_Helper::buildList($ids)
+            . ")";
         $params = array_merge($ids, $ids);
         $res = $stmt . '|' . join(',', $params);
         $exp = 'WHERE icf_fld_id IN (?, ?, ?, ?) AND icf_value IN (?, ?, ?, ?)|1,2,a,f,1,2,a,f';
         $this->assertEquals($exp, $res);
     }
+
+    public function testOrderBy()
+    {
+        $res = DB_Helper::orderBy("ASC");
+        $this->assertEquals("ASC", $res);
+
+        $res = DB_Helper::orderBy("desc");
+        $this->assertEquals("desc", $res);
+
+        $res = DB_Helper::orderBy("desc having 1=1");
+        $this->assertEquals("DESC", $res);
+
+        $res = DB_Helper::orderBy("desc having 1=1", "asc");
+        $this->assertEquals("asc", $res);
+    }
+
 }
