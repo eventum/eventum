@@ -1487,10 +1487,8 @@ class User
      */
     public static function setGroupID($usr_id, $grp_id)
     {
-        if ($grp_id == false) {
-            $grp_id = 'null';
-        } else {
-            $grp_id = Misc::escapeInteger($grp_id);
+        if (!$grp_id) {
+            $grp_id = null;
         }
 
         $stmt = "UPDATE
