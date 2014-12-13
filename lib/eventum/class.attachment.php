@@ -189,16 +189,15 @@ class Attachment
      */
     public static function removeByIssues($ids)
     {
-        $ids = Misc::escapeInteger($ids);
-        $items = @implode(", ", $ids);
         $stmt = "SELECT
                     iat_id
                  FROM
                     {{%issue_attachment}}
                  WHERE
-                    iat_iss_id IN ($items)";
+                    iat_iss_id IN (" . DB_Helper::buildList($ids) . ")";
+
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }

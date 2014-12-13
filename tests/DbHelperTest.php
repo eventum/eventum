@@ -15,4 +15,14 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
         $exp = "a=?, c=?, d=?";
         $this->assertEquals($exp, $res);
     }
+
+    public function testBuildList()
+    {
+        $ids = array(
+            1, 2, 'a', 'f'
+        );
+        $res = DB_Helper::buildList($ids);
+        $exp = "?, ?, ?, ?";
+        $this->assertEquals($exp, $res);
+    }
 }
