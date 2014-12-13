@@ -83,7 +83,6 @@ class Custom_Field
      */
     public function addOptions($fld_id, $options)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
         if (!is_array($options)) {
             $options = array($options);
         }
@@ -95,11 +94,12 @@ class Custom_Field
                         cfo_fld_id,
                         cfo_value
                      ) VALUES (
-                        $fld_id,
-                        '" . Misc::escapeString($option) . "'
+                        ?,
+                        " . DB_Helper::buildList($option) . "
                      )";
+            $params = array_merge(array($fld_id, $option));
             try {
-                DB_Helper::getInstance()->query($stmt);
+                DB_Helper::getInstance()->query($stmt, $params);
             } catch (DbException $e) {
                 return -1;
             }
@@ -141,11 +141,13 @@ class Custom_Field
     public static function updateValues()
     {
         $prj_id = Auth::getCurrentProject();
-        $issue_id = Misc::escapeInteger($_POST["issue_id"]);
+        $issue_id = $_POST["issue_id"];
 
         $old_values = self::getValuesByIssue($prj_id, $issue_id);
 
         if ((isset($_POST['custom_fields'])) && (count($_POST['custom_fields']) > 0)) {
+            $custom_fields = $_POST["custom_fields"];
+
             // get the types for all of the custom fields being submitted
             $stmt = "SELECT
                         fld_id,
@@ -153,7 +155,7 @@ class Custom_Field
                      FROM
                         {{%custom_field}}
                      WHERE
-                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
+                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($custom_fields))) . ")";
 
             $field_types = DB_Helper::getInstance()->getPair($stmt);
 
@@ -164,11 +166,11 @@ class Custom_Field
                      FROM
                         {{%custom_field}}
                      WHERE
-                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
+                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($custom_fields))) . ")";
             $field_titles = DB_Helper::getInstance()->getPair($stmt);
 
             $updated_fields = array();
-            foreach ($_POST["custom_fields"] as $fld_id => $value) {
+            foreach ($custom_fields as $fld_id => $value) {
 
                 $fld_id = Misc::escapeInteger($fld_id);
 
@@ -234,12 +236,12 @@ class Custom_Field
                                     icf_fld_id,
                                     $fld_db_name
                                  ) VALUES (
-                                    " . $issue_id . ",
+                                    " . Misc::escapeInteger($issue_id). ",
                                     $fld_id,
                                     $value
                                  )";
                         try {
-                            $res = DB_Helper::getInstance()->query($stmt);
+                            DB_Helper::getInstance()->query($stmt);
                         } catch (DbException $e) {
                             return -1;
                         }
@@ -252,7 +254,7 @@ class Custom_Field
                                  WHERE
                                     icf_id=$icf_id";
                         try {
-                            $res = DB_Helper::getInstance()->query($stmt);
+                            DB_Helper::getInstance()->query($stmt);
                         } catch (DbException $e) {
                             return -1;
                         }
@@ -263,7 +265,7 @@ class Custom_Field
                         $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
                     }
                 } else {
-                    $old_value = self::getDisplayValue($_POST['issue_id'], $fld_id, true);
+                    $old_value = self::getDisplayValue($issue_id, $fld_id, true);
 
                     if (!is_array($old_value)) {
                         $old_value = array($old_value);
@@ -273,21 +275,21 @@ class Custom_Field
                     }
                     if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
 
-                        $old_display_value = self::getDisplayValue($_POST['issue_id'], $fld_id);
+                        $old_display_value = self::getDisplayValue($issue_id, $fld_id);
                         // need to remove all associated options from issue_custom_field and then
                         // add the selected options coming from the form
-                        self::removeIssueAssociation($fld_id, $_POST["issue_id"]);
+                        self::removeIssueAssociation($fld_id, $issue_id);
                         if (@count($value) > 0) {
-                            self::associateIssue($_POST["issue_id"], $fld_id, $value);
+                            self::associateIssue($issue_id, $fld_id, $value);
                         }
-                        $new_display_value = self::getDisplayValue($_POST['issue_id'], $fld_id);
+                        $new_display_value = self::getDisplayValue($issue_id, $fld_id);
                         $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
                     }
                 }
             }
 
             Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, self::getValuesByIssue($prj_id, $issue_id));
-            Issue::markAsUpdated($_POST["issue_id"]);
+            Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
 
             if (count($updated_fields) > 0) {
@@ -307,7 +309,7 @@ class Custom_Field
                 }
 
                 $summary = ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID()));
-                History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), $summary);
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('custom_field_updated'), $summary);
             }
         }
 
@@ -559,9 +561,9 @@ class Custom_Field
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @return  array The list of custom fields
      */
-    public static function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false)
     {
-        if ($usr_id == false) {
+        if (!$usr_id) {
             $usr_id = Auth::getUserID();
         }
 
