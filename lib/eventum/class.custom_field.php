@@ -45,8 +45,6 @@ class Custom_Field
      */
     public function removeOptions($fld_id, $cfo_id)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
-        $cfo_id = Misc::escapeInteger($cfo_id);
         if (!is_array($fld_id)) {
             $fld_id = array($fld_id);
         }
@@ -56,9 +54,9 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%custom_field_option}}
                  WHERE
-                    cfo_id IN (" . implode(",", $cfo_id) . ")";
+                    cfo_id IN (" . DB_Helper::buildList($cfo_id) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $cfo_id);
         } catch (DbException $e) {
             return false;
         }
@@ -68,9 +66,10 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%issue_custom_field}}
                  WHERE
-                    icf_fld_id IN (" . implode(", ", $fld_id) . ") AND
-                    icf_value IN (" . implode(", ", $cfo_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+                    icf_fld_id IN (" . DB_Helper::buildList($fld_id) . ") AND
+                    icf_value IN (" . DB_Helper::buildList($cfo_id) . ")";
+        $params = array_merge($fld_id, $cfo_id);
+        DB_Helper::getInstance()->query($stmt, $params);
 
         return true;
     }
