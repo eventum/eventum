@@ -357,8 +357,6 @@ class Issue
     {
         static $returns;
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         if ((!empty($returns[$issue_id])) && ($force_refresh != true)) {
             return $returns[$issue_id];
         }
