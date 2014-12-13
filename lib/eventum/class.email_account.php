@@ -160,7 +160,6 @@ class Email_Account
      */
     public static function getDetails($ema_id)
     {
-        $ema_id = Misc::escapeInteger($ema_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -170,11 +169,11 @@ class Email_Account
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
         } catch (DbException $e) {
-            throw new RuntimeException("email with id $ema_id not found");
+            throw new RuntimeException("email not found");
         }
 
         if (!$res) {
-            throw new RuntimeException("email with id $ema_id not found");
+            throw new RuntimeException("email not found");
         }
 
         $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
@@ -191,26 +190,27 @@ class Email_Account
      */
     public static function removeAccountByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
+        $id_list = DB_Helper::buildList($ids);
         $stmt = "SELECT
                     ema_id
                  FROM
                     {{%email_account}}
                  WHERE
-                    ema_prj_id IN ($items)";
+                    ema_prj_id IN ($id_list)";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
 
         Support::removeEmailByAccounts($res);
+
         $stmt = "DELETE FROM
                     {{%email_account}}
                  WHERE
-                    ema_prj_id IN ($items)";
+                    ema_prj_id IN ($id_list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -225,18 +225,18 @@ class Email_Account
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%email_account}}
                  WHERE
-                    ema_id IN ($items)";
+                    ema_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
 
-        Support::removeEmailByAccounts($_POST["items"]);
+        Support::removeEmailByAccounts($items);
 
         return true;
     }
@@ -392,7 +392,6 @@ class Email_Account
      */
     public static function getAssocList($projects, $include_project_title = false)
     {
-        $projects = Misc::escapeInteger($projects);
         if (!is_array($projects)) {
             $projects = array($projects);
         }
@@ -409,11 +408,11 @@ class Email_Account
                     {{%project}}
                  WHERE
                     prj_id = ema_prj_id AND
-                    ema_prj_id IN (" . join(',', $projects) . ")
+                    ema_prj_id IN (" . DB_Helper::buildList($projects) . ")
                  ORDER BY
                     ema_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->getAssoc($stmt, $projects);
         } catch (DbException $e) {
             return "";
         }

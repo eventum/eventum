@@ -357,11 +357,11 @@ class Support
         if (count($ids) < 1) {
             return true;
         }
-        $items = @implode(", ", Misc::escapeInteger($ids));
+
         $stmt = "DELETE FROM
                     {{%support_email}}
                  WHERE
-                    sup_ema_id IN ($items)";
+                    sup_ema_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
             DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
