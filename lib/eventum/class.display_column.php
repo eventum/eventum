@@ -242,10 +242,10 @@ class Display_Column
      */
     public static function save()
     {
-        $page = Misc::escapeString($_REQUEST['page']);
-        $prj_id = Misc::escapeInteger($_REQUEST['prj_id']);
-
+        $page = $_REQUEST['page'];
+        $prj_id = $_REQUEST['prj_id'];
         $ranks = $_REQUEST['rank'];
+
         asort($ranks);
 
         // delete current entries
