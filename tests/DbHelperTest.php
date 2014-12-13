@@ -24,5 +24,9 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
         $res = DB_Helper::buildList($ids);
         $exp = "?, ?, ?, ?";
         $this->assertEquals($exp, $res);
+
+        $res = "DELETE FROM {{%product}} WHERE pro_id IN (" . DB_Helper::buildList($ids) . ")";
+        $exp = "DELETE FROM {{%product}} WHERE pro_id IN (?, ?, ?, ?)";
+        $this->assertEquals($exp, $res);
     }
 }
