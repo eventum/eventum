@@ -18,6 +18,7 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
 
     public function testBuildList()
     {
+        // simple test
         $ids = array(
             1, 2, 'a', 'f'
         );
@@ -25,8 +26,17 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
         $exp = "?, ?, ?, ?";
         $this->assertEquals($exp, $res);
 
+        // test in a sql
         $res = "DELETE FROM {{%product}} WHERE pro_id IN (" . DB_Helper::buildList($ids) . ")";
         $exp = "DELETE FROM {{%product}} WHERE pro_id IN (?, ?, ?, ?)";
+        $this->assertEquals($exp, $res);
+
+        // test combining params with a list
+        $params = array(110);
+        $stmt = "psd_prj_id=? AND psd_sta_id IN (" . DB_Helper::buildList($ids) . ")";
+        $params = array_merge($params, $ids);
+        $res = $stmt . '|' . join(',', $params);
+        $exp = 'psd_prj_id=? AND psd_sta_id IN (?, ?, ?, ?)|110,1,2,a,f';
         $this->assertEquals($exp, $res);
     }
 }
