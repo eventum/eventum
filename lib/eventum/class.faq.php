@@ -405,7 +405,7 @@ class FAQ
                  ORDER BY
                     faq_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

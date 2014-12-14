@@ -534,7 +534,7 @@ abstract class CRM
                     cam_prj_id=? AND
                     cam_customer_id=?";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $customer_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }

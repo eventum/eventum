@@ -363,7 +363,7 @@ class Group
                  ORDER BY
                     grp_name";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }

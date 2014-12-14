@@ -291,7 +291,7 @@ class Reminder_Condition
         $stmt .= "ORDER BY
                     rmf_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -315,7 +315,7 @@ class Reminder_Condition
                  ORDER BY
                     rmo_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

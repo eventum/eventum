@@ -159,7 +159,7 @@ class Support
                  ORDER BY
                     " . $options["sort_by"] . " " . $options["sort_order"];
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1849,7 +1849,7 @@ class Support
                     {{%support_email}}
                  WHERE
                     sup_id IN ($items)";
-        $subjects = DB_Helper::getInstance()->getAssoc($stmt);
+        $subjects = DB_Helper::getInstance()->fetchAssoc($stmt);
         for ($i = 0; $i < count($_POST["item"]); $i++) {
             History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
                             ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$_POST["item"][$i]], User::getFullName(Auth::getUserID())));

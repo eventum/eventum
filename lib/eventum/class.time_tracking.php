@@ -114,7 +114,7 @@ class Time_Tracking
                     ttr_ttc_id IN (" . DB_Helper::buildList($ttc_ids) . ")
                  GROUP BY 1";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $ttc_ids);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ttc_ids);
         } catch (DbException $e) {
             return null;
         }
@@ -316,7 +316,7 @@ class Time_Tracking
                  GROUP BY
                     ttr_iss_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $ids);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, false, $ids);
         } catch (DbException $e) {
             return;
         }
@@ -599,7 +599,7 @@ class Time_Tracking
                     ttc_title";
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }

@@ -59,7 +59,7 @@ class Status
         $params = array_merge(array($prj_id), $sta_ids);
 
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -579,7 +579,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
             return "";
         }
@@ -617,7 +617,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
             return "";
         }
@@ -655,7 +655,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $prj_id);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
             return "";
         }
@@ -679,7 +679,7 @@ class Status
                  ORDER BY
                     sta_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }

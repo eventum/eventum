@@ -532,7 +532,7 @@ class User
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1296,7 +1296,7 @@ class User
                  FROM
                     {{%user}}";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1322,7 +1322,7 @@ class User
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1392,7 +1392,7 @@ class User
                  WHERE
                     usr_clocked_in=1";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

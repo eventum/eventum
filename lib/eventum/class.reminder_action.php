@@ -419,7 +419,7 @@ class Reminder_Action
                  ORDER BY
                     rmt_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -806,7 +806,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id IN (" . implode(', ', Misc::escapeInteger($issues)) . ")";
         try {
-            $triggered_actions = DB_Helper::getInstance()->getAssoc($stmt);
+            $triggered_actions = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return $issues;
         }

@@ -168,7 +168,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -640,7 +640,7 @@ class Project
                 User::getRoleID('Manager'),
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
@@ -690,7 +690,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -747,7 +747,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -842,7 +842,7 @@ class Project
                     usr_customer_id DESC,
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -868,7 +868,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -909,7 +909,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($usr_id));
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id));
         } catch (DbException $e) {
             return "";
         }
@@ -958,7 +958,7 @@ class Project
                  ORDER BY
                     usr_email ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
