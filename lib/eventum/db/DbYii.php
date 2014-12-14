@@ -129,6 +129,22 @@ class DbYii implements DbInterface
         return $command->queryAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
     }
 
+    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT) {
+        $this->convertParams($params);
+        $command = $this->connection->createCommand($query, $params);
+
+        $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
+        if ($fetchmode == DbInterface::DB_FETCHMODE_ASSOC) {
+            $flags |= PDO::FETCH_ASSOC;
+        } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
+            $flags |= PDO::FETCH_NUM;
+        } else {
+            throw new UnexpectedValueException(__FUNCTION__ . " unsupported fetchmode: ". $fetchmode);
+        }
+
+        return $command->queryAll($flags);
+    }
+
     public function getPair($query, $params = array())
     {
         $this->convertParams($params);

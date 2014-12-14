@@ -108,6 +108,16 @@ class DbPear implements DbInterface
         return $res;
     }
 
+    /**
+     * @see DB_common::getAssoc
+     */
+    public function fetchAssoc($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT) {
+        $query = $this->quoteSql($query, $params);
+        $res = $this->db->getAssoc($query, false, $params, $fetchmode, false);
+        $this->assertError($res);
+        return $res;
+    }
+
     public function getPair($query, $params = array())
     {
         return $this->getAssoc($query, false, $params);

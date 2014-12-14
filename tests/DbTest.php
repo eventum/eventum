@@ -188,6 +188,56 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group fetchAssoc */
+    public function testFetchAssocDefault()
+    {
+        $res = $this->db->fetchAssoc(
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            array(2),
+            DbInterface::DB_FETCHMODE_DEFAULT
+        );
+
+        $this->assertInternalType('array', $res);
+        $exp = array(
+            1 => array(
+                0 => 'system',
+                1 => 'system-account@example.com',
+                2 => null,
+            ),
+            2 => array(
+                0 => 'Admin User',
+                1 => 'admin@example.com',
+                2 => null,
+            ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /** @group fetchAssoc */
+    public function testFetchAssoc()
+    {
+        $res = $this->db->fetchAssoc(
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            array(2),
+            DbInterface::DB_FETCHMODE_ASSOC
+        );
+
+        $this->assertInternalType('array', $res);
+        $exp = array(
+            1 => array(
+                'usr_full_name' => 'system',
+                'usr_email'     => 'system-account@example.com',
+                'usr_lang'      => null,
+            ),
+            2 => array(
+                'usr_full_name' => 'Admin User',
+                'usr_email'     => 'admin@example.com',
+                'usr_lang'      => null,
+            ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
     /** @group getColumn */
     public function testGetColumn()
     {
