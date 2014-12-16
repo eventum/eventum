@@ -174,7 +174,6 @@ class Note
      */
     public static function getBlockedMessage($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_full_message
                  FROM
@@ -184,7 +183,7 @@ class Note
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
         } catch (DbException $e) {
-            throw new RuntimeException("Can't find note $note_id");
+            throw new RuntimeException("Can't find note");
         }
 
         return $res;
@@ -198,7 +197,6 @@ class Note
      */
     public static function getIssueID($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id
                  FROM
@@ -250,7 +248,6 @@ class Note
      */
     public function getUnknownUser($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $sql = "SELECT
                     not_unknown_user
                 FROM
@@ -412,13 +409,13 @@ class Note
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%note}}
                  WHERE
                     not_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -435,7 +432,6 @@ class Note
      */
     public static function remove($note_id, $log = true)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id,
                     not_usr_id,
@@ -457,7 +453,7 @@ class Note
                  WHERE
                     not_id=?";
         try {
-            $res = DB_Helper::getInstance()->query($stmt, array($note_id));
+            DB_Helper::getInstance()->query($stmt, array($note_id));
         } catch (DbException $e) {
             return -1;
         }
@@ -544,7 +540,6 @@ class Note
      */
     public static function convertNote($note_id, $target, $authorize_sender = false)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
         $blocked_message = self::getBlockedMessage($note_id);
