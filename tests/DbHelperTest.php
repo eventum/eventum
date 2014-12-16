@@ -14,6 +14,13 @@ class DbHelperTest extends PHPUnit_Framework_TestCase
         $res = DB_Helper::buildSet($params);
         $exp = "a=?, c=?, d=?";
         $this->assertEquals($exp, $res);
+
+        // test combining params with a list
+        $stmt = "SET " . DB_Helper::buildSet($params) . " WHERE ID=?";
+        $params[] = 11;
+        $res = $stmt . '|' . join(',', $params);
+        $exp = 'SET a=?, c=?, d=? WHERE ID=?|b,d,f,11';
+        $this->assertEquals($exp, $res);
     }
 
     public function testBuildList()

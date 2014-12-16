@@ -1040,33 +1040,35 @@ class User
             return 1;
         }
 
+        $params = array(
+            'usr_full_name' => $data["full_name"],
+            'usr_email' => $data["email"],
+        );
+
+
+        if (isset($data["grp_id"])) {
+            $params['usr_grp_id'] = !empty($data["grp_id"]) ? $data["grp_id"] : null;
+        }
+
+        if (!empty($data["password"])) {
+            $params['usr_password'] = Auth::hashPassword($data["password"]);
+        }
+
+        if (isset($data["external_id"])) {
+            $params['usr_external_id'] = $data["external_id"];
+        }
+
+        if (isset($data["par_code"])) {
+            $params['usr_par_code'] = $data["par_code"];
+        }
+
         $stmt = "UPDATE
                     {{%user}}
-                 SET
-                    usr_full_name='" . Misc::escapeString($data["full_name"]) . "',
-                    usr_email='"     . Misc::escapeString($data["email"])     . "'";
-        if (isset($data["grp_id"])) {
-            $group_id = !empty($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
-            $stmt .= ",
-                    usr_grp_id='" . $group_id . "'";
-        }
-        if (!empty($data["password"])) {
-            $stmt .= ",
-                    usr_password='" . Auth::hashPassword($data["password"]) . "'";
-        }
-        if (isset($data["external_id"])) {
-            $stmt .= ",
-                    usr_external_id='" . Misc::escapeString($data["external_id"]) . "'";
-        }
-        if (isset($data["par_code"])) {
-            $stmt .= ",
-                    usr_par_code='" . Misc::escapeString($data["par_code"]) . "'";
-        }
-        $stmt .= "
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
+                 SET " . DB_Helper::buildSet($params) . " WHERE usr_id=?";
+        $params[] = $usr_id;
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1510,7 +1512,6 @@ class User
     {
         static $returns;
 
-        $usr_id = Misc::escapeInteger($usr_id);
         if (empty($returns[$usr_id]) || $force_refresh == true) {
             $sql = "SELECT
                         usr_lang
