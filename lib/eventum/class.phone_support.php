@@ -98,13 +98,15 @@ class Phone_Support
      */
     public static function removeCategory()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "DELETE FROM
                     {{%project_phone_category}}
                  WHERE
-                    phc_id IN ($items)";
+                    phc_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -359,8 +361,6 @@ class Phone_Support
      */
     public static function remove($phone_id)
     {
-        $phone_id = Misc::escapeInteger($phone_id);
-
         $stmt = "SELECT
                     phs_iss_id,
                     phs_ttr_id,
@@ -409,13 +409,14 @@ class Phone_Support
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
+
         $stmt = "DELETE FROM
                     {{%phone_support}}
                  WHERE
                     phs_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
