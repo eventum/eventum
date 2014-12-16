@@ -145,13 +145,13 @@ class Priority
      */
     public function removeByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%project_priority}}
                  WHERE
                     pri_prj_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -167,13 +167,14 @@ class Priority
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $itemlist = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
                     {{%project_priority}}
                  WHERE
-                    pri_id IN ($items)";
+                    pri_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
