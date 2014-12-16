@@ -298,7 +298,7 @@ class Mail_Queue
      */
     private function _getList($status, $limit)
     {
-        $limit = Misc::escapeString($limit);
+        $limit = (int)$limit;
         $sql = "SELECT
                     maq_id id
                  FROM
@@ -325,7 +325,7 @@ class Mail_Queue
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getMergedList($status, $limit = false)
+    private function _getMergedList($status, $limit = null)
     {
         $sql = "SELECT
                     GROUP_CONCAT(maq_id) ids
@@ -340,8 +340,8 @@ class Mail_Queue
                  ORDER BY
                     MIN(maq_id) ASC";
 
-        if ($limit !== false) {
-            $limit = Misc::escapeString($limit);
+        $limit = (int)$limit;
+        if ($limit) {
             $sql .= " LIMIT 0, $limit";
         }
 
@@ -466,12 +466,11 @@ class Mail_Queue
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @param   integer $issue_is The issue ID
+     * @param   integer $issue_id The issue ID
      * @return  array An array of emails from the queue
      */
     public static function getListByIssueID($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     maq_id,
                     maq_queued_date,
@@ -536,21 +535,25 @@ class Mail_Queue
         if (!is_array($types)) {
             $types = array($types);
         }
-        $types = Misc::escapeString($types);
+
+        $types_list = DB_Helper::buildList($types);
         $sql = "SELECT
                     maq_recipient
                 FROM
                     {{%mail_queue}}
                 WHERE
-                    maq_type IN('" . join("', '", $types) . "') AND
+                    maq_type IN ($types_list) AND
                     maq_type_id = ?";
+        $params = $types;
+        $params[] = $type_id;
         try {
-            $res = DB_Helper::getInstance()->getColumn($sql, array($type_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, $params);
         } catch (DbException $e) {
             return false;
         }
 
         for ($i = 0; $i < count($res); $i++) {
+            // FIXME: what does quote stripping fix here
             $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
         }
 
