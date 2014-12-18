@@ -472,7 +472,6 @@ class Notification
      */
     public function getUsersByIssue($issue_id, $type)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         if ($type == 'notes') {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
@@ -480,9 +479,12 @@ class Notification
                      FROM
                         {{%subscription}}
                      WHERE
-                        sub_iss_id=$issue_id AND
+                        sub_iss_id=? AND
                         sub_usr_id IS NOT NULL AND
                         sub_usr_id <> 0";
+            $params = array(
+                $issue_id,
+            );
         } else {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
@@ -491,12 +493,16 @@ class Notification
                         {{%subscription}},
                         {{%subscription_type}}
                      WHERE
-                        sub_iss_id=$issue_id AND
+                        sub_iss_id=? AND
                         sub_id=sbt_sub_id AND
-                        sbt_type='" . Misc::escapeString($type) . "'";
+                        sbt_type=?";
+            $params = array(
+                $issue_id, $type
+            );
+
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -822,6 +828,8 @@ class Notification
     public function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
+
+        $issue_id = (int) $issue_id;
 
         // open text template
         $tpl = new Template_Helper();
@@ -1949,7 +1957,7 @@ class Notification
      * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
-    public static function getDefaultActions($issue_id = false, $email = false, $source = false)
+    public static function getDefaultActions($issue_id = null, $email = null, $source = null)
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);

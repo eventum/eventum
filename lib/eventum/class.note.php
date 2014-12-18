@@ -294,7 +294,6 @@ class Note
      */
     public static function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
 
         if (@$_POST['add_extra_recipients'] != 'yes') {

@@ -870,21 +870,28 @@ class Issue
         $stmt = "UPDATE
                     {{%issue}}
                  SET
-                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "'\n";
+                    iss_updated_date=?\n";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+        );
+
         if ($type) {
             if (in_array($type, $public)) {
                 $field = "iss_last_public_action_";
             } else {
                 $field = "iss_last_internal_action_";
             }
-            $stmt .= ",\n " . $field . "date = '" . Date_Helper::getCurrentDateGMT() . "',\n" .
-                $field . "type  ='" . Misc::escapeString($type) . "'\n";
+            $stmt .= ",\n " . $field . "date = ?,\n" .
+                $field . "type  = ?\n";
+            $params[] = Date_Helper::getCurrentDateGMT();
+            $params[] = $type;
         }
         $stmt .= "WHERE
-                    iss_id=" . Misc::escapeInteger($issue_id);
+                    iss_id=?";
+        $params[] = $issue_id;
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
