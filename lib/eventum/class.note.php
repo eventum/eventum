@@ -83,7 +83,6 @@ class Note
      */
     public static function getDetails($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     {{%note}}.*,
                     not_full_message,
@@ -124,7 +123,7 @@ class Note
     }
 
     /**
-     * Returns the sequensial note identification number for the given issue.
+     * Returns the sequential note identification number for the given issue.
      * This is only for display purposes, but has become relied upon by users
      * as a valid reference number.  It is simply a sequence, starting with the
      * first note created as #1, and each increasing by 1 there after.
@@ -220,7 +219,7 @@ class Note
      */
     public static function getNoteBySequence($issue_id, $sequence)
     {
-        $sequence = Misc::escapeInteger($sequence);
+        $offset = (int)$sequence - 1;
         $stmt = "SELECT
                     not_id
                 FROM
@@ -230,7 +229,7 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC
-                LIMIT 1 OFFSET " . ($sequence - 1);
+                LIMIT 1 OFFSET $offset";
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
