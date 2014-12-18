@@ -1787,14 +1787,15 @@ class Notification
      */
     public static function remove($items)
     {
-        $items = Misc::escapeInteger($items);
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     sub_iss_id
                  FROM
                     {{%subscription}}
                  WHERE
-                    sub_id IN (" . implode(", ", $items) . ")";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    sub_id IN ($itemlist)";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         for ($i = 0; $i < count($items); $i++) {
             $sub_id = $items[$i];
@@ -1804,11 +1805,13 @@ class Notification
                      WHERE
                         sub_id=?";
             DB_Helper::getInstance()->query($stmt, array($sub_id));
+
             $stmt = "DELETE FROM
                         {{%subscription_type}}
                      WHERE
                         sbt_sub_id=?";
             DB_Helper::getInstance()->query($stmt, array($sub_id));
+
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
                             ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
@@ -1820,23 +1823,25 @@ class Notification
 
     public static function removeByEmail($issue_id, $email)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = User::getUserIDByEmail($email, true);
         $stmt = "SELECT
                     sub_id
                  FROM
                     {{%subscription}}
                  WHERE
-                    sub_iss_id = $issue_id AND";
+                    sub_iss_id = ? AND";
+        $params = array($issue_id);
         if (empty($usr_id)) {
             $stmt .= "
-                    sub_email = '" . Misc::escapeString($email) . "'";
+                    sub_email = ?";
+            $params[] = $email;
         } else {
             $stmt .= "
-                    sub_usr_id = $usr_id";
+                    sub_usr_id = ?";
+            $params[] = $usr_id;
         }
         try {
-            $sub_id = DB_Helper::getInstance()->getOne($stmt);
+            $sub_id = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1996,9 +2001,7 @@ class Notification
      */
     public static function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
-        $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
 
         // call workflow to modify actions or cancel adding this user.
         $email = '';
@@ -2060,26 +2063,24 @@ class Notification
      *
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
-     * @param   string $form_email The email address to subscribe
+     * @param   string $email The email address to subscribe
      * @param   array $actions The actions to subcribe to
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
+    public static function subscribeEmail($usr_id, $issue_id, $email, $actions)
     {
-        $form_email = Mail_Helper::getEmailAddress($form_email);
-        if (!is_string($form_email)) {
+        $email = Mail_Helper::getEmailAddress($email);
+        if (!is_string($email)) {
             return -1;
         }
 
-        $form_email = strtolower($form_email);
+        $email = strtolower($email);
         // first check if this is an actual user or just an email address
-        $sub_usr_id = User::getUserIDByEmail($form_email, true);
+        $sub_usr_id = User::getUserIDByEmail($email, true);
         if (!empty($sub_usr_id)) {
             return self::subscribeUser($usr_id, $issue_id, $sub_usr_id, $actions);
         }
 
-        $issue_id = Misc::escapeInteger($issue_id);
-        $email = Misc::escapeString($form_email);
         $prj_id = Issue::getProjectID($issue_id);
 
         // call workflow to modify actions or cancel adding this user.
@@ -2132,6 +2133,7 @@ class Notification
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
+        // FIXME: XSS possible as $email is not escaped for html?
         History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                         ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id)));
 
@@ -2167,8 +2169,6 @@ class Notification
      */
     public static function update($sub_id)
     {
-        $sub_id = Misc::escapeInteger($sub_id);
-
         $stmt = "SELECT
                     sub_iss_id,
                     sub_usr_id
