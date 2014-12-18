@@ -74,6 +74,7 @@ class Notification
                  FROM
                     (
                     {{%subscription}}";
+        $params = array();
         if ($type != false) {
             $stmt .= ",
                     {{%subscription_type}}";
@@ -88,12 +89,15 @@ class Notification
         if ($type != false) {
             $stmt .= "
                     sbt_sub_id=sub_id AND
-                    sbt_type='" . Misc::escapeString($type) . "' AND";
+                    sbt_type=? AND";
+            $params[] = $type;
         }
         $stmt .= "
-                    sub_iss_id=" . Misc::escapeInteger($issue_id);
+                    sub_iss_id=?";
+        $params[] = $issue_id;
+
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -401,7 +405,7 @@ class Notification
      */
     public function getEmails($issue_id, $sup_ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($sup_ids));
+        $items = DB_Helper::buildList($sup_ids);
         $stmt = "SELECT
                     sup_from,
                     sup_to,
@@ -413,7 +417,7 @@ class Notification
                  WHERE
                     sup_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
         } catch (DbException $e) {
             return "";
         }
@@ -952,10 +956,6 @@ class Notification
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $issue_id = Misc::escapeInteger($issue_id);
-        $exclude_list = Misc::escapeInteger($exclude_list);
-
         // get all users associated with this project
         $stmt = "SELECT
                     usr_id,
@@ -968,15 +968,21 @@ class Notification
                     {{%user}},
                     {{%project_user}}
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=? AND
                     usr_id=pru_usr_id AND
                     usr_status = 'active' AND
-                    pru_role > " . User::getRoleID("Customer");
+                    pru_role > ?";
+        $params = array(
+            $prj_id, User::getRoleID("Customer")
+        );
+
         if (count($exclude_list) > 0) {
             $stmt .= " AND
-                    usr_id NOT IN (" . join(', ', $exclude_list) . ")";
+                    usr_id NOT IN (" . DB_Helper::buildList($exclude_list) . ")";
+            $params = array_merge($params, $exclude_list);
         }
-        $res = DB_Helper::getInstance()->getAll($stmt);
+
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
