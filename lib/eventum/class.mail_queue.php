@@ -96,44 +96,28 @@ class Mail_Queue
         // convert array of headers into text headers
         list(,$text_headers) = $res;
 
-        $stmt = "INSERT INTO
-                    {{%mail_queue}}
-                 (
-                    maq_save_copy,
-                    maq_queued_date,
-                    maq_sender_ip_address,
-                    maq_recipient,
-                    maq_headers,
-                    maq_body,
-                    maq_iss_id,
-                    maq_subject,
-                    maq_type";
-        if ($sender_usr_id != false) {
-            $stmt .= ",\nmaq_usr_id";
+        $params = array(
+            'maq_save_copy' => $save_email_copy,
+            'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
+            'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
+            'maq_recipient' => $recipient,
+            'maq_headers' => $text_headers,
+            'maq_body' => $body,
+            'maq_iss_id' => $issue_id,
+            'maq_subject' => $headers["Subject"],
+            'maq_type' => $type,
+        );
+
+        if ($sender_usr_id) {
+            $params['maq_usr_id'] = $sender_usr_id;
         }
-        if ($type_id != false) {
-            $stmt .= ",\nmaq_type_id";
+        if ($type_id) {
+            $params['maq_type_id'] = $type_id;
         }
-        $ip = !empty($_SERVER['REMOTE_ADDR']) ? Misc::escapeString($_SERVER['REMOTE_ADDR']) : '';
-        $stmt .= ") VALUES (
-                    $save_email_copy,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($ip) . "',
-                    '" . Misc::escapeString($recipient) . "',
-                    '" . Misc::escapeString($text_headers) . "',
-                    '" . Misc::escapeString($body) . "',
-                    " . Misc::escapeInteger($issue_id) . ",
-                    '" . Misc::escapeString($headers["Subject"]) . "',
-                    '$type'";
-        if ($sender_usr_id != false) {
-            $stmt .= ",\n" . $sender_usr_id;
-        }
-        if ($type_id != false) {
-            $stmt .= ",\n" . $type_id;
-        }
-        $stmt .= ")";
+
+        $stmt = "INSERT INTO {{%mail_queue}} SET ".DB_Helper::buildSet($params);
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return $res;
         }
