@@ -1265,35 +1265,25 @@ class Notification
             return;
         }
 
-        $stmt = "INSERT INTO
-                    {{%irc_notice}}
-                 (
-                    ino_prj_id,
-                    ino_created_date,
-                    ino_status,
-                    ino_message,
-                    ino_category";
-        if ($issue_id != false) {
-            $stmt .= ",\n ino_iss_id";
+        $params = array(
+            'ino_prj_id' => $project_id,
+            'ino_created_date' => Date_Helper::getCurrentDateGMT(),
+            'ino_status' => 'pending',
+            'ino_message' => $notice,
+            'ino_category' => $category,
+        );
+
+        if ($issue_id) {
+            $params['ino_iss_id'] = $issue_id;
         }
-        if ($usr_id != false) {
-            $stmt .= ",\n ino_target_usr_id";
+        if ($usr_id) {
+            $params['ino_target_usr_id']= $usr_id;
         }
-        $stmt .= ") VALUES (
-                    " . Misc::escapeInteger($project_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    'pending',
-                    '" . Misc::escapeString($notice) . "',
-                    '" . Misc::escapeString($category) . "'";
-        if ($issue_id != false) {
-            $stmt .= ",\n $issue_id";
-        }
-        if ($usr_id != false) {
-            $stmt .= ",\n " . Misc::escapeInteger($usr_id);
-        }
-        $stmt .= ")";
+
+
+        $stmt = "INSERT INTO {{%irc_notice}} SET ". DB_Helper::buildSet($params);
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1534,9 +1524,8 @@ class Notification
      * @param   integer $min_role Only show subscribers with this role or above
      * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
-    public static function getSubscribers($issue_id, $type = false, $min_role = false)
+    public static function getSubscribers($issue_id, $type = null, $min_role = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
             'staff'     => array(),
             'customers' => array(),
@@ -1553,7 +1542,7 @@ class Notification
                     {{%subscription}},
                     {{%user}}";
 
-        if ($type != false) {
+        if ($type) {
             $stmt .= ",
                      {{%subscription_type}}";
         }
@@ -1562,20 +1551,25 @@ class Notification
                     LEFT JOIN
                         {{%project_user}}
                     ON
-                        (sub_usr_id = pru_usr_id AND pru_prj_id = $prj_id)
+                        (sub_usr_id = pru_usr_id AND pru_prj_id = ?)
                  WHERE
                     sub_usr_id=usr_id AND
-                    sub_iss_id=$issue_id";
-        if ($min_role != false) {
+                    sub_iss_id=?";
+        $params = array(
+            $prj_id, $issue_id
+        );
+        if ($min_role) {
             $stmt .= " AND
-                    pru_role >= " . Misc::escapeInteger($min_role);
+                    pru_role >= ?";
+            $params[] = $min_role;
         }
-        if ($type != false) {
+        if ($type) {
             $stmt .= " AND\nsbt_sub_id = sub_id AND
-                      sbt_type = '" . Misc::escapeString($type) . "'";
+                      sbt_type = ?";
+            $params[] = $type;
         }
         try {
-            $users = DB_Helper::getInstance()->getAll($stmt);
+            $users = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -1609,12 +1603,14 @@ class Notification
                         pru_prj_id = $prj_id
                      WHERE
                         sub_id = sbt_sub_id AND
-                        sub_iss_id=$issue_id";
-            if ($type != false) {
-                $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
+                        sub_iss_id=?";
+            $params[] = $issue_id;
+            if ($type) {
+                $stmt .= " AND\nsbt_type = ?";
+                $params[] = $type;
             }
             try {
-                $emails = DB_Helper::getInstance()->getAll($stmt);
+                $emails = DB_Helper::getInstance()->getAll($stmt, $type);
             } catch (DbException $e) {
                 return array();
             }
@@ -1761,7 +1757,7 @@ class Notification
      */
     public static function removeByIssues($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "SELECT
                     sub_id
                  FROM
@@ -1769,7 +1765,7 @@ class Notification
                  WHERE
                     sub_iss_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -2187,7 +2183,7 @@ class Notification
             $email = '';
         } else {
             $usr_id = 0;
-            $email = Misc::escapeString($_POST["email"]);
+            $email = $_POST["email"];
         }
         $prj_id = Issue::getProjectID($issue_id);
 
