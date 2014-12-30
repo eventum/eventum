@@ -1420,6 +1420,7 @@ class Issue
                 'full_email'    =>  $full_email,
                 'headers'       =>  $structure->headers
             );
+            $sup_id = null;
             Support::insertEmail($email, $structure, $sup_id, true);
             $ids = $sup_id;
         } else {
