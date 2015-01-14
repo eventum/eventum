@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Allow users to be given no project access (Bryan Alsdorf)
 - Add "Add me to Notification List" button for customers (Bryan Alsdorf)
 - Include issue submit date in issue close email (Elan Ruusamäe)
+- Fix incorrect "last action type" when a user without an account sent an email (Bryan Alsdorf)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
