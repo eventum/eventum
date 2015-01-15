@@ -72,6 +72,16 @@
         </tr>
         <tr>
             <th width="120">
+                {t}Email Address{/t}
+            </th>
+            <td>
+                <input type="text" name="email" size="100" value="{$info.pro_email|default:''|escape}">
+                {include file="error_icon.tpl.html" field="email"}
+                <br />This address will be notified when issues are created with this product.
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
                 <nobr>{t}Rank{/t} *</nobr>
             </th>
             <td>
@@ -111,6 +121,7 @@
             <th nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
             <th>&nbsp;{t}Title{/t}</th>
             <th>&nbsp;{t}Version How To{/t}</th>
+            <th>&nbsp;{t}Email{/t}</th>
             <th>&nbsp;{t}Rank{/t}</th>
             <th>&nbsp;{t}Removed{/t}</th>
         </tr>
@@ -120,15 +131,18 @@
                 <input type="checkbox" name="items[]" value="{$list[i].pro_id}" {if $smarty.section.i.total == 0}disabled{/if}>
             </td>
             <td width="20%">
-                &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pro_id}" title="{t}update this entry{/t}">{$list[i].pro_title}</a>
+                &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pro_id}" title="{t}update this entry{/t}">{$list[i].pro_title|escape}</a>
             </td>
             <td width="20%">
-                &nbsp;{$list[i].pro_version_howto}
+                &nbsp;{$list[i].pro_version_howto|escape}
             </td>
             <td width="40%">
+                &nbsp;{$list[i].pro_email|escape}
+            </td>
+            <td width="10%">
                 &nbsp;{$list[i].pro_rank}
             </td>
-            <td width="20%">
+            <td width="10%">
                 &nbsp;{if $list[i].pro_removed == 1}Yes{/if}
             </td>
         </tr>
@@ -144,7 +158,7 @@
                 <input type="button" value="{t}All{/t}" class="select_all">
                 <input type="hidden" name="cat" value="delete">
             </td>
-            <td colspan="4">
+            <td colspan="5">
                 <input type="submit" value="{t}Delete{/t}">
             </td>
         </tr>

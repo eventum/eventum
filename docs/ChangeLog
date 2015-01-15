@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Hide draft and email sections if no email account is setup (Bryan Alsdorf)
 - Allow users to be given no project access (Bryan Alsdorf)
 - Add "Add me to Notification List" button for customers (Bryan Alsdorf)
+- Added notification email address for products (Bryan Alsdorf)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)

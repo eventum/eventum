@@ -1008,6 +1008,14 @@ class Notification
             }
         }
 
+        // get any email addresses from products
+        $products = Product::getProductsByIssue($issue_id);
+        if (count($products) > 0) {
+            foreach ($products as $product) {
+                $emails[] = $product['pro_email'];
+            }
+        }
+
         // get any additional emails
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'new_issue'));
 
