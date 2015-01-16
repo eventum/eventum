@@ -38,13 +38,15 @@ if ($role_id < User::getRoleID('manager')) {
     $tpl->displayTemplate();exit;
 }
 if (@$_POST["cat"] == "new") {
-    $res = Product::insert($_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']);
+    $res = Product::insert($_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed'],
+        @$_POST['email']);
     Misc::mapMessages($res, array(
             1   =>  array('Thank you, the product was added successfully.', Misc::MSG_INFO),
             -1  =>  array('An error occurred while trying to add the product.', Misc::MSG_ERROR),
     ));
 } elseif (@$_POST["cat"] == "update") {
-    $res = Product::update($_POST['id'], $_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed']);
+    $res = Product::update($_POST['id'], $_POST['title'], $_POST['version_howto'], $_POST['rank'], @$_POST['removed'],
+        @$_POST['email']);
     Misc::mapMessages($res, array(
             1   =>  array('Thank you, the product was updated successfully.', Misc::MSG_INFO),
             -1  =>  array('An error occurred while trying to update the product.', Misc::MSG_ERROR),

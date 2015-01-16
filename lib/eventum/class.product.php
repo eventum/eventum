@@ -37,7 +37,8 @@ class Product
                     pro_title,
                     pro_version_howto,
                     pro_rank,
-                    pro_removed
+                    pro_removed,
+                    pro_email
                 FROM
                     {{%product}}";
         if ($include_removed !== null) {
@@ -69,19 +70,20 @@ class Product
         return $return;
     }
 
-    public static function insert($title, $version_howto, $rank, $removed)
+    public static function insert($title, $version_howto, $rank, $removed, $email)
     {
         if ($removed != 1) {
             $removed = 0;
         }
-        $params = array($title, $version_howto, $rank, $removed);
+        $params = array($title, $version_howto, $rank, $removed, $email);
         $sql = "INSERT INTO
                     {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
                     pro_rank = ?,
-                    pro_removed = ?";
+                    pro_removed = ?,
+                    pro_email = ?";
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
@@ -91,19 +93,20 @@ class Product
         return 1;
     }
 
-    public static function update($id, $title, $version_howto, $rank, $removed)
+    public static function update($id, $title, $version_howto, $rank, $removed, $email)
     {
         if ($removed != 1) {
             $removed = 0;
         }
-        $params = array($title, $version_howto, $rank, $removed, $id);
+        $params = array($title, $version_howto, $rank, $removed, $email, $id);
         $sql = "UPDATE
                     {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
                     pro_rank = ?,
-                    pro_removed = ?
+                    pro_removed = ?,
+                    pro_email = ?
                 WHERE
                     pro_id = ?";
         try {
@@ -138,7 +141,8 @@ class Product
                     pro_title,
                     pro_version_howto,
                     pro_rank,
-                    pro_removed
+                    pro_removed,
+                    pro_email
                 FROM
                     {{%product}}
                 WHERE
@@ -184,7 +188,8 @@ class Product
                     ipv_id,
                     pro_id,
                     pro_title as product,
-                    ipv_version as version
+                    ipv_version as version,
+                    pro_email
                 FROM
                     {{%issue_product_version}},
                     {{%product}}

@@ -1,0 +1,2 @@
+ALTER TABLE {{%product}}
+  ADD pro_email VARCHAR(255) NULL DEFAULT NULL;
