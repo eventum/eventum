@@ -1128,8 +1128,18 @@ class Support
             return -1;
         }
 
+        if (!empty($row['issue_id'])) {
+            $prj_id = Issue::getProjectID($row['issue_id']);
+        } elseif (!empty($row['ema_id'])) {
+            $prj_id = Email_Account::getProjectID($row["ema_id"]);
+        } else {
+            $prj_id = false;
+        }
+
         // FIXME: $row['ema_id'] is empty when mail is sent via convert note!
-        Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
+        if ($prj_id !== false) {
+            Workflow::handleNewEmail($prj_id, @$row["issue_id"], $structure, $row, $closing);
+        }
         return 1;
     }
 
