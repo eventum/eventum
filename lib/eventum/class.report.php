@@ -309,8 +309,8 @@ class Report
         $user_prefs = Prefs::get($usr_id);
         $tz = $user_prefs["timezone"];
 
-        $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->getTimestamp();
-        $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->getTimestamp();
+        $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->format('Y-m-d H:i:s');
+        $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
 
         $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
 
