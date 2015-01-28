@@ -87,6 +87,28 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $conn;
     }
 
+    /**
+     * Get all users from remote LDAP
+     *
+     * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
+     */
+    public function getUserListing()
+    {
+        $filter = Net_LDAP2_Filter::create('uid', 'equals', '*', false);
+        if (!empty($this->user_filter_string)) {
+            $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
+            $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
+        }
+
+        $search = $this->conn->search($this->config['basedn'], $filter);
+
+        if (PEAR::isError($search)) {
+            throw new AuthException($search->getMessage(), $search->getCode());
+        }
+
+        return $search;
+    }
+
     private function validatePassword($uid, $password)
     {
         $setup = self::loadSetup();
@@ -182,6 +204,15 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         return null;
+    }
+
+    public function disableAccount($uid)
+    {
+        $usr_id = User::getUserIDByExternalID($uid);
+        if ($usr_id <= 0) {
+            return false;
+        }
+        return User::changeStatus($usr_id, User::USER_STATUS_INACTIVE);
     }
 
     /**
