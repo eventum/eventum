@@ -577,8 +577,8 @@ class Time_Tracking
      * Returns summary information about all time spent by a user in a specified time frame.
      *
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   integer $start The timestamp of the beginning of the report.
-     * @param   integer $end The timestamp of the end of this report.
+     * @param   string $start The datetime of the beginning of the report.
+     * @param   string $end The datetime of the end of this report.
      * @return  array An array of data containing information about time trackinge
      */
     public static function getSummaryByUser($usr_id, $start, $end)
@@ -599,7 +599,10 @@ class Time_Tracking
                     ttr_created_date BETWEEN ? AND ?
                  GROUP BY
                     ttc_title";
+
+
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
+
         try {
             $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params, DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
