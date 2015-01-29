@@ -2276,6 +2276,9 @@ class Support
      */
     public function getIDByMessageID($message_id)
     {
+        if (!$message_id) {
+            return false;
+        }
         $stmt = "SELECT
                     sup_id
                  FROM
@@ -2304,6 +2307,9 @@ class Support
      */
     public function getIssueByMessageID($message_id)
     {
+        if (!$message_id) {
+            return false;
+        }
         $stmt = "SELECT
                     sup_iss_id
                  FROM

@@ -726,6 +726,9 @@ class Note
      */
     public static function getIssueByMessageID($message_id)
     {
+        if (!$message_id) {
+            return false;
+        }
         $stmt = "SELECT
                     not_iss_id
                  FROM
@@ -744,11 +747,14 @@ class Note
     /**
      * Returns the message-id of the parent note.
      *
-     * @param   string $msg_id The message ID
+     * @param   string $message_id The message ID
      * @return  string The message id of the parent note or false
      */
-    public function getParentMessageIDbyMessageID($msg_id)
+    public function getParentMessageIDbyMessageID($message_id)
     {
+        if (!$message_id) {
+            return false;
+        }
         $sql = "SELECT
                     parent.not_message_id
                 FROM
@@ -758,7 +764,7 @@ class Note
                     parent.not_id = child.not_parent_id AND
                     child.not_message_id = ?";
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
+            $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
         } catch (DbException $e) {
             return false;
         }
@@ -779,6 +785,9 @@ class Note
      */
     public static function getIDByMessageID($message_id)
     {
+        if (!$message_id) {
+            return false;
+        }
         $stmt = "SELECT
                     not_id
                  FROM
