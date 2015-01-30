@@ -63,7 +63,7 @@ class FAQ
                      WHERE
                         faq_id=fsl_faq_id AND
                         fsl_support_level_id IN('" . join("', '", $support_level_ids) . "') AND
-                        faq_prj_id =
+                        faq_prj_id = ?
                      GROUP BY
                         faq_id
                      ORDER BY
