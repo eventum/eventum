@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2014-??-??, Version 3.0.0 pre1
+2015-??-??, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
 - Catch exception from invalid timezones and default to UTC (Bryan Alsdorf, GH#8)
