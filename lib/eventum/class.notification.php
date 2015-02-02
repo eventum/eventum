@@ -1610,7 +1610,7 @@ class Notification
                      WHERE
                         sub_id = sbt_sub_id AND
                         sub_iss_id=?";
-            $params[] = $issue_id;
+            $params = array($issue_id);
             if ($type) {
                 $stmt .= " AND\nsbt_type = ?";
                 $params[] = $type;
