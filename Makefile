@@ -17,6 +17,12 @@ dist:
 phpcs:
 	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
 
+box.phar:
+	curl -LSs https://box-project.github.io/box2/installer.php | php
+
+composer.phar:
+	curl -sS https://getcomposer.org/installer | php
+
 composer.lock:
 	composer install
 
