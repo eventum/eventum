@@ -1616,7 +1616,7 @@ class Notification
                 $params[] = $type;
             }
             try {
-                $emails = DB_Helper::getInstance()->getAll($stmt, $type);
+                $emails = DB_Helper::getInstance()->getAll($stmt, $params);
             } catch (DbException $e) {
                 return array();
             }
