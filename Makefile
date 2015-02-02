@@ -43,10 +43,7 @@ install-eventum:
 # install eventum cli
 install-cli:
 	install -d $(DESTDIR)$(bindir)
-	cp -a cli/$(name).php $(DESTDIR)$(bindir)/$(name)
-
-	install -d $(DESTDIR)$(datadir)/cli
-	cp -a cli/lib $(DESTDIR)$(datadir)/cli
+	install -p cli/$(name).phar $(DESTDIR)$(bindir)/$(name)
 
 # install eventum irc bot
 install-irc:
