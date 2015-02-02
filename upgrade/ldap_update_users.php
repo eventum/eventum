@@ -29,6 +29,11 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
+if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
+    error_log("You should enable and configure LDAP backend first");
+    exit(1);
+}
+
 /**
  * Get the new user information from the LDAP servers
  */
