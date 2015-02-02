@@ -201,12 +201,14 @@ class XmlRpcServer
     }
 
     /**
+     * NOTE: this needs to be public for PHP 5.3 compatibility
+     *
      * @param ReflectionMethod $method
      * @param XML_RPC_Message $message
      * @param bool $protected true if method should be protected with username/password
      * @return string
      */
-    private function handle($method, $message, $protected)
+    public function handle($method, $message, $protected)
     {
         $params = array();
         $nparams = $message->getNumParams();
