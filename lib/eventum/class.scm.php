@@ -42,13 +42,13 @@ class SCM
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%issue_checkin}}
                  WHERE
                     isc_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -64,21 +64,22 @@ class SCM
      */
     public static function remove($items)
     {
-        $items = implode(", ", Misc::escapeInteger($items));
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     isc_iss_id
                  FROM
                     {{%issue_checkin}}
                  WHERE
-                    isc_id IN ($items)";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    isc_id IN ($itemlist)";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         $stmt = "DELETE FROM
                     {{%issue_checkin}}
                  WHERE
-                    isc_id IN ($items)";
+                    isc_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }

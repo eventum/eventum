@@ -98,7 +98,7 @@ class Group
         self::setProjects($_POST["id"], $_POST["projects"]);
         // get old users so we can remove any ones that have been removed
         $existing_users = self::getUsers($_POST["id"]);
-        $diff = array_diff($existing_users, Misc::escapeInteger($_POST["users"]));
+        $diff = array_diff($existing_users, $_POST["users"]);
         if (count($diff) > 0) {
             foreach ($diff as $usr_id) {
                 User::setGroupID($usr_id, false);
@@ -118,7 +118,8 @@ class Group
      */
     public static function remove()
     {
-        foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
+        $items = $_POST["items"];
+        foreach ($items as $grp_id) {
             $users = self::getUsers($grp_id);
 
             $stmt = "DELETE FROM
@@ -151,8 +152,6 @@ class Group
      */
     public function setProjects($grp_id, $projects)
     {
-        $grp_id = Misc::escapeInteger($grp_id);
-        $projects = Misc::escapeInteger($projects);
         self::removeProjectsByGroup($grp_id);
 
         // make new associations
@@ -209,9 +208,10 @@ class Group
         $stmt = "DELETE FROM
                     {{%project_group}}
                  WHERE
-                    pgr_prj_id IN(" . join(",", Misc::escapeInteger($projects)) . ")";
+
+                    pgr_prj_id IN (" . DB_Helper::buildList($projects) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $projects);
         } catch (DbException $e) {
             return -1;
         }
@@ -228,8 +228,6 @@ class Group
     public static function getDetails($grp_id)
     {
         static $returns;
-
-        $grp_id = Misc::escapeInteger($grp_id);
 
         if (!empty($returns[$grp_id])) {
             return $returns[$grp_id];
@@ -272,16 +270,14 @@ class Group
      */
     public static function getName($grp_id)
     {
-        $grp_id = Misc::escapeInteger($grp_id);
-        if (empty($grp_id)) {
+        if (!$grp_id) {
             return "";
         }
         $details = self::getDetails($grp_id);
         if (count($details) < 1) {
             return "";
-        } else {
-            return $details["grp_name"];
         }
+        return $details["grp_name"];
     }
 
     /**
@@ -325,8 +321,6 @@ class Group
     {
         static $list;
 
-        $prj_id = Misc::escapeInteger($prj_id);
-
         if (!empty($list[$prj_id])) {
             return $list[$prj_id];
         }
@@ -369,7 +363,7 @@ class Group
                  ORDER BY
                     grp_name";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }

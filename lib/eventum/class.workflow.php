@@ -77,7 +77,7 @@ class Workflow
                  ORDER BY
                     prj_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return '';
         }

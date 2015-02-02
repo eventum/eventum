@@ -62,33 +62,26 @@ class History
      * @param   integer $htt_id The type ID of this history event.
      * @param   string $summary The summary of the changes
      * @param   boolean $hide If this history item should be hidden.
-     * @return  void
      */
     public static function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
     {
-        $stmt = "INSERT INTO
-                    {{%issue_history}}
-                 (
-                    his_iss_id,
-                    his_usr_id,
-                    his_created_date,
-                    his_summary,
-                    his_htt_id";
+        $params = array(
+            'his_iss_id' => $iss_id,
+            'his_usr_id' => $usr_id,
+            'his_created_date' => Date_Helper::getCurrentDateGMT(),
+            'his_summary' => $summary,
+            'his_htt_id' => $htt_id,
+        );
+
         if ($hide == true) {
-            $stmt .= ", his_is_hidden";
+            $params['his_is_hidden'] = 1;
         }
-        $stmt .= ") VALUES (
-                    ?, ?, ?, ?, ?
-                    ";
-        if ($hide == true) {
-            $stmt .= ", 1";
-        }
-        $stmt .= ")";
-        $params = array($iss_id, $usr_id, Date_Helper::getCurrentDateGMT(), $summary, $htt_id);
+
+        $stmt = "INSERT INTO {{%issue_history}} SET ". DB_Helper::buildSet($params);
+
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
-            return -1;
         }
     }
 
@@ -101,7 +94,7 @@ class History
      */
     public static function getListing($iss_id, $order_by = 'DESC')
     {
-        $order_by = Misc::escapeString($order_by);
+        $order_by = DB_Helper::orderBy($order_by);
         $stmt = "SELECT
                     *
                  FROM
@@ -335,13 +328,15 @@ class History
     /**
      * Returns the history for a specified user in a specified time frame for an optional type
      *
+     * NOTE: not used by eventum core. drop?
+     *
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
      * @param   array $htt_id The htt_id or id's to to return history for.
      * @return  array An array of history items
      */
-    public function getHistoryByUser($usr_id, $start, $end, $htt_id = false)
+    public function getHistoryByUser($usr_id, $start, $end, $htt_id = null)
     {
         $stmt = "SELECT
                     his_id,
@@ -354,11 +349,14 @@ class History
                  WHERE
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ?";
+
         $params = array($usr_id, date("Y/m/d", $start), date("Y/m/d", $end));
-        if ($htt_id != false) {
-            $stmt .= "
-                    AND his_htt_id IN(" . join(",", Misc::escapeInteger($htt_id)) . ")";
+
+        if ($htt_id) {
+            $stmt .= "AND his_htt_id IN (" . DB_Helper::buildList($htt_id) . ")";
+            $params = array_merge($params, $htt_id);
         }
+
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {

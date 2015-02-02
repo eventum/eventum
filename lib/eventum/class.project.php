@@ -168,7 +168,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -330,30 +330,30 @@ class Project
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%project}}
                  WHERE
-                    prj_id IN ($items)";
+                    prj_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
 
-        self::removeUserByProjects($_POST["items"]);
-        Category::removeByProjects($_POST["items"]);
-        Release::removeByProjects($_POST["items"]);
-        Filter::removeByProjects($_POST["items"]);
-        Email_Account::removeAccountByProjects($_POST["items"]);
-        Issue::removeByProjects($_POST["items"]);
-        Custom_Field::removeByProjects($_POST["items"]);
+        self::removeUserByProjects($items);
+        Category::removeByProjects($items);
+        Release::removeByProjects($items);
+        Filter::removeByProjects($items);
+        Email_Account::removeAccountByProjects($items);
+        Issue::removeByProjects($items);
+        Custom_Field::removeByProjects($items);
 
-        $statuses = array_keys(Status::getAssocStatusList($_POST["items"]));
-        foreach ($_POST["items"] as $prj_id) {
+        $statuses = array_keys(Status::getAssocStatusList($items));
+        foreach ($items as $prj_id) {
             Status::removeProjectAssociations($statuses, $prj_id);
         }
-        Group::disassociateProjects($_POST["items"]);
+        Group::disassociateProjects($items);
 
         return 1;
     }
@@ -366,18 +366,20 @@ class Project
      * @param   array $users_to_not_remove Users that should not be removed
      * @return  boolean
      */
-    public static function removeUserByProjects($ids, $users_to_not_remove = false)
+    public static function removeUserByProjects($ids, $users_to_not_remove = null)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     {{%project_user}}
                  WHERE
-                    pru_prj_id IN ($items)";
-        if ($users_to_not_remove != false) {
-            $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', Misc::escapeInteger($users_to_not_remove)) . ")";
+                    pru_prj_id IN (" . DB_Helper::buildList($ids) . ")";
+        $params = $ids;
+        if ($users_to_not_remove) {
+            $stmt .= " AND\n pru_usr_id NOT IN (" . DB_Helper::buildList($users_to_not_remove) . ")";
+            $params = array_merge($params, $users_to_not_remove);
         }
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -462,8 +464,6 @@ class Project
      */
     public static function associateUser($prj_id, $usr_id, $role)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $usr_id = Misc::escapeInteger($usr_id);
         // see if association already exists
         $sql = "SELECT
                     pru_id
@@ -640,7 +640,7 @@ class Project
                 User::getRoleID('Manager'),
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->getAssoc($stmt, false, $params, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
@@ -675,20 +675,22 @@ class Project
                     {{%user}},
                     {{%project_user}}
                  WHERE
-                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pru_prj_id=? AND
                     pru_usr_id=usr_id AND
-                    usr_id != " . APP_SYSTEM_USER_ID;
+                    usr_id != ?";
+        $params = array($prj_id, APP_SYSTEM_USER_ID);
         if ($status != NULL) {
             $stmt .= " AND usr_status='active' ";
         }
         if ($role != NULL) {
-            $stmt .= " AND pru_role > " . Misc::escapeInteger($role);
+            $stmt .= " AND pru_role > ?";
+            $params[] = $role;
         }
         $stmt .= "
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -745,7 +747,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -824,12 +826,14 @@ class Project
                     {{%user}},
                     {{%project_user}}
                  WHERE
-                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pru_prj_id=? AND
                     pru_usr_id=usr_id AND
                     usr_status='active' AND
-                    usr_id <> " . APP_SYSTEM_USER_ID;
+                    usr_id <> ?";
+        $params = array($prj_id, APP_SYSTEM_USER_ID);
         if (!empty($customer_id)) {
-            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, " . Misc::escapeInteger($customer_id) . ")) ";
+            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, ?)) ";
+            $params[] = $customer_id;
         } else {
             $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id=0) ";
         }
@@ -838,7 +842,7 @@ class Project
                     usr_customer_id DESC,
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -864,7 +868,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -896,7 +900,7 @@ class Project
                     {{%project_user}}
                  WHERE
                     prj_id=pru_prj_id AND
-                    pru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    pru_usr_id=? AND
                     prj_remote_invocation='enabled'";
         if ($only_customer_projects) {
             $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
@@ -905,7 +909,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id));
         } catch (DbException $e) {
             return "";
         }
@@ -940,19 +944,21 @@ class Project
                     {{%user}},
                     {{%project_user}}
                  WHERE
-                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pru_prj_id=? AND
                     pru_usr_id=usr_id";
-        if ($status != NULL) {
+        $params = array($prj_id);
+        if ($status) {
             $stmt .= " AND usr_status='active' ";
         }
-        if ($role != NULL) {
-            $stmt .= " AND pru_role > $role ";
+        if ($role) {
+            $stmt .= " AND pru_role > ?";
+            $params[] = $role;
         }
         $stmt .= "
                  ORDER BY
                     usr_email ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }

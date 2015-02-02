@@ -74,6 +74,7 @@ class Notification
                  FROM
                     (
                     {{%subscription}}";
+        $params = array();
         if ($type != false) {
             $stmt .= ",
                     {{%subscription_type}}";
@@ -88,12 +89,15 @@ class Notification
         if ($type != false) {
             $stmt .= "
                     sbt_sub_id=sub_id AND
-                    sbt_type='" . Misc::escapeString($type) . "' AND";
+                    sbt_type=? AND";
+            $params[] = $type;
         }
         $stmt .= "
-                    sub_iss_id=" . Misc::escapeInteger($issue_id);
+                    sub_iss_id=?";
+        $params[] = $issue_id;
+
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -401,7 +405,7 @@ class Notification
      */
     public function getEmails($issue_id, $sup_ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($sup_ids));
+        $items = DB_Helper::buildList($sup_ids);
         $stmt = "SELECT
                     sup_from,
                     sup_to,
@@ -413,7 +417,7 @@ class Notification
                  WHERE
                     sup_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
         } catch (DbException $e) {
             return "";
         }
@@ -472,7 +476,6 @@ class Notification
      */
     public function getUsersByIssue($issue_id, $type)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         if ($type == 'notes') {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
@@ -480,9 +483,12 @@ class Notification
                      FROM
                         {{%subscription}}
                      WHERE
-                        sub_iss_id=$issue_id AND
+                        sub_iss_id=? AND
                         sub_usr_id IS NOT NULL AND
                         sub_usr_id <> 0";
+            $params = array(
+                $issue_id,
+            );
         } else {
             $stmt = "SELECT
                         DISTINCT sub_usr_id,
@@ -491,12 +497,16 @@ class Notification
                         {{%subscription}},
                         {{%subscription_type}}
                      WHERE
-                        sub_iss_id=$issue_id AND
+                        sub_iss_id=? AND
                         sub_id=sbt_sub_id AND
-                        sbt_type='" . Misc::escapeString($type) . "'";
+                        sbt_type=?";
+            $params = array(
+                $issue_id, $type
+            );
+
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -823,6 +833,8 @@ class Notification
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
+        $issue_id = (int) $issue_id;
+
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
@@ -944,10 +956,6 @@ class Notification
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $issue_id = Misc::escapeInteger($issue_id);
-        $exclude_list = Misc::escapeInteger($exclude_list);
-
         // get all users associated with this project
         $stmt = "SELECT
                     usr_id,
@@ -960,15 +968,21 @@ class Notification
                     {{%user}},
                     {{%project_user}}
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=? AND
                     usr_id=pru_usr_id AND
                     usr_status = 'active' AND
-                    pru_role > " . User::getRoleID("Customer");
+                    pru_role > ?";
+        $params = array(
+            $prj_id, User::getRoleID("Customer")
+        );
+
         if (count($exclude_list) > 0) {
             $stmt .= " AND
-                    usr_id NOT IN (" . join(', ', $exclude_list) . ")";
+                    usr_id NOT IN (" . DB_Helper::buildList($exclude_list) . ")";
+            $params = array_merge($params, $exclude_list);
         }
-        $res = DB_Helper::getInstance()->getAll($stmt);
+
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
             $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
@@ -1265,35 +1279,25 @@ class Notification
             return;
         }
 
-        $stmt = "INSERT INTO
-                    {{%irc_notice}}
-                 (
-                    ino_prj_id,
-                    ino_created_date,
-                    ino_status,
-                    ino_message,
-                    ino_category";
-        if ($issue_id != false) {
-            $stmt .= ",\n ino_iss_id";
+        $params = array(
+            'ino_prj_id' => $project_id,
+            'ino_created_date' => Date_Helper::getCurrentDateGMT(),
+            'ino_status' => 'pending',
+            'ino_message' => $notice,
+            'ino_category' => $category,
+        );
+
+        if ($issue_id) {
+            $params['ino_iss_id'] = $issue_id;
         }
-        if ($usr_id != false) {
-            $stmt .= ",\n ino_target_usr_id";
+        if ($usr_id) {
+            $params['ino_target_usr_id']= $usr_id;
         }
-        $stmt .= ") VALUES (
-                    " . Misc::escapeInteger($project_id) . ",
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    'pending',
-                    '" . Misc::escapeString($notice) . "',
-                    '" . Misc::escapeString($category) . "'";
-        if ($issue_id != false) {
-            $stmt .= ",\n $issue_id";
-        }
-        if ($usr_id != false) {
-            $stmt .= ",\n " . Misc::escapeInteger($usr_id);
-        }
-        $stmt .= ")";
+
+
+        $stmt = "INSERT INTO {{%irc_notice}} SET ". DB_Helper::buildSet($params);
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1534,9 +1538,8 @@ class Notification
      * @param   integer $min_role Only show subscribers with this role or above
      * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
-    public static function getSubscribers($issue_id, $type = false, $min_role = false)
+    public static function getSubscribers($issue_id, $type = null, $min_role = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
             'staff'     => array(),
             'customers' => array(),
@@ -1553,7 +1556,7 @@ class Notification
                     {{%subscription}},
                     {{%user}}";
 
-        if ($type != false) {
+        if ($type) {
             $stmt .= ",
                      {{%subscription_type}}";
         }
@@ -1562,20 +1565,25 @@ class Notification
                     LEFT JOIN
                         {{%project_user}}
                     ON
-                        (sub_usr_id = pru_usr_id AND pru_prj_id = $prj_id)
+                        (sub_usr_id = pru_usr_id AND pru_prj_id = ?)
                  WHERE
                     sub_usr_id=usr_id AND
-                    sub_iss_id=$issue_id";
-        if ($min_role != false) {
+                    sub_iss_id=?";
+        $params = array(
+            $prj_id, $issue_id
+        );
+        if ($min_role) {
             $stmt .= " AND
-                    pru_role >= " . Misc::escapeInteger($min_role);
+                    pru_role >= ?";
+            $params[] = $min_role;
         }
-        if ($type != false) {
+        if ($type) {
             $stmt .= " AND\nsbt_sub_id = sub_id AND
-                      sbt_type = '" . Misc::escapeString($type) . "'";
+                      sbt_type = ?";
+            $params[] = $type;
         }
         try {
-            $users = DB_Helper::getInstance()->getAll($stmt);
+            $users = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -1609,12 +1617,14 @@ class Notification
                         pru_prj_id = $prj_id
                      WHERE
                         sub_id = sbt_sub_id AND
-                        sub_iss_id=$issue_id";
-            if ($type != false) {
-                $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
+                        sub_iss_id=?";
+            $params[] = $issue_id;
+            if ($type) {
+                $stmt .= " AND\nsbt_type = ?";
+                $params[] = $type;
             }
             try {
-                $emails = DB_Helper::getInstance()->getAll($stmt);
+                $emails = DB_Helper::getInstance()->getAll($stmt, $type);
             } catch (DbException $e) {
                 return array();
             }
@@ -1761,7 +1771,7 @@ class Notification
      */
     public static function removeByIssues($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "SELECT
                     sub_id
                  FROM
@@ -1769,7 +1779,7 @@ class Notification
                  WHERE
                     sub_iss_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -1787,14 +1797,15 @@ class Notification
      */
     public static function remove($items)
     {
-        $items = Misc::escapeInteger($items);
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     sub_iss_id
                  FROM
                     {{%subscription}}
                  WHERE
-                    sub_id IN (" . implode(", ", $items) . ")";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    sub_id IN ($itemlist)";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         for ($i = 0; $i < count($items); $i++) {
             $sub_id = $items[$i];
@@ -1804,11 +1815,13 @@ class Notification
                      WHERE
                         sub_id=?";
             DB_Helper::getInstance()->query($stmt, array($sub_id));
+
             $stmt = "DELETE FROM
                         {{%subscription_type}}
                      WHERE
                         sbt_sub_id=?";
             DB_Helper::getInstance()->query($stmt, array($sub_id));
+
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
                             ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
@@ -1820,23 +1833,25 @@ class Notification
 
     public static function removeByEmail($issue_id, $email)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = User::getUserIDByEmail($email, true);
         $stmt = "SELECT
                     sub_id
                  FROM
                     {{%subscription}}
                  WHERE
-                    sub_iss_id = $issue_id AND";
+                    sub_iss_id = ? AND";
+        $params = array($issue_id);
         if (empty($usr_id)) {
             $stmt .= "
-                    sub_email = '" . Misc::escapeString($email) . "'";
+                    sub_email = ?";
+            $params[] = $email;
         } else {
             $stmt .= "
-                    sub_usr_id = $usr_id";
+                    sub_usr_id = ?";
+            $params[] = $usr_id;
         }
         try {
-            $sub_id = DB_Helper::getInstance()->getOne($stmt);
+            $sub_id = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1957,7 +1972,7 @@ class Notification
      * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
-    public static function getDefaultActions($issue_id = false, $email = false, $source = false)
+    public static function getDefaultActions($issue_id = null, $email = null, $source = null)
     {
         $prj_id = Auth::getCurrentProject();
         $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
@@ -1996,9 +2011,7 @@ class Notification
      */
     public static function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
-        $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
 
         // call workflow to modify actions or cancel adding this user.
         $email = '';
@@ -2060,26 +2073,24 @@ class Notification
      *
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
-     * @param   string $form_email The email address to subscribe
+     * @param   string $email The email address to subscribe
      * @param   array $actions The actions to subcribe to
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
+    public static function subscribeEmail($usr_id, $issue_id, $email, $actions)
     {
-        $form_email = Mail_Helper::getEmailAddress($form_email);
-        if (!is_string($form_email)) {
+        $email = Mail_Helper::getEmailAddress($email);
+        if (!is_string($email)) {
             return -1;
         }
 
-        $form_email = strtolower($form_email);
+        $email = strtolower($email);
         // first check if this is an actual user or just an email address
-        $sub_usr_id = User::getUserIDByEmail($form_email, true);
+        $sub_usr_id = User::getUserIDByEmail($email, true);
         if (!empty($sub_usr_id)) {
             return self::subscribeUser($usr_id, $issue_id, $sub_usr_id, $actions);
         }
 
-        $issue_id = Misc::escapeInteger($issue_id);
-        $email = Misc::escapeString($form_email);
         $prj_id = Issue::getProjectID($issue_id);
 
         // call workflow to modify actions or cancel adding this user.
@@ -2132,6 +2143,7 @@ class Notification
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
+        // FIXME: XSS possible as $email is not escaped for html?
         History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                         ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id)));
 
@@ -2167,8 +2179,6 @@ class Notification
      */
     public static function update($sub_id)
     {
-        $sub_id = Misc::escapeInteger($sub_id);
-
         $stmt = "SELECT
                     sub_iss_id,
                     sub_usr_id
@@ -2187,7 +2197,7 @@ class Notification
             $email = '';
         } else {
             $usr_id = 0;
-            $email = Misc::escapeString($_POST["email"]);
+            $email = $_POST["email"];
         }
         $prj_id = Issue::getProjectID($issue_id);
 

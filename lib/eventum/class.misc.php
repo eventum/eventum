@@ -412,6 +412,7 @@ class Misc
      *
      * @param   string|array $input The original string
      * @return  string The escaped (or not) string
+     * @deprecated Using this is bad design, must use placeholders in query
      */
     public static function escapeString($input, $add_quotes = false)
     {
@@ -431,6 +432,7 @@ class Misc
      *
      * @param   mixed $input The original input.
      * @return  mixed The input converted to an integer
+     * @deprecated Using this is bad design, must use placeholders in query
      */
     public static function escapeInteger($input)
     {

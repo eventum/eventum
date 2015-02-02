@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -41,7 +41,6 @@ class FAQ
         if (!is_array($support_level_ids)) {
             $support_level_ids = array($support_level_ids);
         }
-        $support_level_ids = Misc::escapeString($support_level_ids);
         $prj_id = Auth::getCurrentProject();
 
         if (count($support_level_ids) == 0) {
@@ -62,14 +61,16 @@ class FAQ
                         {{%faq_support_level}}
                      WHERE
                         faq_id=fsl_faq_id AND
-                        fsl_support_level_id IN('" . join("', '", $support_level_ids) . "') AND
+                        fsl_support_level_id IN (" . DB_Helper::buildList($support_level_ids) . ") AND
                         faq_prj_id = ?
                      GROUP BY
                         faq_id
                      ORDER BY
                         faq_rank ASC";
-            $params = array($prj_id);
+            $params = $support_level_ids;
+            $params[] = $prj_id;
         }
+
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
@@ -93,18 +94,18 @@ class FAQ
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%faq}}
                  WHERE
-                    faq_id IN ($items)";
+                    faq_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
 
-        self::removeSupportLevelAssociations($_POST['items']);
+        self::removeSupportLevelAssociations($items);
 
         return true;
     }
@@ -118,17 +119,16 @@ class FAQ
      */
     public function removeSupportLevelAssociations($faq_id)
     {
-        $faq_id = Misc::escapeInteger($faq_id);
         if (!is_array($faq_id)) {
             $faq_id = array($faq_id);
         }
-        $items = @implode(", ", $faq_id);
+
         $stmt = "DELETE FROM
                     {{%faq_support_level}}
                  WHERE
-                    fsl_faq_id IN ($items)";
+                    fsl_faq_id IN (" . DB_Helper::buildList($faq_id) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $faq_id);
         } catch (DbException $e) {
             return false;
         }
@@ -143,14 +143,14 @@ class FAQ
      */
     public static function update()
     {
-        $_POST['id'] = Misc::escapeInteger($_POST['id']);
-
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         if (Validation::isWhitespace($_POST["message"])) {
             return -3;
         }
+
+        $faq_id = $_POST['id'];
         $stmt = "UPDATE
                     {{%faq}}
                  SET
@@ -161,7 +161,7 @@ class FAQ
                     faq_rank=?
                  WHERE
                     faq_id=?";
-        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank'], $_POST["id"]);
+        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank'], $faq_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -169,10 +169,10 @@ class FAQ
         }
 
         // remove all of the associations with support levels, then add them all again
-        self::removeSupportLevelAssociations($_POST['id']);
+        self::removeSupportLevelAssociations($faq_id);
         if (isset($_POST['support_levels']) && count($_POST['support_levels']) > 0) {
             foreach ($_POST['support_levels'] as $support_level_id) {
-                self::addSupportLevelAssociation($_POST['id'], $support_level_id);
+                self::addSupportLevelAssociation($faq_id, $support_level_id);
             }
         }
 
@@ -405,7 +405,7 @@ class FAQ
                  ORDER BY
                     faq_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

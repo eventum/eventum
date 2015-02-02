@@ -83,7 +83,6 @@ class Note
      */
     public static function getDetails($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     {{%note}}.*,
                     not_full_message,
@@ -124,7 +123,7 @@ class Note
     }
 
     /**
-     * Returns the sequensial note identification number for the given issue.
+     * Returns the sequential note identification number for the given issue.
      * This is only for display purposes, but has become relied upon by users
      * as a valid reference number.  It is simply a sequence, starting with the
      * first note created as #1, and each increasing by 1 there after.
@@ -174,7 +173,6 @@ class Note
      */
     public static function getBlockedMessage($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_full_message
                  FROM
@@ -184,7 +182,7 @@ class Note
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
         } catch (DbException $e) {
-            throw new RuntimeException("Can't find note $note_id");
+            throw new RuntimeException("Can't find note");
         }
 
         return $res;
@@ -198,7 +196,6 @@ class Note
      */
     public static function getIssueID($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id
                  FROM
@@ -222,7 +219,7 @@ class Note
      */
     public static function getNoteBySequence($issue_id, $sequence)
     {
-        $sequence = Misc::escapeInteger($sequence);
+        $offset = (int)$sequence - 1;
         $stmt = "SELECT
                     not_id
                 FROM
@@ -232,7 +229,7 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC
-                LIMIT 1 OFFSET " . ($sequence - 1);
+                LIMIT 1 OFFSET $offset";
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -250,7 +247,6 @@ class Note
      */
     public function getUnknownUser($note_id)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $sql = "SELECT
                     not_unknown_user
                 FROM
@@ -297,7 +293,6 @@ class Note
      */
     public static function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $prj_id = Issue::getProjectID($issue_id);
 
         if (@$_POST['add_extra_recipients'] != 'yes') {
@@ -323,60 +318,43 @@ class Note
         if (Validation::isWhitespace($_POST["note"])) {
             return -2;
         }
+
         if (empty($_POST['message_id'])) {
             $_POST['message_id'] = Mail_Helper::generateMessageID();
         }
+
+        $params = array(
+            'not_iss_id' => $issue_id,
+            'not_usr_id' => $usr_id,
+            'not_created_date' => Date_Helper::getCurrentDateGMT(),
+            'not_note' => $_POST["note"],
+            'not_title' => $_POST["title"]
+        );
+
+        if (!@empty($_POST['full_message'])) {
+            $params['not_full_message'] = $_POST['full_message'];
+        }
+
+        if ($is_blocked) {
+            $params['not_is_blocked'] = '1';
+        }
+
+        $params['not_message_id'] = $_POST['message_id'];
+
+        if (!empty($_POST['parent_id'])) {
+            $params['not_parent_id'] = $_POST['parent_id'];
+        }
+
+        if ($unknown_user) {
+            $params['not_unknown_user'] = $unknown_user;
+        }
+
         $stmt = "INSERT INTO
                     {{%note}}
-                 (
-                    not_iss_id,
-                    not_usr_id,
-                    not_created_date,
-                    not_note,
-                    not_title";
-        if (!@empty($_POST['full_message'])) {
-            $stmt .= ",
-                    not_full_message";
-        }
-        if ($is_blocked) {
-            $stmt .= ",
-                    not_is_blocked";
-        }
-        $stmt .= ",
-                    not_message_id";
-        if (!@empty($_POST['parent_id'])) {
-            $stmt .= ", not_parent_id";
-        }
-        if ($unknown_user != false) {
-            $stmt .= ", not_unknown_user";
-        }
-        $stmt .= "
-                 ) VALUES (
-                    $issue_id,
-                    $usr_id,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_POST["note"]) . "',
-                    '" . Misc::escapeString($_POST["title"]) . "'";
-        if (!@empty($_POST['full_message'])) {
-            $stmt .= ",
-                    '" . Misc::escapeString($_POST['full_message']) . "'";
-        }
-        if ($is_blocked) {
-            $stmt .= ",
-                    1";
-        }
-        $stmt .= ",
-                    '" . Misc::escapeString($_POST['message_id']) . "'";
-        if (!@empty($_POST['parent_id'])) {
-            $stmt .= ", " . Misc::escapeInteger($_POST['parent_id']) . "";
-        }
-        if ($unknown_user != false) {
-            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
-        }
-        $stmt .= "
-                 )";
+                 SET ". DB_Helper::buildSet($params);
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -412,13 +390,13 @@ class Note
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%note}}
                  WHERE
                     not_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -435,7 +413,6 @@ class Note
      */
     public static function remove($note_id, $log = true)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id,
                     not_usr_id,
@@ -457,7 +434,7 @@ class Note
                  WHERE
                     not_id=?";
         try {
-            $res = DB_Helper::getInstance()->query($stmt, array($note_id));
+            DB_Helper::getInstance()->query($stmt, array($note_id));
         } catch (DbException $e) {
             return -1;
         }
@@ -544,7 +521,6 @@ class Note
      */
     public static function convertNote($note_id, $target, $authorize_sender = false)
     {
-        $note_id = Misc::escapeInteger($note_id);
         $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
         $blocked_message = self::getBlockedMessage($note_id);

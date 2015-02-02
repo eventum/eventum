@@ -126,7 +126,7 @@ class Display_Column
                 ORDER BY
                     ctd_rank";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt, false, array($prj_id, $page), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }
@@ -242,10 +242,10 @@ class Display_Column
      */
     public static function save()
     {
-        $page = Misc::escapeString($_REQUEST['page']);
-        $prj_id = Misc::escapeInteger($_REQUEST['prj_id']);
-
+        $page = $_REQUEST['page'];
+        $prj_id = $_REQUEST['prj_id'];
         $ranks = $_REQUEST['rank'];
+
         asort($ranks);
 
         // delete current entries

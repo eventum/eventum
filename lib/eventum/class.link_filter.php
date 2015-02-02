@@ -179,12 +179,15 @@ class Link_Filter
      */
     public static function remove()
     {
+        $items = $_REQUEST["items"];
+        $itemlist = DB_Helper::buildList($items);
+
         $sql = "DELETE FROM
                     {{%link_filter}}
                 WHERE
-                    lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
+                    lfi_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -192,9 +195,9 @@ class Link_Filter
         $sql = "DELETE FROM
                     {{%project_link_filter}}
                 WHERE
-                    plf_lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
+                    plf_lfi_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -240,7 +243,7 @@ class Link_Filter
             return -1;
         }
 
-        foreach (Misc::escapeInteger($_REQUEST["projects"]) as $prj_id) {
+        foreach ($_REQUEST["projects"] as $prj_id) {
             $sql = "INSERT INTO
                         {{%project_link_filter}}
                     (

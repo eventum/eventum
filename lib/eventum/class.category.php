@@ -67,13 +67,12 @@ class Category
      */
     public static function removeByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     {{%project_category}}
                  WHERE
-                    prc_prj_id IN ($items)";
+                    prc_prj_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -89,13 +88,13 @@ class Category
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%project_category}}
                  WHERE
-                    prc_id IN ($items)";
+                    prc_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }

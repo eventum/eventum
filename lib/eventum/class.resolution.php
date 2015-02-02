@@ -89,16 +89,17 @@ class Resolution
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $itemlist = DB_Helper::buildList($items);
         // gotta fix the issues before removing the resolution
         $stmt = "UPDATE
                     {{%issue}}
                  SET
                     iss_res_id=0
                  WHERE
-                    iss_res_id IN ($items)";
+                    iss_res_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -106,9 +107,9 @@ class Resolution
         $stmt = "DELETE FROM
                     {{%resolution}}
                  WHERE
-                    res_id IN ($items)";
+                    res_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -208,7 +209,7 @@ class Resolution
                     res_rank ASC,
                     res_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }

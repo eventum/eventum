@@ -137,12 +137,12 @@ class Reminder_Condition
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%reminder_level_condition}}
                  WHERE
-                    rlc_id IN ($items)";
-        DB_Helper::getInstance()->query($stmt);
+                    rlc_id IN (" . DB_Helper::buildList($items) . ")";
+        DB_Helper::getInstance()->query($stmt, $items);
     }
 
     /**
@@ -291,7 +291,7 @@ class Reminder_Condition
         $stmt .= "ORDER BY
                     rmf_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -315,7 +315,7 @@ class Reminder_Condition
                  ORDER BY
                     rmo_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

@@ -496,34 +496,41 @@ class User
      * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    public static function getActiveAssocList($prj_id = false, $role = null, $exclude_grouped = false, $grp_id = false)
+    public static function getActiveAssocList($prj_id = null, $role = null, $exclude_grouped = false, $grp_id = null)
     {
-        $grp_id = Misc::escapeInteger($grp_id);
         $stmt = "SELECT
                     usr_id,
                     usr_full_name
                  FROM
                     {{%user}}";
-        if ($prj_id != false) {
+        $params = array();
+
+        if ($prj_id) {
             $stmt .= ",
                     {{%project_user}}";
         }
         $stmt .= "
                  WHERE
                     usr_status='active' AND
-                    usr_id != " . APP_SYSTEM_USER_ID;
-        if ($prj_id != false) {
-            $stmt .= " AND pru_prj_id = " . Misc::escapeInteger($prj_id) . " AND
+                    usr_id != ?";
+        $params[] = APP_SYSTEM_USER_ID;
+
+        if ($prj_id) {
+            $stmt .= " AND pru_prj_id = ? AND
                        usr_id = pru_usr_id";
-            if ($role != NULL) {
-                $stmt .= " AND pru_role > $role ";
+            $params[] = $prj_id;
+            if ($role) {
+                $stmt .= " AND pru_role > ?";
+                $params[] = $role;
             }
         }
-        if ($grp_id != false) {
+        if ($grp_id) {
             if ($exclude_grouped == false) {
-                $stmt .= " AND (usr_grp_id IS NULL OR usr_grp_id = $grp_id)";
+                $stmt .= " AND (usr_grp_id IS NULL OR usr_grp_id = ?)";
+                $params[] = $grp_id;
             } else {
-                $stmt .= " AND usr_grp_id = $grp_id";
+                $stmt .= " AND usr_grp_id = ?";
+                $params[] = $grp_id;
             }
         } elseif ($exclude_grouped == true) {
             $stmt .= " AND (usr_grp_id IS NULL or usr_grp_id = 0)";
@@ -532,7 +539,7 @@ class User
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -671,14 +678,16 @@ class User
         $key = md5(serialize($usr_ids));
 
         if (empty($returns[$key])) {
+            $itemlist = DB_Helper::buildList($usr_ids);
+
             $stmt = "SELECT
                         *
                      FROM
                         {{%user}}
                      WHERE
-                        usr_id IN (" . implode(', ', Misc::escapeInteger($usr_ids)) . ")";
+                        usr_id IN ($itemlist)";
             try {
-                $res = DB_Helper::getInstance()->getAll($stmt);
+                $res = DB_Helper::getInstance()->getAll($stmt, $usr_ids);
             } catch (DbException $e) {
                 return null;
             }
@@ -729,17 +738,19 @@ class User
             }
         }
 
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     usr_full_name
                  FROM
                     {{%user}}
                  WHERE
-                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
+                    usr_id IN ($itemlist)";
         try {
             if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt);
+                $res = DB_Helper::getInstance()->getOne($stmt, $items);
             } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
             }
         } catch (DbException $e) {
             return "";
@@ -779,17 +790,19 @@ class User
             }
         }
 
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     usr_email
                  FROM
                     {{%user}}
                  WHERE
-                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
+                    usr_id IN ($itemlist)";
         try {
             if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt);
+                $res = DB_Helper::getInstance()->getOne($stmt, $items);
             } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
             }
         } catch (DbException $e) {
             if (!is_array($usr_id)) {
@@ -825,17 +838,19 @@ class User
             return $returns[$key];
         }
 
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     usr_grp_id
                  FROM
                     {{%user}}
                  WHERE
-                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
+                    usr_id IN ($itemlist)";
         try {
             if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt);
+                $res = DB_Helper::getInstance()->getOne($stmt, $items);
             } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt);
+                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
             }
         } catch (DbException $e) {
             return "";
@@ -907,15 +922,17 @@ class User
             }
         }
 
-        $items = implode(", ", Misc::escapeInteger((array)$usr_ids));
+        $usr_ids = (array)$usr_ids;
+        $items = DB_Helper::buildList($usr_ids);
         $stmt = "UPDATE
                     {{%user}}
                  SET
                     usr_status=?
                  WHERE
                     usr_id IN ($items)";
+        $params = array_merge(array($status), $usr_ids);
         try {
-            DB_Helper::getInstance()->query($stmt, array($status));
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1040,33 +1057,35 @@ class User
             return 1;
         }
 
+        $params = array(
+            'usr_full_name' => $data["full_name"],
+            'usr_email' => $data["email"],
+        );
+
+
+        if (isset($data["grp_id"])) {
+            $params['usr_grp_id'] = !empty($data["grp_id"]) ? $data["grp_id"] : null;
+        }
+
+        if (!empty($data["password"])) {
+            $params['usr_password'] = Auth::hashPassword($data["password"]);
+        }
+
+        if (isset($data["external_id"])) {
+            $params['usr_external_id'] = $data["external_id"];
+        }
+
+        if (isset($data["par_code"])) {
+            $params['usr_par_code'] = $data["par_code"];
+        }
+
         $stmt = "UPDATE
                     {{%user}}
-                 SET
-                    usr_full_name='" . Misc::escapeString($data["full_name"]) . "',
-                    usr_email='"     . Misc::escapeString($data["email"])     . "'";
-        if (isset($data["grp_id"])) {
-            $group_id = !empty($data["grp_id"]) ? Misc::escapeInteger($data["grp_id"]) : 'NULL';
-            $stmt .= ",
-                    usr_grp_id='" . $group_id . "'";
-        }
-        if (!empty($data["password"])) {
-            $stmt .= ",
-                    usr_password='" . Auth::hashPassword($data["password"]) . "'";
-        }
-        if (isset($data["external_id"])) {
-            $stmt .= ",
-                    usr_external_id='" . Misc::escapeString($data["external_id"]) . "'";
-        }
-        if (isset($data["par_code"])) {
-            $stmt .= ",
-                    usr_par_code='" . Misc::escapeString($data["par_code"]) . "'";
-        }
-        $stmt .= "
-                 WHERE
-                    usr_id=" . Misc::escapeInteger($usr_id);
+                 SET " . DB_Helper::buildSet($params) . " WHERE usr_id=?";
+        $params[] = $usr_id;
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1296,7 +1315,7 @@ class User
                  FROM
                     {{%user}}";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1322,7 +1341,7 @@ class User
                  ORDER BY
                     usr_full_name ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }
@@ -1392,7 +1411,7 @@ class User
                  WHERE
                     usr_clocked_in=1";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -1487,10 +1506,8 @@ class User
      */
     public static function setGroupID($usr_id, $grp_id)
     {
-        if ($grp_id == false) {
-            $grp_id = 'null';
-        } else {
-            $grp_id = Misc::escapeInteger($grp_id);
+        if (!$grp_id) {
+            $grp_id = null;
         }
 
         $stmt = "UPDATE
@@ -1512,7 +1529,6 @@ class User
     {
         static $returns;
 
-        $usr_id = Misc::escapeInteger($usr_id);
         if (empty($returns[$usr_id]) || $force_refresh == true) {
             $sql = "SELECT
                         usr_lang

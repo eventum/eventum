@@ -61,12 +61,10 @@ class Draft
      * @param   boolean $add_history_entry Whether to add a history entry automatically or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = false, $unknown_user = false, $add_history_entry = true)
+    public static function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = null, $unknown_user = null, $add_history_entry = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $parent_id = Misc::escapeInteger($parent_id);
-        if (empty($parent_id)) {
-            $parent_id = 'NULL';
+        if (!$parent_id) {
+            $parent_id = null;
         }
         // if unknown_user is not empty, set the usr_id to be the system user.
         if (!empty($unknown_user)) {
@@ -84,7 +82,7 @@ class Draft
                     emd_subject,
                     emd_body";
 
-        if (!empty($unknown_user)) {
+        if ($unknown_user) {
             $stmt .= ", emd_unknown_user";
         }
         $stmt .= ") VALUES (
@@ -98,7 +96,7 @@ class Draft
             $subject,
             $message,
         );
-        if (!empty($unknown_user)) {
+        if ($unknown_user) {
             $stmt .= ", ?";
             $params[] = $unknown_user;
         }
@@ -136,13 +134,10 @@ class Draft
      * @param   integer $parent_id The ID of the email that this draft is replying to, if any
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = false)
+    public static function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $emd_id = Misc::escapeInteger($emd_id);
-        $parent_id = Misc::escapeInteger($parent_id);
-        if (empty($parent_id)) {
-            $parent_id = 'NULL';
+        if (!$parent_id) {
+            $parent_id = null;
         }
         $usr_id = Auth::getUserID();
 
@@ -224,12 +219,7 @@ class Draft
      */
     public static function addEmailRecipient($emd_id, $email, $is_cc)
     {
-        $emd_id = Misc::escapeInteger($emd_id);
-        if (!$is_cc) {
-            $is_cc = 0;
-        } else {
-            $is_cc = 1;
-        }
+        $is_cc = $is_cc ? 1 : 0;
         $email = trim($email);
         $stmt = "INSERT INTO
                     {{%email_draft_recipient}}
@@ -261,7 +251,6 @@ class Draft
      */
     public static function getDetails($emd_id)
     {
-        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -272,7 +261,7 @@ class Draft
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
         } catch (DbException $e) {
-            throw new RuntimeException("email $emd_id not found");
+            throw new RuntimeException("email not found");
         }
 
         $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
@@ -295,7 +284,6 @@ class Draft
      */
     public static function getList($issue_id, $show_all = false)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     emd_id,
                     emd_usr_id,
@@ -345,7 +333,6 @@ class Draft
      */
     public static function getEmailRecipients($emd_id)
     {
-        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
                     edr_email,
                     edr_is_cc
@@ -384,7 +371,11 @@ class Draft
      */
     public static function getDraftBySequence($issue_id, $sequence)
     {
-        $sequence = Misc::escapeInteger($sequence);
+        $sequence = (int)$sequence;
+        // FIXME: sequence 0 valid too?
+        if ($sequence < 0) {
+            return array();
+        }
         $stmt = "SELECT
                     emd_id
                 FROM

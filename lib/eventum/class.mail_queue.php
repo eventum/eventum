@@ -96,44 +96,28 @@ class Mail_Queue
         // convert array of headers into text headers
         list(,$text_headers) = $res;
 
-        $stmt = "INSERT INTO
-                    {{%mail_queue}}
-                 (
-                    maq_save_copy,
-                    maq_queued_date,
-                    maq_sender_ip_address,
-                    maq_recipient,
-                    maq_headers,
-                    maq_body,
-                    maq_iss_id,
-                    maq_subject,
-                    maq_type";
-        if ($sender_usr_id != false) {
-            $stmt .= ",\nmaq_usr_id";
+        $params = array(
+            'maq_save_copy' => $save_email_copy,
+            'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
+            'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
+            'maq_recipient' => $recipient,
+            'maq_headers' => $text_headers,
+            'maq_body' => $body,
+            'maq_iss_id' => $issue_id,
+            'maq_subject' => $headers["Subject"],
+            'maq_type' => $type,
+        );
+
+        if ($sender_usr_id) {
+            $params['maq_usr_id'] = $sender_usr_id;
         }
-        if ($type_id != false) {
-            $stmt .= ",\nmaq_type_id";
+        if ($type_id) {
+            $params['maq_type_id'] = $type_id;
         }
-        $ip = !empty($_SERVER['REMOTE_ADDR']) ? Misc::escapeString($_SERVER['REMOTE_ADDR']) : '';
-        $stmt .= ") VALUES (
-                    $save_email_copy,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($ip) . "',
-                    '" . Misc::escapeString($recipient) . "',
-                    '" . Misc::escapeString($text_headers) . "',
-                    '" . Misc::escapeString($body) . "',
-                    " . Misc::escapeInteger($issue_id) . ",
-                    '" . Misc::escapeString($headers["Subject"]) . "',
-                    '$type'";
-        if ($sender_usr_id != false) {
-            $stmt .= ",\n" . $sender_usr_id;
-        }
-        if ($type_id != false) {
-            $stmt .= ",\n" . $type_id;
-        }
-        $stmt .= ")";
+
+        $stmt = "INSERT INTO {{%mail_queue}} SET ".DB_Helper::buildSet($params);
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return $res;
         }
@@ -298,7 +282,7 @@ class Mail_Queue
      */
     private function _getList($status, $limit)
     {
-        $limit = Misc::escapeString($limit);
+        $limit = (int)$limit;
         $sql = "SELECT
                     maq_id id
                  FROM
@@ -325,7 +309,7 @@ class Mail_Queue
      * @param   integer $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getMergedList($status, $limit = false)
+    private function _getMergedList($status, $limit = null)
     {
         $sql = "SELECT
                     GROUP_CONCAT(maq_id) ids
@@ -340,8 +324,8 @@ class Mail_Queue
                  ORDER BY
                     MIN(maq_id) ASC";
 
-        if ($limit !== false) {
-            $limit = Misc::escapeString($limit);
+        $limit = (int)$limit;
+        if ($limit) {
             $sql .= " LIMIT 0, $limit";
         }
 
@@ -466,12 +450,11 @@ class Mail_Queue
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @param   integer $issue_is The issue ID
+     * @param   integer $issue_id The issue ID
      * @return  array An array of emails from the queue
      */
     public static function getListByIssueID($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     maq_id,
                     maq_queued_date,
@@ -536,21 +519,25 @@ class Mail_Queue
         if (!is_array($types)) {
             $types = array($types);
         }
-        $types = Misc::escapeString($types);
+
+        $types_list = DB_Helper::buildList($types);
         $sql = "SELECT
                     maq_recipient
                 FROM
                     {{%mail_queue}}
                 WHERE
-                    maq_type IN('" . join("', '", $types) . "') AND
+                    maq_type IN ($types_list) AND
                     maq_type_id = ?";
+        $params = $types;
+        $params[] = $type_id;
         try {
-            $res = DB_Helper::getInstance()->getColumn($sql, array($type_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, $params);
         } catch (DbException $e) {
             return false;
         }
 
         for ($i = 0; $i < count($res); $i++) {
+            // FIXME: what does quote stripping fix here
             $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
         }
 

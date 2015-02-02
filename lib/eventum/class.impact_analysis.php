@@ -168,21 +168,23 @@ class Impact_Analysis
      */
     public static function remove()
     {
-        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
+        $items = $_POST["item"];
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "SELECT
                     isr_iss_id
                  FROM
                     {{%issue_requirement}}
                  WHERE
-                    isr_id IN ($items)";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    isr_id IN ($itemlist)";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         $stmt = "DELETE FROM
                     {{%issue_requirement}}
                  WHERE
-                    isr_id IN ($items)";
+                    isr_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -203,13 +205,13 @@ class Impact_Analysis
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%issue_requirement}}
                  WHERE
                     isr_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }

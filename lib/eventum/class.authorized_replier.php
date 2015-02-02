@@ -42,7 +42,6 @@ class Authorized_Replier
      */
     public static function getAuthorizedRepliers($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         // split into users and others (those with email address but no real user accounts)
         $repliers = array(
             "users" =>  array(),
@@ -61,6 +60,7 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id=? AND
                     iur_usr_id=usr_id";
+
         $params = array(APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
@@ -99,7 +99,7 @@ class Authorized_Replier
      */
     public static function removeRepliers($iur_ids)
     {
-        $iur_ids = Misc::escapeInteger($iur_ids);
+        $iur_list = DB_Helper::buildList($iur_ids);
 
         // get issue_id for logging
         $stmt = "SELECT
@@ -107,9 +107,9 @@ class Authorized_Replier
                  FROM
                     {{%issue_user_replier}}
                  WHERE
-                    iur_id IN(" . join(",", $iur_ids) . ")";
+                    iur_id IN ($iur_list)";
         try {
-            $issue_id = DB_Helper::getInstance()->getOne($stmt);
+            $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
         } catch (DbException $e) {
             // FIXME: why continuing on error?
         }
@@ -119,9 +119,9 @@ class Authorized_Replier
             $stmt = "DELETE FROM
                         {{%issue_user_replier}}
                      WHERE
-                        iur_id IN(" . join(",", $iur_ids) . ")";
+                        iur_id IN ($iur_list)";
             try {
-                DB_Helper::getInstance()->query($stmt);
+                DB_Helper::getInstance()->query($stmt, $iur_ids);
             } catch (DbException $e) {
                 return -1;
             }

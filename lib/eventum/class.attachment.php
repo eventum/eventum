@@ -98,23 +98,25 @@ class Attachment
      * Method used to remove a specific file out of an existing attachment.
      *
      * @param   integer $iaf_id The attachment file ID
-     * @return  -1 or -2 if the removal was not successful, 1 otherwise
+     * @return int -1 or -2 if the removal was not successful, 1 otherwise
      */
     public static function removeIndividualFile($iaf_id)
     {
         $usr_id = Auth::getUserID();
-        $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "SELECT
                     iat_iss_id
                  FROM
                     {{%issue_attachment}},
                     {{%issue_attachment_file}}
                  WHERE
-                    iaf_id=$iaf_id AND
+                    iaf_id=? AND
                     iat_id=iaf_iat_id";
+
+        $params = array($iaf_id);
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND
-                    iat_usr_id=$usr_id";
+                    iat_usr_id=?";
+            $params[] = $usr_id;
         }
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
@@ -122,11 +124,9 @@ class Attachment
             return -1;
         }
 
-
         if (empty($res)) {
             return -2;
         }
-
 
         // check if the file is the only one in the attachment
         $stmt = "SELECT
@@ -135,9 +135,9 @@ class Attachment
                     {{%issue_attachment}},
                     {{%issue_attachment_file}}
                  WHERE
-                    iaf_id=$iaf_id AND
+                    iaf_id=? AND
                     iaf_iat_id=iat_id";
-        $attachment_id = DB_Helper::getInstance()->getOne($stmt);
+        $attachment_id = DB_Helper::getInstance()->getOne($stmt, array($iaf_id));
 
         $res = self::getFileList($attachment_id);
         if (count($res) > 1) {
@@ -157,7 +157,6 @@ class Attachment
      */
     public static function getDetails($file_id)
     {
-        $file_id = Misc::escapeInteger($file_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -173,8 +172,8 @@ class Attachment
         }
 
         // don't allow customers to reach internal only files
-        if (($res['iat_status'] == 'internal')
-                && (User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id'])) <= User::getRoleID('Customer'))) {
+        $user_role_id = User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id']));
+        if (($res['iat_status'] == 'internal') && $user_role_id <= User::getRoleID('Customer')) {
             return '';
         } else {
             return $res;
@@ -190,16 +189,15 @@ class Attachment
      */
     public static function removeByIssues($ids)
     {
-        $ids = Misc::escapeInteger($ids);
-        $items = @implode(", ", $ids);
         $stmt = "SELECT
                     iat_id
                  FROM
                     {{%issue_attachment}}
                  WHERE
-                    iat_iss_id IN ($items)";
+                    iat_iss_id IN (" . DB_Helper::buildList($ids) . ")";
+
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -220,20 +218,22 @@ class Attachment
      */
     public static function remove($iat_id, $add_history = true)
     {
-        $iat_id = Misc::escapeInteger($iat_id);
         $usr_id = Auth::getUserID();
         $stmt = "SELECT
                     iat_iss_id
                  FROM
                     {{%issue_attachment}}
                  WHERE
-                    iat_id=$iat_id";
+                    iat_id=?";
+        $params = array($iat_id);
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND
-                    iat_usr_id=$usr_id";
+                    iat_usr_id=?";
+            $params[] = $usr_id;
         }
+
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -277,7 +277,6 @@ class Attachment
      */
     public function removeFile($iaf_id)
     {
-        $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "DELETE FROM
                     {{%issue_attachment_file}}
                  WHERE
@@ -299,7 +298,6 @@ class Attachment
      */
     public static function getFileList($attachment_id)
     {
-        $attachment_id = Misc::escapeInteger($attachment_id);
         $stmt = "SELECT
                     iaf_id,
                     iaf_filename,
@@ -330,7 +328,6 @@ class Attachment
      */
     public static function getList($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -346,7 +343,7 @@ class Attachment
                     {{%issue_attachment}},
                     {{%user}}
                  WHERE
-                    iat_iss_id=$issue_id AND
+                    iat_iss_id=? AND
                     iat_usr_id=usr_id";
         if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer')) {
             $stmt .= " AND iat_status='public' ";
@@ -354,14 +351,15 @@ class Attachment
         $stmt .= "
                  ORDER BY
                     iat_created_date ASC";
+        $params = array($issue_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
 
         foreach ($res as &$row) {
-            $row["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row["iat_description"])));
+            $row["iat_description"] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row["iat_description"])));
             $row["files"] = self::getFileList($row["iat_id"]);
             $row["iat_created_date"] = Date_Helper::getFormattedDate($row["iat_created_date"]);
 
@@ -389,7 +387,6 @@ class Attachment
      */
     public static function attach($usr_id, $status = 'public')
     {
-        $usr_id = Misc::escapeInteger($usr_id);
         $files = array();
         $nfiles = count($_FILES["attachment"]["name"]);
         for ($i = 0; $i < $nfiles; $i++) {
@@ -452,7 +449,6 @@ class Attachment
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
-        $attachment_id = Misc::escapeInteger($attachment_id);
         $filesize = strlen($blob);
         $stmt = "INSERT INTO
                     {{%issue_attachment_file}}
@@ -491,46 +487,34 @@ class Attachment
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  integer The new attachment ID
      */
-    public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = false, $associated_note_id = false)
+    public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = null, $associated_note_id = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $usr_id = Misc::escapeInteger($usr_id);
         if ($internal_only) {
             $attachment_status = 'internal';
         } else {
             $attachment_status = 'public';
         }
 
-        $stmt = "INSERT INTO
-                    {{%issue_attachment}}
-                 (
-                    iat_iss_id,
-                    iat_usr_id,
-                    iat_created_date,
-                    iat_description,
-                    iat_status";
-        if ($unknown_user != false) {
-            $stmt .= ", iat_unknown_user ";
+        $params = array(
+            'iat_iss_id' => $issue_id,
+            'iat_usr_id' => $usr_id,
+            'iat_created_date'=> Date_Helper::getCurrentDateGMT(),
+            'iat_description'=> $description,
+            'iat_status' => $attachment_status,
+        );
+
+        if ($unknown_user) {
+            $params['iat_unknown_user'] = $unknown_user;
         }
-        if ($associated_note_id != false) {
-            $stmt .= ", iat_not_id ";
+
+        if ($associated_note_id) {
+            $params['iat_not_id'] = $associated_note_id;
         }
-        $stmt .=") VALUES (
-                    $issue_id,
-                    $usr_id,
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($description) . "',
-                    '" . Misc::escapeString($attachment_status) . "'";
-        if ($unknown_user != false) {
-            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
-        }
-        if ($associated_note_id != false) {
-            $stmt .= ", " . Misc::escapeInteger($associated_note_id);
-        }
-        $stmt .= " )";
+
+        $stmt = "INSERT INTO {{%issue_attachment}} SET ". DB_Helper::buildSet($params);
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }

@@ -116,7 +116,7 @@ class Reminder
                  ORDER BY
                     rem_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -486,33 +486,34 @@ class Reminder
      */
     public function removeAllAssociations($rem_id)
     {
-        $rem_id = Misc::escapeInteger($rem_id);
         if (!is_array($rem_id)) {
             $rem_id = array($rem_id);
         }
+        $itemlist = DB_Helper::buildList($rem_id);
+
         $stmt = "DELETE FROM
                     {{%reminder_requirement}}
                  WHERE
-                    rer_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+                    rer_rem_id IN ($itemlist)";
+        DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
                     {{%reminder_priority}}
                  WHERE
-                    rep_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+                    rep_rem_id IN ($itemlist)";
+        DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
                     {{%reminder_product}}
                  WHERE
-                    rpr_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+                    rpr_rem_id IN ($itemlist)";
+        DB_Helper::getInstance()->query($stmt, $rem_id);
 
         $stmt = "DELETE FROM
                     {{%reminder_severity}}
                  WHERE
-                    rms_rem_id IN (" . implode(',', $rem_id) . ")";
-        DB_Helper::getInstance()->query($stmt);
+                    rms_rem_id IN ($itemlist)";
+        DB_Helper::getInstance()->query($stmt, $rem_id);
     }
 
     /**
@@ -657,25 +658,27 @@ class Reminder
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "DELETE FROM
                     {{%reminder_level}}
                  WHERE
-                    rem_id IN ($items)";
+                    rem_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
 
-        self::removeAllAssociations($_POST["items"]);
+        self::removeAllAssociations($items);
         $stmt = "SELECT
                     rma_id
                  FROM
                     {{%reminder_action}}
                  WHERE
-                    rma_rem_id IN ($items)";
-        $actions = DB_Helper::getInstance()->getColumn($stmt);
+                    rma_rem_id IN ($itemlist)";
+        $actions = DB_Helper::getInstance()->getColumn($stmt, $items);
         if (count($actions) > 0) {
             Reminder_Action::remove($actions);
         }
@@ -839,7 +842,7 @@ class Reminder
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

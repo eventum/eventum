@@ -176,6 +176,44 @@ class DB_Helper
     }
 
     /**
+     * Helper to build SQL queries with variable length parameters
+     *
+     * @param array $params
+     * @return string A SQL statement partial with placeholders: field1=?, field2=?, field3=? ...
+     */
+    public static function buildSet($params) {
+        $partial = array();
+        foreach (array_keys($params) as $key) {
+            $partial[] = "$key=?";
+        }
+        return join(", ", $partial);
+    }
+
+    /**
+     * Helper to build SQL queries with SET of parameters
+     *
+     * @param array $params
+     * @return string A SQL statement partial with placeholders: ?, ?, ? ...
+     */
+    public static function buildList($params) {
+        return join(', ', array_fill(0, count($params), '?'));
+    }
+
+    /**
+     * Give valid ORDER BY parameter
+     *
+     * @param string $order
+     * @param string $default
+     * @return string
+     */
+    public static function orderBy($order, $default = "DESC") {
+        if (!in_array(strtoupper($order), array("ASC", "DESC"))) {
+            return $default;
+        }
+        return $order;
+    }
+
+    /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.

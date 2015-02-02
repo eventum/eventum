@@ -96,18 +96,18 @@ class Email_Response
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
         $stmt = "DELETE FROM
                     {{%email_response}}
                  WHERE
-                    ere_id IN ($items)";
+                    ere_id IN (" . DB_Helper::buildList($items) . ")";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
 
-        self::removeProjectAssociations($_POST['items']);
+        self::removeProjectAssociations($items);
 
         return true;
     }
@@ -120,18 +120,17 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($ere_id, $prj_id=false)
+    public function removeProjectAssociations($ere_id, $prj_id = null)
     {
-        $ere_id = Misc::escapeInteger($ere_id);
         if (!is_array($ere_id)) {
             $ere_id = array($ere_id);
         }
-        $items = @implode(", ", $ere_id);
+
         $stmt = "DELETE FROM
                     {{%project_email_response}}
                  WHERE
-                    per_ere_id IN ($items)";
-        $params = array();
+                    per_ere_id IN (" . DB_Helper::buildList($ere_id) . ")";
+        $params = $ere_id;
         if ($prj_id) {
             $stmt .= " AND per_prj_id=?";
             $params[] = $prj_id;
@@ -152,8 +151,6 @@ class Email_Response
      */
     public static function update()
     {
-        $_POST['id'] = Misc::escapeInteger($_POST['id']);
-
         if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }

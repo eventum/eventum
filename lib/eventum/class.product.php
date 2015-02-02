@@ -123,10 +123,10 @@ class Product
         $sql = "DELETE FROM
                     {{%product}}
                 WHERE
-                    pro_id IN(" . join(', ', Misc::escapeInteger($ids)) . ")";
+                    pro_id IN (" . DB_Helper::buildList($ids) . ")";
 
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $ids);
         } catch (DbException $e) {
             return -1;
         }

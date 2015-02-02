@@ -478,13 +478,13 @@ class Round_Robin
         if (!is_array($prr_id)) {
             $prr_id = array($prr_id);
         }
-        $items = @implode(", ", Misc::escapeInteger($prr_id));
+        $items = DB_Helper::buildList($prr_id);
         $stmt = "DELETE FROM
                     {{%round_robin_user}}
                  WHERE
                     rru_prr_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $prr_id);
         } catch (DbException $e) {
             return false;
         }
@@ -499,18 +499,20 @@ class Round_Robin
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $itemlist = DB_Helper::buildList($items);
+
         $stmt = "DELETE FROM
                     {{%project_round_robin}}
                  WHERE
-                    prr_id IN ($items)";
+                    prr_id IN ($itemlist)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
 
-        self::removeUserAssociations($_POST['items']);
+        self::removeUserAssociations($items);
 
         return true;
     }

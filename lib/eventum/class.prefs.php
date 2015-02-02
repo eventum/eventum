@@ -129,7 +129,7 @@ class Prefs
                 WHERE
                     upp_usr_id = $usr_id";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($sql, false, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($sql, array(), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return $returns[$usr_id];
         }

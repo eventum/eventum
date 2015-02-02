@@ -366,12 +366,13 @@ class Reminder_Action
         if (!is_array($rma_id)) {
             $rma_id = array($rma_id);
         }
-        $items = @implode(", ", Misc::escapeInteger($rma_id));
+
+        $items = DB_Helper::buildList($rma_id);
         $stmt = "DELETE FROM
                     {{%reminder_action_list}}
                  WHERE
                     ral_rma_id IN ($items)";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, $rma_id);
     }
 
     /**
@@ -382,24 +383,25 @@ class Reminder_Action
      */
     public static function remove($action_ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($action_ids));
+        $items = DB_Helper::buildList($action_ids);
+
         $stmt = "DELETE FROM
                     {{%reminder_action}}
                  WHERE
                     rma_id IN ($items)";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, $action_ids);
 
         $stmt = "DELETE FROM
                     {{%reminder_history}}
                  WHERE
                     rmh_rma_id IN ($items)";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, $action_ids);
 
         $stmt = "DELETE FROM
                     {{%reminder_level_condition}}
                  WHERE
                     rlc_rma_id IN ($items)";
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, $action_ids);
 
         self::clearActionUserList($action_ids);
     }
@@ -419,7 +421,7 @@ class Reminder_Action
                  ORDER BY
                     rmt_title ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -798,15 +800,17 @@ class Reminder_Action
             return $issues;
         }
 
+        $idlist = DB_Helper::buildList($issues);
+
         $stmt = "SELECT
                     rta_iss_id,
                     rta_rma_id
                  FROM
                     {{%reminder_triggered_action}}
                  WHERE
-                    rta_iss_id IN (" . implode(', ', Misc::escapeInteger($issues)) . ")";
+                    rta_iss_id IN ($idlist)";
         try {
-            $triggered_actions = DB_Helper::getInstance()->getAssoc($stmt);
+            $triggered_actions = DB_Helper::getInstance()->fetchAssoc($stmt, $issues);
         } catch (DbException $e) {
             return $issues;
         }
@@ -815,7 +819,7 @@ class Reminder_Action
         foreach ($issues as $issue_id) {
             // if the issue was already triggered and the last triggered
             // action was the given one, then add it to the list of repeat issues
-            if ((in_array($issue_id, array_keys($triggered_actions))) && ($triggered_actions[$issue_id] == $rma_id)) {
+            if (in_array($issue_id, array_keys($triggered_actions)) && $triggered_actions[$issue_id] == $rma_id) {
                 $repeat_issues[] = $issue_id;
             }
         }
@@ -833,8 +837,6 @@ class Reminder_Action
      */
     public function recordLastTriggered($issue_id, $rma_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $rma_id = Misc::escapeInteger($rma_id);
         $stmt = "SELECT
                     COUNT(*)
                  FROM
@@ -847,9 +849,10 @@ class Reminder_Action
             $stmt = "UPDATE
                         {{%reminder_triggered_action}}
                      SET
-                        rta_rma_id=$rma_id
+                        rta_rma_id=?
                      WHERE
-                        rta_iss_id=$issue_id";
+                        rta_iss_id=?";
+            $params = array($rma_id, $issue_id);
         } else {
             $stmt = "INSERT INTO
                         {{%reminder_triggered_action}}
@@ -857,12 +860,13 @@ class Reminder_Action
                         rta_iss_id,
                         rta_rma_id
                      ) VALUES (
-                        $issue_id,
-                        $rma_id
+                        ?,
+                        ?
                      )";
+            $params = array($issue_id, $rma_id);
         }
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -883,7 +887,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id=?";
         try {
-            $res = DB_Helper::getInstance()->query($stmt, array($issue_id));
+            DB_Helper::getInstance()->query($stmt, array($issue_id));
         } catch (DbException $e) {
             return false;
         }

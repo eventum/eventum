@@ -357,8 +357,6 @@ class Issue
     {
         static $returns;
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         if ((!empty($returns[$issue_id])) && ($force_refresh != true)) {
             return $returns[$issue_id];
         }
@@ -866,27 +864,34 @@ class Issue
      * @param   string $type The type of update that was made (optional)
      * @return  boolean
      */
-    public static function markAsUpdated($issue_id, $type = false)
+    public static function markAsUpdated($issue_id, $type = null)
     {
         $public = array("staff response", "customer action", "file uploaded", "user response");
         $stmt = "UPDATE
                     {{%issue}}
                  SET
-                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "'\n";
-        if ($type != false) {
+                    iss_updated_date=?\n";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+        );
+
+        if ($type) {
             if (in_array($type, $public)) {
                 $field = "iss_last_public_action_";
             } else {
                 $field = "iss_last_internal_action_";
             }
-            $stmt .= ",\n " . $field . "date = '" . Date_Helper::getCurrentDateGMT() . "',\n" .
-                $field . "type  ='" . Misc::escapeString($type) . "'\n";
+            $stmt .= ",\n " . $field . "date = ?,\n" .
+                $field . "type  = ?\n";
+            $params[] = Date_Helper::getCurrentDateGMT();
+            $params[] = $type;
         }
         $stmt .= "WHERE
-                    iss_id=" . Misc::escapeInteger($issue_id);
+                    iss_id=?";
+        $params[] = $issue_id;
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1318,15 +1323,14 @@ class Issue
      */
     public static function removeByProjects($ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     iss_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id IN ($items)";
+                    iss_prj_id IN (" . DB_Helper::buildList($ids) . ")";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -2752,7 +2756,7 @@ class Issue
                     iss_id IN ($ids)";
 
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -2836,7 +2840,7 @@ class Issue
                  WHERE
                     iss_id in ($ids)";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -3311,7 +3315,7 @@ class Issue
                  ORDER BY
                     iss_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return "";
         }

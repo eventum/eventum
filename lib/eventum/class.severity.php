@@ -154,13 +154,13 @@ class Severity
      */
     public static function removeByProjects($prj_ids)
     {
-        $items = @implode(", ", Misc::escapeInteger($prj_ids));
+        $items = DB_Helper::buildList($prj_ids);
         $sql = "DELETE FROM
                     {{%project_severity}}
                  WHERE
                     sev_prj_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $prj_ids);
         } catch (DbException $e) {
             return false;
         }
@@ -179,13 +179,14 @@ class Severity
         if (count($sev_ids) < 1) {
             return true;
         }
-        $items = @implode(", ", Misc::escapeInteger($sev_ids));
+
+        $items = DB_Helper::buildList($sev_ids);
         $sql = "DELETE FROM
                     {{%project_severity}}
                  WHERE
                     sev_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $sev_ids);
         } catch (DbException $e) {
             return false;
         }

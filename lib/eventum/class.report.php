@@ -480,7 +480,7 @@ class Report
                  GROUP BY
                     time_period";
         try {
-            $total = DB_Helper::getInstance()->getAssoc($stmt);
+            $total = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -503,7 +503,7 @@ class Report
                  GROUP BY
                     time_period";
         try {
-            $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
+            $dev_stats = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -746,7 +746,7 @@ class Report
                     ORDER BY
                         $label_field ASC";
                 try {
-                    $res = DB_Helper::getInstance()->getAssoc($stmt);
+                    $res = DB_Helper::getInstance()->fetchAssoc($stmt);
                 } catch (DbException $e) {
                     return array();
                 }
@@ -934,7 +934,7 @@ class Report
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -988,7 +988,7 @@ class Report
         }
 
         try {
-            $res = DB_Helper::getInstance()->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
             return array();
         }

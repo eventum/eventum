@@ -35,6 +35,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /** @group getAll */
     public function testGetAllDefault()
     {
         $res = $this->db->getAll(
@@ -59,6 +60,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAll */
     public function testGetAllAssoc()
     {
         $res = $this->db->getAll(
@@ -83,6 +85,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAssoc */
     public function testGetAssocTrueDefault()
     {
         $this->markTestSkipped("this combination is never used in eventum code");
@@ -108,6 +111,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAssoc */
     public function testGetAssocFalseDefault()
     {
         $this->markTestSkipped("this fails under yii as it tries to switch to fetchPair");
@@ -134,6 +138,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAssoc */
     public function testGetAssocFalseAssoc()
     {
         $res = $this->db->getAssoc(
@@ -158,6 +163,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAssoc */
     public function testGetAssocTrueAssoc()
     {
         $res = $this->db->getAssoc(
@@ -182,6 +188,57 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group fetchAssoc */
+    public function testFetchAssocDefault()
+    {
+        $res = $this->db->fetchAssoc(
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            array(2),
+            DbInterface::DB_FETCHMODE_DEFAULT
+        );
+
+        $this->assertInternalType('array', $res);
+        $exp = array(
+            1 => array(
+                0 => 'system',
+                1 => 'system-account@example.com',
+                2 => null,
+            ),
+            2 => array(
+                0 => 'Admin User',
+                1 => 'admin@example.com',
+                2 => null,
+            ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /** @group fetchAssoc */
+    public function testFetchAssoc()
+    {
+        $res = $this->db->fetchAssoc(
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
+            array(2),
+            DbInterface::DB_FETCHMODE_ASSOC
+        );
+
+        $this->assertInternalType('array', $res);
+        $exp = array(
+            1 => array(
+                'usr_full_name' => 'system',
+                'usr_email'     => 'system-account@example.com',
+                'usr_lang'      => null,
+            ),
+            2 => array(
+                'usr_full_name' => 'Admin User',
+                'usr_email'     => 'admin@example.com',
+                'usr_lang'      => null,
+            ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /** @group getColumn */
     public function testGetColumn()
     {
         $res = $this->db->getColumn(
@@ -197,6 +254,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getOne */
     public function testGetOne()
     {
         $res = $this->db->getOne(
@@ -210,6 +268,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, $res);
     }
 
+    /** @group getPair */
     public function testGetPair()
     {
         $res = $this->db->getPair(
@@ -226,6 +285,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getRow */
     public function testGetRowDefault()
     {
         $res = $this->db->getRow(
@@ -243,6 +303,7 @@ class DbTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getRow */
     public function testGetRowAssoc()
     {
         $res = $this->db->getRow(
