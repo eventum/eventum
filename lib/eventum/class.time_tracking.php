@@ -316,7 +316,7 @@ class Time_Tracking
                  GROUP BY
                     ttr_iss_id";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, false, $ids);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ids);
         } catch (DbException $e) {
             return;
         }
