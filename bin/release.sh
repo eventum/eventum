@@ -46,6 +46,10 @@ rm -rf $dir
 install -d $dir
 dir=$(readlink -f $dir)
 
+# setup submodules
+git submodule init
+git submodule update
+
 git archive HEAD | tar -x -C $dir
 # include submodules
 # see http://stackoverflow.com/a/16843717
