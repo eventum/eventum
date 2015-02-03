@@ -8,6 +8,7 @@ config/sphinx.conf
 *.gz
 *.gz.md5
 cli/*.phar
+cli/build/
 logs/*.log
 templates_c/*
 misc/routed_emails/*
@@ -23,6 +24,8 @@ po
 dropin
 vendor
 composer.lock
+composer.phar
+box.phar
 
 # vim
 [._]*.s[a-w][a-z]
