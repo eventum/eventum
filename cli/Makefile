@@ -1,5 +1,6 @@
 composer := $(shell which composer.phar 2>/dev/null || which composer 2>/dev/null || echo false)
 box := $(shell which box.phar 2>/dev/null || which box 2>/dev/null || echo false)
+php := php
 
 all:
 	@echo 'Run "make eventum.phar" to build standalone eventum cli phar.'
@@ -14,7 +15,7 @@ eventum.phar:
 	 cp -a ../lib/eventum/*  build/lib/eventum
 	 cp -a ../vendor/autoload-dist.php  build/vendor
 	 cd build && $(composer) install --prefer-dist
-	 cd build && $(box) build -v
+	 cd build && $(php) -d phar.readonly=0 $(box) build -v
 	 mv -f build/cli/eventum.phar .
 	 rm -rf build
 
