@@ -306,7 +306,7 @@ issue_view.toggle_issue_section = function(id)
 
 issue_view.openHistory = function()
 {
-    var features = 'width=520,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=890,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('history.php?iss_id=' + issue_view.get_issue_id(), '_history', features);
     popupWin.focus();
     return false;
@@ -314,7 +314,7 @@ issue_view.openHistory = function()
 
 issue_view.openNotificationList = function()
 {
-    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=540,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('notification.php?iss_id=' + issue_view.get_issue_id(), '_notification', features);
     popupWin.focus();
     return false;
