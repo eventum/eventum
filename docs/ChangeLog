@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.0 pre1
+2015-02-03, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
 - Catch exception from invalid timezones and default to UTC (Bryan Alsdorf, GH#8)
@@ -26,7 +26,8 @@ Eventum Issue Tracking System
 - Add "Add me to Notification List" button for customers (Bryan Alsdorf)
 - Include issue submit date in issue close email (Elan Ruusamäe)
 - Fix incorrect "last action type" when a user without an account sent an email (Bryan Alsdorf)
-- Added notification email address for products
+- Added notification email address for products (Bryan Alsdorf)
+- Use DB query placeholders (Elan Ruusamäe, GH#26)
 
 2014-10-04, Version 2.4.0 pre1
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
