@@ -8,14 +8,20 @@ rc=dev # development version
 dir=$app
 podir=po
 
-find_composer() {
-	local c names="./composer.phar composer.phar composer"
-	composer=
+find_prog() {
+	set +x
+	local c prog=$1
+	names="./$prog.phar $prog.phar $prog"
+	prog=
 	for c in $names; do
-		$c --version 2>/dev/null || continue
-		composer=$c
+		prog=$(which $c) || continue
+		prog=$(readlink -f "$prog")
 		break
 	done
+
+	${prog:-false} --version >&2
+
+	echo ${prog:-false}
 }
 
 # update timestamps from last commit
@@ -32,7 +38,8 @@ update_timestamps() {
 	done
 }
 
-find_composer
+composer=$(find_prog composer)
+box=$(find_prog box)
 
 # checkout
 rm -rf $dir
@@ -132,7 +139,7 @@ if [ -n "$composer" ]; then
 	rm pear.download pear.install pear.clean
 
 	# eventum standalone cli
-	make -C cli eventum.phar
+	make -C cli eventum.phar composer=$composer box=$box
 fi
 
 make -C localization install clean
