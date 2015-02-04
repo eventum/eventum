@@ -4,202 +4,204 @@
 {block "content"}
 {if $post_result|default:'' != ''}
 <script type="text/javascript">
-<!--
-{if $current_user_prefs.close_popup_windows}
-setTimeout('Eventum.close_and_refresh()', 2000);
-{/if}
-//-->
+    <!--
+    {if $current_user_prefs.close_popup_windows}
+        setTimeout('Eventum.close_and_refresh()', 2000);
+    {/if}
+    //-->
 </script>
 <br />
-  {if not $current_user_prefs.close_popup_windows}
-  <center>
+{if not $current_user_prefs.close_popup_windows}
+<center>
     <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
-  </center>
-  {/if}
+</center>
+{/if}
 {else}
 {literal}
 <script type="text/javascript">
-<!--
-function validateForm()
-{
-    if (Validation.isFieldWhitespace('title')) {
-        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Title{/t}{literal}', 'title');
+    <!--
+    function validateForm()
+    {
+        if (Validation.isFieldWhitespace('title')) {
+            Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Title{/t}{literal}', 'title');
+        }
+        if (Validation.isFieldWhitespace('note')) {
+            Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Body{/t}{literal}', 'note');
+        }
+
+        var now = new Date();
+        var d1 = Eventum.makeDate('date');
+        if (d1 > now) {
+            alert('{/literal}{t}Start time in the future.{/t}{literal}');
+            return false;
+        }
+        var d2 = Eventum.makeDate('date2');
+        if (d2 > now) {
+            alert('{/literal}{t}End time in the future.{/t}{literal}');
+            return false;
+        }
+        return true;
     }
-    if (Validation.isFieldWhitespace('note')) {
-        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Body{/t}{literal}', 'note');
+    function clearExtraRecipients()
+    {
+        $('select[name=' + Eventum.escapeSelector('note_cc[]') + ']').val('');
+    }
+    var old_message = '';
+    function setSignature()
+    {
+        {/literal}
+        var signature = "{$current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
+        {literal}
+        var note = $('#note');
+        if ($('#add_email_signature').is(":checked")) {
+            old_message = note.val()
+            note.val(note.val() + "\n" + signature);
+        } else {
+            note.val(old_message);
+        }
     }
 
-	var now = new Date();
-	var d1 = Eventum.makeDate('date');
-	if (d1 > now) {
-		alert('{/literal}{t}Start time in the future.{/t}{literal}');
-		return false;
-	}
-	var d2 = Eventum.makeDate('date2');
-	if (d2 > now) {
-		alert('{/literal}{t}End time in the future.{/t}{literal}');
-		return false;
-	}
-    return true;
-}
-function clearExtraRecipients()
-{
-    $('select[name=' + Eventum.escapeSelector('note_cc[]') + ']').val('');
-}
-var old_message = '';
-function setSignature()
-{
-{/literal}
-    var signature = "{$current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
-{literal}
-    var note = $('#note');
-    if ($('#add_email_signature').is(":checked")) {
-        old_message = note.val()
-        note.val(note.val() + "\n" + signature);
-    } else {
-        note.val(old_message);
-    }
-}
-
-$().ready(function() {
-    $('#clear_note_cc').click(clearExtraRecipients);
-    $('#add_email_signature').click(setSignature);
-});
-//-->
+    $().ready(function() {
+        $('#clear_note_cc').click(clearExtraRecipients);
+        $('#add_email_signature').click(setSignature);
+    });
+    //-->
 </script>
 {/literal}
 
 <form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
-<input type="hidden" name="cat" value="post_note">
-<input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
-<input type="hidden" name="issue_id" value="{$issue_id}">
-  <table class="bordered internal">
-    <tr class="title">
-      <th colspan="2">
-        {t}Post New Internal Note{/t}
-      </th>
-    </tr>
-    <tr>
-      <th width="140">
-        {t}From{/t}
-      </th>
-      <td>
-        {$from|escape:"html"}
-      </td>
-    </tr>
-    <tr>
-      <th width="140">
-        {t}Recipients{/t}
-      </th>
-      <td>
-        Issue #{$issue_id} {t}Notification List{/t} (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"})
-      </td>
-    </tr>
-    <tr>
-      <th width="140">
-        {t}Title{/t} *
-      </th>
-      <td>
-        <input type="text" name="title" size="50" value="{$reply_subject|escape:"html"}">
-        {include file="error_icon.tpl.html" field="title"}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <textarea id="note" name="note" rows="16" style="width: 97%">{$note.not_body|default:""|escape:"html"}{if $current_user_prefs.auto_append_note_sig == 1}
+    <input type="hidden" name="cat" value="post_note">
+    <input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
+    <input type="hidden" name="issue_id" value="{$issue_id}">
+    <table class="bordered internal">
+        <tr class="title">
+            <th colspan="2">
+                {t}Post New Internal Note{/t}
+            </th>
+        </tr>
+        <tr>
+            <th width="140">
+                {t}From{/t}
+            </th>
+            <td>
+                {$from|escape:"html"}
+            </td>
+        </tr>
+        <tr>
+            <th width="140">
+                {t}Recipients{/t}
+            </th>
+            <td>
+                Issue #{$issue_id} {t}Notification List{/t} (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"})
+            </td>
+        </tr>
+        <tr>
+            <th width="140">
+                {t}Title{/t} *
+            </th>
+            <td>
+                <input type="text" name="title" size="50" value="{$reply_subject|escape:"html"}">
+                {include file="error_icon.tpl.html" field="title"}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea id="note" name="note" rows="16" style="width: 97%">{$note.not_body|default:""|escape:"html"}{if $current_user_prefs.auto_append_note_sig == 1}
 
 
-{$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
-        {include file="error_icon.tpl.html" field="note"}
-      </td>
-    </tr>
-    <tr>
-      <th width="140" valign="top">
-        {t}Extra Note Recipients{/t}
-      </th>
-      <td>
-        <select multiple name="note_cc[]"
-                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select"
-          >
-          {html_options options=$users}
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <th width="140">
-        {t}Add Extra Recipients To Notification List?{/t}
-      </th>
-      <td>
-        <label><input type="radio" name="add_extra_recipients" value="yes"> {t}Yes{/t}</label>
-        <label><input type="radio" name="add_extra_recipients" value="no" checked> {t}No{/t}</label>
-      </td>
-    </tr>
-    <tr>
-      <th width="120">
-        {t}New Status for Issue{/t} #{$issue_id}:
-      </th>
-      <td>
-        <select name="new_status">
-          <option value=""></option>
-          {html_options options=$statuses}
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <th width="120">
-        {t}Time Spent{/t}:
-      </th>
-      <td>
-        <input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)">
-        <select name="time_category">
-          {html_options options=$time_categories selected=$note_category_id}
-        </select>
-        <span><i>({t}in minutes{/t})</i></span>
-        {include file="error_icon.tpl.html" field="time_spent"}
-      </td>
-    </tr>
-      <tr>
-        <th nowrap>{t}Time Summary{/t}</th>
-        <td><input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}</td>
-      </tr>
-      <tr>
-        <th width="120" nowrap>{t}Work started{/t}:</th>
-        <td>
-          {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
-          {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false time=$core.current_user_datetime}
-          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
-        </td>
-      </tr>
-      <tr>
-        <th width="120" nowrap>{t}Work ended{/t}:</th>
-        <td>
-          {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
-          {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false time=$core.current_user_datetime}
-          <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
-        </td>
-      </tr>
-    {include file="include/issue_fields.tpl.html"}
-    <tr class="buttons">
-      <td colspan="2">
-        <input name="main_submit_button" type="submit" value="{t}Post Internal Note{/t}">
-        <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
+                    {$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+                {include file="error_icon.tpl.html" field="note"}
+            </td>
+        </tr>
+        <tr>
+            <th width="140" valign="top">
+                {t}Extra Note Recipients{/t}
+            </th>
+            <td>
+                <select multiple name="note_cc[]"
+                        data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select"
+                        >
+                    {html_options options=$users}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th width="140">
+                {t}Add Extra Recipients To Notification List?{/t}
+            </th>
+            <td>
+                <label><input type="radio" name="add_extra_recipients" value="yes"> {t}Yes{/t}</label>
+                <label><input type="radio" name="add_extra_recipients" value="no" checked> {t}No{/t}</label>
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}New Status for Issue{/t} #{$issue_id}:
+            </th>
+            <td>
+                <select name="new_status">
+                    <option value=""></option>
+                    {html_options options=$statuses}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th width="120">
+                {t}Time Spent{/t}:
+            </th>
+            <td>
+                <input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)">
+                <select name="time_category">
+                    {html_options options=$time_categories selected=$note_category_id}
+                </select>
+                <span><i>({t}in minutes{/t})</i></span>
+                {include file="error_icon.tpl.html" field="time_spent"}
+            </td>
+        </tr>
+        <tr>
+            <th nowrap>{t}Time Summary{/t}</th>
+            <td>
+                <input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}
+            </td>
+        </tr>
+        <tr>
+            <th width="120" nowrap>{t}Work started{/t}:</th>
+            <td>
+                {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
+                {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false time=$core.current_user_datetime}
+                <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+            </td>
+        </tr>
+        <tr>
+            <th width="120" nowrap>{t}Work ended{/t}:</th>
+            <td>
+                {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
+                {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false time=$core.current_user_datetime}
+                <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#post_note_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+            </td>
+        </tr>
+        {include file="include/issue_fields.tpl.html"}
+        <tr class="buttons">
+            <td colspan="2">
+                <input name="main_submit_button" type="submit" value="{t}Post Internal Note{/t}">
+                <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
 
-            {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_note_sig != 'yes'}
-            <div class="right">
-                <label>
-                    <input type="checkbox" name="add_email_signature" value="yes" id="add_email_signature">
-                    {t}Add Email Signature{/t}
-                </label>
-            </div>
-            {/if}
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        * {t}Required fields{/t}
-      </td>
-    </tr>
-  </table>
+                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_note_sig != 'yes'}
+                <div class="right">
+                    <label>
+                        <input type="checkbox" name="add_email_signature" value="yes" id="add_email_signature">
+                        {t}Add Email Signature{/t}
+                    </label>
+                </div>
+                {/if}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                * {t}Required fields{/t}
+            </td>
+        </tr>
+    </table>
 </form>
 
 {/if}
