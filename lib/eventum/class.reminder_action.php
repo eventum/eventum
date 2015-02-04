@@ -695,7 +695,8 @@ class Reminder_Action
                 $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
             }
             $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
-            Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id);
+            Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id, false,
+                APP_EVENTUM_IRC_CATEGORY_REMINDER);
         }
         $setup = Setup::load();
         // if there are no recipients, then just skip to the next action

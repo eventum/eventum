@@ -230,6 +230,10 @@ if (APP_MAINTENANCE) {
 // Default IRC category
 define("APP_EVENTUM_IRC_CATEGORY_DEFAULT", "default");
 
+if (!defined('APP_EVENTUM_IRC_CATEGORY_REMINDER')) {
+    define("APP_EVENTUM_IRC_CATEGORY_REMINDER", APP_EVENTUM_IRC_CATEGORY_DEFAULT);
+}
+
 // legacy constants, enable this block if you need time to migrate custom workflow, custom_field, customer, etc classes
 /*
 if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
