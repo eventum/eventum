@@ -2653,6 +2653,10 @@ class Issue
                     {{%project_priority}}
                  ON
                     iss_pri_id=pri_id
+                 LEFT JOIN
+                    {{%project_severity}}
+                 ON
+                    iss_sev_id=sev_id
                  WHERE
                     iss_prj_id=" . Auth::getCurrentProject();
         $stmt .= Search::buildWhereClause($options);
