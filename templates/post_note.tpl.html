@@ -159,6 +159,10 @@ $().ready(function() {
       </td>
     </tr>
       <tr>
+        <th nowrap>{t}Time Summary{/t}</th>
+        <td><input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}</td>
+      </tr>
+      <tr>
         <th width="120" nowrap>{t}Work started{/t}:</th>
         <td>
           {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;

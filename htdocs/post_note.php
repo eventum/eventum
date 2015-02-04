@@ -77,7 +77,11 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
         $_POST['category'] = $_POST['time_category'];
-        $_POST['summary'] = 'Time entry inserted when sending an internal note.';
+        if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
+            $_POST['summary'] = $_POST['time_summary'];
+        } else {
+            $_POST['summary'] = 'Time entry inserted when sending an internal note.';
+        }
         Time_Tracking::insertEntry();
     }
 
