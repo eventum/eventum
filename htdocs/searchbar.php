@@ -3,9 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2015 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -24,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -41,21 +39,3 @@ if (!empty($_GET['custom_id'])) {
         }
     }
 }
-
-$tpl = new Template_Helper();
-$tpl->setTemplate("searchbar.tpl.html");
-
-Auth::checkAuthentication(APP_COOKIE);
-
-$prj_id = Auth::getCurrentProject();
-$tpl->assign("priorities", Priority::getList($prj_id));
-$tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("users", Project::getUserAssocList($prj_id));
-$tpl->assign("categories", Category::getAssocList($prj_id));
-
-$tpl->assign("custom", Filter::getListing($prj_id));
-
-$options = Search::saveSearchParams();
-$tpl->assign("options", $options);
-
-$tpl->displayTemplate();
