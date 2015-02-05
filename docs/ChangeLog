@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 3.1.0
+???, Version 3.0.0
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 
