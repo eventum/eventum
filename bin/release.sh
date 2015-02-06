@@ -89,7 +89,7 @@ fi
 if [ -n "$composer" ]; then
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
-	$composer install --prefer-dist --no-dev
+	$composer install --prefer-dist --no-dev --ignore-platform-reqs
 	$composer licenses --no-dev --no-ansi >> docs/DEPENDENCIES.md
 fi
 
