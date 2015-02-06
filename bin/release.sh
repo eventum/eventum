@@ -144,6 +144,8 @@ if [ -n "$composer" ]; then
 
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
+	# eventum scm
+	make -C scm phar box=$box
 fi
 
 make -C localization install clean
