@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -95,23 +95,33 @@ class Error_Handler
         }
 
         $time = time();
-        $date = date('m/d/Y H:i:s', $time);
+        $date = date('Y-m-d H:i:s', $time);
         $msg = "Hello,\n\n";
         $msg .= $notify_msg;
 
         // this checks that we're not running from commandline (cron for example)
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $msg .= "That happened on page '{$_SERVER['SCRIPT_NAME']}' from IP Address '{$_SERVER['REMOTE_ADDR']}'";
+            $proto = 'http';
+            if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on' || $_SERVER['HTTPS'] == 1)) {
+                $proto .= 's';
+            }
+            $url = "$proto://{$_SERVER['HTTP_HOST']}{$_SERVER['SCRIPT_NAME']}";
+            if (isset($_SERVER['QUERY_STRING'])) {
+                $url .= "?{$_SERVER['QUERY_STRING']}";
+            }
+
+            $msg .= "URL: {$url}\n";
+            $msg .= "IP: {$_SERVER['REMOTE_ADDR']}\n";
 
             $login = Auth::getUserLogin();
             if ($login) {
-                $msg .= " for user '$login'";
+                $msg .= "User: $login\n";
             }
 
             if (!empty($_SERVER['HTTP_REFERER'])) {
-                $msg  .= " coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'";
+                $msg  .= "Referer: {$_SERVER['HTTP_REFERER']}\n";
             }
-            $msg .= ".\n\nThe user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
+            $msg .= "User-Agent: {$_SERVER['HTTP_USER_AGENT']}\n\n";
         }
         $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
 
@@ -205,7 +215,7 @@ class Error_Handler
      */
     private static function &_createErrorReport(&$error_msg, $script, $line)
     {
-        $msg = "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
+        $msg = "An error was found on $script:$line\n\n";
 
         $msg .= "The error message passed to us was:\n\n";
         if ((is_array($error_msg)) && (count($error_msg) > 1)) {
