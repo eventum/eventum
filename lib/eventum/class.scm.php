@@ -173,7 +173,7 @@ class SCM
         $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
         History::add($issue_id, $usr_id, History::getTypeID('scm_checkin_associated'), $summary);
 
-        Workflow::handleSCMCheckins($prj_id, $usr_id, $issue_id, $files, $username, $commit_msg);
+        Workflow::handleSCMCheckins($prj_id, $issue_id, $files, $username, $commit_msg);
 
         return 1;
     }

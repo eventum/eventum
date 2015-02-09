@@ -482,9 +482,11 @@ class Workflow
     /**
      * Determines if the address should should be emailed.
      *
-     * @param   integer $prj_id The project ID.
-     * @param   string $address The email address to check
-     * @return  boolean
+     * @param integer $prj_id The project ID.
+     * @param string $address The email address to check
+     * @param bool $issue_id
+     * @param bool $type
+     * @return boolean
      */
     public static function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
     {
