@@ -92,7 +92,8 @@
                 {t}Recipients{/t}
             </th>
             <td>
-                Issue #{$issue_id} {t}Notification List{/t} (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"})
+                <a href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{t 1=$issue_id}Issue #%1{/t}</a>
+                {t 1=$subscribers.staff}Notification List (Members: %1){/t}
             </td>
         </tr>
         <tr>
