@@ -450,6 +450,71 @@ issue_view.openReporter = function(issue_id)
 }
 
 
+/*
+ * Update Issue Page
+ */
+function issue_update()
+{
+}
+
+issue_update.ready = function(page_id)
+{
+    var $updateForm = $('#update_form');
+
+    $updateForm.submit(function() {
+        return Validation.checkFormSubmission($('#update_form'), issue_update.validateForm);
+    });
+
+    // remove validation if hitting cancel
+    $updateForm.find('[name=cancel]').click(function() {
+        $updateForm.unbind('submit', issue_update.validateForm);
+    });
+
+    $('#clear_selected').click(function() {
+        Eventum.clearSelectedOptions('assignments[]');
+    });
+
+    $('.close_issue').unbind('click', issue_view.closeIssue).click(issue_update.closeIssue);
+
+    Eventum.setupShowSelections($('#assignments'));
+
+    $('.open_history').click(issue_view.openHistory);
+    $('.open_nl').click(issue_view.openNotificationList);
+    $('.open_ar').click(issue_view.openAuthorizedReplier);
+}
+
+
+issue_update.validateForm = function()
+{
+    var f = $('#update_form');
+    if (Validation.isFieldWhitespace('summary')) {
+        Validation.errors[Validation.errors.length] = new Option('Summary', 'summary');
+    }
+    if (Validation.isFieldWhitespace('description')) {
+        Validation.errors[Validation.errors.length] = new Option('Description', 'description');
+    }
+    var percent_complete = Eventum.getField('percent_complete').val();
+    if ((percent_complete != '') && ((percent_complete < 0) || (percent_complete > 100))) {
+        Validation.errors[Validation.errors.length] = new Option('Percentage complete should be between 0 and 100', 'percent_complete');
+        return false;
+    }
+    if (f.attr('data-allow-unassigned') != 'yes' && Eventum.getField('assignments')) {
+        if (!Validation.hasOneSelected('assignments[]')) {
+            Validation.errors[Validation.errors.length] = new Option('Assignment', 'assignments');
+        }
+    }
+    return true;
+}
+
+issue_update.closeIssue = function(e)
+{
+    if (confirm('Warning: All changes to this issue will be lost if you continue and close this issue.')) {
+        window.location.href='close.php?id=' + issue_view.get_issue_id();
+    }
+    e.preventDefault();
+}
+
+
 
 /*
  * Close Issue Page
