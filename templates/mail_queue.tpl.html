@@ -10,7 +10,8 @@
     <table class="bordered grid">
         <tr class="title">
             <th colspan="5">
-                {t 1=$issue_id}Mail Queue for Issue #%1{/t}
+                {capture assign="link"}<a href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{t 1=$issue_id}Issue #%1{/t}</a>{/capture}
+                {t 1=$link escape=no}Mail Queue for %1){/t}
             </th>
         </tr>
         <tr>
