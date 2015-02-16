@@ -271,7 +271,7 @@ class Phone_Support
             $_POST["date"]["Day"], $_POST["date"]["Hour"],
             $_POST["date"]["Minute"], 0);
         // convert the date to GMT timezone
-        $created_date = Date_Helper::convertDateGMT($created_date);
+        $created_date = Date_Helper::convertDateGMT($created_date . " " . Date_Helper::getPreferredTimezone());
         $stmt = "INSERT INTO
                     {{%phone_support}}
                  (
