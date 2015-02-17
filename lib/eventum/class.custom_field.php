@@ -117,7 +117,6 @@ class Custom_Field
      */
     public function updateOption($cfo_id, $cfo_value)
     {
-        $cfo_id = Misc::escapeInteger($cfo_id);
         $stmt = "UPDATE
                     {{%custom_field_option}}
                  SET
@@ -149,15 +148,16 @@ class Custom_Field
             $custom_fields = $_POST["custom_fields"];
 
             // get the types for all of the custom fields being submitted
+            $cf = array_keys($custom_fields);
+            $cf_list = DB_Helper::buildList($cf);
             $stmt = "SELECT
                         fld_id,
                         fld_type
                      FROM
                         {{%custom_field}}
                      WHERE
-                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($custom_fields))) . ")";
-
-            $field_types = DB_Helper::getInstance()->getPair($stmt);
+                        fld_id IN ($cf_list)";
+            $field_types = DB_Helper::getInstance()->getPair($stmt, $cf);
 
             // get the titles for all of the custom fields being submitted
             $stmt = "SELECT
@@ -166,23 +166,20 @@ class Custom_Field
                      FROM
                         {{%custom_field}}
                      WHERE
-                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($custom_fields))) . ")";
-            $field_titles = DB_Helper::getInstance()->getPair($stmt);
+                        fld_id IN ($cf_list)";
+            $field_titles = DB_Helper::getInstance()->getPair($stmt, $cf);
 
             $updated_fields = array();
             foreach ($custom_fields as $fld_id => $value) {
-
-                $fld_id = Misc::escapeInteger($fld_id);
-
                 // security check
                 $sql = "SELECT
                             fld_min_role
                         FROM
                             {{%custom_field}}
                         WHERE
-                            fld_id = $fld_id";
+                            fld_id = ?";
 
-                $min_role = DB_Helper::getInstance()->getOne($sql);
+                $min_role = DB_Helper::getInstance()->getOne($sql, array($fld_id));
                 if ($min_role > Auth::getCurrentRole()) {
                     continue;
                 }
@@ -194,9 +191,6 @@ class Custom_Field
                 );
                 if (!in_array($field_types[$fld_id], $option_types)) {
                     // check if this is a date field
-                    if ($field_types[$fld_id] == 'integer') {
-                        $value = Misc::escapeInteger($value);
-                    }
                     $fld_db_name = self::getDBValueFieldNameByType($field_types[$fld_id]);
 
                     // first check if there is actually a record for this field for the issue
@@ -221,12 +215,6 @@ class Custom_Field
                         continue;
                     }
 
-                    if (empty($value)) {
-                        $value = 'NULL';
-                    } else {
-                        $value = "'" . Misc::escapeString($value) . "'";
-                    }
-
                     if (empty($icf_id)) {
                         // record doesn't exist, insert new record
                         $stmt = "INSERT INTO
@@ -236,12 +224,13 @@ class Custom_Field
                                     icf_fld_id,
                                     $fld_db_name
                                  ) VALUES (
-                                    " . Misc::escapeInteger($issue_id). ",
-                                    $fld_id,
-                                    $value
+                                    ?, ?, ?
                                  )";
+                        $params = array(
+                            $issue_id, $fld_id, $value
+                        );
                         try {
-                            DB_Helper::getInstance()->query($stmt);
+                            DB_Helper::getInstance()->query($stmt, $params);
                         } catch (DbException $e) {
                             return -1;
                         }
@@ -250,11 +239,12 @@ class Custom_Field
                         $stmt = "UPDATE
                                     {{%issue_custom_field}}
                                  SET
-                                    $fld_db_name=$value
+                                    $fld_db_name=?
                                  WHERE
-                                    icf_id=$icf_id";
+                                    icf_id=?";
+                        $params = array($value, $icf_id);
                         try {
-                            DB_Helper::getInstance()->query($stmt);
+                            DB_Helper::getInstance()->query($stmt, $params);
                         } catch (DbException $e) {
                             return -1;
                         }
@@ -333,26 +323,27 @@ class Custom_Field
             $value = array($value);
         }
         foreach ($value as $item) {
+            $params = array($iss_id, $fld_id);
             if ($fld_details['fld_type'] == 'integer') {
-                $item = Misc::escapeInteger($item);
+                $params[] = $item;
             } elseif ((in_array($fld_details['fld_type'], array('combo', 'multiple')) && ($item == -1))) {
                 continue;
             } else {
-                $item = "'" . Misc::escapeString($item) . "'";
+                $params[] = $item;
             }
+
+            $fld_name = self::getDBValueFieldNameByType($fld_details['fld_type']);
             $stmt = "INSERT INTO
                         {{%issue_custom_field}}
                      (
                         icf_iss_id,
                         icf_fld_id,
-                        " . self::getDBValueFieldNameByType($fld_details['fld_type']) . "
+                        $fld_name
                      ) VALUES (
-                        " . Misc::escapeInteger($iss_id) . ",
-                        " . Misc::escapeInteger($fld_id) . ",
-                        $item
+                        ?, ?, ?
                      )";
             try {
-                DB_Helper::getInstance()->query($stmt);
+                DB_Helper::getInstance()->query($stmt, $params);
             } catch (DbException $e) {
                 return false;
             }
@@ -385,22 +376,30 @@ class Custom_Field
                     {{%project_custom_field}}
                  WHERE
                     pcf_fld_id=fld_id AND
-                    pcf_prj_id=" . Misc::escapeInteger($prj_id);
+                    pcf_prj_id=?";
+
+        $params = array(
+            $prj_id,
+        );
+
         if ($form_type != 'anonymous_form') {
             $stmt .= " AND
-                    fld_min_role <= " . Auth::getCurrentRole();
+                    fld_min_role <= ?";
+            $params[] = Auth::getCurrentRole();
         }
         if ($form_type != '') {
-            $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
+            $fld_name = "fld_" . Misc::escapeString($form_type);
+            $stmt .= " AND\n" . $fld_name . "=1";
         }
         if ($fld_type != '') {
-            $stmt .= " AND\nfld_type='" .  Misc::escapeString($fld_type) . "'";
+            $stmt .= " AND\nfld_type=?";
+            $params[] = $fld_type;
         }
         $stmt .= "
                  ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -594,25 +593,29 @@ class Custom_Field
                     {{%issue_custom_field}}
                  ON
                     pcf_fld_id=icf_fld_id AND
-                    icf_iss_id=" .  Misc::escapeInteger($iss_id) . "
+                    icf_iss_id=?
                  WHERE
                     pcf_fld_id=fld_id AND
-                    pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
-                    fld_min_role <= " . $usr_role;
+                    pcf_prj_id=? AND
+                    fld_min_role <= ?";
+        $params = array(
+            $iss_id, $prj_id, $usr_role
+        );
+
         if ($form_type != false) {
             if (is_array($form_type)) {
-                $stmt .= " AND
-                    fld_id IN(" . join(",", $form_type) . ")";
+                $stmt .= " AND fld_id IN(" . DB_Helper::buildList($form_type). ")";
+                $params = array_merge($params, $form_type);
             } else {
-                $stmt .= " AND
-                    fld_" .  Misc::escapeString($form_type) . "=1";
+                $fld_name = "fld_" . Misc::escapeString($form_type);
+                $stmt .= " AND $fld_name=1";
             }
         }
         $stmt .= "
                  ORDER BY
                     fld_rank ASC";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -729,13 +732,14 @@ class Custom_Field
      */
     public static function remove()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
+        $items = $_POST["items"];
+        $list = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
                     {{%custom_field}}
                  WHERE
-                    fld_id IN ($items)";
+                    fld_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -743,9 +747,9 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%project_custom_field}}
                  WHERE
-                    pcf_fld_id IN ($items)";
+                    pcf_fld_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -753,9 +757,9 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%issue_custom_field}}
                  WHERE
-                    icf_fld_id IN ($items)";
+                    icf_fld_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -763,9 +767,9 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%custom_field_option}}
                  WHERE
-                    cfo_fld_id IN ($items)";
+                    cfo_fld_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return false;
         }
@@ -1032,16 +1036,18 @@ class Custom_Field
                  FROM
                     {{%custom_field_option}}
                  WHERE
-                    cfo_fld_id=" . Misc::escapeInteger($fld_id);
+                    cfo_fld_id=?";
+        $params = array($fld_id);
         if ($ids != false) {
             $stmt .= " AND
-                    cfo_id IN(" . join(', ', Misc::escapeInteger($ids)) . ")";
+                    cfo_id IN(" . DB_Helper::buildList($ids) . ")";
+            $params = array_merge($params, $ids);
         }
         $stmt .= "
                  ORDER BY
                     cfo_id ASC";
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return "";
         }
@@ -1263,10 +1269,6 @@ class Custom_Field
      */
     public function removeIssueAssociation($fld_id, $issue_id = false, $prj_id = false)
     {
-        if (is_array($fld_id)) {
-            $fld_id = implode(", ",  Misc::escapeInteger($fld_id));
-        }
-
         $issues = array();
         if ($issue_id != false) {
             $issues = array($issue_id);
@@ -1289,12 +1291,14 @@ class Custom_Field
         $stmt = "DELETE FROM
                     {{%issue_custom_field}}
                  WHERE
-                    icf_fld_id IN (" . $fld_id . ")";
+                    icf_fld_id IN (" . DB_Helper::buildList($fld_id) . ")";
+        $params = $fld_id;
         if (count($issues) > 0) {
-            $stmt .= " AND icf_iss_id IN(" . join(', ', Misc::escapeInteger($issues)) . ")";
+            $stmt .= " AND icf_iss_id IN(" . DB_Helper::buildList($issues) . ")";
+            $params = array_merge($params, $issues);
         }
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
@@ -1311,10 +1315,7 @@ class Custom_Field
      */
     public function removeOptionsByFields($ids)
     {
-        if (!is_array($ids)) {
-            $ids = array($ids);
-        }
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "SELECT
                     cfo_id
                  FROM
@@ -1322,7 +1323,7 @@ class Custom_Field
                  WHERE
                     cfo_fld_id IN ($items)";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -1340,13 +1341,13 @@ class Custom_Field
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", Misc::escapeInteger($ids));
+        $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
                     {{%issue_custom_field}}
                  WHERE
                     icf_iss_id IN ($items)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
             return false;
         }
@@ -1784,9 +1785,10 @@ class Custom_Field
         $sql .= "
                 WHERE
                     $db_field_name IS NULL AND
-                    icf_fld_id = " . Misc::escapeInteger($fld_id);
+                    icf_fld_id = ?";
+        $params = array($fld_id);
         try {
-            DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
             return false;
         }
