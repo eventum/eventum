@@ -44,6 +44,7 @@
 		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
 		"components/jqueryui": "*",
+		"enyo/dropzone": "~4.0.1",
 		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-gd": "*",

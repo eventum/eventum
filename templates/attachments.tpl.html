@@ -6,6 +6,7 @@
             [ <span class="js_link" id="toggle_attachments" >{get_display_label element_name="attachments" total=$files|@count}</span> ]
         </span>
     </div>
+
     <div class="content" {get_display_style element_name='attachments' total=$files|@count}>
         <table class="grid">
           <tr>
@@ -56,10 +57,16 @@
         </table>
     </div>
       {if $core.current_role > $core.roles.viewer}
-      <form>
-      <div class="buttons">
+      <div id="dropzone">
+      <form action="upload/upload.php" class="dropzone">
+        <div class="dz-message">
+          {t}Drop files here or click to upload.{/t}
+        </div>
+
+        <div class="buttons fallback">
           <input type="button" value="{t}Upload File{/t}" id='upload_file' data-issue-id="{$issue_id}">
-      </div>
+        </div>
       </form>
+      </div>
       {/if}
 </div>
