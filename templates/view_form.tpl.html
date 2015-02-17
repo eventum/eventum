@@ -148,14 +148,14 @@
             {/if}
             {elseif $row.tpl_block|default:'' == 'duplicates'}
             {if $issue.iss_duplicated_iss_id}
-            {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
+            {t}Duplicate of{/t}: <a href="{$core.rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed{/if}">#{$issue.iss_duplicated_iss_id}</a>
             {/if}
             {if $issue.duplicates_details|@count > 0}
             {if $issue.iss_duplicated_iss_id}<br />{/if}
             {t}Duplicated by{/t}:
             {section name="i" loop=$issue.duplicates_details}
             {strip}
-            <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
+            <a href="{$core.rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed{/if}">#{$issue.duplicates_details[i].issue_id}</a>
             {if not $smarty.section.i.last}, {/if}
             {/strip}
             {/section}

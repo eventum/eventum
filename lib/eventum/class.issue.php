@@ -53,7 +53,7 @@ class Issue
         $params = array($issue_id);
         if ($check_project) {
             $stmt .= " AND
-                    iss_prj_id = ";
+                    iss_prj_id = ?";
             $params[] = Auth::getCurrentProject();
         }
         try {
