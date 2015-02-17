@@ -369,6 +369,7 @@ function getFirstWeekday()
 function checkDatabaseExists($conn, $database)
 {
     $exists = $conn->getOne("SHOW DATABASES LIKE ?", $database);
+
     return $exists;
 }
 
@@ -421,6 +422,7 @@ function strip_hashbang($str)
     $str = explode(PHP_EOL, $str);
     array_shift($str);
     $str = implode(PHP_EOL, $str);
+
     return $str;
 }
 
@@ -430,6 +432,7 @@ function get_queries($file)
     $queries = explode(";", $contents);
     $queries = array_map("trim", $queries);
     $queries = array_filter($queries);
+
     return $queries;
 }
 
@@ -623,7 +626,7 @@ function write_config()
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
         "'%{APP_DEFAULT_TIMEZONE}%'" => e($_POST['default_timezone']),
-        "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$_POST['default_weekday'],
+        "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
         "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ? 'https://' : 'http://'),
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );

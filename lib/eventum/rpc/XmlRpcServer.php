@@ -258,7 +258,8 @@ class XmlRpcServer
      * @param array $params
      * @return array
      */
-    private function getAuthParams(&$params) {
+    private function getAuthParams(&$params)
+    {
         if (isset($_SERVER['PHP_AUTH_USER'])) {
             return array($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
         }

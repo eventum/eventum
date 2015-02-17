@@ -129,7 +129,8 @@ class DbYii implements DbInterface
         return $command->queryAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT) {
+    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
 

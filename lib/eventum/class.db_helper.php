@@ -76,7 +76,8 @@ class DB_Helper
      * Get database config.
      * load it from setup, fall back to legacy config.php constants
      */
-    public static function getConfig() {
+    public static function getConfig()
+    {
         $setup = &Setup::load();
 
         if (isset($setup['database'])) {
@@ -124,13 +125,14 @@ class DB_Helper
         try {
             $stmt = "show variables like 'max_allowed_packet'";
             $res = DB_Helper::getInstance(false)->getPair($stmt);
-            $max_allowed_packet = (int)$res['max_allowed_packet'];
+            $max_allowed_packet = (int) $res['max_allowed_packet'];
         } catch (DbException $e) {
         }
 
         if (empty($max_allowed_packet)) {
             return self::max_allowed_packet;
         }
+
         return $max_allowed_packet;
     }
 
@@ -181,11 +183,13 @@ class DB_Helper
      * @param array $params
      * @return string A SQL statement partial with placeholders: field1=?, field2=?, field3=? ...
      */
-    public static function buildSet($params) {
+    public static function buildSet($params)
+    {
         $partial = array();
         foreach (array_keys($params) as $key) {
             $partial[] = "$key=?";
         }
+
         return join(", ", $partial);
     }
 
@@ -195,7 +199,8 @@ class DB_Helper
      * @param array $params
      * @return string A SQL statement partial with placeholders: ?, ?, ? ...
      */
-    public static function buildList($params) {
+    public static function buildList($params)
+    {
         return join(', ', array_fill(0, count($params), '?'));
     }
 
@@ -206,10 +211,12 @@ class DB_Helper
      * @param string $default
      * @return string
      */
-    public static function orderBy($order, $default = "DESC") {
+    public static function orderBy($order, $default = "DESC")
+    {
         if (!in_array(strtoupper($order), array("ASC", "DESC"))) {
             return $default;
         }
+
         return $order;
     }
 

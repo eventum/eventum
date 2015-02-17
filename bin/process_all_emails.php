@@ -40,7 +40,7 @@ $return = Routing::route($full_message);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);
-} elseif($return === false) {
+} elseif ($return === false) {
     // message was not able to be routed
     echo "no route";
     exit(Routing::EX_NOUSER);

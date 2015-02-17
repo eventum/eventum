@@ -240,6 +240,7 @@ class Draft
         } catch (DbException $e) {
             return false;
         }
+
         return true;
     }
 
@@ -371,7 +372,7 @@ class Draft
      */
     public static function getDraftBySequence($issue_id, $sequence)
     {
-        $sequence = (int)$sequence;
+        $sequence = (int) $sequence;
         // FIXME: sequence 0 valid too?
         if ($sequence < 0) {
             return array();

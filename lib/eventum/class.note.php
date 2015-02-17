@@ -207,6 +207,7 @@ class Note
         } catch (DbException $e) {
             return '';
         }
+
         return $res;
     }
 
@@ -219,7 +220,7 @@ class Note
      */
     public static function getNoteBySequence($issue_id, $sequence)
     {
-        $offset = (int)$sequence - 1;
+        $offset = (int) $sequence - 1;
         $stmt = "SELECT
                     not_id
                 FROM

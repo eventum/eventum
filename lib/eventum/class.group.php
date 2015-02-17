@@ -140,6 +140,7 @@ class Group
 
             return 1;
         }
+
         return 1;
     }
 
@@ -277,6 +278,7 @@ class Group
         if (count($details) < 1) {
             return "";
         }
+
         return $details["grp_name"];
     }
 

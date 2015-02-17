@@ -164,7 +164,6 @@ class Support
             return "";
         }
 
-
         $email_ids = array_keys($res);
         $index = array_search($sup_id, $email_ids);
         if (!empty($email_ids[$index+1])) {
@@ -272,6 +271,7 @@ class Support
         if (empty($res)) {
             return array();
         }
+
         return $res;
     }
 
@@ -1031,6 +1031,7 @@ class Support
         if ($res > 0) {
             return true;
         }
+
         return false;
     }
 
@@ -1124,6 +1125,7 @@ class Support
         if ($prj_id !== false) {
             Workflow::handleNewEmail($prj_id, @$row["issue_id"], $structure, $row, $closing);
         }
+
         return 1;
     }
 
@@ -1629,7 +1631,7 @@ class Support
      */
     public static function getEmailBySequence($issue_id, $sequence)
     {
-        $offset = (int)$sequence - 1;
+        $offset = (int) $sequence - 1;
         $stmt = "SELECT
                     sup_id,
                     sup_ema_id

@@ -490,6 +490,7 @@ class Custom_Field
 
         if ($res == NULL) {
             $returns[$fld_id . $value] = '';
+
             return "";
         }
 
@@ -542,10 +543,12 @@ class Custom_Field
 
         if ($res == NULL) {
             $returns[$fld_id . $value] = '';
+
             return "";
         }
 
         $returns[$fld_id . $value] = $res;
+
         return $res;
     }
 
@@ -1077,6 +1080,7 @@ class Custom_Field
         }
 
         $value = substr($value, strlen("existing:"));
+
         return array(
             "type"  => "existing",
             "id"    => substr($value, 0, strpos($value, ":")),
@@ -1329,6 +1333,7 @@ class Custom_Field
         }
 
         self::removeOptions($ids, $res);
+
         return true;
     }
 
@@ -1477,6 +1482,7 @@ class Custom_Field
         if ($raw) {
             return $values;
         }
+
         return join(', ', $values);
     }
 

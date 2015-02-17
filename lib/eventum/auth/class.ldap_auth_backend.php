@@ -84,6 +84,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         if (PEAR::isError($conn)) {
             throw new AuthException($conn->getMessage(), $conn->getCode());
         }
+
         return $conn;
     }
 
@@ -126,6 +127,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             // Connecting using the configuration
             try {
                 $this->connect($config);
+
                 return true;
             } catch (AuthException $e) {
                 $errors[] = $e;
@@ -212,6 +214,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         if ($usr_id <= 0) {
             return false;
         }
+
         return User::changeStatus($usr_id, User::USER_STATUS_INACTIVE);
     }
 
@@ -262,6 +265,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if ($update > 0) {
                 $this->updateAliases($usr_id, $emails);
             }
+
             return $usr_id;
         }
 
@@ -286,6 +290,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         if ($usr_id > 0 && $emails) {
             $this->updateAliases($usr_id, $emails);
         }
+
         return $usr_id;
     }
 

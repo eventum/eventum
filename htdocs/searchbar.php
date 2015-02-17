@@ -30,7 +30,7 @@ require_once dirname(__FILE__) . '/../init.php';
 if (!empty($_GET['custom_id'])) {
     $filters = Filter::getListing(true);
     foreach ($filters as $filter) {
-        if ($filter['cst_id'] == (int )$_GET['custom_id']) {
+        if ($filter['cst_id'] == (int) $_GET['custom_id']) {
             parse_str($filter['url'], $params);
             $params = array_merge($params, $_POST, $_GET);
             unset($params['custom_id']);

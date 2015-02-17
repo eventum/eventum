@@ -172,6 +172,7 @@ class Project
         } catch (DbException $e) {
             return "";
         }
+
         return $res;
     }
 

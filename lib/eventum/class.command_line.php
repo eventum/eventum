@@ -78,7 +78,7 @@ class Command_Line
      */
     public function promptStatusSelection($client, $auth, $prj_id)
     {
-        $list = $client->getClosedAbbreviationAssocList($auth[0], $auth[1], (int)$prj_id);
+        $list = $client->getClosedAbbreviationAssocList($auth[0], $auth[1], (int) $prj_id);
 
         if (count($list) > 1) {
             // need to ask which status this person wants to use
@@ -145,7 +145,7 @@ class Command_Line
         $prompt = "Please enter a reason for closing this issue (one line only)";
         $note = CLI_Misc::prompt($prompt, false);
 
-        $result = $client->closeIssue($auth[0], $auth[1], $issue_id, $new_status, (int)$resolution_id, $send_notification, $note);
+        $result = $client->closeIssue($auth[0], $auth[1], $issue_id, $new_status, (int) $resolution_id, $send_notification, $note);
 
         echo "OK - Issue #$issue_id successfully closed.\n";
 
@@ -170,11 +170,13 @@ class Command_Line
 
         if (!is_array($res)) {
             echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
+
             return;
         }
 
         if (count($res) == 0) {
             echo "Sorry, no customers could be found.\n";
+
             return;
         }
 
@@ -302,7 +304,7 @@ class Command_Line
 
         echo "Downloading file #$file_number from issue $issue_id...\n";
 
-        $details = $client->getFile($auth[0], $auth[1], (int)$file_id);
+        $details = $client->getFile($auth[0], $auth[1], (int) $file_id);
 
         // check if the file already exists
         if (file_exists($details['iaf_filename'])) {
@@ -412,7 +414,7 @@ class Command_Line
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, (int)$details['iss_prj_id']);
+        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, (int) $details['iss_prj_id']);
         if ($result == 'OK') {
             echo "OK - Issue #$issue_id successfully taken.\n";
         } else {
@@ -464,7 +466,7 @@ class Command_Line
         }
 
         // check if the given status is a valid option
-        $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int)$details['iss_prj_id'], false);
+        $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int) $details['iss_prj_id'], false);
 
         $titles = array_map('strtolower', array_values($statuses));
         $abbreviations = array_map('strtolower', array_keys($statuses));
@@ -516,7 +518,7 @@ class Command_Line
         $prompt = "Please enter a quick summary of what you worked on";
         $summary = CLI_Misc::prompt($prompt, false);
 
-        $result = $client->recordTimeWorked($auth[0], $auth[1], $issue_id, (int)$cat_id, $summary, $time_spent);
+        $result = $client->recordTimeWorked($auth[0], $auth[1], $issue_id, (int) $cat_id, $summary, $time_spent);
         if ($result == 'OK') {
             echo "OK - Added time tracking entry to issue #$issue_id\n";
         } else {
@@ -761,7 +763,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $email = $client->getEmail($auth[0], $auth[1], $issue_id, (int)$email_id);
+        $email = $client->getEmail($auth[0], $auth[1], $issue_id, (int) $email_id);
 
         if ($display_full) {
             echo $email["seb_full_email"];
@@ -856,7 +858,8 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      */
     public function getNote($client, $auth, $issue_id, $note_id)
     {
-        $note = $client->getNote($auth[0], $auth[1], $issue_id, (int)$note_id);
+        $note = $client->getNote($auth[0], $auth[1], $issue_id, (int) $note_id);
+
         return $note;
     }
 
@@ -875,14 +878,14 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
         self::checkIssueAssignment($client, $auth, $issue_id);
 
-        $note_details = self::getNote($client, $auth, $issue_id, (int)$note_id);
+        $note_details = self::getNote($client, $auth, $issue_id, (int) $note_id);
         if (count($note_details) < 2) {
             self::quit("Note #$note_id does not exist for issue #$issue_id");
         } elseif ($note_details["has_blocked_message"] != 1) {
             self::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
         }
 
-        $message = $client->convertNote($auth[0], $auth[1], $issue_id, (int)$note_details["not_id"], $target, $authorize_sender);
+        $message = $client->convertNote($auth[0], $auth[1], $issue_id, (int) $note_details["not_id"], $target, $authorize_sender);
         if ($message == "OK") {
             echo "OK - Note successfully converted to $target\n";
         }
@@ -900,7 +903,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      */
     public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
-        $ret = $client->getWeeklyReport($auth[0], $auth[1], (int)$week, $start_date, $end_date, $separate_closed);
+        $ret = $client->getWeeklyReport($auth[0], $auth[1], (int) $week, $start_date, $end_date, $separate_closed);
         echo $ret;
     }
 
@@ -1000,7 +1003,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      */
     public function getDraft($client, $auth, $issue_id, $draft_id)
     {
-        $draft = $client->getDraft($auth[0], $auth[1], $issue_id, (int)$draft_id);
+        $draft = $client->getDraft($auth[0], $auth[1], $issue_id, (int) $draft_id);
 
         return $draft;
     }
@@ -1016,7 +1019,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      */
     public static function sendDraft($client, $auth, $issue_id, $draft_id)
     {
-        $result = $client->sendDraft($auth[0], $auth[1], $issue_id, (int)$draft_id);
+        $result = $client->sendDraft($auth[0], $auth[1], $issue_id, (int) $draft_id);
         echo $result;
     }
 

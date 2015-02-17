@@ -25,6 +25,6 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-class AuthException extends RuntimeException {
-
+class AuthException extends RuntimeException
+{
 }

@@ -672,6 +672,7 @@ class Filter
         } catch (DbException $e) {
             return false;
         }
+
         return true;
     }
 

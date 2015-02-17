@@ -315,6 +315,7 @@ class Display_Column
             }
             $rank++;
         }
+
         return 1;
     }
 }

@@ -598,7 +598,6 @@ class Time_Tracking
                  GROUP BY
                     ttc_title";
 
-
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
 
         try {

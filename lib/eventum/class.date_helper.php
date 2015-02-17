@@ -457,6 +457,7 @@ class Date_Helper
         if (!isset($tz)) {
             date_default_timezone_set($current_tz);
         }
+
         return $res;
     }
 }

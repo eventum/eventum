@@ -394,6 +394,7 @@ class Phone_Support
             if ($time_result == 1) {
                 return 2;
             }
+
             return $time_result;
         }
 

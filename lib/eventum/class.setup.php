@@ -64,8 +64,10 @@ class Setup
             $code = $e->getCode();
             error_log($e->getMessage());
             error_log($e->getTraceAsString());
+
             return $code ?: -1;
         }
+
         return 1;
     }
 

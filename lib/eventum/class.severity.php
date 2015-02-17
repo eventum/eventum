@@ -164,6 +164,7 @@ class Severity
         } catch (DbException $e) {
             return false;
         }
+
         return true;
     }
 
