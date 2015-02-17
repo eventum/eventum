@@ -271,7 +271,7 @@ CREATE TABLE {{%note}} (
   not_usr_id int(11) unsigned NOT NULL default 0,
   not_title varchar(255) NOT NULL,
   not_note longtext NOT NULL,
-  not_full_message longtext NULL,
+  not_full_message longblob NULL,
   not_parent_id int(11) unsigned NULL,
   not_unknown_user varchar(255) NULL DEFAULT NULL,
   not_has_attachment tinyint(1) NOT NULL default 0,
