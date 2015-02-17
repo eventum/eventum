@@ -57,9 +57,9 @@ class Support
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN (" . implode(', ', Misc::escapeInteger($sup_ids)) . ")";
+                    sup_id IN (" . DB_Helper::buildList($sup_ids) . ")";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
         } catch (DbException $e) {
             return -1;
         }
@@ -262,9 +262,9 @@ class Support
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN (" . implode(", ", Misc::escapeInteger($sup_ids)) . ")";
+                    sup_id IN (" . DB_Helper::buildList($sup_ids) . ")";
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
+            $res = DB_Helper::getInstance()->getColumn($stmt, $sup_ids);
         } catch (DbException $e) {
             return array();
         }
@@ -293,15 +293,16 @@ class Support
      */
     public static function restoreEmails()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
+        $items = $_POST['item'];
+        $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
                     {{%support_email}}
                  SET
                     sup_removed=0
                  WHERE
-                    sup_id IN ($items)";
+                    sup_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -1063,48 +1064,31 @@ class Support
                 $parent_id = '';
             }
         }
+        $params = array(
+            'sup_ema_id' => $row["ema_id"],
+            'sup_iss_id' => $row["issue_id"],
+            'sup_customer_id' => $row["customer_id"],
+            'sup_message_id' => $row["message_id"],
+            'sup_date' => $row["date"],
+            'sup_from' => $row["from"],
+            'sup_to' => $row["to"],
+            'sup_cc' => $row["cc"],
+            'sup_subject' => $row["subject"],
+            'sup_has_attachment' => $row["has_attachment"],
+        );
 
-        $stmt = "INSERT INTO
-                    {{%support_email}}
-                 (
-                    sup_ema_id,";
         if (!empty($parent_id)) {
-            $stmt .= "\nsup_parent_id,";
+            $params['sup_parent_id'] = $parent_id;
         }
-        $stmt .= "
-                    sup_iss_id,";
+
         if (!empty($usr_id)) {
-            $stmt .= "\nsup_usr_id,\n";
+            $params['sup_usr_id'] = $usr_id;
         }
-        $stmt .= "  sup_customer_id,
-                    sup_message_id,
-                    sup_date,
-                    sup_from,
-                    sup_to,
-                    sup_cc,
-                    sup_subject,
-                    sup_has_attachment
-                 ) VALUES (
-                    " . Misc::escapeInteger($row["ema_id"]) . ",\n";
-        if (!empty($parent_id)) {
-            $stmt .= "$parent_id,\n";
-        }
-        $stmt .=    Misc::escapeInteger($row["issue_id"]) . ",";
-        if (!empty($usr_id)) {
-            $stmt .= "\n$usr_id,\n";
-        }
-        $stmt .= "
-                    " . Misc::escapeInteger($row["customer_id"]) . ",
-                    '" . Misc::escapeString($row["message_id"]) . "',
-                    '" . Misc::escapeString($row["date"]) . "',
-                    '" . Misc::escapeString($row["from"]) . "',
-                    '" . Misc::escapeString(@$row["to"]) . "',
-                    '" . Misc::escapeString(@$row["cc"]) . "',
-                    '" . Misc::escapeString($row["subject"]) . "',
-                    '" . Misc::escapeString($row["has_attachment"]) . "'
-                 )";
+
+        $stmt = "INSERT INTO {{%support_email}} SET " . DB_Helper::buildSet($params);
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1484,14 +1468,15 @@ class Support
      */
     public static function associateEmail($usr_id, $issue_id, $items)
     {
+        $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
                     {{%support_email}}
                  SET
                     sup_iss_id=$issue_id
                  WHERE
-                    sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
+                    sup_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -1507,11 +1492,11 @@ class Support
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
-        $res = DB_Helper::getInstance()->getColumn($stmt);
+                    sup_id IN ($list)";
+        $res = DB_Helper::getInstance()->getColumn($stmt, $items);
         for ($i = 0; $i < count($res); $i++) {
-            History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
-                   ev_gettext('Email (subject: \'%1$s\') associated by %2$s', $res[$i], User::getFullName($usr_id)));
+            $summary = ev_gettext('Email (subject: "%1$s") associated by %2$s', $res[$i], User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('email_associated'), $summary);
         }
 
         return 1;
@@ -1520,6 +1505,8 @@ class Support
     /**
      * Method used to associate a support email with an existing
      * issue.
+     *
+     * FIXME $add_recipients_to_nl parameter is unused
      *
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
@@ -1542,9 +1529,9 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
+                    sup_id IN (" . DB_Helper::buildList($items) . ")";
 
-        $res = DB_Helper::getInstance()->getAll($stmt);
+        $res = DB_Helper::getInstance()->getAll($stmt, $items);
         for ($i = 0; $i < count($res); $i++) {
             // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
             $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
@@ -1632,6 +1619,7 @@ class Support
      */
     public static function getEmailBySequence($issue_id, $sequence)
     {
+        $offset = (int)$sequence - 1;
         $stmt = "SELECT
                     sup_id,
                     sup_ema_id
@@ -1641,7 +1629,7 @@ class Support
                     sup_iss_id = ?
                 ORDER BY
                     sup_id
-                LIMIT 1 OFFSET " . (Misc::escapeInteger($sequence) - 1);
+                LIMIT 1 OFFSET $offset";
         try {
             // FIXME: need DB_FETCHMODE_DEFAULT here?
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DbInterface::DB_FETCHMODE_DEFAULT);
@@ -1665,7 +1653,6 @@ class Support
      */
     public static function getListDetails($items)
     {
-        $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "SELECT
                     sup_id,
                     sup_from,
@@ -1676,8 +1663,10 @@ class Support
                  WHERE
                     ema_id=sup_ema_id AND
                     ema_prj_id=? AND
-                    sup_id IN ($items)";
-        $params = array(Auth::getCurrentProject());
+                    sup_id IN (" . DB_Helper::buildList($items) . ")";
+
+        $params = $items;
+        array_unshift($params, Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
@@ -1795,15 +1784,16 @@ class Support
      */
     public static function removeEmails()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
+        $items = $_POST["item"];
+        $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
                     {{%support_email}}
                  SET
                     sup_removed=1
                  WHERE
-                    sup_id IN ($items)";
+                    sup_id IN ($list)";
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -1819,23 +1809,24 @@ class Support
      */
     public static function removeAssociation()
     {
-        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
+        $items = $_POST["item"];
+        $list = DB_Helper::buildList($items);
         $stmt = "SELECT
                     sup_iss_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN ($items)";
-        $issue_id = DB_Helper::getInstance()->getOne($stmt);
+                    sup_id IN ($list)";
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         $stmt = "UPDATE
                     {{%support_email}}
                  SET
                     sup_iss_id=0
                  WHERE
-                    sup_id IN ($items)";
+                    sup_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
             return -1;
         }
@@ -1848,11 +1839,14 @@ class Support
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN ($items)";
-        $subjects = DB_Helper::getInstance()->fetchAssoc($stmt);
-        for ($i = 0; $i < count($_POST["item"]); $i++) {
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
-                            ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$_POST["item"][$i]], User::getFullName(Auth::getUserID())));
+                    sup_id IN ($list)";
+        $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
+        for ($i = 0; $i < count($items); $i++) {
+            $summary = ev_gettext(
+                'Email (subject: "%1$s") disassociated by %2$s', $subjects[$items[$i]],
+                User::getFullName(Auth::getUserID())
+            );
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), $summary);
         }
 
         return 1;
