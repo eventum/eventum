@@ -33,6 +33,12 @@
 {literal}
 <script type="text/javascript">
 <!--
+
+var max_attachment_size = {/literal}{$max_attachment_bytes / 1024 / 1024}{literal};
+
+// Disable auto discover for all elements:
+Dropzone.autoDiscover = {/literal}{empty($smarty.get.legacy)|intval}{literal};
+
 function validateUpload(f)
 {
     var field1 = getFormElement(f, 'attachment[]', 0);
@@ -44,16 +50,45 @@ function validateUpload(f)
     }
     return true;
 }
+
+// "dropzone" is the camelized version of the HTML element's ID
+Dropzone.options.dropzone = {
+  // The name that will be used to transfer the file
+  paramName: "dropfile",
+  // In MB
+  maxFilesize: 20,
+  init: function() {
+    var $iaf_ids = $('#iaf_ids');
+    this.on("success", function(file, data) {
+      if (!data.iaf_id) {
+        return;
+      }
+      var current = $iaf_ids.val();
+      var iaf_ids = current ? current.split(/,/) : [];
+      $iaf_ids.val(iaf_ids.concat(data.iaf_id).join(','));
+    });
+
+    this.on("sending", function(file, xhr, formData) {
+      // Will send the filesize along with the file as POST data.
+      formData.append("filesize", file.size);
+    });
+  }
+};
+
 //-->
 </script>
 {/literal}
-  <table class="bordered">
+
+  <form name="attachment_form" class="dropzone" id="dropzone" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateUpload');">
+
+    <table class="bordered">
     <tr class="title">
       <th colspan="2">{t}Add New Files{/t}:</th>
     </tr>
-    <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateUpload');">
     <input type="hidden" name="cat" value="upload_file">
     <input type="hidden" name="issue_id" value="{$issue_id}">
+    <input type="hidden" name="iaf_ids" id="iaf_ids" value="">
+
       {if $core.current_role > $core.roles.customer}
       <tr>
         <th width="120" nowrap class="internal">
@@ -74,6 +109,12 @@ function validateUpload(f)
           {t}Filenames{/t}
         </th>
         <td>
+          <div class="dz-message">
+            {if empty($smarty.get.legacy)}
+              {t}Drop files here or click to upload.{/t}
+            {/if}
+
+          <div class="fallback">
           <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
             <tr>
               <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
@@ -84,10 +125,18 @@ function validateUpload(f)
             <tr>
               <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
             </tr>
-            <tr>
-              <td><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></td>
-            </tr>
           </table>
+          </div>
+
+          <br/><br/>
+          <i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i>
+
+          </div>
+
+          {if empty($smarty.get.legacy)}
+          <br/>
+          <b>{t}NOTE{/t}</b>: {t escape=no 1="?iss_id={$issue_id}&legacy=1"}To use legacy uploader, click <a href="%1">here</a>{/t}
+          {/if}
         </td>
       </tr>
       <tr>
@@ -103,8 +152,8 @@ function validateUpload(f)
           <input type="submit" value="{t}Upload File{/t}">
         </td>
       </tr>
-    </form>
   </table>
+  </form>
 {/if}
 {else}
 <center><span>{t}You do not have the correct role to access this page{/t}</span></center>

@@ -601,12 +601,13 @@ class Attachment
     /**
      * Returns the current maximum file upload size.
      *
-     * @return  string A string containing the formatted max file size.
+     * @param bool $raw whether to return computer or human readable value
+     * @return string|int A string containing the formatted max file size
      */
-    public static function getMaxAttachmentSize()
+    public static function getMaxAttachmentSize($raw = false)
     {
         $size = Misc::return_bytes(ini_get('upload_max_filesize'));
 
-        return Misc::formatFileSize($size);
+        return $raw ? $size : Misc::formatFileSize($size);
     }
 }
