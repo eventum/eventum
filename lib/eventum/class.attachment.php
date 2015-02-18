@@ -262,6 +262,7 @@ class Attachment
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
+            // FIXME:: translate
             History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
         }
 
@@ -373,6 +374,55 @@ class Attachment
     }
 
     /**
+     * associate uploaded files to an "attachment"
+     *
+     * @param int $attachment_id
+     * @param int[] $iaf_ids
+     */
+    private static function associateFiles($attachment_id, $iaf_ids) {
+        $list = DB_Helper::buildList($iaf_ids);
+        $stmt = "UPDATE {{%issue_attachment_file}} SET iaf_iat_id=? WHERE iaf_id in ($list)";
+
+        $params = $iaf_ids;
+        array_unshift($params, $attachment_id);
+        DB_Helper::getInstance()->query($stmt, $params);
+    }
+
+    /**
+     * Attach uploaded files to an issue
+     * It also notifies any subscribers of this new attachment.
+     *
+     * @param int $issue_id The issue ID
+     * @param int $usr_id The user ID
+     * @param int[] $iaf_ids attachment file id-s to attach
+     * @param boolean $internal_only Whether this attachment is supposed to be internal only or not
+     * @param $file_description File description text
+     */
+    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description) {
+        if (!$iaf_ids) {
+            throw new LogicException("No attachment ids");
+        }
+        $attachment_id = self::add($issue_id, $usr_id, $file_description, $internal_only);
+        self::associateFiles($attachment_id, $iaf_ids);
+
+        Issue::markAsUpdated($issue_id, "file uploaded");
+        // FIXME: translate
+        $summary = 'Attachment uploaded by ' . User::getFullName($usr_id);
+        History::add($issue_id, $usr_id, History::getTypeID('attachment_added'), $summary);
+
+        // if there is customer integration, mark last customer action
+        $prj_id = Issue::getProjectID($issue_id);
+        $has_crm = CRM::hasCustomerIntegration($prj_id);
+        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer');
+        if ($has_crm && $is_customer) {
+            Issue::recordLastCustomerAction($issue_id);
+        }
+
+        Workflow::handleAttachment($prj_id, $issue_id, $usr_id);
+        Notification::notify($issue_id, 'files', $attachment_id, $internal_only);
+    }
+
+    /**
      * Method used to associate an attachment to an issue, and all of its
      * related files. It also notifies any subscribers of this new attachment.
      *
@@ -381,61 +431,30 @@ class Attachment
      * -2 - The uploaded file is already attached to the current issue.
      *  1 - The uploaded file was associated with the issue.
      *
-     * @param   integer $usr_id The user ID
-     * @param   string $status The attachment status
-     * @return  integer Numeric code used to check for any errors
+     * @param integer $usr_id The user ID
+     * @param string $status The attachment status
+     * @return integer Numeric code used to check for any errors
+     * @deprecated this method uses super-globals, and doesn't emit exceptions
      */
     public static function attach($usr_id, $status = 'public')
     {
-        $files = array();
-        $nfiles = count($_FILES["attachment"]["name"]);
-        for ($i = 0; $i < $nfiles; $i++) {
-            $filename = @$_FILES["attachment"]["name"][$i];
-            if (empty($filename)) {
-                continue;
-            }
-            $blob = file_get_contents($_FILES["attachment"]["tmp_name"][$i]);
-            if (empty($blob)) {
-                return -1;
-            }
-            $files[] = array(
-                "filename"  =>  $filename,
-                "type"      =>  $_FILES['attachment']['type'][$i],
-                "blob"      =>  $blob
-            );
-        }
-        if (count($files) < 1) {
+        try {
+            $iaf_ids = self::addFiles($_FILES["attachment"]);
+        } catch (DbException $e) {
             return -1;
         }
-        if ($status == 'internal') {
-            $internal_only = true;
-        } else {
-            $internal_only = false;
-        }
-        $attachment_id = self::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
-        foreach ($files as $file) {
-            $res = self::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
-            if ($res !== true) {
-                // we must rollback whole attachment (all files)
-                self::remove($attachment_id, false);
 
-                return -1;
-            }
+        if (empty($iaf_ids)) {
+            return -1;
         }
 
-        Issue::markAsUpdated($_POST["issue_id"], "file uploaded");
-        // need to save a history entry for this
-        History::add($_POST["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
+        $internal_only = $status == 'internal';
 
-        // if there is customer integration, mark last customer action
-        if ((CRM::hasCustomerIntegration(Issue::getProjectID($_POST["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($_POST["issue_id"])) == User::getRoleID('Customer'))) {
-            Issue::recordLastCustomerAction($_POST["issue_id"]);
+        try {
+            self::attachFiles($_POST["issue_id"], $usr_id, $iaf_ids, $internal_only, $_POST["file_description"]);
+        } catch (DbException $e) {
+            return -1;
         }
-
-        Workflow::handleAttachment(Issue::getProjectID($_POST["issue_id"]), $_POST["issue_id"], $usr_id);
-
-        // send notifications for the issue being updated
-        Notification::notify($_POST["issue_id"], 'files', $attachment_id, $internal_only);
 
         return 1;
     }
@@ -449,7 +468,6 @@ class Attachment
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
-        $filesize = strlen($blob);
         $stmt = "INSERT INTO
                     {{%issue_attachment_file}}
                  (
@@ -466,7 +484,7 @@ class Attachment
             DB_Helper::getInstance()->query($stmt, array(
                 $attachment_id,
                 $filename,
-                $filesize,
+                strlen($blob),
                 $filetype,
                 Date_Helper::getCurrentDateGMT(),
                 $blob,
@@ -476,6 +494,62 @@ class Attachment
         }
 
         return DB_Helper::get_last_insert_id();
+    }
+
+    /**
+     * Adds multiple files to attachment_file table
+     *
+     * The files has multidimensional structure (here are 3 files uploaded):
+     * $files => [
+     *   'name' => [
+     *     0 => 'file1.png',
+     *     1 => 'file2.png',
+     *     2 => null,
+     *   ],
+     *   'type' => [
+     *     0 => 'image/png',
+     *     1 => 'image/png',
+     *     2 => null,
+     *   ],
+     *   'tmp_name' => [
+     *     0 => '/tmp/phpjESjor',
+     *     1 => '/tmp/phpX2s2nb',
+     *     2 => null,
+     *   ],
+     *   'error' => [
+     *     0 => 0,
+     *     1 => 0,
+     *     2 => 4,
+     *   ],
+     *   'size' => [
+     *     0 => 25935,
+     *     1 => 890,
+     *     2 => 0,
+     *   ],
+     * ],
+     *
+     * @param array $files Array from $_FILES
+     * @return int[] return id-s of attachment files inserted to database
+     */
+    public static function addFiles($files) {
+        $iaf_ids = array();
+        $nfiles = count($files['name']);
+        for ($i = 0; $i < $nfiles; $i++) {
+            $filename = $files['name'][$i];
+            if (!$filename) {
+                continue;
+            }
+            $blob = file_get_contents($files['tmp_name'][$i]);
+            if ($blob === false) {
+                throw new RuntimeException("Can't read tmp file");
+            }
+            $iaf_id = self::addFile(0, $filename, $files['type'][$i], $blob);
+            // FIXME: handle errors properly
+            if ($iaf_id) {
+                $iaf_ids[] = $iaf_id;
+            }
+        }
+        return $iaf_ids;
     }
 
     /**
