@@ -411,10 +411,3 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #custom_fields_popup .chosen-select {
     width:360px;
 }
-
-/* dropzone setup on issue view page */
-#issue_view #dropzone { margin-bottom: 1rem; }
-#issue_view .dropzone { border: 2px dashed #0087F7; border-radius: 5px; background: white; }
-#issue_view .dropzone .dz-message { font-weight: 400; }
-#issue_view .dropzone .dz-message .note { font-size: 0.8em; font-weight: 200; display: block; margin-top: 1.4rem; }
-#issue_view .dropzone .dz-message { text-align: center; margin: 2em 0; }
