@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,7 +21,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -445,7 +445,7 @@ class Attachment
      *
      * @param   integer $attachment_id The attachment ID
      * @param   string $filename The filename to be added
-     * @return  boolean
+     * @return  int|boolean iaf_id if insert was success
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
@@ -457,9 +457,10 @@ class Attachment
                     iaf_filename,
                     iaf_filesize,
                     iaf_filetype,
+                    iaf_created_date,
                     iaf_file
                  ) VALUES (
-                    ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?
                  )";
         try {
             DB_Helper::getInstance()->query($stmt, array(
@@ -467,13 +468,14 @@ class Attachment
                 $filename,
                 $filesize,
                 $filetype,
+                Date_Helper::getCurrentDateGMT(),
                 $blob,
             ));
         } catch (DbException $e) {
             return false;
         }
 
-        return true;
+        return DB_Helper::get_last_insert_id();
     }
 
     /**
