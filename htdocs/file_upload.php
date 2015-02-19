@@ -35,12 +35,16 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 // handle ajax upload
 // FIXME: no identity logged who added the file.
 if (isset($_FILES['dropfile'])) {
-    $file = $_FILES['dropfile'];
-    $blob = file_get_contents($file['tmp_name']);
-    $iaf_id = Attachment::addFile(0, $file["name"], $file["type"], $blob);
+    try {
+        $file = $_FILES['dropfile'];
+        $blob = file_get_contents($file['tmp_name']);
+        $iaf_id = Attachment::addFile(0, $file["name"], $file["type"], $blob);
+        $res = array('iaf_id' => $iaf_id);
+    } catch (Exception $e) {
+        $res = array('error' => $e->getMessage());
+    }
 
     header('Content-Type: application/json');
-    $res = array('iaf_id' => $iaf_id);
     echo json_encode($res);
     exit;
 }
@@ -60,7 +64,7 @@ if ($cat == 'upload_file') {
     $internal_only = $status == 'internal';
     // from ajax upload, attachment file ids
     $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
-    // from ajax upload, attachment file ids
+    // description for attachments
     $file_description = isset($_POST['file_description']) ? $_POST['file_description'] : null;
 
     // if no iaf_ids passed, perhaps it's old style upload

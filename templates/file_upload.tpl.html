@@ -60,6 +60,10 @@ Dropzone.options.dropzone = {
   init: function() {
     var $iaf_ids = $('#iaf_ids');
     this.on("success", function(file, data) {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
       if (!data.iaf_id) {
         return;
       }
