@@ -33,12 +33,13 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5');
 // FIXME: no identity logged who added the file.
 try {
     if (!isset($_GET['file'])) {
-        throw new InvalidArgumentException("No file argument");
+        // TRANSLATORS: this is technical error and should not be displayed to end users
+        throw new InvalidArgumentException(ev_gettext("No file argument"));
     }
 
     $file = (string)$_GET['file'];
     if (!isset($_FILES[$file])) {
-        throw new InvalidArgumentException("No files uploaded");
+        throw new InvalidArgumentException(ev_gettext("No files uploaded"));
     }
 
     $iaf_id = Attachment::addFiles($_FILES[$file]);
