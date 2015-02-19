@@ -178,10 +178,9 @@ class Date_Helper
     }
 
     /**
-     * Method used to get the current date in the GMT timezone in an
-     * iso8601 compliant format.
-     *
-     * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
+     * Method used to get the current date and time in an
+     * iso8601 compliant format. If no timezone is specified it will
+     * use the users preferred timezone.
      *
      * @return  string $ts The current GMT date
      * @param   int|DateTime|string $ts
