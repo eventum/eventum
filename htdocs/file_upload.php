@@ -36,9 +36,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 // FIXME: no identity logged who added the file.
 if (isset($_FILES['dropfile'])) {
     try {
-        $file = $_FILES['dropfile'];
-        $blob = file_get_contents($file['tmp_name']);
-        $iaf_id = Attachment::addFile(0, $file["name"], $file["type"], $blob);
+        $iaf_id = Attachment::addFiles($_FILES["dropfile"]);
         $res = array('iaf_id' => $iaf_id);
     } catch (Exception $e) {
         $res = array('error' => $e->getMessage());

@@ -54,7 +54,7 @@ function validateUpload(f)
 // "dropzone" is the camelized version of the HTML element's ID
 Dropzone.options.dropzone = {
   // The name that will be used to transfer the file
-  paramName: "dropfile",
+  paramName: "dropfile[]",
   // In MB
   maxFilesize: 20,
   init: function() {

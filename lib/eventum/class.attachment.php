@@ -546,6 +546,10 @@ class Attachment
      * @return int[] return id-s of attachment files inserted to database
      */
     public static function addFiles($files) {
+        if (!is_array($files['name'])) {
+            throw new RuntimeException("Wrong structure, dif you forgot dropfile[]?");
+        }
+
         $iaf_ids = array();
         $nfiles = count($files['name']);
         for ($i = 0; $i < $nfiles; $i++) {
