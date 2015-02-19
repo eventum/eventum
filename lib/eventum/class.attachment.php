@@ -36,6 +36,13 @@
 class Attachment
 {
     /**
+     * files uploaded, but not linked to attachment are expired after this time passes
+     * use 24h, this is very safe value
+     * @see associateFiles
+     */
+    const ATTACHMENT_EXPIRE_TIME = 86400;
+
+    /**
      * Returns true if specified mime type should be displayed
      * directly in the browser window.
      */
@@ -374,17 +381,24 @@ class Attachment
     }
 
     /**
-     * associate uploaded files to an "attachment"
+     * Associate uploaded files to an "attachment".
+     * Additionally cleanups stale uploads.
      *
      * @param int $attachment_id
      * @param int[] $iaf_ids
      */
     private static function associateFiles($attachment_id, $iaf_ids) {
+        // TODO: verify that all $iaf_ids actually existed, not expired
         $list = DB_Helper::buildList($iaf_ids);
         $stmt = "UPDATE {{%issue_attachment_file}} SET iaf_iat_id=? WHERE iaf_id in ($list)";
-
         $params = $iaf_ids;
         array_unshift($params, $attachment_id);
+        DB_Helper::getInstance()->query($stmt, $params);
+
+        // run cleanup of stale uploads
+        $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date < ?";
+        $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
+        $params = array(Date_Helper::convertDateGMT($expire_date));
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
