@@ -1,6 +1,6 @@
 # add date column to eventum_issue_attachment_file table
 # this can be used to cleanup stale uploads with ajax based uploads
-alter table %{{issue_attachment_file}}
+alter table {{%issue_attachment_file}}
     add iaf_created_date DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL
     after iaf_filesize;
 
