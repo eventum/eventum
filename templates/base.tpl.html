@@ -42,9 +42,12 @@
   <script type="text/javascript" src="{$core.rel_url}js/main.js"></script>
   <script type="text/javascript" src="{$core.rel_url}js/page.js"></script>
 
-  {include file="extra_header.tpl.html"}
+  {* allow pages to inject to <head> block *}
+  {block "stylesheets"}{/block}
+  {block "javascripts"}{/block}
 
-  <!-- Bundled CSS here -->
+  {* local directory can add overrides *}
+  {include file="extra_header.tpl.html"}
 </head>
 <!--[if lt IE 7 ]> <body class="ie6 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
 <!--[if IE 7 ]> <body class="ie7 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
