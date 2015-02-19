@@ -32,21 +32,6 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-// handle ajax upload
-// FIXME: no identity logged who added the file.
-if (isset($_FILES['dropfile'])) {
-    try {
-        $iaf_id = Attachment::addFiles($_FILES["dropfile"]);
-        $res = array('iaf_id' => $iaf_id);
-    } catch (Exception $e) {
-        $res = array('error' => $e->getMessage());
-    }
-
-    header('Content-Type: application/json');
-    echo json_encode($res);
-    exit;
-}
-
 $usr_id = Auth::getUserID();
 
 $tpl = new Template_Helper();

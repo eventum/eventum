@@ -35,6 +35,7 @@
 <!--
 
 var max_attachment_size = {/literal}{$max_attachment_bytes / 1024 / 1024}{literal};
+var rel_url = {/literal}{$core.rel_url|json_encode}{literal};
 
 // Disable auto discover for all elements:
 Dropzone.autoDiscover = {/literal}{empty($smarty.get.legacy)|intval}{literal};
@@ -55,16 +56,21 @@ function validateUpload(f)
 Dropzone.options.dropzone = {
   // The name that will be used to transfer the file
   paramName: "dropfile[]",
+
+  url: rel_url + "ajax/upload.php?file=dropfile",
+
   // In MB
   maxFilesize: 20,
+
   init: function() {
     var $iaf_ids = $('#iaf_ids');
     this.on("success", function(file, data) {
       if (data.error) {
-        alert(data.error);
+        alert(data.message);
         return;
       }
       if (!data.iaf_id) {
+        alert('File not uploaded!');
         return;
       }
       var current = $iaf_ids.val();
