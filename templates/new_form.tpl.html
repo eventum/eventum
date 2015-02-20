@@ -15,12 +15,15 @@
 </table>
 <br />
 {/if}
-<form id="report_form" name="report_form" action="" method="post" enctype="multipart/form-data">
+
+<form id="report_form" name="report_form" class="dropzone" action="new.php" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="prj_id" value="{$core.project_id}">
 <input type="hidden" name="customer" value="{$customer_id|default:''}" id="customer_id">
 <input type="hidden" name="contact" value="{$contact_id|default:''}">
 <input type="hidden" name="attached_emails" value="{$attached_emails|default:''}">
+<input type="hidden" name="iaf_ids" id="iaf_ids" value="">
+
 {if $core.current_role < $field_display_settings.assignment}
     <input type="hidden" name="assignment[]" value="">
 {/if}
@@ -258,6 +261,7 @@
     {* set tab index very high now to account for inputs in customer file *}
     {assign var="tabindex" value=$tabindex+30}
     {/if}
+
     {if $core.current_role >= $field_display_settings.file}
     <tr class="title">
       <th colspan="2">
@@ -269,17 +273,27 @@
         {t}Files{/t}:
       </th>
       <td>
-        <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+        <div class="dz-message">
+          {t}Drop files here or click to upload.{/t}<br/><br/>
+
+          <div class="fallback">
+
+          <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
           <tr>
             <td>
               <input type="file" name="file[]" size="40" class="growing_file_field">
             </td>
           </tr>
-        </table>
-        <span><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></span>
+          </table>
+          </div>
+
+          <span><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></span>
+
+        </div>
       </td>
     </tr>
     {/if}
+
     <tr>
       <td colspan="2" class="footer">
         <input name="main_submit_button" type="submit" value="{t}Submit{/t}" tabindex="{$tabindex++}">

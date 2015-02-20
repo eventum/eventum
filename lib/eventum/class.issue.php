@@ -2268,40 +2268,18 @@ class Issue
             Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
-        // now process any files being uploaded
-        $found = 0;
-        for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-            if (!@empty($_FILES["file"]["name"][$i])) {
-                $found = 1;
-                break;
-            }
+        // process any files being uploaded
+        // from ajax upload, attachment file ids
+        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
+        // if no iaf_ids passed, perhaps it's old style upload
+        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+        if (!$iaf_ids && isset($_FILES['file'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['file']);
         }
-        if ($found) {
-            $files = array();
-            for ($i = 0; $i < count($_FILES["file"]["name"]); $i++) {
-                $filename = @$_FILES["file"]["name"][$i];
-                if (empty($filename)) {
-                    continue;
-                }
-                $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
-                if (empty($blob)) {
-                    // error reading a file
-                    self::$insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
-                    continue;
-                }
-                $files[] = array(
-                    "filename" => $filename,
-                    "type"     => $_FILES['file']['type'][$i],
-                    "blob"     => $blob
-                );
-            }
-            if (count($files) > 0) {
-                $attachment_id = Attachment::add($issue_id, $usr_id, 'Files uploaded at issue creation time');
-                foreach ($files as $file) {
-                    Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
-                }
-            }
+        if ($iaf_ids) {
+            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded at issue creation time');
         }
+
         // need to associate any emails ?
         if (!empty($data['attached_emails'])) {
             $items = explode(",", $data['attached_emails']);

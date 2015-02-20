@@ -2,6 +2,44 @@
 {block "page_id"}new_issue{/block}
 {block "page_classes"}CustomField GrowingFileField{/block}
 
+{block "javascripts" append}
+<script type="text/javascript">
+
+var rel_url = {$core.rel_url|json_encode};
+
+  // "reportForm" is the camelized version of the HTML element's ID
+Dropzone.options.reportForm = {
+  // The name that will be used to transfer the file
+  paramName: "dropfile[]",
+
+  url: rel_url + "ajax/upload.php?file=dropfile",
+
+  // In MB
+  maxFilesize: 20,
+  init: function() {
+    var $iaf_ids = $('#iaf_ids');
+    this.on("success", function(file, data) {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      if (!data.iaf_id) {
+        return;
+      }
+      var current = $iaf_ids.val();
+      var iaf_ids = current ? current.split(/,/) : [];
+      $iaf_ids.val(iaf_ids.concat(data.iaf_id).join(','));
+    });
+
+    this.on("sending", function(file, xhr, formData) {
+      // Will send the filesize along with the file as POST data.
+      formData.append("filesize", file.size);
+    });
+  }
+};
+</script>
+{/block}
+
 {block name="content"}
 {include file="new_form.tpl.html"}
 {/block}
