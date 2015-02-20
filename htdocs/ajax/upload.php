@@ -27,11 +27,14 @@
 
 require_once dirname(__FILE__) . '/../../init.php';
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5');
-
 // handle ajax upload
 // FIXME: no identity logged who added the file.
 try {
+    // check if logged in. if not, just give error
+    if (!Auth::hasValidCookie(APP_COOKIE)) {
+        throw new BadFunctionCallException(ev_gettext("Must be logged in"));
+    }
+
     if (!isset($_GET['file'])) {
         // TRANSLATORS: this is technical error and should not be displayed to end users
         throw new InvalidArgumentException(ev_gettext("No file argument"));
