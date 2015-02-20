@@ -35,14 +35,9 @@
 <!--
 function validateUpload(f)
 {
-    var field1 = getFormElement(f, 'attachment[]', 0);
-    var field2 = getFormElement(f, 'attachment[]', 1);
-    var field3 = getFormElement(f, 'attachment[]', 2);
-    if ((isWhitespace(field1.value)) && (isWhitespace(field2.value)) && (isWhitespace(field3.value))) {
-        errors[errors.length] = new Option('Files', 'attachment[]');
-        return false;
+    if ($("input[name='attachment[]'][value!='']").length < 1) {
+        Validation.errors[Validation.errors.length] = new Option('Files', 'attachment[]');
     }
-    return true;
 }
 //-->
 </script>
@@ -51,7 +46,8 @@ function validateUpload(f)
     <tr class="title">
       <th colspan="2">{t}Add New Files{/t}:</th>
     </tr>
-    <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateUpload');">
+    <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" class="validate"
+          data-validation-function="validateUpload">
     <input type="hidden" name="cat" value="upload_file">
     <input type="hidden" name="issue_id" value="{$issue_id}">
       {if $core.current_role > $core.roles.customer}
