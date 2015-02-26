@@ -78,11 +78,13 @@ if (!empty($_REQUEST["developer"])) {
 
     // print out emails
     $data = Report::getWeeklyReport($_REQUEST["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses'], @$_REQUEST['separate_not_assigned_to_user']);
+
     // order issues by time spent on them
     if (isset($_REQUEST['show_per_issue'])) {
         $sort_function = create_function('$a,$b', 'if ($a["it_spent"] == $b["it_spent"]) {return 0;} return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;');
         @usort($data['issues']['closed'], $sort_function);
         @usort($data['issues']['other'], $sort_function);
+        @usort($data['issues']['not_mine'], $sort_function);
     }
     $tpl->assign("data", $data);
 }
